@@ -32,6 +32,7 @@ class DatabaseSeeder extends Seeder
                 'image' => 'admin/assets/images/users/avatar-1.jpg',
                 'description' => "Sitenin kurucusu",
                 'user_type' => 0, //0: Super User, 1: Admin, 2 ve daha sonrası:Yetkilendirme sistemi
+                'admin' => 1,
                 'create_user_code' => 0,
                 'update_user_code' => 0,
                 'deleted' => 0,
@@ -46,6 +47,7 @@ class DatabaseSeeder extends Seeder
                 'image' => 'admin/assets/images/users/avatar-2.jpg',
                 'description' => "Site Sahibi",
                 'user_type' => 0, //0: Super User, 1: Admin, 2 ve daha sonrası:Yetkilendirme sistemi
+                'admin' => 1,
                 'create_user_code' => 0,
                 'update_user_code' => 0,
                 'deleted' => 0,

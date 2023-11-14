@@ -19,5 +19,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('admin.index');
+    return view('welcome');
+});
+
+
+Route::get("/admin/login", [AdminController::class, "loginScreen"])->name('admin_login_screen');
+Route::post("/admin/login", [AdminController::class, "login"])->name('admin_login');
+
+Route::middleware(['auth'])->group(function () {
+    Route::get("/admin/index", [AdminController::class, "index"])->name('admin_index');
+    Route::get("/admin/logout", [AdminController::class, "logout"])->name('admin_logout');
 });
