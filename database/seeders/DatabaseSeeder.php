@@ -24,13 +24,28 @@ class DatabaseSeeder extends Seeder
         DB::table('users')->insert([
             [
                 'id' => 1,
-                'code' => 1,
-                'name'  => 'Bünyamin Göymen',
+                'code' => 0,
+                'name'  => 'Bünyamin',
+                'surname'  => 'Göymen',
                 'email' => 'bunyamingoymen@gmail.com',
-                'password' => Hash::make("Gazi27abc."),
-                'optional' => "Sitenin kurucusu",
-                'visible' => 0,
-                'user_type' => 0, //0: Super User, 1: Admin, 2: Normal Kullanıcı
+                'password' => Hash::make("123"),
+                'image' => 'admin/assets/images/users/avatar-1.jpg',
+                'description' => "Sitenin kurucusu",
+                'user_type' => 0, //0: Super User, 1: Admin, 2 ve daha sonrası:Yetkilendirme sistemi
+                'create_user_code' => 0,
+                'update_user_code' => 0,
+                'deleted' => 0,
+            ],
+            [
+                'id' => 2,
+                'code' => 1,
+                'name'  => 'Bünyamin',
+                'surname'  => 'Göymen',
+                'email' => 'bunyamingoymen2@gmail.com',
+                'password' => Hash::make("123"),
+                'image' => 'admin/assets/images/users/avatar-2.jpg',
+                'description' => "Site Sahibi",
+                'user_type' => 0, //0: Super User, 1: Admin, 2 ve daha sonrası:Yetkilendirme sistemi
                 'create_user_code' => 0,
                 'update_user_code' => 0,
                 'deleted' => 0,

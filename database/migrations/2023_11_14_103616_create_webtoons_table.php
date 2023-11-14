@@ -11,16 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('webtoons', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('code');
             $table->string('name');
-            $table->string('surname');
-            $table->string('email')->unique();
-            $table->string('password');
             $table->string('image');
-            $table->longText('description')->nullable();
-            $table->tinyInteger('user_type')->default(2); //0:Superuser, 1:Admin, 2:Normal
+            $table->longText('description');
+            $table->integer('episode_count');
+            $table->integer('click_count');
             $table->unsignedBigInteger('create_user_code')->default(1);
             $table->unsignedBigInteger('update_user_code')->nullable();
             $table->tinyInteger('deleted')->default(0); // 0: silinmemiş, aktif, görünür. 1: silinmiş, pasif, görünmez
@@ -33,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('webtoons');
     }
 };

@@ -1,0 +1,35 @@
+Database'ler:
+
+--User: id / code / name / surname / email / password / image / description / type / deleted / created_user_code / updated_user_code / created_time / updated_time
+
+--Authorization_Clauses: id / code / text / description / deleted / created_user_code / updated_user_code / created_time / updated_time
+
+--Authorization_Croups: id / code / text / description / deleted / created_user_code / updated_user_code / created_time / updated_time
+
+--Authorization_Clauses_Groups: id / code / clause_id / group_id / created_user_code / updated_user_code / created_time / updated_time
+
+--Key_Value: id / code / key / value / optional / optional_2 / deleted / created_user_code / updated_user_code / created_time / updated_time
+
+--Files: id / code / name / file_database_location / file_location /file_type / deleted / created_user_code / updated_user_code / created_time / updated_time
+
+--Webtoon: id / code / name / image / description / episode_count / click_count / deleted / created_user_code / updated_user_code / created_time / updated_time
+
+--Webtoon_epsidoes:  id / code / name / image / descripiton / webtoon_code / episode_short / click_count / publish_date /  deleted / created_user_code / updated_user_code / created_time / updated_time
+
+--Webtoon_calendar: id / code / name / webtoon_code / publish_date / description /  deleted / created_user_code / updated_user_code / created_time / updated_time
+
+--Anime: id / code / name / image / description / episode_count / click_count / deleted / created_user_code / updated_user_code / created_time / updated_time
+
+--Anime_epsidoes:  id / code / name / image / anime_code / episode_short / click_count / publish_date / description /  deleted / created_user_code / updated_user_code / created_time / updated_time
+
+--Anime_calendar:  id / code / name / anime_code / publish_date / description / deleted / created_user_code / updated_user_code / created_time / updated_time
+
+--Notification_admin: id / code / notification_title / notification_text / from_user_code / to_user_code / notification_date / readed / deleted / created_user_code / updated_user_code / created_time / updated_time
+
+--Notification_user: id / code / notification_title / notification_text / from_user_code / to_user_code / notification_date / readed / deleted / created_user_code / updated_user_code / created_time / updated_time
+
+--FollowUsers: id/ code / followed_user_code / user_code / time
+
+--FollowWebtoon: id/ code / followed_webtoon_code / user_code / time
+
+--FollowAnime: id/ code / followed_anime_code / user_code / time
