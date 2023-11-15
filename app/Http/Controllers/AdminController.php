@@ -9,7 +9,8 @@ class AdminController extends Controller
 {
     public function index()
     {
-        return view('admin.index');
+        $title = "Anaysafa";
+        return view('admin.index', ["title" => $title]);
     }
 
     public function loginScreen()

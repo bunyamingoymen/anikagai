@@ -25,14 +25,6 @@
             <button type="button" class="btn btn-sm px-3 font-size-24 header-item waves-effect" id="vertical-menu-btn">
                 <i class="mdi mdi-backburger"></i>
             </button>
-
-            <!-- App Search-->
-            <form class="app-search d-none d-lg-block">
-                <div class="position-relative">
-                    <input type="text" class="form-control" placeholder="Search...">
-                    <span class="mdi mdi-magnify"></span>
-                </div>
-            </form>
         </div>
 
         <div class="d-flex">
@@ -63,12 +55,6 @@
             <div class="dropdown d-none d-lg-inline-block ml-1">
                 <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
                     <i class="mdi mdi-fullscreen"></i>
-                </button>
-            </div>
-
-            <div class="dropdown d-inline-block">
-                <button type="button" class="btn header-item noti-icon right-bar-toggle waves-effect">
-                    <i class="mdi mdi-tune"></i>
                 </button>
             </div>
 
@@ -163,19 +149,15 @@
             <div class="dropdown d-inline-block">
                 <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <img class="rounded-circle header-profile-user"
-                        src="../../../admin/assets/images/users/avatar-1.jpg" alt="Header Avatar">
-                    <span class="d-none d-sm-inline-block ml-1">Shane</span>
+                    <img class="rounded-circle header-profile-user" src="../../../{{Auth::user()->image}}"
+                        alt="Header Avatar">
+                    <span class="d-none d-sm-inline-block ml-1">{{Auth::user()->name}} {{Auth::user()->surname}}</span>
                     <i class="mdi mdi-chevron-down d-none d-sm-inline-block"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
                     <!-- item-->
                     <a class="dropdown-item" href="#"><i
-                            class="mdi mdi-face-profile font-size-16 align-middle mr-1"></i> Profile</a>
-                    <a class="dropdown-item" href="#"><i
-                            class="mdi mdi-credit-card-outline font-size-16 align-middle mr-1"></i> Billing</a>
-                    <a class="dropdown-item" href="#"><i
-                            class="mdi mdi-account-settings font-size-16 align-middle mr-1"></i> Settings</a>
+                            class="mdi mdi-face-profile font-size-16 align-middle mr-1"></i>Profil</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{{route('admin_logout')}}"><i
                             class="mdi mdi-logout font-size-16 align-middle mr-1"></i>
