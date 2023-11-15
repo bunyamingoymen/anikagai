@@ -4,29 +4,25 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="header-title">Yetki Maddesi Güncelle</h4>
+                <h4 class="header-title">Kullanıcı Grubu Oluştur</h4>
                 <p class="card-title-desc">
-                    Yetki Maddesini, aşağıdaki verileri değiştirerek güncelleyebilirsiniz
+                    Aşağıdaki değerleri doldurarak yeni bir kullanıcı grubu oluşturabilirsiniz
                 </p>
 
-                <form class="needs-validation" id="authClauseUpdateForm" action="{{route('admin_authclause_update')}}"
+                <form class="needs-validation" id="AuthGroupCreateForm" action="{{route('admin_authgroup_create')}}"
                     method="POST">
                     @csrf
-                    <div hidden>
-                        <input type="text" value="{{$clause->code}}" name="code" id="code">
-                    </div>
                     <div class="row">
                         <div class="col-md-12 mb-3">
                             <label for="validationCustom01">Yazı:</label>
-                            <input type="text" class="form-control" id="text" name="text" placeholder="Yazı"
-                                value="{{$clause->text}}" required>
+                            <input type="text" class="form-control" id="text" name="text" placeholder="Yazı" required>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12 mb-3">
                             <label for="validationCustom03">Açıklama:</label>
                             <textarea class="form-control" name="description" id="description" cols="30" rows="10"
-                                placeholder="Value">{{$clause->description}}</textarea>
+                                placeholder="Açıklama"></textarea>
 
                         </div>
                     </div>

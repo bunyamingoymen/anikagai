@@ -14,10 +14,10 @@ class KeyValueController extends Controller
         $keyValues = KeyValue::Where('deleted', 0)->take(10)->get();
         $currentCount = 1;
         $pageCountTest = KeyValue::Where('deleted', 0)->count();
-        if ($pageCountTest % 10 == 0)
-            $pageCount = $pageCountTest / 10;
+        if ($pageCountTest % $this->showCount == 0)
+            $pageCount = $pageCountTest / $this->showCount;
         else
-            $pageCount = intval($pageCountTest / 10) + 1;
+            $pageCount = intval($pageCountTest / $this->showCount) + 1;
         return view("admin.keyvalue.list", ["title" => $title, "keyValues" => $keyValues, 'pageCount' => $pageCount, 'currentCount' => $currentCount]);
     }
 
@@ -33,7 +33,7 @@ class KeyValueController extends Controller
         $keyValue = new KeyValue();
 
         $keyValue_code = KeyValue::orderBy('created_at', 'DESC')->first();
-        if ($keyValue_code) $keyValue->code = $keyValue_code->code;
+        if ($keyValue_code) $keyValue->code = $keyValue_code->code + 1;
         else $keyValue->code = 1;
 
         $keyValue->key = $request->key;
@@ -54,7 +54,7 @@ class KeyValueController extends Controller
         $keyValue = KeyValue::Where('code', $request->code)->Where('deleted', 0)->first();
 
         if (!$keyValue)
-            redirect()->back()->with("error", $this->errorsUpdateMessage . " Error: 0x00001");
+            return redirect()->back()->with("error", $this->errorsUpdateMessage . " Error: 0x00001");
 
         $title = "KeyValue Güncelle";
 
@@ -66,7 +66,7 @@ class KeyValueController extends Controller
         $keyValue = KeyValue::Where('code', $request->code)->Where('deleted', 0)->first();
 
         if (!$keyValue)
-            redirect()->back()->with("error", $this->errorsUpdateMessage . " Error: 0x00002");
+            return redirect()->back()->with("error", $this->errorsUpdateMessage . " Error: 0x00002");
 
         $keyValue->key = $request->key;
         $keyValue->value = $request->value;
@@ -85,7 +85,7 @@ class KeyValueController extends Controller
         $keyValue = KeyValue::Where('code', $request->code)->Where('deleted', 0)->first();
 
         if (!$keyValue)
-            redirect()->back()->with("error", $this->errorsDeleteMessage . " Error: 0x00003");
+            return redirect()->back()->with("error", $this->errorsDeleteMessage . " Error: 0x00003");
 
         $keyValue->deleted = 1;
         $keyValue->update_user_code = Auth::user()->code;

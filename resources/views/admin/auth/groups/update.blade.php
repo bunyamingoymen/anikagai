@@ -9,24 +9,24 @@
                     Yetki Maddesini, aşağıdaki verileri değiştirerek güncelleyebilirsiniz
                 </p>
 
-                <form class="needs-validation" id="authClauseUpdateForm" action="{{route('admin_authclause_update')}}"
+                <form class="needs-validation" id="authGroupUpdateForm" action="{{route('admin_authgroup_update')}}"
                     method="POST">
                     @csrf
                     <div hidden>
-                        <input type="text" value="{{$clause->code}}" name="code" id="code">
+                        <input type="text" value="{{$group->code}}" name="code" id="code">
                     </div>
                     <div class="row">
                         <div class="col-md-12 mb-3">
                             <label for="validationCustom01">Yazı:</label>
                             <input type="text" class="form-control" id="text" name="text" placeholder="Yazı"
-                                value="{{$clause->text}}" required>
+                                value="{{$group->text}}" required>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12 mb-3">
                             <label for="validationCustom03">Açıklama:</label>
                             <textarea class="form-control" name="description" id="description" cols="30" rows="10"
-                                placeholder="Value">{{$clause->description}}</textarea>
+                                placeholder="Value">{{$group->description}}</textarea>
 
                         </div>
                     </div>

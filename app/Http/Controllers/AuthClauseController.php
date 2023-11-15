@@ -14,10 +14,10 @@ class AuthClauseController extends Controller
         $clauses = AuthorizationClause::Where('deleted', 0)->take(10)->get();
         $currentCount = 1;
         $pageCountTest = AuthorizationClause::Where('deleted', 0)->count();
-        if ($pageCountTest % 10 == 0)
-            $pageCount = $pageCountTest / 10;
+        if ($pageCountTest % $this->showCount == 0)
+            $pageCount = $pageCountTest / $this->showCount;
         else
-            $pageCount = intval($pageCountTest / 10) + 1;
+            $pageCount = intval($pageCountTest / $this->showCount) + 1;
         return view("admin.auth.clauses.list", ["title" => $title, "clauses" => $clauses, 'pageCount' => $pageCount, 'currentCount' => $currentCount]);
     }
 
@@ -33,7 +33,7 @@ class AuthClauseController extends Controller
         $clause = new AuthorizationClause();
 
         $clause_code = AuthorizationClause::orderBy('created_at', 'DESC')->first();
-        if ($clause_code) $clause->code = $clause_code->code;
+        if ($clause_code) $clause->code = $clause_code->code + 1;
         else $clause->code = 1;
 
         $clause->text = $request->text;
@@ -52,7 +52,7 @@ class AuthClauseController extends Controller
         $clause = AuthorizationClause::Where('code', $request->code)->Where('deleted', 0)->first();
 
         if (!$clause)
-            redirect()->back()->with("error", $this->errorsUpdateMessage . " Error: 0x00004");
+            return redirect()->back()->with("error", $this->errorsUpdateMessage . " Error: 0x00004");
 
         $title = "Yetki Maddesini Güncelle";
 
@@ -63,9 +63,9 @@ class AuthClauseController extends Controller
     {
         $clause = AuthorizationClause::Where('code', $request->code)->Where('deleted', 0)->first();
 
-        
+
         if (!$clause)
-            redirect()->back()->with("error", $this->errorsUpdateMessage . " Error: 0x00005");
+            return redirect()->back()->with("error", $this->errorsUpdateMessage . " Error: 0x00005");
 
         $clause->text = $request->text;
         $clause->description = $request->description;
@@ -82,7 +82,7 @@ class AuthClauseController extends Controller
         $clause = AuthorizationClause::Where('code', $request->code)->Where('deleted', 0)->first();
 
         if (!$clause)
-            redirect()->back()->with("error", $this->errorsDeleteMessage . " Error: 0x00006");
+            return redirect()->back()->with("error", $this->errorsDeleteMessage . " Error: 0x00006");
 
         $clause->deleted = 1;
         $clause->update_user_code = Auth::user()->code;

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthClauseController;
+use App\Http\Controllers\AuthGroupController;
 use App\Http\Controllers\KeyValueController;
 use App\Http\Controllers\TemplateAdminController;
 use App\Http\Controllers\UserAdminController;
@@ -55,4 +56,17 @@ Route::middleware(['auth'])->group(function () {
     Route::post("/authClause/update", [AuthClauseController::class, "AuthClauseUpdate"])->name('admin_authclause_update');
 
     Route::post("/authClause/delete", [AuthClauseController::class, "AuthClauseDelete"])->name('admin_authclause_delete');
+
+    //----------------------------------------------------------------
+
+    Route::get("/authGroup/list", [AuthGroupController::class, "AuthGroupList"])->name('admin_authgroup_list');
+    Route::post("/authGroup/list/ajax", [AuthGroupController::class, "AuthGroupGetData"])->name('admin_authgroup_get_data');
+
+    Route::get("/authGroup/create", [AuthGroupController::class, "AuthGroupCreateScreen"])->name('admin_authgroup_create_screen');
+    Route::post("/authGroup/create", [AuthGroupController::class, "AuthGroupCreate"])->name('admin_authgroup_create');
+
+    Route::get("/authGroup/update", [AuthGroupController::class, "AuthGroupUpdateScreen"])->name('admin_authgroup_update_screen');
+    Route::post("/authGroup/update", [AuthGroupController::class, "AuthGroupUpdate"])->name('admin_authgroup_update');
+
+    Route::post("/authGroup/delete", [AuthGroupController::class, "AuthGroupDelete"])->name('admin_authgroup_delete');
 });
