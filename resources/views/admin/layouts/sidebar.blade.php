@@ -66,7 +66,7 @@
                         <li><a href="#">Başlıklar</a></li>
                         <li><a href="#">Menüler</a></li>
                         <li><a href="{{route('admin_keyvalue_list')}}">Key Value</a></li>
-                        <li><a href="#">Yetki Maddeleri</a></li>
+                        <li><a href="{{route('admin_authclause_list')}}">Yetki Maddeleri</a></li>
                     </ul>
                 </li>
 

@@ -9,7 +9,7 @@
                     KeyValue Tablosuna Aşığdan İstediğinizi Ekleyebilirsiniz.
                 </p>
 
-                <form class="needs-validation" id="keyValueCreateForm" action="{{route('admin_keyvalue_update')}}"
+                <form class="needs-validation" id="keyValueUpdateForm" action="{{route('admin_keyvalue_update')}}"
                     method="POST">
                     @csrf
                     <div hidden>

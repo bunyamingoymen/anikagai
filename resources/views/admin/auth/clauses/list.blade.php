@@ -5,9 +5,9 @@
         <div class="card">
             <div class="card-body">
                 <div class="" style="">
-                    <h4 class="header-title">KeyValue </h4>
+                    <h4 class="header-title">Yetki Maddeleri</h4>
                     <a class="btn btn-primary mb-3" style="float: right;"
-                        href="{{route('admin_keyvalue_create_screen')}}">+ Yeni</a>
+                        href="{{route('admin_authclause_create_screen')}}">+ Yeni</a>
                 </div>
 
 
@@ -16,14 +16,12 @@
                         <tr>
                             <th scope="col">..</th>
                             <th scope="col">#</th>
-                            <th scope="col">Key</th>
-                            <th scope="col">Value</th>
-                            <th scope="col">İsteğe Bağlı</th>
-                            <th scope="col">İsteğe Bağlı 2</th>
+                            <th scope="col">Yazı</th>
+                            <th scope="col">Açıklama</th>
                         </tr>
                     </thead>
-                    <tbody id="keyValueTableTbody">
-                        @foreach ($keyValues as $item)
+                    <tbody id="AuthClauseTableTbody">
+                        @foreach ($clauses as $item)
                         <tr>
                             <td>
                                 <div class="btn-group">
@@ -33,17 +31,15 @@
                                     </button>
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item" href="javascript:;"
-                                            onclick="deleteKeyValue({{$item->code}})">Sil</a>
+                                            onclick="deleteAuthClause({{$item->code}})">Sil</a>
                                         <a class="dropdown-item"
-                                            href="{{route('admin_keyvalue_update_screen')}}?code={{$item->code}}">Güncelle</a>
+                                            href="{{route('admin_authclause_update_screen')}}?code={{$item->code}}">Güncelle</a>
                                     </div>
                                 </div>
                             </td>
                             <th scope="row">{{$item->code}}</th>
-                            <td>{{$item->key}}</td>
-                            <td>{{$item->value}}</td>
-                            <td>{{$item->optional}}</td>
-                            <td>{{$item->optional_2}}</td>
+                            <td>{{$item->text}}</td>
+                            <td>{{$item->description}}</td>
                         </tr>
                         @endforeach
 
@@ -96,11 +92,11 @@
         });
         $.ajax({
             type: 'POST',
-            url: '{{route("admin_keyvalue_get_data")}}',
+            url: '{{route("admin_authclause_get_data")}}',
             data:{ page:page},
-            success: function(keyValues) {
+            success: function(clauses) {
                 var code = ``;
-                for(let i = 0; i<keyValues.length; i++){
+                for(let i = 0; i<clauses.length; i++){
                     code += `<tr>
                             <td>
                                 <div class="btn-group">
@@ -109,19 +105,17 @@
                                         ...
                                     </button>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="javascript:;" onclick="deleteKeyValue(`+keyValues[i].code+`)">Sil</a>
+                                        <a class="dropdown-item" href="javascript:;" onclick="deleteAuthClause(`+clauses[i].code+`)">Sil</a>
                                         <a class="dropdown-item"
-                                            href="{{route('admin_keyvalue_update_screen')}}?code=`+keyValues[i].code+`">Güncelle</a>
+                                            href="{{route('admin_authclause_update_screen')}}?code=`+clauses[i].code+`">Güncelle</a>
                                     </div>
                                 </div>
                             </td>
-                            <th scope="row">`+keyValues[i].code+`</th>
-                            <td>`+keyValues[i].key+`</td>
-                            <td>`+keyValues[i].value+`</td>
-                            <td>`+keyValues[i].optional+`</td>
-                            <td>`+keyValues[i].optional_2+`</td>
+                            <th scope="row">`+clauses[i].code+`</th>
+                            <td>`+clauses[i].text+`</td>
+                            <td>`+clauses[i].description+`</td>
                         </tr>`;
-                    document.getElementById('keyValueTableTbody').innerHTML = code;
+                    document.getElementById('AuthClauseTableTbody').innerHTML = code;
                 }
 
                 currentPaginationId = 'pagination'+currentPage;
@@ -148,7 +142,7 @@
 </script>
 
 <script>
-    function deleteKeyValue(code){
+    function deleteAuthClause(code){
         Swal.fire({
             title: 'Emin Misin?',
             text: 'Bu Veriyi Silmek İstiyor musunuz(ID: '+code+')?',
@@ -160,13 +154,13 @@
         }).then((result) => {
         /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
-                var html = `<form action='{{route('admin_keyvalue_delete')}}' method="POST" id="deleteKeyValueForm"> @csrf`;
+                var html = `<form action='{{route('admin_authclause_delete')}}' method="POST" id="deleteAuthClauseForm"> @csrf`;
                     html += `<input type="text" name="code" value='`+code+`'>`;
                     html += `</form>`
 
                 document.getElementById('hiddenDiv').innerHTML = html;
 
-                document.getElementById('deleteKeyValueForm').submit();
+                document.getElementById('deleteAuthClauseForm').submit();
             }
         })
     }

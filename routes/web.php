@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AuthClauseController;
 use App\Http\Controllers\KeyValueController;
 use App\Http\Controllers\TemplateAdminController;
 use App\Http\Controllers\UserAdminController;
@@ -41,4 +42,17 @@ Route::middleware(['auth'])->group(function () {
     Route::post("/keyValue/update", [KeyValueController::class, "keyValueUpdate"])->name('admin_keyvalue_update');
 
     Route::post("/keyValue/delete", [KeyValueController::class, "keyValueDelete"])->name('admin_keyvalue_delete');
+
+    //----------------------------------------------------------------
+
+    Route::get("/authClause/list", [AuthClauseController::class, "AuthClauseList"])->name('admin_authclause_list');
+    Route::post("/authClause/list/ajax", [AuthClauseController::class, "AuthClauseGetData"])->name('admin_authclause_get_data');
+
+    Route::get("/authClause/create", [AuthClauseController::class, "AuthClauseCreateScreen"])->name('admin_authclause_create_screen');
+    Route::post("/authClause/create", [AuthClauseController::class, "AuthClauseCreate"])->name('admin_authclause_create');
+
+    Route::get("/authClause/update", [AuthClauseController::class, "AuthClauseUpdateScreen"])->name('admin_authclause_update_screen');
+    Route::post("/authClause/update", [AuthClauseController::class, "AuthClauseUpdate"])->name('admin_authclause_update');
+
+    Route::post("/authClause/delete", [AuthClauseController::class, "AuthClauseDelete"])->name('admin_authclause_delete');
 });

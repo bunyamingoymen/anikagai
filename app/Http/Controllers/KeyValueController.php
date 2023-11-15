@@ -73,7 +73,7 @@ class KeyValueController extends Controller
         $keyValue->optional = $request->optional;
         $keyValue->optional_2 = $request->optional_2;
 
-        $keyValue->create_user_code = Auth::user()->code;
+        $keyValue->update_user_code = Auth::user()->code;
 
         $keyValue->save();
 
