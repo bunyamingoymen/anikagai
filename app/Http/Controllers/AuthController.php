@@ -1,0 +1,67 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\AuthorizationClause;
+use App\Models\AuthorizationClauseGroup;
+use App\Models\AuthorizationGroup;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
+class AuthController extends Controller
+{
+    public function authList()
+    {
+        $title = "Grup Yetkileri";
+        $groups = AuthorizationGroup::Where('deleted', 0)->get();
+        $clauses = AuthorizationClause::Where('deleted', 0)->get();
+
+        return view('admin.auth.auth.list', ["title" => $title, 'groups' => $groups, 'clauses' => $clauses]);
+    }
+
+    public function authChange(Request $request)
+    {
+        //dd($request->toArray());
+        AuthorizationClauseGroup::Where("group_id", $request->groupSelectBox)->delete();
+        $selectedClauses = $request->selected_clauses ?? [];
+        foreach ($selectedClauses as $item) {
+            $new_clause_group = new AuthorizationClauseGroup();
+
+            $new_clause_group_code = AuthorizationClauseGroup::orderBy('created_at', 'DESC')->first();
+            if ($new_clause_group_code) $new_clause_group->code = $new_clause_group_code->code + 1;
+            else $new_clause_group->code = 1;
+
+            $new_clause_group->group_id = $request->groupSelectBox;
+            $new_clause_group->clause_id = $item;
+            $new_clause_group->create_user_code = Auth::user()->code;
+            $new_clause_group->save();
+        }
+
+        return redirect()->route('admin_auth_list')->with("success", $this->successUpdateMessage);
+    }
+
+    public function AuthGroupGetData(Request $request)
+    {
+        $include = DB::table('authorization_clause_groups')
+            ->where('authorization_clause_groups.code', $request->group_code)
+            ->join('authorization_groups', 'authorization_clause_groups.group_id', '=', 'authorization_groups.code')
+            ->join('authorization_clauses', 'authorization_clause_groups.clause_id', '=', 'authorization_clauses.code')
+            ->select('authorization_groups.text as grup_text', 'authorization_groups.code as grup_code')
+            ->get();
+        $notInclude = DB::table('authorization_groups')
+            ->where('authorization_clause_groups.code', $request->group_code)
+            ->leftJoin('authorization_clause_groups', 'authorization_groups.code', '=', 'authorization_clause_groups.group_id')
+            ->whereNull('authorization_clause_groups.code') // "grup_yetki" tablosunda id'si olmayanları filtrele
+            ->select('authorization_groups.text as grup_text', 'authorization_groups.code as grup_code')
+            ->get();
+
+        $combinedData = [
+            'includeData' => $include,
+            'notIncludeData' => $notInclude,
+        ];
+
+        // JSON olarak döndür
+        return response()->json($combinedData);
+    }
+}

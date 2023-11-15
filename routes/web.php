@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthClauseController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AuthGroupController;
 use App\Http\Controllers\KeyValueController;
 use App\Http\Controllers\TemplateAdminController;
@@ -69,4 +70,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post("/authGroup/update", [AuthGroupController::class, "AuthGroupUpdate"])->name('admin_authgroup_update');
 
     Route::post("/authGroup/delete", [AuthGroupController::class, "AuthGroupDelete"])->name('admin_authgroup_delete');
+
+    //----------------------------------------------------------------
+
+    Route::get("/auth/list", [AuthController::class, "authList"])->name('admin_auth_list');
+
+    Route::post("/auth/list/change", [AuthController::class, "authChange"])->name('admin_auth_change');
+
+    Route::post("/auth/list/getGroup/ajax", [AuthController::class, "AuthGroupGetData"])->name('admin_authgroup_get_data');
 });
