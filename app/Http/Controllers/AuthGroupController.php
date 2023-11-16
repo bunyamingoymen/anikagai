@@ -52,7 +52,7 @@ class AuthGroupController extends Controller
         $group = AuthorizationGroup::Where('code', $request->code)->Where('deleted', 0)->first();
 
         if (!$group)
-            return redirect()->back()->with("error", $this->errorsUpdateMessage . " Error: 0x00001");
+            return redirect()->back()->with("error", $this->errorsUpdateMessage . " Error: 0x00007");
 
         $title = "Kullanıcı Grubunu Güncelle";
 
@@ -64,7 +64,7 @@ class AuthGroupController extends Controller
         $group = AuthorizationGroup::Where('code', $request->code)->Where('deleted', 0)->first();
 
         if (!$group)
-            return redirect()->back()->with("error", $this->errorsUpdateMessage . " Error: 0x00002");
+            return redirect()->back()->with("error", $this->errorsUpdateMessage . " Error: 0x00008");
 
         $group->text = $request->text;
         $group->description = $request->description;
@@ -81,7 +81,7 @@ class AuthGroupController extends Controller
         $group = AuthorizationGroup::Where('code', $request->code)->Where('deleted', 0)->first();
 
         if (!$group)
-            return redirect()->back()->with("error", $this->errorsDeleteMessage . " Error: 0x00003");
+            return redirect()->back()->with("error", $this->errorsDeleteMessage . " Error: 0x00009");
 
         $group->deleted = 1;
         $group->update_user_code = Auth::user()->code;

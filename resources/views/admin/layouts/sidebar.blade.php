@@ -21,9 +21,9 @@
                         <span>Anime</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="#">Animeler</a></li>
+                        <li><a href="{{route('admin_anime_list')}}">Animeler</a></li>
                         <li><a href="#">Bölümler</a></li>
-                        <li><a href="#">Takvim</a></li>
+                        <li><a href="{{route('admin_calendar_index')}}">Takvim</a></li>
                     </ul>
                 </li>
 

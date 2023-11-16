@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AnimeCalendarController;
+use App\Http\Controllers\AnimeController;
 use App\Http\Controllers\AuthClauseController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AuthGroupController;
@@ -78,4 +80,20 @@ Route::middleware(['auth'])->group(function () {
     Route::post("/auth/list/change", [AuthController::class, "authChange"])->name('admin_auth_change');
 
     Route::post("/auth/list/getGroup/ajax", [AuthController::class, "AuthGroupGetData"])->name('admin_authgroup_get_data');
+
+    //-------------------------------------------------------------------
+
+    Route::get("/anime/list", [AnimeController::class, "animeList"])->name('admin_anime_list');
+    Route::post("/anime/list/ajax", [AnimeController::class, "animeGetData"])->name('admin_anime_get_data');
+
+    Route::get("/anime/create", [AnimeController::class, "animeCreateScreen"])->name('admin_anime_create_screen');
+    Route::post("/anime/create", [AnimeController::class, "animeCreate"])->name('admin_anime_create');
+
+    Route::get("/anime/update", [AnimeController::class, "animeUpdateScreen"])->name('admin_anime_update_screen');
+    Route::post("/anime/update", [AnimeController::class, "animeUpdate"])->name('admin_anime_update');
+
+    Route::post("/anime/delete", [AnimeController::class, "animeDelete"])->name('admin_anime_delete');
+
+    //-------------------------------------------------------------------
+    Route::get("/anime/calendar", [AnimeCalendarController::class, "index"])->name('admin_calendar_index');
 });

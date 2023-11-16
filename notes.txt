@@ -33,3 +33,8 @@ Database'ler:
 --FollowWebtoon: id/ code / followed_webtoon_code / user_code / time
 
 --FollowAnime: id/ code / followed_anime_code / user_code / time
+
+
+----------------------------------------------------------------------------------
+
+Error kodu: 12 de
