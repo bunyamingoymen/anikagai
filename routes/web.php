@@ -96,4 +96,6 @@ Route::middleware(['auth'])->group(function () {
 
     //-------------------------------------------------------------------
     Route::get("/anime/calendar", [AnimeCalendarController::class, "index"])->name('admin_calendar_index');
+
+    Route::post("/anime/calendar/addEvent", [AnimeCalendarController::class, "addEvent"])->name('admin_calendar_addevent');
 });
