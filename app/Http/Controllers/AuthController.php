@@ -43,24 +43,14 @@ class AuthController extends Controller
 
     public function AuthGroupGetData(Request $request)
     {
-        $include = DB::table('authorization_clause_groups')
+        $includeData = DB::table('authorization_clause_groups')
             ->where('authorization_groups.code', $request->group_code)
             ->join('authorization_groups', 'authorization_clause_groups.group_id', '=', 'authorization_groups.code')
             ->join('authorization_clauses', 'authorization_clause_groups.clause_id', '=', 'authorization_clauses.code')
             ->select('authorization_clauses.text as clause_text', 'authorization_clauses.code as clause_code')
             ->get();
-        $notInclude = DB::table('authorization_clauses')
-            ->leftJoin('authorization_clause_groups', 'authorization_clauses.code', '=', 'authorization_clause_groups.clause_id')
-            ->whereNull('authorization_clause_groups.clause_id') // "grup_yetki" tablosunda id'si olmayanları filtrele
-            ->select('authorization_clauses.text as clause_text', 'authorization_clauses.code as clause_code')
-            ->get();
-
-        $combinedData = [
-            'includeData' => $include,
-            'notIncludeData' => $notInclude,
-        ];
 
         // JSON olarak döndür
-        return response()->json($combinedData);
+        return response()->json($includeData);
     }
 }

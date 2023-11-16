@@ -20,7 +20,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="container mt-5">
+                    <div id="groupSelectBoxes" class="container mt-5" hidden>
                         <div class="row">
                             <div class="col-md-5">
                                 <select id="not_selected_clauses" name="not_selected_clauses[]" class="form-control"
@@ -51,10 +51,11 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="float-right mt-2">
+                            <button class="btn btn-primary" type="button" onclick="submitForm()">Kaydet</button>
+                        </div>
                     </div>
-                    <div class="float-right mt-2">
-                        <button class="btn btn-primary" type="button" onclick="submitForm()">Kaydet</button>
-                    </div>
+
                 </form>
             </div>
         </div>
@@ -96,9 +97,8 @@
             type: 'POST',
             url: '{{route("admin_authgroup_get_data")}}',
             data:{ group_code:group_code},
-            success: function(combinedData) {
-                var includeData = combinedData.includeData;
-                var notIncludeData = combinedData.notIncludeData;
+            success: function(includeData) {
+                document.getElementById('groupSelectBoxes').hidden = false;
 
                 var selected = document.getElementById('selected_clauses');
                 var nonSelected = document.getElementById('not_selected_clauses');
