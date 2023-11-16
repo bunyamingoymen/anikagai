@@ -49,7 +49,7 @@
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="#">Kullanıcılar</a></li>
                         <li><a href="{{route('admin_authgroup_list')}}">Kullanıcı Grupları</a></li>
-                        <li><a href="#">Grup Yetkileri</a>
+                        <li><a href="{{route('admin_auth_list')}}">Grup Yetkileri</a>
                         </li>
                     </ul>
                 </li>

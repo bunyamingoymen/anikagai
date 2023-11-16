@@ -94,17 +94,24 @@
         });
         $.ajax({
             type: 'POST',
-            url: '{{route("admin_authclause_get_data")}}',
+            url: '{{route("admin_authgroup_get_data")}}',
             data:{ group_code:group_code},
             success: function(combinedData) {
                 var includeData = combinedData.includeData;
                 var notIncludeData = combinedData.notIncludeData;
 
+                var selected = document.getElementById('selected_clauses');
+                var nonSelected = document.getElementById('not_selected_clauses');
+
                 for (let i = 0; i < includeData.length; i++) {
                     const element = includeData[i];
-                    console.log(element.grup_code);
-                    console.log(element.grup_text);
+                    var yeniOption=document.createElement('option');
+                    yeniOption.value=includeData[i].clause_code;
+                    yeniOption.text=includeData[i].clause_text;
+                    nonSelected.remove(yeniOption)
+                    selected.add(yeniOption);
                 }
+
             }
         });
     }
