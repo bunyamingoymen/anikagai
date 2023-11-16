@@ -23,6 +23,7 @@
                     <div id="groupSelectBoxes" class="container mt-5" hidden>
                         <div class="row">
                             <div class="col-md-5">
+                                <label for="">Seçili Olmayan:</label>
                                 <select id="not_selected_clauses" name="not_selected_clauses[]" class="form-control"
                                     multiple style="height: 15rem;">
                                     @foreach ($clauses as $clause)
@@ -46,6 +47,7 @@
                             </div>
 
                             <div class="col-md-5">
+                                <label for="">Seçili Olan:</label>
                                 <select id="selected_clauses" name="selected_clauses[]" class="form-control" multiple
                                     style="height: 15rem;">
                                 </select>
