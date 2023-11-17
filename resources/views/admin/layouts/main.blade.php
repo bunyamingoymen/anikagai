@@ -20,6 +20,12 @@
     <!-- Sweet Alert-->
     <link href="../../../admin/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
 
+    <!-- alertifyjs Css -->
+    <link href="../../../admin/assets/libs/alertifyjs/build/css/alertify.min.css" rel="stylesheet" type="text/css" />
+
+    <!-- alertifyjs default themes  Css -->
+    <link href="../../../admin/assets/libs/alertifyjs/build/css/themes/default.min.css" rel="stylesheet"
+        type="text/css" />
 </head>
 
 <body data-sidebar="dark">
@@ -87,6 +93,9 @@
     <script src="../../../admin/assets/libs/simplebar/simplebar.min.js"></script>
     <script src="../../../admin/assets/libs/node-waves/waves.min.js"></script>
 
+    <!-- alertifyjs js -->
+    <script src="../../../admin/assets/libs/alertifyjs/build/alertify.min.js"></script>
+
 
     <!-- Sweet Alerts js -->
     <script src="../../../admin/assets/libs/sweetalert2/sweetalert2.min.js"></script>
@@ -95,33 +104,15 @@
 
     <script>
         @if (session('success'))
-            Swal.fire({
-                position: "top-end",
-                icon: "success",
-                title: "{{session('success')}}",
-                showConfirmButton: false,
-                timer: 1500
-            });
+            alertify.success("{{session('success')}}");
         @endif
 
         @if (session('error'))
-            Swal.fire({
-                position: "top-end",
-                icon: "error",
-                title: "{{session('error')}}",
-                showConfirmButton: false,
-                timer: 1500
-            });
+            alertify.error("{{session('error')}}");
         @endif
 
         @if (session('warning'))
-            Swal.fire({
-                position: "top-end",
-                icon: "warning",
-                title: "{{session('warning')}}",
-                showConfirmButton: false,
-                timer: 1500
-            });
+            alertify.warning("{{session('warning')}}");
         @endif
     </script>
 

@@ -43,7 +43,7 @@ class AnimeController extends Controller
             $file = $request->file('image');
 
             $path = public_path('files/animes/animesImages');
-            $name = $anime->name . "." . $file->getClientOriginalExtension();
+            $name = $anime->code . "." . $file->getClientOriginalExtension();
             $file->move($path, $name);
             $anime->image = "files/animes/animesImages/" . $name;
         } else {
@@ -88,7 +88,7 @@ class AnimeController extends Controller
             $file = $request->file('image');
 
             $path = public_path('files/animes/animesImages');
-            $name = $anime->name . "" . $file->getClientOriginalExtension();
+            $name = $anime->code . "" . $file->getClientOriginalExtension();
             $file->move($path, $name);
             $anime->image = "files/animes/animesImages/" . $name;
         } else {

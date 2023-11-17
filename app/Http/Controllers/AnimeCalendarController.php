@@ -6,6 +6,7 @@ use App\Models\Anime;
 use App\Models\AnimeCalendar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AnimeCalendarController extends Controller
 {
@@ -15,7 +16,14 @@ class AnimeCalendarController extends Controller
 
         $animes = Anime::Where('deleted', 0)->get();
 
-        return view('admin.anime.calendar.calendar', ['title' => $title, 'animes' => $animes]);
+        //$anime_calendars = AnimeCalendar::Where('deleted', 0)->get();
+
+        $anime_calendars = DB::table('anime_calendars')
+            ->join('animes', 'animes.code', '=', 'anime_calendars.anime_code')
+            ->select('anime_calendars.*', 'animes.name as anime_name')
+            ->get();
+
+        return view('admin.anime.calendar.calendar', ['title' => $title, 'animes' => $animes, 'anime_calendars' => $anime_calendars]);
     }
 
     public function addEvent(Request $request)
@@ -32,6 +40,8 @@ class AnimeCalendarController extends Controller
         $anime_calendar->cycle_type = $request->cycle_type;
         $anime_calendar->special_type = $request->special_type;
         $anime_calendar->special_count = $request->special_count;
+        $anime_calendar->end_date = $request->end_date;
+        $anime_calendar->background_color = $request->background_color;
 
         $anime_calendar->create_user_code = Auth::user()->code;
 

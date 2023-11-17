@@ -31,7 +31,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form action="{{route('admin_calendar_addevent')}}" method="POST">
+                <form id="addEventSubmitForm" action="{{route('admin_calendar_addevent')}}" method="POST">
                     @csrf
                     <div class="row col-lg-12">
                         <label for="anime_code">Anime: </label>
@@ -83,8 +83,12 @@
                         <textarea name="description" id="description" cols="30" rows="10" class="form-control"
                             placeholder="Açıklama"></textarea>
                     </div>
+                    <div hidden>
+                        <input id="background_color" name="background_color" type="text" value="">
+                    </div>
                     <div class="mt-2">
-                        <button type="submit" class="float-right btn btn-primary">Kaydet</button>
+                        <button type="button" class="float-right btn btn-primary"
+                            onclick="addEventSubmitButton()">Kaydet</button>
                     </div>
                 </form>
             </div>
@@ -129,12 +133,25 @@
             document.getElementById('end_date_div').hidden = true;
         }
     }
+
+    function addEventSubmitButton() {
+        var backgroundColors = ["#000", "#007BFF", "#28a745", "#6C757D", "#DC3545", "#FFC107", "#17A2B8", "#800080", "#343A40",
+        "#FF0500"]
+        randomColor = Math.floor(Math.random() * backgroundColors.length);
+        background_color = backgroundColors[randomColor];
+        document.getElementById("background_color").value = background_color;
+        document.getElementById("addEventSubmitForm").submit();
+    }
 </script>
 <script>
+    var calendar;
+
+    var changeMonth = 0;
+    var called_start = "1970-01-01";
     document.addEventListener('DOMContentLoaded', function() {
         var calendarEl = document.getElementById('calendar');
 
-        var calendar = new FullCalendar.Calendar(calendarEl, {
+        calendar = new FullCalendar.Calendar(calendarEl, {
             initialView: 'dayGridMonth',
             locale: "tr",
             selectable: true,
@@ -151,18 +168,124 @@
                 listYear: 'Yılı Listele',
                 listWeek: 'Haftayı Listele',
                 listDay: 'Günü Listele' },
-        customButtons: {
-            addEventButton: {
-                text: 'Takvime Yeni Bir Anime Ekle',
-                click: function() {
-                    document.getElementById('addEventModalButton').click();
+            customButtons: {
+                addEventButton: {
+                    text: 'Takvime Yeni Bir Anime Ekle',
+                    click: function() {
+                        document.getElementById('addEventModalButton').click();
+                    }
                 }
+            },
+            datesSet: function(info) {
+                if(called_start == "1970-01-01"){
+                    called_start = info.start;
+                    createEvents();
+                    return;
+                }
+                if(called_start<info.start){
+                    changeMonth++;
+                    if(changeMonth%2 == 0){
+                        createEvents();
+                    }
+                    called_start = info.start;
+                }else{
+                    called_start = info.start;
+                }
+
             }
-        }
         });
 
         calendar.render();
     });
+
+    function createEvents() {
+
+        var events = [];
+
+        @foreach ($anime_calendars as $item)
+            var start_date = new Date("{{$item->first_date}}");
+            var repeat_type = parseInt("{{$item->cycle_type}}");
+            if(changeMonth != 0){
+                start_date.setMonth(start_date.getMonth() + changeMonth);
+                
+                if(repeat_type == 2){
+                    var date = new Date("{{$item->first_date}}").getDay();
+                    console.log("date: "+date);
+
+
+                    while(start_date.getDay() !== date) start_date.setDate(start_date.getDate() + 1);
+                }else{
+                    start_date.setDate(start_date.getDate() + 1 * (changeMonth/2));
+                }
+                //start_date.setDate(start_date.getDate() + 2);
+
+                console.log(start_date);
+            }
+            var end_date = new Date("{{$item->end_date ?? '1970-01-01'}}");
+
+
+            // İki tarih arasındaki farkı al
+            var dateDifference = end_date - start_date;
+
+            // Farkı kontrol et ve 2 aydan fazlaysa end_date'i ayarla
+            if (dateDifference > (2 * 30 * 24 * 60 * 60 * 1000)) {
+                end_date = new Date(start_date.getTime()); // start_date'in bir kopyasını al
+                end_date.setMonth(end_date.getMonth() + 2);
+            }
+
+
+
+            var interval = 1;
+
+            var anime_name = "{{$item->anime_name}}";
+
+            if(repeat_type == 5){ //özel
+                repeat_type = parseInt("{{$item->special_type}}");
+                interval = parseInt("{{$item->special_count}}");
+            }
+
+            var backgroundColor = "{{$item->background_color}}";
+
+            addEventsRepeats(repeat_type, interval, start_date, end_date, anime_name, backgroundColor);
+
+        @endforeach
+
+    }
+
+    function addEventsRepeats(repeat_type, interval, start_date, end_date, anime_name, backgroundColor) {
+        interval = parseInt(interval);
+        while (start_date <= end_date) {
+                var baslangici = new Date(start_date);
+
+                //baslangic: haftaBaslangici.toISOString().split('T')[0],
+                //bitis: haftaBitisi.toISOString().split('T')[0]
+
+                if(baslangici <= end_date){
+                    var event = {
+                            title: anime_name, // a property!
+                            start: baslangici.toISOString().split('T')[0],
+                            end: baslangici.toISOString().split('T')[0],
+                            backgroundColor: backgroundColor,
+                        };
+                    calendar.addEvent(event);
+                }
+
+                if(repeat_type == 0){
+                    break;
+                }
+                else if(repeat_type == 1){
+                    start_date.setDate(start_date.getDate() + 1 * interval);
+                }else if( repeat_type == 2){
+                    start_date.setDate(start_date.getDate() + 7 * interval);
+                    //start_date.setDate(start_date.getDate() + (5 - start_date.getDay() + 7) % 7);
+                }else if( repeat_type == 3){
+                    start_date.setMonth(start_date.getMonth() + interval);
+                }else if(repeat_type == 4){
+                    start_date.setFullYear(start_date.getFullYear() + interval);
+                }
+
+            }
+    }
 
 </script>
 
