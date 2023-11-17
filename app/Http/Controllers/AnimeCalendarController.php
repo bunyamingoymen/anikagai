@@ -47,6 +47,6 @@ class AnimeCalendarController extends Controller
 
         $anime_calendar->save();
 
-        return redirect()->route('admin_calendar_index')->with('success', 'Takvim Eklendi');
+        return redirect()->route('admin_animecalendar_index')->with('success', 'Takvim Eklendi');
     }
 }

@@ -91,8 +91,6 @@ class AnimeController extends Controller
             $name = $anime->code . "" . $file->getClientOriginalExtension();
             $file->move($path, $name);
             $anime->image = "files/animes/animesImages/" . $name;
-        } else {
-            $anime->image = "";
         }
 
         $anime->description = $request->description;

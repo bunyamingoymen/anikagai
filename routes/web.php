@@ -9,6 +9,8 @@ use App\Http\Controllers\AuthGroupController;
 use App\Http\Controllers\KeyValueController;
 use App\Http\Controllers\TemplateAdminController;
 use App\Http\Controllers\UserAdminController;
+use App\Http\Controllers\WebtoonCalendarController;
+use App\Http\Controllers\WebtoonController;
 use App\Models\Template;
 use Illuminate\Routing\RouteGroup;
 use Illuminate\Support\Facades\Route;
@@ -25,8 +27,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index.layouts.main');
 });
+
+
 
 
 Route::get("/admin/login", [AdminController::class, "loginScreen"])->name('admin_login_screen');
@@ -95,7 +99,24 @@ Route::middleware(['auth'])->group(function () {
     Route::post("/anime/delete", [AnimeController::class, "animeDelete"])->name('admin_anime_delete');
 
     //-------------------------------------------------------------------
-    Route::get("/anime/calendar", [AnimeCalendarController::class, "index"])->name('admin_calendar_index');
+    Route::get("/anime/calendar", [AnimeCalendarController::class, "index"])->name('admin_animecalendar_index');
 
-    Route::post("/anime/calendar/addEvent", [AnimeCalendarController::class, "addEvent"])->name('admin_calendar_addevent');
+    Route::post("/anime/calendar/addEvent", [AnimeCalendarController::class, "addEvent"])->name('admin_animecalendar_addevent');
+
+    //-------------------------------------------------------------------
+    Route::get("/webtoon/list", [WebtoonController::class, "webtoonList"])->name('admin_webtoon_list');
+    Route::post("/webtoon/list/ajax", [WebtoonController::class, "webtoonGetData"])->name('admin_webtoon_get_data');
+
+    Route::get("/webtoon/create", [WebtoonController::class, "webtoonCreateScreen"])->name('admin_webtoon_create_screen');
+    Route::post("/webtoon/create", [WebtoonController::class, "webtoonCreate"])->name('admin_webtoon_create');
+
+    Route::get("/webtoon/update", [WebtoonController::class, "webtoonUpdateScreen"])->name('admin_webtoon_update_screen');
+    Route::post("/webtoon/update", [WebtoonController::class, "webtoonUpdate"])->name('admin_webtoon_update');
+
+    Route::post("/webtoon/delete", [WebtoonController::class, "webtoonDelete"])->name('admin_webtoon_delete');
+
+    //-------------------------------------------------------------------
+    Route::get("/webtoon/calendar", [WebtoonCalendarController::class, "index"])->name('admin_webtooncalendar_index');
+
+    Route::post("/webtoon/calendar/addEvent", [WebtoonCalendarController::class, "addEvent"])->name('admin_webtooncalendar_addevent');
 });

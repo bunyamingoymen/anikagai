@@ -31,14 +31,14 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="addEventSubmitForm" action="{{route('admin_animecalendar_addevent')}}" method="POST">
+                <form id="addEventSubmitForm" action="{{route('admin_webtooncalendar_addevent')}}" method="POST">
                     @csrf
                     <div class="row col-lg-12">
-                        <label for="anime_code">Anime: </label>
-                        <select name="anime_code" id="anime_code" class="form-control" required>
-                            <option value="" disabled selected>Bir Anime Seçiniz</option>
-                            @foreach ($animes as $anime)
-                            <option value="{{ $anime->code }}">{{ $anime->name }}</option>
+                        <label for="webtoon_code">Webtoon: </label>
+                        <select name="webtoon_code" id="webtoon_code" class="form-control" required>
+                            <option value="" disabled selected>Bir Webtoon Seçiniz</option>
+                            @foreach ($webtoons as $webtoons)
+                            <option value="{{ $webtoons->code }}">{{ $webtoons->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -170,7 +170,7 @@
                 listDay: 'Günü Listele' },
             customButtons: {
                 addEventButton: {
-                    text: 'Takvime Yeni Bir Anime Ekle',
+                    text: 'Takvime Yeni Bir Webtoon Ekle',
                     click: function() {
                         document.getElementById('addEventModalButton').click();
                     }
@@ -202,7 +202,7 @@
 
         var events = [];
 
-        @foreach ($anime_calendars as $item)
+        @foreach ($webtoon_calendars as $item)
             var start_date = new Date("{{$item->first_date}}");
             var repeat_type = parseInt("{{$item->cycle_type}}");
             var interval = 1;
@@ -256,7 +256,7 @@
 
 
 
-            var anime_name = "{{$item->anime_name}}";
+            var webtoon_name = "{{$item->webtoon_name}}";
 
             if(repeat_type == 5){ //özel
                 repeat_type = parseInt("{{$item->special_type}}");
@@ -265,15 +265,15 @@
 
             var backgroundColor = "{{$item->background_color}}";
 
-            var anime_code = "{{$item->anime_code}}";
+            var webtoon_code = "{{$item->webtoon_code}}";
 
-            addEventsRepeats(repeat_type, interval, start_date, end_date, anime_name, backgroundColor, anime_code);
+            addEventsRepeats(repeat_type, interval, start_date, end_date, webtoon_name, backgroundColor, webtoon_code);
 
         @endforeach
 
     }
 
-    function addEventsRepeats(repeat_type, interval, start_date, end_date, anime_name, backgroundColor, anime_code) {
+    function addEventsRepeats(repeat_type, interval, start_date, end_date, webtoon_name, backgroundColor, webtoon_code) {
         interval = parseInt(interval);
         console.log("---------------------------------------------------------------------------")
         while (start_date <= end_date) {
@@ -285,8 +285,8 @@
 
                 if(baslangici <= end_date){
                     var event = {
-                            code: anime_code,
-                            title: anime_name, // a property!
+                            code: webtoon_code,
+                            title: webtoon_name, // a property!
                             start: baslangici.toISOString().split('T')[0],
                             end: baslangici.toISOString().split('T')[0],
                             backgroundColor: backgroundColor,
