@@ -29,8 +29,8 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="text-center mb-5">
-                        <a href="index.html" class="logo"><img src="../../../admin/assets/images/logo-light.png"
-                                height="24" alt="logo"></a>
+                        <a href="index.html" class="logo"><img src="../../../admin/assets/images/logo-dark.png"
+                                height="55" alt="logo"></a>
                     </div>
                 </div>
             </div>

@@ -5,10 +5,10 @@
             <div class="navbar-brand-box">
                 <a href="index.html" class="logo logo-dark">
                     <span class="logo-sm">
-                        <img src="../../../admin/assets/images/logo-sm-dark.png" alt="" height="22">
+                        <img src="../../../admin/assets/images/logo-dark.png" alt="" height="22">
                     </span>
                     <span class="logo-lg">
-                        <img src="../../../admin/assets/images/logo-dark.png" alt="" height="20">
+                        <img src="../../../admin/assets/images/logo-dark.png" alt="" height="22">
                     </span>
                 </a>
 
@@ -17,7 +17,7 @@
                         <img src="../../../admin/assets/images/logo-sm-light.png" alt="" height="22">
                     </span>
                     <span class="logo-lg">
-                        <img src="../../../admin/assets/images/logo-light.png" alt="" height="20">
+                        <img src="../../../admin/assets/images/logo-light.png" alt="" height="35">
                     </span>
                 </a>
             </div>

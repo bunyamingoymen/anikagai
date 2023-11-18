@@ -13,7 +13,7 @@ class UserController extends Controller
     public function userList()
     {
         $title = "Kullanıcılar";
-        $users = User::Where('deleted', 0)->take(10)->get();
+        $users = User::Where('deleted', 0)->Where('code', '!=', 0)->take(10)->get();
         $currentCount = 1;
         $pageCountTest = User::Where('deleted', 0)->count();
         if ($pageCountTest % $this->showCount == 0)
@@ -97,12 +97,20 @@ class UserController extends Controller
         $user = User::Where('code', $request->code)->Where('deleted', 0)->first();
 
         if (!$user)
-            return redirect()->back()->with("error", $this->errorsUpdateMessage . " Error: 0x00002");
+            return redirect()->back()->with("error", $this->errorsUpdateMessage . " Error: 0x00016");
 
         $user_email = User::Where('email', $request->email)->Where('code', "!=", $request->code)->first();
 
         if ($user_email) {
             return redirect()->back()->with('error', "Bu kullanıcı E-mail'i zaten kayıtlı.");
+        }
+        //dd($user->toArray());
+        if (($user->code == 0 || $user->code == 1) && ($request->user_type != 0 || $request->code != 1)) {
+            return redirect()->back()->with('error', "Bu kullanıcı bu grubu alamaz");
+        }
+
+        if (($user->code == 0 || $user->code == 1) && !$request->admin) {
+            return redirect()->back()->with('error', "Bu kullanıcının giriş yetkisi değiştirilemez");
         }
 
         $user->name = $request->name;
@@ -140,11 +148,33 @@ class UserController extends Controller
         $user = User::Where('code', $request->code)->Where('deleted', 0)->first();
 
         if (!$user)
-            return redirect()->back()->with("error", $this->errorsDeleteMessage . " Error: 0x00003");
+            return redirect()->back()->with("error", $this->errorsDeleteMessage . " Error: 0x00017");
+
+        if ($user->code == 0 || $user->code == 1) {
+            return redirect()->back()->with("error", "Bu Kullanıcı Silinemez");
+        }
 
         $user->deleted = 1;
         $user->update_user_code = Auth::user()->code;
         $user->save();
+        return redirect()->route('admin_user_list')->with("success", $this->successDeleteMessage);
+    }
+
+    public function userChangePassword(Request $request)
+    {
+        $user = User::Where('code', $request->code)->Where('deleted', 0)->first();
+
+        if (!$user)
+            return redirect()->back()->with("error", $this->errorsDeleteMessage . " Error: 0x00017");
+
+        if (($user->code == 0 || $user->code == 1) && (Auth::user()->user_type == 0 || Auth::user()->user_type == 1)) {
+            return redirect()->back()->with("error", "Bu Kullanıcının şifresini değiştiremezsiniz");
+        }
+
+        $user->password = Hash::make($request->password);
+        $user->update_user_code = Auth::user()->code;
+        $user->save();
+
         return redirect()->route('admin_user_list')->with("success", $this->successDeleteMessage);
     }
 

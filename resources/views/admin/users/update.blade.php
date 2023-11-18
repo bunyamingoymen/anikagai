@@ -5,12 +5,12 @@
         <div class="card">
             <div class="card-body">
 
-                <form class="needs-validation" id="userUpdateForm" action="{{route('admin_user_update')}}"
-                    method="POST">
+                <form class="needs-validation" id="userUpdateForm" action="{{route('admin_user_update')}}" method="POST"
+                    enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div hidden>
-                            <input type="text" value="{{$user->code}}">
+                            <input type="text" name="code" id="code" value="{{$user->code}}">
                         </div>
                         <div class="col-md-4 mb-3">
                             <label for="name">İsim:</label>

@@ -5,8 +5,8 @@
         <div class="card">
             <div class="card-body">
 
-                <form class="needs-validation" id="userCreateForm" action="{{route('admin_user_create')}}"
-                    method="POST">
+                <form class="needs-validation" id="userCreateForm" action="{{route('admin_user_create')}}" method="POST"
+                    enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-md-4 mb-3">
@@ -76,16 +76,42 @@
 </div>
 <script>
     function createSubmitForm(){
+        var name = document.getElementById("name").value;
+        var surname = document.getElementById("surname").value;
+        var email = document.getElementById("email").value;
         var password = document.getElementById("password").value;
         var password2 = document.getElementById("password2").value;
-        if(password == password2)
-            document.getElementById('userCreateForm').submit();
-        else{
+        var image = document.getElementById("image").value;
+        var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if(name == "" || surname == "" || email == "" || password == "" || password2 == "" || image == ""){
             Swal.fire({
                 icon: "error",
                 title: "Hata!",
-                text: "Şifre ile Şifre Tekrarı uyuşmamaktadır.",
+                text: "Lütfen Bütün yerleri doldurunuz.",
             });
+        }
+        else{
+            if(password == password2 && emailPattern.test(email))
+                document.getElementById('userCreateForm').submit();
+            else if(!emailPattern.test(email)){
+                Swal.fire({
+                    icon: "error",
+                    title: "Hata!",
+                    text: "Lütfen geçerli bir mail adresi giriniz.",
+                });
+            }else if(password != password2){
+                Swal.fire({
+                    icon: "error",
+                    title: "Hata!",
+                    text: "Şifre ile Şifre Tekrarı uyuşmamaktadır.",
+                });
+            }else{
+                Swal.fire({
+                    icon: "error",
+                    title: "Hata!",
+                    text: "Bir Hata Meydana Geldi. Error: 0x00018",
+                });
+            }
         }
     }
 </script>

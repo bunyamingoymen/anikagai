@@ -16,6 +16,7 @@
                         <tr>
                             <th scope="col">..</th>
                             <th scope="col">#</th>
+                            <th scope="col">Resim</th>
                             <th scope="col">İsim</th>
                             <th scope="col">Soyisim</th>
                             <th scope="col">E-mail</th>
@@ -36,10 +37,18 @@
                                             onclick="deleteUser({{$item->code}})">Sil</a>
                                         <a class="dropdown-item"
                                             href="{{route('admin_user_update_screen')}}?code={{$item->code}}">Güncelle</a>
+                                        <a class="dropdown-item" href="javascript:;"
+                                            onclick="changePassword({{$item->code}})">Şifreyi
+                                            Değiştir</a>
+                                        <a class="dropdown-item" href="#">Mesaj At</a>
                                     </div>
                                 </div>
                             </td>
                             <th scope="row">{{$item->code}}</th>
+                            <td>
+                                <img class="rounded-circle header-profile-user" src="../../../{{$item->image ?? ''}}"
+                                    alt="{{$item->name}}">
+                            </td>
                             <td>{{$item->name}}</td>
                             <td>{{$item->surname}}</td>
                             <td>{{$item->email}}</td>
@@ -112,6 +121,9 @@
                                         <a class="dropdown-item" href="javascript:;" onclick="deleteUser(`+users[i].code+`)">Sil</a>
                                         <a class="dropdown-item"
                                             href="{{route('admin_user_update_screen')}}?code=`+users[i].code+`">Güncelle</a>
+                                        <a class="dropdown-item" href="javascript:;" onclick="changePassword(`+users[i].code+`)">Şifreyi
+                                            Değiştir</a>
+                                        <a class="dropdown-item" href="javascript:;">Mesaj At</a>
                                     </div>
                                 </div>
                             </td>
@@ -169,6 +181,50 @@
                 document.getElementById('deleteUserForm').submit();
             }
         })
+    }
+
+    function changePassword(code){
+            Swal.fire({
+                title: '<strong>Şifre Değiştir</strong>',
+                icon: 'warning',
+                html:
+                `
+                <div class="col-lg-12 mt-2">
+                    <input type="password" class="form-control" id="changePassword" placeholder="Şifre">
+                </div>
+                <div class="col-lg-12 mt-2">
+                    <input type="password" class="form-control" id="changePasswordRepeat" placeholder="Şifre Tekrarı">
+                </div>
+                `,
+                showCancelButton: true,
+                confirmButtonText: 'Kaydet',
+                cancelButtonText: `Vazgeç`,
+            }).then((result) => {
+                if(result.value){
+                    var password = document.getElementById("changePassword").value;
+                    var password_repeat = document.getElementById("changePasswordRepeat").value;
+                    if(password != password_repeat){
+                        swal.close();
+                        Swal.fire({
+                        title: 'Hata',
+                        icon:"error",
+                        text: 'Şifre ile şifre tekrarı aynı değil. Lütfen tekrar giriniz.',
+                        showCancelButton: false,
+                        }).then((result) => {
+                        changePassword(code);
+                        })
+                    }else{
+                        var html = `<form action='{{route('admin_user_change_password')}}' method="POST" id="changePasswordUserForm"> @csrf`;
+                            html += `<input type="text" name="code" value='`+code+`'>`;
+                            html += `<input type="password" name="password" value='`+password+`'>`;
+                            html += `</form>`
+
+                        document.getElementById('hiddenDiv').innerHTML = html;
+
+                        document.getElementById('changePasswordUserForm').submit();
+                    }
+                }
+            })
     }
 </script>
 

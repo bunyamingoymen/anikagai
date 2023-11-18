@@ -28,7 +28,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('index.layouts.main');
+    return view('index.index');
 });
 
 
@@ -64,6 +64,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post("/user/update", [UserController::class, "userUpdate"])->name('admin_user_update');
 
     Route::post("/user/delete", [UserController::class, "userDelete"])->name('admin_user_delete');
+
+    Route::post("/user/changePassword", [UserController::class, "userChangePassword"])->name('admin_user_change_password');
 
     //----------------------------------------------------------------
 
