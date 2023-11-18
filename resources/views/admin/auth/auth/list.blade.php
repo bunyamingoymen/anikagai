@@ -105,6 +105,16 @@
                 var selected = document.getElementById('selected_clauses');
                 var nonSelected = document.getElementById('not_selected_clauses');
 
+                var options = Array.from(selected.options);
+
+                options.forEach(function(option) {
+                    var newOption = document.createElement("option");
+                    newOption.value = option.value;
+                    newOption.text = option.text;
+                    nonSelected.add(newOption);
+                    selected.remove(yeniOption)
+                });
+
                 for (let i = 0; i < includeData.length; i++) {
                     const element = includeData[i];
                     var yeniOption=document.createElement('option');
