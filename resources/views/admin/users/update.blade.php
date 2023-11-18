@@ -1,0 +1,77 @@
+@extends("admin.layouts.main")
+@section('admin_content')
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+
+                <form class="needs-validation" id="userUpdateForm" action="{{route('admin_user_update')}}"
+                    method="POST">
+                    @csrf
+                    <div class="row">
+                        <div hidden>
+                            <input type="text" value="{{$user->code}}">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="name">İsim:</label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="İsim"
+                                value="{{$user->name}}" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="surname">Soyisim:</label>
+                            <input type="text" class="form-control" id="surname" name="surname" placeholder="Soyisim"
+                                value="{{$user->surname}}" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="email">E-mail:</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="E-Mail"
+                                value="{{$user->email}}" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="image">Resim:</label>
+                            <input type="file" class="form-control" id="image" name="image" placeholder="Dosya Seçiniz">
+                        </div>
+                        <div class="col-lg-4 mb-3">
+                            <label for="user_type">Kullanıcı Grubu</label>
+                            <select name="user_type" id="user_type" class="form-control">
+                                @foreach ($users_groups as $group)
+                                @if ($user->user_type == $group->code)
+                                <option value="{{$group->code}}" selected>{{$group->text}}</option>
+                                @else
+                                <option value="{{$group->code}}">{{$group->text}}</option>
+                                @endif
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
+                            <label for="description">Açıklama:</label>
+                            <textarea name="description" id="description" class="form-control" cols="30" rows="10"
+                                placeholder="Açıklama">{{$user->description}}</textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            @if ($user->admin == 1)
+                            <input type="checkbox" name="admin" id="admin" checked>
+                            @else
+                            <input type="checkbox" name="admin" id="admin">
+                            @endif
+
+                            <label for="admin">Yönetim Paneline Giriş Yetkisi</label>
+                        </div>
+                    </div>
+                    <div style="float: right;">
+                        <button class="btn btn-primary" type="submit">Kaydet</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+</script>
+@endsection

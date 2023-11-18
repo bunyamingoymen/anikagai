@@ -9,6 +9,7 @@ use App\Http\Controllers\AuthGroupController;
 use App\Http\Controllers\KeyValueController;
 use App\Http\Controllers\TemplateAdminController;
 use App\Http\Controllers\UserAdminController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\WebtoonCalendarController;
 use App\Http\Controllers\WebtoonController;
 use App\Models\Template;
@@ -50,6 +51,19 @@ Route::middleware(['auth'])->group(function () {
     Route::post("/keyValue/update", [KeyValueController::class, "keyValueUpdate"])->name('admin_keyvalue_update');
 
     Route::post("/keyValue/delete", [KeyValueController::class, "keyValueDelete"])->name('admin_keyvalue_delete');
+
+    //----------------------------------------------------------------
+
+    Route::get("/user/list", [UserController::class, "userList"])->name('admin_user_list');
+    Route::post("/user/list/ajax", [UserController::class, "userGetData"])->name('admin_user_get_data');
+
+    Route::get("/user/create", [UserController::class, "userCreateScreen"])->name('admin_user_create_screen');
+    Route::post("/user/create", [UserController::class, "userCreate"])->name('admin_user_create');
+
+    Route::get("/user/update", [UserController::class, "userUpdateScreen"])->name('admin_user_update_screen');
+    Route::post("/user/update", [UserController::class, "userUpdate"])->name('admin_user_update');
+
+    Route::post("/user/delete", [UserController::class, "userDelete"])->name('admin_user_delete');
 
     //----------------------------------------------------------------
 
