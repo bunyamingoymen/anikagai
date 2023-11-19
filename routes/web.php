@@ -6,6 +6,7 @@ use App\Http\Controllers\AnimeController;
 use App\Http\Controllers\AuthClauseController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AuthGroupController;
+use App\Http\Controllers\IndexController;
 use App\Http\Controllers\KeyValueController;
 use App\Http\Controllers\TemplateAdminController;
 use App\Http\Controllers\UserAdminController;
@@ -16,21 +17,17 @@ use App\Models\Template;
 use Illuminate\Routing\RouteGroup;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+Route::get('/', [IndexController::class, 'index'])->name('index');
 
-Route::get('/', function () {
-    return view('index.index');
-});
+Route::get('/liste', [IndexController::class, 'list'])->name('list');
 
+Route::get('/{anime_name}', [IndexController::class, 'animeDetail'])->name('animeDetail');
+
+Route::get('/{anime_name}/{episode_name}', [IndexController::class, 'watch'])->name('watch');
+
+Route::get('/{webtoon_name}', [IndexController::class, 'webtoonDetail'])->name('webtoonDetail');
+
+Route::get('/{webtoon_name}/{episode_name}', [IndexController::class, 'read'])->name('read');
 
 
 
