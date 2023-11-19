@@ -58,13 +58,13 @@
                                     <span>Tüm bölümer Mevcut</span>
                                 </li>
                                 <li class="watch"><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                        class="btn popup-video"><i class="fas fa-play"></i> Watch Now</a></li>
+                                        class="btn popup-video"><i class="fas fa-play"></i>İzle</a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
                 <div class="movie-details-btn">
-                    <a href="img/poster/movie_details_img.jpg" class="download-btn" download="">Download <img
+                    <a href="img/poster/movie_details_img.jpg" class="download-btn" download="">İndir <img
                             src="../../../user/fonts/download.svg" alt=""></a>
                 </div>
             </div>

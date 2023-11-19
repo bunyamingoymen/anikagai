@@ -75,14 +75,13 @@
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
                                 </li>
-                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E" class="popup-video btn">Watch
-                                        Now</a></li>
-                                <li><a href="movie-details.html" class="btn">Details</a></li>
+                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E" class="popup-video btn">İzle</a></li>
+                                <li><a href="movie-Detay.html" class="btn">Detay</a></li>
                             </ul>
                         </div>
                         <div class="movie-content">
                             <div class="top">
-                                <h5 class="title"><a href="movie-details.html">Women's Day</a></h5>
+                                <h5 class="title"><a href="movie-Detay.html">Women's Day</a></h5>
                                 <span class="date">2021</span>
                             </div>
                             <div class="bottom">
@@ -110,14 +109,13 @@
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
                                 </li>
-                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E" class="popup-video btn">Watch
-                                        Now</a></li>
-                                <li><a href="movie-details.html" class="btn">Details</a></li>
+                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E" class="popup-video btn">İzle</a></li>
+                                <li><a href="movie-Detay.html" class="btn">Detay</a></li>
                             </ul>
                         </div>
                         <div class="movie-content">
                             <div class="top">
-                                <h5 class="title"><a href="movie-details.html">The Perfect Match</a></h5>
+                                <h5 class="title"><a href="movie-Detay.html">The Perfect Match</a></h5>
                                 <span class="date">2021</span>
                             </div>
                             <div class="bottom">
@@ -145,14 +143,13 @@
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
                                 </li>
-                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E" class="popup-video btn">Watch
-                                        Now</a></li>
-                                <li><a href="movie-details.html" class="btn">Details</a></li>
+                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E" class="popup-video btn">İzle</a></li>
+                                <li><a href="movie-Detay.html" class="btn">Detay</a></li>
                             </ul>
                         </div>
                         <div class="movie-content">
                             <div class="top">
-                                <h5 class="title"><a href="movie-details.html">The Dog Woof</a></h5>
+                                <h5 class="title"><a href="movie-Detay.html">The Dog Woof</a></h5>
                                 <span class="date">2021</span>
                             </div>
                             <div class="bottom">
@@ -180,14 +177,13 @@
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
                                 </li>
-                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E" class="popup-video btn">Watch
-                                        Now</a></li>
-                                <li><a href="movie-details.html" class="btn">Details</a></li>
+                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E" class="popup-video btn">İzle</a></li>
+                                <li><a href="movie-Detay.html" class="btn">Detay</a></li>
                             </ul>
                         </div>
                         <div class="movie-content">
                             <div class="top">
-                                <h5 class="title"><a href="movie-details.html">The Easy Reach</a></h5>
+                                <h5 class="title"><a href="movie-Detay.html">The Easy Reach</a></h5>
                                 <span class="date">2021</span>
                             </div>
                             <div class="bottom">
@@ -215,14 +211,13 @@
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
                                 </li>
-                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E" class="popup-video btn">Watch
-                                        Now</a></li>
-                                <li><a href="movie-details.html" class="btn">Details</a></li>
+                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E" class="popup-video btn">İzle</a></li>
+                                <li><a href="movie-Detay.html" class="btn">Detay</a></li>
                             </ul>
                         </div>
                         <div class="movie-content">
                             <div class="top">
-                                <h5 class="title"><a href="movie-details.html">The Cooking</a></h5>
+                                <h5 class="title"><a href="movie-Detay.html">The Cooking</a></h5>
                                 <span class="date">2021</span>
                             </div>
                             <div class="bottom">
@@ -250,14 +245,13 @@
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
                                 </li>
-                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E" class="popup-video btn">Watch
-                                        Now</a></li>
-                                <li><a href="movie-details.html" class="btn">Details</a></li>
+                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E" class="popup-video btn">İzle</a></li>
+                                <li><a href="movie-Detay.html" class="btn">Detay</a></li>
                             </ul>
                         </div>
                         <div class="movie-content">
                             <div class="top">
-                                <h5 class="title"><a href="movie-details.html">The Hikaru Night</a></h5>
+                                <h5 class="title"><a href="movie-Detay.html">The Hikaru Night</a></h5>
                                 <span class="date">2021</span>
                             </div>
                             <div class="bottom">
@@ -285,14 +279,13 @@
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
                                 </li>
-                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E" class="popup-video btn">Watch
-                                        Now</a></li>
-                                <li><a href="movie-details.html" class="btn">Details</a></li>
+                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E" class="popup-video btn">İzle</a></li>
+                                <li><a href="movie-Detay.html" class="btn">Detay</a></li>
                             </ul>
                         </div>
                         <div class="movie-content">
                             <div class="top">
-                                <h5 class="title"><a href="movie-details.html">The Life Quotes</a></h5>
+                                <h5 class="title"><a href="movie-Detay.html">The Life Quotes</a></h5>
                                 <span class="date">2021</span>
                             </div>
                             <div class="bottom">
@@ -320,14 +313,13 @@
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
                                 </li>
-                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E" class="popup-video btn">Watch
-                                        Now</a></li>
-                                <li><a href="movie-details.html" class="btn">Details</a></li>
+                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E" class="popup-video btn">İzle</a></li>
+                                <li><a href="movie-Detay.html" class="btn">Detay</a></li>
                             </ul>
                         </div>
                         <div class="movie-content">
                             <div class="top">
-                                <h5 class="title"><a href="movie-details.html">The Beachball</a></h5>
+                                <h5 class="title"><a href="movie-Detay.html">The Beachball</a></h5>
                                 <span class="date">2021</span>
                             </div>
                             <div class="bottom">

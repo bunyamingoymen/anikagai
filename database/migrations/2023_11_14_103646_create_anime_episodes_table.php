@@ -16,8 +16,10 @@ return new class extends Migration
             $table->unsignedBigInteger('code');
             $table->string('name');
             $table->unsignedBigInteger('anime_code');
-            $table->unsignedBigInteger('image')->nullable();
+            $table->string('image')->nullable();
+            $table->string('video');
             $table->longText('description');
+            $table->integer('season_short');
             $table->integer('episode_short');
             $table->integer('click_count');
             $table->date('publish_date')->default("1970-01-01");

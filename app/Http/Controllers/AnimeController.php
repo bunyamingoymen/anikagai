@@ -25,6 +25,7 @@ class AnimeController extends Controller
     {
         $title = "Yeni Bir Anime Ekle";
 
+
         return view("admin.anime.anime.create", ["title" => $title]);
     }
 

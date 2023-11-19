@@ -22,7 +22,7 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{route('admin_anime_list')}}">Animeler</a></li>
-                        <li><a href="#">Bölümler</a></li>
+                        <li><a href="{{route('admin_anime_episodes_list')}}">Bölümler</a></li>
                         <li><a href="{{route('admin_animecalendar_index')}}">Takvim</a></li>
                     </ul>
                 </li>
