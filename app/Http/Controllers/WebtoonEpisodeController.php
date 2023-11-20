@@ -61,9 +61,9 @@ class WebtoonEpisodeController extends Controller
             $path = public_path('files/webtoons/webtoonsEpisodes/' . $request->webtoon_code . "/" . $webtoon_episode->season_short . '/' . $webtoon_episode->episode_short);
             $name = $webtoon_episode->code . "." . $file->getClientOriginalExtension();
             $file->move($path, $name);
-            $webtoon_episode->video = 'files/webtoons/webtoonsEpisodes/' . $request->webtoon_code . "/" . $webtoon_episode->season_short . '/' . $webtoon_episode->episode_short . "/" . $name;
+            $webtoon_episode->file = 'files/webtoons/webtoonsEpisodes/' . $request->webtoon_code . "/" . $webtoon_episode->season_short . '/' . $webtoon_episode->episode_short . "/" . $name;
         } else {
-            $webtoon_episode->video = "";
+            $webtoon_episode->file = "";
         }
 
 

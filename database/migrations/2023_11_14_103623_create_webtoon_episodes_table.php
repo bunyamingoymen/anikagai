@@ -16,8 +16,10 @@ return new class extends Migration
             $table->unsignedBigInteger('code');
             $table->string('name');
             $table->unsignedBigInteger('webtoon_code');
-            $table->unsignedBigInteger('image')->nullable();
-            $table->longText('description')->nullable();;
+            $table->string('image')->nullable();
+            $table->string('file');
+            $table->longText('description')->nullable();
+            $table->integer('season_short');
             $table->integer('episode_short');
             $table->integer('click_count');
             $table->date('publish_date')->default("1970-01-01");
