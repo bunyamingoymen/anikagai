@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('anime_code');
             $table->string('image')->nullable();
             $table->string('video');
-            $table->longText('description');
+            $table->longText('description')->nullable();;
             $table->integer('season_short');
             $table->integer('episode_short');
             $table->integer('click_count');

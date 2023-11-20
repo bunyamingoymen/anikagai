@@ -5,7 +5,6 @@
         <div class="card">
             <div class="card-body">
                 <div class="" style="">
-                    <h4 class="header-title">Yetki Maddeleri</h4>
                     <a class="btn btn-primary mb-3" style="float: right;"
                         href="{{route('admin_authclause_create_screen')}}">+ Yeni</a>
                 </div>

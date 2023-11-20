@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('code');
             $table->unsignedBigInteger('followed_webtoon_code');
-            $table->unsignedBigInteger('user_code')->nullable();
+            $table->unsignedBigInteger('user_code');
             $table->timestamps();
         });
     }

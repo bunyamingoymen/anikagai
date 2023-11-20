@@ -4,11 +4,6 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="header-title">KeyValue Kaydet</h4>
-                <p class="card-title-desc">
-                    KeyValue Tablosuna Aşığdan İstediğinizi Ekleyebilirsiniz.
-                </p>
-
                 <form class="needs-validation" id="keyValueUpdateForm" action="{{route('admin_keyvalue_update')}}"
                     method="POST">
                     @csrf

@@ -4,8 +4,6 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="header-title">Yeni Anime Ekle</h4>
-
                 <form class="needs-validation" id="animeCreateForm" action="{{route('admin_anime_create')}}"
                     method="POST" enctype="multipart/form-data">
                     @csrf

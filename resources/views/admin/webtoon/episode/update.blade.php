@@ -4,21 +4,21 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <form class="needs-validation" id="animeEpisodeCreateForm" action="" method="POST"
+                <form class="needs-validation" id="webtoonEpisodeCreateForm" action="" method="POST"
                     enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div hidden>
-                            <input type="text" id='code' name='code' value="{{$anime_episode->code}}">
+                            <input type="text" id='code' name='code' value="{{$webtoon_episode->code}}">
                         </div>
                         <div class="col-md-4 mb-3">
-                            <label for="anime_code">Anime:</label>
-                            <select name="anime_code" id="anime_code" class="form-control" required>
-                                @foreach ($animes as $anime)
-                                @if ($anime_episode->anime_code == $anime->code)
-                                <option value="{{$anime->code}}" selected>{{$anime->name}}</option>
+                            <label for="webtoon_code">Webtoon:</label>
+                            <select name="webtoon_code" id="webtoon_code" class="form-control" required>
+                                @foreach ($webtoons as $webtoon)
+                                @if ($webtoon_episode->webtoon_code == $webtoon->code)
+                                <option value="{{$webtoon->code}}" selected>{{$webtoon->name}}</option>
                                 @else
-                                <option value="{{$anime->code}}">{{$anime->name}}</option>
+                                <option value="{{$webtoon->code}}">{{$webtoon->name}}</option>
                                 @endif
 
                                 @endforeach
@@ -27,31 +27,31 @@
                         <div class="col-md-4 mb-3">
                             <label for="name">Bölüm Adı:</label>
                             <input type="text" id="name" name="name" class="form-control"
-                                value="{{$anime_episode->name}}">
+                                value="{{$webtoon_episode->name}}">
                         </div>
                         <div class="col-md-2 mb-3">
                             <label for="season_short">Bulunduğu Sezon:</label>
                             <input type="number" id="season_short" name="season_short" class="form-control"
-                                value="{{$anime_episode->season_short}}">
+                                value="{{$webtoon_episode->season_short}}">
                         </div>
                         <div class="col-md-2 mb-3">
                             <label for="episode_short">Bölüm Sırası:</label>
                             <input type="number" id="episode_short" name="episode_short" class="form-control"
-                                value="{{$anime_episode->episode_short}}">
+                                value="{{$webtoon_episode->episode_short}}">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12 mb-3">
                             <label for="publish_date">Yayınlanma Tarihi:</label>
                             <input type="date" id="publish_date" name="publish_date" class="form-control"
-                                value="{{$anime_episode->publish_date}}">
+                                value="{{$webtoon_episode->publish_date}}">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12 mb-3">
                             <label for="validationCustom03">Açıklama:</label>
                             <textarea class="form-control" name="description" id="description" cols="30" rows="10"
-                                placeholder="Açıklama">{{$anime_episode->description}}</textarea>
+                                placeholder="Açıklama">{{$webtoon_episode->description}}</textarea>
                         </div>
                     </div>
                     <div style="float: right;">

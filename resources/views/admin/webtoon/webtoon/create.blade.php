@@ -4,7 +4,6 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="header-title">Yeni Webtoon Ekle</h4>
 
                 <form class="needs-validation" id="webtoonCreateForm" action="{{route('admin_webtoon_create')}}"
                     method="POST" enctype="multipart/form-data">

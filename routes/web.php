@@ -7,13 +7,16 @@ use App\Http\Controllers\AnimeEpisodecontroller;
 use App\Http\Controllers\AuthClauseController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AuthGroupController;
+use App\Http\Controllers\FollowUserController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\KeyValueController;
+use App\Http\Controllers\NotificationAdminController;
 use App\Http\Controllers\TemplateAdminController;
 use App\Http\Controllers\UserAdminController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WebtoonCalendarController;
 use App\Http\Controllers\WebtoonController;
+use App\Http\Controllers\WebtoonEpisodeController;
 use App\Models\Template;
 use Illuminate\Routing\RouteGroup;
 use Illuminate\Support\Facades\Route;
@@ -32,12 +35,26 @@ Route::get('/webtoon/{webtoon_name}/{episode_name}', [IndexController::class, 'r
 
 
 
-Route::get("/admin/login", [AdminController::class, "loginScreen"])->name('admin_login_screen');
-Route::post("/admin/login", [AdminController::class, "login"])->name('admin_login');
+
+
+Route::group(['middleware' => 'guest'], function () {
+    // Oturum açıkken erişilmemesi gereken sayfalar
+    Route::get("/admin/login", [AdminController::class, "loginScreen"])->name('admin_login_screen');
+    Route::post("/admin/login", [AdminController::class, "login"])->name('admin_login');
+    // Diğer sayfalar...
+});
 
 Route::middleware(['auth'])->group(function () {
     Route::get("/admin/index", [AdminController::class, "index"])->name('admin_index');
     Route::get("/admin/logout", [AdminController::class, "logout"])->name('admin_logout');
+
+    Route::get("/admin/profile", [AdminController::class, "profile"])->name('admin_profile');
+
+    Route::post("/admin/followUser", [FollowUserController::class, "followUser"])->name('admin_follow_user');
+    Route::post("/admin/unfollowUser", [FollowUserController::class, "unfollowUser"])->name('admin_unfollow_user');
+
+    Route::post("/admin/sendMessage", [NotificationAdminController::class, "sendMessage"])->name('admin_send_message');
+    Route::post("/admin/readNotification", [NotificationAdminController::class, "readNotification"])->name('admin_read_notification');
 
     Route::get("/admin/keyValue/list", [KeyValueController::class, "keyValueList"])->name('admin_keyvalue_list');
     Route::post("/admin/keyValue/list/ajax", [KeyValueController::class, "keyValueGetData"])->name('admin_keyvalue_get_data');
@@ -141,7 +158,17 @@ Route::middleware(['auth'])->group(function () {
     Route::post("/admin/webtoon/update", [WebtoonController::class, "webtoonUpdate"])->name('admin_webtoon_update');
 
     Route::post("/admin/webtoon/delete", [WebtoonController::class, "webtoonDelete"])->name('admin_webtoon_delete');
+    //----------------------------------------------------------------
+    Route::get("/admin/webtoonEpisodes/list", [WebtoonEpisodeController::class, "episodeList"])->name('admin_webtoon_episodes_list');
+    Route::post("/admin/webtoonEpisodes/list/ajax", [WebtoonEpisodeController::class, "episodeGetData"])->name('admin_webtoon_episodes_get_data');
 
+    Route::get("/admin/webtoonEpisodes/create", [WebtoonEpisodeController::class, "episodeCreateScreen"])->name('admin_webtoon_episodes_create_screen');
+    Route::post("/admin/webtoonEpisodes/create", [WebtoonEpisodeController::class, "episodeCreate"])->name('admin_webtoon_episodes_create'); //Ajax ile cretae yapıyor
+
+    Route::get("/admin/webtoonEpisodes/update", [WebtoonEpisodeController::class, "episodeUpdateScreen"])->name('admin_webtoon_episodes_update_screen');
+    Route::post("/admin/webtoonEpisodes/update", [WebtoonEpisodeController::class, "epsiodeUpdate"])->name('admin_webtoon_episodes_update');
+
+    Route::post("/admin/webtoonEpisodes/delete", [WebtoonEpisodeController::class, "episodeDelete"])->name('admin_webtoon_episodes_delete');
     //-------------------------------------------------------------------
     Route::get("/admin/webtoon/calendar", [WebtoonCalendarController::class, "index"])->name('admin_webtooncalendar_index');
 

@@ -16,7 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('code');
             $table->string('name');
             $table->string('image');
-            $table->longText('description');
+            $table->longText('description')->nullable();;
             $table->integer('episode_count');
             $table->integer('click_count');
             $table->unsignedBigInteger('create_user_code')->default(1);

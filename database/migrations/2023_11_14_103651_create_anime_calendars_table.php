@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('code');
             $table->unsignedBigInteger('anime_code');
-            $table->longText('description');
+            $table->longText('description')->nullable();;
             $table->date('first_date')->default("1970-01-01");
             $table->integer('cycle_type')->default(0); //0: tekrarlamaz, 1: günlük, 2: haftalık, 3: aylık, 4: yıllık, 5:özel
             $table->integer("special_type")->nullable(); //1: günlük, 2: haftalık, 3: aylık, 4: yıllık

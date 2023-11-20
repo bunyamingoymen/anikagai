@@ -1,3 +1,5 @@
+Veritabanı, Controller ve Modallarda User olara kbahsedilen tablo yönetim pabeli içindir. IndexUser ise kullanıcı
+
 Database'ler:
 
 --User: id / code / name / surname / email / password / image / description / type / deleted / created_user_code / updated_user_code / created_time / updated_time
@@ -37,4 +39,15 @@ Database'ler:
 
 ----------------------------------------------------------------------------------
 
-Error kodu: 19 de
+Error kodu: 21 de
+
+-------------------------------------------
+Yapılacaklar:
+
+user tablosuna facebook,intagram,twitter ve discord eklenecek
+Modallar ayarlanacak
+index_user tablosu oluşturulup config dosyaları buna göre düzenlenecek
+Admin sayfasındaki bütün formlara kontrol eklenmeli.
+Bütün tablolarda description nullable olmalı
+AppProviders ile bildirimlerini ayarlama
+Appproviders ile yetkilendirmeyi ayarla

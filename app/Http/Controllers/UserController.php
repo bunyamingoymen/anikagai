@@ -139,7 +139,7 @@ class UserController extends Controller
 
         $user->save();
 
-        return redirect()->route('admin_user_list')->with("success", $this->successCreateMessage);
+        return redirect()->back()->with("success", $this->successCreateMessage);
     }
 
     //code:0 ve code:1 kullanıcıları ne olursa olsun silinmemeli.
@@ -162,20 +162,27 @@ class UserController extends Controller
 
     public function userChangePassword(Request $request)
     {
+
         $user = User::Where('code', $request->code)->Where('deleted', 0)->first();
 
         if (!$user)
             return redirect()->back()->with("error", $this->errorsDeleteMessage . " Error: 0x00017");
 
-        if (($user->code == 0 || $user->code == 1) && (Auth::user()->user_type == 0 || Auth::user()->user_type == 1)) {
+        //dd(Auth::user()->user_type);
+        if (!(($user->user_type == 0 || $user->user_type == 1) && (Auth::user()->user_type == 0 || Auth::user()->user_type == 1))) {
             return redirect()->back()->with("error", "Bu Kullanıcının şifresini değiştiremezsiniz");
         }
+
+        /*
+                if (($user->code == 0) && (Auth::user()->user_type != 0)) {
+            return redirect()->back()->with("error", "Bu Kullanıcının şifresini değiştiremezsiniz");
+        }*/
 
         $user->password = Hash::make($request->password);
         $user->update_user_code = Auth::user()->code;
         $user->save();
 
-        return redirect()->route('admin_user_list')->with("success", $this->successDeleteMessage);
+        return redirect()->back()->with("success", "Başarılı Bir Şekilde Şifre Değiştirildi.");
     }
 
     public function userGetData(Request $request)

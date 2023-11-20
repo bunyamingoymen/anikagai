@@ -4,15 +4,11 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <form class="needs-validation" id="animeEpisodeCreateForm" action="" method="POST"
+                <form class="needs-validation" id="webtoonEpisodeCreateForm" action="" method="POST"
                     enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-md-12 mb-3 mt-4">
-                            <div>
-                                <p>Kaydet butonuna basıldığında video kaydedilmeye başlanacaktır. Lütfen tamamlanmadan
-                                    sayfayı kapatmayınız.</p>
-                            </div>
                             <div class="progress" style="height: 30px;">
                                 <div class="progress-bar progress-bar-striped bg-danger progress-bar-animated"
                                     role="progressbar" id="progress-bar-video" style="width: 25%;" aria-valuenow="0"
@@ -28,10 +24,10 @@
                                 required>
                         </div>
                         <div class="col-md-4 mb-3">
-                            <label for="anime_code">Anime:</label>
-                            <select name="anime_code" id="anime_code" class="form-control" required>
-                                @foreach ($animes as $anime)
-                                <option value="{{$anime->code}}">{{$anime->name}}</option>
+                            <label for="webtoon_code">Webtoon:</label>
+                            <select name="webtoon_code" id="webtoon_code" class="form-control" required>
+                                @foreach ($webtoons as $webtoon)
+                                <option value="{{$webtoon->code}}">{{$webtoon->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -63,7 +59,7 @@
                     </div>
                     <div style="float: right;">
                         <button class="btn btn-primary" type="button"
-                            onclick="animeEpisodeCreateFormSubmit()">Kaydet</button>
+                            onclick="webtoonEpisodeCreateFormSubmit()">Kaydet</button>
                     </div>
                 </form>
             </div>
@@ -71,7 +67,7 @@
     </div>
 </div>
 <script>
-    function animeEpisodeCreateFormSubmit(){
+    function webtoonEpisodeCreateFormSubmit(){
         var video = document.getElementById('video').value;
         var name = document.getElementById('name').value;
         var season_short = document.getElementById('season_short').value;
@@ -86,7 +82,7 @@
             })
         }else{
 
-            var formData = new FormData(document.getElementById('animeEpisodeCreateForm'));
+            var formData = new FormData(document.getElementById('webtoonEpisodeCreateForm'));
 
             Swal.fire({
                 title: "Yükleniyor..!",
@@ -100,7 +96,7 @@
                 }
             });
             $.ajax({
-                url: '{{route("admin_anime_episodes_create")}}', // Dosya yüklemeyi işleyen PHP dosyanızın yolunu belirtin.
+                url: '{{route("admin_webtoon_episodes_create")}}', // Dosya yüklemeyi işleyen PHP dosyanızın yolunu belirtin.
                 type: 'POST',
                 data: formData,
                 processData: false,

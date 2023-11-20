@@ -5,7 +5,6 @@
         <div class="card">
             <div class="card-body">
                 <div class="" style="">
-                    <h4 class="header-title">KeyValue </h4>
                     <a class="btn btn-primary mb-3" style="float: right;"
                         href="{{route('admin_keyvalue_create_screen')}}">+ Yeni</a>
                 </div>

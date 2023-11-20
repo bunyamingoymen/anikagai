@@ -5,8 +5,8 @@
         <div class="card">
             <div class="card-body">
                 <div class="" style="">
-                    <a class="btn btn-primary mb-3" style="float: right;" href="{{route('admin_user_create_screen')}}">+
-                        Yeni</a>
+                    <a class="btn btn-primary mb-3" style="float: right;"
+                        href="{{route('admin_webtoon_episodes_create_screen')}}">+ Yeni</a>
                 </div>
 
 
@@ -16,14 +16,14 @@
                             <th scope="col">..</th>
                             <th scope="col">#</th>
                             <th scope="col">Resim</th>
-                            <th scope="col">İsim</th>
-                            <th scope="col">Soyisim</th>
-                            <th scope="col">E-mail</th>
-                            <th scope="col">Kullanıcı Grubu</th>
+                            <th scope="col">Webtoon</th>
+                            <th scope="col">Bölüm Adı</th>
+                            <th scope="col">Sezon</th>
+                            <th scope="col">Bölüm</th>
                         </tr>
                     </thead>
-                    <tbody id="userTableTbody">
-                        @foreach ($users as $item)
+                    <tbody id="webtoonTableTbody">
+                        @foreach ($webtoon_episodes as $item)
                         <tr>
                             <td>
                                 <div class="btn-group">
@@ -33,28 +33,21 @@
                                     </button>
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item" href="javascript:;"
-                                            onclick="deleteUser({{$item->code}})">Sil</a>
+                                            onclick="deleteWebtoonEpisde({{$item->code}})">Sil</a>
                                         <a class="dropdown-item"
-                                            href="{{route('admin_user_update_screen')}}?code={{$item->code}}">Güncelle</a>
-                                        <a class="dropdown-item" href="javascript:;"
-                                            onclick="changePassword({{$item->code}})">Şifreyi
-                                            Değiştir</a>
-                                        <a class="dropdown-item"
-                                            href="{{route('admin_profile')}}?code={{$item->code}}">Görüntüle</a>
-                                        <a class="dropdown-item" href="Javascript:;"
-                                            onclick="sendMessage('{{$user->code}}',0);">Mesaj Gönder</a>
+                                            href="{{route('admin_webtoon_episodes_update_screen')}}?code={{$item->code}}">Güncelle</a>
                                     </div>
                                 </div>
                             </td>
                             <th scope="row">{{$item->code}}</th>
                             <td>
-                                <img class="rounded-circle header-profile-user" src="../../../{{$item->image ?? ''}}"
-                                    alt="{{$item->name}}">
+                                <img class="rounded-circle header-profile-user"
+                                    src="../../../{{$item->webtoon_image ?? ''}}" alt="{{$item->name}}">
                             </td>
+                            <td>{{$item->webtoon_name}}</td>
                             <td>{{$item->name}}</td>
-                            <td>{{$item->surname}}</td>
-                            <td>{{$item->email}}</td>
-                            <td>{{$item->user_type}}</td>
+                            <td>{{$item->season_short}}</td>
+                            <td>{{$item->episode_short}}</td>
                         </tr>
                         @endforeach
 
@@ -107,11 +100,11 @@
         });
         $.ajax({
             type: 'POST',
-            url: '{{route("admin_user_get_data")}}',
+            url: '{{route("admin_webtoon_get_data")}}',
             data:{ page:page},
-            success: function(users) {
+            success: function(webtoons) {
                 var code = ``;
-                for(let i = 0; i<users.length; i++){
+                for(let i = 0; i<webtoons.length; i++){
                     code += `<tr>
                             <td>
                                 <div class="btn-group">
@@ -120,23 +113,22 @@
                                         ...
                                     </button>
                                     <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="javascript:;" onclick="deleteUser(`+users[i].code+`)">Sil</a>
+                                        <a class="dropdown-item" href="javascript:;" onclick="deleteWebtoonEpisde(`+webtoons[i].code+`)">Sil</a>
                                         <a class="dropdown-item"
-                                            href="{{route('admin_user_update_screen')}}?code=`+users[i].code+`">Güncelle</a>
-                                        <a class="dropdown-item" href="javascript:;" onclick="changePassword(`+users[i].code+`)">Şifreyi
-                                            Değiştir</a>
-                                        <a class="dropdown-item" href="{{route('admin_profile')}}?code=`+users[i].code+`">Görüntüle</a>
-                                        <a class="dropdown-item" href="javascript:;" onclick="sendMessage('{{$user->code}}',0);">Mesaj At</a>
+                                            href="{{route('admin_webtoon_episodes_update_screen')}}?code=`+webtoons[i].code+`">Güncelle</a>
                                     </div>
                                 </div>
                             </td>
-                            <th scope="row">`+users[i].code+`</th>
-                            <td>`+users[i].name+`</td>
-                            <td>`+users[i].surname+`</td>
-                            <td>`+users[i].email+`</td>
-                            <td>`+users[i].user_type+`</td>
+                            <th scope="row">`+webtoons[i].code+`</th>
+                            <td>
+                                <img class="rounded-circle header-profile-user" src="../../../`+webtoons[i].webtoon_image+`" alt="`+webtoons[i].webtoon_name+`">
+                                </td>
+                            <td>`+webtoons[i].webtoon_name+`</td>
+                            <td>`+webtoons[i].name+`</td>
+                            <td>`+webtoons[i].season_short+`</td>
+                            <td>`+webtoons[i].episode_short+`</td>
                         </tr>`;
-                    document.getElementById('userTableTbody').innerHTML = code;
+                    document.getElementById('webtoonTableTbody').innerHTML = code;
                 }
 
                 currentPaginationId = 'pagination'+currentPage;
@@ -163,7 +155,7 @@
 </script>
 
 <script>
-    function deleteUser(code){
+    function deleteWebtoonEpisde(code){
         Swal.fire({
             title: 'Emin Misin?',
             text: 'Bu Veriyi Silmek İstiyor musunuz(ID: '+code+')?',
@@ -175,59 +167,15 @@
         }).then((result) => {
         /* Read more about isConfirmed, isDenied below */
             if (result.isConfirmed) {
-                var html = `<form action='{{route('admin_user_delete')}}' method="POST" id="deleteUserForm"> @csrf`;
+                var html = `<form action='{{route('admin_webtoon_episodes_delete')}}' method="POST" id="deleteWebtoonEpisdeForm"> @csrf`;
                     html += `<input type="text" name="code" value='`+code+`'>`;
                     html += `</form>`
 
                 document.getElementById('hiddenDiv').innerHTML = html;
 
-                document.getElementById('deleteUserForm').submit();
+                document.getElementById('deleteWebtoonEpisdeForm').submit();
             }
         })
-    }
-
-    function changePassword(code){
-            Swal.fire({
-                title: '<strong>Şifre Değiştir</strong>',
-                icon: 'warning',
-                html:
-                `
-                <div class="col-lg-12 mt-2">
-                    <input type="password" class="form-control" id="changePassword" placeholder="Şifre">
-                </div>
-                <div class="col-lg-12 mt-2">
-                    <input type="password" class="form-control" id="changePasswordRepeat" placeholder="Şifre Tekrarı">
-                </div>
-                `,
-                showCancelButton: true,
-                confirmButtonText: 'Kaydet',
-                cancelButtonText: `Vazgeç`,
-            }).then((result) => {
-                if(result.value){
-                    var password = document.getElementById("changePassword").value;
-                    var password_repeat = document.getElementById("changePasswordRepeat").value;
-                    if(password != password_repeat){
-                        swal.close();
-                        Swal.fire({
-                        title: 'Hata',
-                        icon:"error",
-                        text: 'Şifre ile şifre tekrarı aynı değil. Lütfen tekrar giriniz.',
-                        showCancelButton: false,
-                        }).then((result) => {
-                        changePassword(code);
-                        })
-                    }else{
-                        var html = `<form action='{{route('admin_user_change_password')}}' method="POST" id="changePasswordUserForm"> @csrf`;
-                            html += `<input type="text" name="code" value='`+code+`'>`;
-                            html += `<input type="password" name="password" value='`+password+`'>`;
-                            html += `</form>`
-
-                        document.getElementById('hiddenDiv').innerHTML = html;
-
-                        document.getElementById('changePasswordUserForm').submit();
-                    }
-                }
-            })
     }
 </script>
 

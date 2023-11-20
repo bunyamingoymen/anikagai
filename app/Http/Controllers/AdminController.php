@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FollowUser;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -11,6 +14,28 @@ class AdminController extends Controller
     {
         $title = "Anaysafa";
         return view('admin.index', ["title" => $title]);
+    }
+
+    public function profile(Request $request)
+    {
+        $title = "Profil";
+        $followed = 0;
+
+        if ($request->has('code')) {
+            $user = User::Where('code', $request->code)->first();
+            $follow = FollowUser::Where('followed_user_code', $request->code)->Where('user_code', Auth::user()->code)->first();
+            if ($follow) $followed = 1;
+        } else {
+            $user = Auth::user();
+        }
+
+        $followed_users = DB::table('follow_users')
+            ->Where('follow_users.user_code', $user->code)
+            ->join('users', 'users.code', '=', 'follow_users.followed_user_code')
+            ->select('users.code as user_code', 'users.name as user_name', 'users.surname as user_surname', 'users.image as user_image', 'users.description as user_description')
+            ->get();
+
+        return view('admin.users.profile', ["title" => $title, 'user' => $user, 'followed' => $followed, 'followed_users' => $followed_users]);
     }
 
     public function loginScreen()

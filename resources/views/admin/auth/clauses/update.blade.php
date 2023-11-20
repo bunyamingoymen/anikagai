@@ -4,10 +4,6 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="header-title">Yetki Maddesi Güncelle</h4>
-                <p class="card-title-desc">
-                    Yetki Maddesini, aşağıdaki verileri değiştirerek güncelleyebilirsiniz
-                </p>
 
                 <form class="needs-validation" id="authClauseUpdateForm" action="{{route('admin_authclause_update')}}"
                     method="POST">

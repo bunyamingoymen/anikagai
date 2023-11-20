@@ -15,7 +15,7 @@
 <div hidden>
     <!-- Large modal -->
     <button type="button" class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="modal"
-        data-target=".addEventModal" id="addEventModalButton">Modal demo</button>
+        data-target=".addEventModal" id="addEventModalButton">Modal</button>
 </div>
 
 
@@ -135,12 +135,27 @@
     }
 
     function addEventSubmitButton() {
-        var backgroundColors = ["#000", "#007BFF", "#28a745", "#6C757D", "#DC3545", "#FFC107", "#17A2B8", "#800080", "#343A40",
-        "#FF0500"]
-        randomColor = Math.floor(Math.random() * backgroundColors.length);
-        background_color = backgroundColors[randomColor];
-        document.getElementById("background_color").value = background_color;
-        document.getElementById("addEventSubmitForm").submit();
+        var anime_code = document.getElementById('anime_code').value;
+        var first_date = document.getElementById('first_date').value;
+        var cycle_type = document.getElementById('cycle_type').value;
+        if(anime_code == "" || first_date == "" || cycle_type == ""){
+            $('.addEventModal').modal('hide');
+            Swal.fire({
+                icon: 'error',
+                title: 'Hata',
+                text: 'Lütfen Gerekli Doldurunuz!',
+            }).then((result) => {
+                $('.addEventModal').modal('show');
+            })
+        }else{
+            var backgroundColors = ["#000", "#007BFF", "#28a745", "#6C757D", "#DC3545", "#FFC107", "#17A2B8", "#800080", "#343A40",
+            "#FF0500"]
+            randomColor = Math.floor(Math.random() * backgroundColors.length);
+            background_color = backgroundColors[randomColor];
+            document.getElementById("background_color").value = background_color;
+            document.getElementById("addEventSubmitForm").submit();
+        }
+
     }
 </script>
 <script>

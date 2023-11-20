@@ -4,10 +4,6 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <h4 class="header-title">Kullanıcı Grubu Oluştur</h4>
-                <p class="card-title-desc">
-                    Aşağıdaki değerleri doldurarak yeni bir kullanıcı grubu oluşturabilirsiniz
-                </p>
 
                 <form class="needs-validation" id="AuthGroupCreateForm" action="{{route('admin_authgroup_create')}}"
                     method="POST">
