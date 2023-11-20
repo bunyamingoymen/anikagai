@@ -16,7 +16,7 @@ class WebtoonEpisodeController extends Controller
 
         $webtoon_episodes = DB::table('webtoon_episodes')
             ->join('webtoons', 'webtoons.code', '=', 'webtoon_episodes.webtoon_code')
-            ->select('webtoon_episodes.*', 'webtoons.name as webtoon_name', 'webtoon.image as webtoon_image')
+            ->select('webtoon_episodes.*', 'webtoons.name as webtoon_name', 'webtoons.image as webtoon_image')
             ->get();
         $currentCount = 1;
         $pageCountTest = WebtoonEpisode::Where('deleted', 0)->count();

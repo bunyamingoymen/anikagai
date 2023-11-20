@@ -34,7 +34,7 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="{{route('admin_webtoon_list')}}">Webtoon'lar</a></li>
-                        <li><a href="#">Bölümler</a></li>
+                        <li><a href="{{route('admin_webtoon_episodes_list')}}">Bölümler</a></li>
                         <li><a href="{{route('admin_webtooncalendar_index')}}">Takvim</a></li>
                     </ul>
                 </li>

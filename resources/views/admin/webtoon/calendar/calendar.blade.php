@@ -135,7 +135,7 @@
     }
 
     function addEventSubmitButton() {
-        var anime_code = document.getElementById('anime_code').value;
+        var anime_code = document.getElementById('webtoon_code').value;
         var first_date = document.getElementById('first_date').value;
         var cycle_type = document.getElementById('cycle_type').value;
         if(anime_code == "" || first_date == "" || cycle_type == ""){
@@ -262,7 +262,7 @@
             var dateDifference = end_date - start_date;
 
             // Farkı kontrol et ve 2 aydan fazlaysa end_date'i ayarla
-            if ((dateDifference > (2 * 30 * 24 * 60 * 60 * 1000)) && repeat_type != 4) {
+            if ((dateDifference > (2 * 30 * 24 * 60 * 60 * 1000)) && repeat_type != 4 && end_date != "1970-01-01") {
                 end_date = new Date(start_date.getTime()); // start_date'in bir kopyasını al
                 end_date.setMonth(end_date.getMonth() + 2);
             }
@@ -290,40 +290,51 @@
 
     function addEventsRepeats(repeat_type, interval, start_date, end_date, webtoon_name, backgroundColor, webtoon_code) {
         interval = parseInt(interval);
-        console.log("---------------------------------------------------------------------------")
-        while (start_date <= end_date) {
-                console.log('yüklenen: ' + start_date.toISOString());
-                var baslangici = new Date(start_date);
+        if(JSON.stringify(end_date).split("T")[0].replace('"','') == "1970-01-01"){
+            var baslangici = new Date(start_date);
+            var event = {
+                code: webtoon_code,
+                title: webtoon_name, // a property!
+                start: baslangici.toISOString().split('T')[0],
+                end: baslangici.toISOString().split('T')[0],
+                backgroundColor: backgroundColor,
+            };
+            calendar.addEvent(event);
+        }else{
+            while (start_date <= end_date) {
+                    console.log('yüklenen: ' + start_date.toISOString());
+                    var baslangici = new Date(start_date);
 
-                //baslangic: haftaBaslangici.toISOString().split('T')[0],
-                //bitis: haftaBitisi.toISOString().split('T')[0]
+                    //baslangic: haftaBaslangici.toISOString().split('T')[0],
+                    //bitis: haftaBitisi.toISOString().split('T')[0]
 
-                if(baslangici <= end_date){
-                    var event = {
-                            code: webtoon_code,
-                            title: webtoon_name, // a property!
-                            start: baslangici.toISOString().split('T')[0],
-                            end: baslangici.toISOString().split('T')[0],
-                            backgroundColor: backgroundColor,
-                        };
-                    calendar.addEvent(event);
-                }
+                    if(baslangici <= end_date){
+                        var event = {
+                                code: webtoon_code,
+                                title: webtoon_name, // a property!
+                                start: baslangici.toISOString().split('T')[0],
+                                end: baslangici.toISOString().split('T')[0],
+                                backgroundColor: backgroundColor,
+                            };
+                        calendar.addEvent(event);
+                    }
 
-                if(repeat_type == 0){
-                    break;
-                }
-                else if(repeat_type == 1){
-                    start_date.setDate(start_date.getDate() + 1 * interval);
-                }else if( repeat_type == 2){
-                    start_date.setDate(start_date.getDate() + 7 * interval);
-                    //start_date.setDate(start_date.getDate() + (5 - start_date.getDay() + 7) % 7);
-                }else if( repeat_type == 3){
-                    start_date.setMonth(start_date.getMonth() + interval);
-                }else if(repeat_type == 4){
-                    start_date.setFullYear(start_date.getFullYear() + interval);
-                }
+                    if(repeat_type == 0){
+                        break;
+                    }
+                    else if(repeat_type == 1){
+                        start_date.setDate(start_date.getDate() + 1 * interval);
+                    }else if( repeat_type == 2){
+                        start_date.setDate(start_date.getDate() + 7 * interval);
+                        //start_date.setDate(start_date.getDate() + (5 - start_date.getDay() + 7) % 7);
+                    }else if( repeat_type == 3){
+                        start_date.setMonth(start_date.getMonth() + interval);
+                    }else if(repeat_type == 4){
+                        start_date.setFullYear(start_date.getFullYear() + interval);
+                    }
 
             }
+        }
     }
 
 </script>
