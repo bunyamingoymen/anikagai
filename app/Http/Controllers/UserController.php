@@ -6,6 +6,7 @@ use App\Models\AuthorizationGroup;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -42,7 +43,7 @@ class UserController extends Controller
 
         $user_email = User::Where('email', $request->email)->first();
         if ($user_email) {
-            return redirect()->back()->with('error', "Bu kullanıcı E-mail'i zaten kayıtlı.");
+            return redirect()->back()->with('error', Config::get('error.error_codes.0010010'));
         }
 
         $user->name = $request->name;
@@ -83,7 +84,7 @@ class UserController extends Controller
         $user = User::Where('code', $request->code)->Where('deleted', 0)->first();
 
         if (!$user)
-            return redirect()->back()->with("error", $this->errorsUpdateMessage . " Error: 0x00015");
+            return redirect()->back()->with("error", Config::get('error.error_codes.0010002'));
 
         $title = "Kullanıcıyı Güncelle";
 
@@ -97,20 +98,20 @@ class UserController extends Controller
         $user = User::Where('code', $request->code)->Where('deleted', 0)->first();
 
         if (!$user)
-            return redirect()->back()->with("error", $this->errorsUpdateMessage . " Error: 0x00016");
+            return redirect()->back()->with("error", Config::get('error.error_codes.0010012'));
 
         $user_email = User::Where('email', $request->email)->Where('code', "!=", $request->code)->first();
 
         if ($user_email) {
-            return redirect()->back()->with('error', "Bu kullanıcı E-mail'i zaten kayıtlı.");
+            return redirect()->back()->with('error', Config::get('error.error_codes.0010010'));
         }
-        //dd($user->toArray());
+
         if (($user->code == 0 || $user->code == 1) && ($request->user_type != 0 || $request->code != 1)) {
-            return redirect()->back()->with('error', "Bu kullanıcı bu grubu alamaz");
+            return redirect()->back()->with('error', Config::get('error.error_codes.0000000'));
         }
 
         if (($user->code == 0 || $user->code == 1) && !$request->admin) {
-            return redirect()->back()->with('error', "Bu kullanıcının giriş yetkisi değiştirilemez");
+            return redirect()->back()->with('error', Config::get('error.error_codes.0000000'));
         }
 
         $user->name = $request->name;
@@ -148,10 +149,10 @@ class UserController extends Controller
         $user = User::Where('code', $request->code)->Where('deleted', 0)->first();
 
         if (!$user)
-            return redirect()->back()->with("error", $this->errorsDeleteMessage . " Error: 0x00017");
+            return redirect()->back()->with("error", Config::get('error.error_codes.0010013'));
 
         if ($user->code == 0 || $user->code == 1) {
-            return redirect()->back()->with("error", "Bu Kullanıcı Silinemez");
+            return redirect()->back()->with("error", Config::get('error.error_codes.0000000'));
         }
 
         $user->deleted = 1;
@@ -166,11 +167,11 @@ class UserController extends Controller
         $user = User::Where('code', $request->code)->Where('deleted', 0)->first();
 
         if (!$user)
-            return redirect()->back()->with("error", $this->errorsDeleteMessage . " Error: 0x00017");
+            return redirect()->back()->with("error", Config::get('error.error_codes.0010112'));
 
         //dd(Auth::user()->user_type);
         if (!(($user->user_type == 0 || $user->user_type == 1) && (Auth::user()->user_type == 0 || Auth::user()->user_type == 1))) {
-            return redirect()->back()->with("error", "Bu Kullanıcının şifresini değiştiremezsiniz");
+            return redirect()->back()->with("error", Config::get('error.error_codes.0000000'));
         }
 
         /*

@@ -13,18 +13,35 @@ Hata Kodu Tanımı:
 
 Sayfaların kodları:
 0=> KeyValue
+1=> User  => 0010013
+2=> Yetki Maddeleri
+3=> Yetki Grupları
+4=> Yetkilendirme
+5=> Anime
+6=> Anime Takvimi
+7=> Anime Episode
+8=> Webtoon
+9=> Webtoon Takvimi
+10=> Webtoon Episode
+11=> Logo_Data
+12=> Menu_Data
+13=> Meta_Data
+14=> Social_Data
+15=> Title_Data
+
 
 */
 return [
     'error_codes' => [
+        '0000000' => "Bu İşlemi Yapmak İçin Erişim Yetkiniz Bulunmamaktadır.",
         '0000002' => 'KeyValue Güncellenirken Bir Hata Meydana Geldi',
         '0000012' => 'KeyValue Güncellenirken Post işleminde bir hata meydana geldi',
         '0000013' => 'KeyValue Silinirken Bir Hata Meydana Geldi',
-        '5003' => 'Custom Error 2',
-        '5004' => 'Custom Error 2',
-        '5005' => 'Custom Error 2',
-        '5006' => 'Custom Error 2',
-        '5007' => 'Custom Error 2',
+        '0010010' => "Bu E-Mail'e ait başka bir kullanıcı bulunmaktadır.",
+        '0010002' => 'Kullanıcı Güncelleme Ekranına Giderken Bir Sorun Oluştu',
+        '0010012' => 'Kullanıcı Güncellenirken Bir Hata Meydana Geldi',
+        '0010013' => 'Kullanıcı Silinirken Bir Hata Meydana Geldi',
+        '0010112' => 'Kullanıcının Şifresi Güncellenirken Bir Hata Meydana Geldi',
         '5008' => 'Custom Error 2',
         '5009' => 'Custom Error 2',
         '5010' => 'Custom Error 2',
