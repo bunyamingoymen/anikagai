@@ -42,7 +42,7 @@
                                         <a class="dropdown-item"
                                             href="{{route('admin_profile')}}?code={{$item->code}}">Görüntüle</a>
                                         <a class="dropdown-item" href="Javascript:;"
-                                            onclick="sendMessage('{{$user->code}}',0);">Mesaj Gönder</a>
+                                            onclick="sendMessage('{{$item->code}}',0);">Mesaj Gönder</a>
                                     </div>
                                 </div>
                             </td>
@@ -126,7 +126,7 @@
                                         <a class="dropdown-item" href="javascript:;" onclick="changePassword(`+users[i].code+`)">Şifreyi
                                             Değiştir</a>
                                         <a class="dropdown-item" href="{{route('admin_profile')}}?code=`+users[i].code+`">Görüntüle</a>
-                                        <a class="dropdown-item" href="javascript:;" onclick="sendMessage('{{$user->code}}',0);">Mesaj At</a>
+                                        <a class="dropdown-item" href="javascript:;" onclick="sendMessage('`+users[i].code+`',0);">Mesaj At</a>
                                     </div>
                                 </div>
                             </td>

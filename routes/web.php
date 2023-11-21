@@ -7,6 +7,7 @@ use App\Http\Controllers\AnimeEpisodecontroller;
 use App\Http\Controllers\AuthClauseController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AuthGroupController;
+use App\Http\Controllers\DataController;
 use App\Http\Controllers\FollowUserController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\KeyValueController;
@@ -23,11 +24,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [IndexController::class, 'index'])->name('index');
 
-Route::get('/anime/liste', [IndexController::class, 'list'])->name('list');
+Route::get('/animeler', [IndexController::class, 'list'])->name('list');
 
 Route::get('/anime/{anime_name}', [IndexController::class, 'animeDetail'])->name('animeDetail');
 
 Route::get('/anime/{anime_name}/{episode_name}', [IndexController::class, 'watch'])->name('watch');
+
+Route::get('/webtoonlar', [IndexController::class, 'webtoonDetail'])->name('webtoonDetail');
 
 Route::get('/webtoon/{webtoon_name}', [IndexController::class, 'webtoonDetail'])->name('webtoonDetail');
 
@@ -173,6 +176,30 @@ Route::middleware(['auth'])->group(function () {
     Route::get("/admin/webtoon/calendar", [WebtoonCalendarController::class, "index"])->name('admin_webtooncalendar_index');
 
     Route::post("/admin/webtoon/calendar/addEvent", [WebtoonCalendarController::class, "addEvent"])->name('admin_webtooncalendar_addevent');
+
+    //-------------------------------------------------------------------
+    Route::get("/admin/data/logo", [DataController::class, "logoList"])->name('admin_data_logo_list');
+    Route::post("/admin/data/logo", [DataController::class, "logoChange"])->name('admin_data_logo');
+
+    Route::get("/admin/data/menu", [DataController::class, "menuList"])->name('admin_data_menu_list');
+    Route::post("/admin/data/menu/add", [DataController::class, "menuAdd"])->name('admin_data_menu_add');
+    Route::post("/admin/data/menu/update", [DataController::class, "menuUpdate"])->name('admin_data_menu_update');
+    Route::post("/admin/data/menu/delete", [DataController::class, "menuDelete"])->name('admin_data_menu_delete');
+
+
+    Route::get("/admin/data/meta", [DataController::class, "metaList"])->name('admin_data_meta_list');
+    Route::post("/admin/data/meta/add", [DataController::class, "metaAdd"])->name('admin_data_meta_add');
+    Route::post("/admin/data/meta/update", [DataController::class, "metaUpdate"])->name('admin_data_meta_update');
+    Route::post("/admin/data/meta/delete", [DataController::class, "metaDelete"])->name('admin_data_meta_delete');
+
+    Route::get("/admin/data/social", [DataController::class, "socialList"])->name('admin_data_social_list');
+    Route::post("/admin/data/social/add", [DataController::class, "socialAdd"])->name('admin_data_social_add');
+    Route::post("/admin/data/social/update", [DataController::class, "socialUpdate"])->name('admin_data_social_update');
+    Route::post("/admin/data/social/delete", [DataController::class, "socialDelete"])->name('admin_data_social_delete');
+
+    Route::get("/admin/data/title", [DataController::class, "titleList"])->name('admin_data_title_list');
+    Route::post("/admin/data/title", [DataController::class, "titleChange"])->name('admin_data_title');
+    //-------------------------------------------------------------------
 
     Route::get('test', function () {
         dd(phpinfo());

@@ -5,17 +5,16 @@
                 <div class="row align-items-center">
                     <div class="col-lg-3">
                         <div class="footer-logo">
-                            <a href="index.html"><img src="../../../user/img/logo/logo.png" alt=""
+                            <a href="{{route('index')}}"><img src="../../../{{$logo_footer->value}}" alt=""
                                     style="max-width: 155px;"></a>
                         </div>
                     </div>
+
                     <div class="col-lg-9">
                         <div class="row align-items-center">
                             <div class="col-md-10">
                                 <div class="quick-link-list">
-                                    <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptas illo animi
-                                        dolore vitae nemo assumenda praesentium aperiam commodi, eum repellendus
-                                        sint error, veritatis tempora unde maxime rerum corporis ipsum sunt.</p>
+                                    <p>{{$index_text->value}}</p>
                                 </div>
                             </div>
                         </div>
@@ -23,10 +22,10 @@
                             <nav>
                                 <div class="footer-social">
                                     <ul>
-                                        <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                                        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                                        <li><a href="#"><i class="fab fa-pinterest-p"></i></a></li>
-                                        <li><a href="#"><i class="fab fa-linkedin-in"></i></a></li>
+                                        @foreach ($social_media as $item)
+                                        <li><a href="{{$item->optional ?? ''}}"><i
+                                                    class="fab fa-{{$item->value}}"></i></a></li>
+                                        @endforeach
                                     </ul>
                                 </div>
                             </nav>
@@ -41,7 +40,8 @@
             <div class="row">
                 <div class="col-lg-6 col-md-6">
                     <div class="copyright-text">
-                        <p>Copyright &copy; 2023. All Rights Reserved By <a href="index.html">Anikagai</a></p>
+                        <p>
+                            {!! $footer_copyright->value !!}
                     </div>
                 </div>
             </div>

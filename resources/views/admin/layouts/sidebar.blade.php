@@ -39,6 +39,17 @@
                     </ul>
                 </li>
 
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="mdi mdi-cogs"></i>
+                        <span>Diğer Veriler</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="#">Kategoriler</a></li>
+                        <li><a href="#">Etiketler</a></li>
+                    </ul>
+                </li>
+
                 <li class="menu-title">Yönetim</li>
 
                 <li>
@@ -61,10 +72,22 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li><a href="#">Anasayfa Ayarları</a></li>
-                        <li><a href="#">Logolar</a></li>
-                        <li><a href="#">Meta Etiketleri</a></li>
-                        <li><a href="#">Başlıklar</a></li>
-                        <li><a href="#">Menüler</a></li>
+                        <li><a href="{{route('admin_data_logo_list')}}">Logolar</a></li>
+                        <li><a href="{{route('admin_data_meta_list')}}">Meta Etiketleri</a></li>
+                        <li><a href="{{route('admin_data_title_list')}}">Başlıklar</a></li>
+                        <li><a href="{{route('admin_data_menu_list')}}">Menüler</a></li>
+                        <li><a href="{{route('admin_data_social_list')}}">Sosyal Medya</a></li>
+                        <li><a href="#">Sayfalar</a></li>
+                    </ul>
+                </li>
+
+                <li>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="mdi mdi-hexagon-multiple-outline"></i>
+                        <span>Yönetim</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="#">Admin Meta Etiketleri</a></li>
                         <li><a href="{{route('admin_keyvalue_list')}}">Key Value</a></li>
                         <li><a href="{{route('admin_authclause_list')}}">Yetki Maddeleri</a></li>
                     </ul>

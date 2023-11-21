@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\KeyValue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 
 class KeyValueController extends Controller
 {
@@ -54,7 +55,7 @@ class KeyValueController extends Controller
         $keyValue = KeyValue::Where('code', $request->code)->Where('deleted', 0)->first();
 
         if (!$keyValue)
-            return redirect()->back()->with("error", $this->errorsUpdateMessage . " Error: 0x00001");
+            return redirect()->back()->with("error", Config::get('error.error_codes.0000002'));
 
         $title = "KeyValue Güncelle";
 
@@ -66,7 +67,7 @@ class KeyValueController extends Controller
         $keyValue = KeyValue::Where('code', $request->code)->Where('deleted', 0)->first();
 
         if (!$keyValue)
-            return redirect()->back()->with("error", $this->errorsUpdateMessage . " Error: 0x00002");
+            return redirect()->back()->with("error", Config::get('error.error_codes.0000012'));
 
         $keyValue->key = $request->key;
         $keyValue->value = $request->value;
@@ -85,7 +86,7 @@ class KeyValueController extends Controller
         $keyValue = KeyValue::Where('code', $request->code)->Where('deleted', 0)->first();
 
         if (!$keyValue)
-            return redirect()->back()->with("error", $this->errorsDeleteMessage . " Error: 0x00003");
+            return redirect()->back()->with("error", Config::get('error.error_codes.0000013'));
 
         $keyValue->deleted = 1;
         $keyValue->update_user_code = Auth::user()->code;

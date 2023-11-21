@@ -3,17 +3,17 @@
 
 <head>
     <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Anikagai - Webtoon Ve Anime</title>
+    @foreach ($admin_meta as $item)
+    <meta http-equiv="{{$item->optional_2 ?? ''}}" name="{{$item->value}}" content="{{$item->optional ?? ''}}">
+    @endforeach
 
-    <meta name="description" content="Webtoon okuyabilir ve Anime izleyebilirsiniz">
-    <meta name="author" content="Bünyamin Göymen">
-    <meta name="author2" content="bgoymen">
-    <META name="Copyright" content="Bu sitenin hakları Bünyamin Göymen ve Anikagai'ye aittir">
+    @foreach ($meta as $item)
+    <meta http-equiv="{{$item->optional_2 ?? ''}}" name="{{$item->value}}" content="{{$item->optional ?? ''}}">
+    @endforeach
 
-    <meta http-equiv="language" content="tr"> <!-- Türkçe -->
+    <title>{{$index_title->value}}</title>
 
-    <link rel="shortcut icon" type="image/x-icon" href="../../../user/img/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="../../../{{$index_icon->value}}">
 
     <!-- CSS here -->
     <link rel="stylesheet" href="../../../user/css/bootstrap.min.css">
@@ -72,5 +72,6 @@
     <script src="../../../user/js/plugins.js"></script>
     <script src="../../../user/js/main.js"></script>
 </body>
+
 
 </html>

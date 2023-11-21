@@ -47,7 +47,6 @@ Yapılacaklar:
 user tablosuna facebook,intagram,twitter ve discord eklenecek
 Modallar ayarlanacak
 index_user tablosu oluşturulup config dosyaları buna göre düzenlenecek
-Admin sayfasındaki bütün formlara kontrol eklenmeli.
-Bütün tablolarda description nullable olmalı
-AppProviders ile bildirimlerini ayarlama
 Appproviders ile yetkilendirmeyi ayarla
+
+//TODO hata kodları, başarılı mesajları ve başlıklar config dosyası düzenelnecek

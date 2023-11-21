@@ -7,14 +7,14 @@
                 <div class="col-md-6">
                     <div class="header-top-link">
                         <ul class="quick-link">
-                            <li><a href="#">Hakkımızda</a></li>
-                            <li><a href="#">Discord</a></li>
+                            @foreach ($menu_alts as $item)
+                            <li><a href="{{$item->optional_2 ?? '#'}}">{{$item->value}}</a></li>
+                            @endforeach
                         </ul>
                         <ul class="header-social">
-                            <li><a href="#"><i class="fab fa-facebook-f"></i></a></li>
-                            <li><a href="#"><i class="fab fa-twitter"></i></a></li>
-                            <li><a href="#"><i class="fab fa-instagram"></i></a></li>
-                            <li><a href="#"><i class="fab fa-discord"></i></a></li>
+                            @foreach ($social_media as $item)
+                            <li><a href="{{$item->optional ?? ''}}"><i class="fab fa-{{$item->value}}"></i></a></li>
+                            @endforeach
                         </ul>
                     </div>
                 </div>
@@ -29,16 +29,19 @@
                     <div class="menu-wrap">
                         <nav class="menu-nav show">
                             <div class="logo">
-                                <a href="index.html">
-                                    <img src="../../../user/img/logo/logo.png" alt="Logo" style="max-width: 155px;">
+                                <a href="{{route('index')}}">
+                                    <img src="../../../{{$logo->value}}" alt="Logo" style="max-width: 155px;">
                                 </a>
                             </div>
                             <div class="navbar-wrap main-menu d-none d-lg-flex">
                                 <ul class="navigation">
-                                    <li><a class="active" href="contact.html">Anasayfa</a></li>
-                                    <li><a href="tv-show.html">Animeler</a></li>
-                                    <li><a href="pricing.html">Webtoonlar</a></li>
-                                    <li><a href="contact.html">İletişim</a></li>
+                                    @foreach ($menus as $item)
+                                    @if (isset($active_menu) && $active_menu->code == $item->code)
+                                    <li><a class="active" href="{{$item->optional_2 ?? ''}}">{{$item->value}}</a></li>
+                                    @else
+                                    <li><a href="{{$item->optional_2 ?? ''}}">{{$item->value}}</a></li>
+                                    @endif
+                                    @endforeach
                                 </ul>
                             </div>
                             <div class="header-action d-none d-md-block">
@@ -61,8 +64,8 @@
                         <div class="close-btn"><i class="fas fa-times"></i></div>
 
                         <nav class="menu-box">
-                            <div class="nav-logo"><a href="index.html"><img src="../../../user/img/logo/logo.png" alt=""
-                                        title=""></a>
+                            <div class="nav-logo"><a href="{{route('index')}}"><img
+                                        src="../../../user/img/logo/logo.png" alt="" title=""></a>
                             </div>
                             <div class="menu-outer">
                                 <!--Here Menu Will Come Automatically Via Javascript / Same Menu as in Header-->

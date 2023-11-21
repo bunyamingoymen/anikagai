@@ -2,11 +2,13 @@
 
 namespace App\Providers;
 
+use App\Models\KeyValue;
 use App\Models\NotificationAdmin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Facades\Request;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -23,6 +25,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $indexPages = ['index.layouts.main', 'index.index'];
         $adminPages = ['admin.layouts.main'];
         View::composer($adminPages, function ($view) {
             //$notificationAdmin = NotificationAdmin::Where('deleted', 0)->Where('readed', 0)->Where('to_user_code', Auth::user()->code)->get(); // Burada veritabanından veriyi çekebilirsiniz;
@@ -36,6 +39,34 @@ class AppServiceProvider extends ServiceProvider
             $notificationAdminCount = count($notificationAdmin);
             // Görünüme veriyi gönder
             $view->with('notificationAdmin', $notificationAdmin)->with('notificationAdminCount', $notificationAdminCount);
+        });
+
+        View::composer($indexPages, function ($view) {
+
+            $logo = KeyValue::Where('key', 'index_logo')->first();
+            $logo_footer = KeyValue::Where('key', 'index_logo_footer')->first();
+
+            $index_icon = KeyValue::Where('key', 'index_icon')->first();
+            $index_title = KeyValue::Where('key', 'index_title')->first();
+            $index_text = KeyValue::Where('key', 'index_text')->first();
+
+            $slider_image = KeyValue::Where('key', 'slider_image')->Where('value', 1)->Where('deleted', 0)->get();
+
+            $meta = KeyValue::Where('key', 'meta')->Where('deleted', 0)->get();
+            $admin_meta = KeyValue::Where('key', 'admin_meta')->Where('deleted', 0)->get();
+
+            $social_media = KeyValue::Where('key', 'social_media')->Where('deleted', 0)->get();
+            $menus = KeyValue::Where('key', 'menu')->where('optional', 1)->Where('deleted', 0)->get();
+            $menu_alts = KeyValue::Where('key', 'menu_alt')->where('optional', 1)->Where('deleted', 0)->get();
+            $active_menu = KeyValue::Where('key', 'menu')->Where('optional_2', Request::path())->first();
+
+            $footer_copyright = KeyValue::Where('key', 'footer_copyright')->first();
+
+            $anime_active = KeyValue::Where('key', 'anime_active')->first();
+            $webtoon_active = KeyValue::Where('key', 'webtoon_active')->first();
+
+            // Görünüme veriyi gönder
+            $view->with('logo', $logo)->with('logo_footer', $logo_footer)->with('index_text', $index_text)->with('footer_copyright', $footer_copyright)->with('social_media', $social_media)->with('menus', $menus)->with('menu_alts', $menu_alts)->with('active_menu', $active_menu)->with('index_icon', $index_icon)->with('index_title', $index_title)->with('meta', $meta)->with('admin_meta', $admin_meta)->with('anime_active', $anime_active)->with('webtoon_active', $webtoon_active)->with('slider_image', $slider_image);
         });
     }
 }
