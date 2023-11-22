@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Anime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 
 class AnimeController extends Controller
 {
@@ -68,7 +69,7 @@ class AnimeController extends Controller
         $anime = Anime::Where('code', $request->code)->Where('deleted', 0)->first();
 
         if (!$anime)
-            return redirect()->back()->with("error", $this->errorsUpdateMessage . " Error: 0x00010");
+            return redirect()->back()->with("error", Config::get('error.error_codes.0060002'));
 
         $title = "Anime Güncelle";
 
@@ -80,7 +81,7 @@ class AnimeController extends Controller
         $anime = Anime::Where('code', $request->code)->Where('deleted', 0)->first();
 
         if (!$anime)
-            return redirect()->back()->with("error", $this->errorsUpdateMessage . " Error: 0x00011");
+            return redirect()->back()->with("error", Config::get('error.error_codes.0060012'));
 
         $anime->name = $request->name;
 
@@ -110,7 +111,7 @@ class AnimeController extends Controller
         $anime = Anime::Where('code', $request->code)->Where('deleted', 0)->first();
 
         if (!$anime)
-            return redirect()->back()->with("error", $this->errorsDeleteMessage . " Error: 0x00012");
+            return redirect()->back()->with("error", Config::get('error.error_codes.0060013'));
 
         $anime->deleted = 1;
         $anime->update_user_code = Auth::user()->code;

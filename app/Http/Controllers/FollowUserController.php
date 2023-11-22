@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\FollowUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 
 class FollowUserController extends Controller
 {
@@ -28,7 +29,7 @@ class FollowUserController extends Controller
         $follow = FollowUser::Where('followed_user_code', $request->followed_user_code)->Where('user_code', Auth::user()->code)->first();
 
         if (!$follow) {
-            return redirect()->back()->with('error', 'Kullanıcı takipten çıkarılıken bir hata meydana geldi. Error: 0x00020');
+            return redirect()->back()->with('error', Config::get('error.error_codes.0140012'));
         }
 
         $follow->delete();

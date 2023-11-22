@@ -6,6 +6,7 @@ use App\Models\Webtoon;
 use App\Models\WebtoonEpisode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 
 class WebtoonEpisodeController extends Controller
@@ -81,7 +82,7 @@ class WebtoonEpisodeController extends Controller
         $webtoon_episode = WebtoonEpisode::Where('code', $request->code)->Where('deleted', 0)->first();
 
         if (!$webtoon_episode)
-            return redirect()->back()->with("error", $this->errorsUpdateMessage . " Error: 0x00022");
+            return redirect()->back()->with("error", Config::get('error.error_codes.0110002'));
 
         $webtoons = Webtoon::Where('deleted', 0)->get();
 
@@ -95,7 +96,7 @@ class WebtoonEpisodeController extends Controller
         $webtoon_episode = WebtoonEpisode::Where('code', $request->code)->Where('deleted', 0)->first();
 
         if (!$webtoon_episode)
-            return redirect()->back()->with("error", $this->errorsUpdateMessage . " Error: 0x00023");
+            return redirect()->back()->with("error", Config::get('error.error_codes.0110012'));
 
         $webtoon_episode->name = $request->name;
 
@@ -115,7 +116,7 @@ class WebtoonEpisodeController extends Controller
         $webtoon_episode = WebtoonEpisode::Where('code', $request->code)->Where('deleted', 0)->first();
 
         if (!$webtoon_episode)
-            return redirect()->back()->with("error", $this->errorsDeleteMessage . " Error: 0x00024");
+            return redirect()->back()->with("error", Config::get('error.error_codes.0110013'));
 
         $webtoon_episode->deleted = 1;
         $webtoon_episode->update_user_code = Auth::user()->code;

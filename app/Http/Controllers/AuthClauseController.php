@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AuthorizationClause;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 
 class AuthClauseController extends Controller
 {
@@ -52,7 +53,7 @@ class AuthClauseController extends Controller
         $clause = AuthorizationClause::Where('code', $request->code)->Where('deleted', 0)->first();
 
         if (!$clause)
-            return redirect()->back()->with("error", $this->errorsUpdateMessage . " Error: 0x00004");
+            return redirect()->back()->with("error", Config::get('error.error_codes.0030002'));
 
         $title = "Yetki Maddesini Güncelle";
 
@@ -65,7 +66,7 @@ class AuthClauseController extends Controller
 
 
         if (!$clause)
-            return redirect()->back()->with("error", $this->errorsUpdateMessage . " Error: 0x00005");
+            return redirect()->back()->with("error", Config::get('error.error_codes.0030012'));
 
         $clause->text = $request->text;
         $clause->description = $request->description;
@@ -82,7 +83,7 @@ class AuthClauseController extends Controller
         $clause = AuthorizationClause::Where('code', $request->code)->Where('deleted', 0)->first();
 
         if (!$clause)
-            return redirect()->back()->with("error", $this->errorsDeleteMessage . " Error: 0x00006");
+            return redirect()->back()->with("error", Config::get('error.error_codes.0030013'));
 
         $clause->deleted = 1;
         $clause->update_user_code = Auth::user()->code;

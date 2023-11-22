@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\NotificationAdmin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 
 class NotificationAdminController extends Controller
 {
@@ -40,7 +41,7 @@ class NotificationAdminController extends Controller
         $noti = NotificationAdmin::Where('code', $request->code)->first();
 
         if ($noti->to_user_code != Auth::user()->code) {
-            return redirect()->back()->with('error', "Bildirim Okundu olarak işaretlenirken bir hata meydana geldi. Error: 0x00021");
+            return redirect()->back()->with('error', Config::get('error.error_codes.0130012'));
         }
 
         $noti->readed = 1;

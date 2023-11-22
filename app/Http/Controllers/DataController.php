@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\KeyValue;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 
 class DataController extends Controller
 {
@@ -18,7 +19,7 @@ class DataController extends Controller
         $icon = KeyValue::Where('key', 'index_icon')->first();
 
         if (!$logo || !$logo_footer || !$icon) {
-            return redirect()->back()->with("error", "Error: 0x00021");
+            return redirect()->back()->with("error", Config::get('error.error_codes.0120001'));
         }
 
         return view('admin.data.logo', ["title" => $title, 'logo' => $logo, 'logo_footer' => $logo_footer, 'icon' => $icon]);
@@ -70,7 +71,7 @@ class DataController extends Controller
         $menu_alts = KeyValue::Where('key', 'menu_alt')->Where('deleted', 0)->get();
 
         if (!$menus || !$menu_alts) {
-            return redirect()->back()->with("error", "Error: 0x00022");
+            return redirect()->back()->with("error", Config::get('error.error_codes.0120101'));
         }
 
         return view('admin.data.menu', ['title' => $title, 'menus' => $menus, 'menu_alts' => $menu_alts]);
@@ -104,7 +105,7 @@ class DataController extends Controller
         $menu = KeyValue::Where('code', $request->code)->first();
 
         if (!$menu)
-            return redirect()->back()->with("error", "Error: 0x00023");
+            return redirect()->back()->with("error", Config::get('error.error_codes.0120012'));
 
         $menu->value = $request->menu;
         if ($request->showMenu) $menu->optional = 1;
@@ -120,7 +121,7 @@ class DataController extends Controller
 
         $menu = KeyValue::Where('code', $request->code)->first();
         if (!$menu)
-            return redirect()->back()->with("error", "Error: 0x00024");
+            return redirect()->back()->with("error", Config::get('error.error_codes.0120013'));
 
         $menu->deleted = 1;
         $menu->save();
@@ -134,7 +135,7 @@ class DataController extends Controller
         $meta = KeyValue::Where('key', 'meta')->Where('deleted', 0)->get();
 
         if (!$meta)
-            return redirect()->back()->with("error", "Error: 0x00025");
+            return redirect()->back()->with("error", Config::get('error.error_codes.0120201'));
 
         return view('admin.data.meta', ["title" => $title, 'meta' => $meta]);
     }
@@ -162,7 +163,7 @@ class DataController extends Controller
         $meta = KeyValue::Where('code', $request->code)->first();
 
         if (!$meta)
-            return redirect()->back()->with("error", "Error: 0x00026");
+            return redirect()->back()->with("error", Config::get('error.error_codes.0120112'));
 
         $meta->value = $request->name ? $request->name : " ";
         $meta->optional = $request->content;
@@ -177,7 +178,7 @@ class DataController extends Controller
         $meta = KeyValue::Where('code', $request->code)->first();
 
         if (!$meta)
-            return redirect()->back()->with("error", "Error: 0x00027");
+            return redirect()->back()->with("error", Config::get('error.error_codes.0120113'));
 
         $meta->deleted = 1;
         $meta->save();
@@ -191,7 +192,7 @@ class DataController extends Controller
         $social = KeyValue::Where('key', 'social_media')->Where('deleted', 0)->get();
 
         if (!$social)
-            return redirect()->back()->with("error", "Error: 0x00028");
+            return redirect()->back()->with("error", Config::get('error.error_codes.0120301'));
 
         return view('admin.data.social', ['title' => $title, 'meta' => $social]);
     }
@@ -217,7 +218,7 @@ class DataController extends Controller
         $social = KeyValue::Where('code', $request->code)->first();
 
         if (!$social)
-            return redirect()->back()->with("error", "Error: 0x00029");
+            return redirect()->back()->with("error", Config::get('error.error_codes.0120212'));
 
         $social->value = $request->social;
         $social->optional = $request->url;
@@ -231,7 +232,7 @@ class DataController extends Controller
         $social = KeyValue::Where('code', $request->code)->first();
 
         if (!$social)
-            return redirect()->back()->with("error", "Error: 0x00030");
+            return redirect()->back()->with("error", Config::get('error.error_codes.0120213'));
 
         $social->deleted = 1;
         $social->save();
@@ -244,7 +245,7 @@ class DataController extends Controller
         $title = "Başlık";
         $index_title = KeyValue::Where('key', 'index_title')->first();
         if (!$index_title) {
-            return redirect()->back()->with("error", "Error: 0x00031");
+            return redirect()->back()->with("error", Config::get('error.error_codes.0120401'));
         }
         return view('admin.data.title', ['title' => $title, 'index_title' => $index_title]);
     }
@@ -253,7 +254,7 @@ class DataController extends Controller
     {
         $index_title = KeyValue::Where('key', 'index_title')->first();
         if (!$index_title) {
-            return redirect()->back()->with("error", "Error: 0x00032");
+            return redirect()->back()->with("error", Config::get('error.error_codes.0120312'));
         }
         $index_title->value = $request->index_title;
         $index_title->save();

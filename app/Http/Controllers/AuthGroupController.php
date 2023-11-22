@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AuthorizationGroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 
 class AuthGroupController extends Controller
 {
@@ -52,7 +53,7 @@ class AuthGroupController extends Controller
         $group = AuthorizationGroup::Where('code', $request->code)->Where('deleted', 0)->first();
 
         if (!$group)
-            return redirect()->back()->with("error", $this->errorsUpdateMessage . " Error: 0x00007");
+            return redirect()->back()->with("error", Config::get('error.error_codes.0040002'));
 
         $title = "Kullanıcı Grubunu Güncelle";
 
@@ -64,7 +65,7 @@ class AuthGroupController extends Controller
         $group = AuthorizationGroup::Where('code', $request->code)->Where('deleted', 0)->first();
 
         if (!$group)
-            return redirect()->back()->with("error", $this->errorsUpdateMessage . " Error: 0x00008");
+            return redirect()->back()->with("error", Config::get('error.error_codes.0040012'));
 
         $group->text = $request->text;
         $group->description = $request->description;
@@ -81,7 +82,7 @@ class AuthGroupController extends Controller
         $group = AuthorizationGroup::Where('code', $request->code)->Where('deleted', 0)->first();
 
         if (!$group)
-            return redirect()->back()->with("error", $this->errorsDeleteMessage . " Error: 0x00009");
+            return redirect()->back()->with("error", Config::get('error.error_codes.0040013'));
 
         $group->deleted = 1;
         $group->update_user_code = Auth::user()->code;

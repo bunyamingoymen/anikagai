@@ -6,6 +6,7 @@ use App\Models\FollowUser;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
@@ -50,9 +51,9 @@ class AdminController extends Controller
             if (Auth::user()->deleted == 0 && Auth::user()->admin == 1)
                 return redirect()->route('admin_index')->with("success", "Giriş Başarılı");
             else Auth::logout();
-            return redirect()->route('admin_login_screen')->with('error', "Bu Arayüz İçin Erişiminiz Bulunmamaktadır.");
+            return redirect()->route('admin_login_screen')->with('error', Config::get('error.error_codes.0000000'));
         }
-        return redirect()->route('admin_login_screen')->with("error", "E-mail Adresi ya da Şifre Hatalı");
+        return redirect()->route('admin_login_screen')->with("error", Config::get('error.error_codes.0020011'));
     }
 
     public function logout()

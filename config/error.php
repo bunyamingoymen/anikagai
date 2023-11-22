@@ -13,27 +13,26 @@ Hata Kodu Tanımı:
 
 Sayfaların kodları:
 0=> KeyValue
-1=> User  => 0010013
-2=> Yetki Maddeleri
-3=> Yetki Grupları
-4=> Yetkilendirme
-5=> Anime
-6=> Anime Takvimi
-7=> Anime Episode
-8=> Webtoon
-9=> Webtoon Takvimi
-10=> Webtoon Episode
-11=> Logo_Data
-12=> Menu_Data
-13=> Meta_Data
-14=> Social_Data
-15=> Title_Data
-
+1=> User
+2=> Admin
+3=> Yetki Maddeleri
+4=> Yetki Grupları
+5=> Yetkilendirme
+6=> Anime
+7=> Anime Takvimi
+8=> Anime Episode
+9=> Webtoon
+10=> Webtoon Takvimi
+11=> Webtoon Episode
+12=> Data
+13=> NotificationAdmin
+14=> FollowUser
+15=> Index
 
 */
 return [
     'error_codes' => [
-        '0000000' => "Bu İşlemi Yapmak İçin Erişim Yetkiniz Bulunmamaktadır.",
+        '0000000' => "Bu İşlemi Yapmak İçin Erişim Yetkiniz Bulunmamaktadır.", // Özel kod, Erişim yetkinisin bulunmamasına istinaden
         '0000002' => 'KeyValue Güncellenirken Bir Hata Meydana Geldi',
         '0000012' => 'KeyValue Güncellenirken Post işleminde bir hata meydana geldi',
         '0000013' => 'KeyValue Silinirken Bir Hata Meydana Geldi',
@@ -42,29 +41,38 @@ return [
         '0010012' => 'Kullanıcı Güncellenirken Bir Hata Meydana Geldi',
         '0010013' => 'Kullanıcı Silinirken Bir Hata Meydana Geldi',
         '0010112' => 'Kullanıcının Şifresi Güncellenirken Bir Hata Meydana Geldi',
-        '5008' => 'Custom Error 2',
-        '5009' => 'Custom Error 2',
-        '5010' => 'Custom Error 2',
-        '5011' => 'Custom Error 2',
-        '5012' => 'Custom Error 2',
-        '5013' => 'Custom Error 2',
-        '5014' => 'Custom Error 2',
-        '5015' => 'Custom Error 2',
-        '5016' => 'Custom Error 2',
-        '5017' => 'Custom Error 2',
-        '5018' => 'Custom Error 2',
-        '5019' => 'Custom Error 2',
-        '5020' => 'Custom Error 2',
-        '5021' => 'Custom Error 2',
-        '5022' => 'Custom Error 2',
-        '5023' => 'Custom Error 2',
-        '5024' => 'Custom Error 2',
-        '5025' => 'Custom Error 2',
-        '5026' => 'Custom Error 2',
-        '5027' => 'Custom Error 2',
-        '5028' => 'Custom Error 2',
-        '5029' => 'Custom Error 2',
-        '5030' => 'Custom Error 2',
-        '5031' => 'Custom Error 2',
+        '0020011' => 'E-mail Ya da Şifre Hatalı',
+        '0030002' => 'Yetki Maddeleri Güncelleme Ekranına Giderken Bir Hata Meydana Geldi',
+        '0030012' => 'Yetki Maddeleri Güncellenirken Bir Hata Meydaan Geldi',
+        '0030013' => 'Yetki Maddesi Silinirken Bir Hata Meydana Geldi',
+        '0040002' => 'Kullanıcı Grupları Güncelleme Ekranına Giderken Bir Hata Meydana Geldi',
+        '0040012' => 'Kullanıcı Grupları Güncellenirken bir Hata Meydana Geldi',
+        '0040013' => 'Kullanıcı Grupları Silinirken Bir Hata Meydana Geldi',
+        '0060002' => 'Anime Güncelleme Ekranına Giderken Bir Hata Meydana Geldi',
+        '0060012' => 'Anime Güncellenirken bir Hata Meydana Geldi',
+        '0060013' => 'Anime Silinirken Bir Hata Meydana Geldi',
+        '0080002' => 'Anime Bölümleri Güncelleme Ekranına Giderken Bir Hata Meydana Geldi',
+        '0080012' => 'Anime Bölümleri Güncellenirken bir Hata Meydana Geldi',
+        '0080013' => 'Anime Bölümleri Silinirken Bir Hata Meydana Geldi',
+        '0090002' => 'Webtoon Güncelleme Ekranına Giderken Bir Hata Meydana Geldi',
+        '0090012' => 'Webtoon Güncellenirken bir Hata Meydana Geldi',
+        '0090013' => 'Webtoon Silinirken Bir Hata Meydana Geldi',
+        '0110002' => 'Webtoon Bölümleri Güncelleme Ekranına Giderken Bir Hata Meydana Geldi',
+        '0110012' => 'Webtoon Bölümleri Güncellenirken bir Hata Meydana Geldi',
+        '0110013' => 'Webtoon Bölümleri Silinirken Bir Hata Meydana Geldi',
+        '0120001' => 'Logo Ekranına Gidilirken Bir Hata Meydana Geldi',
+        '0120101' => 'Menü Düzenleme Ekranına Gidilirken bir Hata Meydana',
+        '0120012' => 'Menüler Güncellenirken Bir Hata Meydana Geldi',
+        '0120013' => 'Menüler Silinirken Bir Hata Meydana Geldi',
+        '0120201' => 'Meta Etiketleri Getirilirken Bir Hata Meydana Geldi',
+        '0120112' => 'Meta Etiketleri Güncellenirken Bir Hata Meydana Geldi',
+        '0120113' => 'Meta Etiketleri Silinirken Bir Hata Meydana Geldi',
+        '0120301' => 'Sosyal Medya Linkleri Getirilirken Bir Hata Meydana Geldi',
+        '0120212' => 'Sosyal Medya Linkleri Güncellenirken Bir Hata Meydana Geldi',
+        '0120213' => 'Sosyal Medya Linkleri Silinirken Bir Hata Meydana Geldi',
+        '0120401' => 'Başlık Getirilirken Bir Hata Meydana Geldi',
+        '0120312' => 'Başlık Güncellenirken Bir Hata Meydana Geldi',
+        '0130012' => 'Bildirim Okundu Olarak İşaretlenirken Bir Hata Meydana Geldi',
+        '0140012' => 'Kullanıcı Takipten Çıkartılırken Bir Hata Meydana Geldi',
     ],
 ];

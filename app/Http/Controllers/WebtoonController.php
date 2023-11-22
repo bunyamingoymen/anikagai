@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Webtoon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 
 class WebtoonController extends Controller
 {
@@ -67,7 +68,7 @@ class WebtoonController extends Controller
         $webtoon = Webtoon::Where('code', $request->code)->Where('deleted', 0)->first();
 
         if (!$webtoon)
-            return redirect()->back()->with("error", $this->errorsUpdateMessage . " Error: 0x00010");
+            return redirect()->back()->with("error", Config::get('error.error_codes.0090002'));
 
         $title = "Webtoon Güncelle";
 
@@ -79,7 +80,7 @@ class WebtoonController extends Controller
         $webtoon = Webtoon::Where('code', $request->code)->Where('deleted', 0)->first();
 
         if (!$webtoon)
-            return redirect()->back()->with("error", $this->errorsUpdateMessage . " Error: 0x00011");
+            return redirect()->back()->with("error", Config::get('error.error_codes.0090012'));
 
         $webtoon->name = $request->name;
 
@@ -109,7 +110,7 @@ class WebtoonController extends Controller
         $webtoon = Webtoon::Where('code', $request->code)->Where('deleted', 0)->first();
 
         if (!$webtoon)
-            return redirect()->back()->with("error", $this->errorsDeleteMessage . " Error: 0x00012");
+            return redirect()->back()->with("error", Config::get('error.error_codes.0090013'));
 
         $webtoon->deleted = 1;
         $webtoon->update_user_code = Auth::user()->code;

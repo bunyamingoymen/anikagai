@@ -6,6 +6,7 @@ use App\Models\Anime;
 use App\Models\AnimeEpisode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 
 class AnimeEpisodecontroller extends Controller
@@ -83,7 +84,7 @@ class AnimeEpisodecontroller extends Controller
         $anime_episode = AnimeEpisode::Where('code', $request->code)->Where('deleted', 0)->first();
 
         if (!$anime_episode)
-            return redirect()->back()->with("error", $this->errorsUpdateMessage . " Error: 0x00019");
+            return redirect()->back()->with("error", Config::get('error.error_codes.0080002'));
 
         $animes = Anime::Where('deleted', 0)->get();
 
@@ -97,7 +98,7 @@ class AnimeEpisodecontroller extends Controller
         $anime_episode = AnimeEpisode::Where('code', $request->code)->Where('deleted', 0)->first();
 
         if (!$anime_episode)
-            return redirect()->back()->with("error", $this->errorsUpdateMessage . " Error: 0x00020");
+            return redirect()->back()->with("error", Config::get('error.error_codes.0080012'));
 
         $anime_episode->name = $request->name;
 
@@ -117,7 +118,7 @@ class AnimeEpisodecontroller extends Controller
         $anime_episode = AnimeEpisode::Where('code', $request->code)->Where('deleted', 0)->first();
 
         if (!$anime_episode)
-            return redirect()->back()->with("error", $this->errorsDeleteMessage . " Error: 0x00012");
+            return redirect()->back()->with("error", Config::get('error.error_codes.0080013'));
 
         $anime_episode->deleted = 1;
         $anime_episode->update_user_code = Auth::user()->code;
