@@ -27,7 +27,9 @@ Sayfaların kodları:
 12=> Data
 13=> NotificationAdmin
 14=> FollowUser
-15=> Index
+15=>Page
+16=> Index
+
 
 */
 return [
@@ -90,5 +92,11 @@ return [
         '0130012' => 'Bildirim Okundu Olarak İşaretlenirken Bir Hata Meydana Geldi',
 
         '0140012' => 'Kullanıcı Takipten Çıkartılırken Bir Hata Meydana Geldi',
+
+        '0150010' => 'Bu isim başka bir sayfaya aittir. Lütfen Başka Bir İsim Giriniz',
+        '0150001' => 'Sayfa Görüntülenirken Bir Hata Meydana Geldi',
+        '0150002' => 'Sayfa Güncelleme Ekranına Giderken Bir Hata Meydana Geldi',
+        '0150012' => 'Sayfa Güncellenirken Bir Hata Meydana Geldi',
+        '0150013' => 'Sayfa Silinirken Bir Hata Meydana Geldi',
     ],
 ];

@@ -12,6 +12,7 @@ use App\Http\Controllers\FollowUserController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\KeyValueController;
 use App\Http\Controllers\NotificationAdminController;
+use App\Http\Controllers\PageController;
 use App\Http\Controllers\TemplateAdminController;
 use App\Http\Controllers\UserAdminController;
 use App\Http\Controllers\UserController;
@@ -201,8 +202,23 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get("/admin/data/title", [DataController::class, "titleList"])->name('admin_data_title_list');
     Route::post("/admin/data/title", [DataController::class, "titleChange"])->name('admin_data_title');
+
     //-------------------------------------------------------------------
 
+    Route::get("/admin/page/list", [PageController::class, "pageList"])->name('admin_page_list');
+    Route::post("/admin/page/list/ajax", [PageController::class, "pageGetData"])->name('admin_page_get_data');
+
+    Route::get("/admin/page/show", [PageController::class, "pageShow"])->name('admin_page_show');
+
+    Route::get("/admin/page/create", [PageController::class, "pageCreateScreen"])->name('admin_page_create_screen');
+    Route::post("/admin/page/create", [PageController::class, "pageCreate"])->name('admin_page_create'); //Ajax ile cretae yapıyor
+
+    Route::get("/admin/page/update", [PageController::class, "pageUpdateScreen"])->name('admin_page_update_screen');
+    Route::post("/admin/page/update", [PageController::class, "pageUpdate"])->name('admin_page_update');
+
+    Route::post("/admin/page/delete", [PageController::class, "pageDelete"])->name('admin_page_delete');
+
+    //----------------------------------------------------------------
     Route::get('test', function () {
         dd(phpinfo());
     });

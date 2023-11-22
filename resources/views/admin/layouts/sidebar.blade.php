@@ -45,6 +45,7 @@
                         <span>Diğer Veriler</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
+                        <li><a href="{{route('admin_page_list')}}">Sayfalar</a></li>
                         <li><a href="#">Kategoriler</a></li>
                         <li><a href="#">Etiketler</a></li>
                     </ul>
@@ -77,7 +78,7 @@
                         <li><a href="{{route('admin_data_title_list')}}">Başlıklar</a></li>
                         <li><a href="{{route('admin_data_menu_list')}}">Menüler</a></li>
                         <li><a href="{{route('admin_data_social_list')}}">Sosyal Medya</a></li>
-                        <li><a href="#">Sayfalar</a></li>
+
                     </ul>
                 </li>
 

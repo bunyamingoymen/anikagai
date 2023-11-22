@@ -28,7 +28,8 @@ Sayfaların kodları:
 12=> Data
 13=> NotificationAdmin
 14=> FollowUser
-15=> Index
+15=>Page
+16=> Index
 
 */
 $success = " Başarılı Bir Şekilde ";
@@ -87,8 +88,8 @@ return [
         '10120113' => 'Meta' . $success . $delete,
 
         '10120210' => 'Sosyal Medya Linki' . $success . $add,
-        '10120312' => 'Meta' . $success . $update,
-        '10120213' => 'Meta' . $success . $delete,
+        '10120312' => 'Sosyal Medya Linki' . $success . $update,
+        '10120213' => 'Sosyal Medya Linki' . $success . $delete,
 
         '10120412' => 'Başlık' . $success . $update,
 
@@ -97,5 +98,9 @@ return [
 
         '10140012' => 'Kullanıcı Takip edildi',
         '10140112' => 'Kullanıcı Takipten Çıkartıldı',
+
+        '10150010' => 'Sayfa' . $success . $add,
+        '10150012' => 'Sayfa' . $success . $update,
+        '10150013' => 'Sayfa' . $success . $delete,
     ],
 ];

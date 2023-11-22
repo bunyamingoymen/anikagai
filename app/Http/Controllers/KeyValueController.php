@@ -23,7 +23,6 @@ class KeyValueController extends Controller
 
     public function keyValueCreateScreen()
     {
-
         return view("admin.keyvalue.create");
     }
 

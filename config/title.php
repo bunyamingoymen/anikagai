@@ -191,5 +191,25 @@ return [
         'admin/data/title' => "Başlık",
         '/admin/data/title' => ["Admin", "Başlık"],
         '//admin/data/title' => ["admin_index", "#"],
+
+
+
+
+
+        'admin/page/list' => "Sayfalar",
+        '/admin/page/list' => ["Admin", "Sayfalar"],
+        '//admin/page/list' => ["admin_index", "#"],
+
+        'admin/page/show' => "Sayfa Görüntüle",
+        '/admin/page/show' => ["Admin", "Sayfalar", "Sayfa Görüntüle"],
+        '//admin/page/show' => ["admin_index", "admin_page_list", "#"],
+
+        'admin/page/create' => "Yeni Sayfa Oluştur",
+        '/admin/page/create' => ["Admin", "Sayfalar", "Yeni Sayfa Oluştur"],
+        '//admin/page/create' => ["admin_index", 'admin_page_list', "#"],
+
+        'admin/page/update' => "Sayfayı Güncelle",
+        '/admin/page/update' => ["Admin", "Sayfalar", "Sayfayı Güncelle"],
+        '//admin/page/update' => ["admin_index", 'admin_page_list', "#"],
     ],
 ];
