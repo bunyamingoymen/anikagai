@@ -136,6 +136,16 @@ class DataController extends Controller
         return view('admin.data.meta', ['meta' => $meta]);
     }
 
+    public function adminMetaList()
+    {
+        $meta = KeyValue::Where('key', 'admin_meta')->Where('deleted', 0)->get();
+
+        if (!$meta)
+            return redirect()->back()->with("error", Config::get('error.error_codes.0120201'));
+
+        return view('admin.data.meta', ['meta' => $meta]);
+    }
+
     public function metaAdd(Request $request)
     {
         $meta = new KeyValue();
@@ -144,12 +154,16 @@ class DataController extends Controller
         if ($meta_code) $meta->code = $meta_code->code + 1;
         else $meta->code = 1;
 
-        $meta->key = 'meta';
+        $meta->key = $request->key;
         $meta->value = $request->name ? $request->name : " ";
         $meta->optional = $request->content;
         $meta->optional_2 = $request->equiv;
 
         $meta->save();
+
+        if ($meta->key == "admin_meta") {
+            return redirect()->route('admin_data_admin_meta_list')->with("success", Config::get('success.success_codes.10120110'));
+        }
 
         return redirect()->route('admin_data_meta_list')->with("success", Config::get('success.success_codes.10120110'));
     }
@@ -166,6 +180,10 @@ class DataController extends Controller
         $meta->optional_2 = $request->equiv;
         $meta->save();
 
+        if ($meta->key == "admin_meta") {
+            return redirect()->route('admin_data_admin_meta_list')->with("success", Config::get('success.success_codes.10120212'));
+        }
+
         return redirect()->route('admin_data_meta_list')->with("success", Config::get('success.success_codes.10120212'));
     }
 
@@ -178,6 +196,10 @@ class DataController extends Controller
 
         $meta->deleted = 1;
         $meta->save();
+
+        if ($meta->key == "admin_meta") {
+            return redirect()->route('admin_data_admin_meta_list')->with("success", Config::get('success.success_codes.10120113'));
+        }
 
         return redirect()->route('admin_data_meta_list')->with("success", Config::get('success.success_codes.10120113'));
     }

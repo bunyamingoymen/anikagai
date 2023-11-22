@@ -4,7 +4,7 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <h4>Meta Etiketleri: </h4>
+                <h4>Admin Meta Etiketleri: </h4>
                 <p>
                     Meta etiketlerini buradan güncelleyip değiştirebilirsiniz. Yeni Meta etiketi ekleyebilirsiniz
                 </p>
@@ -62,20 +62,11 @@
 <script>
     var meta_count = parseInt("{{count($meta)}}");
     function createNewMeta() {
-        var meta_key = "meta";
-        if(meta_count>0){
-            meta_key  = "{{$meta[0]->key ?? ''}}";
-        }else{
-            var path="{{Request::path()}}"
-
-            if(path == "admin/data/meta") meta_key = "meta";
-            else if(path == "admin/data/adminMeta") meta_key = "admin_meta";
-        }
         meta_count += 1;
         html=`<div id='meta_count`+meta_count+`' class="mt-2" style="border: solid 1px #555956a7; border-radius: 10px;">
             <form action="{{route('admin_data_meta_add')}}" method="POST">
                 @csrf
-                <input type="text" name="key" id="key" hidden value="`+meta_key+`">
+                <input type="text" name="key" id="key" hidden value="admin_meta">
                 <div class="row m-3">
                     <div class="col-lg-3">
                         <label for="menu">Name: </label>

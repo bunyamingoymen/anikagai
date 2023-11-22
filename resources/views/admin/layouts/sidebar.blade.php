@@ -88,7 +88,7 @@
                         <span>Yönetim</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li><a href="#">Admin Meta Etiketleri</a></li>
+                        <li><a href="{{route('admin_data_admin_meta_list')}}">Admin Meta Etiketleri</a></li>
                         <li><a href="{{route('admin_keyvalue_list')}}">Key Value</a></li>
                         <li><a href="{{route('admin_authclause_list')}}">Yetki Maddeleri</a></li>
                     </ul>

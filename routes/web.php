@@ -191,6 +191,7 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::get("/admin/data/meta", [DataController::class, "metaList"])->name('admin_data_meta_list');
+    Route::get("/admin/data/adminMeta", [DataController::class, "adminMetaList"])->name('admin_data_admin_meta_list');
     Route::post("/admin/data/meta/add", [DataController::class, "metaAdd"])->name('admin_data_meta_add');
     Route::post("/admin/data/meta/update", [DataController::class, "metaUpdate"])->name('admin_data_meta_update');
     Route::post("/admin/data/meta/delete", [DataController::class, "metaDelete"])->name('admin_data_meta_delete');

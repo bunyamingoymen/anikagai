@@ -180,6 +180,10 @@ return [
         '/admin/data/menu' => ["Admin", "Menüler"],
         '//admin/data/menu' => ["admin_index", "#"],
 
+        'admin/data/adminMeta' => "Meta Etiketleri",
+        '/admin/data/adminMeta' => ["Admin", "Meta Etiketleri"],
+        '//admin/data/adminMeta' => ["admin_index", "#"],
+
         'admin/data/meta' => "Meta Etiketleri",
         '/admin/data/meta' => ["Admin", "Meta Etiketleri"],
         '//admin/data/meta' => ["admin_index", "#"],
