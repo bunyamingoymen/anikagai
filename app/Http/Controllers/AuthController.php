@@ -7,6 +7,7 @@ use App\Models\AuthorizationClauseGroup;
 use App\Models\AuthorizationGroup;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
@@ -37,7 +38,7 @@ class AuthController extends Controller
             $new_clause_group->save();
         }
 
-        return redirect()->route('admin_auth_list')->with("success", $this->successUpdateMessage);
+        return redirect()->route('admin_auth_list')->with("success", Config::get('success.success_codes.10050012'));
     }
 
     public function AuthGroupGetData(Request $request)

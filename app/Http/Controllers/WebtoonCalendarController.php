@@ -6,6 +6,7 @@ use App\Models\Webtoon;
 use App\Models\WebtoonCalendar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 
 class WebtoonCalendarController extends Controller
@@ -46,6 +47,6 @@ class WebtoonCalendarController extends Controller
 
         $webtoon_calendar->save();
 
-        return redirect()->route('admin_webtooncalendar_index')->with('success', 'Takvim Eklendi');
+        return redirect()->route('admin_webtooncalendar_index')->with('success', Config::get('success.success_codes.10100010'));
     }
 }

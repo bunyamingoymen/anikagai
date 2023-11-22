@@ -57,7 +57,7 @@ class WebtoonController extends Controller
 
         $webtoon->save();
 
-        return redirect()->route('admin_webtoon_list')->with("success", $this->successCreateMessage);
+        return redirect()->route('admin_webtoon_list')->with("success", Config::get('success.success_codes.10090010'));
     }
 
     public function webtoonUpdateScreen(Request $request)
@@ -99,7 +99,7 @@ class WebtoonController extends Controller
 
         $webtoon->save();
 
-        return redirect()->route('admin_webtoon_list')->with("success", $this->successCreateMessage);
+        return redirect()->route('admin_webtoon_list')->with("success", Config::get('success.success_codes.10090012'));
     }
 
     public function webtoonDelete(Request $request)
@@ -112,7 +112,7 @@ class WebtoonController extends Controller
         $webtoon->deleted = 1;
         $webtoon->update_user_code = Auth::user()->code;
         $webtoon->save();
-        return redirect()->route('admin_webtoon_list')->with("success", $this->successDeleteMessage);
+        return redirect()->route('admin_webtoon_list')->with("success", Config::get('success.success_codes.10090013'));
     }
 
     public function webtoonGetData(Request $request)

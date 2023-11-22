@@ -6,6 +6,7 @@ use App\Models\Anime;
 use App\Models\AnimeCalendar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 
 class AnimeCalendarController extends Controller
@@ -46,6 +47,6 @@ class AnimeCalendarController extends Controller
 
         $anime_calendar->save();
 
-        return redirect()->route('admin_animecalendar_index')->with('success', 'Takvim Eklendi');
+        return redirect()->route('admin_animecalendar_index')->with('success', Config::get('success.success_codes.10070010'));
     }
 }

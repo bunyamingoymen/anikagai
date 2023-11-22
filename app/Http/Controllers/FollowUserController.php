@@ -22,7 +22,7 @@ class FollowUserController extends Controller
 
         $follow->save();
 
-        return redirect()->back()->with("success", "Kullanıcı Takip Edildi");
+        return redirect()->back()->with("success", Config::get('success.success_codes.10140012'));
     }
     public function unfollowUser(Request $request)
     {
@@ -34,6 +34,6 @@ class FollowUserController extends Controller
 
         $follow->delete();
 
-        return redirect()->back()->with("success", "Kullanıcı Takipten Çıkarıldı");
+        return redirect()->back()->with("success", Config::get('success.success_codes.10140112'));
     }
 }

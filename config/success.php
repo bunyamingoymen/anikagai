@@ -1,8 +1,9 @@
 <?php
-// Config::get('error.error_codes.5001')
+// Config::get('success.success_codes.5001')
 
 /*
 Hata Kodu Tanımı:
+1=> success olduğunun ispati
 0 => Hatanın Bulunduğu Sayfa
 0 => Hatanın Bulunduğu Sayfa
 0 => Hatanın Bulunduğu Sayfa
@@ -13,46 +14,88 @@ Hata Kodu Tanımı:
 
 Sayfaların kodları:
 0=> KeyValue
-
-Online yüklemelerde dolum miktarlarının güncellenmesi
-Mevcuttaki dolum miktarları kalacak
-100 tl nin komisyonu %5
-200,300 ve 500 eklenecek kommisyon oranları 5 olacak
+1=> User
+2=> Admin
+3=> Yetki Maddeleri
+4=> Yetki Grupları
+5=> Yetkilendirme
+6=> Anime
+7=> Anime Takvimi
+8=> Anime Episode
+9=> Webtoon
+10=> Webtoon Takvimi
+11=> Webtoon Episode
+12=> Data
+13=> NotificationAdmin
+14=> FollowUser
+15=> Index
 
 */
+$success = " Başarılı Bir Şekilde ";
+$add = "Eklendi";
+$update = "Güncellendi";
+$delete = "Silindi";
 return [
-    'error_codes' => [
-        '0000002' => 'KeyValue Güncellenirken Bir Hata Meydana Geldi',
-        '0000012' => 'KeyValue Güncellenirken Post işleminde bir hata meydana geldi',
-        '0000013' => 'KeyValue Silinirken Bir Hata Meydana Geldi',
-        '5003' => 'Custom Error 2',
-        '5004' => 'Custom Error 2',
-        '5005' => 'Custom Error 2',
-        '5006' => 'Custom Error 2',
-        '5007' => 'Custom Error 2',
-        '5008' => 'Custom Error 2',
-        '5009' => 'Custom Error 2',
-        '5010' => 'Custom Error 2',
-        '5011' => 'Custom Error 2',
-        '5012' => 'Custom Error 2',
-        '5013' => 'Custom Error 2',
-        '5014' => 'Custom Error 2',
-        '5015' => 'Custom Error 2',
-        '5016' => 'Custom Error 2',
-        '5017' => 'Custom Error 2',
-        '5018' => 'Custom Error 2',
-        '5019' => 'Custom Error 2',
-        '5020' => 'Custom Error 2',
-        '5021' => 'Custom Error 2',
-        '5022' => 'Custom Error 2',
-        '5023' => 'Custom Error 2',
-        '5024' => 'Custom Error 2',
-        '5025' => 'Custom Error 2',
-        '5026' => 'Custom Error 2',
-        '5027' => 'Custom Error 2',
-        '5028' => 'Custom Error 2',
-        '5029' => 'Custom Error 2',
-        '5030' => 'Custom Error 2',
-        '5031' => 'Custom Error 2',
+    'success_codes' => [
+        '10000010' => 'KeyValue' . $success . $add,
+        '10000012' => 'KeyValue' . $success . $update,
+        '10000013' => 'KeyValue' . $success . $delete,
+
+        '10010010' => "Kullanıcı" . $success . $add,
+        '10010012' => 'Kullanıcı' . $success . $update,
+        '10010013' => 'Kullanıcı' . $success . $delete,
+        '10010112' => 'Kullanıcının Şifresi' . $success . $update,
+
+        '10020011' => 'Giriş Başarılı',
+
+        '10030010' => 'Yetki Maddesi' . $success . $add,
+        '10030012' => 'Yetki Maddesi' . $success . $update,
+        '10030013' => 'Yetki Maddesi' . $success . $delete,
+
+        '10040010' => 'Kullanıcı Grubu' . $success . $add,
+        '10040012' => 'Kullanıcı Grubu' . $success . $update,
+        '10040013' => 'Kullanıcı Grubu' . $success . $delete,
+
+        '10050012' => 'Grubun Yetkileri' . $success . $update,
+
+        '10060010' => 'Anime' . $success . $add,
+        '10060012' => 'Anime' . $success . $update,
+        '10060013' => 'Anime' . $success . $delete,
+
+        '10070010' => "Takvim'e Anime" . $success . $add,
+
+        '10080012' => 'Anime Bölümü' . $success . $update,
+        '10080013' => 'Anime Bölümü' . $success . $delete,
+
+        '10090010' => 'Webtoon' . $success . $add,
+        '10090012' => 'Webtoon' . $success . $update,
+        '10090013' => 'Webtoon' . $success . $delete,
+
+        '10100010' => "Takvim'e Webtoon" . $success . $add,
+
+        '10110012' => 'Webtoon Bölümü' . $success . $update,
+        '10110013' => 'Webtoon Bölümü' . $success . $delete,
+
+        '10120012' => 'Logo' . $success . $update,
+
+        '10120010' => 'Menü' . $success . $add,
+        '10120112' => 'Menü' . $success . $update,
+        '10120013' => 'Menü' . $success . $delete,
+
+        '10120110' => 'Meta' . $success . $add,
+        '10120212' => 'Meta' . $success . $update,
+        '10120113' => 'Meta' . $success . $delete,
+
+        '10120210' => 'Sosyal Medya Linki' . $success . $add,
+        '10120312' => 'Meta' . $success . $update,
+        '10120213' => 'Meta' . $success . $delete,
+
+        '10120412' => 'Başlık' . $success . $update,
+
+        '10130012' => 'Mesaj Başarılı Bir Şekilde Gönderildi',
+        '10130112' => 'Bildirim Okundu Olarak İşaretlendi',
+
+        '10140012' => 'Kullanıcı Takip edildi',
+        '10140112' => 'Kullanıcı Takipten Çıkartıldı',
     ],
 ];

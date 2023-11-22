@@ -44,7 +44,7 @@ class KeyValueController extends Controller
 
         $keyValue->save();
 
-        return redirect()->route('admin_keyvalue_list')->with("success", $this->successCreateMessage);
+        return redirect()->route('admin_keyvalue_list')->with("success", Config::get('success.success_codes.10000010'));
     }
 
     public function keyValueUpdateScreen(Request $request)
@@ -75,7 +75,7 @@ class KeyValueController extends Controller
 
         $keyValue->save();
 
-        return redirect()->route('admin_keyvalue_list')->with("success", $this->successCreateMessage);
+        return redirect()->route('admin_keyvalue_list')->with("success", Config::get('success.success_codes.10000012'));
     }
 
     public function keyValueDelete(Request $request)
@@ -88,7 +88,7 @@ class KeyValueController extends Controller
         $keyValue->deleted = 1;
         $keyValue->update_user_code = Auth::user()->code;
         $keyValue->save();
-        return redirect()->route('admin_keyvalue_list')->with("success", $this->successDeleteMessage);
+        return redirect()->route('admin_keyvalue_list')->with("success", Config::get('success.success_codes.10000013'));
     }
 
     public function keyValueGetData(Request $request)

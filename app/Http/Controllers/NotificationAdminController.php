@@ -33,7 +33,7 @@ class NotificationAdminController extends Controller
             }
         }
 
-        return redirect()->back()->with('success', 'Mesaj Başarılı Bir Şekilde Gönderildi');
+        return redirect()->back()->with('success', Config::get('success.success_codes.10130012'));
     }
 
     public function readNotification(Request $request)
@@ -46,6 +46,6 @@ class NotificationAdminController extends Controller
 
         $noti->readed = 1;
         $noti->save();
-        return redirect()->back()->with('success', 'Bildirim Okundu İşaretlenmiştir');
+        return redirect()->back()->with('success', Config::get('success.success_codes.10130112'));
     }
 }

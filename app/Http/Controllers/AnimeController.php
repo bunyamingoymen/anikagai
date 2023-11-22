@@ -58,7 +58,7 @@ class AnimeController extends Controller
 
         $anime->save();
 
-        return redirect()->route('admin_anime_list')->with("success", $this->successCreateMessage);
+        return redirect()->route('admin_anime_list')->with("success", Config::get('success.success_codes.10060010'));
     }
 
     public function animeUpdateScreen(Request $request)
@@ -99,7 +99,7 @@ class AnimeController extends Controller
 
         $anime->save();
 
-        return redirect()->route('admin_anime_list')->with("success", $this->successCreateMessage);
+        return redirect()->route('admin_anime_list')->with("success", Config::get('success.success_codes.10060012'));
     }
 
     public function animeDelete(Request $request)
@@ -112,7 +112,7 @@ class AnimeController extends Controller
         $anime->deleted = 1;
         $anime->update_user_code = Auth::user()->code;
         $anime->save();
-        return redirect()->route('admin_anime_list')->with("success", $this->successDeleteMessage);
+        return redirect()->route('admin_anime_list')->with("success", Config::get('success.success_codes.10060013'));
     }
 
     public function animeGetData(Request $request)

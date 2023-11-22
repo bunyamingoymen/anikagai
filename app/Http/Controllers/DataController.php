@@ -58,7 +58,7 @@ class DataController extends Controller
             $iconVal->save();
         }
 
-        return redirect()->route('admin_data_logo_list')->with("success", $this->successUpdateMessage);
+        return redirect()->route('admin_data_logo_list')->with("success", Config::get('success.success_codes.10120012'));
     }
 
     public function menuList()
@@ -93,7 +93,7 @@ class DataController extends Controller
 
         $menu->save();
 
-        return redirect()->route('admin_data_menu_list')->with("success", $this->successCreateMessage);
+        return redirect()->route('admin_data_menu_list')->with("success", Config::get('success.success_codes.10120010'));
     }
 
     public function menuUpdate(Request $request)
@@ -110,7 +110,7 @@ class DataController extends Controller
         $menu->optional_2 = $request->url;
         $menu->save();
 
-        return redirect()->route('admin_data_menu_list')->with("success", $this->successUpdateMessage);
+        return redirect()->route('admin_data_menu_list')->with("success", Config::get('success.success_codes.10120112'));
     }
 
     public function menuDelete(Request $request)
@@ -123,7 +123,7 @@ class DataController extends Controller
         $menu->deleted = 1;
         $menu->save();
 
-        return redirect()->route('admin_data_menu_list')->with("success", $this->successDeleteMessage);
+        return redirect()->route('admin_data_menu_list')->with("success", Config::get('success.success_codes.10120013'));
     }
 
     public function metaList()
@@ -151,7 +151,7 @@ class DataController extends Controller
 
         $meta->save();
 
-        return redirect()->route('admin_data_meta_list')->with("success", $this->successCreateMessage);
+        return redirect()->route('admin_data_meta_list')->with("success", Config::get('success.success_codes.10120110'));
     }
 
     public function metaUpdate(Request $request)
@@ -166,7 +166,7 @@ class DataController extends Controller
         $meta->optional_2 = $request->equiv;
         $meta->save();
 
-        return redirect()->route('admin_data_meta_list')->with("success", $this->successUpdateMessage);
+        return redirect()->route('admin_data_meta_list')->with("success", Config::get('success.success_codes.10120212'));
     }
 
     public function metaDelete(Request $request)
@@ -179,7 +179,7 @@ class DataController extends Controller
         $meta->deleted = 1;
         $meta->save();
 
-        return redirect()->route('admin_data_meta_list')->with("success", $this->successDeleteMessage);
+        return redirect()->route('admin_data_meta_list')->with("success", Config::get('success.success_codes.10120113'));
     }
 
     public function socialList()
@@ -205,7 +205,7 @@ class DataController extends Controller
         $social->optional = $request->url;
         $social->save();
 
-        return redirect()->route('admin_data_social_list')->with("success", $this->successCreateMessage);
+        return redirect()->route('admin_data_social_list')->with("success", Config::get('success.success_codes.10120210'));
     }
 
     public function socialUpdate(Request $request)
@@ -219,7 +219,7 @@ class DataController extends Controller
         $social->optional = $request->url;
         $social->save();
 
-        return redirect()->route('admin_data_social_list')->with("success", $this->successUpdateMessage);
+        return redirect()->route('admin_data_social_list')->with("success", Config::get('success.success_codes.10120312'));
     }
 
     public function socialDelete(Request $request)
@@ -232,7 +232,7 @@ class DataController extends Controller
         $social->deleted = 1;
         $social->save();
 
-        return redirect()->route('admin_data_social_list')->with("success", $this->successDeleteMessage);
+        return redirect()->route('admin_data_social_list')->with("success", Config::get('success.success_codes.10120213'));
     }
 
     public function titleList()
@@ -252,6 +252,6 @@ class DataController extends Controller
         }
         $index_title->value = $request->index_title;
         $index_title->save();
-        return redirect()->back()->with('success', $this->successUpdateMessage);
+        return redirect()->back()->with('success', Config::get('success.success_codes.10120412'));
     }
 }

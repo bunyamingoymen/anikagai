@@ -47,7 +47,7 @@ class AdminController extends Controller
 
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             if (Auth::user()->deleted == 0 && Auth::user()->admin == 1)
-                return redirect()->route('admin_index')->with("success", "Giriş Başarılı");
+                return redirect()->route('admin_index')->with("success", Config::get('success.success_codes.10020011'));
             else Auth::logout();
             return redirect()->route('admin_login_screen')->with('error', Config::get('error.error_codes.0000000'));
         }

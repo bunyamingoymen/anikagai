@@ -73,7 +73,7 @@ class UserController extends Controller
 
         $user->save();
 
-        return redirect()->route('admin_user_list')->with("success", $this->successCreateMessage);
+        return redirect()->route('admin_user_list')->with("success", Config::get('success.success_codes.10010010'));
     }
 
     public function userUpdateScreen(Request $request)
@@ -136,7 +136,7 @@ class UserController extends Controller
 
         $user->save();
 
-        return redirect()->back()->with("success", $this->successCreateMessage);
+        return redirect()->back()->with("success", Config::get('success.success_codes.10010012'));
     }
 
     //code:0 ve code:1 kullanıcıları ne olursa olsun silinmemeli.
@@ -154,7 +154,7 @@ class UserController extends Controller
         $user->deleted = 1;
         $user->update_user_code = Auth::user()->code;
         $user->save();
-        return redirect()->route('admin_user_list')->with("success", $this->successDeleteMessage);
+        return redirect()->route('admin_user_list')->with("success", Config::get('success.success_codes.10010013'));
     }
 
     public function userChangePassword(Request $request)
@@ -179,7 +179,7 @@ class UserController extends Controller
         $user->update_user_code = Auth::user()->code;
         $user->save();
 
-        return redirect()->back()->with("success", "Başarılı Bir Şekilde Şifre Değiştirildi.");
+        return redirect()->back()->with("success", Config::get('success.success_codes.10010112'));
     }
 
     public function userGetData(Request $request)

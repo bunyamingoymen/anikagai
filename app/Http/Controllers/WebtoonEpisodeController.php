@@ -105,7 +105,7 @@ class WebtoonEpisodeController extends Controller
 
         $webtoon_episode->save();
 
-        return redirect()->route('admin_webtoon_episodes_list')->with("success", $this->successCreateMessage);
+        return redirect()->route('admin_webtoon_episodes_list')->with("success", Config::get('success.success_codes.10110012'));
     }
 
     public function episodeDelete(Request $request)
@@ -118,7 +118,7 @@ class WebtoonEpisodeController extends Controller
         $webtoon_episode->deleted = 1;
         $webtoon_episode->update_user_code = Auth::user()->code;
         $webtoon_episode->save();
-        return redirect()->route('admin_webtoon_episodes_list')->with("success", $this->successDeleteMessage);
+        return redirect()->route('admin_webtoon_episodes_list')->with("success", Config::get('success.success_codes.10110013'));
     }
 
     public function episodeGetData(Request $request)

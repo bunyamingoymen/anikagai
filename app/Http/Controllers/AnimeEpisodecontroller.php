@@ -106,7 +106,7 @@ class AnimeEpisodecontroller extends Controller
 
         $anime_episode->save();
 
-        return redirect()->route('admin_anime_episodes_list')->with("success", $this->successCreateMessage);
+        return redirect()->route('admin_anime_episodes_list')->with("success", Config::get('success.success_codes.10080012'));
     }
 
     public function episodeDelete(Request $request)
@@ -119,7 +119,7 @@ class AnimeEpisodecontroller extends Controller
         $anime_episode->deleted = 1;
         $anime_episode->update_user_code = Auth::user()->code;
         $anime_episode->save();
-        return redirect()->route('admin_anime_episodes_list')->with("success", $this->successDeleteMessage);
+        return redirect()->route('admin_anime_episodes_list')->with("success", Config::get('success.success_codes.10080013'));
     }
 
     public function episodeGetData(Request $request)
