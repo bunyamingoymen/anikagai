@@ -30,7 +30,6 @@ class AppServiceProvider extends ServiceProvider
         $adminPages = ['admin.layouts.main'];
         View::composer($adminPages, function ($view) {
             //--Bildirimler
-            //$notificationAdmin = NotificationAdmin::Where('deleted', 0)->Where('readed', 0)->Where('to_user_code', Auth::user()->code)->get(); // Burada veritabanından veriyi çekebilirsiniz;
             $notificationAdmin = DB::table('notification_admins')
                 ->Where('notification_admins.deleted', 0)
                 ->Where('notification_admins.readed', 0)
@@ -40,17 +39,24 @@ class AppServiceProvider extends ServiceProvider
                 ->get();
             $notificationAdminCount = count($notificationAdmin);
             //----------------------------------------------------------------
-
-            //dd(Request::path());
-
-            //dd(Config::get('title.titles./' . Request::path())[0]);
-
+            //--Başlıklar
             $title = Config::get('title.titles.' . Request::path());
             $pathName = Config::get('title.titles./' . Request::path());
             $pathRoute = Config::get('title.titles.//' . Request::path());
+            //----------------------------------------------------------------
+            //--Yetkiler
+            $authArray = [
+                'userRead' => 1, 'userGroupRead' => 1, 'groupAuthRead' => 1,
+                'changeHome' => 1, 'changeLogo' => 1, 'changeMeta' => 1, 'changeTitle' => 1, 'changeMenu' => 1, 'changeSocialMedia' => 1,
+                'adminMetaTag' => 1, 'KeyValue' => 1, 'clauseAuthUpdate' => 1,
+                'animeRead' => 1, 'animeEpisodeRead' => 1, 'animeCalendarRead' => 1,
+                'webtoonRead' => 1, 'webtoonEpisodeRead' => 1, 'webtoonCalendarRead' => 1,
+                'pageRead' => 1, 'categoryRead' => 1, 'tagRead' => 1,
+            ];
+            //----------------------------------------------------------------
 
             // Görünüme veriyi gönder
-            $view->with('notificationAdmin', $notificationAdmin)->with('notificationAdminCount', $notificationAdminCount)->with('title', $title)->with('pathName', $pathName)->with('pathRoute', $pathRoute);
+            $view->with('notificationAdmin', $notificationAdmin)->with('notificationAdminCount', $notificationAdminCount)->with('title', $title)->with('pathName', $pathName)->with('pathRoute', $pathRoute)->with('authArray', $authArray);
         });
 
         View::composer($indexPages, function ($view) {

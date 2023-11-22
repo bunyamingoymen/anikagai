@@ -7,12 +7,14 @@ use App\Http\Controllers\AnimeEpisodecontroller;
 use App\Http\Controllers\AuthClauseController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AuthGroupController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DataController;
 use App\Http\Controllers\FollowUserController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\KeyValueController;
 use App\Http\Controllers\NotificationAdminController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\TagController;
 use App\Http\Controllers\TemplateAdminController;
 use App\Http\Controllers\UserAdminController;
 use App\Http\Controllers\UserController;
@@ -72,6 +74,32 @@ Route::middleware(['auth'])->group(function () {
     Route::post("/admin/keyValue/update", [KeyValueController::class, "keyValueUpdate"])->name('admin_keyvalue_update');
 
     Route::post("/admin/keyValue/delete", [KeyValueController::class, "keyValueDelete"])->name('admin_keyvalue_delete');
+
+    //----------------------------------------------------------------
+
+    Route::get("/admin/category/list", [CategoryController::class, "categoryList"])->name('admin_category_list');
+    Route::post("/admin/category/list/ajax", [CategoryController::class, "categoryGetData"])->name('admin_category_get_data');
+
+    Route::get("/admin/category/create", [CategoryController::class, "categoryCreateScreen"])->name('admin_category_create_screen');
+    Route::post("/admin/category/create", [CategoryController::class, "categoryCreate"])->name('admin_category_create');
+
+    Route::get("/admin/category/update", [CategoryController::class, "categoryUpdateScreen"])->name('admin_category_update_screen');
+    Route::post("/admin/category/update", [CategoryController::class, "categoryUpdate"])->name('admin_category_update');
+
+    Route::post("/admin/category/delete", [CategoryController::class, "categoryDelete"])->name('admin_category_delete');
+
+    //----------------------------------------------------------------
+
+    Route::get("/admin/tag/list", [TagController::class, "tagList"])->name('admin_tag_list');
+    Route::post("/admin/tag/list/ajax", [TagController::class, "tagCreateScreen"])->name('admin_tag_get_data');
+
+    Route::get("/admin/tag/create", [TagController::class, "tagCreateScreen"])->name('admin_tag_create_screen');
+    Route::post("/admin/tag/create", [TagController::class, "tagCreate"])->name('admin_tag_create');
+
+    Route::get("/admin/tag/update", [TagController::class, "tagUpdateScreen"])->name('admin_tag_update_screen');
+    Route::post("/admin/tag/update", [TagController::class, "tagUpdate"])->name('admin_tag_update');
+
+    Route::post("/admin/tag/delete", [TagController::class, "tagDelete"])->name('admin_tag_delete');
 
     //----------------------------------------------------------------
 

@@ -11,14 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tags', function (Blueprint $table) {
+        Schema::create('content_categories', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('code');
-            $table->string('name');
-            $table->longText('description')->nullable();
-            $table->unsignedBigInteger('create_user_code')->default(1);
-            $table->unsignedBigInteger('update_user_code')->nullable();
-            $table->tinyInteger('deleted')->default(0); // 0: silinmemiş 1: silinmiş
+            $table->unsignedBigInteger('category_code');
+            $table->unsignedBigInteger('content_code');
+            $table->tinyInteger('content_type'); //0: webtoon, 1: anime
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tags');
+        Schema::dropIfExists('content_categories');
     }
 };

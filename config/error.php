@@ -28,7 +28,9 @@ Sayfaların kodları:
 13=> NotificationAdmin
 14=> FollowUser
 15=>Page
-16=> Index
+16=>Category
+17=>Tag
+18=> Index
 
 
 */
@@ -98,5 +100,13 @@ return [
         '0150002' => 'Sayfa Güncelleme Ekranına Giderken Bir Hata Meydana Geldi',
         '0150012' => 'Sayfa Güncellenirken Bir Hata Meydana Geldi',
         '0150013' => 'Sayfa Silinirken Bir Hata Meydana Geldi',
+
+        '0160002' => 'Kategori Güncellenirken Bir Hata Meydana Geldi',
+        '0160012' => 'Kategori Güncellenirken Post işleminde bir hata meydana geldi',
+        '0160013' => 'Kategori Silinirken Bir Hata Meydana Geldi',
+
+        '0170002' => 'Etiket Güncellenirken Bir Hata Meydana Geldi',
+        '0170012' => 'Etiket Güncellenirken Post işleminde bir hata meydana geldi',
+        '0170013' => 'Etiket Silinirken Bir Hata Meydana Geldi',
     ],
 ];

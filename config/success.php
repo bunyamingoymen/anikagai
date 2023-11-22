@@ -29,7 +29,9 @@ Sayfaların kodları:
 13=> NotificationAdmin
 14=> FollowUser
 15=>Page
-16=> Index
+16=> Category
+17=> Tag
+18=> Index
 
 */
 $success = " Başarılı Bir Şekilde ";
@@ -102,5 +104,13 @@ return [
         '10150010' => 'Sayfa' . $success . $add,
         '10150012' => 'Sayfa' . $success . $update,
         '10150013' => 'Sayfa' . $success . $delete,
+
+        '10160010' => 'Kategori' . $success . $add,
+        '10160012' => 'Kategori' . $success . $update,
+        '10160013' => 'Kategori' . $success . $delete,
+
+        '10170010' => 'Etiket' . $success . $add,
+        '10170012' => 'Etiket' . $success . $update,
+        '10170013' => 'Etiket' . $success . $delete,
     ],
 ];

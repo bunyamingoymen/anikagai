@@ -215,5 +215,37 @@ return [
         'admin/page/update' => "Sayfayı Güncelle",
         '/admin/page/update' => ["Admin", "Sayfalar", "Sayfayı Güncelle"],
         '//admin/page/update' => ["admin_index", 'admin_page_list', "#"],
+
+
+
+
+
+        'admin/category/list' => "Kategoriler",
+        '/admin/category/list' => ["Admin", "Kategori"],
+        '//admin/category/list' => ["admin_index", "#"],
+
+        'admin/category/create' => "Kategori Oluştur",
+        '/admin/category/create' => ["Admin", "Kategoriler", "Kategori Oluştur"],
+        '//admin/category/create' => ["admin_index", "admin_category_list", "#"],
+
+        'admin/category/update' => "Kategori Güncelle",
+        '/admin/category/update' => ["Admin", "Kategoriler", "Kategori Güncelle"],
+        '//admin/category/update' => ["admin_index", "admin_category_list", "#"],
+
+
+
+
+
+        'admin/tag/list' => "Etiketler",
+        '/admin/tag/list' => ["Admin", "Kategori"],
+        '//admin/tag/list' => ["admin_index", "#"],
+
+        'admin/tag/create' => "Etiket Oluştur",
+        '/admin/tag/create' => ["Admin", "Etiketler", "Etiket Oluştur"],
+        '//admin/tag/create' => ["admin_index", "admin_tag_list", "#"],
+
+        'admin/tag/update' => "Etiket Güncelle",
+        '/admin/tag/update' => ["Admin", "Etiketler", "Etiket Güncelle"],
+        '//admin/tag/update' => ["admin_index", "admin_tag_list", "#"],
     ],
 ];

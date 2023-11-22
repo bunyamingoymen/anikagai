@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('code');
+            $table->string('name');
+            $table->longText('description')->nullable();
+            $table->unsignedBigInteger('create_user_code')->default(1);
+            $table->unsignedBigInteger('update_user_code')->nullable();
+            $table->tinyInteger('deleted')->default(0); // 0: silinmemiş 1: silinmiş
             $table->timestamps();
         });
     }
