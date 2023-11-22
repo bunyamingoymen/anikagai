@@ -11,7 +11,6 @@ class AuthClauseController extends Controller
 {
     public function AuthClauseList()
     {
-        $title = "Yetki Maddeleri";
         $clauses = AuthorizationClause::Where('deleted', 0)->take(10)->get();
         $currentCount = 1;
         $pageCountTest = AuthorizationClause::Where('deleted', 0)->count();
@@ -19,14 +18,13 @@ class AuthClauseController extends Controller
             $pageCount = $pageCountTest / $this->showCount;
         else
             $pageCount = intval($pageCountTest / $this->showCount) + 1;
-        return view("admin.auth.clauses.list", ["title" => $title, "clauses" => $clauses, 'pageCount' => $pageCount, 'currentCount' => $currentCount]);
+        return view("admin.auth.clauses.list", ["clauses" => $clauses, 'pageCount' => $pageCount, 'currentCount' => $currentCount]);
     }
 
     public function AuthClauseCreateScreen()
     {
-        $title = "Yetki Maddesi Ekle";
 
-        return view("admin.auth.clauses.create", ["title" => $title]);
+        return view("admin.auth.clauses.create");
     }
 
     public function AuthClauseCreate(Request $request)
@@ -55,9 +53,7 @@ class AuthClauseController extends Controller
         if (!$clause)
             return redirect()->back()->with("error", Config::get('error.error_codes.0030002'));
 
-        $title = "Yetki Maddesini Güncelle";
-
-        return view("admin.auth.clauses.UPDATE", ["title" => $title, "clause" => $clause]);
+        return view("admin.auth.clauses.UPDATE", ["clause" => $clause]);
     }
 
     public function AuthClauseUpdate(Request $request)

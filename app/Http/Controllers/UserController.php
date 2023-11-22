@@ -13,7 +13,6 @@ class UserController extends Controller
 {
     public function userList()
     {
-        $title = "Kullanıcılar";
         $users = User::Where('deleted', 0)->Where('code', '!=', 0)->take(10)->get();
         $currentCount = 1;
         $pageCountTest = User::Where('deleted', 0)->count();
@@ -21,16 +20,15 @@ class UserController extends Controller
             $pageCount = $pageCountTest / $this->showCount;
         else
             $pageCount = intval($pageCountTest / $this->showCount) + 1;
-        return view("admin.users.list", ["title" => $title, "users" => $users, 'pageCount' => $pageCount, 'currentCount' => $currentCount]);
+        return view("admin.users.list", ["users" => $users, 'pageCount' => $pageCount, 'currentCount' => $currentCount]);
     }
 
     public function userCreateScreen()
     {
-        $title = "Yeni Kullanıcı Oluştur";
 
         $users_groups = AuthorizationGroup::Where('deleted', 0)->get();
 
-        return view("admin.users.create", ["title" => $title, 'users_groups' => $users_groups]);
+        return view("admin.users.create", ['users_groups' => $users_groups]);
     }
 
     public function userCreate(Request $request)
@@ -86,11 +84,9 @@ class UserController extends Controller
         if (!$user)
             return redirect()->back()->with("error", Config::get('error.error_codes.0010002'));
 
-        $title = "Kullanıcıyı Güncelle";
-
         $users_groups = AuthorizationGroup::Where('deleted', 0)->get();
 
-        return view("admin.users.update", ["title" => $title, "user" => $user, "users_groups" => $users_groups]);
+        return view("admin.users.update", ["user" => $user, "users_groups" => $users_groups]);
     }
 
     public function userUpdate(Request $request)

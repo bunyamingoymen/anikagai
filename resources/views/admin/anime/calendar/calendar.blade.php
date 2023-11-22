@@ -291,7 +291,7 @@
     function addEventsRepeats(repeat_type, interval, start_date, end_date, anime_name, backgroundColor, anime_code) {
         interval = parseInt(interval);
         if(JSON.stringify(end_date).split("T")[0].replace('"','') == "1970-01-01"){
-            ar baslangici = new Date(start_date);
+            var baslangici = new Date(start_date);
             var event = {
                 code: anime_code,
                 title: anime_name, // a property!

@@ -11,7 +11,6 @@ class KeyValueController extends Controller
 {
     public function keyValueList()
     {
-        $title = "KeyValue";
         $keyValues = KeyValue::Where('deleted', 0)->take(10)->get();
         $currentCount = 1;
         $pageCountTest = KeyValue::Where('deleted', 0)->count();
@@ -19,14 +18,13 @@ class KeyValueController extends Controller
             $pageCount = $pageCountTest / $this->showCount;
         else
             $pageCount = intval($pageCountTest / $this->showCount) + 1;
-        return view("admin.keyvalue.list", ["title" => $title, "keyValues" => $keyValues, 'pageCount' => $pageCount, 'currentCount' => $currentCount]);
+        return view("admin.keyvalue.list", ["keyValues" => $keyValues, 'pageCount' => $pageCount, 'currentCount' => $currentCount]);
     }
 
     public function keyValueCreateScreen()
     {
-        $title = "KeyValue Oluştur";
 
-        return view("admin.keyvalue.create", ["title" => $title]);
+        return view("admin.keyvalue.create");
     }
 
     public function keyValueCreate(Request $request)
@@ -57,9 +55,8 @@ class KeyValueController extends Controller
         if (!$keyValue)
             return redirect()->back()->with("error", Config::get('error.error_codes.0000002'));
 
-        $title = "KeyValue Güncelle";
 
-        return view("admin.keyvalue.update", ["title" => $title, "keyValue" => $keyValue]);
+        return view("admin.keyvalue.update", ["keyValue" => $keyValue]);
     }
 
     public function keyValueUpdate(Request $request)

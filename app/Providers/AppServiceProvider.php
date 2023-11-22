@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\KeyValue;
 use App\Models\NotificationAdmin;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
@@ -28,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
         $indexPages = ['index.layouts.main', 'index.index'];
         $adminPages = ['admin.layouts.main'];
         View::composer($adminPages, function ($view) {
+            //--Bildirimler
             //$notificationAdmin = NotificationAdmin::Where('deleted', 0)->Where('readed', 0)->Where('to_user_code', Auth::user()->code)->get(); // Burada veritabanından veriyi çekebilirsiniz;
             $notificationAdmin = DB::table('notification_admins')
                 ->Where('notification_admins.deleted', 0)
@@ -37,8 +39,18 @@ class AppServiceProvider extends ServiceProvider
                 ->select('notification_admins.*', 'users.name as from_user_name', 'users.surname as from_user_surname')
                 ->get();
             $notificationAdminCount = count($notificationAdmin);
+            //----------------------------------------------------------------
+
+            //dd(Request::path());
+
+            //dd(Config::get('title.titles./' . Request::path())[0]);
+
+            $title = Config::get('title.titles.' . Request::path());
+            $pathName = Config::get('title.titles./' . Request::path());
+            $pathRoute = Config::get('title.titles.//' . Request::path());
+
             // Görünüme veriyi gönder
-            $view->with('notificationAdmin', $notificationAdmin)->with('notificationAdminCount', $notificationAdminCount);
+            $view->with('notificationAdmin', $notificationAdmin)->with('notificationAdminCount', $notificationAdminCount)->with('title', $title)->with('pathName', $pathName)->with('pathRoute', $pathRoute);
         });
 
         View::composer($indexPages, function ($view) {

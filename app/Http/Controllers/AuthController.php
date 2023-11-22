@@ -13,11 +13,10 @@ class AuthController extends Controller
 {
     public function authList()
     {
-        $title = "Grup Yetkileri";
         $groups = AuthorizationGroup::Where('deleted', 0)->get();
         $clauses = AuthorizationClause::Where('deleted', 0)->get();
 
-        return view('admin.auth.auth.list', ["title" => $title, 'groups' => $groups, 'clauses' => $clauses]);
+        return view('admin.auth.auth.list', ['groups' => $groups, 'clauses' => $clauses]);
     }
 
     public function authChange(Request $request)

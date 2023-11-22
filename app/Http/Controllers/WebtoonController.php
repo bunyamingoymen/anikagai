@@ -11,7 +11,6 @@ class WebtoonController extends Controller
 {
     public function webtoonList()
     {
-        $title = "Webtoonlar";
         $webtoons = Webtoon::Where('deleted', 0)->take(10)->get();
         $currentCount = 1;
         $pageCountTest = Webtoon::Where('deleted', 0)->count();
@@ -19,14 +18,13 @@ class WebtoonController extends Controller
             $pageCount = $pageCountTest / $this->showCount;
         else
             $pageCount = intval($pageCountTest / $this->showCount) + 1;
-        return view("admin.webtoon.webtoon.list", ["title" => $title, "webtoons" => $webtoons, 'pageCount' => $pageCount, 'currentCount' => $currentCount]);
+        return view("admin.webtoon.webtoon.list", ["webtoons" => $webtoons, 'pageCount' => $pageCount, 'currentCount' => $currentCount]);
     }
 
     public function webtoonCreateScreen()
     {
-        $title = "Yeni Bir Webtoon Ekle";
 
-        return view("admin.webtoon.webtoon.create", ["title" => $title]);
+        return view("admin.webtoon.webtoon.create");
     }
 
     public function webtoonCreate(Request $request)
@@ -70,9 +68,8 @@ class WebtoonController extends Controller
         if (!$webtoon)
             return redirect()->back()->with("error", Config::get('error.error_codes.0090002'));
 
-        $title = "Webtoon Güncelle";
 
-        return view("admin.webtoon.webtoon.update", ["title" => $title, "webtoon" => $webtoon]);
+        return view("admin.webtoon.webtoon.update", ["webtoon" => $webtoon]);
     }
 
     public function webtoonUpdate(Request $request)

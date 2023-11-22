@@ -56,9 +56,13 @@
 
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Anikagai</a></li>
-                                        <li class="breadcrumb-item"><a href="javascript: void(0);">Pages</a></li>
-                                        <li class="breadcrumb-item active">Starter Page</li>
+                                        @foreach ($pathName as $item)
+                                        @unless($loop->last)
+                                        <li class="breadcrumb-item"><a
+                                                href="{{route($pathRoute[$loop->index])}}">{{$item}}</a></li>
+                                        @endunless
+                                        @endforeach
+                                        <li class="breadcrumb-item active">{{end($pathName)}}</li>
                                     </ol>
                                 </div>
 

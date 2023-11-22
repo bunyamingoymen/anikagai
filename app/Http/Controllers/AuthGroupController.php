@@ -11,7 +11,6 @@ class AuthGroupController extends Controller
 {
     public function AuthGroupList()
     {
-        $title = "Kullanıcı Grupları";
         $groups = AuthorizationGroup::Where('deleted', 0)->take(10)->get();
         $currentCount = 1;
         $pageCountTest = AuthorizationGroup::Where('deleted', 0)->count();
@@ -19,14 +18,13 @@ class AuthGroupController extends Controller
             $pageCount = $pageCountTest / $this->showCount;
         else
             $pageCount = intval($pageCountTest / $this->showCount) + 1;
-        return view("admin.auth.groups.list", ["title" => $title, "groups" => $groups, 'pageCount' => $pageCount, 'currentCount' => $currentCount]);
+        return view("admin.auth.groups.list", ["groups" => $groups, 'pageCount' => $pageCount, 'currentCount' => $currentCount]);
     }
 
     public function AuthGroupCreateScreen()
     {
-        $title = "Kullanıcı Grubu Oluştur";
 
-        return view("admin.auth.groups.create", ["title" => $title]);
+        return view("admin.auth.groups.create");
     }
 
     public function AuthGroupCreate(Request $request)
@@ -55,9 +53,7 @@ class AuthGroupController extends Controller
         if (!$group)
             return redirect()->back()->with("error", Config::get('error.error_codes.0040002'));
 
-        $title = "Kullanıcı Grubunu Güncelle";
-
-        return view("admin.auth.groups.update", ["title" => $title, "group" => $group]);
+        return view("admin.auth.groups.update", ["group" => $group]);
     }
 
     public function AuthGroupUpdate(Request $request)

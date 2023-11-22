@@ -12,7 +12,6 @@ class WebtoonCalendarController extends Controller
 {
     public function index()
     {
-        $title = "Webtoon Takvimi";
 
         $webtoons = Webtoon::Where('deleted', 0)->get();
 
@@ -23,7 +22,7 @@ class WebtoonCalendarController extends Controller
 
         //dd($webtoon_calendars->toArray());
 
-        return view('admin.webtoon.calendar.calendar', ['title' => $title, 'webtoons' => $webtoons, 'webtoon_calendars' => $webtoon_calendars]);
+        return view('admin.webtoon.calendar.calendar', ['webtoons' => $webtoons, 'webtoon_calendars' => $webtoon_calendars]);
     }
 
     public function addEvent(Request $request)

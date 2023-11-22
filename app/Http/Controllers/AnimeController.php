@@ -11,7 +11,6 @@ class AnimeController extends Controller
 {
     public function animeList()
     {
-        $title = "Animeler";
         $animes = Anime::Where('deleted', 0)->take(10)->get();
         $currentCount = 1;
         $pageCountTest = Anime::Where('deleted', 0)->count();
@@ -19,15 +18,14 @@ class AnimeController extends Controller
             $pageCount = $pageCountTest / $this->showCount;
         else
             $pageCount = intval($pageCountTest / $this->showCount) + 1;
-        return view("admin.anime.anime.list", ["title" => $title, "animes" => $animes, 'pageCount' => $pageCount, 'currentCount' => $currentCount]);
+        return view("admin.anime.anime.list", ["animes" => $animes, 'pageCount' => $pageCount, 'currentCount' => $currentCount]);
     }
 
     public function animeCreateScreen()
     {
-        $title = "Yeni Bir Anime Ekle";
 
 
-        return view("admin.anime.anime.create", ["title" => $title]);
+        return view("admin.anime.anime.create");
     }
 
     public function animeCreate(Request $request)
@@ -71,9 +69,7 @@ class AnimeController extends Controller
         if (!$anime)
             return redirect()->back()->with("error", Config::get('error.error_codes.0060002'));
 
-        $title = "Anime Güncelle";
-
-        return view("admin.anime.anime.update", ["title" => $title, "anime" => $anime]);
+        return view("admin.anime.anime.update", ["anime" => $anime]);
     }
 
     public function animeUpdate(Request $request)

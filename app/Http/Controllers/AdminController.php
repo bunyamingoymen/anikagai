@@ -13,13 +13,11 @@ class AdminController extends Controller
 {
     public function index()
     {
-        $title = "Anaysafa";
-        return view('admin.index', ["title" => $title]);
+        return view('admin.index');
     }
 
     public function profile(Request $request)
     {
-        $title = "Profil";
         $followed = 0;
 
         if ($request->has('code')) {
@@ -36,7 +34,7 @@ class AdminController extends Controller
             ->select('users.code as user_code', 'users.name as user_name', 'users.surname as user_surname', 'users.image as user_image', 'users.description as user_description')
             ->get();
 
-        return view('admin.users.profile', ["title" => $title, 'user' => $user, 'followed' => $followed, 'followed_users' => $followed_users]);
+        return view('admin.users.profile', ['user' => $user, 'followed' => $followed, 'followed_users' => $followed_users]);
     }
 
     public function loginScreen()

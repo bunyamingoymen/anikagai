@@ -11,8 +11,6 @@ class DataController extends Controller
     public function logoList()
     {
 
-        $title = "Logo";
-
         $logo = KeyValue::Where('key', 'index_logo')->first();
         $logo_footer = KeyValue::Where('key', 'index_logo_footer')->first();
 
@@ -22,7 +20,7 @@ class DataController extends Controller
             return redirect()->back()->with("error", Config::get('error.error_codes.0120001'));
         }
 
-        return view('admin.data.logo', ["title" => $title, 'logo' => $logo, 'logo_footer' => $logo_footer, 'icon' => $icon]);
+        return view('admin.data.logo', ['logo' => $logo, 'logo_footer' => $logo_footer, 'icon' => $icon]);
     }
 
     public function logoChange(Request $request)
@@ -65,7 +63,6 @@ class DataController extends Controller
 
     public function menuList()
     {
-        $title = "Menü";
 
         $menus = KeyValue::Where('key', 'menu')->Where('deleted', 0)->get();
         $menu_alts = KeyValue::Where('key', 'menu_alt')->Where('deleted', 0)->get();
@@ -74,7 +71,7 @@ class DataController extends Controller
             return redirect()->back()->with("error", Config::get('error.error_codes.0120101'));
         }
 
-        return view('admin.data.menu', ['title' => $title, 'menus' => $menus, 'menu_alts' => $menu_alts]);
+        return view('admin.data.menu', ['menus' => $menus, 'menu_alts' => $menu_alts]);
     }
 
     public function menuAdd(Request $request)
@@ -131,13 +128,12 @@ class DataController extends Controller
 
     public function metaList()
     {
-        $title = "Meta";
         $meta = KeyValue::Where('key', 'meta')->Where('deleted', 0)->get();
 
         if (!$meta)
             return redirect()->back()->with("error", Config::get('error.error_codes.0120201'));
 
-        return view('admin.data.meta', ["title" => $title, 'meta' => $meta]);
+        return view('admin.data.meta', ['meta' => $meta]);
     }
 
     public function metaAdd(Request $request)
@@ -188,13 +184,12 @@ class DataController extends Controller
 
     public function socialList()
     {
-        $title = "Sosyal Medya";
         $social = KeyValue::Where('key', 'social_media')->Where('deleted', 0)->get();
 
         if (!$social)
             return redirect()->back()->with("error", Config::get('error.error_codes.0120301'));
 
-        return view('admin.data.social', ['title' => $title, 'meta' => $social]);
+        return view('admin.data.social', ['meta' => $social]);
     }
 
     public function socialAdd(Request $request)
@@ -242,12 +237,11 @@ class DataController extends Controller
 
     public function titleList()
     {
-        $title = "Başlık";
         $index_title = KeyValue::Where('key', 'index_title')->first();
         if (!$index_title) {
             return redirect()->back()->with("error", Config::get('error.error_codes.0120401'));
         }
-        return view('admin.data.title', ['title' => $title, 'index_title' => $index_title]);
+        return view('admin.data.title', ['index_title' => $index_title]);
     }
 
     public function titleChange(Request $request)

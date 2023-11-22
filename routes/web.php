@@ -59,6 +59,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post("/admin/sendMessage", [NotificationAdminController::class, "sendMessage"])->name('admin_send_message');
     Route::post("/admin/readNotification", [NotificationAdminController::class, "readNotification"])->name('admin_read_notification');
 
+    //----------------------------------------------------------------
+
     Route::get("/admin/keyValue/list", [KeyValueController::class, "keyValueList"])->name('admin_keyvalue_list');
     Route::post("/admin/keyValue/list/ajax", [KeyValueController::class, "keyValueGetData"])->name('admin_keyvalue_get_data');
 

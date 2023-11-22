@@ -12,7 +12,6 @@ class AnimeCalendarController extends Controller
 {
     public function index()
     {
-        $title = "Anime Takvimi";
 
         $animes = Anime::Where('deleted', 0)->get();
 
@@ -23,7 +22,7 @@ class AnimeCalendarController extends Controller
             ->select('anime_calendars.*', 'animes.name as anime_name')
             ->get();
 
-        return view('admin.anime.calendar.calendar', ['title' => $title, 'animes' => $animes, 'anime_calendars' => $anime_calendars]);
+        return view('admin.anime.calendar.calendar', ['animes' => $animes, 'anime_calendars' => $anime_calendars]);
     }
 
     public function addEvent(Request $request)

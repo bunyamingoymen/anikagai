@@ -13,7 +13,6 @@ class AnimeEpisodecontroller extends Controller
 {
     public function episodeList()
     {
-        $title = "Anime bölümleri";
         //$anime_episodes = AnimeEpisode::Where('deleted', 0)->take(10)->get();
         $anime_episodes = DB::table('anime_episodes')
             ->join('animes', 'animes.code', '=', 'anime_episodes.anime_code')
@@ -25,16 +24,15 @@ class AnimeEpisodecontroller extends Controller
             $pageCount = $pageCountTest / $this->showCount;
         else
             $pageCount = intval($pageCountTest / $this->showCount) + 1;
-        return view("admin.anime.episode.list", ["title" => $title, "anime_episodes" => $anime_episodes, 'pageCount' => $pageCount, 'currentCount' => $currentCount]);
+        return view("admin.anime.episode.list", ["anime_episodes" => $anime_episodes, 'pageCount' => $pageCount, 'currentCount' => $currentCount]);
     }
 
     public function episodeCreateScreen()
     {
-        $title = "Yeni Bir Anime Bölümü Ekle";
 
         $animes = Anime::Where('deleted', 0)->get();
 
-        return view("admin.anime.episode.create", ["title" => $title, 'animes' => $animes]);
+        return view("admin.anime.episode.create", ['animes' => $animes]);
     }
 
     public function episodeCreate(Request $request)
@@ -88,9 +86,7 @@ class AnimeEpisodecontroller extends Controller
 
         $animes = Anime::Where('deleted', 0)->get();
 
-        $title = "Anime Bölümünü güncelle";
-
-        return view("admin.anime.episode.update", ["title" => $title, "anime_episode" => $anime_episode, "animes" => $animes]);
+        return view("admin.anime.episode.update", ["anime_episode" => $anime_episode, "animes" => $animes]);
     }
 
     public function epsiodeUpdate(Request $request)

@@ -13,7 +13,6 @@ class WebtoonEpisodeController extends Controller
 {
     public function episodeList()
     {
-        $title = "Webtoon bölümleri";
 
         $webtoon_episodes = DB::table('webtoon_episodes')
             ->join('webtoons', 'webtoons.code', '=', 'webtoon_episodes.webtoon_code')
@@ -25,16 +24,15 @@ class WebtoonEpisodeController extends Controller
             $pageCount = $pageCountTest / $this->showCount;
         else
             $pageCount = intval($pageCountTest / $this->showCount) + 1;
-        return view("admin.webtoon.episode.list", ["title" => $title, "webtoon_episodes" => $webtoon_episodes, 'pageCount' => $pageCount, 'currentCount' => $currentCount]);
+        return view("admin.webtoon.episode.list", ["webtoon_episodes" => $webtoon_episodes, 'pageCount' => $pageCount, 'currentCount' => $currentCount]);
     }
 
     public function episodeCreateScreen()
     {
-        $title = "Yeni Bir Webtoon Bölümü Ekle";
 
         $webtoons = Webtoon::Where('deleted', 0)->get();
 
-        return view("admin.webtoon.episode.create", ["title" => $title, 'webtoons' => $webtoons]);
+        return view("admin.webtoon.episode.create", ['webtoons' => $webtoons]);
     }
 
     public function episodeCreate(Request $request)
@@ -86,9 +84,8 @@ class WebtoonEpisodeController extends Controller
 
         $webtoons = Webtoon::Where('deleted', 0)->get();
 
-        $title = "Webtoon Bölümünü güncelle";
 
-        return view("admin.webtoon.episode.update", ["title" => $title, "webtoon_episode" => $webtoon_episode, "webtoons" => $webtoons]);
+        return view("admin.webtoon.episode.update", ["webtoon_episode" => $webtoon_episode, "webtoons" => $webtoons]);
     }
 
     public function epsiodeUpdate(Request $request)
