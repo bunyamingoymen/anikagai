@@ -164,7 +164,7 @@
 </script>
 
 <script>
-    @if ($deleted == 1)
+    @if ($delete == 1)
     function deleteAnimeEpisde(code){
         Swal.fire({
             title: 'Emin Misin?',
