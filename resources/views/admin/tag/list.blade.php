@@ -1,5 +1,6 @@
 @extends("admin.layouts.main")
 @section('admin_content')
+@if ($list == 1)
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
@@ -29,10 +30,14 @@
                                         ...
                                     </button>
                                     <div class="dropdown-menu">
+                                        @if ($delete == 1)
                                         <a class="dropdown-item" href="javascript:;"
                                             onclick="deleteTag({{$item->code}})">Sil</a>
+                                        @endif
+                                        @if ($update == 1)
                                         <a class="dropdown-item"
                                             href="{{route('admin_tag_update_screen')}}?code={{$item->code}}">Güncelle</a>
+                                        @endif
                                     </div>
                                 </div>
                             </td>
@@ -103,11 +108,15 @@
                                         aria-haspopup="true" aria-expanded="false">
                                         ...
                                     </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="javascript:;" onclick="deleteTag(`+tags[i].code+`)">Sil</a>
-                                        <a class="dropdown-item"
-                                            href="{{route('admin_tag_update_screen')}}?code=`+tags[i].code+`">Güncelle</a>
-                                    </div>
+                                    <div class="dropdown-menu">`
+                                        @if ($delete == 1)
+                                            code += `<a class="dropdown-item" href="javascript:;" onclick="deleteTag(`+tags[i].code+`)">Sil</a>`
+                                        @endif
+                                        @if ($update == 1)
+                                            code += `<a class="dropdown-item" href="{{route('admin_tag_update_screen')}}?code=`+tags[i].code+`">Güncelle</a>`
+                                        @endif
+
+                                    code += `</div>
                                 </div>
                             </td>
                             <th scope="row">`+tags[i].code+`</th>
@@ -141,28 +150,41 @@
 </script>
 
 <script>
-    function deleteTag(code){
-        Swal.fire({
-            title: 'Emin Misin?',
-            text: 'Bu Veriyi Silmek İstiyor musunuz(ID: '+code+')?',
-            icon: 'warning',
-            showDenyButton: true,
-            showCancelButton: false,
-            confirmButtonText: 'Onayla',
-            denyButtonText: `Vazgeç`,
-        }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
-            if (result.isConfirmed) {
-                var html = `<form action='{{route('admin_tag_delete')}}' method="POST" id="deleteTagForm"> @csrf`;
-                    html += `<input type="text" name="code" value='`+code+`'>`;
-                    html += `</form>`
+    @if ($delete == 0)
+        function deleteTag(code){
+            Swal.fire({
+                title: 'Emin Misin?',
+                text: 'Bu Veriyi Silmek İstiyor musunuz(ID: '+code+')?',
+                icon: 'warning',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Onayla',
+                denyButtonText: `Vazgeç`,
+            }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    var html = `<form action='{{route('admin_tag_delete')}}' method="POST" id="deleteTagForm"> @csrf`;
+                        html += `<input type="text" name="code" value='`+code+`'>`;
+                        html += `</form>`
 
-                document.getElementById('hiddenDiv').innerHTML = html;
+                    document.getElementById('hiddenDiv').innerHTML = html;
 
-                document.getElementById('deleteTagForm').submit();
-            }
-        })
-    }
+                    document.getElementById('deleteTagForm').submit();
+                }
+            })
+        }
+    @endif
+</script>
+@endif
+<script>
+    // Sayfa yüklenmeden önce bu JavaScript kodu çalışacak
+    window.addEventListener('DOMContentLoaded', (event) => {
+        // Değişkenin değerini kontrol et
+        @if ($list == 0)
+            // Değişken doğru ise yönlendirme yap
+            window.location.href = '{{route("admin_index")}}';
+        @endif
+    });
 </script>
 
 @endsection

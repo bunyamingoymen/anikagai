@@ -1,5 +1,6 @@
 @extends("admin.layouts.main")
 @section('admin_content')
+@if ($list == 1)
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
@@ -29,10 +30,14 @@
                                         ...
                                     </button>
                                     <div class="dropdown-menu">
+                                        @if ($delete == 1)
                                         <a class="dropdown-item" href="javascript:;"
                                             onclick="deleteCategory({{$item->code}})">Sil</a>
+                                        @endif
+                                        @if ($update == 1)
                                         <a class="dropdown-item"
                                             href="{{route('admin_category_update_screen')}}?code={{$item->code}}">Güncelle</a>
+                                        @endif
                                     </div>
                                 </div>
                             </td>
@@ -103,11 +108,15 @@
                                         aria-haspopup="true" aria-expanded="false">
                                         ...
                                     </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="javascript:;" onclick="deleteCategory(`+categories[i].code+`)">Sil</a>
-                                        <a class="dropdown-item"
-                                            href="{{route('admin_category_update_screen')}}?code=`+categories[i].code+`">Güncelle</a>
-                                    </div>
+                                    <div class="dropdown-menu">`
+                                        @if ($delete == 1)
+                                            code += `<a class="dropdown-item" href="javascript:;" onclick="deleteCategory(`+categories[i].code+`)">Sil</a>`
+                                        @endif
+                                        @if ($update == 1)
+                                            code +=`<a class="dropdown-item"
+                                                href="{{route('admin_category_update_screen')}}?code=`+categories[i].code+`">Güncelle</a>`
+                                        @endif
+                            code += `</div>
                                 </div>
                             </td>
                             <th scope="row">`+categories[i].code+`</th>
@@ -141,6 +150,7 @@
 </script>
 
 <script>
+    @if ($delete == 1)
     function deleteCategory(code){
         Swal.fire({
             title: 'Emin Misin?',
@@ -163,6 +173,19 @@
             }
         })
     }
+    @endif
+</script>
+
+@endif
+<script>
+    // Sayfa yüklenmeden önce bu JavaScript kodu çalışacak
+    window.addEventListener('DOMContentLoaded', (event) => {
+        // Değişkenin değerini kontrol et
+        @if ($list == 0)
+            // Değişken doğru ise yönlendirme yap
+            window.location.href = '{{route("admin_index")}}';
+        @endif
+    });
 </script>
 
 @endsection

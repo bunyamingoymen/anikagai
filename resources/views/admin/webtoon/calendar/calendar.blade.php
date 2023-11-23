@@ -1,7 +1,7 @@
 @extends("admin.layouts.main")
 @section('admin_content')
 
-
+@if ($list == 1)
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
@@ -18,7 +18,7 @@
         data-target=".addEventModal" id="addEventModalButton">Modal</button>
 </div>
 
-
+@if ($create == 1)
 <!--  Modal content for the above example -->
 <div class="modal fade addEventModal" tabindex="-1" role="dialog" aria-labelledby="addEventModalLabel"
     aria-hidden="true">
@@ -95,6 +95,7 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+@endif
 
 <script src="../../../admin/assets/libs/jquery/jquery.min.js"></script>
 <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
@@ -118,6 +119,7 @@
     */
 </script>
 <script>
+    @if ($create == 1)
     function changeCycleType() {
         var value = document.getElementById('cycle_type').value;
 
@@ -157,7 +159,9 @@
         }
 
     }
+    @endif
 </script>
+
 <script>
     var calendar;
 
@@ -170,10 +174,12 @@
             initialView: 'dayGridMonth',
             locale: "tr",
             selectable: true,
+            @if ($create == 1)
             headerToolbar: {
                 center: 'addEventButton',
                 //right: 'listDay,listWeek,listMonth'
             },
+            @endif
             buttonText:{
                 today: 'Bugün',
                 month: 'Ay',
@@ -183,6 +189,7 @@
                 listYear: 'Yılı Listele',
                 listWeek: 'Haftayı Listele',
                 listDay: 'Günü Listele' },
+            @if ($create == 1)
             customButtons: {
                 addEventButton: {
                     text: 'Takvime Yeni Bir Webtoon Ekle',
@@ -191,6 +198,7 @@
                     }
                 }
             },
+            @endif
             datesSet: function(info) {
                 if(called_start == "1970-01-01"){
                     called_start = info.start;
@@ -337,6 +345,17 @@
         }
     }
 
+</script>
+@endif
+<script>
+    // Sayfa yüklenmeden önce bu JavaScript kodu çalışacak
+    window.addEventListener('DOMContentLoaded', (event) => {
+        // Değişkenin değerini kontrol et
+        @if ($list == 0)
+            // Değişken doğru ise yönlendirme yap
+            window.location.href = '{{route("admin_index")}}';
+        @endif
+    });
 </script>
 
 @endsection

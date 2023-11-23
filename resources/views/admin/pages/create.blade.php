@@ -1,6 +1,6 @@
 @extends("admin.layouts.main")
 @section('admin_content')
-
+@if ($create == 1)
 <!-- Summernote css -->
 <link href="../../../admin/assets/libs/summernote/summernote-bs4.min.css" rel="stylesheet" type="text/css" />
 
@@ -88,5 +88,16 @@
             document.getElementById('pageCreateForm').submit();
         }
     }
+</script>
+@endif
+<script>
+    // Sayfa yüklenmeden önce bu JavaScript kodu çalışacak
+    window.addEventListener('DOMContentLoaded', (event) => {
+        // Değişkenin değerini kontrol et
+        @if ($create == 0)
+            // Değişken doğru ise yönlendirme yap
+            window.location.href = '{{route("admin_index")}}';
+        @endif
+    });
 </script>
 @endsection

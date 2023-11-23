@@ -1,5 +1,6 @@
 @extends("admin.layouts.main")
 @section('admin_content')
+@if ($create == 1)
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
@@ -70,6 +71,7 @@
         </div>
     </div>
 </div>
+
 <script>
     function animeEpisodeCreateFormSubmit(){
         var video = document.getElementById('video').value;
@@ -148,5 +150,16 @@
 
         }
     }
+</script>
+@endif
+<script>
+    // Sayfa yüklenmeden önce bu JavaScript kodu çalışacak
+    window.addEventListener('DOMContentLoaded', (event) => {
+        // Değişkenin değerini kontrol et
+        @if ($create == 0)
+            // Değişken doğru ise yönlendirme yap
+            window.location.href = '{{route("admin_index")}}';
+        @endif
+    });
 </script>
 @endsection

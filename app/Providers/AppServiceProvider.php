@@ -27,8 +27,28 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        /*
+        //NOTE : Aşğıdaki sayfalara sadece super_user girebilir bu sebeple diğer sayfalar kısmında veriler yoktur
+        Auth Clause tamamı
+        admin_meta(Data'nın içinde)
+        keyValue
+        */
         $indexPages = ['index.layouts.main', 'index.index'];
         $adminPages = ['admin.layouts.main'];
+        //
+        $userPages = ['admin.users.create', 'admin.users.list', 'admin.users.update'];
+        $authGroupPages = ['admin.auth.groups.create', 'admin.auth.groups.list', 'admin.auth.groups.update'];
+        $authPages = ['admin.auth.auth.list'];
+        $dataPages = ['admin.data.logo', 'admin.data.menu', 'admin.data.meta', 'admin.data.social', 'admin.data.title'];
+        $animePages = ['admin.anime.anime.create', 'admin.anime.anime.list', 'admin.anime.anime.update'];
+        $animeEpisodePages = ['admin.anime.episode.create', 'admin.anime.episode.list', 'admin.anime.episode.update'];
+        $animeCalendarPages = ['admin.anime.calendar.calendar'];
+        $webtoonPages = ['admin.webtoon.webtoon.create', 'admin.webtoon.webtoon.list', 'admin.webtoon.webtoon.update'];
+        $webtoonEpisodePages = ['admin.webtoon.episode.create', 'admin.webtoon.episode.list', 'admin.webtoon.episode.update'];
+        $webtoonCalendarPages = ['admin.webtoon.calendar.calendar'];
+        $pagePages = ['admin.pages.create', 'admin.pages.list', 'admin.pages.update', 'admin.pages.show'];
+        $categoryPages = ['admin.category.create', 'admin.category.list', 'admin.category.update'];
+        $tagPages = ['admin.tag.create', 'admin.tag.list', 'admin.tag.update'];
 
         //----------------------------------------------------------------
         //Admin:
@@ -87,28 +107,6 @@ class AppServiceProvider extends ServiceProvider
 
         //Diğer Sayfalar:
 
-        //
-        /*
-        //NOTE : Aşğıdaki sayfalara sadece super_user girebilir bu sebeple diğer sayfalar kısmında veriler yoktur
-        Auth Cluase 'a sadece super_user ile erişim verilmektedir.
-        Auth Clause tamamı
-        admin_meta(Data'nın içinde)
-        */
-        $userPages = ['admin.users.create', 'admin.users.list', 'admin.users.update'];
-        $authGroupPages = ['admin.auth.groups.create', 'admin.auth.groups.list', 'admin.auth.groups.update'];
-        $authPages = ['admin.auth.groups.create', 'admin.auth.groups.list', 'admin.auth.groups.update'];
-
-        $dataPages = ['admin.data.logo', 'admin.data.menu', 'admin.data.meta', 'admin.data.social', 'admin.data.title'];
-        $animePages = ['admin.anime.anime.create', 'admin.anime.anime.list', 'admin.anime.anime.update'];
-        $animeEpisodePages = ['admin.anime.episode.create', 'admin.anime.episode.list', 'admin.anime.episode.update'];
-        $animeCalendarPages = ['admin.anime.calendar.calendar'];
-        $webtoonPages = ['admin.webtoon.webtoon.create', 'admin.webtoon.webtoon.list', 'admin.webtoon.webtoon.update'];
-        $webtoonEpisodePages = ['admin.webtoon.episode.create', 'admin.webtoon.episode.list', 'admin.webtoon.episode.update'];
-        $webtoonCalendarPages = ['admin.webtoon.calendar.calendar'];
-        $pagePages = ['admin.pages.create', 'admin.pages.list', 'admin.pages.update', 'admin.pages.show'];
-        $categoryPages = ['admin.category.create', 'admin.category.list', 'admin.category.update'];
-        $tagPages = ['admin.tag.create', 'admin.tag.list', 'admin.tag.update'];
-
         View::composer($userPages, function ($view) {
             $create = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/user/create'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
             $list = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/user/list'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
@@ -127,7 +125,7 @@ class AppServiceProvider extends ServiceProvider
 
         View::composer($authPages, function ($view) {
             $list = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/auth/list'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
-            $update = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/authGroup/update'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $update = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/auth/list/change'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
             $view->with(["list" => $list, "update" => $update]);
         });
 
@@ -136,7 +134,8 @@ class AppServiceProvider extends ServiceProvider
             $meta = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/data/meta'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
             $menu = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/data/menu'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
             $social = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/data/social'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
-            $view->with(["logo" => $logo, "meta" => $meta, "menu" => $menu, "social" => $social]);
+            $title = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/data/title'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $view->with(["logo" => $logo, "meta" => $meta, "menu" => $menu, "social" => $social, 'title' => $title]);
         });
 
         View::composer($animePages, function ($view) {

@@ -1,12 +1,15 @@
 @extends("admin.layouts.main")
 @section('admin_content')
+@if($list == 1)
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
                 <div class="" style="">
+                    @if($create == 1)
                     <a class="btn btn-primary mb-3" style="float: right;"
                         href="{{route('admin_authgroup_create_screen')}}">+ Yeni</a>
+                    @endif
                 </div>
 
 
@@ -29,10 +32,15 @@
                                         ...
                                     </button>
                                     <div class="dropdown-menu">
+                                        @if ($delete == 1)
                                         <a class="dropdown-item" href="javascript:;"
                                             onclick="deleteAuthGroup({{$item->code}})">Sil</a>
+                                        @endif
+                                        @if ($update == 1)
                                         <a class="dropdown-item"
                                             href="{{route('admin_authgroup_update_screen')}}?code={{$item->code}}">Güncelle</a>
+                                        @endif
+
                                     </div>
                                 </div>
                             </td>
@@ -77,7 +85,6 @@
         </div>
     </div>
 </div>
-
 <script src="../../../admin/assets/libs/jquery/jquery.min.js"></script>
 <!-- Sayfa Değiştirme Scripti-->
 <script>
@@ -103,11 +110,14 @@
                                         aria-haspopup="true" aria-expanded="false">
                                         ...
                                     </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="javascript:;" onclick="deleteAuthGroup(`+groups[i].code+`)">Sil</a>
-                                        <a class="dropdown-item"
-                                            href="{{route('admin_authgroup_update_screen')}}?code=`+groups[i].code+`">Güncelle</a>
-                                    </div>
+                                    <div class="dropdown-menu">`
+                                        @if ($delete == 1)
+                                            code += `<a class="dropdown-item" href="javascript:;" onclick="deleteAuthGroup(`+groups[i].code+`)">Sil</a>`
+                                        @endif
+                                        @if ($update == 1)
+                                            code += `<a class="dropdown-item" href="{{route('admin_authgroup_update_screen')}}?code=`+groups[i].code+`">Güncelle</a>`
+                                        @endif
+                                    code += `</div>
                                 </div>
                             </td>
                             <th scope="row">`+groups[i].code+`</th>
@@ -141,28 +151,42 @@
 </script>
 
 <script>
-    function deleteAuthGroup(code){
-        Swal.fire({
-            title: 'Emin Misin?',
-            text: 'Bu Veriyi Silmek İstiyor musunuz(ID: '+code+')?',
-            icon: 'warning',
-            showDenyButton: true,
-            showCancelButton: false,
-            confirmButtonText: 'Onayla',
-            denyButtonText: `Vazgeç`,
-        }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
-            if (result.isConfirmed) {
-                var html = `<form action='{{route('admin_authgroup_delete')}}' method="POST" id="deleteAuthGroupForm"> @csrf`;
-                    html += `<input type="text" name="code" value='`+code+`'>`;
-                    html += `</form>`
+    @if ($delete == 1)
+        function deleteAuthGroup(code){
+            Swal.fire({
+                title: 'Emin Misin?',
+                text: 'Bu Veriyi Silmek İstiyor musunuz(ID: '+code+')?',
+                icon: 'warning',
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: 'Onayla',
+                denyButtonText: `Vazgeç`,
+            }).then((result) => {
+            /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    var html = `<form action='{{route('admin_authgroup_delete')}}' method="POST" id="deleteAuthGroupForm"> @csrf`;
+                        html += `<input type="text" name="code" value='`+code+`'>`;
+                        html += `</form>`
 
-                document.getElementById('hiddenDiv').innerHTML = html;
+                    document.getElementById('hiddenDiv').innerHTML = html;
 
-                document.getElementById('deleteAuthGroupForm').submit();
-            }
-        })
-    }
+                    document.getElementById('deleteAuthGroupForm').submit();
+                }
+            })
+        }
+    @endif
+</script>
+@endif
+
+<script>
+    // Sayfa yüklenmeden önce bu JavaScript kodu çalışacak
+    window.addEventListener('DOMContentLoaded', (event) => {
+        // Değişkenin değerini kontrol et
+        @if ($list == 0)
+            // Değişken doğru ise yönlendirme yap
+            window.location.href = '{{route("admin_index")}}';
+        @endif
+    });
 </script>
 
 @endsection

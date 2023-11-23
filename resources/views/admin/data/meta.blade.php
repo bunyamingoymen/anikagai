@@ -1,5 +1,6 @@
 @extends("admin.layouts.main")
 @section('admin_content')
+@if ($meta == 1)
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
@@ -57,8 +58,6 @@
     </div>
 </div>
 
-
-
 <script>
     var meta_count = parseInt("{{count($meta)}}");
     function createNewMeta() {
@@ -114,4 +113,16 @@
         document.getElementById('metaDeleteForm').submit();
     }
 </script>
+
+<script>
+    // Sayfa yüklenmeden önce bu JavaScript kodu çalışacak
+    window.addEventListener('DOMContentLoaded', (event) => {
+        // Değişkenin değerini kontrol et
+        @if ($meta == 0)
+            // Değişken doğru ise yönlendirme yap
+            window.location.href = '{{route("admin_index")}}';
+        @endif
+    });
+</script>
+@endif
 @endsection

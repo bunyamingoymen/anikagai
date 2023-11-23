@@ -1,12 +1,15 @@
 @extends("admin.layouts.main")
 @section('admin_content')
+@if ($list == 1)
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
                 <div class="" style="">
+                    @if ($create == 1)
                     <a class="btn btn-primary mb-3" style="float: right;" href="{{route('admin_page_create_screen')}}">+
                         Yeni</a>
+                    @endif
                 </div>
 
 
@@ -29,10 +32,14 @@
                                         ...
                                     </button>
                                     <div class="dropdown-menu">
+                                        @if ($delete == 1)
                                         <a class="dropdown-item" href="javascript:;"
                                             onclick="deletePage({{$item->code}})">Sil</a>
+                                        @endif
+                                        @if ($update == 1)
                                         <a class="dropdown-item"
                                             href="{{route('admin_page_update_screen')}}?code={{$item->code}}">Güncelle</a>
+                                        @endif
                                         <a class="dropdown-item"
                                             href="{{route('admin_page_show')}}?code={{$item->code}}">Görüntüle</a>
                                     </div>
@@ -105,11 +112,15 @@
                                         aria-haspopup="true" aria-expanded="false">
                                         ...
                                     </button>
-                                    <div class="dropdown-menu">
-                                        <a class="dropdown-item" href="javascript:;" onclick="deletePage(`+pages[i].code+`)">Sil</a>
-                                        <a class="dropdown-item" href="{{route('admin_page_update_screen')}}?code=`+pages[i].code+`">Güncelle</a>
-                                        <a class="dropdown-item" href="{{route('admin_page_show')}}?code=`+pages[i].code+`">Görüntüle</a>
-                                    </div>
+                                    <div class="dropdown-menu">`
+                                        @if ($delete == 1)
+                                            code += `<a class="dropdown-item" href="javascript:;" onclick="deletePage(`+pages[i].code+`)">Sil</a>`
+                                        @endif
+                                        @if ($update == 1)
+                                            code += `<a class="dropdown-item" href="{{route('admin_page_update_screen')}}?code=`+pages[i].code+`">Güncelle</a>`
+                                        @endif
+                                        code += `<a class="dropdown-item" href="{{route('admin_page_show')}}?code=`+pages[i].code+`">Görüntüle</a>`
+                                    code += `</div>
                                 </div>
                             </td>
                             <th scope="row">`+pages[i].code+`</th>
@@ -143,6 +154,7 @@
 </script>
 
 <script>
+    @if ($delete == 1)
     function deletePage(code){
         Swal.fire({
             title: 'Emin Misin?',
@@ -165,6 +177,18 @@
             }
         })
     }
+    @endif
+</script>
+@endif
+<script>
+    // Sayfa yüklenmeden önce bu JavaScript kodu çalışacak
+    window.addEventListener('DOMContentLoaded', (event) => {
+        // Değişkenin değerini kontrol et
+        @if ($list == 0)
+            // Değişken doğru ise yönlendirme yap
+            window.location.href = '{{route("admin_index")}}';
+        @endif
+    });
 </script>
 
 @endsection

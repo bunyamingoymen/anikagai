@@ -1,5 +1,6 @@
 @extends("admin.layouts.main")
 @section('admin_content')
+@if ($social == 1)
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
@@ -51,8 +52,6 @@
     </div>
 </div>
 
-
-
 <script>
     var social_count = parseInt("{{count($meta)}}");
     function createNewMeta() {
@@ -93,5 +92,16 @@
 
         document.getElementById('socialDeleteForm').submit();
     }
+</script>
+@endif
+<script>
+    // Sayfa yüklenmeden önce bu JavaScript kodu çalışacak
+    window.addEventListener('DOMContentLoaded', (event) => {
+        // Değişkenin değerini kontrol et
+        @if ($social == 0)
+            // Değişken doğru ise yönlendirme yap
+            window.location.href = '{{route("admin_index")}}';
+        @endif
+    });
 </script>
 @endsection
