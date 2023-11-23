@@ -72,8 +72,6 @@ class AnimeEpisodecontroller extends Controller
         $anime_episode->save();
 
         return response()->json(['success' => true]);
-
-        //return redirect()->route('admin_anime_list')->with("success", $this->successCreateMessage);
     }
 
     public function episodeUpdateScreen(Request $request)

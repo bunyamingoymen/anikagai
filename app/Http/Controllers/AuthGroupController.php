@@ -42,7 +42,7 @@ class AuthGroupController extends Controller
 
         $group->save();
 
-        return redirect()->route('admin_authgroup_list')->with("success", $this->successCreateMessage);
+        return redirect()->route('admin_authgroup_list')->with("success", Config::get('success.success_codes.10040010'));
     }
 
     public function AuthGroupUpdateScreen(Request $request)
@@ -70,7 +70,7 @@ class AuthGroupController extends Controller
 
         $group->save();
 
-        return redirect()->route('admin_authgroup_list')->with("success", $this->successCreateMessage);
+        return redirect()->route('admin_authgroup_list')->with("success", Config::get('success.success_codes.10040012'));
     }
 
     public function AuthGroupDelete(Request $request)
@@ -84,7 +84,7 @@ class AuthGroupController extends Controller
         $group->update_user_code = Auth::user()->code;
         $group->save();
 
-        return redirect()->route('admin_authgroup_list')->with("success", $this->successDeleteMessage);
+        return redirect()->route('admin_authgroup_list')->with("success", Config::get('success.success_codes.10040013'));
     }
 
     public function AuthGroupGetData(Request $request)

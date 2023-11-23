@@ -42,7 +42,7 @@ class AuthClauseController extends Controller
 
         $clause->save();
 
-        return redirect()->route('admin_authclause_list')->with("success", $this->successCreateMessage);
+        return redirect()->route('admin_authclause_list')->with("success", Config::get('error.error_codes.10030010'));
     }
 
     public function AuthClauseUpdateScreen(Request $request)
@@ -71,7 +71,7 @@ class AuthClauseController extends Controller
 
         $clause->save();
 
-        return redirect()->route('admin_authclause_list')->with("success", $this->successCreateMessage);
+        return redirect()->route('admin_authclause_list')->with("success", Config::get('error.error_codes.10030012'));
     }
 
     public function AuthClauseDelete(Request $request)
@@ -84,7 +84,7 @@ class AuthClauseController extends Controller
         $clause->deleted = 1;
         $clause->update_user_code = Auth::user()->code;
         $clause->save();
-        return redirect()->route('admin_authclause_list')->with("success", $this->successDeleteMessage);
+        return redirect()->route('admin_authclause_list')->with("success", Config::get('error.error_codes.10030013'));
     }
 
     public function AuthClauseGetData(Request $request)

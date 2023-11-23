@@ -120,7 +120,8 @@
                     var yeniOption=document.createElement('option');
                     yeniOption.value=includeData[i].clause_code;
                     yeniOption.text=includeData[i].clause_text;
-                    nonSelected.remove(yeniOption)
+                    //nonSelected.remove(yeniOption)
+                    nonSelected.querySelector('option[value="' + includeData[i].clause_code + '"]').remove()
                     selected.add(yeniOption);
                 }
 

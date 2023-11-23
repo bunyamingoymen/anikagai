@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\AuthorizationClauseGroup;
 use App\Models\KeyValue;
 use App\Models\NotificationAdmin;
 use Illuminate\Support\Facades\Auth;
@@ -28,6 +29,9 @@ class AppServiceProvider extends ServiceProvider
     {
         $indexPages = ['index.layouts.main', 'index.index'];
         $adminPages = ['admin.layouts.main'];
+
+        //----------------------------------------------------------------
+        //Admin:
         View::composer($adminPages, function ($view) {
             //--Bildirimler
             $notificationAdmin = DB::table('notification_admins')
@@ -45,19 +49,112 @@ class AppServiceProvider extends ServiceProvider
             $pathRoute = Config::get('title.titles.//' . Request::path());
             //----------------------------------------------------------------
             //--Yetkiler
+            $userRead = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', 2)->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $userGroupRead = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', 6)->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $groupAuthRead = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', 10)->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $changeHome = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', 13)->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $changeLogo = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', 14)->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $changeMeta = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', 15)->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $changeTitle = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', 16)->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $changeMenu = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', 17)->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $changeSocialMedia = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', 18)->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $adminMetaTag = (Auth::user()->user_type == 0) ? 1 : 0;
+            $KeyValue = (Auth::user()->user_type == 0) ? 1 : 0;
+            $clauseAuthUpdate = (Auth::user()->user_type == 0) ? 1 : 0;
+            $animeRead = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', 20)->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $animeEpisodeRead = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', 24)->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $animeCalendarRead = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', 28)->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $webtoonRead = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', 32)->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $webtoonEpisodeRead = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', 36)->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $webtoonCalendarRead = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', 40)->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $pageRead = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', 44)->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $categoryRead = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', 48)->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $tagRead = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', 52)->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+
             $authArray = [
-                'userRead' => 1, 'userGroupRead' => 1, 'groupAuthRead' => 1,
-                'changeHome' => 1, 'changeLogo' => 1, 'changeMeta' => 1, 'changeTitle' => 1, 'changeMenu' => 1, 'changeSocialMedia' => 1,
-                'adminMetaTag' => 1, 'KeyValue' => 1, 'clauseAuthUpdate' => 1,
-                'animeRead' => 1, 'animeEpisodeRead' => 1, 'animeCalendarRead' => 1,
-                'webtoonRead' => 1, 'webtoonEpisodeRead' => 1, 'webtoonCalendarRead' => 1,
-                'pageRead' => 1, 'categoryRead' => 1, 'tagRead' => 1,
+                'userRead' => $userRead, 'userGroupRead' => $userGroupRead, 'groupAuthRead' => $groupAuthRead,
+                'changeHome' => $changeHome, 'changeLogo' => $changeLogo, 'changeMeta' => $changeMeta, 'changeTitle' => $changeTitle, 'changeMenu' => $changeMenu, 'changeSocialMedia' => $changeSocialMedia,
+                'adminMetaTag' => $adminMetaTag, 'KeyValue' => $KeyValue, 'clauseAuthUpdate' => $clauseAuthUpdate,
+                'animeRead' => $animeRead, 'animeEpisodeRead' => $animeEpisodeRead, 'animeCalendarRead' => $animeCalendarRead,
+                'webtoonRead' => $webtoonRead, 'webtoonEpisodeRead' => $webtoonEpisodeRead, 'webtoonCalendarRead' => $webtoonCalendarRead,
+                'pageRead' => $pageRead, 'categoryRead' => $categoryRead, 'tagRead' => $tagRead,
             ];
             //----------------------------------------------------------------
 
             // Görünüme veriyi gönder
-            $view->with('notificationAdmin', $notificationAdmin)->with('notificationAdminCount', $notificationAdminCount)->with('title', $title)->with('pathName', $pathName)->with('pathRoute', $pathRoute)->with('authArray', $authArray);
+            $view->with(['notificationAdmin' => $notificationAdmin, 'notificationAdminCount' => $notificationAdminCount, 'title' => $title, 'pathName' => $pathName, 'pathRoute' => $pathRoute, 'authArray' => $authArray]);
         });
+
+        //Diğer Sayfalar:
+
+        //
+        /*
+        //NOTE : Aşğıdaki sayfalara sadece super_user girebilir bu sebeple diğer sayfalar kısmında veriler yoktur
+        Auth Cluase 'a sadece super_user ile erişim verilmektedir.
+        Auth Clause tamamı
+        admin_meta(Data'nın içinde)
+        */
+        $userPages = ['admin.users.create', 'admin.users.list', 'admin.users.update'];
+        $authGroupPages = ['admin.auth.groups.create', 'admin.auth.groups.list', 'admin.auth.groups.update'];
+        $authPages = ['admin.auth.groups.create', 'admin.auth.groups.list', 'admin.auth.groups.update'];
+
+        $dataPages = ['admin.data.logo', 'admin.data.menu', 'admin.data.meta', 'admin.data.social', 'admin.data.title'];
+        $animePages = ['admin.anime.anime.create', 'admin.anime.anime.list', 'admin.anime.anime.update'];
+        $animeEpisodePages = ['admin.anime.episode.create', 'admin.anime.episode.list', 'admin.anime.episode.update'];
+        $animeCalendarPages = ['admin.anime.calendar.calendar'];
+        $webtoonPages = ['admin.webtoon.webtoon.create', 'admin.webtoon.webtoon.list', 'admin.webtoon.webtoon.update'];
+        $webtoonEpisodePages = ['admin.webtoon.episode.create', 'admin.webtoon.episode.list', 'admin.webtoon.episode.update'];
+        $webtoonCalendarPages = ['admin.webtoon.calendar.calendar'];
+        $pagePages = ['admin.pages.create', 'admin.pages.list', 'admin.pages.update', 'admin.pages.show'];
+        $categoryPages = ['admin.category.create', 'admin.category.list', 'admin.category.update'];
+        $tagPages = ['admin.tag.create', 'admin.tag.list', 'admin.tag.update'];
+
+        View::composer($userPages, function ($view) {
+            $create = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/user/create'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;;
+            $list = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/user/list'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;;
+            $update = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/user/update'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;;
+            $delete = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/user/delete'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;;
+            $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
+        });
+
+        View::composer($authGroupPages, function ($view) {
+        });
+
+        View::composer($authPages, function ($view) {
+        });
+
+        View::composer($dataPages, function ($view) {
+        });
+
+        View::composer($animePages, function ($view) {
+        });
+
+        View::composer($animeEpisodePages, function ($view) {
+        });
+
+        View::composer($animeCalendarPages, function ($view) {
+        });
+
+        View::composer($webtoonPages, function ($view) {
+        });
+
+        View::composer($webtoonEpisodePages, function ($view) {
+        });
+
+        View::composer($webtoonCalendarPages, function ($view) {
+        });
+
+        View::composer($pagePages, function ($view) {
+        });
+
+        View::composer($categoryPages, function ($view) {
+        });
+
+        View::composer($tagPages, function ($view) {
+        });
+
+        //----------------------------------------------------
+        //Index:
 
         View::composer($indexPages, function ($view) {
 
