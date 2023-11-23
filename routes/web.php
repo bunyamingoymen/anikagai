@@ -15,14 +15,10 @@ use App\Http\Controllers\KeyValueController;
 use App\Http\Controllers\NotificationAdminController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\TagController;
-use App\Http\Controllers\TemplateAdminController;
-use App\Http\Controllers\UserAdminController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WebtoonCalendarController;
 use App\Http\Controllers\WebtoonController;
 use App\Http\Controllers\WebtoonEpisodeController;
-use App\Models\Template;
-use Illuminate\Routing\RouteGroup;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [IndexController::class, 'index'])->name('index');
@@ -51,9 +47,6 @@ Route::group(['middleware' => 'guest'], function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-
-    //----------------------------------------------------------------
-
 
     Route::controller(AdminController::class)->group(function () {
         Route::get("/admin/index", "index")->name('admin_index');
@@ -109,6 +102,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::middleware(['access'])->group(function () {
+
         Route::controller(UserController::class)->group(function () {
             Route::get("/admin/user/list", "userList")->name('admin_user_list');
             Route::post("/admin/user/list/ajax", "userGetData")->name('admin_user_get_data');
