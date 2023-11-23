@@ -110,47 +110,106 @@ class AppServiceProvider extends ServiceProvider
         $tagPages = ['admin.tag.create', 'admin.tag.list', 'admin.tag.update'];
 
         View::composer($userPages, function ($view) {
-            $create = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/user/create'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;;
-            $list = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/user/list'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;;
-            $update = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/user/update'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;;
-            $delete = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/user/delete'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;;
+            $create = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/user/create'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $list = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/user/list'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $update = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/user/update'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $delete = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/user/delete'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
             $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
         });
 
         View::composer($authGroupPages, function ($view) {
+            $create = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/authGroup/create'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $list = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/authGroup/list'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $update = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/authGroup/update'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $delete = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/authGroup/delete'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
         });
 
         View::composer($authPages, function ($view) {
+            $list = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/auth/list'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $update = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/authGroup/update'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $view->with(["list" => $list, "update" => $update]);
         });
 
         View::composer($dataPages, function ($view) {
+            $logo = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/data/logo'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $meta = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/data/meta'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $menu = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/data/menu'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $social = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/data/social'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $view->with(["logo" => $logo, "meta" => $meta, "menu" => $menu, "social" => $social]);
         });
 
         View::composer($animePages, function ($view) {
+            $create = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/anime/create'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $list = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/anime/list'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $update = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/anime/update'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $delete = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/anime/delete'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
         });
 
         View::composer($animeEpisodePages, function ($view) {
+            $create = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/animeEpisodes/create'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $list = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/animeEpisodes/list'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $update = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/animeEpisodes/update'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $delete = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/animeEpisodes/delete'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
         });
 
         View::composer($animeCalendarPages, function ($view) {
+            $create = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/anime/calendar/addEvent'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $list = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/anime/calendar'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $update = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/anime/calendar'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $delete = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/anime/calendar'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
         });
 
         View::composer($webtoonPages, function ($view) {
+            $create = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/webtoon/create'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $list = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/webtoon/list'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $update = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/webtoon/update'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $delete = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/webtoon/delete'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
         });
 
         View::composer($webtoonEpisodePages, function ($view) {
+            $create = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/animeEpisodes/create'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $list = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/animeEpisodes/list'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $update = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/animeEpisodes/update'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $delete = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/animeEpisodes/delete'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
         });
 
         View::composer($webtoonCalendarPages, function ($view) {
+            $create = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/webtoon/calendar/addEvent'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $list = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/webtoon/calendar'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $update = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/webtoon/calendar'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $delete = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/webtoon/calendar'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
         });
 
         View::composer($pagePages, function ($view) {
+            $create = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/page/create'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $list = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/page/list'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $show = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/page/show'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $update = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/page/update'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $delete = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/page/delete'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $view->with(["create" => $create, "list" => $list, "show" => $show, "update" => $update, "delete" => $delete]);
         });
 
         View::composer($categoryPages, function ($view) {
+            $create = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/category/create'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $list = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/category/list'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $update = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/category/update'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $delete = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/category/delete'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
         });
 
         View::composer($tagPages, function ($view) {
+            $create = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/tag/create'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $list = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/tag/list'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $update = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/tag/update'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $delete = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/tag/delete'))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+            $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
         });
 
         //----------------------------------------------------
