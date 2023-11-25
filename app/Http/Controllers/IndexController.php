@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Anime;
+use App\Models\AnimeEpisode;
 use App\Models\KeyValue;
 use App\Models\Theme;
 use App\Models\Webtoon;
@@ -61,11 +62,17 @@ class IndexController extends Controller
         return view("index." . $themePath->themePath . ".list", ['path' => $path, 'title' => $title, "list" => $list, 'pageCount' => $pageCount, 'currentPage' => $currentPage]);
     }
 
-    public function animeDetail()
+    public function animeDetail(Request $request)
     {
         $selected_theme = KeyValue::Where('key', 'selected_theme')->first();
         $themePath = Theme::Where('code', $selected_theme->value)->first();
-        return view("index." . $themePath->themePath . ".animeDetail");
+
+        $anime = Anime::Where('short_name', $request->short_name)->first();
+        $trend_animes = Anime::Where('deleted', 0)->take(4)->orderBy('click_count', 'ASC')->get();
+
+        $anime_episodes = AnimeEpisode::Where('anime_code', $anime->code)->get();
+
+        return view("index." . $themePath->themePath . ".animeDetail", ['anime' => $anime, 'trend_animes' => $trend_animes, 'anime_episodes' => $anime_episodes]);
     }
 
     public function watch()
@@ -75,11 +82,16 @@ class IndexController extends Controller
         return view("index." . $themePath->themePath . ".watch");
     }
 
-    public function webtoonDetail()
+    public function webtoonDetail(Request $request)
     {
         $selected_theme = KeyValue::Where('key', 'selected_theme')->first();
         $themePath = Theme::Where('code', $selected_theme->value)->first();
-        return view("index." . $themePath->themePath . ".webtoonDetail");
+
+        $webtoon = Anime::Where('short_name', $request->short_name)->first();
+
+        $trend_webtoons = Anime::Where('deleted', 0)->take(4)->orderBy('click_count', 'ASC')->get();
+
+        return view("index." . $themePath->themePath . ".webtoonDetail", ['webtoon' => $webtoon, 'trend_webtoons' => $trend_webtoons]);
     }
 
     public function read()

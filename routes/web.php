@@ -25,15 +25,17 @@ Route::get('/', [IndexController::class, 'index'])->name('index');
 
 Route::get('/animeler', [IndexController::class, 'list'])->name('anime_list');
 
-Route::get('/anime/{anime_name}', [IndexController::class, 'animeDetail'])->name('animeDetail');
-
-Route::get('/anime/{anime_name}/{episode_name}', [IndexController::class, 'watch'])->name('watch');
-
 Route::get('/webtoonlar', [IndexController::class, 'list'])->name('webtoon_list');
 
-Route::get('/webtoon/{webtoon_name}', [IndexController::class, 'webtoonDetail'])->name('webtoonDetail');
+Route::group(['middleware' => 'click'], function () {
+    Route::get('/anime/{short_name}', [IndexController::class, 'animeDetail'])->name('animeDetail');
 
-Route::get('/webtoon/{webtoon_name}/{episode_name}', [IndexController::class, 'read'])->name('read');
+    Route::get('/anime/{short_name}/{season}/{episode}', [IndexController::class, 'watch'])->name('watch');
+
+    Route::get('/webtoon/{short_name}', [IndexController::class, 'webtoonDetail'])->name('webtoonDetail');
+
+    Route::get('/webtoon/{short_name}/{season}/{episode}', [IndexController::class, 'read'])->name('read');
+});
 
 
 

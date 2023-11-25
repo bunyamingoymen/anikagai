@@ -1,0 +1,45 @@
+<?php
+
+namespace App\Http\Middleware;
+
+use App\Models\Anime;
+use App\Models\Webtoon;
+use Closure;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Route;
+
+class ClickCountMiddleware
+{
+    /**
+     * Handle an incoming request.
+     *
+     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     */
+    public function handle(Request $request, Closure $next): Response
+    {
+        $short_name = $request->short_name;
+        $route_name = Route::currentRouteName(); // Route'un adını alır;
+
+        $ipAddress = $request->ip();
+        $key = "click_count:{$short_name}:{$route_name}:{$ipAddress}";
+
+
+        if (!Cache::has($key)) {
+            // İp adresine ait cache bulunmuyorsa veya süresi dolduysa
+            Cache::put($key, 1, 60 * 60); // 60 dakika süreyle sakla
+            if ($route_name == 'animeDetail' || $route_name == 'watch') {
+                $anime = Anime::Where('short_name', $short_name)->first();
+                $anime->click_count = $anime->click_count + 1;
+                $anime->save();
+            } else if ($route_name == 'webtoonDetail' || $route_name == 'read') {
+                $webtoon = Webtoon::Where('short_name', $short_name)->first();
+                $webtoon->click_count = $webtoon->click_count + 1;
+                $webtoon->save();
+            }
+            // Örneğin: YourModel::where('ip_address', $ipAddress)->increment('click_count');
+        }
+        return $next($request);
+    }
+}

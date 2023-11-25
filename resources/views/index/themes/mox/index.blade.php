@@ -66,7 +66,7 @@
                         <div class="movie-item movie-item-two mb-30">
                             <div class="movie-poster"
                                 style="min-width: 195px; min-height: 285px; max-width: 195px; max-height: 285px;">
-                                <a href="#"><img src="../../../{{$item->image}}" alt=""></a>
+                                <a href="webtoon/{{$item->short_name}}"><img src="../../../{{$item->image}}" alt=""></a>
                             </div>
                             <div class="movie-content">
                                 <div class="rating">
@@ -76,7 +76,7 @@
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
                                 </div>
-                                <h5 class="title"><a href="#">Message in a Bottle</a></h5>
+                                <h5 class="title"><a href="#">{{$item->name}}</a></h5>
                                 <span class="rel">Adventure</span>
                                 <div class="movie-content-bottom">
                                     <ul>
@@ -99,8 +99,9 @@
                     <div class="ucm-active-two owl-carousel">
                         @foreach ($trend_animes as $item)
                         <div class="movie-item movie-item-two mb-30">
-                            <div class="movie-poster">
-                                <a href="#"><img src="../../../{{$item->image}}" alt=""></a>
+                            <div class="movie-poster"
+                                style="min-width: 195px; min-height: 285px; max-width: 195px; max-height: 285px;">
+                                <a href="anime/{{$item->short_name}}"><img src="../../../{{$item->image}}" alt=""></a>
                             </div>
                             <div class="movie-content">
                                 <div class="rating">
@@ -110,7 +111,7 @@
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
                                 </div>
-                                <h5 class="title"><a href="#">Message in a Bottle</a></h5>
+                                <h5 class="title"><a href="#">{{$item->name}}</a></h5>
                                 <span class="rel">Adventure</span>
                                 <div class="movie-content-bottom">
                                     <ul>
@@ -153,7 +154,7 @@
                             <ul class="overlay-btn">
                                 <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
                                         class="popup-video btn">İzle</a></li>
-                                <li><a href="#" class="btn">Detay</a></li>
+                                <li><a href="anime/{{$item->short_name}}" class="btn">Detay</a></li>
                             </ul>
                         </div>
                         <div class="movie-content">
@@ -164,7 +165,7 @@
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
                             </div>
-                            <h5 class="title"><a href="#">Message in a Bottle</a></h5>
+                            <h5 class="title"><a href="#">{{$item->name}}</a></h5>
                             <span class="rel">Adventure</span>
                             <div class="movie-content-bottom">
                                 <ul>
@@ -210,7 +211,7 @@
                                 <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
                                         class="popup-video btn">İzle</a>
                                 </li>
-                                <li><a href="#" class="btn">Detay</a></li>
+                                <li><a href="webtoon/{{$item->short_name}}" class="btn">Detay</a></li>
                             </ul>
                         </div>
                         <div class="movie-content">
@@ -221,7 +222,7 @@
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
                             </div>
-                            <h5 class="title"><a href="#">Message in a Bottle</a></h5>
+                            <h5 class="title"><a href="#">{{$item->name}}</a></h5>
                             <span class="rel">Adventure</span>
                             <div class="movie-content-bottom">
                                 <ul>
