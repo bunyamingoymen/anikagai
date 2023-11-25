@@ -76,13 +76,12 @@
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
                                 </div>
-                                <h5 class="title"><a href="#">{{$item->name}}</a></h5>
+                                <h5 class="title"><a href="webtoon/{{$item->short_name}}">{{$item->name}}</a></h5>
                                 <span class="rel">Adventure</span>
                                 <div class="movie-content-bottom">
                                     <ul>
                                         <li class="tag">
-                                            <a href="#">HD</a>
-                                            <a href="#">English</a>
+                                            <a href="javascript:;">HD</a>
                                         </li>
                                         <li>
                                             <span class="like"><i class="fas fa-thumbs-up"></i> 3.5</span>
@@ -111,13 +110,12 @@
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
                                 </div>
-                                <h5 class="title"><a href="#">{{$item->name}}</a></h5>
+                                <h5 class="title"><a href="anime/{{$item->short_name}}">{{$item->name}}</a></h5>
                                 <span class="rel">Adventure</span>
                                 <div class="movie-content-bottom">
                                     <ul>
                                         <li class="tag">
-                                            <a href="#">HD</a>
-                                            <a href="#">English</a>
+                                            <a href="Javascript:;">HD</a>
                                         </li>
                                         <li>
                                             <span class="like"><i class="fas fa-thumbs-up"></i> 3.5</span>
@@ -165,13 +163,12 @@
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
                             </div>
-                            <h5 class="title"><a href="#">{{$item->name}}</a></h5>
+                            <h5 class="title"><a href="anime/{{$item->short_name}}">{{$item->name}}</a></h5>
                             <span class="rel">Adventure</span>
                             <div class="movie-content-bottom">
                                 <ul>
                                     <li class="tag">
-                                        <a href="#">HD</a>
-                                        <a href="#">English</a>
+                                        <a href="javascirpt:;">HD</a>
                                     </li>
                                     <li>
                                         <span class="like"><i class="fas fa-thumbs-up"></i> 3.5</span>
@@ -184,7 +181,7 @@
                 @endforeach
             </div>
             <div class="tr-movie-btn text-center mt-25">
-                <a href="#" class="btn">Devamına Bak</a>
+                <a href="{{route('anime_list')}}" class="btn">Devamına Bak</a>
             </div>
         </div>
     </section>
@@ -222,13 +219,12 @@
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
                             </div>
-                            <h5 class="title"><a href="#">{{$item->name}}</a></h5>
+                            <h5 class="title"><a href="webtoon/{{$item->short_name}}">{{$item->name}}</a></h5>
                             <span class="rel">Adventure</span>
                             <div class="movie-content-bottom">
                                 <ul>
                                     <li class="tag">
-                                        <a href="#">HD</a>
-                                        <a href="#">English</a>
+                                        <a href="javasciprt:;">HD</a>
                                     </li>
                                     <li>
                                         <span class="like"><i class="fas fa-thumbs-up"></i> 3.5</span>
@@ -242,7 +238,7 @@
 
             </div>
             <div class="tr-movie-btn text-center mt-25">
-                <a href="#" class="btn">Devamına Bak</a>
+                <a href="{{route('webtoon_list')}}" class="btn">Devamına Bak</a>
             </div>
         </div>
     </section>

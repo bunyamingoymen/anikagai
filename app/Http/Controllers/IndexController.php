@@ -16,8 +16,8 @@ class IndexController extends Controller
         $selected_theme = KeyValue::Where('key', 'selected_theme')->first();
         $themePath = Theme::Where('code', $selected_theme->value)->first();
 
-        $trend_animes = Anime::Where('deleted', 0)->take(6)->orderBy('click_count', 'ASC')->get();
-        $trend_webtoons = Webtoon::Where('deleted', 0)->take(6)->orderBy('click_count', 'ASC')->get();
+        $trend_animes = Anime::Where('deleted', 0)->take(6)->orderBy('click_count', 'DESC')->get();
+        $trend_webtoons = Webtoon::Where('deleted', 0)->take(6)->orderBy('click_count', 'DESC')->get();
 
         $animes = Anime::Where('deleted', 0)->take(20)->orderBy('created_at', 'DESC')->get();
         $webtoons = Webtoon::Where('deleted', 0)->take(20)->orderBy('created_at', 'DESC')->get();
