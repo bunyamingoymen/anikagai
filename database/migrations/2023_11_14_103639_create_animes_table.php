@@ -22,6 +22,8 @@ return new class extends Migration
             $table->integer('season_count')->default(0);
             $table->integer('average_min')->default(0);
             $table->string('date')->default(2000);
+            $table->unsignedBigInteger('main_category')->default(1);
+            $table->string('main_category_name')->default("Genel");
             $table->integer('click_count')->default(0);;
             $table->unsignedBigInteger('create_user_code')->default(1);
             $table->unsignedBigInteger('update_user_code')->nullable();

@@ -167,6 +167,8 @@ Route::middleware(['auth'])->group(function () {
             Route::get("/admin/anime/list", "animeList")->name('admin_anime_list');
             Route::post("/admin/anime/list/ajax", "animeGetData")->name('admin_anime_get_data');
 
+            Route::post("/admin/anime/season/ajax", "animeGetSeason")->name('admin_anime_get_season');
+
             Route::get("/admin/anime/create", "animeCreateScreen")->name('admin_anime_create_screen');
             Route::post("/admin/anime/create", "animeCreate")->name('admin_anime_create');
 

@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\ContentCategory;
+use App\Models\ContentTag;
+use App\Models\Tag;
 use App\Models\Webtoon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,8 +27,9 @@ class WebtoonController extends Controller
 
     public function webtoonCreateScreen()
     {
-
-        return view("admin.webtoon.webtoon.create");
+        $categories = Category::Where('deleted', 0)->get();
+        $tags = Tag::Where('deleted', 0)->get();
+        return view("admin.webtoon.webtoon.create", ["categories" => $categories, "tags" => $tags]);
     }
 
     public function webtoonCreate(Request $request)
@@ -51,12 +56,31 @@ class WebtoonController extends Controller
         }
 
         $webtoon->description = $request->description;
-        $webtoon->episode_count = 0;
-        $webtoon->click_count = 0;
+        $webtoon->average_min = $request->average_min;
+        $webtoon->date = $request->date;
+
+        $webtoon->main_category = $request->main_category;
+        $webtoon->main_category_name = Category::Where('code', $request->main_category)->first()->name;
 
         $webtoon->create_user_code = Auth::user()->code;
 
         $webtoon->save();
+
+        foreach ($request->catogery as $item) {
+            $content = new ContentCategory();
+            $content->category_code = $item;
+            $content->content_code = $webtoon->code;
+            $content->content_type = 1;
+            $content->save();
+        }
+
+        foreach ($request->tag as $item) {
+            $content = new ContentTag();
+            $content->tag_code = $item;
+            $content->content_code = $webtoon->code;
+            $content->content_type = 1;
+            $content->save();
+        }
 
         return redirect()->route('admin_webtoon_list')->with("success", Config::get('success.success_codes.10090010'));
     }
@@ -69,8 +93,11 @@ class WebtoonController extends Controller
         if (!$webtoon)
             return redirect()->back()->with("error", Config::get('error.error_codes.0090002'));
 
+        $categories = Category::Where('deleted', 0)->get();
+        $tags = Tag::Where('deleted', 0)->get();
 
-        return view("admin.webtoon.webtoon.update", ["webtoon" => $webtoon]);
+
+        return view("admin.webtoon.webtoon.update", ["webtoon" => $webtoon, "categories" => $categories, "tags" => $tags]);
     }
 
     public function webtoonUpdate(Request $request)
@@ -94,12 +121,33 @@ class WebtoonController extends Controller
         }
 
         $webtoon->description = $request->description;
-        $webtoon->episode_count = 0;
-        $webtoon->click_count = 0;
+        $webtoon->average_min = $request->average_min;
+        $webtoon->date = $request->date;
+
+        $webtoon->main_category = $request->main_category;
+        $webtoon->main_category_name = Category::Where('code', $request->main_category)->first()->name;
 
         $webtoon->update_user_code = Auth::user()->code;
 
         $webtoon->save();
+
+        ContentCategory::Where('content_code', $webtoon->code)->Where('content_type', 1)->delete();
+        foreach ($request->catogery as $item) {
+            $content = new ContentCategory();
+            $content->category_code = $item;
+            $content->content_code = $webtoon->code;
+            $content->content_type = 1;
+            $content->save();
+        }
+
+        ContentTag::Where('content_code', $webtoon->code)->Where('content_type', 1)->delete();
+        foreach ($request->tag as $item) {
+            $content = new ContentTag();
+            $content->tag_code = $item;
+            $content->content_code = $webtoon->code;
+            $content->content_type = 1;
+            $content->save();
+        }
 
         return redirect()->route('admin_webtoon_list')->with("success", Config::get('success.success_codes.10090012'));
     }

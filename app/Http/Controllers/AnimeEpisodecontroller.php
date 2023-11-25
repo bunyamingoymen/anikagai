@@ -82,9 +82,9 @@ class AnimeEpisodecontroller extends Controller
         if (!$anime_episode)
             return redirect()->back()->with("error", Config::get('error.error_codes.0080002'));
 
-        $animes = Anime::Where('deleted', 0)->get();
+        $anime = Anime::Where('deleted', 0)->Where('code', $anime_episode->code)->first();
 
-        return view("admin.anime.episode.update", ["anime_episode" => $anime_episode, "animes" => $animes]);
+        return view("admin.anime.episode.update", ["anime_episode" => $anime_episode, "anime" => $anime]);
     }
 
     public function epsiodeUpdate(Request $request)
@@ -99,6 +99,7 @@ class AnimeEpisodecontroller extends Controller
         $anime_episode->description = $request->description;
         $anime_episode->season_short = $request->season_short;
         $anime_episode->episode_short = $request->episode_short;
+        $anime_episode->publish_date = $request->publish_date;
 
         $anime_episode->update_user_code = Auth::user()->code;
 

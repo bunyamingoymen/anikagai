@@ -8,6 +8,7 @@ use App\Models\KeyValue;
 use App\Models\Theme;
 use App\Models\Webtoon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class IndexController extends Controller
 {
@@ -70,7 +71,9 @@ class IndexController extends Controller
         $anime = Anime::Where('short_name', $request->short_name)->first();
         $trend_animes = Anime::Where('deleted', 0)->take(4)->orderBy('click_count', 'ASC')->get();
 
-        $anime_episodes = AnimeEpisode::Where('anime_code', $anime->code)->get();
+        $currentTime = Carbon::now();
+
+        $anime_episodes = AnimeEpisode::Where('anime_code', $anime->code)->Where('publish_date', '<=', $currentTime)->get();
 
         return view("index." . $themePath->themePath . ".animeDetail", ['anime' => $anime, 'trend_animes' => $trend_animes, 'anime_episodes' => $anime_episodes]);
     }

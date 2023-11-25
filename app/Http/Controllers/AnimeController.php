@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Anime;
+use App\Models\Category;
+use App\Models\ContentCategory;
+use App\Models\ContentTag;
+use App\Models\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Mail\Mailables\Content;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 
@@ -23,7 +28,9 @@ class AnimeController extends Controller
 
     public function animeCreateScreen()
     {
-        return view("admin.anime.anime.create");
+        $categories = Category::Where('deleted', 0)->get();
+        $tags = Tag::Where('deleted', 0)->get();
+        return view("admin.anime.anime.create", ['categories' => $categories, 'tags' => $tags]);
     }
 
     public function animeCreate(Request $request)
@@ -51,12 +58,30 @@ class AnimeController extends Controller
         }
 
         $anime->description = $request->description;
-        $anime->episode_count = 0;
-        $anime->click_count = 0;
+        $anime->average_min = $request->average_min;
+        $anime->date = $request->date;
+        $anime->main_category = $request->main_category;
+        $anime->main_category_name = Category::Where('code', $request->main_category)->first()->name;
 
         $anime->create_user_code = Auth::user()->code;
 
         $anime->save();
+
+        foreach ($request->catogery as $item) {
+            $content = new ContentCategory();
+            $content->category_code = $item;
+            $content->content_code = $anime->code;
+            $content->content_type = 1;
+            $content->save();
+        }
+
+        foreach ($request->tag as $item) {
+            $content = new ContentTag();
+            $content->tag_code = $item;
+            $content->content_code = $anime->code;
+            $content->content_type = 1;
+            $content->save();
+        }
 
         return redirect()->route('admin_anime_list')->with("success", Config::get('success.success_codes.10060010'));
     }
@@ -69,7 +94,10 @@ class AnimeController extends Controller
         if (!$anime)
             return redirect()->back()->with("error", Config::get('error.error_codes.0060002'));
 
-        return view("admin.anime.anime.update", ["anime" => $anime]);
+        $categories = Category::Where('deleted', 0)->get();
+        $tags = Tag::Where('deleted', 0)->get();
+
+        return view("admin.anime.anime.update", ["anime" => $anime, 'categories' => $categories, 'tags' => $tags]);
     }
 
     public function animeUpdate(Request $request)
@@ -94,12 +122,34 @@ class AnimeController extends Controller
         }
 
         $anime->description = $request->description;
-        $anime->episode_count = 0;
-        $anime->click_count = 0;
+        $anime->average_min = $request->average_min;
+        $anime->date = $request->date;
+
+        $anime->main_category = $request->main_category;
+        $anime->main_category_name = Category::Where('code', $request->main_category)->first()->name;
+
 
         $anime->update_user_code = Auth::user()->code;
 
         $anime->save();
+
+        ContentCategory::Where('content_code', $anime->code)->Where('content_type', 1)->delete();
+        foreach ($request->catogery as $item) {
+            $content = new ContentCategory();
+            $content->category_code = $item;
+            $content->content_code = $anime->code;
+            $content->content_type = 1;
+            $content->save();
+        }
+
+        ContentTag::Where('content_code', $anime->code)->Where('content_type', 1)->delete();
+        foreach ($request->tag as $item) {
+            $content = new ContentTag();
+            $content->tag_code = $item;
+            $content->content_code = $anime->code;
+            $content->content_type = 1;
+            $content->save();
+        }
 
         return redirect()->route('admin_anime_list')->with("success", Config::get('success.success_codes.10060012'));
     }
@@ -122,5 +172,12 @@ class AnimeController extends Controller
         $skip = (($request->page - 1) * $this->showCount);
         $animes = Anime::Where('deleted', 0)->skip($skip)->take($this->showCount)->get();
         return $animes;
+    }
+
+    public function animeGetSeason(Request $request)
+    {
+        $season = Anime::Where('code', $request->code)->first();
+
+        return $season;
     }
 }

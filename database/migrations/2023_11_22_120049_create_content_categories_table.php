@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('content_categories', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('code');
             $table->unsignedBigInteger('category_code');
             $table->unsignedBigInteger('content_code');
             $table->tinyInteger('content_type'); //0: webtoon, 1: anime

@@ -98,7 +98,6 @@
 <script>
     var currentPage = 1;
     function changePage(page){
-        console.log(page);
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': '{{ csrf_token() }}'
@@ -150,7 +149,6 @@
 
             }
         });
-
     }
 
     function prevPage(){
