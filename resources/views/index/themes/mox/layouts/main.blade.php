@@ -32,7 +32,7 @@
 
 <body>
 
-    @include("index.layouts.preloader")
+    @include("index.themes.mox.layouts.preloader")
 
     <!-- Scroll-top -->
     <button class="scroll-top scroll-to-target" data-target="html">
@@ -41,7 +41,7 @@
     <!-- Scroll-top-end-->
 
     <!-- header-area -->
-    @include('index.layouts.topbar')
+    @include('index.themes.mox.layouts.topbar')
     <!-- header-area-end -->
 
 
@@ -51,7 +51,7 @@
 
 
     <!-- footer-area -->
-    @include('index.layouts.footer')
+    @include('index.themes.mox.layouts.footer')
     <!-- footer-area-end -->
 
 

@@ -23,8 +23,6 @@ class AnimeController extends Controller
 
     public function animeCreateScreen()
     {
-
-
         return view("admin.anime.anime.create");
     }
 
@@ -37,6 +35,8 @@ class AnimeController extends Controller
         else $anime->code = 1;
 
         $anime->name = $request->name;
+
+        $anime->short_name = $request->short_name;
 
         if ($request->hasFile('image')) {
             // Dosyayı al
@@ -80,6 +80,8 @@ class AnimeController extends Controller
             return redirect()->back()->with("error", Config::get('error.error_codes.0060012'));
 
         $anime->name = $request->name;
+
+        $anime->short_name = $request->short_name;
 
         if ($request->hasFile('image')) {
             // Dosyayı al

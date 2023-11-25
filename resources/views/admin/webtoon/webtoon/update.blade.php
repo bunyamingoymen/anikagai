@@ -12,6 +12,8 @@
                     <div class="row">
                         <div hidden>
                             <input type="text" name="code" value="{{$webtoon->code}}">
+                            <input type="text" id="short_name" name="short_name" value="{{$webtoon->short_name}}"
+                                hidden>
                         </div>
                         <div class="col-md-8 mb-3">
                             <label for="validationCustom01">İsim:</label>
@@ -41,13 +43,37 @@
                     </div>
 
                     <div style="float: right;">
-                        <button class="btn btn-primary" type="submit">Kaydet</button>
+                        <button class="btn btn-primary" type="button"
+                            onclick="updateWebtoonSubmitForm()">Kaydet</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+<script>
+    function updateWebtoonSubmitForm(params) {
+        var name = document.getElementById('name');
+
+        var image = document.getElementById('image');
+
+        if(name == "" || image == ""){
+            Swal.fire({
+                icon: 'error',
+                title: 'Hata',
+                text: 'Lütfen Gerekli Doldurunuz!',
+            })
+        }else{
+
+        var short_name = name.replace(/[ğĞüÜşŞıİöÖçÇ\s]/g, function(match) {
+            return match === ' ' ? '-' : match.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        });
+
+        document.getElementById('short_name').value = short_name;
+        document.getElementById('webtoonUpdateForm').submit();
+    }
+    }
+</script>
 @endif
 <script>
     // Sayfa yüklenmeden önce bu JavaScript kodu çalışacak

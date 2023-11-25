@@ -6,6 +6,7 @@ namespace Database\Seeders;
 
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -669,6 +670,215 @@ class DatabaseSeeder extends Seeder
                 'optional_2' => '/', //url
                 'create_user_code' => 1,
                 'deleted' => 0,
+            ],
+        ]);
+
+        DB::table('key_values')->insert([
+            [
+                'id' => 29,
+                'code' => 29,
+                'key'  => 'selected_theme',
+                'value'  => '1',
+                'create_user_code' => 1,
+                'deleted' => 0,
+                'created_at' => Carbon::now(),
+            ],
+        ]);
+
+        DB::table('themes')->insert([
+            [
+                'id' => 1,
+                'code' => 1,
+                'themeName'  => 'mox',
+                'themePath' => 'themes.mox',
+                'deleted' => 0,
+                'created_at' => Carbon::now(),
+            ],
+        ]);
+
+        DB::table('animes')->insert([
+            [
+                'id' => 1,
+                'code' => 1,
+                'name'  => 'Tokyo Ghoul',
+                'short_name' => 'tokyo_ghoul',
+                'image' => 'files/animes/animesImages/1.jpg',
+                'description' => 'Tokyo Ghoul Açıklama Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nisi esse ipsam tempora doloremque ut, repudiandae explicabo, quam omnis delectus autem minus tempore reprehenderit, assumenda officiis soluta culpa accusantium. Nam.',
+                'create_user_code' => 1,
+            ],
+            [
+                'id' => 2,
+                'code' => 2,
+                'name'  => 'Attack On Titan',
+                'short_name' => 'attack_on_titan',
+                'image' => 'files/animes/animesImages/2.jpg',
+                'description' => 'Atack On titan Açıklama Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nisi esse ipsam tempora doloremque ut, repudiandae explicabo, quam omnis delectus autem minus tempore reprehenderit, assumenda officiis soluta culpa accusantium. Nam.',
+                'create_user_code' => 1,
+            ],
+            [
+                'id' => 3,
+                'code' => 3,
+                'name'  => 'One Piece',
+                'short_name' => 'one_piece',
+                'image' => 'files/animes/animesImages/3.jpg',
+                'description' => 'One Piece Açıklama Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nisi esse ipsam tempora doloremque ut, repudiandae explicabo, quam omnis delectus autem minus tempore reprehenderit, assumenda officiis soluta culpa accusantium. Nam.',
+                'create_user_code' => 1,
+            ],
+            [
+                'id' => 4,
+                'code' => 4,
+                'name'  => 'Tokyo Ghoul 2 ',
+                'short_name' => 'tokyo_ghoul',
+                'image' => 'files/animes/animesImages/4.jpg',
+                'description' => 'Tokyo Ghoul 2 Açıklama Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nisi esse ipsam tempora doloremque ut, repudiandae explicabo, quam omnis delectus autem minus tempore reprehenderit, assumenda officiis soluta culpa accusantium. Nam.',
+                'create_user_code' => 1,
+            ],
+            [
+                'id' => 5,
+                'code' => 5,
+                'name'  => 'Attack On Titan 2',
+                'short_name' => 'attack_on_titan',
+                'image' => 'files/animes/animesImages/5.jpg',
+                'description' => 'Atack On titan 2 Açıklama Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nisi esse ipsam tempora doloremque ut, repudiandae explicabo, quam omnis delectus autem minus tempore reprehenderit, assumenda officiis soluta culpa accusantium. Nam.',
+                'create_user_code' => 1,
+            ],
+            [
+                'id' => 6,
+                'code' => 6,
+                'name'  => 'Tower Of God',
+                'short_name' => 'tower_of_god',
+                'image' => 'files/animes/animesImages/6.jpg',
+                'description' => 'Tower of God Açıklama Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nisi esse ipsam tempora doloremque ut, repudiandae explicabo, quam omnis delectus autem minus tempore reprehenderit, assumenda officiis soluta culpa accusantium. Nam.',
+                'create_user_code' => 1,
+            ],
+            [
+                'id' => 7,
+                'code' => 7,
+                'name'  => 'Naruto',
+                'short_name' => 'naruto',
+                'image' => 'files/animes/animesImages/7.jpg',
+                'description' => 'Naruto Açıklama Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nisi esse ipsam tempora doloremque ut, repudiandae explicabo, quam omnis delectus autem minus tempore reprehenderit, assumenda officiis soluta culpa accusantium. Nam.',
+                'create_user_code' => 1,
+            ],
+            [
+                'id' => 8,
+                'code' => 8,
+                'name'  => 'Unordinary',
+                'short_name' => 'unordinary',
+                'image' => 'files/animes/animesImages/8.jpg',
+                'description' => 'Unordinary Açıklama Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nisi esse ipsam tempora doloremque ut, repudiandae explicabo, quam omnis delectus autem minus tempore reprehenderit, assumenda officiis soluta culpa accusantium. Nam.',
+                'create_user_code' => 1,
+            ],
+            [
+                'id' => 9,
+                'code' => 9,
+                'name'  => 'One Piece 2',
+                'short_name' => 'one_piece_2',
+                'image' => 'files/animes/animesImages/9.jpg',
+                'description' => 'One Piece 2 Açıklama Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nisi esse ipsam tempora doloremque ut, repudiandae explicabo, quam omnis delectus autem minus tempore reprehenderit, assumenda officiis soluta culpa accusantium. Nam.',
+                'create_user_code' => 1,
+            ],
+            [
+                'id' => 10,
+                'code' => 10,
+                'name'  => 'Naruto 2',
+                'short_name' => 'naruto_2',
+                'image' => 'files/animes/animesImages/10.jpg',
+                'description' => 'Naruto 2 Açıklama Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nisi esse ipsam tempora doloremque ut, repudiandae explicabo, quam omnis delectus autem minus tempore reprehenderit, assumenda officiis soluta culpa accusantium. Nam.',
+                'create_user_code' => 1,
+            ],
+        ]);
+
+        DB::table('webtoons')->insert([
+            [
+                'id' => 1,
+                'code' => 1,
+                'name'  => 'Webtoon Tokyo Ghoul',
+                'short_name' => 'webtoon_tokyo_ghoul',
+                'image' => 'files/webtoons/webtoonImages/1.jpg',
+                'description' => 'Tokyo Ghoul Açıklama Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nisi esse ipsam tempora doloremque ut, repudiandae explicabo, quam omnis delectus autem minus tempore reprehenderit, assumenda officiis soluta culpa accusantium. Nam.',
+                'create_user_code' => 1,
+            ],
+            [
+                'id' => 2,
+                'code' => 2,
+                'name'  => 'Webtoon Attack On Titan',
+                'short_name' => 'webtoon_attack_on_titan',
+                'image' => 'files/webtoons/webtoonImages/2.jpg',
+                'description' => 'Atack On titan Açıklama Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nisi esse ipsam tempora doloremque ut, repudiandae explicabo, quam omnis delectus autem minus tempore reprehenderit, assumenda officiis soluta culpa accusantium. Nam.',
+                'create_user_code' => 1,
+            ],
+            [
+                'id' => 3,
+                'code' => 3,
+                'name'  => 'Webtoon One Piece',
+                'short_name' => 'webtoon_one_piece',
+                'image' => 'files/webtoons/webtoonImages/3.jpg',
+                'description' => 'One Piece Açıklama Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nisi esse ipsam tempora doloremque ut, repudiandae explicabo, quam omnis delectus autem minus tempore reprehenderit, assumenda officiis soluta culpa accusantium. Nam.',
+                'create_user_code' => 1,
+            ],
+            [
+                'id' => 4,
+                'code' => 4,
+                'name'  => 'Webtoon Tokyo Ghoul 2 ',
+                'short_name' => 'webtoon_tokyo_ghoul',
+                'image' => 'files/webtoons/webtoonImages/4.jpg',
+                'description' => 'Tokyo Ghoul 2 Açıklama Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nisi esse ipsam tempora doloremque ut, repudiandae explicabo, quam omnis delectus autem minus tempore reprehenderit, assumenda officiis soluta culpa accusantium. Nam.',
+                'create_user_code' => 1,
+            ],
+            [
+                'id' => 5,
+                'code' => 5,
+                'name'  => 'Webtoon Attack On Titan 2',
+                'short_name' => 'webtoon_attack_on_titan',
+                'image' => 'files/webtoons/webtoonImages/5.jpg',
+                'description' => 'Atack On titan 2 Açıklama Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nisi esse ipsam tempora doloremque ut, repudiandae explicabo, quam omnis delectus autem minus tempore reprehenderit, assumenda officiis soluta culpa accusantium. Nam.',
+                'create_user_code' => 1,
+            ],
+            [
+                'id' => 6,
+                'code' => 6,
+                'name'  => 'Webtoon Tower Of God',
+                'short_name' => 'webtoon_tower_of_god',
+                'image' => 'files/webtoons/webtoonImages/6.jpg',
+                'description' => 'Tower of God Açıklama Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nisi esse ipsam tempora doloremque ut, repudiandae explicabo, quam omnis delectus autem minus tempore reprehenderit, assumenda officiis soluta culpa accusantium. Nam.',
+                'create_user_code' => 1,
+            ],
+            [
+                'id' => 7,
+                'code' => 7,
+                'name'  => 'Webtoon Naruto',
+                'short_name' => 'webtoon_naruto',
+                'image' => 'files/webtoons/webtoonImages/7.jpg',
+                'description' => 'Naruto Açıklama Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nisi esse ipsam tempora doloremque ut, repudiandae explicabo, quam omnis delectus autem minus tempore reprehenderit, assumenda officiis soluta culpa accusantium. Nam.',
+                'create_user_code' => 1,
+            ],
+            [
+                'id' => 8,
+                'code' => 8,
+                'name'  => 'Webtoon Unordinary',
+                'short_name' => 'webtoon_unordinary',
+                'image' => 'files/webtoons/webtoonImages/8.jpg',
+                'description' => 'Unordinary Açıklama Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nisi esse ipsam tempora doloremque ut, repudiandae explicabo, quam omnis delectus autem minus tempore reprehenderit, assumenda officiis soluta culpa accusantium. Nam.',
+                'create_user_code' => 1,
+            ],
+            [
+                'id' => 9,
+                'code' => 9,
+                'name'  => 'Webtoon One Piece 2',
+                'short_name' => 'webtoon_one_piece_2',
+                'image' => 'files/webtoons/webtoonImages/9.jpg',
+                'description' => 'One Piece 2 Açıklama Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nisi esse ipsam tempora doloremque ut, repudiandae explicabo, quam omnis delectus autem minus tempore reprehenderit, assumenda officiis soluta culpa accusantium. Nam.',
+                'create_user_code' => 1,
+            ],
+            [
+                'id' => 10,
+                'code' => 10,
+                'name'  => 'Webtoon Naruto 2',
+                'short_name' => 'webtoon_naruto_2',
+                'image' => 'files/webtoons/webtoonImages/10.jpg',
+                'description' => 'Naruto 2 Açıklama Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate nisi esse ipsam tempora doloremque ut, repudiandae explicabo, quam omnis delectus autem minus tempore reprehenderit, assumenda officiis soluta culpa accusantium. Nam.',
+                'create_user_code' => 1,
             ],
         ]);
     }

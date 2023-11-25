@@ -33,7 +33,7 @@ class AppServiceProvider extends ServiceProvider
         admin_meta(Data'nın içinde)
         keyValue
         */
-        $indexPages = ['index.layouts.main', 'index.index'];
+        $indexPages = ['index.themes.mox.layouts.main', 'index.themes.mox.index'];
         $adminPages = ['admin.layouts.main'];
         //
         $userPages = ['admin.users.create', 'admin.users.list', 'admin.users.update'];

@@ -23,13 +23,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [IndexController::class, 'index'])->name('index');
 
-Route::get('/animeler', [IndexController::class, 'list'])->name('list');
+Route::get('/animeler', [IndexController::class, 'list'])->name('anime_list');
 
 Route::get('/anime/{anime_name}', [IndexController::class, 'animeDetail'])->name('animeDetail');
 
 Route::get('/anime/{anime_name}/{episode_name}', [IndexController::class, 'watch'])->name('watch');
 
-Route::get('/webtoonlar', [IndexController::class, 'webtoonDetail'])->name('webtoonDetail');
+Route::get('/webtoonlar', [IndexController::class, 'list'])->name('webtoon_list');
 
 Route::get('/webtoon/{webtoon_name}', [IndexController::class, 'webtoonDetail'])->name('webtoonDetail');
 

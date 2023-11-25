@@ -36,6 +36,7 @@ class WebtoonController extends Controller
         else $webtoon->code = 1;
 
         $webtoon->name = $request->name;
+        $webtoon->short_name = $request->short_name;
 
         if ($request->hasFile('image')) {
             // Dosyayı al
@@ -80,6 +81,7 @@ class WebtoonController extends Controller
             return redirect()->back()->with("error", Config::get('error.error_codes.0090012'));
 
         $webtoon->name = $request->name;
+        $webtoon->short_name = $request->short_name;
 
         if ($request->hasFile('image')) {
             // Dosyayı al

@@ -1,4 +1,4 @@
-@extends("index.layouts.main")
+@extends("index.themes.mox.layouts.main")
 @section('index_content')
 <link rel="stylesheet" href="../../../user/css/bootstrap.min.css">
 <link rel="stylesheet" href="../../../user/css/animate.min.css">
