@@ -4,7 +4,7 @@
 <main>
 
     <!-- breadcrumb-area -->
-    <section class="breadcrumb-area breadcrumb-bg" data-background="../../../user/img/bg/breadcrumb_bg.jpg">
+    <section class="breadcrumb-area breadcrumb-bg" data-background="../../../user/mox/img/bg/breadcrumb_bg.jpg">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -24,7 +24,7 @@
     <!-- breadcrumb-area-end -->
 
     <!-- contact-area -->
-    <section class="contact-area contact-bg" data-background="../../../user/img/bg/contact_bg.jpg">
+    <section class="contact-area contact-bg" data-background="../../../user/mox/img/bg/contact_bg.jpg">
         <div class="container">
             <div class="row">
                 <div class="col-xl-6">

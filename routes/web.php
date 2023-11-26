@@ -35,7 +35,7 @@ Route::post('/login', [IndexController::class, 'login'])->name('login');
 
 Route::get('/logout', [IndexController::class, 'logout'])->name('logout');
 
-Route::get('/profile', [IndexController::class, 'logout'])->name('profile');
+Route::get('/profile', [IndexController::class, 'profile'])->name('profile');
 
 Route::post("/control/username/ajax", [IndexController::class, 'controlUsername'])->name('index_control_username');
 

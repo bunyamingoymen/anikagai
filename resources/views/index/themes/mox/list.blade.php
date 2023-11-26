@@ -1,22 +1,22 @@
 @extends("index.themes.mox.layouts.main")
 @section('index_content')
-<link rel="stylesheet" href="../../../user/css/bootstrap.min.css">
-<link rel="stylesheet" href="../../../user/css/animate.min.css">
-<link rel="stylesheet" href="../../../user/css/magnific-popup.css">
-<link rel="stylesheet" href="../../../user/css/fontawesome-all.min.css">
-<link rel="stylesheet" href="../../../user/css/owl.carousel.min.css">
-<link rel="stylesheet" href="../../../user/css/flaticon.css">
-<link rel="stylesheet" href="../../../user/css/odometer.css">
-<link rel="stylesheet" href="../../../user/css/aos.css">
-<link rel="stylesheet" href="../../../user/css/slick.css">
-<link rel="stylesheet" href="../../../user/css/default.css">
-<link rel="stylesheet" href="../../../user/css/style.css">
-<link rel="stylesheet" href="../../../user/css/responsive.css">
+<link rel="stylesheet" href="../../../user/mox/css/bootstrap.min.css">
+<link rel="stylesheet" href="../../../user/mox/css/animate.min.css">
+<link rel="stylesheet" href="../../../user/mox/css/magnific-popup.css">
+<link rel="stylesheet" href="../../../user/mox/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="../../../user/mox/css/owl.carousel.min.css">
+<link rel="stylesheet" href="../../../user/mox/css/flaticon.css">
+<link rel="stylesheet" href="../../../user/mox/css/odometer.css">
+<link rel="stylesheet" href="../../../user/mox/css/aos.css">
+<link rel="stylesheet" href="../../../user/mox/css/slick.css">
+<link rel="stylesheet" href="../../../user/mox/css/default.css">
+<link rel="stylesheet" href="../../../user/mox/css/style.css">
+<link rel="stylesheet" href="../../../user/mox/css/responsive.css">
 <!-- main-area -->
 <main>
 
     <!-- breadcrumb-area -->
-    <section class="breadcrumb-area breadcrumb-bg" data-background="../../../user/img/bg/breadcrumb_bg.jpg">
+    <section class="breadcrumb-area breadcrumb-bg" data-background="../../../user/mox/img/bg/breadcrumb_bg.jpg">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -36,7 +36,7 @@
     <!-- breadcrumb-area-end -->
 
     <!-- movie-area -->
-    <section class="movie-area movie-bg" data-background="../../../user/img/bg/movie_bg.jpg">
+    <section class="movie-area movie-bg" data-background="../../../user/mox/img/bg/movie_bg.jpg">
         <div class="container">
             <div class="row align-items-end mb-60">
                 <div class="col-lg-6">

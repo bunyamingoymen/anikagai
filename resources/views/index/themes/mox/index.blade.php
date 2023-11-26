@@ -31,7 +31,7 @@
     <!-- gallery-area-end -->
 
     <!-- up-coming-movie-area -->
-    <section class="ucm-area ucm-bg2" data-background="../../../user/img/bg/ucm_bg02.jpg">
+    <section class="ucm-area ucm-bg2" data-background="../../../user/mox/img/bg/ucm_bg02.jpg">
         <div class="container">
             <div class="row align-items-end mb-55">
                 <div class="col-lg-6">
@@ -133,7 +133,7 @@
     <!-- up-coming-movie-area-end -->
 
     <!-- top-rated-movie -->
-    <section class="top-rated-movie tr-movie-bg2" data-background="../../../user/img/bg/tr_movies_bg.jpg">
+    <section class="top-rated-movie tr-movie-bg2" data-background="../../../user/mox/img/bg/tr_movies_bg.jpg">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
@@ -188,7 +188,7 @@
     <!-- top-rated-movie-end -->
 
     <!-- top-rated-movie -->
-    <section class="top-rated-movie tr-movie-bg2" data-background="../../../user/img/bg/tr_movies_bg.jpg">
+    <section class="top-rated-movie tr-movie-bg2" data-background="../../../user/mox/img/bg/tr_movies_bg.jpg">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-8">

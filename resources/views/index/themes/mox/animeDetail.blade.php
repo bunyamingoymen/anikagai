@@ -1,26 +1,26 @@
 @extends("index.themes.mox.layouts.main")
 @section('index_content')
-<link rel="stylesheet" href="../../../user/css/bootstrap.min.css">
-<link rel="stylesheet" href="../../../user/css/animate.min.css">
-<link rel="stylesheet" href="../../../user/css/magnific-popup.css">
-<link rel="stylesheet" href="../../../user/css/fontawesome-all.min.css">
-<link rel="stylesheet" href="../../../user/css/owl.carousel.min.css">
-<link rel="stylesheet" href="../../../user/css/flaticon.css">
-<link rel="stylesheet" href="../../../user/css/odometer.css">
-<link rel="stylesheet" href="../../../user/css/aos.css">
-<link rel="stylesheet" href="../../../user/css/slick.css">
-<link rel="stylesheet" href="../../../user/css/default.css">
-<link rel="stylesheet" href="../../../user/css/style.css">
-<link rel="stylesheet" href="../../../user/css/responsive.css">
+<link rel="stylesheet" href="../../../user/mox/css/bootstrap.min.css">
+<link rel="stylesheet" href="../../../user/mox/css/animate.min.css">
+<link rel="stylesheet" href="../../../user/mox/css/magnific-popup.css">
+<link rel="stylesheet" href="../../../user/mox/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="../../../user/mox/css/owl.carousel.min.css">
+<link rel="stylesheet" href="../../../user/mox/css/flaticon.css">
+<link rel="stylesheet" href="../../../user/mox/css/odometer.css">
+<link rel="stylesheet" href="../../../user/mox/css/aos.css">
+<link rel="stylesheet" href="../../../user/mox/css/slick.css">
+<link rel="stylesheet" href="../../../user/mox/css/default.css">
+<link rel="stylesheet" href="../../../user/mox/css/style.css">
+<link rel="stylesheet" href="../../../user/mox/css/responsive.css">
 <!-- main-area -->
 <main>
 
     <!-- movie-details-area -->
-    <section class="movie-details-area" data-background="../../../user/img/bg/movie_details_bg.jpg">
+    <section class="movie-details-area" data-background="../../../user/mox/img/bg/movie_details_bg.jpg">
         <div class="container">
             <div class="row align-items-center position-relative">
                 <div class="col-xl-3 col-lg-4">
-                    <div class="../../../user/movie-details-img">
+                    <div class="../../../user/mox/movie-details-img">
                         <img src="../../../{{$anime->image}}" alt=""
                             style="min-width: 303px; min-height: 430px; max-width: 303px; max-height: 430px;">
                     </div>
@@ -62,7 +62,7 @@
                 <div class="movie-details-btn">
                     @if (false)
                     <a href="img/poster/movie_details_img.jpg" class="download-btn" download="">İndir <img
-                            src="../../../user/fonts/download.svg" alt=""></a>
+                            src="../../../user/mox/fonts/download.svg" alt=""></a>
                     @endif
 
                 </div>
@@ -72,7 +72,7 @@
     <!-- movie-details-area-end -->
 
     <!-- episode-area -->
-    <section class="episode-area episode-bg" data-background="../../../user/img/bg/episode_bg.jpg">
+    <section class="episode-area episode-bg" data-background="../../../user/mox/img/bg/episode_bg.jpg">
         <div class="container">
             <div class="row">
                 <div class="col-lg-8">
@@ -155,7 +155,7 @@
     <!-- episode-area-end -->
 
     <!-- tv-series-area -->
-    <section class="tv-series-area tv-series-bg" data-background="../../../user/img/bg/tv_series_bg02.jpg">
+    <section class="tv-series-area tv-series-bg" data-background="../../../user/mox/img/bg/tv_series_bg02.jpg">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-8">

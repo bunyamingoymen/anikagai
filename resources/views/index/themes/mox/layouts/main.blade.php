@@ -16,18 +16,18 @@
     <link rel="shortcut icon" type="image/x-icon" href="../../../{{$index_icon->value}}">
 
     <!-- CSS here -->
-    <link rel="stylesheet" href="../../../user/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../../user/css/animate.min.css">
-    <link rel="stylesheet" href="../../../user/css/magnific-popup.css">
-    <link rel="stylesheet" href="../../../user/css/fontawesome-all.min.css">
-    <link rel="stylesheet" href="../../../user/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="../../../user/css/flaticon.css">
-    <link rel="stylesheet" href="../../../user/css/odometer.css">
-    <link rel="stylesheet" href="../../../user/css/aos.css">
-    <link rel="stylesheet" href="../../../user/css/slick.css">
-    <link rel="stylesheet" href="../../../user/css/default.css">
-    <link rel="stylesheet" href="../../../user/css/style.css">
-    <link rel="stylesheet" href="../../../user/css/responsive.css">
+    <link rel="stylesheet" href="../../../user/mox/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../../../user/mox/css/animate.min.css">
+    <link rel="stylesheet" href="../../../user/mox/css/magnific-popup.css">
+    <link rel="stylesheet" href="../../../user/mox/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="../../../user/mox/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="../../../user/mox/css/flaticon.css">
+    <link rel="stylesheet" href="../../../user/mox/css/odometer.css">
+    <link rel="stylesheet" href="../../../user/mox/css/aos.css">
+    <link rel="stylesheet" href="../../../user/mox/css/slick.css">
+    <link rel="stylesheet" href="../../../user/mox/css/default.css">
+    <link rel="stylesheet" href="../../../user/mox/css/style.css">
+    <link rel="stylesheet" href="../../../user/mox/css/responsive.css">
 </head>
 
 <body>
@@ -56,21 +56,21 @@
 
 
     <!-- JS here -->
-    <script src="../../../user/js/vendor/jquery-3.6.0.min.js"></script>
-    <script src="../../../user/js/popper.min.js"></script>
-    <script src="../../../user/js/bootstrap.min.js"></script>
-    <script src="../../../user/js/isotope.pkgd.min.js"></script>
-    <script src="../../../user/js/imagesloaded.pkgd.min.js"></script>
-    <script src="../../../user/js/jquery.magnific-popup.min.js"></script>
-    <script src="../../../user/js/owl.carousel.min.js"></script>
-    <script src="../../../user/js/jquery.odometer.min.js"></script>
-    <script src="../../../user/js/jquery.appear.js"></script>
-    <script src="../../../user/js/slick.min.js"></script>
-    <script src="../../../user/js/ajax-form.js"></script>
-    <script src="../../../user/js/wow.min.js"></script>
-    <script src="../../../user/js/aos.js"></script>
-    <script src="../../../user/js/plugins.js"></script>
-    <script src="../../../user/js/main.js"></script>
+    <script src="../../../user/mox/js/vendor/jquery-3.6.0.min.js"></script>
+    <script src="../../../user/mox/js/popper.min.js"></script>
+    <script src="../../../user/mox/js/bootstrap.min.js"></script>
+    <script src="../../../user/mox/js/isotope.pkgd.min.js"></script>
+    <script src="../../../user/mox/js/imagesloaded.pkgd.min.js"></script>
+    <script src="../../../user/mox/js/jquery.magnific-popup.min.js"></script>
+    <script src="../../../user/mox/js/owl.carousel.min.js"></script>
+    <script src="../../../user/mox/js/jquery.odometer.min.js"></script>
+    <script src="../../../user/mox/js/jquery.appear.js"></script>
+    <script src="../../../user/mox/js/slick.min.js"></script>
+    <script src="../../../user/mox/js/ajax-form.js"></script>
+    <script src="../../../user/mox/js/wow.min.js"></script>
+    <script src="../../../user/mox/js/aos.js"></script>
+    <script src="../../../user/mox/js/plugins.js"></script>
+    <script src="../../../user/mox/js/main.js"></script>
     <!-- Sweet Alerts js -->
     <script src="../../../admin/assets/libs/sweetalert2/sweetalert2.min.js"></script>
 </body>

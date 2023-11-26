@@ -14,7 +14,7 @@
                             <li><a href="{{route('loginScreen')}}">Giriş Yap</a></li>
                             @else
                             <li>
-                                <a href="{{route('logout')}}">{{Auth::user()->username}}</a>
+                                <a href="{{route('profile')}}">{{Auth::user()->username}}</a>
                             </li>
                             <li><a href="{{route('logout')}}">Çıkış Yap</a></li>
                             @endif
@@ -73,7 +73,7 @@
 
                         <nav class="menu-box">
                             <div class="nav-logo"><a href="{{route('index')}}"><img
-                                        src="../../../user/img/logo/logo.png" alt="" title=""></a>
+                                        src="../../../user/mox/img/logo/logo.png" alt="" title=""></a>
                             </div>
                             <div class="menu-outer">
                                 <!--Here Menu Will Come Automatically Via Javascript / Same Menu as in Header-->

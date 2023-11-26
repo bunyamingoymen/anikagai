@@ -115,23 +115,6 @@ class IndexController extends Controller
         return view("index." . $themePath->themePath . ".login");
     }
 
-    public function controlUsername(Request $request)
-    {
-        $user = IndexUser::Where('username', $request->username)->first();
-        $control = false;
-        if (!$user) $control = true; //bu kullanıcı adı ile kullanıcı yoksa doğru varsay yanlış döner
-
-        return response()->json(['control' => $control]);
-    }
-
-    public function controlEmail(Request $request)
-    {
-        $user = IndexUser::Where('email', $request->email)->first();
-        $control = false;
-        if (!$user) $control = true; //bu kullanıcı adı ile kullanıcı yoksa doğru varsay yanlış döner
-
-        return response()->json(['control' => $control]);
-    }
 
     public function register(Request $request)
     {
@@ -144,7 +127,6 @@ class IndexController extends Controller
         $newUser->name = $request->name;
         $newUser->username = $request->username;
         $newUser->email = $request->email;
-        $newUser->image = '';
         $newUser->password = Hash::make($request->password);
         $newUser->save();
 
@@ -166,5 +148,35 @@ class IndexController extends Controller
     {
         Auth::logout();
         return redirect()->route('index');
+    }
+
+    public function profile(Request $request)
+    {
+        $selected_theme = KeyValue::Where('key', 'selected_theme')->first();
+        $themePath = Theme::Where('code', $selected_theme->value)->first();
+
+        $user = IndexUser::Where('username', $request->username)->first();
+        if (!$user) {
+            $user = Auth::user();
+        }
+        return view("index." . $themePath->themePath . ".profile", ['user' => $user]);
+    }
+
+    public function controlUsername(Request $request)
+    {
+        $user = IndexUser::Where('username', $request->username)->first();
+        $control = false;
+        if (!$user) $control = true; //bu kullanıcı adı ile kullanıcı yoksa doğru varsay yanlış döner
+
+        return response()->json(['control' => $control]);
+    }
+
+    public function controlEmail(Request $request)
+    {
+        $user = IndexUser::Where('email', $request->email)->first();
+        $control = false;
+        if (!$user) $control = true; //bu kullanıcı adı ile kullanıcı yoksa doğru varsay yanlış döner
+
+        return response()->json(['control' => $control]);
     }
 }
