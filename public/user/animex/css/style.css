@@ -1732,8 +1732,16 @@ ol {
 	top: -40px;
 	height: 330px;
 	width: 1px;
-	background: rgba(255, 255, 255, 0.2);
-	content: "";
+}
+
+.login__form2:after {
+    position: absolute;
+    right: -14px;
+    top: -40px;
+    height: 330px;
+    width: 1px;
+    background: rgba(255, 255, 255, 0.2);
+    content: "";
 }
 
 .login__form h3 {
@@ -1766,7 +1774,7 @@ ol {
 	color: #b7b7b7;
 	background: #ffffff;
 	border: none;
-	padding-left: 76px;
+	padding-left: 55px;
 }
 
 .login__form form .input__item input::-webkit-input-placeholder {

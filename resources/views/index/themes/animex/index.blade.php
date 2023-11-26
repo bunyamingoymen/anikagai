@@ -1,5 +1,27 @@
 @extends("index.themes.animex.layouts.main")
 @section('index_content')
+<!-- Hero Section Begin -->
+<section class="hero">
+    <div class="container">
+        <div class="hero__slider owl-carousel">
+            @foreach ($slider_image as $item)
+            <div class="hero__items set-bg" data-setbg="../../../{{$item->optional ?? ''}}">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="hero__text">
+                            <h2>{{$item->value}}</h2>
+                            <a href="{{$item->optional_2 ?? ''}}"><span> Sayfaya Git</span> <i
+                                    class="fa fa-angle-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+
+        </div>
+    </div>
+</section>
+<!-- Hero Section End -->
 <section class="product spad">
     <div class="container">
         <div class="row">

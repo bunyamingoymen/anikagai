@@ -9,7 +9,7 @@
                     </a>
                 </div>
             </div>
-            <div class="col-lg-8">
+            <div class="col-lg-6">
                 <div class="header__nav">
                     <nav class="header__menu mobile-menu">
                         <ul>
@@ -24,10 +24,16 @@
                     </nav>
                 </div>
             </div>
-            <div class="col-lg-2">
+            <div class="col-lg-4">
                 <div class="header__right">
                     <a href="#" class="search-switch"><span class="icon_search"></span></a>
-                    <a href="./login.html"><span class="icon_profile"></span></a>
+
+                    @if (!Auth::user())
+                    <a href=" {{route('loginScreen')}}"><span class="icon_profile"></span></a>
+                    @else
+                    <a href="{{route('profile')}}"><span class="icon_profile"></span></a>
+                    <a href="{{route('logout')}}"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+                    @endif
                 </div>
             </div>
         </div>
