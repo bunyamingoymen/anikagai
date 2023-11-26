@@ -11,6 +11,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\DataController;
 use App\Http\Controllers\FollowUserController;
 use App\Http\Controllers\IndexController;
+use App\Http\Controllers\IndexDataController;
 use App\Http\Controllers\KeyValueController;
 use App\Http\Controllers\NotificationAdminController;
 use App\Http\Controllers\PageController;
@@ -21,45 +22,55 @@ use App\Http\Controllers\WebtoonController;
 use App\Http\Controllers\WebtoonEpisodeController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [IndexController::class, 'index'])->name('index');
+Route::controller(IndexController::class)->group(function () {
+    Route::get('/', 'index')->name('index');
+    Route::get('/animeler', 'list')->name('anime_list');
+    Route::get('/webtoonlar', 'list')->name('webtoon_list');
 
-Route::get('/animeler', [IndexController::class, 'list'])->name('anime_list');
+    Route::get('/logout', 'logout')->name('logout');
+    Route::get('/profile', 'profile')->name('profile');
 
-Route::get('/webtoonlar', [IndexController::class, 'list'])->name('webtoon_list');
+    Route::post("/control/username/ajax", 'controlUsername')->name('index_control_username');
+    Route::post("/control/email/ajax", 'controlEmail')->name('index_control_email');
+});
 
-Route::get('/login', [IndexController::class, 'loginScreen'])->name('loginScreen');
-
-Route::post('/register', [IndexController::class, 'register'])->name('register');
-
-Route::post('/login', [IndexController::class, 'login'])->name('login');
-
-Route::get('/logout', [IndexController::class, 'logout'])->name('logout');
-
-Route::get('/profile', [IndexController::class, 'profile'])->name('profile');
-
-Route::post("/control/username/ajax", [IndexController::class, 'controlUsername'])->name('index_control_username');
-
-Route::post("/control/email/ajax", [IndexController::class, 'controlEmail'])->name('index_control_email');
-
-Route::group(['middleware' => 'click'], function () {
-    Route::get('/anime/{short_name}', [IndexController::class, 'animeDetail'])->name('animeDetail');
-
-    Route::get('/anime/{short_name}/{season}/{episode}', [IndexController::class, 'watch'])->name('watch');
-
-    Route::get('/webtoon/{short_name}', [IndexController::class, 'webtoonDetail'])->name('webtoonDetail');
-
-    Route::get('/webtoon/{short_name}/{season}/{episode}', [IndexController::class, 'read'])->name('read');
+Route::group(['middleware' => 'guest_index'], function () {
+    // Oturum açıkken erişilmemesi gereken sayfalar
+    Route::get('/login', [IndexController::class, "loginScreen"])->name('loginScreen');
+    Route::post('/register', [IndexController::class, "register"])->name('register');
+    Route::post('/login', [IndexController::class, "login"])->name('login');
 });
 
 
+Route::group(['middleware' => 'click'], function () {
+    Route::controller(IndexController::class)->group(function () {
+        Route::get('/anime/{short_name}', 'animeDetail')->name('animeDetail');
 
+        Route::get('/anime/{short_name}/{season}/{episode}', 'watch')->name('watch');
 
+        Route::get('/webtoon/{short_name}', 'webtoonDetail')->name('webtoonDetail');
+
+        Route::get('/webtoon/{short_name}/{season}/{episode}', 'read')->name('read');
+    });
+});
+
+Route::controller(IndexDataController::class)->group(function () {
+    Route::post('/followAnime', 'followAnime')->name('followAnime');
+    Route::post('/followWebtoon', 'followWebtoon')->name('followWebtoon');
+    Route::post('/followUser', 'followUser')->name('followUser');
+    Route::post('/unfollowAnime', 'unfollowAnime')->name('unfollowAnime');
+    Route::post('/unfollowWebtoon', 'unfollowWebtoon')->name('unfollowWebtoon');
+    Route::post('/unfollowUser', 'unfollowUser')->name('unfollowUser');
+    Route::post('/likeAnime', 'likeAnime')->name('likeAnime');
+    Route::post('/likeWebtoon', 'likeWebtoon')->name('likeWebtoon');
+    Route::post('/unlikeAnime', 'unlikeAnime')->name('unlikeAnime');
+    Route::post('/unlikeWebtoon', 'unlikeWebtoon')->name('unlikeWebtoon');
+});
 
 Route::group(['middleware' => 'guest'], function () {
     // Oturum açıkken erişilmemesi gereken sayfalar
     Route::get("/admin/login", [AdminController::class, "loginScreen"])->name('admin_login_screen');
     Route::post("/admin/login", [AdminController::class, "login"])->name('admin_login');
-    // Diğer sayfalar...
 });
 
 Route::middleware(['auth'])->group(function () {

@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('follow_index_users', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('code');
             $table->unsignedBigInteger('followed_user_code');
             $table->unsignedBigInteger('user_code');
             $table->timestamps();

@@ -49,12 +49,39 @@
                         <div class="movie-details-prime">
                             <ul>
                                 <li class="share"><a href="#"><i class="fas fa-share-alt"></i> Paylaş</a></li>
-                                <li class="streaming">
-                                    <h6>Full HD</h6>
-                                    <span>Tüm bölümer Mevcut</span>
+                                <li class="watch">
+                                    @if ($followed)
+                                    <a href="javascript:;" class="btn" onclick="unfollowAnime()"><i
+                                            class="fas fa-plus"></i>Takip
+                                        Ediliyor</a>
+                                    @else
+                                    <p style="color:red;" id="followAnimeTextMessageUst">  </p>
+                                    <a href="javascript:;" class="btn" onclick="followAnime()"><i
+                                            class="fas fa-plus"></i>Takip
+                                        Et</a>
+                                    <p style="color:red;" id="followAnimeTextMessage">  </p>
+                                    @endif
+
                                 </li>
-                                <li class="watch"><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                        class="btn popup-video"><i class="fas fa-play"></i>İzle</a></li>
+                                <li class=" watch">
+                                    @if ($liked)
+                                    <a href="javascript:;" class="btn" onclick="dislikeAnime()"><i
+                                            class="fas fa-heart"></i>Favorilere
+                                        Eklendi</a>
+                                    @else
+                                    <p style="color:red;" id="likeAnimeTextMessageUst">  </p>
+                                    <a href="javascript:;" class="btn" onclick="likeAnime()"><i
+                                            class="fas fa-plus"></i>Favorilere
+                                        Ekle</a>
+                                    <p style="color:red;" id="likeAnimeTextMessage">  </p>
+                                    @endif
+
+                                </li>
+                                <li class="watch">
+                                    <a href="https://www.youtube.com/watch?v=R2gbPxeNk2E" class="btn popup-video"><i
+                                            class="fas fa-play"></i>İzle</a>
+                                </li>
+
                             </ul>
                         </div>
                     </div>
@@ -197,6 +224,63 @@
     </section>
     <!-- tv-series-area-end -->
 
+    <div id="hiddenDiv" hidden>
+
+    </div>
 </main>
 <!-- main-area-end -->
+<script>
+    function followAnime(){
+        @if (Auth::user())
+            var code = `<form action="{{route('followAnime')}}" method="POST" id="followAnimeForm">
+                            @csrf
+                            <input type="text" name="user_code" value="{{Auth::user()->code}}">
+                            <input type="text" name="anime_code" value="{{$anime->code}}">
+                        </form>`;
+            document.getElementById('hiddenDiv').innerHTML = code;
+            document.getElementById('followAnimeForm').submit();
+        @else
+            document.getElementById('followAnimeTextMessage').innerText = "Lütfen Giriş Yapınız."
+        @endif
+    }
+    function unfollowAnime(){
+        @if (Auth::user())
+            var code = `<form action="{{route('unfollowAnime')}}" method="POST" id="unfollowAnimeForm">
+                @csrf
+                <input type="text" name="user_code" value="{{Auth::user()->code}}">
+                <input type="text" name="anime_code" value="{{$anime->code}}">
+            </form>`;
+            document.getElementById('hiddenDiv').innerHTML = code;
+            document.getElementById('unfollowAnimeForm').submit();
+        @else
+            document.getElementById('followAnimeTextMessage').innerText = "Lütfen Giriş Yapınız."
+        @endif
+    }
+    function likeAnime(){
+        @if (Auth::user())
+            var code = `<form action="{{route('likeAnime')}}" method="POST" id="likeAnimeForm">
+                @csrf
+                <input type="text" name="user_code" value="{{Auth::user()->code}}">
+                <input type="text" name="anime_code" value="{{$anime->code}}">
+            </form>`;
+            document.getElementById('hiddenDiv').innerHTML = code;
+            document.getElementById('likeAnimeForm').submit();
+        @else
+            document.getElementById('likeAnimeTextMessage').innerText = "Lütfen Giriş Yapınız."
+        @endif
+    }
+    function dislikeAnime(){
+        @if (Auth::user())
+            var code = `<form action="{{route('unlikeAnime')}}" method="POST" id="unlikeAnimeForm">
+                @csrf
+                <input type="text" name="user_code" value="{{Auth::user()->code}}">
+                <input type="text" name="anime_code" value="{{$anime->code}}">
+            </form>`;
+            document.getElementById('hiddenDiv').innerHTML = code;
+            document.getElementById('unlikeAnimeForm').submit();
+        @else
+            document.getElementById('likeAnimeTextMessage').innerText = "Lütfen Giriş Yapınız."
+        @endif
+    }
+</script>
 @endsection

@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::create('follow_webtoons', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('code');
-            $table->unsignedBigInteger('followed_webtoon_code');
+            $table->unsignedBigInteger('webtoon_code');
             $table->unsignedBigInteger('user_code');
             $table->timestamps();
         });

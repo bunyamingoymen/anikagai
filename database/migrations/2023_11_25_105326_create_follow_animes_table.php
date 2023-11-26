@@ -13,8 +13,7 @@ return new class extends Migration
     {
         Schema::create('follow_animes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('code');
-            $table->unsignedBigInteger('followed_anime_code');
+            $table->unsignedBigInteger('anime_code');
             $table->unsignedBigInteger('user_code');
             $table->timestamps();
         });

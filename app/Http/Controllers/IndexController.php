@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Anime;
 use App\Models\AnimeEpisode;
+use App\Models\FavoriteAnime;
+use App\Models\FollowAnime;
 use App\Models\IndexUser;
 use App\Models\KeyValue;
 use App\Models\Theme;
@@ -79,7 +81,17 @@ class IndexController extends Controller
 
         $anime_episodes = AnimeEpisode::Where('anime_code', $anime->code)->Where('publish_date', '<=', $currentTime)->get();
 
-        return view("index." . $themePath->themePath . ".animeDetail", ['anime' => $anime, 'trend_animes' => $trend_animes, 'anime_episodes' => $anime_episodes]);
+        $followed = false;
+        $liked = false;
+
+        if (Auth::user()) {
+            $follow = FollowAnime::Where('user_code', Auth::user()->code)->Where('anime_code', $anime->code)->first();
+            $like = FavoriteAnime::Where('user_code', Auth::user()->code)->Where('anime_code', $anime->code)->first();
+            if ($follow) $followed = true;
+            if ($like) $liked = true;
+        }
+
+        return view("index." . $themePath->themePath . ".animeDetail", ['anime' => $anime, 'trend_animes' => $trend_animes, 'anime_episodes' => $anime_episodes, 'followed' => $followed, 'liked' => $liked]);
     }
 
     public function watch()

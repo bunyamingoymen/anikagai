@@ -9,28 +9,13 @@
                 <div class="col-xl-3 col-lg-4">
                     <div class="../../../user/mox/movie-details-img">
                         <img src="../../../{{$user->image ?? 'user/img/profile/default.png'}}" alt=""
-                            style="min-width: 303px; min-height: 430px; max-width: 303px; max-height: 430px;">
+                            style="min-width: 303px;  max-width: 303px;">
                     </div>
                 </div>
                 <div class="col-xl-6 col-lg-8">
                     <div class="movie-details-content">
                         <h2><span>{{$user->name}}</span></h2>
-                        <p>{{$user->username}}</p>
-                        <div class="banner-meta">
-                            <ul>
-                                <li class="quality">
-                                    <span>HD</span>
-                                </li>
-                                <li class="category">
-                                    <a href="#">Romaitk,</a>
-                                    <a href="#">Dram</a>
-                                </li>
-                                <li class="release-time">
-                                    <span><i class="far fa-calendar-alt"></i> 2014</span>
-                                    <span><i class="far fa-clock"></i>Bölüm</span>
-                                </li>
-                            </ul>
-                        </div>
+                        <h4>@ {{$user->username}}</h4>
                         <p>
                             {{$user->description ?? 'Açıklama Mevcut değil'}}
                         </p>
