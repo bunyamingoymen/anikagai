@@ -4,16 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Models\Anime;
 use App\Models\AnimeEpisode;
+use App\Models\Contact;
 use App\Models\FavoriteAnime;
+use App\Models\FavoriteWebtoon;
 use App\Models\FollowAnime;
+use App\Models\FollowWebtoon;
 use App\Models\IndexUser;
 use App\Models\KeyValue;
 use App\Models\Theme;
 use App\Models\Webtoon;
+use App\Models\WebtoonEpisode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class IndexController extends Controller
@@ -93,7 +98,15 @@ class IndexController extends Controller
             if ($like) $liked = true;
         }
 
-        return view("index." . $themePath->themePath . ".animeDetail", ['anime' => $anime, 'trend_animes' => $trend_animes, 'anime_episodes' => $anime_episodes, 'followed' => $followed, 'liked' => $liked]);
+        $categories = DB::table('categories')
+            ->Where('content_categories.content_code', $anime->code)
+            ->Where('content_categories.content_type', 1)
+            ->join('content_categories', 'content_categories.category_code', '=', 'categories.code')
+            ->join('animes', 'animes.code', '=', 'content_categories.content_code')
+            ->select('categories.*')
+            ->get();
+
+        return view("index." . $themePath->themePath . ".animeDetail", ['anime' => $anime, 'trend_animes' => $trend_animes, 'anime_episodes' => $anime_episodes, 'categories' => $categories, 'followed' => $followed, 'liked' => $liked]);
     }
 
     public function watch()
@@ -112,7 +125,29 @@ class IndexController extends Controller
 
         $trend_webtoons = Webtoon::Where('deleted', 0)->take(4)->orderBy('click_count', 'ASC')->get();
 
-        return view("index." . $themePath->themePath . ".webtoonDetail", ['webtoon' => $webtoon, 'trend_webtoons' => $trend_webtoons]);
+        $currentTime = Carbon::now();
+
+        $webtoon_episodes = WebtoonEpisode::Where('webtoon_code', $webtoon->code)->Where('publish_date', '<=', $currentTime)->get();
+
+        $followed = false;
+        $liked = false;
+
+        if (Auth::user()) {
+            $follow = FollowWebtoon::Where('user_code', Auth::user()->code)->Where('webtoon_code', $webtoon->code)->first();
+            $like = FavoriteWebtoon::Where('user_code', Auth::user()->code)->Where('webtoon_code', $webtoon->code)->first();
+            if ($follow) $followed = true;
+            if ($like) $liked = true;
+        }
+
+        $categories = DB::table('categories')
+            ->Where('content_categories.content_code', $webtoon->code)
+            ->Where('content_categories.content_type', 0)
+            ->join('content_categories', 'content_categories.category_code', '=', 'categories.code')
+            ->join('webtoons', 'webtoons.code', '=', 'content_categories.content_code')
+            ->select('categories.*')
+            ->get();
+
+        return view("index." . $themePath->themePath . ".webtoonDetail", ['webtoon' => $webtoon, 'trend_webtoons' => $trend_webtoons, 'webtoon_episodes' => $webtoon_episodes, 'categories' => $categories, 'followed' => $followed, 'liked' => $liked]);
     }
 
     public function read()
@@ -120,6 +155,31 @@ class IndexController extends Controller
         $selected_theme = KeyValue::Where('key', 'selected_theme')->first();
         $themePath = Theme::Where('code', $selected_theme->value)->first();
         return view("index." . $themePath->themePath . ".read");
+    }
+
+    public function contactScreen()
+    {
+        $selected_theme = KeyValue::Where('key', 'selected_theme')->first();
+        $themePath = Theme::Where('code', $selected_theme->value)->first();
+
+        return view("index." . $themePath->themePath . ".contact");
+    }
+
+    public function contact(Request $request)
+    {
+        $newContact = new Contact();
+
+        $contact_code = Contact::orderBy('created_at', 'DESC')->first();
+        if ($contact_code) $newContact->code = $contact_code->code + 1;
+        else $newContact->code = 1;
+
+        $newContact->name = $request->name;
+        $newContact->email = $request->email;
+        $newContact->subject = $request->subject;
+        $newContact->message = $request->message;
+        $newContact->save();
+
+        return redirect()->route('contact_screen')->with('success', 'Başarılı bir şekilde mesaj gönderildi.');
     }
 
     public function loginScreen()

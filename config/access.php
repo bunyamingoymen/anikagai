@@ -21,7 +21,7 @@ return [
         'admin/auth/list/change' => 11,
         'admin/auth/list/getGroup/ajax' => 10,
 
-        //TODO Anasayfa Değişiklikleri için eklenecek. Anasayfa değişikliği 13
+        'admin/data/home' => 13,
 
         'admin/data/logo' => 14,
 

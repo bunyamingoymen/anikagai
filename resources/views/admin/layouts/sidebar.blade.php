@@ -202,7 +202,7 @@
             var html = ``;
 
             @if ($authArray['changeHome'] == 1)
-                html = `<a href="#">Anasayfa Ayarları</a>`;
+                html = `<a href="{{route('admin_data_home_list')}}">Anasayfa Ayarları</a>`;
                 document.getElementById('sidebarHomeSettings').innerHTML = html;
             @endif
 

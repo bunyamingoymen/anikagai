@@ -27,18 +27,18 @@
                 </div>
                 <div class="col-xl-6 col-lg-8">
                     <div class="movie-details-content">
-                        <h2><span>{{$anime->title}}</span></h2>
+                        <h2>{{$anime->name ?? 'not_found'}}</h2>
                         <div class="banner-meta">
                             <ul>
-                                <li class="quality">
-                                    <span>HD</span>
-                                </li>
                                 <li class="category">
-                                    <a href="#">Romaitk,</a>
-                                    <a href="#">Dram</a>
+                                    <a href="#">{{$anime->main_category_name}}</a>
+                                    @foreach ($categories as $item)
+                                    <a href="#">{{$item->name}}</a>
+                                    @endforeach
+
                                 </li>
                                 <li class="release-time">
-                                    <span><i class="far fa-calendar-alt"></i> 2014</span>
+                                    <span><i class="far fa-calendar-alt"></i> {{$anime->date}}</span>
                                     <span><i class="far fa-clock"></i>{{$anime->episode_count}} Bölüm</span>
                                 </li>
                             </ul>
@@ -71,7 +71,7 @@
                                     @else
                                     <p style="color:red;" id="likeAnimeTextMessageUst">  </p>
                                     <a href="javascript:;" class="btn" onclick="likeAnime()"><i
-                                            class="fas fa-plus"></i>Favorilere
+                                            class="fas fa-heart"></i>Favorilere
                                         Ekle</a>
                                     <p style="color:red;" id="likeAnimeTextMessage">  </p>
                                     @endif
@@ -203,13 +203,14 @@
                         <div class="movie-content">
                             <div class="top">
                                 <h5 class="title"><a href="/anime/{{$item->short_name}}">{{$item->name}}</a></h5>
-                                <span class="date">2021</span>
+                                <span class="date">{{$item->date}}</span>
                             </div>
                             <div class="bottom">
                                 <ul>
-                                    <li><span class="quality">hd</span></li>
+                                    <li><span class="quality">{{$item->main_category_name}}</span></li>
                                     <li>
-                                        <span class="duration"><i class="far fa-clock"></i> 128 min</span>
+                                        <span class="duration"><i class="far fa-clock"></i>
+                                            {{$item->average_min}} dk</span>
                                         <span class="rating"><i class="fas fa-thumbs-up"></i> 3.5</span>
                                     </li>
                                 </ul>

@@ -27,18 +27,18 @@
                 </div>
                 <div class="col-xl-6 col-lg-8">
                     <div class="movie-details-content">
-                        <h2><span>{{$webtoon->title}}</span></h2>
+                        <h2>{{$webtoon->name ?? 'not_found'}}</h2>
                         <div class="banner-meta">
                             <ul>
-                                <li class="quality">
-                                    <span>HD</span>
-                                </li>
                                 <li class="category">
-                                    <a href="#">Romaitk,</a>
-                                    <a href="#">Dram</a>
+                                    <a href="#">{{$webtoon->main_category_name}}</a>
+                                    @foreach ($categories as $item)
+                                    <a href="#">{{$item->name}}</a>
+                                    @endforeach
+
                                 </li>
                                 <li class="release-time">
-                                    <span><i class="far fa-calendar-alt"></i> 2014</span>
+                                    <span><i class="far fa-calendar-alt"></i> {{$webtoon->date}}</span>
                                     <span><i class="far fa-clock"></i>{{$webtoon->episode_count}} Bölüm</span>
                                 </li>
                             </ul>
@@ -49,12 +49,39 @@
                         <div class="movie-details-prime">
                             <ul>
                                 <li class="share"><a href="#"><i class="fas fa-share-alt"></i> Paylaş</a></li>
-                                <li class="streaming">
-                                    <h6>Full HD</h6>
-                                    <span>Tüm bölümer Mevcut</span>
+                                <li class="watch">
+                                    @if ($followed)
+                                    <a href="javascript:;" class="btn" onclick="unfollowWebtoon()"><i
+                                            class="fas fa-plus"></i>Takip
+                                        Ediliyor</a>
+                                    @else
+                                    <p style="color:red;" id="followWebtoonTextMessageUst">  </p>
+                                    <a href="javascript:;" class="btn" onclick="followWebtoon()"><i
+                                            class="fas fa-plus"></i>Takip
+                                        Et</a>
+                                    <p style="color:red;" id="followWebtoonTextMessage">  </p>
+                                    @endif
+
                                 </li>
-                                <li class="watch"><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                        class="btn popup-video"><i class="fas fa-play"></i>Oku</a></li>
+                                <li class=" watch">
+                                    @if ($liked)
+                                    <a href="javascript:;" class="btn" onclick="dislikeWebtoon()"><i
+                                            class="fas fa-heart"></i>Favorilere
+                                        Eklendi</a>
+                                    @else
+                                    <p style="color:red;" id="likeWebtoonTextMessageUst">  </p>
+                                    <a href="javascript:;" class="btn" onclick="likeWebtoon()"><i
+                                            class="fas fa-heart"></i>Favorilere
+                                        Ekle</a>
+                                    <p style="color:red;" id="likeWebtoonTextMessage">  </p>
+                                    @endif
+
+                                </li>
+                                <li class="watch">
+                                    <a href="https://www.youtube.com/watch?v=R2gbPxeNk2E" class="btn popup-video"><i
+                                            class="fas fa-play"></i>İzle</a>
+                                </li>
+
                             </ul>
                         </div>
                     </div>
@@ -82,210 +109,74 @@
                                 <h2 class="title">Tüm bölümler</h2>
                             </div>
                             <div class="total-views-count">
-                                <p>2.700 <i class="far fa-eye"></i></p>
+                                <p>{{$webtoon->click_count}} <i class="far fa-eye"></i></p>
                             </div>
                         </div>
                         <div class="episode-watch-wrap">
                             <div class="accordion" id="accordionExample">
+                                @if ($webtoon->season_count > 0)
+                                @for ($i = $webtoon->season_count; $i>=1; $i--)
                                 <div class="card">
-                                    <div class="card-header" id="headingOne">
-                                        <button class="btn-block text-left" type="button" data-toggle="collapse"
-                                            data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                            <span class="season">2.Sezon</span>
-                                            <span class="video-count">24 Bölüm</span>
-                                        </button>
-                                    </div>
-                                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
-                                        data-parent="#accordionExample">
-                                        <div class="card-body">
-                                            <ul>
-                                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                                        class="popup-video"><i class="fas fa-play"></i> Bölüm 1</a>
-                                                    <span class="duration"><i class="far fa-clock"></i> 28 Min</span>
-                                                </li>
-                                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                                        class="popup-video"><i class="fas fa-play"></i> Bölüm 2</a>
-                                                    <span class="duration"><i class="far fa-clock"></i> 28 Min</span>
-                                                </li>
-                                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                                        class="popup-video"><i class="fas fa-play"></i> Bölüm 3</a>
-                                                    <span class="duration"><i class="far fa-clock"></i> 28 Min</span>
-                                                </li>
-                                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                                        class="popup-video"><i class="fas fa-play"></i> Bölüm 4</a>
-                                                    <span class="duration"><i class="far fa-clock"></i> 28 Min</span>
-                                                </li>
-                                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                                        class="popup-video"><i class="fas fa-play"></i> Bölüm 5</a>
-                                                    <span class="duration"><i class="far fa-clock"></i> 28 Min</span>
-                                                </li>
-                                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                                        class="popup-video"><i class="fas fa-play"></i> Bölüm 6</a>
-                                                    <span class="duration"><i class="far fa-clock"></i> 28 Min</span>
-                                                </li>
-                                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                                        class="popup-video"><i class="fas fa-play"></i> Bölüm 7</a>
-                                                    <span class="duration"><i class="far fa-clock"></i> 28 Min</span>
-                                                </li>
-                                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                                        class="popup-video"><i class="fas fa-play"></i> Bölüm 8</a>
-                                                    <span class="duration"><i class="far fa-clock"></i> 28 Min</span>
-                                                </li>
-                                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                                        class="popup-video"><i class="fas fa-play"></i> Bölüm 9</a>
-                                                    <span class="duration"><i class="far fa-clock"></i> 28 Min</span>
-                                                </li>
-                                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                                        class="popup-video"><i class="fas fa-play"></i> Bölüm 10</a>
-                                                    <span class="duration"><i class="far fa-clock"></i> 28 Min</span>
-                                                </li>
-                                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                                        class="popup-video"><i class="fas fa-play"></i> Bölüm 11</a>
-                                                    <span class="duration"><i class="far fa-clock"></i> 28 Min</span>
-                                                </li>
-                                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                                        class="popup-video"><i class="fas fa-play"></i> Bölüm 12</a>
-                                                    <span class="duration"><i class="far fa-clock"></i> 28 Min</span>
-                                                </li>
-                                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                                        class="popup-video"><i class="fas fa-play"></i> Bölüm 13</a>
-                                                    <span class="duration"><i class="far fa-clock"></i> 28 Min</span>
-                                                </li>
-                                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                                        class="popup-video"><i class="fas fa-play"></i> Bölüm 14</a>
-                                                    <span class="duration"><i class="far fa-clock"></i> 28 Min</span>
-                                                </li>
-                                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                                        class="popup-video"><i class="fas fa-play"></i> Bölüm 15</a>
-                                                    <span class="duration"><i class="far fa-clock"></i> 28 Min</span>
-                                                </li>
-                                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                                        class="popup-video"><i class="fas fa-play"></i> Bölüm 16</a>
-                                                    <span class="duration"><i class="far fa-clock"></i> 28 Min</span>
-                                                </li>
-                                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                                        class="popup-video"><i class="fas fa-play"></i> Bölüm 17</a>
-                                                    <span class="duration"><i class="far fa-clock"></i> 28 Min</span>
-                                                </li>
-                                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                                        class="popup-video"><i class="fas fa-play"></i> Bölüm 18</a>
-                                                    <span class="duration"><i class="far fa-clock"></i> 28 Min</span>
-                                                </li>
-                                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                                        class="popup-video"><i class="fas fa-play"></i> Bölüm 19</a>
-                                                    <span class="duration"><i class="far fa-clock"></i> 28 Min</span>
-                                                </li>
-                                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                                        class="popup-video"><i class="fas fa-play"></i> Bölüm 20</a>
-                                                    <span class="duration"><i class="far fa-clock"></i> 28 Min</span>
-                                                </li>
-                                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                                        class="popup-video"><i class="fas fa-play"></i> Bölüm 21</a>
-                                                    <span class="duration"><i class="far fa-clock"></i> 28 Min</span>
-                                                </li>
-                                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                                        class="popup-video"><i class="fas fa-play"></i> Bölüm 22</a>
-                                                    <span class="duration"><i class="far fa-clock"></i> 28 Min</span>
-                                                </li>
-                                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                                        class="popup-video"><i class="fas fa-play"></i> Bölüm 23</a>
-                                                    <span class="duration"><i class="far fa-clock"></i> 28 Min</span>
-                                                </li>
-                                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                                        class="popup-video"><i class="fas fa-play"></i> Bölüm 24</a>
-                                                    <span class="duration"><i class="far fa-clock"></i> 28 Min</span>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-header" id="headingTwo">
+                                    <div class="card-header " id="heading{{$i}}">
                                         <button class="btn-block text-left collapsed" type="button"
-                                            data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
-                                            aria-controls="collapseTwo">
-                                            <span class="season">1.Sezon</span>
-                                            <span class="video-count">12 Bölüm</span>
+                                            data-toggle="collapse" data-target="#collapse{{$i}}" aria-expanded="false"
+                                            aria-controls="collapse{{$i}}">
+                                            <span class="season">{{$i}} . sezon</span>
+                                            <span class="video-count">{{count($webtoon->where('season_short',$i))}}
+                                                Bölüm</span>
                                         </button>
                                     </div>
-                                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo"
+                                    @if ($i == $webtoon->season_count)
+                                    <div id="collapse{{$i}}" class="collapse show" aria-labelledby="heading{{$i}}"
                                         data-parent="#accordionExample">
-                                        <div class="card-body">
-                                            <ul>
-                                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                                        class="popup-video"><i class="fas fa-play"></i> Bölüm 1</a>
-                                                    <span class="duration"><i class="far fa-clock"></i> 28 Min</span>
-                                                </li>
-                                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                                        class="popup-video"><i class="fas fa-play"></i> Bölüm 2</a>
-                                                    <span class="duration"><i class="far fa-clock"></i> 28 Min</span>
-                                                </li>
-                                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                                        class="popup-video"><i class="fas fa-play"></i> Bölüm 3</a>
-                                                    <span class="duration"><i class="far fa-clock"></i> 28 Min</span>
-                                                </li>
-                                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                                        class="popup-video"><i class="fas fa-play"></i> Bölüm 4</a>
-                                                    <span class="duration"><i class="far fa-clock"></i> 28 Min</span>
-                                                </li>
-                                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                                        class="popup-video"><i class="fas fa-play"></i> Bölüm 5</a>
-                                                    <span class="duration"><i class="far fa-clock"></i> 28 Min</span>
-                                                </li>
-                                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                                        class="popup-video"><i class="fas fa-play"></i> Bölüm 6</a>
-                                                    <span class="duration"><i class="far fa-clock"></i> 28 Min</span>
-                                                </li>
-                                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                                        class="popup-video"><i class="fas fa-play"></i> Bölüm 7</a>
-                                                    <span class="duration"><i class="far fa-clock"></i> 28 Min</span>
-                                                </li>
-                                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                                        class="popup-video"><i class="fas fa-play"></i> Bölüm 8</a>
-                                                    <span class="duration"><i class="far fa-clock"></i> 28 Min</span>
-                                                </li>
-                                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                                        class="popup-video"><i class="fas fa-play"></i> Bölüm 9</a>
-                                                    <span class="duration"><i class="far fa-clock"></i> 28 Min</span>
-                                                </li>
-                                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                                        class="popup-video"><i class="fas fa-play"></i> Bölüm 10</a>
-                                                    <span class="duration"><i class="far fa-clock"></i> 28 Min</span>
-                                                </li>
-                                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                                        class="popup-video"><i class="fas fa-play"></i> Bölüm 11</a>
-                                                    <span class="duration"><i class="far fa-clock"></i> 28 Min</span>
-                                                </li>
-                                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                                        class="popup-video"><i class="fas fa-play"></i> Bölüm 12</a>
-                                                    <span class="duration"><i class="far fa-clock"></i> 28 Min</span>
-                                                </li>
-                                            </ul>
+                                        @else
+                                        <div id="collapse{{$i}}" class="collapse" aria-labelledby="heading{{$i}}"
+                                            data-parent="#accordionExample">
+                                            @endif
+
+                                            <div class="card-body">
+                                                <ul>
+                                                    @foreach ($webtoon_episodes->where('season_short',$i) as $item)
+                                                    <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
+                                                            class="popup-video"><i class="fas fa-play"></i> Bölüm
+                                                            {{$item->episode_short}}</a>
+                                                        <span class="duration"><i class="far fa-clock"></i>
+                                                            {{$item->minute}}
+                                                            Dakika</span>
+                                                    </li>
+                                                    @endforeach
+
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
+                                    @endfor
+                                    @else
+                                    <p>Herhani gib bölüm mevcut değil.</p>
+                                    @endif
+
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="col-lg-4">
+                        <div class="episode-img">
+                            <img src="../../../{{$webtoon->image}}" alt=""
+                                style="min-width: 413px; min-height: 526px; max-width: 413px; max-height: 526px;">
+                        </div>
+                    </div>
                 </div>
-                <div class="col-lg-4">
-                    <div class="episode-img">
-                        <img src="../../../{{$webtoon->image}}" alt=""
-                            style="min-width: 413px; min-height: 526px; max-width: 413px; max-height: 526px;">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="movie-history-wrap">
+                            <h3 class="title"><span>Hikaye</span></h3>
+                            <p>
+                                {{$webtoon->description}}
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-12">
-                    <div class="movie-history-wrap">
-                        <h3 class="title"><span>Hikaye</span></h3>
-                        <p>
-                            {{$webtoon->description}}
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
     </section>
     <!-- episode-area-end -->
 
@@ -296,7 +187,7 @@
                 <div class="col-lg-8">
                     <div class="section-title text-center mb-50">
                         <span class="sub-title">En iyileri</span>
-                        <h2 class="title">Trend Animeler</h2>
+                        <h2 class="title">Trend Webtoonlar</h2>
                     </div>
                 </div>
             </div>
@@ -305,19 +196,20 @@
                 <div class="col-xl-3 col-lg-4 col-sm-6">
                     <div class="movie-item mb-50">
                         <div class="movie-poster">
-                            <a href="movie-details.html"><img src="../../../{{$item->image}}" alt=""
+                            <a href="/webtoon/{{$item->short_name}}"><img src="../../../{{$item->image}}" alt=""
                                     style="min-width: 303px; min-height: 430px; max-width: 303px; max-height: 430px;"></a>
                         </div>
                         <div class="movie-content">
                             <div class="top">
-                                <h5 class="title"><a href="movie-details.html">{{$item->name}}</a></h5>
-                                <span class="date">2021</span>
+                                <h5 class="title"><a href="/webtoon/{{$item->short_name}}">{{$item->name}}</a></h5>
+                                <span class="date">{{$item->date}}</span>
                             </div>
                             <div class="bottom">
                                 <ul>
-                                    <li><span class="quality">hd</span></li>
+                                    <li><span class="quality">{{$item->main_category_name}}</span></li>
                                     <li>
-                                        <span class="duration"><i class="far fa-clock"></i> 128 min</span>
+                                        <span class="duration"><i class="far fa-clock"></i>
+                                            {{$item->average_min}} dk</span>
                                         <span class="rating"><i class="fas fa-thumbs-up"></i> 3.5</span>
                                     </li>
                                 </ul>
@@ -332,6 +224,63 @@
     </section>
     <!-- tv-series-area-end -->
 
+    <div id="hiddenDiv" hidden>
+
+    </div>
 </main>
 <!-- main-area-end -->
+<script>
+    function followWebtoon(){
+        @if (Auth::user())
+            var code = `<form action="{{route('followWebtoon')}}" method="POST" id="followWebtoonForm">
+                            @csrf
+                            <input type="text" name="user_code" value="{{Auth::user()->code}}">
+                            <input type="text" name="webtoon_code" value="{{$webtoon->code}}">
+                        </form>`;
+            document.getElementById('hiddenDiv').innerHTML = code;
+            document.getElementById('followWebtoonForm').submit();
+        @else
+            document.getElementById('followWebtoonTextMessage').innerText = "Lütfen Giriş Yapınız."
+        @endif
+    }
+    function unfollowWebtoon(){
+        @if (Auth::user())
+            var code = `<form action="{{route('unfollowWebtoon')}}" method="POST" id="unfollowWebtoonForm">
+                @csrf
+                <input type="text" name="user_code" value="{{Auth::user()->code}}">
+                <input type="text" name="webtoon_code" value="{{$webtoon->code}}">
+            </form>`;
+            document.getElementById('hiddenDiv').innerHTML = code;
+            document.getElementById('unfollowWebtoonForm').submit();
+        @else
+            document.getElementById('followWebtoonTextMessage').innerText = "Lütfen Giriş Yapınız."
+        @endif
+    }
+    function likeWebtoon(){
+        @if (Auth::user())
+            var code = `<form action="{{route('likeWebtoon')}}" method="POST" id="likeWebtoonForm">
+                @csrf
+                <input type="text" name="user_code" value="{{Auth::user()->code}}">
+                <input type="text" name="webtoon_code" value="{{$webtoon->code}}">
+            </form>`;
+            document.getElementById('hiddenDiv').innerHTML = code;
+            document.getElementById('likeWebtoonForm').submit();
+        @else
+            document.getElementById('likeWebtoonTextMessage').innerText = "Lütfen Giriş Yapınız."
+        @endif
+    }
+    function dislikeWebtoon(){
+        @if (Auth::user())
+            var code = `<form action="{{route('unlikeWebtoon')}}" method="POST" id="unlikeWebtoonForm">
+                @csrf
+                <input type="text" name="user_code" value="{{Auth::user()->code}}">
+                <input type="text" name="webtoon_code" value="{{$webtoon->code}}">
+            </form>`;
+            document.getElementById('hiddenDiv').innerHTML = code;
+            document.getElementById('unlikeWebtoonForm').submit();
+        @else
+            document.getElementById('likeWebtoonTextMessage').innerText = "Lütfen Giriş Yapınız."
+        @endif
+    }
+</script>
 @endsection

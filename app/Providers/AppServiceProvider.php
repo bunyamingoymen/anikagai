@@ -43,7 +43,7 @@ class AppServiceProvider extends ServiceProvider
         $userPages = ['admin.users.create', 'admin.users.list', 'admin.users.update'];
         $authGroupPages = ['admin.auth.groups.create', 'admin.auth.groups.list', 'admin.auth.groups.update'];
         $authPages = ['admin.auth.auth.list'];
-        $dataPages = ['admin.data.logo', 'admin.data.menu', 'admin.data.meta', 'admin.data.social', 'admin.data.title'];
+        $dataPages = ['admin.data.home', 'admin.data.logo', 'admin.data.menu', 'admin.data.meta', 'admin.data.social', 'admin.data.title'];
         $animePages = ['admin.anime.anime.create', 'admin.anime.anime.list', 'admin.anime.anime.update'];
         $animeEpisodePages = ['admin.anime.episode.create', 'admin.anime.episode.list', 'admin.anime.episode.update'];
         $animeCalendarPages = ['admin.anime.calendar.calendar'];
@@ -134,12 +134,14 @@ class AppServiceProvider extends ServiceProvider
         });
 
         View::composer($dataPages, function ($view) {
+            $homeData = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/data/home'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
             $logoData = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/data/logo'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
             $metaData = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/data/meta'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
             $menuData = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/data/menu'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
             $socialData = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/data/social'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
             $titleData = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/data/title'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $view->with(["logoData" => $logoData, "metaData" => $metaData, "menuData" => $menuData, "socialData" => $socialData, 'titleData' => $titleData]);
+
+            $view->with(["homeData" => $homeData, "logoData" => $logoData, "metaData" => $metaData, "menuData" => $menuData, "socialData" => $socialData, 'titleData' => $titleData]);
         });
 
         View::composer($animePages, function ($view) {

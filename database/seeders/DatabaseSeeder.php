@@ -678,7 +678,7 @@ class DatabaseSeeder extends Seeder
                 'id' => 29,
                 'code' => 29,
                 'key'  => 'selected_theme',
-                'value'  => '2',
+                'value'  => '1',
                 'create_user_code' => 1,
                 'deleted' => 0,
                 'created_at' => Carbon::now(),

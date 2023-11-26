@@ -172,6 +172,10 @@ return [
 
 
 
+        'admin/data/home' => "Anasayfa Ayarları",
+        '/admin/data/home' => ["Admin", "Anasayfa Ayarları"],
+        '//admin/data/home' => ["admin_index", "#"],
+
         'admin/data/logo' => "Logolar/Resimler",
         '/admin/data/logo' => ["Admin", "Logolar"],
         '//admin/data/logo' => ["admin_index", "#"],

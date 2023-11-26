@@ -32,6 +32,9 @@ Route::controller(IndexController::class)->group(function () {
 
     Route::post("/control/username/ajax", 'controlUsername')->name('index_control_username');
     Route::post("/control/email/ajax", 'controlEmail')->name('index_control_email');
+
+    Route::get('/contact', 'contactScreen')->name('contact_screen');
+    Route::post('/contact', 'contact')->name('contact');
 });
 
 Route::group(['middleware' => 'guest_index'], function () {
@@ -165,6 +168,9 @@ Route::middleware(['auth'])->group(function () {
         });
 
         Route::controller(DataController::class)->group(function () {
+            Route::get("/admin/data/home", "homeList")->name('admin_data_home_list');
+            Route::post("/admin/data/home", "homeChange")->name('admin_data_home');
+
             Route::get("/admin/data/logo", "logoList")->name('admin_data_logo_list');
             Route::post("/admin/data/logo", "logoChange")->name('admin_data_logo');
 

@@ -77,11 +77,11 @@
                                     <i class="fas fa-star"></i>
                                 </div>
                                 <h5 class="title"><a href="webtoon/{{$item->short_name}}">{{$item->name}}</a></h5>
-                                <span class="rel">Adventure</span>
+                                <span class="rel">{{$item->main_tag_name ?? 'Genel'}}</span>
                                 <div class="movie-content-bottom">
                                     <ul>
                                         <li class="tag">
-                                            <a href="javascript:;">HD</a>
+                                            <a href="javascript:;">{{$item->main_tag_name ?? 'Genel'}}</a>
                                         </li>
                                         <li>
                                             <span class="like"><i class="fas fa-thumbs-up"></i> 3.5</span>
@@ -111,11 +111,11 @@
                                     <i class="fas fa-star"></i>
                                 </div>
                                 <h5 class="title"><a href="anime/{{$item->short_name}}">{{$item->name}}</a></h5>
-                                <span class="rel">Adventure</span>
+                                <span class="rel">{{$item->main_tag_name ?? 'Genel'}}</span>
                                 <div class="movie-content-bottom">
                                     <ul>
                                         <li class="tag">
-                                            <a href="Javascript:;">HD</a>
+                                            <a href="Javascript:;">{{$item->main_tag_name ?? 'Genel'}}</a>
                                         </li>
                                         <li>
                                             <span class="like"><i class="fas fa-thumbs-up"></i> 3.5</span>
@@ -132,6 +132,7 @@
     </section>
     <!-- up-coming-movie-area-end -->
 
+    @if (isset($anime_active) && $anime_active->value == 1)
     <!-- top-rated-movie -->
     <section class="top-rated-movie tr-movie-bg2" data-background="../../../user/mox/img/bg/tr_movies_bg.jpg">
         <div class="container">
@@ -150,8 +151,7 @@
                             style="min-width: 195px; min-height: 285px; max-width: 195px; max-height: 285px;">
                             <img src="../../../{{$item->image}}" alt="">
                             <ul class="overlay-btn">
-                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                        class="popup-video btn">İzle</a></li>
+                                <li><a href="anime/{{$item->short_name}}" class="btn">İzle</a></li>
                                 <li><a href="anime/{{$item->short_name}}" class="btn">Detay</a></li>
                             </ul>
                         </div>
@@ -164,11 +164,11 @@
                                 <i class="fas fa-star"></i>
                             </div>
                             <h5 class="title"><a href="anime/{{$item->short_name}}">{{$item->name}}</a></h5>
-                            <span class="rel">Adventure</span>
+                            <span class="rel">{{$item->main_tag_name ?? 'Genel'}}</span>
                             <div class="movie-content-bottom">
                                 <ul>
                                     <li class="tag">
-                                        <a href="javascirpt:;">HD</a>
+                                        <a href="javascirpt:;">{{$item->main_tag_name ?? 'Genel'}}</a>
                                     </li>
                                     <li>
                                         <span class="like"><i class="fas fa-thumbs-up"></i> 3.5</span>
@@ -186,7 +186,9 @@
         </div>
     </section>
     <!-- top-rated-movie-end -->
+    @endif
 
+    @if (isset($webtoon_active) && $webtoon_active->value == 1)
     <!-- top-rated-movie -->
     <section class="top-rated-movie tr-movie-bg2" data-background="../../../user/mox/img/bg/tr_movies_bg.jpg">
         <div class="container">
@@ -205,8 +207,7 @@
                             style="min-width: 195px; min-height: 285px; max-width: 195px; max-height: 285px;">
                             <img src="../../../{{$item->image}}" alt="">
                             <ul class="overlay-btn">
-                                <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                        class="popup-video btn">İzle</a>
+                                <li><a href="webtoon/{{$item->short_name}}" class="btn">Oku</a>
                                 </li>
                                 <li><a href="webtoon/{{$item->short_name}}" class="btn">Detay</a></li>
                             </ul>
@@ -220,11 +221,11 @@
                                 <i class="fas fa-star"></i>
                             </div>
                             <h5 class="title"><a href="webtoon/{{$item->short_name}}">{{$item->name}}</a></h5>
-                            <span class="rel">Adventure</span>
+                            <span class="rel">{{$item->main_tag_name ?? 'Genel'}}</span>
                             <div class="movie-content-bottom">
                                 <ul>
                                     <li class="tag">
-                                        <a href="javasciprt:;">HD</a>
+                                        <a href="javascirpt:;">{{$item->main_tag_name ?? 'Genel'}}</a>
                                     </li>
                                     <li>
                                         <span class="like"><i class="fas fa-thumbs-up"></i> 3.5</span>
@@ -243,6 +244,7 @@
         </div>
     </section>
     <!-- top-rated-movie-end -->
+    @endif
 
 </main>
 @endif

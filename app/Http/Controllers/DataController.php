@@ -3,11 +3,28 @@
 namespace App\Http\Controllers;
 
 use App\Models\KeyValue;
+use App\Models\Theme;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
 
 class DataController extends Controller
 {
+    public function homeList()
+    {
+        $selected_theme = KeyValue::Where('key', 'selected_theme')->first();
+        $themes = Theme::Where('deleted', 0)->get();
+        return view('admin.data.home', ['selected_theme' => $selected_theme, 'themes' => $themes]);
+    }
+
+    public function homeChange(Request $request)
+    {
+
+        $selected_theme = KeyValue::Where('key', 'selected_theme')->first();
+        $selected_theme->value = $request->selected_theme;
+        $selected_theme->save();
+
+        return redirect()->route('admin_data_home_list')->with("success", Config::get('success.success_codes.10120512'));
+    }
     public function logoList()
     {
 

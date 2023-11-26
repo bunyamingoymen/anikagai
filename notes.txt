@@ -15,4 +15,5 @@ Kullanıcı arayüzü:
 +Varsayılan bir profil resmi olmalı
 etiket ve kategori arama
 Anime ve webtoon için beğenme oranları eklenecek
+Anime ve webtoon için puanlama kısmı
 

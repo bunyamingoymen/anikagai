@@ -20,7 +20,6 @@ class Authenticate extends Middleware
 
     public function handle($request, Closure $next, ...$guards)
     {
-        return $next($request);
         // Kullanıcıyı doğrula
         if (Auth::guard('admin')->user()) {
             // Kullanıcı admin guard'ı ile doğrulandıysa devam et

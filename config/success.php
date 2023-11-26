@@ -95,6 +95,8 @@ return [
 
         '10120412' => 'Başlık' . $success . $update,
 
+        '10120512' => 'Anaysafa Ayarları' . $success . $update,
+
         '10130012' => 'Mesaj Başarılı Bir Şekilde Gönderildi',
         '10130112' => 'Bildirim Okundu Olarak İşaretlendi',
 

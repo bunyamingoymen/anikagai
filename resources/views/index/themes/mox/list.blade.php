@@ -77,24 +77,32 @@
                                     <i class="fas fa-star"></i>
                                 </li>
                                 @if ($path == "animeler")
-                                <li><a href="#" class="popup-video btn">İzle</a></li>
+                                <li><a href="#" class="btn">İzle</a></li>
                                 @elseif ($path == "webtoonlar")
-                                <li><a href="" # class="popup-video btn">Oku</a></li>
+                                <li><a href="" # class="btn">Oku</a></li>
                                 @endif
-
-                                <li><a href="movie-Detay.html" class="btn">Detay</a></li>
+                                @if ($path == "animeler")
+                                <li><a href="anime/{{$item->short_name}}" class="btn">Detay</a></li>
+                                @elseif ($path == "webtoonlar")
+                                <li><a href="webtoon/{{$item->short_name}}" class="btn">Detay</a></li>
+                                @endif
                             </ul>
                         </div>
                         <div class="movie-content">
                             <div class="top">
-                                <h5 class="title"><a href="movie-Detay.html">Women's Day</a></h5>
-                                <span class="date">2021</span>
+                                @if ($path == "animeler")
+                                <h5 class="title"><a href="anime/{{$item->short_name}}">{{$item->name}}</a></h5>
+                                @elseif ($path == "webtoonlar")
+                                <h5 class="title"><a href="webtoon/{{$item->short_name}}">{{$item->name}}</a></h5>
+                                @endif
+                                <span class="date">{{$item->date}}</span>
                             </div>
                             <div class="bottom">
                                 <ul>
-                                    <li><span class="quality">hd</span></li>
+                                    <li><span class="quality">{{$item->main_category_name}}</span></li>
                                     <li>
-                                        <span class="duration"><i class="far fa-clock"></i> 128 min</span>
+                                        <span class="duration"><i class="far fa-clock"></i>
+                                            {{$item->average_min}} dk</span>
                                         <span class="rating"><i class="fas fa-thumbs-up"></i> 3.5</span>
                                     </li>
                                 </ul>
