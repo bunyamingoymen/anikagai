@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Anime Template">
+    <meta name="keywords" content="Anime, unica, creative, html">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Anime | Template</title>
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <!-- Css Styles -->
+    <link rel="stylesheet" href="../../../user/animex/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="../../../user/animex/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="../../../user/animex/css/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="../../../user/animex/css/plyr.css" type="text/css">
+    <link rel="stylesheet" href="../../../user/animex/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="../../../user/animex/css/owl.carousel.min.css" type="text/css">
+    <link rel="stylesheet" href="../../../user/animex/css/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="../../../user/animex/css/style.css" type="text/css">
+</head>
+
+<body>
+    @include('index.themes.animex.layouts.preloader')
+
+    @include('index.themes.animex.layouts.topbar')
+
+    <!-- Hero Section Begin -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero__slider owl-carousel">
+                @foreach ($slider_image as $item)
+                <div class="hero__items set-bg" data-setbg="../../../{{$item->optional ?? ''}}">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="hero__text">
+                                <h2>{{$item->value}}</h2>
+                                <a href="{{$item->optional_2 ?? ''}}"><span> Sayfaya Git</span> <i
+                                        class="fa fa-angle-right"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+
+            </div>
+        </div>
+    </section>
+    <!-- Hero Section End -->
+
+    <!-- Product Section Begin -->
+    @yield('index_content')
+
+    <!-- Product Section End -->
+
+    <!-- Footer Section Begin -->
+    @include('index.themes.animex.layouts.footer')
+    <!-- Footer Section End -->
+
+    <!-- Search model Begin -->
+    <div class="search-model">
+        <div class="h-100 d-flex align-items-center justify-content-center">
+            <div class="search-close-switch"><i class="icon_close"></i></div>
+            <form class="search-model-form">
+                <input type="text" id="search-input" placeholder="Ara.....">
+            </form>
+        </div>
+    </div>
+    <!-- Search model end -->
+
+    <!-- Js Plugins -->
+    <script src="../../../user/animex/js/jquery-3.3.1.min.js"></script>
+    <script src="../../../user/animex/js/bootstrap.min.js"></script>
+    <script src="../../../user/animex/js/player.js"></script>
+    <script src="../../../user/animex/js/jquery.nice-select.min.js"></script>
+    <script src="../../../user/animex/js/mixitup.min.js"></script>
+    <script src="../../../user/animex/js/jquery.slicknav.js"></script>
+    <script src="../../../user/animex/js/owl.carousel.min.js"></script>
+    <script src="../../../user/animex/js/main.js"></script>
+
+
+</body>
+
+</html>

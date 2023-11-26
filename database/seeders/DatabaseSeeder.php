@@ -635,7 +635,7 @@ class DatabaseSeeder extends Seeder
                 'id' => 25,
                 'code' => 25,
                 'key'  => 'slider_image',
-                'value'  => '1', //1: Aktif,2: pasif
+                'value'  => 'Tokyo Ghoul', //1: Aktif,2: pasif
                 'optional' => 'user/img/images/gallery_01.jpg',
                 'optional_2' => '/', //url
                 'create_user_code' => 1,
@@ -645,7 +645,7 @@ class DatabaseSeeder extends Seeder
                 'id' => 26,
                 'code' => 26,
                 'key'  => 'slider_image',
-                'value'  => '1', //1: Aktif,2: pasif
+                'value'  => 'Attack On Titan', //1: Aktif,2: pasif
                 'optional' => 'user/img/images/gallery_02.jpg',
                 'optional_2' => '/', //url
                 'create_user_code' => 1,
@@ -665,7 +665,7 @@ class DatabaseSeeder extends Seeder
                 'id' => 28,
                 'code' => 28,
                 'key'  => 'slider_image',
-                'value'  => '1', //1: Aktif,2: pasif
+                'value'  => 'One Piece', //1: Aktif,2: pasif
                 'optional' => 'user/img/images/gallery_04.jpg',
                 'optional_2' => '/', //url
                 'create_user_code' => 1,

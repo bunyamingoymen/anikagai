@@ -29,7 +29,9 @@ class IndexController extends Controller
         $animes = Anime::Where('deleted', 0)->take(20)->orderBy('created_at', 'DESC')->get();
         $webtoons = Webtoon::Where('deleted', 0)->take(20)->orderBy('created_at', 'DESC')->get();
 
-        return view("index." . $themePath->themePath . ".index", ['trend_animes' => $trend_animes, 'trend_webtoons' => $trend_webtoons, 'animes' => $animes, 'webtoons' => $webtoons]);
+        $slider_image = KeyValue::Where('key', 'slider_image')->Where('deleted', 0)->get();
+
+        return view("index." . $themePath->themePath . ".index", ['slider_image' => $slider_image, 'trend_animes' => $trend_animes, 'trend_webtoons' => $trend_webtoons, 'animes' => $animes, 'webtoons' => $webtoons]);
     }
 
     public function list(Request $request)

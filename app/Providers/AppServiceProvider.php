@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Models\AuthorizationClauseGroup;
 use App\Models\KeyValue;
 use App\Models\NotificationAdmin;
+use App\Models\Theme;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
@@ -33,7 +34,10 @@ class AppServiceProvider extends ServiceProvider
         admin_meta(Data'nın içinde)
         keyValue
         */
-        $indexPages = ['index.themes.mox.layouts.main', 'index.themes.mox.index'];
+        $selected_theme = KeyValue::Where('key', 'selected_theme')->first();
+        $themePath = Theme::Where('code', $selected_theme->value)->first();
+
+        $indexPages = ['index.' . $themePath->themePath . '.layouts.main', 'index.' . $themePath->themePath . '.index'];
         $adminPages = ['admin.layouts.main'];
         //
         $userPages = ['admin.users.create', 'admin.users.list', 'admin.users.update'];
@@ -223,8 +227,6 @@ class AppServiceProvider extends ServiceProvider
             $index_title = KeyValue::Where('key', 'index_title')->first();
             $index_text = KeyValue::Where('key', 'index_text')->first();
 
-            $slider_image = KeyValue::Where('key', 'slider_image')->Where('value', 1)->Where('deleted', 0)->get();
-
             $meta = KeyValue::Where('key', 'meta')->Where('deleted', 0)->get();
             $admin_meta = KeyValue::Where('key', 'admin_meta')->Where('deleted', 0)->get();
 
@@ -239,7 +241,7 @@ class AppServiceProvider extends ServiceProvider
             $webtoon_active = KeyValue::Where('key', 'webtoon_active')->first();
 
             // Görünüme veriyi gönder
-            $view->with('logo', $logo)->with('logo_footer', $logo_footer)->with('index_text', $index_text)->with('footer_copyright', $footer_copyright)->with('social_media', $social_media)->with('menus', $menus)->with('menu_alts', $menu_alts)->with('active_menu', $active_menu)->with('index_icon', $index_icon)->with('index_title', $index_title)->with('meta', $meta)->with('admin_meta', $admin_meta)->with('anime_active', $anime_active)->with('webtoon_active', $webtoon_active)->with('slider_image', $slider_image);
+            $view->with('logo', $logo)->with('logo_footer', $logo_footer)->with('index_text', $index_text)->with('footer_copyright', $footer_copyright)->with('social_media', $social_media)->with('menus', $menus)->with('menu_alts', $menu_alts)->with('active_menu', $active_menu)->with('index_icon', $index_icon)->with('index_title', $index_title)->with('meta', $meta)->with('admin_meta', $admin_meta)->with('anime_active', $anime_active)->with('webtoon_active', $webtoon_active);
         });
     }
 }
