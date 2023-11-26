@@ -22,10 +22,10 @@ class AdminController extends Controller
 
         if ($request->has('code')) {
             $user = User::Where('code', $request->code)->first();
-            $follow = FollowUser::Where('followed_user_code', $request->code)->Where('user_code', Auth::user()->code)->first();
+            $follow = FollowUser::Where('followed_user_code', $request->code)->Where('user_code', Auth::guard('admin')->user()->code)->first();
             if ($follow) $followed = 1;
         } else {
-            $user = Auth::user();
+            $user = Auth::guard('admin')->user();
         }
 
         $followed_users = DB::table('follow_users')
@@ -45,10 +45,10 @@ class AdminController extends Controller
     public function login(Request $request)
     {
 
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
-            if (Auth::user()->deleted == 0 && Auth::user()->admin == 1)
+        if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password])) {
+            if (Auth::guard('admin')->user()->deleted == 0 && Auth::guard('admin')->user()->admin == 1)
                 return redirect()->route('admin_index')->with("success", Config::get('success.success_codes.10020011'));
-            else Auth::logout();
+            else Auth::guard('admin')->logout();
             return redirect()->route('admin_login_screen')->with('error', Config::get('error.error_codes.0000000'));
         }
         return redirect()->route('admin_login_screen')->with("error", Config::get('error.error_codes.0020011'));
@@ -56,7 +56,7 @@ class AdminController extends Controller
 
     public function logout()
     {
-        Auth::logout();
+        Auth::guard('admin')->logout();
         return redirect()->route('admin_login_screen')->with("success", "Çıkış Başarılı");
     }
 }

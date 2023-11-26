@@ -67,7 +67,7 @@ class WebtoonEpisodeController extends Controller
 
 
 
-        $webtoon_episode->create_user_code = Auth::user()->code;
+        $webtoon_episode->create_user_code = Auth::guard('admin')->user()->code;
 
         $webtoon_episode->save();
 
@@ -101,7 +101,7 @@ class WebtoonEpisodeController extends Controller
         $webtoon_episode->season_short = $request->season_short;
         $webtoon_episode->episode_short = $request->episode_short;
 
-        $webtoon_episode->update_user_code = Auth::user()->code;
+        $webtoon_episode->update_user_code = Auth::guard('admin')->user()->code;
 
         $webtoon_episode->save();
 
@@ -116,7 +116,7 @@ class WebtoonEpisodeController extends Controller
             return redirect()->back()->with("error", Config::get('error.error_codes.0110013'));
 
         $webtoon_episode->deleted = 1;
-        $webtoon_episode->update_user_code = Auth::user()->code;
+        $webtoon_episode->update_user_code = Auth::guard('admin')->user()->code;
         $webtoon_episode->save();
         return redirect()->route('admin_webtoon_episodes_list')->with("success", Config::get('success.success_codes.10110013'));
     }

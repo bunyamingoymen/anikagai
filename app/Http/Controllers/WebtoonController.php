@@ -62,7 +62,7 @@ class WebtoonController extends Controller
         $webtoon->main_category = $request->main_category;
         $webtoon->main_category_name = Category::Where('code', $request->main_category)->first()->name;
 
-        $webtoon->create_user_code = Auth::user()->code;
+        $webtoon->create_user_code = Auth::guard('admin')->user()->code;
 
         $webtoon->save();
 
@@ -127,7 +127,7 @@ class WebtoonController extends Controller
         $webtoon->main_category = $request->main_category;
         $webtoon->main_category_name = Category::Where('code', $request->main_category)->first()->name;
 
-        $webtoon->update_user_code = Auth::user()->code;
+        $webtoon->update_user_code = Auth::guard('admin')->user()->code;
 
         $webtoon->save();
 
@@ -160,7 +160,7 @@ class WebtoonController extends Controller
             return redirect()->back()->with("error", Config::get('error.error_codes.0090013'));
 
         $webtoon->deleted = 1;
-        $webtoon->update_user_code = Auth::user()->code;
+        $webtoon->update_user_code = Auth::guard('admin')->user()->code;
         $webtoon->save();
         return redirect()->route('admin_webtoon_list')->with("success", Config::get('success.success_codes.10090013'));
     }

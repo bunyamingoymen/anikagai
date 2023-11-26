@@ -38,7 +38,7 @@ class AuthGroupController extends Controller
         $group->text = $request->text;
         $group->description = $request->description;
 
-        $group->create_user_code = Auth::user()->code;
+        $group->create_user_code = Auth::guard('admin')->user()->code;
 
         $group->save();
 
@@ -66,7 +66,7 @@ class AuthGroupController extends Controller
         $group->text = $request->text;
         $group->description = $request->description;
 
-        $group->update_user_code = Auth::user()->code;
+        $group->update_user_code = Auth::guard('admin')->user()->code;
 
         $group->save();
 
@@ -81,7 +81,7 @@ class AuthGroupController extends Controller
             return redirect()->back()->with("error", Config::get('error.error_codes.0040013'));
 
         $group->deleted = 1;
-        $group->update_user_code = Auth::user()->code;
+        $group->update_user_code = Auth::guard('admin')->user()->code;
         $group->save();
 
         return redirect()->route('admin_authgroup_list')->with("success", Config::get('success.success_codes.10040013'));

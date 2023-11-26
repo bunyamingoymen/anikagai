@@ -19,7 +19,7 @@ class AccessMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         $path = $request->path();
-        $accessCode = ((Auth::user()->user_type == 0 || Auth::user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . $path))->Where('group_id', Auth::user()->user_type)->get()) > 0)) ? 1 : 0;
+        $accessCode = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . $path))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
         if ($accessCode == 1)
             return $next($request);
         else

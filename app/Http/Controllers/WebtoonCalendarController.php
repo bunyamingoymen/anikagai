@@ -43,7 +43,7 @@ class WebtoonCalendarController extends Controller
         $webtoon_calendar->end_date = $request->end_date;
         $webtoon_calendar->background_color = $request->background_color;
 
-        $webtoon_calendar->create_user_code = Auth::user()->code;
+        $webtoon_calendar->create_user_code = Auth::guard('admin')->user()->code;
 
         $webtoon_calendar->save();
 

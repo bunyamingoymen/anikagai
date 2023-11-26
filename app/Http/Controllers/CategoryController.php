@@ -37,7 +37,7 @@ class CategoryController extends Controller
         $category->name = $request->name;
         $category->description = $request->description;
 
-        $category->create_user_code = Auth::user()->code;
+        $category->create_user_code = Auth::guard('admin')->user()->code;
 
         $category->save();
 
@@ -66,7 +66,7 @@ class CategoryController extends Controller
         $category->name = $request->name;
         $category->description = $request->description;
 
-        $category->update_user_code = Auth::user()->code;
+        $category->update_user_code = Auth::guard('admin')->user()->code;
 
         $category->save();
 
@@ -81,7 +81,7 @@ class CategoryController extends Controller
             return redirect()->back()->with("error", Config::get('error.error_codes.0160013'));
 
         $category->deleted = 1;
-        $category->update_user_code = Auth::user()->code;
+        $category->update_user_code = Auth::guard('admin')->user()->code;
         $category->save();
         return redirect()->route('admin_category_list')->with("success", Config::get('success.success_codes.10160013'));
     }

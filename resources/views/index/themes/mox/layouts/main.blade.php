@@ -71,6 +71,8 @@
     <script src="../../../user/js/aos.js"></script>
     <script src="../../../user/js/plugins.js"></script>
     <script src="../../../user/js/main.js"></script>
+    <!-- Sweet Alerts js -->
+    <script src="../../../admin/assets/libs/sweetalert2/sweetalert2.min.js"></script>
 </body>
 
 

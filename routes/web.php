@@ -27,6 +27,20 @@ Route::get('/animeler', [IndexController::class, 'list'])->name('anime_list');
 
 Route::get('/webtoonlar', [IndexController::class, 'list'])->name('webtoon_list');
 
+Route::get('/login', [IndexController::class, 'loginScreen'])->name('loginScreen');
+
+Route::post('/register', [IndexController::class, 'register'])->name('register');
+
+Route::post('/login', [IndexController::class, 'login'])->name('login');
+
+Route::get('/logout', [IndexController::class, 'logout'])->name('logout');
+
+Route::get('/profile', [IndexController::class, 'logout'])->name('profile');
+
+Route::post("/control/username/ajax", [IndexController::class, 'controlUsername'])->name('index_control_username');
+
+Route::post("/control/email/ajax", [IndexController::class, 'controlEmail'])->name('index_control_email');
+
 Route::group(['middleware' => 'click'], function () {
     Route::get('/anime/{short_name}', [IndexController::class, 'animeDetail'])->name('animeDetail');
 

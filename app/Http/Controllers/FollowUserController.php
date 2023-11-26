@@ -18,7 +18,7 @@ class FollowUserController extends Controller
         else $follow->code = 1;
 
         $follow->followed_user_code = $request->followed_user_code;
-        $follow->user_code = Auth::user()->code;
+        $follow->user_code = Auth::guard('admin')->user()->code;
 
         $follow->save();
 
@@ -26,7 +26,7 @@ class FollowUserController extends Controller
     }
     public function unfollowUser(Request $request)
     {
-        $follow = FollowUser::Where('followed_user_code', $request->followed_user_code)->Where('user_code', Auth::user()->code)->first();
+        $follow = FollowUser::Where('followed_user_code', $request->followed_user_code)->Where('user_code', Auth::guard('admin')->user()->code)->first();
 
         if (!$follow) {
             return redirect()->back()->with('error', Config::get('error.error_codes.0140012'));

@@ -43,7 +43,7 @@ class AnimeCalendarController extends Controller
         $anime_calendar->end_date = $request->end_date;
         $anime_calendar->background_color = $request->background_color;
 
-        $anime_calendar->create_user_code = Auth::user()->code;
+        $anime_calendar->create_user_code = Auth::guard('admin')->user()->code;
 
         $anime_calendar->save();
 

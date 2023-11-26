@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Anime;
 use App\Models\AnimeEpisode;
+use App\Models\IndexUser;
 use App\Models\KeyValue;
 use App\Models\Theme;
 use App\Models\Webtoon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Hash;
 
 class IndexController extends Controller
 {
@@ -102,5 +106,65 @@ class IndexController extends Controller
         $selected_theme = KeyValue::Where('key', 'selected_theme')->first();
         $themePath = Theme::Where('code', $selected_theme->value)->first();
         return view("index." . $themePath->themePath . ".read");
+    }
+
+    public function loginScreen()
+    {
+        $selected_theme = KeyValue::Where('key', 'selected_theme')->first();
+        $themePath = Theme::Where('code', $selected_theme->value)->first();
+        return view("index." . $themePath->themePath . ".login");
+    }
+
+    public function controlUsername(Request $request)
+    {
+        $user = IndexUser::Where('username', $request->username)->first();
+        $control = false;
+        if (!$user) $control = true; //bu kullanıcı adı ile kullanıcı yoksa doğru varsay yanlış döner
+
+        return response()->json(['control' => $control]);
+    }
+
+    public function controlEmail(Request $request)
+    {
+        $user = IndexUser::Where('email', $request->email)->first();
+        $control = false;
+        if (!$user) $control = true; //bu kullanıcı adı ile kullanıcı yoksa doğru varsay yanlış döner
+
+        return response()->json(['control' => $control]);
+    }
+
+    public function register(Request $request)
+    {
+        $newUser = new IndexUser();
+
+        $user_code = IndexUser::orderBy('created_at', 'DESC')->first();
+        if ($user_code) $newUser->code = $user_code->code + 1;
+        else $newUser->code = 1;
+
+        $newUser->name = $request->name;
+        $newUser->username = $request->username;
+        $newUser->email = $request->email;
+        $newUser->image = '';
+        $newUser->password = Hash::make($request->password);
+        $newUser->save();
+
+        Auth::login($newUser);
+
+        return redirect()->route('index');
+    }
+
+    public function login(Request $request)
+    {
+
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            return redirect()->route('index');
+        }
+        return redirect()->route('loginScreen')->with("error", Config::get('error.error_codes.0020011'));
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('index');
     }
 }

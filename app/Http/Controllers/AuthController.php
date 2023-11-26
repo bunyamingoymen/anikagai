@@ -34,7 +34,7 @@ class AuthController extends Controller
 
             $new_clause_group->group_id = $request->groupSelectBox;
             $new_clause_group->clause_id = $item;
-            $new_clause_group->create_user_code = Auth::user()->code;
+            $new_clause_group->create_user_code = Auth::guard('admin')->user()->code;
             $new_clause_group->save();
         }
 

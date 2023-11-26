@@ -1,6 +1,6 @@
 @extends("admin.layouts.main")
 @section('admin_content')
-@if (Auth::user()->user_type == 0)
+@if (Auth::guard('admin')->user()->user_type == 0)
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
@@ -40,7 +40,7 @@
     // Sayfa yüklenmeden önce bu JavaScript kodu çalışacak
     window.addEventListener('DOMContentLoaded', (event) => {
         // Değişkenin değerini kontrol et
-        @if (Auth::user()->user_type != 0)
+        @if (Auth::guard('admin')->user()->user_type != 0)
             // Değişken doğru ise yönlendirme yap
             window.location.href = '{{route("admin_index")}}';
         @endif

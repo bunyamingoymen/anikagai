@@ -24,7 +24,7 @@
                                 @endif
                             </div>
 
-                            @if ($user == Auth::user())
+                            @if ($user == Auth::guard('admin')->user())
                             <a class="btn btn-primary btn-sm width-sm waves-effect mt-2 waves-light"
                                 href="{{route('admin_user_update_screen')}}?code={{$user->code}}">Bilgileri
                                 Değiştir</a>

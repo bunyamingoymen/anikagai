@@ -45,7 +45,7 @@ class PageController extends Controller
         $page->text = $request->text;
         $page->description = $request->description;
 
-        $page->create_user_code = Auth::user()->code;
+        $page->create_user_code = Auth::guard('admin')->user()->code;
 
         $page->save();
 
@@ -80,7 +80,7 @@ class PageController extends Controller
         $page->text = $request->text;
         $page->description = $request->description;
 
-        $page->update_user_code = Auth::user()->code;
+        $page->update_user_code = Auth::guard('admin')->user()->code;
 
         $page->save();
 
@@ -96,7 +96,7 @@ class PageController extends Controller
 
 
         $page->deleted = 1;
-        $page->update_user_code = Auth::user()->code;
+        $page->update_user_code = Auth::guard('admin')->user()->code;
         $page->save();
 
         return redirect()->route('admin_page_list')->with('success', Config::get('success.success_codes.10150013'));

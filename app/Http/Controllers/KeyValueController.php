@@ -39,7 +39,7 @@ class KeyValueController extends Controller
         $keyValue->optional = $request->optional;
         $keyValue->optional_2 = $request->optional_2;
 
-        $keyValue->create_user_code = Auth::user()->code;
+        $keyValue->create_user_code = Auth::guard('admin')->user()->code;
 
         $keyValue->save();
 
@@ -70,7 +70,7 @@ class KeyValueController extends Controller
         $keyValue->optional = $request->optional;
         $keyValue->optional_2 = $request->optional_2;
 
-        $keyValue->update_user_code = Auth::user()->code;
+        $keyValue->update_user_code = Auth::guard('admin')->user()->code;
 
         $keyValue->save();
 
@@ -85,7 +85,7 @@ class KeyValueController extends Controller
             return redirect()->back()->with("error", Config::get('error.error_codes.0000013'));
 
         $keyValue->deleted = 1;
-        $keyValue->update_user_code = Auth::user()->code;
+        $keyValue->update_user_code = Auth::guard('admin')->user()->code;
         $keyValue->save();
         return redirect()->route('admin_keyvalue_list')->with("success", Config::get('success.success_codes.10000013'));
     }

@@ -69,7 +69,7 @@ class UserController extends Controller
             $user->admin = 0;
 
 
-        $user->create_user_code = Auth::user()->code;
+        $user->create_user_code = Auth::guard('admin')->user()->code;
 
         $user->save();
 
@@ -132,7 +132,7 @@ class UserController extends Controller
         else
             $user->admin = 0;
 
-        $user->update_user_code = Auth::user()->code;
+        $user->update_user_code = Auth::guard('admin')->user()->code;
 
         $user->save();
 
@@ -152,7 +152,7 @@ class UserController extends Controller
         }
 
         $user->deleted = 1;
-        $user->update_user_code = Auth::user()->code;
+        $user->update_user_code = Auth::guard('admin')->user()->code;
         $user->save();
         return redirect()->route('admin_user_list')->with("success", Config::get('success.success_codes.10010013'));
     }
@@ -165,18 +165,18 @@ class UserController extends Controller
         if (!$user)
             return redirect()->back()->with("error", Config::get('error.error_codes.0010112'));
 
-        //dd(Auth::user()->user_type);
-        if (!(($user->user_type == 0 || $user->user_type == 1) && (Auth::user()->user_type == 0 || Auth::user()->user_type == 1))) {
+        //dd(Auth::guard('admin')->user()->user_type);
+        if (!(($user->user_type == 0 || $user->user_type == 1) && (Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1))) {
             return redirect()->back()->with("error", Config::get('error.error_codes.0000000'));
         }
 
         /*
-                if (($user->code == 0) && (Auth::user()->user_type != 0)) {
+                if (($user->code == 0) && (Auth::guard('admin')->user()->user_type != 0)) {
             return redirect()->back()->with("error", "Bu Kullanıcının şifresini değiştiremezsiniz");
         }*/
 
         $user->password = Hash::make($request->password);
-        $user->update_user_code = Auth::user()->code;
+        $user->update_user_code = Auth::guard('admin')->user()->code;
         $user->save();
 
         return redirect()->back()->with("success", Config::get('success.success_codes.10010112'));

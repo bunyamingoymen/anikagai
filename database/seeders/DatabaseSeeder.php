@@ -517,7 +517,7 @@ class DatabaseSeeder extends Seeder
                 'key'  => 'menu',
                 'value'  => 'İletişim',
                 'optional'  => '1', //1: Aktif, 2: Aktif Değil
-                'optional_2'  => '/p/contact', //Gideceği Link
+                'optional_2'  => 'contact', //Gideceği Link
                 'create_user_code' => 1,
                 'deleted' => 0,
             ],

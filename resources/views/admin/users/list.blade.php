@@ -39,7 +39,7 @@
                                         <a class="dropdown-item" href="javascript:;"
                                             onclick="deleteUser({{$item->code}})">Sil</a>
                                         @endif
-                                        @if ($update == 1 || Auth::user()->code == $item->code)
+                                        @if ($update == 1 || Auth::guard('admin')->user()->code == $item->code)
                                         <a class="dropdown-item"
                                             href="{{route('admin_user_update_screen')}}?code={{$item->code}}">Güncelle</a>
                                         <a class="dropdown-item" href="javascript:;"
@@ -130,7 +130,7 @@
                                         @if ($delete == 1)
                                             code += `<a class="dropdown-item" href="javascript:;" onclick="deleteUser(`+users[i].code+`)">Sil</a>`
                                         @endif
-                                        @if($update == 1 || Auth::user()->code == $item->code)
+                                        @if($update == 1 || Auth::guard('admin')->user()->code == $item->code)
                                             code += `<a class="dropdown-item" href="{{route('admin_user_update_screen')}}?code=`+users[i].code+`">Güncelle</a>
                                             <a class="dropdown-item" href="javascript:;" onclick="changePassword(`+users[i].code+`)">Şifreyi
                                                 Değiştir</a>`
@@ -201,7 +201,7 @@
     }
 
     function changePassword(code){
-        @if ($update == 1 || Auth::user()->code == $item->code)
+        @if ($update == 1 || Auth::guard('admin')->user()->code == $item->code)
             Swal.fire({
                 title: '<strong>Şifre Değiştir</strong>',
                 icon: 'warning',

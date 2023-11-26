@@ -16,8 +16,8 @@ class SuperUserMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::user() && Auth::user()->admin == 1) {
-            if (Auth::user()->user_type == 0) {
+        if (Auth::guard('admin')->user() && Auth::guard('admin')->user()->admin == 1) {
+            if (Auth::guard('admin')->user()->user_type == 0) {
                 return $next($request);
             }
             return redirect()->route('admin_index');

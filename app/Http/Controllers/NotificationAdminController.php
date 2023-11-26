@@ -19,7 +19,7 @@ class NotificationAdminController extends Controller
 
         $newMessage->notification_title = $request->notification_title;
         $newMessage->notification_text = $request->notification_text;
-        $newMessage->from_user_code = Auth::user()->code;
+        $newMessage->from_user_code = Auth::guard('admin')->user()->code;
         $newMessage->to_user_code = $request->to_user_code;
         $newMessage->readed = 0;
 
@@ -40,7 +40,7 @@ class NotificationAdminController extends Controller
     {
         $noti = NotificationAdmin::Where('code', $request->code)->first();
 
-        if ($noti->to_user_code != Auth::user()->code) {
+        if ($noti->to_user_code != Auth::guard('admin')->user()->code) {
             return redirect()->back()->with('error', Config::get('error.error_codes.0130012'));
         }
 

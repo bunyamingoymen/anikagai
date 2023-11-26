@@ -63,7 +63,7 @@ class AnimeController extends Controller
         $anime->main_category = $request->main_category;
         $anime->main_category_name = Category::Where('code', $request->main_category)->first()->name;
 
-        $anime->create_user_code = Auth::user()->code;
+        $anime->create_user_code = Auth::guard('admin')->user()->code;
 
         $anime->save();
 
@@ -129,7 +129,7 @@ class AnimeController extends Controller
         $anime->main_category_name = Category::Where('code', $request->main_category)->first()->name;
 
 
-        $anime->update_user_code = Auth::user()->code;
+        $anime->update_user_code = Auth::guard('admin')->user()->code;
 
         $anime->save();
 
@@ -162,7 +162,7 @@ class AnimeController extends Controller
             return redirect()->back()->with("error", Config::get('error.error_codes.0060013'));
 
         $anime->deleted = 1;
-        $anime->update_user_code = Auth::user()->code;
+        $anime->update_user_code = Auth::guard('admin')->user()->code;
         $anime->save();
         return redirect()->route('admin_anime_list')->with("success", Config::get('success.success_codes.10060013'));
     }

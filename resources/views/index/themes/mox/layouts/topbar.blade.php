@@ -10,6 +10,14 @@
                             @foreach ($menu_alts as $item)
                             <li><a href="{{$item->optional_2 ?? '#'}}">{{$item->value}}</a></li>
                             @endforeach
+                            @if (!Auth::user())
+                            <li><a href="{{route('loginScreen')}}">Giriş Yap</a></li>
+                            @else
+                            <li>
+                                <a href="{{route('logout')}}">{{Auth::user()->username}}</a>
+                            </li>
+                            <li><a href="{{route('logout')}}">Çıkış Yap</a></li>
+                            @endif
                         </ul>
                         <ul class="header-social">
                             @foreach ($social_media as $item)

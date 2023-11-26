@@ -37,7 +37,7 @@ class TagController extends Controller
         $tag->name = $request->name;
         $tag->description = $request->description;
 
-        $tag->create_user_code = Auth::user()->code;
+        $tag->create_user_code = Auth::guard('admin')->user()->code;
 
         $tag->save();
 
@@ -66,7 +66,7 @@ class TagController extends Controller
         $tag->name = $request->name;
         $tag->description = $request->description;
 
-        $tag->update_user_code = Auth::user()->code;
+        $tag->update_user_code = Auth::guard('admin')->user()->code;
 
         $tag->save();
 
@@ -81,7 +81,7 @@ class TagController extends Controller
             return redirect()->back()->with("error", Config::get('error.error_codes.10170012'));
 
         $tag->deleted = 1;
-        $tag->update_user_code = Auth::user()->code;
+        $tag->update_user_code = Auth::guard('admin')->user()->code;
         $tag->save();
         return redirect()->route('admin_tag_list')->with("success", Config::get('success.success_codes.10170013'));
     }

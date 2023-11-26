@@ -38,7 +38,7 @@ class AuthClauseController extends Controller
         $clause->text = $request->text;
         $clause->description = $request->description;
 
-        $clause->create_user_code = Auth::user()->code;
+        $clause->create_user_code = Auth::guard('admin')->user()->code;
 
         $clause->save();
 
@@ -67,7 +67,7 @@ class AuthClauseController extends Controller
         $clause->text = $request->text;
         $clause->description = $request->description;
 
-        $clause->update_user_code = Auth::user()->code;
+        $clause->update_user_code = Auth::guard('admin')->user()->code;
 
         $clause->save();
 
@@ -82,7 +82,7 @@ class AuthClauseController extends Controller
             return redirect()->back()->with("error", Config::get('error.error_codes.0030013'));
 
         $clause->deleted = 1;
-        $clause->update_user_code = Auth::user()->code;
+        $clause->update_user_code = Auth::guard('admin')->user()->code;
         $clause->save();
         return redirect()->route('admin_authclause_list')->with("success", Config::get('error.error_codes.10030013'));
     }

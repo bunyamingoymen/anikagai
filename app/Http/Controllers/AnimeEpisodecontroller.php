@@ -67,7 +67,7 @@ class AnimeEpisodecontroller extends Controller
 
 
 
-        $anime_episode->create_user_code = Auth::user()->code;
+        $anime_episode->create_user_code = Auth::guard('admin')->user()->code;
 
         $anime_episode->save();
 
@@ -101,7 +101,7 @@ class AnimeEpisodecontroller extends Controller
         $anime_episode->episode_short = $request->episode_short;
         $anime_episode->publish_date = $request->publish_date;
 
-        $anime_episode->update_user_code = Auth::user()->code;
+        $anime_episode->update_user_code = Auth::guard('admin')->user()->code;
 
         $anime_episode->save();
 
@@ -116,7 +116,7 @@ class AnimeEpisodecontroller extends Controller
             return redirect()->back()->with("error", Config::get('error.error_codes.0080013'));
 
         $anime_episode->deleted = 1;
-        $anime_episode->update_user_code = Auth::user()->code;
+        $anime_episode->update_user_code = Auth::guard('admin')->user()->code;
         $anime_episode->save();
         return redirect()->route('admin_anime_episodes_list')->with("success", Config::get('success.success_codes.10080013'));
     }
