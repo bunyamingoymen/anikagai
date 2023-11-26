@@ -1,6 +1,6 @@
 @extends("admin.layouts.main")
 @section('admin_content')
-@if ($menu == 1)
+@if ($menuData == 1)
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
@@ -198,7 +198,7 @@
     // Sayfa yüklenmeden önce bu JavaScript kodu çalışacak
     window.addEventListener('DOMContentLoaded', (event) => {
         // Değişkenin değerini kontrol et
-        @if ($menu == 0)
+        @if ($menuData == 0)
             // Değişken doğru ise yönlendirme yap
             window.location.href = '{{route("admin_index")}}';
         @endif

@@ -12,6 +12,7 @@ class DataController extends Controller
     {
 
         $logo = KeyValue::Where('key', 'index_logo')->first();
+        //dd($logo->toArray());
         $logo_footer = KeyValue::Where('key', 'index_logo_footer')->first();
 
         $icon = KeyValue::Where('key', 'index_icon')->first();

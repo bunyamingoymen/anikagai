@@ -187,7 +187,7 @@
             }).then((result) => {
             /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                    var html = `<form action='{{route(' admin_user_delete')}}' method="POST" id="deleteUserForm"> @csrf`;
+                    var html = `<form action='{{route("admin_user_delete")}}' method="POST" id="deleteUserForm"> @csrf`;
                         html += `<input type="text" name="code" value='`+code+`'>`;
                         html += `</form>`
 

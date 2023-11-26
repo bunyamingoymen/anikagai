@@ -130,12 +130,12 @@ class AppServiceProvider extends ServiceProvider
         });
 
         View::composer($dataPages, function ($view) {
-            $logo = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/data/logo'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $meta = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/data/meta'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $menu = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/data/menu'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $social = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/data/social'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $title = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/data/title'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $view->with(["logo" => $logo, "meta" => $meta, "menu" => $menu, "social" => $social, 'title' => $title]);
+            $logoData = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/data/logo'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
+            $metaData = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/data/meta'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
+            $menuData = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/data/menu'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
+            $socialData = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/data/social'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
+            $titleData = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/data/title'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
+            $view->with(["logoData" => $logoData, "metaData" => $metaData, "menuData" => $menuData, "socialData" => $socialData, 'titleData' => $titleData]);
         });
 
         View::composer($animePages, function ($view) {

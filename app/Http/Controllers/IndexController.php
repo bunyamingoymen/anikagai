@@ -94,9 +94,9 @@ class IndexController extends Controller
         $selected_theme = KeyValue::Where('key', 'selected_theme')->first();
         $themePath = Theme::Where('code', $selected_theme->value)->first();
 
-        $webtoon = Anime::Where('short_name', $request->short_name)->first();
+        $webtoon = Webtoon::Where('short_name', $request->short_name)->first();
 
-        $trend_webtoons = Anime::Where('deleted', 0)->take(4)->orderBy('click_count', 'ASC')->get();
+        $trend_webtoons = Webtoon::Where('deleted', 0)->take(4)->orderBy('click_count', 'ASC')->get();
 
         return view("index." . $themePath->themePath . ".webtoonDetail", ['webtoon' => $webtoon, 'trend_webtoons' => $trend_webtoons]);
     }
