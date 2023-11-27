@@ -12,6 +12,7 @@ use App\Models\FollowWebtoon;
 use App\Models\IndexUser;
 use App\Models\KeyValue;
 use App\Models\Theme;
+use App\Models\ThemeSetting;
 use App\Models\Webtoon;
 use App\Models\WebtoonEpisode;
 use Illuminate\Http\Request;
@@ -36,7 +37,9 @@ class IndexController extends Controller
 
         $slider_image = KeyValue::Where('key', 'slider_image')->Where('deleted', 0)->get();
 
-        return view("index." . $themePath->themePath . ".index", ['slider_image' => $slider_image, 'trend_animes' => $trend_animes, 'trend_webtoons' => $trend_webtoons, 'animes' => $animes, 'webtoons' => $webtoons]);
+        $slider_show = ThemeSetting::Where('theme_code', $selected_theme->value)->Where('setting_name', 'showSlider')->first()->setting_value;
+
+        return view("index." . $themePath->themePath . ".index", ['slider_image' => $slider_image, 'trend_animes' => $trend_animes, 'trend_webtoons' => $trend_webtoons, 'animes' => $animes, 'webtoons' => $webtoons, 'slider_show' => $slider_show]);
     }
 
     public function list(Request $request)
@@ -48,7 +51,7 @@ class IndexController extends Controller
         $title = "";
         $list = array();
         $currentPage = $request->p ? $request->p : 1;
-        $listItems = 8;
+        $listItems = ThemeSetting::Where('theme_code', $selected_theme->value)->Where('setting_name', 'listCount')->first()->setting_value;
         $skip = (($currentPage - 1) * $listItems);
 
         if ($path == 'animeler') {

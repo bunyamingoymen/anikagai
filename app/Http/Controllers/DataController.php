@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\KeyValue;
 use App\Models\Theme;
+use App\Models\ThemeSetting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 
 class DataController extends Controller
@@ -17,7 +19,10 @@ class DataController extends Controller
         $animeActive = KeyValue::Where('key', 'anime_active')->first();
         $webtoonActive = KeyValue::Where('key', 'webtoon_active')->first();
 
-        return view('admin.data.home', ['selected_theme' => $selected_theme, 'themes' => $themes, 'animeActive' => $animeActive, 'webtoonActive' => $webtoonActive]);
+        $listCount = ThemeSetting::Where('theme_code', $selected_theme->value)->Where('setting_name', 'listCount')->first();
+        $sliderShow = ThemeSetting::Where('theme_code', $selected_theme->value)->Where('setting_name', 'showSlider')->first();
+
+        return view('admin.data.home', ['selected_theme' => $selected_theme, 'themes' => $themes, 'animeActive' => $animeActive, 'webtoonActive' => $webtoonActive, 'listCount' => $listCount, 'sliderShow' => $sliderShow]);
     }
 
     public function homeChange(Request $request)
@@ -33,13 +38,30 @@ class DataController extends Controller
     public function showContent(Request $request)
     {
         $animeActive = KeyValue::Where('key', 'anime_active')->first();
-        $webtoonActive = KeyValue::Where('key', 'webtoon_active')->first();
-
         $animeActive->value = $request->animeShow;
+        $animeActive->update_user_code = Auth::guard('admin')->user()->code;
         $animeActive->save();
 
+        $webtoonActive = KeyValue::Where('key', 'webtoon_active')->first();
         $webtoonActive->value = $request->webtoonShow;
+        $webtoonActive->update_user_code = Auth::guard('admin')->user()->code;
         $webtoonActive->save();
+
+        return redirect()->route('admin_data_home_list')->with("success", Config::get('success.success_codes.10120512'));
+    }
+
+    public function changeThemeSettings(Request $request)
+    {
+        $selected_theme = KeyValue::Where('key', 'selected_theme')->first();
+
+
+        $listCount = ThemeSetting::Where('theme_code', $selected_theme->value)->Where('setting_name', 'listCount')->first();
+        $listCount->setting_value = $request->listCount;
+        $listCount->save();
+
+        $sliderShow = ThemeSetting::Where('theme_code', $selected_theme->value)->Where('setting_name', 'showSlider')->first();
+        $sliderShow->setting_value = $request->sliderShow;
+        $sliderShow->save();
 
         return redirect()->route('admin_data_home_list')->with("success", Config::get('success.success_codes.10120512'));
     }

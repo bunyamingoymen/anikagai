@@ -8,7 +8,7 @@
 </main>
 @else
 <main>
-
+    @if ($slider_show == 1)
     <!-- gallery-area -->
     <div class="gallery-area position-relative mb-2">
         <div class="gallery-bg"></div>
@@ -29,6 +29,7 @@
         <div class="slider-nav"></div>
     </div>
     <!-- gallery-area-end -->
+    @endif
 
     <!-- up-coming-movie-area -->
     <section class="ucm-area ucm-bg2" data-background="../../../user/mox/img/bg/ucm_bg02.jpg">

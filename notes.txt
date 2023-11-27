@@ -17,9 +17,7 @@ intro başlangıç ve intro bitiş tarihleri
 profil sayfasında favoiler, izlenenler, takip listesi
 slider'a üstüne gidildiğinde video oynatma
 sayfa yapma
+listede isteğe bağlı sıralama
 slider belirleme
-slider açıp kapatma
-anime aktif ve pasif
-webtoon aktif ve pasif
 
 

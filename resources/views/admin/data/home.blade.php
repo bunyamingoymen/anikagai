@@ -74,33 +74,41 @@
                     </form>
                 </div>
                 <hr>
-                <div class="mt-3">
-                    <form action="">
-                        <div class="col-lg-6">
+                <form action="{{route('admin_data_change_theme_settings')}}" method="POST">
+                    @csrf
+                    <div class="row">
+                        <div class="col-lg-6 mt-3">
                             <label for="">Listelemede Görünecek Sayı: </label>
-                            <input type="number" class="form-control" id="listCount" name="listCount" value="8">
+                            <input type="number" class="form-control" id="listCount" name="listCount"
+                                value="{{$listCount->setting_value}}">
                         </div>
-                    </form>
-                </div>
-                <div class="mt-3">
-                    <form action="">
-                        <div class="col-lg-6">
+                        <div class="col-lg-6 mt-3">
                             <label for="">Slider Görünürlük durumu: </label>
                             <select name="sliderShow" id="sliderShow" class="form-control">
-                                <option value="1">Görünür</option>
+                                @if ($sliderShow->setting_value == 1)
+                                <option value="1" selected>Görünür</option>
                                 <option value="0">Görünmez</option>
+                                @else
+                                <option value="1">Görünür</option>
+                                <option value="0" selected>Görünmez</option>
+                                @endif
                             </select>
                         </div>
-                    </form>
-                </div>
+                    </div>
+                    <div class="mt-1">
+                        <button class="btn btn-primary" type="submit">Kaydet</button>
+                    </div>
+                </form>
+                <hr>
 
                 <div class="mt-3">
-                    <form action="">
-                        <div class="col-lg-6">
-                            <label for="">Slider'daki veriler: </label>
 
-                        </div>
-                    </form>
+                    <div class="col-lg-6">
+                        <label for="">Slider'daki veriler: </label>
+                        <form action="">
+                        </form>
+                    </div>
+
                 </div>
             </div>
         </div>
