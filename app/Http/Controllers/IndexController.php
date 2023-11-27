@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Anime;
 use App\Models\AnimeEpisode;
+use App\Models\Category;
 use App\Models\Contact;
 use App\Models\FavoriteAnime;
 use App\Models\FavoriteWebtoon;
@@ -11,6 +12,7 @@ use App\Models\FollowAnime;
 use App\Models\FollowWebtoon;
 use App\Models\IndexUser;
 use App\Models\KeyValue;
+use App\Models\Page;
 use App\Models\Theme;
 use App\Models\ThemeSetting;
 use App\Models\Webtoon;
@@ -27,206 +29,192 @@ class IndexController extends Controller
     public function index()
     {
         $onlyUsers = Auth::user() ? ["0", "1"] : ["1"];
-        $selected_theme = KeyValue::Where('key', 'selected_theme')->first();
-        $themePath = Theme::Where('code', $selected_theme->value)->first();
-
-        $trend_animes = Anime::Where('deleted', 0)->whereIn('onlyUsers', $onlyUsers)->take(6)->orderBy('click_count', 'DESC')->get();
-        $trend_webtoons = Webtoon::Where('deleted', 0)->whereIn('onlyUsers', $onlyUsers)->take(6)->orderBy('click_count', 'DESC')->get();
-
-        $animes = Anime::Where('deleted', 0)->whereIn('onlyUsers', $onlyUsers)->take(20)->orderBy('created_at', 'DESC')->get();
-        $webtoons = Webtoon::Where('deleted', 0)->whereIn('onlyUsers', $onlyUsers)->take(20)->orderBy('created_at', 'DESC')->get();
-
-        $slider_image = KeyValue::Where('key', 'slider_image')->Where('deleted', 0)->get();
-
-        $slider_show = ThemeSetting::Where('theme_code', $selected_theme->value)->Where('setting_name', 'showSlider')->first()->setting_value;
-
-        return view("index." . $themePath->themePath . ".index", ['slider_image' => $slider_image, 'trend_animes' => $trend_animes, 'trend_webtoons' => $trend_webtoons, 'animes' => $animes, 'webtoons' => $webtoons, 'slider_show' => $slider_show]);
+        $additionalData = [
+            'trend_animes' => $this->getTrendContent(Anime::class, $onlyUsers, 6, 'click_count'),
+            'trend_webtoons' => $this->getTrendContent(Webtoon::class, $onlyUsers, 6, 'click_count'),
+            'animes' => $this->getContent(Anime::class, $onlyUsers, 20, 'created_at', 'DESC'),
+            'webtoons' => $this->getContent(Webtoon::class, $onlyUsers, 20, 'created_at', 'DESC'),
+            'slider_image' => KeyValue::where('key', 'slider_image')->where('deleted', 0)->get(),
+            'slider_show' => ThemeSetting::where('theme_code', KeyValue::Where('key', 'selected_theme')->first()->value)->where('setting_name', 'showSlider')->first()->setting_value,
+        ];
     }
+
 
     public function list(Request $request)
     {
         $onlyUsers = Auth::user() ? ["0", "1"] : ["1"];
-        $selected_theme = KeyValue::Where('key', 'selected_theme')->first();
-        $themePath = Theme::Where('code', $selected_theme->value)->first();
+        $selected_theme = KeyValue::where('key', 'selected_theme')->first();
+        $themePath = Theme::where('code', $selected_theme->value)->first();
         $path = $request->path();
-
         $title = "";
-        $list = array();
-        $currentPage = $request->p ? $request->p : 1;
-        $listItems = ThemeSetting::Where('theme_code', $selected_theme->value)->Where('setting_name', 'listCount')->first()->setting_value;
-        $skip = (($currentPage - 1) * $listItems);
+        $list = [];
+        $currentPage = $request->p ?: 1;
+        $listItemsSetting = ThemeSetting::where('theme_code', $selected_theme->value)->where('setting_name', 'listCount')->first();
+        $listItems = $listItemsSetting ? $listItemsSetting->setting_value : 20;
+        $skip = max(0, ($currentPage - 1) * $listItems);
+
+        $orderByMapping = [
+            'created_AtASC' => ['created_at', 'ASC'],
+            'created_AtDESC' => ['created_at', 'DESC'],
+            'TrendsASC' => ['click_count', 'ASC'],
+            'TrendsDESC' => ['click_count', 'DESC'],
+        ];
 
         $orderByType = 'created_at';
         $orderByList = 'DESC';
-        if ($request->orderBy) {
 
-            if ($request->orderBy == "created_AtASC") {
-                $orderByType = 'created_at';
-                $orderByList = 'ASC';
-            } else if ($request->orderBy == "created_AtDESC") {
-                $orderByType = 'created_at';
-                $orderByList = 'DESC';
-            } else if ($request->orderBy == "TrendsASC") {
-                $orderByType = 'click_count';
-                $orderByList = 'ASC';
-            } else if ($request->orderBy == "TrendsDESC") {
-                $orderByType = 'click_count';
-                $orderByList = 'DESC';
-            }
+        if ($request->orderBy && array_key_exists($request->orderBy, $orderByMapping)) {
+            list($orderByType, $orderByList) = $orderByMapping[$request->orderBy];
         }
 
         if ($path == 'animeler') {
             $title = "Animeler";
             $list = Anime::Where('deleted', 0)->whereIn('onlyUsers', $onlyUsers)->orderBy($orderByType, $orderByList)->skip($skip)->take($listItems)->get();
             $pageCountTest = Anime::Where('deleted', 0)->count();
-        } else if ($path == 'webtoonlar') {
+        } elseif ($path == 'webtoonlar') {
             $title = "Webtoonlar";
             $list = Webtoon::Where('deleted', 0)->whereIn('onlyUsers', $onlyUsers)->skip($skip)->take($listItems)->orderBy($orderByType, $orderByList)->get();
-            $pageCountTest = Anime::Where('deleted', 0)->count();
+            $pageCountTest = Webtoon::Where('deleted', 0)->count();
         } else {
-            dd('hata'); //TODO hata sayfasına yolla
+            abort(404); // TODO: hata sayfasına yönlendir
         }
-        if ($pageCountTest % $listItems == 0)
-            $pageCount = $pageCountTest / $listItems;
-        else
-            $pageCount = intval($pageCountTest / $listItems) + 1;
+        //dd($listItems);
+        $pageCount = $pageCountTest % intval($listItems) == 0 ? $pageCountTest / $listItems : $pageCount = intval($pageCountTest / $listItems) + 1;
 
-        if ($currentPage > $pageCount)
-            dd(404); // TODO 404 sayfası oluşturup buraya yollayacağız
+        if ($currentPage > $pageCount || $currentPage < 1)
+            abort(404); // TODO: 404 sayfasına yönlendir
 
-        if ($currentPage < -1)
-            dd(404); //TODO 404 sayfası oluşturulup yollanacak
 
-        return view("index." . $themePath->themePath . ".list", ['path' => $path, 'title' => $title, "list" => $list, 'pageCount' => $pageCount, 'currentPage' => $currentPage]);
-    }
-
-    public function animeDetail(Request $request)
-    {
-        $selected_theme = KeyValue::Where('key', 'selected_theme')->first();
-        $themePath = Theme::Where('code', $selected_theme->value)->first();
-
-        $anime = Anime::Where('short_name', $request->short_name)->first();
-        $trend_animes = Anime::Where('deleted', 0)->take(4)->orderBy('click_count', 'ASC')->get();
-
-        $currentTime = Carbon::now();
-
-        $anime_episodes = AnimeEpisode::Where('anime_code', $anime->code)->Where('publish_date', '<=', $currentTime)->get();
-
-        $followed = false;
-        $liked = false;
-
-        if (Auth::user()) {
-            $follow = FollowAnime::Where('user_code', Auth::user()->code)->Where('anime_code', $anime->code)->first();
-            $like = FavoriteAnime::Where('user_code', Auth::user()->code)->Where('anime_code', $anime->code)->first();
-            if ($follow) $followed = true;
-            if ($like) $liked = true;
-        }
-
-        $categories = DB::table('categories')
-            ->Where('content_categories.content_code', $anime->code)
-            ->Where('content_categories.content_type', 1)
-            ->join('content_categories', 'content_categories.category_code', '=', 'categories.code')
-            ->join('animes', 'animes.code', '=', 'content_categories.content_code')
-            ->select('categories.*')
-            ->get();
-
-        return view("index." . $themePath->themePath . ".animeDetail", ['anime' => $anime, 'trend_animes' => $trend_animes, 'anime_episodes' => $anime_episodes, 'categories' => $categories, 'followed' => $followed, 'liked' => $liked]);
-    }
-
-    public function watch()
-    {
-        $selected_theme = KeyValue::Where('key', 'selected_theme')->first();
-        $themePath = Theme::Where('code', $selected_theme->value)->first();
-        return view("index." . $themePath->themePath . ".watch");
-    }
-
-    public function webtoonDetail(Request $request)
-    {
-        $selected_theme = KeyValue::Where('key', 'selected_theme')->first();
-        $themePath = Theme::Where('code', $selected_theme->value)->first();
-
-        $webtoon = Webtoon::Where('short_name', $request->short_name)->first();
-
-        $trend_webtoons = Webtoon::Where('deleted', 0)->take(4)->orderBy('click_count', 'ASC')->get();
-
-        $currentTime = Carbon::now();
-
-        $webtoon_episodes = WebtoonEpisode::Where('webtoon_code', $webtoon->code)->Where('publish_date', '<=', $currentTime)->get();
-
-        $followed = false;
-        $liked = false;
-
-        if (Auth::user()) {
-            $follow = FollowWebtoon::Where('user_code', Auth::user()->code)->Where('webtoon_code', $webtoon->code)->first();
-            $like = FavoriteWebtoon::Where('user_code', Auth::user()->code)->Where('webtoon_code', $webtoon->code)->first();
-            if ($follow) $followed = true;
-            if ($like) $liked = true;
-        }
-
-        $categories = DB::table('categories')
-            ->Where('content_categories.content_code', $webtoon->code)
-            ->Where('content_categories.content_type', 0)
-            ->join('content_categories', 'content_categories.category_code', '=', 'categories.code')
-            ->join('webtoons', 'webtoons.code', '=', 'content_categories.content_code')
-            ->select('categories.*')
-            ->get();
-
-        return view("index." . $themePath->themePath . ".webtoonDetail", ['webtoon' => $webtoon, 'trend_webtoons' => $trend_webtoons, 'webtoon_episodes' => $webtoon_episodes, 'categories' => $categories, 'followed' => $followed, 'liked' => $liked]);
+        return $this->loadThemeView('list', compact('path', 'title', 'list', 'pageCount', 'currentPage'));
     }
 
     public function read()
     {
-        $selected_theme = KeyValue::Where('key', 'selected_theme')->first();
-        $themePath = Theme::Where('code', $selected_theme->value)->first();
-        return view("index." . $themePath->themePath . ".read");
+        return $this->loadThemeView('read');
     }
 
     public function contactScreen()
     {
-        $selected_theme = KeyValue::Where('key', 'selected_theme')->first();
-        $themePath = Theme::Where('code', $selected_theme->value)->first();
-
-        return view("index." . $themePath->themePath . ".contact");
+        return $this->loadThemeView('contact');
     }
 
     public function contact(Request $request)
     {
         $newContact = new Contact();
-
-        $contact_code = Contact::orderBy('created_at', 'DESC')->first();
-        if ($contact_code) $newContact->code = $contact_code->code + 1;
-        else $newContact->code = 1;
-
-        $newContact->name = $request->name;
-        $newContact->email = $request->email;
-        $newContact->subject = $request->subject;
-        $newContact->message = $request->message;
+        $newContact->code = Contact::max('code') + 1;
+        $newContact->fill($request->only(['name', 'email', 'subject', 'message']));
         $newContact->save();
 
         return redirect()->route('contact_screen')->with('success', 'Başarılı bir şekilde mesaj gönderildi.');
     }
 
-    public function loginScreen()
+    public function animeDetail(Request $request)
     {
-        $selected_theme = KeyValue::Where('key', 'selected_theme')->first();
-        $themePath = Theme::Where('code', $selected_theme->value)->first();
-        return view("index." . $themePath->themePath . ".login");
+
+        $anime = Anime::where('short_name', $request->short_name)->first();
+        $trend_animes = $this->getTrendContent(Anime::class, ['deleted' => 0], 4, 'click_count', 'ASC');
+
+        $currentTime = Carbon::now();
+        $anime_episodes = AnimeEpisode::where('anime_code', $anime->code)
+            ->where('publish_date', '<=', $currentTime)
+            ->get();
+
+        $followed = false;
+        $liked = false;
+
+        if (Auth::user()) {
+            $follow = FollowAnime::where('user_code', Auth::user()->code)
+                ->where('anime_code', $anime->code)
+                ->first();
+
+            $like = FavoriteAnime::where('user_code', Auth::user()->code)
+                ->where('anime_code', $anime->code)
+                ->first();
+
+            $followed = $follow ? true : false;
+            $liked = $like ? true : false;
+        }
+
+        $categories = DB::table('categories')
+            ->where('content_categories.content_code', $anime->code)
+            ->where('content_categories.content_type', 1)
+            ->join('content_categories', 'content_categories.category_code', '=', 'categories.code')
+            ->join('animes', 'animes.code', '=', 'content_categories.content_code')
+            ->select('categories.*')
+            ->get();
+
+        return $this->loadThemeView('animeDetail', compact('anime', 'trend_animes', 'anime_episodes', 'categories', 'followed', 'liked'));
     }
 
+    public function webtoonDetail(Request $request)
+    {
+        $webtoon = Webtoon::where('short_name', $request->short_name)->firstOrFail();
+
+        $trend_webtoons = Webtoon::where('deleted', 0)
+            ->take(4)
+            ->orderBy('click_count', 'ASC')
+            ->get();
+
+        $currentTime = now();
+
+        $webtoon_episodes = WebtoonEpisode::where('webtoon_code', $webtoon->code)
+            ->where('publish_date', '<=', $currentTime)
+            ->get();
+
+        $followed = false;
+        $liked = false;
+
+        if (Auth::user()) {
+            $follow = FollowWebtoon::where('user_code', Auth::user()->code)
+                ->where('webtoon_code', $webtoon->code)
+                ->first();
+
+            $like = FavoriteWebtoon::where('user_code', Auth::user()->code)
+                ->where('webtoon_code', $webtoon->code)
+                ->first();
+
+            $followed = (bool) $follow;
+            $liked = (bool) $like;
+        }
+
+        $categories = Category::whereHas('contentCategories', function ($query) use ($webtoon) {
+            $query->where('content_code', $webtoon->code)
+                ->where('content_type', 0);
+        })->get();
+
+        $additionalData = [
+            'webtoon' => $webtoon,
+            'trend_webtoons' => $trend_webtoons,
+            'webtoon_episodes' => $webtoon_episodes,
+            'categories' => $categories,
+            'followed' => $followed,
+            'liked' => $liked,
+        ];
+
+        return $this->loadThemeView('webtoonDetail', $additionalData);
+    }
+
+    public function watch()
+    {
+        return $this->loadThemeView('watch');
+    }
+
+    public function loginScreen()
+    {
+        return $this->loadThemeView('login');
+    }
 
     public function register(Request $request)
     {
-        $newUser = new IndexUser();
+        $userData = [
+            'code' => IndexUser::max('code') + 1,
+            'name' => $request->name,
+            'username' => $request->username,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ];
 
-        $user_code = IndexUser::orderBy('created_at', 'DESC')->first();
-        if ($user_code) $newUser->code = $user_code->code + 1;
-        else $newUser->code = 1;
-
-        $newUser->name = $request->name;
-        $newUser->username = $request->username;
-        $newUser->email = $request->email;
-        $newUser->password = Hash::make($request->password);
-        $newUser->save();
+        $newUser = IndexUser::create($userData);
 
         Auth::login($newUser);
 
@@ -235,10 +223,12 @@ class IndexController extends Controller
 
     public function login(Request $request)
     {
+        $credentials = $request->only('email', 'password');
 
-        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+        if (Auth::attempt($credentials)) {
             return redirect()->route('index');
         }
+
         return redirect()->route('loginScreen')->with("error", Config::get('error.error_codes.0020011'));
     }
 
@@ -248,33 +238,71 @@ class IndexController extends Controller
         return redirect()->route('index');
     }
 
-    public function profile(Request $request)
-    {
-        $selected_theme = KeyValue::Where('key', 'selected_theme')->first();
-        $themePath = Theme::Where('code', $selected_theme->value)->first();
-
-        $user = IndexUser::Where('username', $request->username)->first();
-        if (!$user) {
-            $user = Auth::user();
-        }
-        return view("index." . $themePath->themePath . ".profile", ['user' => $user]);
-    }
-
     public function controlUsername(Request $request)
     {
-        $user = IndexUser::Where('username', $request->username)->first();
-        $control = false;
-        if (!$user) $control = true; //bu kullanıcı adı ile kullanıcı yoksa doğru varsay yanlış döner
+        $control = !IndexUser::where('username', $request->username)->exists();
 
         return response()->json(['control' => $control]);
     }
 
     public function controlEmail(Request $request)
     {
-        $user = IndexUser::Where('email', $request->email)->first();
-        $control = false;
-        if (!$user) $control = true; //bu kullanıcı adı ile kullanıcı yoksa doğru varsay yanlış döner
+        $control = !IndexUser::where('email', $request->email)->exists();
 
         return response()->json(['control' => $control]);
+    }
+
+
+    // Diğer fonksiyonları da benzer şekilde düzenleyebilirsiniz...
+
+    // Yardımcı Fonksiyonlar
+
+    protected function loadThemeView($viewName, $additionalData = [])
+    {
+        $selected_theme = KeyValue::Where('key', 'selected_theme')->first();
+        $themePath = Theme::Where('code', $selected_theme->value)->first();
+
+        return view("index." . $themePath->themePath . ".$viewName", $additionalData);
+    }
+
+    protected function getTrendContent($modelClass, $onlyUsers, $take, $orderBy)
+    {
+        return $modelClass::where('deleted', 0)->whereIn('onlyUsers', $onlyUsers)->take($take)->orderBy($orderBy, 'DESC')->get();
+    }
+
+    protected function getContent($modelClass, $onlyUsers, $take, $orderByType, $orderByList, $skip = 0)
+    {
+        return $modelClass::where('deleted', 0)
+            ->whereIn('onlyUsers', $onlyUsers)
+            ->skip($skip)
+            ->take($take)
+            ->orderBy($orderByType, $orderByList)
+            ->get();
+    }
+
+    public function showPage(Request $request)
+    {
+        $pageShortName = $request->short_name;
+
+        $page = Page::where('deleted', 0)
+            ->where('short_name', $pageShortName)
+            ->first();
+
+        if (!$page) {
+            abort(404); // Sayfa bulunamazsa 404 hatası gönder
+        }
+
+        return $this->loadThemeView('page', compact('page'));
+    }
+
+    public function profile(Request $request)
+    {
+        $user = IndexUser::where('username', $request->username)->first();
+
+        if (!$user)
+            $user = Auth::user();
+
+
+        return $this->loadThemeView('profile', compact('user'));
     }
 }

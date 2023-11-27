@@ -19,7 +19,7 @@ class DataController extends Controller
         $animeActive = KeyValue::Where('key', 'anime_active')->first();
         $webtoonActive = KeyValue::Where('key', 'webtoon_active')->first();
 
-        $slider_images = KeyValue::Where('key', 'slider_image')->get();
+        $slider_images = KeyValue::Where('deleted', 0)->Where('key', 'slider_image')->get();
 
         $listCount = ThemeSetting::Where('theme_code', $selected_theme->value)->Where('setting_name', 'listCount')->first();
         $sliderShow = ThemeSetting::Where('theme_code', $selected_theme->value)->Where('setting_name', 'showSlider')->first();
@@ -82,8 +82,8 @@ class DataController extends Controller
 
     public function deleteSliderImages(Request $request)
     {
-        $slider = KeyValue::Where('key', 'slider_image',)->Where('code', $request->code)->first();
-
+        $slider = KeyValue::Where('key', 'slider_image')->Where('code', $request->code)->first();
+        //dd($slider);
         $slider->deleted = 1;
         $slider->update_user_code = Auth::guard('admin')->user()->code;
         $slider->save();
@@ -93,10 +93,25 @@ class DataController extends Controller
 
     public function addSliderImages(Request $request)
     {
-        $slider = KeyValue::Where('key', 'slider_image',)->Where('code', $request->code)->first();
+        $slider = new KeyValue();
 
-        $slider->deleted = 1;
-        $slider->update_user_code = Auth::guard('admin')->user()->code;
+        $slider_code = KeyValue::orderBy('created_at', 'DESC')->first();
+        if ($slider_code) $slider->code = $slider_code->code + 1;
+        else $slider->code = 1;
+
+        $slider->key = 'slider_image';
+        if ($request->hasFile('slider_image')) {
+            $image = $request->file('slider_image');
+            $path = 'user/img/images/';
+            $name = "gallery_0" . count(KeyValue::Where('key', 'slider_image')->get()) . "." . $image->getClientOriginalExtension();
+            $image->move(public_path($path), $name);
+
+            $slider->optional = $path . $name;
+        }
+
+        $slider->value = $request->value;
+        $slider->optional_2 = $request->optional_2;
+        $slider->create_user_code = Auth::guard('admin')->user()->code;
         $slider->save();
 
         return redirect()->route('admin_data_home_list')->with("success", Config::get('success.success_codes.10120512'));

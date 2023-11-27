@@ -47,7 +47,8 @@
                             </td>
                             <th scope="row">{{$item->code}}</th>
                             <td>{{$item->name}}</td>
-                            <td>/s/{{$item->short_name}}</td>
+                            <td><a href="{{route('showPage', ['short_name' => $item->short_name])}}"
+                                    target="_blank">p/{{$item->short_name}}</a></td>
                         </tr>
                         @endforeach
 

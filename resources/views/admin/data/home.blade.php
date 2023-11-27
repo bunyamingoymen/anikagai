@@ -38,7 +38,7 @@
 
                 <hr>
                 <p>Tema Ayarları:</p>
-                <div>
+                <div class="mt-5 col-lg-12">
                     <form action="{{route('admin_data_show_content')}}" method="POST">
                         @csrf
                         <div class="row">
@@ -68,77 +68,84 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="mt-1">
+                        <div class="mt-3">
                             <button class="btn btn-primary" type="submit">Kaydet</button>
                         </div>
                     </form>
                 </div>
                 <hr>
-                <form action="{{route('admin_data_change_theme_settings')}}" method="POST">
-                    @csrf
-                    <div class="row">
-                        <div class="col-lg-6 mt-3">
-                            <label for="">Listelemede Görünecek Sayı: </label>
-                            <input type="number" class="form-control" id="listCount" name="listCount"
-                                value="{{$listCount->setting_value}}">
+                <div class="mt-5 col-lg-12">
+                    <form action="{{route('admin_data_change_theme_settings')}}" method="POST">
+                        @csrf
+                        <div class="row">
+                            <div class="col-lg-6 mt-3">
+                                <label for="">Listelemede Görünecek Sayı: </label>
+                                <input type="number" class="form-control" id="listCount" name="listCount"
+                                    value="{{$listCount->setting_value}}">
+                            </div>
+                            <div class="col-lg-6 mt-3">
+                                <label for="">Slider Görünürlük durumu: </label>
+                                <select name="sliderShow" id="sliderShow" class="form-control">
+                                    @if ($sliderShow->setting_value == 1)
+                                    <option value="1" selected>Görünür</option>
+                                    <option value="0">Görünmez</option>
+                                    @else
+                                    <option value="1">Görünür</option>
+                                    <option value="0" selected>Görünmez</option>
+                                    @endif
+                                </select>
+                            </div>
                         </div>
-                        <div class="col-lg-6 mt-3">
-                            <label for="">Slider Görünürlük durumu: </label>
-                            <select name="sliderShow" id="sliderShow" class="form-control">
-                                @if ($sliderShow->setting_value == 1)
-                                <option value="1" selected>Görünür</option>
-                                <option value="0">Görünmez</option>
-                                @else
-                                <option value="1">Görünür</option>
-                                <option value="0" selected>Görünmez</option>
-                                @endif
-                            </select>
+                        <div class="mt-3">
+                            <button class="btn btn-primary" style="" type="submit">Kaydet</button>
                         </div>
-                    </div>
-                    <div class="mt-1">
-                        <button class="btn btn-primary" type="submit">Kaydet</button>
-                    </div>
-                </form>
+                    </form>
+                </div>
                 <hr>
-
-                <div class="mt-3">
+                <div class="mt-5 col-lg-12">
 
                     <div class="col-lg-12">
-                        <label for="">Slider'daki veriler: </label>
-                        @foreach ($slider_images as $item)
-                        <div class="mt-5">
-                            <form action="{{route('admin_data_change_slider_images')}}" method="POST">
-                                @csrf
-                                <div class="row">
-                                    <div class="">
-                                        <p>{{$loop->index + 1}} - </p>
-                                    </div>
-                                    <div hidden>
-                                        <input type="text" name="code" id="code" value="{{$item->code}}">
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <img src="../../../{{$item->optional}}" alt="" style="max-height: 155px;">
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <label for="">Yazı:</label>
-                                        <input type="text" class="form-control" name="value" id="value"
-                                            value="{{$item->value}}">
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <label for="">Link:</label>
-                                        <input type="text" class="form-control" name="optional_2" id="optional_2"
-                                            value="{{$item->optional_2}}">
-                                    </div>
-                                    <div class="col-lg-2 mt-3">
-                                        <button class="btn btn-primary" type="submit">Değiştir</button>
-                                        <button class="btn btn-danger" type="button"
-                                            onclick="deleteSlider('{{$item->code}}')">Sil</button>
-                                    </div>
-                                </div>
-                            </form>
+                        <div>
+                            <label for="">Slider'daki veriler: </label>
                         </div>
-                        @endforeach
-
+                        <div class="">
+                            <button class="btn btn-primary" onclick="addSlider()">+ Yeni Slider Ekle</button>
+                        </div>
+                        <div id="sliderImages">
+                            @foreach ($slider_images as $item)
+                            <div class="mt-5">
+                                <form action="{{route('admin_data_change_slider_images')}}" method="POST">
+                                    @csrf
+                                    <div class="row">
+                                        <div class="">
+                                            <p>{{$loop->index + 1}} - </p>
+                                        </div>
+                                        <div hidden>
+                                            <input type="text" name="code" id="code" value="{{$item->code}}">
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <img src="../../../{{$item->optional}}" alt="" style="max-height: 155px;">
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <label for="">Yazı:</label>
+                                            <input type="text" class="form-control" name="value" id="value"
+                                                value="{{$item->value}}">
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <label for="">Link:</label>
+                                            <input type="text" class="form-control" name="optional_2" id="optional_2"
+                                                value="{{$item->optional_2}}">
+                                        </div>
+                                        <div class="col-lg-2 mt-3">
+                                            <button class="btn btn-primary" type="submit">Değiştir</button>
+                                            <button class="btn btn-danger" type="button"
+                                                onclick="deleteSlider('{{$item->code}}')">Sil</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            @endforeach
+                        </div>
                     </div>
 
                 </div>
@@ -147,7 +154,10 @@
     </div>
 </div>
 
+
+
 <script>
+    var count = "{{count($slider_images)}}"
     function deleteSlider(code){
         Swal.fire({
             title: 'Emin Misin?',
@@ -158,18 +168,55 @@
             confirmButtonText: 'Onayla',
             denyButtonText: `Vazgeç`,
         }).then((result) => {
-        /* Read more about isConfirmed, isDenied below */
-        if (result.isConfirmed) {
-        var html = `<form action='{{route("admin_anime_delete")}}' method="POST" id="deleteSliderForm"> @csrf`;
-            html += `<input type="text" name="code" value='`+code+`'>`;
-            html += `</form>`
+            /* Read more about isConfirmed, isDenied below */
+            if (result.isConfirmed) {
+                var html = `<form action='{{route("admin_data_delete_slider_images")}}' method="POST" id="deleteSliderForm"> @csrf`;
+                    html += `<input type="text" name="code" value='`+code+`'>`;
+                    html += `</form>`
 
-        document.getElementById('hiddenDiv').innerHTML = html;
+                document.getElementById('hiddenDiv').innerHTML = html;
 
-        document.getElementById('deleteSliderForm').submit();
-        }
+                document.getElementById('deleteSliderForm').submit();
+            }
         })
-        }
+    }
+
+    function addSlider(){
+        count++;
+        var html = `<div class="mt-5" id="newSlider`+count+`">
+            <form action="{{route('admin_data_add_slider_images')}}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="row">
+                    <div class="">
+                        <p>`+count+` - </p>
+                    </div>
+                    <div class="col-lg-3">
+                        <input type="file" name="slider_image" id="slider_image" class="form-control">
+                    </div>
+                    <div class="col-lg-3">
+                        <label for="">Yazı:</label>
+                        <input type="text" class="form-control" name="value" id="value" value="">
+                    </div>
+                    <div class="col-lg-3">
+                        <label for="">Link:</label>
+                        <input type="text" class="form-control" name="optional_2" id="optional_2" value="">
+                    </div>
+                    <div class="col-lg-2 mt-3">
+                        <button class="btn btn-primary" type="submit">Kaydet</button>
+                        <button class="btn btn-danger" type="button" onclick="deleteHTML('newSlider`+count+`')">Sil</button>
+                    </div>
+                </div>
+            </form>
+        </div>`;
+
+        document.getElementById('sliderImages').innerHTML += html;
+
+
+    }
+
+    function deleteHTML(htmlID){
+        document.getElementById(htmlID).remove();
+    }
 
 </script>
 

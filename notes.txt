@@ -10,9 +10,8 @@ Kullanıcı arayüzü:
 
 İzlenen bölümler tik olarak işaretlenmeli
 etiket ve kategori arama
-Anime ve webtoon için beğenme oranları eklenecek
 Anime ve webtoon için puanlama kısmı
 intro başlangıç ve intro bitiş tarihleri
 profil sayfasında favoiler, izlenenler, takip listesi
-sayfa yapma
-slider belirleme
++sayfa yapma
++slider belirleme
