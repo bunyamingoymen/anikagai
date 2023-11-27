@@ -19,10 +19,12 @@ class DataController extends Controller
         $animeActive = KeyValue::Where('key', 'anime_active')->first();
         $webtoonActive = KeyValue::Where('key', 'webtoon_active')->first();
 
+        $slider_images = KeyValue::Where('key', 'slider_image')->get();
+
         $listCount = ThemeSetting::Where('theme_code', $selected_theme->value)->Where('setting_name', 'listCount')->first();
         $sliderShow = ThemeSetting::Where('theme_code', $selected_theme->value)->Where('setting_name', 'showSlider')->first();
 
-        return view('admin.data.home', ['selected_theme' => $selected_theme, 'themes' => $themes, 'animeActive' => $animeActive, 'webtoonActive' => $webtoonActive, 'listCount' => $listCount, 'sliderShow' => $sliderShow]);
+        return view('admin.data.home', ['selected_theme' => $selected_theme, 'themes' => $themes, 'animeActive' => $animeActive, 'webtoonActive' => $webtoonActive, 'listCount' => $listCount, 'sliderShow' => $sliderShow, 'slider_images' => $slider_images]);
     }
 
     public function homeChange(Request $request)
@@ -65,6 +67,41 @@ class DataController extends Controller
 
         return redirect()->route('admin_data_home_list')->with("success", Config::get('success.success_codes.10120512'));
     }
+
+    public function changeSliderImages(Request $request)
+    {
+        $slider = KeyValue::Where('key', 'slider_image',)->Where('code', $request->code)->first();
+
+        $slider->value = $request->value;
+        $slider->optional_2 = $request->optional_2;
+        $slider->update_user_code = Auth::guard('admin')->user()->code;
+        $slider->save();
+
+        return redirect()->route('admin_data_home_list')->with("success", Config::get('success.success_codes.10120512'));
+    }
+
+    public function deleteSliderImages(Request $request)
+    {
+        $slider = KeyValue::Where('key', 'slider_image',)->Where('code', $request->code)->first();
+
+        $slider->deleted = 1;
+        $slider->update_user_code = Auth::guard('admin')->user()->code;
+        $slider->save();
+
+        return redirect()->route('admin_data_home_list')->with("success", Config::get('success.success_codes.10120512'));
+    }
+
+    public function addSliderImages(Request $request)
+    {
+        $slider = KeyValue::Where('key', 'slider_image',)->Where('code', $request->code)->first();
+
+        $slider->deleted = 1;
+        $slider->update_user_code = Auth::guard('admin')->user()->code;
+        $slider->save();
+
+        return redirect()->route('admin_data_home_list')->with("success", Config::get('success.success_codes.10120512'));
+    }
+
     public function logoList()
     {
 

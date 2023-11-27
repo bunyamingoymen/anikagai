@@ -103,10 +103,42 @@
 
                 <div class="mt-3">
 
-                    <div class="col-lg-6">
+                    <div class="col-lg-12">
                         <label for="">Slider'daki veriler: </label>
-                        <form action="">
-                        </form>
+                        @foreach ($slider_images as $item)
+                        <div class="mt-5">
+                            <form action="{{route('admin_data_change_slider_images')}}" method="POST">
+                                @csrf
+                                <div class="row">
+                                    <div class="">
+                                        <p>{{$loop->index + 1}} - </p>
+                                    </div>
+                                    <div hidden>
+                                        <input type="text" name="code" id="code" value="{{$item->code}}">
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <img src="../../../{{$item->optional}}" alt="" style="max-height: 155px;">
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label for="">Yazı:</label>
+                                        <input type="text" class="form-control" name="value" id="value"
+                                            value="{{$item->value}}">
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <label for="">Link:</label>
+                                        <input type="text" class="form-control" name="optional_2" id="optional_2"
+                                            value="{{$item->optional_2}}">
+                                    </div>
+                                    <div class="col-lg-2 mt-3">
+                                        <button class="btn btn-primary" type="submit">Değiştir</button>
+                                        <button class="btn btn-danger" type="button"
+                                            onclick="deleteSlider('{{$item->code}}')">Sil</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                        @endforeach
+
                     </div>
 
                 </div>
@@ -116,7 +148,28 @@
 </div>
 
 <script>
+    function deleteSlider(code){
+        Swal.fire({
+            title: 'Emin Misin?',
+            text: 'Bu Veriyi Silmek İstiyor musunuz(ID: '+code+')?',
+            icon: 'warning',
+            showDenyButton: true,
+            showCancelButton: false,
+            confirmButtonText: 'Onayla',
+            denyButtonText: `Vazgeç`,
+        }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+        var html = `<form action='{{route("admin_anime_delete")}}' method="POST" id="deleteSliderForm"> @csrf`;
+            html += `<input type="text" name="code" value='`+code+`'>`;
+            html += `</form>`
 
+        document.getElementById('hiddenDiv').innerHTML = html;
+
+        document.getElementById('deleteSliderForm').submit();
+        }
+        })
+        }
 
 </script>
 

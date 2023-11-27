@@ -176,6 +176,9 @@ Route::middleware(['auth'])->group(function () {
             Route::post("/admin/data/home", "homeChange")->name('admin_data_home');
             Route::post("/admin/data/home/showContent", "showContent")->name('admin_data_show_content');
             Route::post("/admin/data/home/changeThemeSettings", "changeThemeSettings")->name('admin_data_change_theme_settings');
+            Route::post("/admin/data/home/changeSliderImages", "changeSliderImages")->name('admin_data_change_slider_images');
+            Route::post("/admin/data/home/deleteSliderImages", "deleteSliderImages")->name('admin_data_delete_slider_images');
+            Route::post("/admin/data/home/addSliderImages", "addSliderImages")->name('admin_data_add_slider_images');
 
             Route::get("/admin/data/logo", "logoList")->name('admin_data_logo_list');
             Route::post("/admin/data/logo", "logoChange")->name('admin_data_logo');

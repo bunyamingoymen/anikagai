@@ -54,13 +54,32 @@ class IndexController extends Controller
         $listItems = ThemeSetting::Where('theme_code', $selected_theme->value)->Where('setting_name', 'listCount')->first()->setting_value;
         $skip = (($currentPage - 1) * $listItems);
 
+        $orderByType = 'created_at';
+        $orderByList = 'DESC';
+        if ($request->orderBy) {
+
+            if ($request->orderBy == "created_AtASC") {
+                $orderByType = 'created_at';
+                $orderByList = 'ASC';
+            } else if ($request->orderBy == "created_AtDESC") {
+                $orderByType = 'created_at';
+                $orderByList = 'DESC';
+            } else if ($request->orderBy == "TrendsASC") {
+                $orderByType = 'click_count';
+                $orderByList = 'ASC';
+            } else if ($request->orderBy == "TrendsDESC") {
+                $orderByType = 'click_count';
+                $orderByList = 'DESC';
+            }
+        }
+
         if ($path == 'animeler') {
             $title = "Animeler";
-            $list = Anime::Where('deleted', 0)->skip($skip)->take($listItems)->orderBy('created_at', 'DESC')->get();
+            $list = Anime::Where('deleted', 0)->orderBy($orderByType, $orderByList)->skip($skip)->take($listItems)->get();
             $pageCountTest = Anime::Where('deleted', 0)->count();
         } else if ($path == 'webtoonlar') {
             $title = "Webtoonlar";
-            $list = Webtoon::Where('deleted', 0)->skip($skip)->take($listItems)->orderBy('created_at', 'DESC')->get();
+            $list = Webtoon::Where('deleted', 0)->skip($skip)->take($listItems)->orderBy($orderByType, $orderByList)->get();
             $pageCountTest = Anime::Where('deleted', 0)->count();
         } else {
             dd('hata'); //TODO hata sayfasına yolla

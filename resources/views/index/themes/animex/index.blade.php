@@ -4,20 +4,27 @@
 <section class="hero">
     <div class="container">
         <div class="hero__slider owl-carousel">
-            @foreach ($slider_image as $item)
-            <div class="hero__items set-bg" data-setbg="../../../{{$item->optional ?? ''}}">
+            @foreach ($slider_image as $index => $item)
+            <div id="heroSlider{{$index + 1}}" class="hero__items set-bg"
+                data-setbg="../../../{{$item->optional ?? ''}}" onmouseover="showVideo({{ $index }})"
+                onmouseout="hideVideo({{ $index }})">
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="hero__text">
                             <h2>{{$item->value}}</h2>
-                            <a href="{{$item->optional_2 ?? ''}}"><span> Sayfaya Git</span> <i
+                            <a href="{{$item->optional_2 ?? ''}}"><span>Sayfaya Git</span> <i
                                     class="fa fa-angle-right"></i></a>
                         </div>
                     </div>
                 </div>
+                <div class="video-container">
+                    <video class="video" preload="auto" loop muted>
+                        <source src="./../../user/animex/videos/{{$index + 1}}.mp4" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
             </div>
             @endforeach
-
         </div>
     </div>
 </section>
@@ -606,4 +613,31 @@
         </div>
     </div>
 </section>
+<!-- Js Plugins -->
+<script src="../../../user/animex/js/jquery-3.3.1.min.js"></script>
+<script src="../../../user/animex/js/owl.carousel.min.js"></script>
+<script>
+    // Tüm video elementlerini seç ve varsayılan olarak gizle
+    var videoElements = document.querySelectorAll('.video');
+    var videoElementsContainer = document.querySelectorAll('.video-container');
+    videoElements.forEach(function (video) {
+        //video.style.display = 'none';
+    });
+
+function showVideo(index) {
+    console.log(index);
+    videoElements.forEach(function (video) {
+    //video.style.display = 'none';
+    video.pause();
+    });
+
+    videoElementsContainer[index].style.display = 'block';
+    videoElements[index].play();
+    }
+
+    function hideVideo(index) {
+    videoElementsContainer[index].style.display = 'none';
+    videoElements[index].pause();
+    }
+</script>
 @endsection

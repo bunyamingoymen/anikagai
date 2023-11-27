@@ -139,7 +139,6 @@ ol {
 }
 
 .set-bg {
-	background-repeat: no-repeat;
 	background-size: cover;
 	background-position: top center;
 }
@@ -448,6 +447,7 @@ ol {
 .hero__items {
 	padding: 250px 0 42px 50px;
 	border-radius: 5px;
+    overflow: hidden; /* Çerçeve dışındaki video kırpmasını önler */
 }
 
 .hero__text {
@@ -532,6 +532,7 @@ ol {
 	top: 0;
 	opacity: 1;
 }
+
 
 .hero__slider.owl-carousel .owl-item.active .hero__text h2 {
 	top: 0;
@@ -1181,6 +1182,23 @@ ol {
 /*---------------------
   Anime Watching
 -----------------------*/
+
+.video-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    /*Videoyu varsayılan olarak gizle */
+}
+
+.video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Video boyutunu ayarlar, 'cover' videoyu eksiksiz doldurur */
+}
 
 .anime__video__player {
 	margin-bottom: 70px;
