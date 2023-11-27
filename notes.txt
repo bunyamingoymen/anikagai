@@ -8,12 +8,18 @@ Modallar ayarlanacak
 
 Kullanıcı arayüzü:
 
-+Profil ekranı eklenecek(Burada bilgilerini ve kullanıcı resmini değiştirebilmeli)
-+Profil sayfasında favori animeler ve webtoonlar, izlenecek webtoonlar olmalı
-+Giriş yapan kullanıcı /login'e girmeye çalışınca porifl ekranına yönlendirilmeli.
 İzlenen bölümler tik olarak işaretlenmeli
-+Varsayılan bir profil resmi olmalı
 etiket ve kategori arama
 Anime ve webtoon için beğenme oranları eklenecek
 Anime ve webtoon için puanlama kısmı
+Üyelere özel yapılmalı
+intro başlangıç ve intro bitiş tarihleri
+profil sayfasında favoiler, izlenenler, takip listesi
+slider'a üstüne gidildiğinde video oynatma
+sayfa yapma
+slider belirleme
+slider açıp kapatma
+anime aktif ve pasif
+webtoon aktif ve pasif
+
 

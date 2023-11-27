@@ -170,6 +170,7 @@ Route::middleware(['auth'])->group(function () {
         Route::controller(DataController::class)->group(function () {
             Route::get("/admin/data/home", "homeList")->name('admin_data_home_list');
             Route::post("/admin/data/home", "homeChange")->name('admin_data_home');
+            Route::post("/admin/data/home/showContent", "showContent")->name('admin_data_show_content');
 
             Route::get("/admin/data/logo", "logoList")->name('admin_data_logo_list');
             Route::post("/admin/data/logo", "logoChange")->name('admin_data_logo');

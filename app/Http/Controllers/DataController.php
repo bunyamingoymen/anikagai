@@ -13,7 +13,11 @@ class DataController extends Controller
     {
         $selected_theme = KeyValue::Where('key', 'selected_theme')->first();
         $themes = Theme::Where('deleted', 0)->get();
-        return view('admin.data.home', ['selected_theme' => $selected_theme, 'themes' => $themes]);
+
+        $animeActive = KeyValue::Where('key', 'anime_active')->first();
+        $webtoonActive = KeyValue::Where('key', 'webtoon_active')->first();
+
+        return view('admin.data.home', ['selected_theme' => $selected_theme, 'themes' => $themes, 'animeActive' => $animeActive, 'webtoonActive' => $webtoonActive]);
     }
 
     public function homeChange(Request $request)
@@ -22,6 +26,20 @@ class DataController extends Controller
         $selected_theme = KeyValue::Where('key', 'selected_theme')->first();
         $selected_theme->value = $request->selected_theme;
         $selected_theme->save();
+
+        return redirect()->route('admin_data_home_list')->with("success", Config::get('success.success_codes.10120512'));
+    }
+
+    public function showContent(Request $request)
+    {
+        $animeActive = KeyValue::Where('key', 'anime_active')->first();
+        $webtoonActive = KeyValue::Where('key', 'webtoon_active')->first();
+
+        $animeActive->value = $request->animeShow;
+        $animeActive->save();
+
+        $webtoonActive->value = $request->webtoonShow;
+        $webtoonActive->save();
 
         return redirect()->route('admin_data_home_list')->with("success", Config::get('success.success_codes.10120512'));
     }

@@ -635,7 +635,7 @@ class DatabaseSeeder extends Seeder
                 'id' => 25,
                 'code' => 25,
                 'key'  => 'slider_image',
-                'value'  => 'Tokyo Ghoul', //1: Aktif,2: pasif
+                'value'  => 'Tokyo Ghoul',
                 'optional' => 'user/img/images/gallery_01.jpg',
                 'optional_2' => '/', //url
                 'create_user_code' => 1,
@@ -645,7 +645,7 @@ class DatabaseSeeder extends Seeder
                 'id' => 26,
                 'code' => 26,
                 'key'  => 'slider_image',
-                'value'  => 'Attack On Titan', //1: Aktif,2: pasif
+                'value'  => 'Attack On Titan',
                 'optional' => 'user/img/images/gallery_02.jpg',
                 'optional_2' => '/', //url
                 'create_user_code' => 1,
@@ -655,7 +655,7 @@ class DatabaseSeeder extends Seeder
                 'id' => 27,
                 'code' => 27,
                 'key'  => 'slider_image',
-                'value'  => '1', //1: Aktif,2: pasif
+                'value'  => '1',
                 'optional' => 'user/img/images/gallery_03.jpg',
                 'optional_2' => '/', //url
                 'create_user_code' => 1,
@@ -665,7 +665,7 @@ class DatabaseSeeder extends Seeder
                 'id' => 28,
                 'code' => 28,
                 'key'  => 'slider_image',
-                'value'  => 'One Piece', //1: Aktif,2: pasif
+                'value'  => 'One Piece',
                 'optional' => 'user/img/images/gallery_04.jpg',
                 'optional_2' => '/', //url
                 'create_user_code' => 1,
@@ -701,6 +701,27 @@ class DatabaseSeeder extends Seeder
                 'themeName'  => 'Animex',
                 'themePath' => 'themes.animex',
                 'images' => 'user/img/themes/theme_2.png',
+                'deleted' => 0,
+                'created_at' => Carbon::now(),
+            ],
+        ]);
+
+        DB::table('theme_settings')->insert([
+            [
+                'id' => 1,
+                'code' => 1,
+                'theme_code'  => 1,
+                'setting_name' => 'listCount',
+                'setting_value' => '8',
+                'deleted' => 0,
+                'created_at' => Carbon::now(),
+            ],
+            [
+                'id' => 2,
+                'code' => 2,
+                'theme_code'  => 2,
+                'setting_name' => 'listCount',
+                'setting_value' => '8',
                 'deleted' => 0,
                 'created_at' => Carbon::now(),
             ],

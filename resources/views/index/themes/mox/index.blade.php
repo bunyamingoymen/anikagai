@@ -42,17 +42,24 @@
                 <div class="col-lg-6">
                     <div class="ucm-nav-wrap">
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
-                            @if (isset($webtoon_active) && $webtoon_active->value == 1)
+                            @if ($webtoon_active->value == 1)
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link active" id="webtoons-tab" data-toggle="tab" href="#webtoons"
                                     role="tab" aria-controls="webtoons" aria-selected="false">Webtoon</a>
                             </li>
                             @endif
-                            @if (isset($anime_active) && $anime_active->value == 1)
+                            @if ($anime_active->value == 1)
+                            @if ($webtoon_active->value == 0)
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link active" id="anime-tab" data-toggle="tab" href="#anime" role="tab"
+                                    aria-controls="anime" aria-selected="false">Anime</a>
+                            </li>
+                            @else
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link" id="anime-tab" data-toggle="tab" href="#anime" role="tab"
                                     aria-controls="anime" aria-selected="false">Anime</a>
                             </li>
+                            @endif
                             @endif
 
                         </ul>
@@ -60,7 +67,8 @@
                 </div>
             </div>
             <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade show active" id="webtoons" role="tabpanel" aria-labelledby="movies-tab">
+                @if ($webtoon_active->value == 1)
+                <div class="tab-pane fade show active" id="webtoons" role="tabpanel" aria-labelledby="webtoons-tab">
                     <div class="ucm-active-two owl-carousel">
                         @foreach ($trend_webtoons as $item)
                         <div class="movie-item movie-item-two mb-30">
@@ -94,45 +102,53 @@
 
                     </div>
                 </div>
-                <div class="tab-pane fade" id="anime" role="tabpanel" aria-labelledby="anime-tab">
-                    <div class="ucm-active-two owl-carousel">
-                        @foreach ($trend_animes as $item)
-                        <div class="movie-item movie-item-two mb-30">
-                            <div class="movie-poster"
-                                style="min-width: 195px; min-height: 285px; max-width: 195px; max-height: 285px;">
-                                <a href="anime/{{$item->short_name}}"><img src="../../../{{$item->image}}" alt=""></a>
-                            </div>
-                            <div class="movie-content">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
+                @endif
+                @if ($anime_active->value == 1)
+                @if ($webtoon_active->value == 0)
+                <div class="tab-pane fade show active" id="anime" role="tabpanel" aria-labelledby="anime-tab">
+                    @else
+                    <div class="tab-pane fade" id="anime" role="tabpanel" aria-labelledby="anime-tab">
+                        @endif
+                        <div class="ucm-active-two owl-carousel">
+                            @foreach ($trend_animes as $item)
+                            <div class="movie-item movie-item-two mb-30">
+                                <div class="movie-poster"
+                                    style="min-width: 195px; min-height: 285px; max-width: 195px; max-height: 285px;">
+                                    <a href="anime/{{$item->short_name}}"><img src="../../../{{$item->image}}"
+                                            alt=""></a>
                                 </div>
-                                <h5 class="title"><a href="anime/{{$item->short_name}}">{{$item->name}}</a></h5>
-                                <span class="rel">{{$item->main_tag_name ?? 'Genel'}}</span>
-                                <div class="movie-content-bottom">
-                                    <ul>
-                                        <li class="tag">
-                                            <a href="Javascript:;">{{$item->main_tag_name ?? 'Genel'}}</a>
-                                        </li>
-                                        <li>
-                                            <span class="like"><i class="fas fa-thumbs-up"></i> 3.5</span>
-                                        </li>
-                                    </ul>
+                                <div class="movie-content">
+                                    <div class="rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                    <h5 class="title"><a href="anime/{{$item->short_name}}">{{$item->name}}</a></h5>
+                                    <span class="rel">{{$item->main_tag_name ?? 'Genel'}}</span>
+                                    <div class="movie-content-bottom">
+                                        <ul>
+                                            <li class="tag">
+                                                <a href="Javascript:;">{{$item->main_tag_name ?? 'Genel'}}</a>
+                                            </li>
+                                            <li>
+                                                <span class="like"><i class="fas fa-thumbs-up"></i> 3.5</span>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
+                            @endforeach
                         </div>
-                        @endforeach
                     </div>
+                    @endif
                 </div>
             </div>
-        </div>
     </section>
     <!-- up-coming-movie-area-end -->
 
-    @if (isset($anime_active) && $anime_active->value == 1)
+    @if ($anime_active->value == 1)
     <!-- top-rated-movie -->
     <section class="top-rated-movie tr-movie-bg2" data-background="../../../user/mox/img/bg/tr_movies_bg.jpg">
         <div class="container">
@@ -188,7 +204,7 @@
     <!-- top-rated-movie-end -->
     @endif
 
-    @if (isset($webtoon_active) && $webtoon_active->value == 1)
+    @if ($webtoon_active->value == 1)
     <!-- top-rated-movie -->
     <section class="top-rated-movie tr-movie-bg2" data-background="../../../user/mox/img/bg/tr_movies_bg.jpg">
         <div class="container">

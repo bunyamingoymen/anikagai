@@ -22,6 +22,7 @@ return [
         'admin/auth/list/getGroup/ajax' => 10,
 
         'admin/data/home' => 13,
+        'admin/data/home/showContent' => 13,
 
         'admin/data/logo' => 14,
 
