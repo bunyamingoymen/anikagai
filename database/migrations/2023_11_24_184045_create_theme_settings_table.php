@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('setting_value')->nullable();
             $table->longText('optional')->nullable();
             $table->tinyInteger('deleted')->default();
-            $table->timestamps();;
+            $table->timestamps();
         });
     }
 

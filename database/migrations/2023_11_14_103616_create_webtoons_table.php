@@ -24,7 +24,9 @@ return new class extends Migration
             $table->string('main_tag')->default(1);
             $table->string('main_tag_name')->default("Genel");
             $table->string('date')->default(2000);
-            $table->integer('click_count')->default(0);;
+            $table->integer('click_count')->default(0);
+            $table->unsignedBigInteger('scoreUsers')->default(0); //Kaç kişinin oy verdiğini tutar
+            $table->unsignedFloat('score', 5, 2)->default(2.5); //Maksimum 5 olabilir ve virgülden sonra iki basamağı olur.
             $table->unsignedBigInteger('create_user_code')->default(1);
             $table->unsignedBigInteger('update_user_code')->nullable();
             $table->tinyInteger('onlyUsers')->default(1); //0: sadece üyelerin görebileceği, 1: herkesin görebileceği
