@@ -37,6 +37,8 @@ class IndexController extends Controller
             'slider_image' => KeyValue::where('key', 'slider_image')->where('deleted', 0)->get(),
             'slider_show' => ThemeSetting::where('theme_code', KeyValue::Where('key', 'selected_theme')->first()->value)->where('setting_name', 'showSlider')->first()->setting_value,
         ];
+
+        return $this->loadThemeView('index', $additionalData);
     }
 
 
