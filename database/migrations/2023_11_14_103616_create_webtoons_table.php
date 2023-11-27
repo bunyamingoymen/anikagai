@@ -27,6 +27,7 @@ return new class extends Migration
             $table->integer('click_count')->default(0);;
             $table->unsignedBigInteger('create_user_code')->default(1);
             $table->unsignedBigInteger('update_user_code')->nullable();
+            $table->tinyInteger('onlyUsers')->default(1); //0: sadece üyelerin görebileceği, 1: herkesin görebileceği
             $table->tinyInteger('deleted')->default(0); // 0: silinmemiş, aktif, görünür. 1: silinmiş, pasif, görünmez
             $table->timestamps();
         });
