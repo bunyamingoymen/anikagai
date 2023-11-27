@@ -86,7 +86,14 @@
                             </select>
                         </div>
                     </div>
-
+                    <div>
+                        @if ($anime->onlyUsers)
+                        <input type="checkbox" id="onlyUsers" name="onlyUsers" checked>
+                        @else
+                        <input type="checkbox" id="onlyUsers" name="onlyUsers">
+                        @endif
+                        <label for="onlyUsers">Herkes Görebilir.(Seçili olmaz ise sadece üyeler görebilir.)</label>
+                    </div>
                     <div style="float: right;">
                         <button class="btn btn-primary" type="button" onclick="updateAnimeSubmitForm()">Kaydet</button>
                     </div>
@@ -104,9 +111,7 @@
     function updateAnimeSubmitForm(params) {
         var name = document.getElementById('name').value;
 
-        var image = document.getElementById('image').value;
-
-        if(name == "" || image == ""){
+        if(name == ""){
             Swal.fire({
                 icon: 'error',
                 title: 'Hata',

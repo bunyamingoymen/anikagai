@@ -74,6 +74,10 @@
                             </select>
                         </div>
                     </div>
+                    <div>
+                        <input type="checkbox" id="onlyUsers" name="onlyUsers" checked>
+                        <label for="onlyUsers">Herkes Görebilir.(Seçili olmaz ise sadece üyeler görebilir.)</label>
+                    </div>
                     <div style="float: right;">
                         <button class="btn btn-primary" type="button" onclick="createAnimeSubmitForm()">Kaydet</button>
                     </div>

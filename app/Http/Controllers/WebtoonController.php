@@ -59,27 +59,34 @@ class WebtoonController extends Controller
         $webtoon->average_min = $request->average_min;
         $webtoon->date = $request->date;
 
-        $webtoon->main_category = $request->main_category;
-        $webtoon->main_category_name = Category::Where('code', $request->main_category)->first()->name;
+        $webtoon->main_category = $request->main_category ? $request->main_category : 1;
+        $webtoon->main_category_name = $request->main_category ? Category::Where('code', $request->main_category)->first()->name : "Genel";
+
+        if ($request->onlyUsers) $webtoon->onlyUsers = 1;
+        else $webtoon->onlyUsers = 0;
 
         $webtoon->create_user_code = Auth::guard('admin')->user()->code;
 
         $webtoon->save();
 
-        foreach ($request->catogery as $item) {
-            $content = new ContentCategory();
-            $content->category_code = $item;
-            $content->content_code = $webtoon->code;
-            $content->content_type = 1;
-            $content->save();
+        if ($request->catogery) {
+            foreach ($request->catogery as $item) {
+                $content = new ContentCategory();
+                $content->category_code = $item;
+                $content->content_code = $webtoon->code;
+                $content->content_type = 1;
+                $content->save();
+            }
         }
 
-        foreach ($request->tag as $item) {
-            $content = new ContentTag();
-            $content->tag_code = $item;
-            $content->content_code = $webtoon->code;
-            $content->content_type = 1;
-            $content->save();
+        if ($request->tag) {
+            foreach ($request->tag as $item) {
+                $content = new ContentTag();
+                $content->tag_code = $item;
+                $content->content_code = $webtoon->code;
+                $content->content_type = 1;
+                $content->save();
+            }
         }
 
         return redirect()->route('admin_webtoon_list')->with("success", Config::get('success.success_codes.10090010'));
@@ -124,29 +131,36 @@ class WebtoonController extends Controller
         $webtoon->average_min = $request->average_min;
         $webtoon->date = $request->date;
 
-        $webtoon->main_category = $request->main_category;
-        $webtoon->main_category_name = Category::Where('code', $request->main_category)->first()->name;
+        $webtoon->main_category = $request->main_category ? $request->main_category : 1;
+        $webtoon->main_category_name = $request->main_category ? Category::Where('code', $request->main_category)->first()->name : "Genel";
+
+        if ($request->onlyUsers) $webtoon->onlyUsers = 1;
+        else $webtoon->onlyUsers = 0;
 
         $webtoon->update_user_code = Auth::guard('admin')->user()->code;
 
         $webtoon->save();
 
         ContentCategory::Where('content_code', $webtoon->code)->Where('content_type', 1)->delete();
-        foreach ($request->catogery as $item) {
-            $content = new ContentCategory();
-            $content->category_code = $item;
-            $content->content_code = $webtoon->code;
-            $content->content_type = 1;
-            $content->save();
+        if ($request->catogery) {
+            foreach ($request->catogery as $item) {
+                $content = new ContentCategory();
+                $content->category_code = $item;
+                $content->content_code = $webtoon->code;
+                $content->content_type = 1;
+                $content->save();
+            }
         }
 
         ContentTag::Where('content_code', $webtoon->code)->Where('content_type', 1)->delete();
-        foreach ($request->tag as $item) {
-            $content = new ContentTag();
-            $content->tag_code = $item;
-            $content->content_code = $webtoon->code;
-            $content->content_type = 1;
-            $content->save();
+        if ($request->tag) {
+            foreach ($request->tag as $item) {
+                $content = new ContentTag();
+                $content->tag_code = $item;
+                $content->content_code = $webtoon->code;
+                $content->content_type = 1;
+                $content->save();
+            }
         }
 
         return redirect()->route('admin_webtoon_list')->with("success", Config::get('success.success_codes.10090012'));

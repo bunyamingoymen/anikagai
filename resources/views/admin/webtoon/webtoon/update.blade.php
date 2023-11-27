@@ -76,7 +76,14 @@
                             </select>
                         </div>
                     </div>
-
+                    <div>
+                        @if ($webtoon->onlyUsers)
+                        <input type="checkbox" id="onlyUsers" name="onlyUsers" checked>
+                        @else
+                        <input type="checkbox" id="onlyUsers" name="onlyUsers">
+                        @endif
+                        <label for="onlyUsers">Herkes Görebilir.(Seçili olmaz ise sadece üyeler görebilir.)</label>
+                    </div>
                     <div style="float: right;">
                         <button class="btn btn-primary" type="button"
                             onclick="updateWebtoonSubmitForm()">Kaydet</button>
@@ -93,9 +100,7 @@
     function updateWebtoonSubmitForm(params) {
         var name = document.getElementById('name');
 
-        var image = document.getElementById('image');
-
-        if(name == "" || image == ""){
+        if(name == ""){
             Swal.fire({
                 icon: 'error',
                 title: 'Hata',

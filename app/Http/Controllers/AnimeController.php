@@ -60,8 +60,12 @@ class AnimeController extends Controller
         $anime->description = $request->description;
         $anime->average_min = $request->average_min;
         $anime->date = $request->date;
-        $anime->main_category = $request->main_category;
-        $anime->main_category_name = Category::Where('code', $request->main_category)->first()->name;
+
+        $anime->main_category = $request->main_category ? $request->main_category : 1;
+        $anime->main_category_name = $request->main_category ? Category::Where('code', $request->main_category)->first()->name : "Genel";
+
+        if ($request->onlyUsers) $anime->onlyUsers = 1;
+        else $anime->onlyUsers = 0;
 
         $anime->create_user_code = Auth::guard('admin')->user()->code;
 
@@ -125,8 +129,11 @@ class AnimeController extends Controller
         $anime->average_min = $request->average_min;
         $anime->date = $request->date;
 
-        $anime->main_category = $request->main_category;
-        $anime->main_category_name = Category::Where('code', $request->main_category)->first()->name;
+        $anime->main_category = $request->main_category ? $request->main_category : 1;
+        $anime->main_category_name = $request->main_category ? Category::Where('code', $request->main_category)->first()->name : "Genel";
+
+        if ($request->onlyUsers) $anime->onlyUsers = 1;
+        else $anime->onlyUsers = 0;
 
 
         $anime->update_user_code = Auth::guard('admin')->user()->code;
@@ -134,22 +141,28 @@ class AnimeController extends Controller
         $anime->save();
 
         ContentCategory::Where('content_code', $anime->code)->Where('content_type', 1)->delete();
-        foreach ($request->catogery as $item) {
-            $content = new ContentCategory();
-            $content->category_code = $item;
-            $content->content_code = $anime->code;
-            $content->content_type = 1;
-            $content->save();
+        if ($request->catogery) {
+            foreach ($request->catogery as $item) {
+                $content = new ContentCategory();
+                $content->category_code = $item;
+                $content->content_code = $anime->code;
+                $content->content_type = 1;
+                $content->save();
+            }
         }
 
+
         ContentTag::Where('content_code', $anime->code)->Where('content_type', 1)->delete();
-        foreach ($request->tag as $item) {
-            $content = new ContentTag();
-            $content->tag_code = $item;
-            $content->content_code = $anime->code;
-            $content->content_type = 1;
-            $content->save();
+        if ($request->tag) {
+            foreach ($request->tag as $item) {
+                $content = new ContentTag();
+                $content->tag_code = $item;
+                $content->content_code = $anime->code;
+                $content->content_type = 1;
+                $content->save();
+            }
         }
+
 
         return redirect()->route('admin_anime_list')->with("success", Config::get('success.success_codes.10060012'));
     }

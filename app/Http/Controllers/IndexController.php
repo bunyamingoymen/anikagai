@@ -26,14 +26,15 @@ class IndexController extends Controller
 {
     public function index()
     {
+        $onlyUsers = Auth::user() ? ["0", "1"] : ["1"];
         $selected_theme = KeyValue::Where('key', 'selected_theme')->first();
         $themePath = Theme::Where('code', $selected_theme->value)->first();
 
-        $trend_animes = Anime::Where('deleted', 0)->take(6)->orderBy('click_count', 'DESC')->get();
-        $trend_webtoons = Webtoon::Where('deleted', 0)->take(6)->orderBy('click_count', 'DESC')->get();
+        $trend_animes = Anime::Where('deleted', 0)->whereIn('onlyUsers', $onlyUsers)->take(6)->orderBy('click_count', 'DESC')->get();
+        $trend_webtoons = Webtoon::Where('deleted', 0)->whereIn('onlyUsers', $onlyUsers)->take(6)->orderBy('click_count', 'DESC')->get();
 
-        $animes = Anime::Where('deleted', 0)->take(20)->orderBy('created_at', 'DESC')->get();
-        $webtoons = Webtoon::Where('deleted', 0)->take(20)->orderBy('created_at', 'DESC')->get();
+        $animes = Anime::Where('deleted', 0)->whereIn('onlyUsers', $onlyUsers)->take(20)->orderBy('created_at', 'DESC')->get();
+        $webtoons = Webtoon::Where('deleted', 0)->whereIn('onlyUsers', $onlyUsers)->take(20)->orderBy('created_at', 'DESC')->get();
 
         $slider_image = KeyValue::Where('key', 'slider_image')->Where('deleted', 0)->get();
 
@@ -44,6 +45,7 @@ class IndexController extends Controller
 
     public function list(Request $request)
     {
+        $onlyUsers = Auth::user() ? ["0", "1"] : ["1"];
         $selected_theme = KeyValue::Where('key', 'selected_theme')->first();
         $themePath = Theme::Where('code', $selected_theme->value)->first();
         $path = $request->path();
@@ -75,11 +77,11 @@ class IndexController extends Controller
 
         if ($path == 'animeler') {
             $title = "Animeler";
-            $list = Anime::Where('deleted', 0)->orderBy($orderByType, $orderByList)->skip($skip)->take($listItems)->get();
+            $list = Anime::Where('deleted', 0)->whereIn('onlyUsers', $onlyUsers)->orderBy($orderByType, $orderByList)->skip($skip)->take($listItems)->get();
             $pageCountTest = Anime::Where('deleted', 0)->count();
         } else if ($path == 'webtoonlar') {
             $title = "Webtoonlar";
-            $list = Webtoon::Where('deleted', 0)->skip($skip)->take($listItems)->orderBy($orderByType, $orderByList)->get();
+            $list = Webtoon::Where('deleted', 0)->whereIn('onlyUsers', $onlyUsers)->skip($skip)->take($listItems)->orderBy($orderByType, $orderByList)->get();
             $pageCountTest = Anime::Where('deleted', 0)->count();
         } else {
             dd('hata'); //TODO hata sayfasına yolla
