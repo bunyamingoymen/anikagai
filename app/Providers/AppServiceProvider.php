@@ -37,7 +37,7 @@ class AppServiceProvider extends ServiceProvider
         $selected_theme = KeyValue::Where('key', 'selected_theme')->first();
         $themePath = Theme::Where('code', $selected_theme->value)->first();
 
-        $indexPages = ['index.' . $themePath->themePath . '.layouts.main', 'index.' . $themePath->themePath . '.index'];
+        $indexPages = ['index.' . $themePath->themePath . '.layouts.main', 'index.' . $themePath->themePath . '.index', 'index.' . $themePath->themePath . '.profile'];
         $adminPages = ['admin.layouts.main'];
         //
         $userPages = ['admin.users.create', 'admin.users.list', 'admin.users.update'];

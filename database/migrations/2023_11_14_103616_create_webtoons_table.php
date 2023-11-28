@@ -21,8 +21,8 @@ return new class extends Migration
             $table->integer('episode_count')->default(0);
             $table->integer('season_count')->default(0);
             $table->integer('average_min')->default(0);
-            $table->string('main_tag')->default(1);
-            $table->string('main_tag_name')->default("Genel");
+            $table->string('main_category')->default(1);
+            $table->string('main_category_name')->default("Genel");
             $table->string('date')->default(2000);
             $table->integer('click_count')->default(0);
             $table->unsignedBigInteger('scoreUsers')->default(0); //Kaç kişinin oy verdiğini tutar

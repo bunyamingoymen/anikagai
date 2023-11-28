@@ -164,10 +164,13 @@ class IndexController extends Controller
             $liked = (bool) $like;
         }
 
-        $categories = Category::whereHas('contentCategories', function ($query) use ($webtoon) {
-            $query->where('content_code', $webtoon->code)
-                ->where('content_type', 0);
-        })->get();
+        $categories = DB::table('categories')
+            ->where('content_categories.content_code', $webtoon->code)
+            ->where('content_categories.content_type', 0)
+            ->join('content_categories', 'content_categories.category_code', '=', 'categories.code')
+            ->join('animes', 'animes.code', '=', 'content_categories.content_code')
+            ->select('categories.*')
+            ->get();
 
         $additionalData = [
             'webtoon' => $webtoon,
@@ -262,8 +265,51 @@ class IndexController extends Controller
         if (!$user)
             $user = Auth::user();
 
+        $onlyUsers = Auth::user() ? ["0", "1"] : ["1"];
 
-        return $this->loadThemeView('profile', compact('user'));
+        $favorite_animes = DB::table('animes')
+            ->Where('favorite_animes.user_code', $user->code)
+            ->whereIn('animes.onlyUsers', $onlyUsers)
+            ->join('favorite_animes', 'favorite_animes.anime_code', '=', 'animes.code')
+            ->select('animes.*')
+            ->get();
+
+        $follow_animes = DB::table('animes')
+            ->Where('follow_animes.user_code', $user->code)
+            ->whereIn('animes.onlyUsers', $onlyUsers)
+            ->join('follow_animes', 'follow_animes.anime_code', '=', 'animes.code')
+            ->select('animes.*')
+            ->get();
+
+        $watched_animes = DB::table('animes')
+            ->Where('watched_animes.user_code', $user->code)
+            ->whereIn('animes.onlyUsers', $onlyUsers)
+            ->join('watched_animes', 'watched_animes.anime_code', '=', 'animes.code')
+            ->select('animes.*')
+            ->get();
+
+        $favorite_webtoons = DB::table('webtoons')
+            ->Where('favorite_webtoons.user_code', $user->code)
+            ->whereIn('webtoons.onlyUsers', $onlyUsers)
+            ->join('favorite_webtoons', 'favorite_webtoons.webtoon_code', '=', 'webtoons.code')
+            ->select('webtoons.*')
+            ->get();
+
+        $follow_webtoons = DB::table('webtoons')
+            ->Where('follow_webtoons.user_code', $user->code)
+            ->whereIn('webtoons.onlyUsers', $onlyUsers)
+            ->join('follow_webtoons', 'follow_webtoons.webtoon_code', '=', 'webtoons.code')
+            ->select('webtoons.*')
+            ->get();
+
+        $readed_webtoons = DB::table('webtoons')
+            ->Where('readed_webtoons.user_code', $user->code)
+            ->whereIn('webtoons.onlyUsers', $onlyUsers)
+            ->join('readed_webtoons', 'readed_webtoons.webtoon_code', '=', 'webtoons.code')
+            ->select('webtoons.*')
+            ->get();
+
+        return $this->loadThemeView('profile', compact('user', 'favorite_animes', 'follow_animes', 'watched_animes', 'favorite_webtoons', 'follow_webtoons', 'readed_webtoons'));
     }
 
     public function controlUsername(Request $request)
@@ -280,8 +326,6 @@ class IndexController extends Controller
         return response()->json(['control' => $control]);
     }
 
-
-    // Diğer fonksiyonları da benzer şekilde düzenleyebilirsiniz...
 
     // Yardımcı Fonksiyonlar
 
