@@ -90,26 +90,6 @@ class IndexController extends Controller
         return $this->loadThemeView('list', compact('path', 'title', 'list', 'pageCount', 'currentPage'));
     }
 
-    public function read()
-    {
-        return $this->loadThemeView('read');
-    }
-
-    public function contactScreen()
-    {
-        return $this->loadThemeView('contact');
-    }
-
-    public function contact(Request $request)
-    {
-        $newContact = new Contact();
-        $newContact->code = Contact::max('code') + 1;
-        $newContact->fill($request->only(['name', 'email', 'subject', 'message']));
-        $newContact->save();
-
-        return redirect()->route('contact_screen')->with('success', 'Başarılı bir şekilde mesaj gönderildi.');
-    }
-
     public function animeDetail(Request $request)
     {
 
@@ -146,6 +126,11 @@ class IndexController extends Controller
             ->get();
 
         return $this->loadThemeView('animeDetail', compact('anime', 'trend_animes', 'anime_episodes', 'categories', 'followed', 'liked'));
+    }
+
+    public function watch()
+    {
+        return $this->loadThemeView('watch');
     }
 
     public function webtoonDetail(Request $request)
@@ -196,9 +181,39 @@ class IndexController extends Controller
         return $this->loadThemeView('webtoonDetail', $additionalData);
     }
 
-    public function watch()
+    public function read()
     {
-        return $this->loadThemeView('watch');
+        return $this->loadThemeView('read');
+    }
+
+    public function showPage(Request $request)
+    {
+        $pageShortName = $request->short_name;
+
+        $page = Page::where('deleted', 0)
+            ->where('short_name', $pageShortName)
+            ->first();
+
+        if (!$page) {
+            abort(404); // Sayfa bulunamazsa 404 hatası gönder
+        }
+
+        return $this->loadThemeView('page', compact('page'));
+    }
+
+    public function contactScreen()
+    {
+        return $this->loadThemeView('contact');
+    }
+
+    public function contact(Request $request)
+    {
+        $newContact = new Contact();
+        $newContact->code = Contact::max('code') + 1;
+        $newContact->fill($request->only(['name', 'email', 'subject', 'message']));
+        $newContact->save();
+
+        return redirect()->route('contact_screen')->with('success', 'Başarılı bir şekilde mesaj gönderildi.');
     }
 
     public function loginScreen()
@@ -238,6 +253,17 @@ class IndexController extends Controller
     {
         Auth::logout();
         return redirect()->route('index');
+    }
+
+    public function profile(Request $request)
+    {
+        $user = IndexUser::where('username', $request->username)->first();
+
+        if (!$user)
+            $user = Auth::user();
+
+
+        return $this->loadThemeView('profile', compact('user'));
     }
 
     public function controlUsername(Request $request)
@@ -280,31 +306,5 @@ class IndexController extends Controller
             ->take($take)
             ->orderBy($orderByType, $orderByList)
             ->get();
-    }
-
-    public function showPage(Request $request)
-    {
-        $pageShortName = $request->short_name;
-
-        $page = Page::where('deleted', 0)
-            ->where('short_name', $pageShortName)
-            ->first();
-
-        if (!$page) {
-            abort(404); // Sayfa bulunamazsa 404 hatası gönder
-        }
-
-        return $this->loadThemeView('page', compact('page'));
-    }
-
-    public function profile(Request $request)
-    {
-        $user = IndexUser::where('username', $request->username)->first();
-
-        if (!$user)
-            $user = Auth::user();
-
-
-        return $this->loadThemeView('profile', compact('user'));
     }
 }
