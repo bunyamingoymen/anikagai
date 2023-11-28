@@ -132,9 +132,17 @@ class IndexController extends Controller
         return $this->loadThemeView('animeDetail', compact('anime', 'trend_animes', 'anime_episodes', 'categories', 'followed', 'liked'));
     }
 
-    public function watch()
+    public function watch(Request $request)
     {
-        return $this->loadThemeView('watch');
+        $anime = Anime::Where('deleted', 0)->Where('short_name', $request->short_name)->first();
+        $episode = AnimeEpisode::Where("deleted", 0)->Where('season_short', $request->season)->Where('episode_short', $request->episode)->first();
+        $trend_animes = Anime::Where('deleted', 0)->take(4)->orderBy('click_count', 'ASC')->get();
+        $currentTime = Carbon::now();
+        $anime_episodes = AnimeEpisode::where('anime_code', $anime->code)
+            ->where('publish_date', '<=', $currentTime)
+            ->where('deleted', 0)
+            ->get();
+        return $this->loadThemeView('watch', compact('anime', 'episode', 'anime_episodes', 'trend_animes'));
     }
 
     public function webtoonDetail(Request $request)

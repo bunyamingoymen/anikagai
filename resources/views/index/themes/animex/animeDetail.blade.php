@@ -101,7 +101,9 @@
                         <h5>{{$i}}.sezon</h5>
                     </div>
                     @foreach ($anime_episodes->where('season_short',$i) as $item)
-                    <a href="#">{{$i}} - {{$item->episode_short }}.Bölüm - {{$item->name}}</a>
+                    <a href="{{url("anime/".$anime->short_name."/".$i."/".$item->episode_short)}}">
+                        {{$i}} - {{$item->episode_short }}.Bölüm - {{$item->name}}
+                    </a>
                     @endforeach
 
                 </div>
