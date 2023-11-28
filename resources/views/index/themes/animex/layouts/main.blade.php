@@ -33,7 +33,7 @@
 </head>
 
 <body>
-    @include('index.themes.animex.layouts.preloader')
+     @include('index.themes.animex.layouts.preloader')
 
     @include('index.themes.animex.layouts.topbar')
 

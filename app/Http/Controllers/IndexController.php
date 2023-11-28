@@ -29,11 +29,12 @@ class IndexController extends Controller
     public function index()
     {
         $onlyUsers = Auth::user() ? ["0", "1"] : ["1"];
+        $indexShowContent = ThemeSetting::Where('theme_code', KeyValue::Where('key', 'selected_theme')->first()->value)->Where('setting_name', 'indexShowContent')->first()->setting_value;
         $additionalData = [
             'trend_animes' => $this->getTrendContent(Anime::class, $onlyUsers, 6, 'click_count'),
             'trend_webtoons' => $this->getTrendContent(Webtoon::class, $onlyUsers, 6, 'click_count'),
-            'animes' => $this->getContent(Anime::class, $onlyUsers, 20, 'created_at', 'DESC'),
-            'webtoons' => $this->getContent(Webtoon::class, $onlyUsers, 20, 'created_at', 'DESC'),
+            'animes' => $this->getContent(Anime::class, $onlyUsers, $indexShowContent, 'created_at', 'DESC'),
+            'webtoons' => $this->getContent(Webtoon::class, $onlyUsers, $indexShowContent, 'created_at', 'DESC'),
             'slider_image' => KeyValue::where('key', 'slider_image')->where('deleted', 0)->get(),
             'slider_show' => ThemeSetting::where('theme_code', KeyValue::Where('key', 'selected_theme')->first()->value)->where('setting_name', 'showSlider')->first()->setting_value,
         ];
