@@ -124,7 +124,7 @@
                                 @for ($i = 1; $i<=$pageCount; $i++) @if ($currentPage==$i) <li class="active"><a
                                         href="javascript:;" onclick=" changePage({{$i}})">{{$i}}</a></li>
                                     @else
-                                    <li><a href="javascript:;" onclick=" changePage({{$i}})"">{{$i}}</a></li>
+                                    <li><a href="javascript:;" onclick=" changePage({{$i}})">{{$i}}</a></li>
                                     @endif
                                     @endfor
                                     @if ($currentPage != $pageCount)
@@ -148,35 +148,35 @@
 
 <script>
     var page = "{{ request('p', 1) }}";
-    var orderBy = "{{request('orderBy', 'created_AtDESC')}}"
+    var orderBy = "{{request('orderBy', 'created_AtDESC')}}";
 
-    $(document).ready(function() {
-        document.getElementById('orderBySelected').value = orderBy;
+    $(document).ready(function () {
+        document.getElementById("orderBySelected").value = orderBy;
 
-        if(orderBy == "created_AtDESC"){
-            document.getElementById('PageTitle').innerText = "En Son Eklenenler";
-        }else if(orderBy == "created_AtASC"){
-            document.getElementById('PageTitle').innerText = "İlk Eklenenler";
-        } else if(orderBy == "TrendsDESC"){
-            document.getElementById('PageTitle').innerText = "En Çok Beğenilenler";
-        }else if(orderBy == "TrendsASC"){
-            document.getElementById('PageTitle').innerText = "En Az Beğenilenler";
+        if (orderBy == "created_AtDESC") {
+            document.getElementById("PageTitle").innerText = "En Son Eklenenler";
+        } else if (orderBy == "created_AtASC") {
+            document.getElementById("PageTitle").innerText = "İlk Eklenenler";
+        } else if (orderBy == "TrendsDESC") {
+            document.getElementById("PageTitle").innerText = "En Çok Beğenilenler";
+        } else if (orderBy == "TrendsASC") {
+            document.getElementById("PageTitle").innerText = "En Az Beğenilenler";
         }
-    })
+    });
 
-    function changeOrderBy(){
-        var order = document.getElementById('orderBySelected').value;
-        if(page == 1){
-            window.location.href = "?orderBy="+order;
-        }else{
-            window.location.href = "?orderBy="+order+"&p="+page;
+    function changeOrderBy() {
+        var order = document.getElementById("orderBySelected").value;
+        if (page == 1) {
+            window.location.href = "?orderBy=" + order;
+        } else {
+            window.location.href = "?orderBy=" + order + "&p=" + page;
         }
     }
-    function changePage(nextPage){
-        if(orderBy == "created_AtDESC"){
-            window.location.href = "?p="+nextPage;
-        }else{
-            window.location.href = "?orderBy="+orderBy+"&p="+nextPage;
+    function changePage(nextPage) {
+        if (orderBy == "created_AtDESC") {
+            window.location.href = "?p=" + nextPage;
+        } else {
+            window.location.href = "?orderBy=" + orderBy + "&p=" + nextPage;
         }
     }
 </script>

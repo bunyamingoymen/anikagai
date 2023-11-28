@@ -236,7 +236,6 @@ class AppServiceProvider extends ServiceProvider
             $menus = KeyValue::Where('key', 'menu')->where('optional', 1)->Where('deleted', 0)->get();
             $menu_alts = KeyValue::Where('key', 'menu_alt')->where('optional', 1)->Where('deleted', 0)->get();
             $active_menu = KeyValue::Where('key', 'menu')->Where('optional_2', Request::path())->first();
-
             $footer_copyright = KeyValue::Where('key', 'footer_copyright')->first();
 
             $anime_active = KeyValue::Where('key', 'anime_active')->first();

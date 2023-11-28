@@ -487,7 +487,7 @@ class DatabaseSeeder extends Seeder
                 'key'  => 'menu',
                 'value'  => 'Anasayfa',
                 'optional'  => '1', //1: Aktif, 2: Aktif Değil
-                'optional_2'  => '/', //Gideceği Link
+                'optional_2'  => '', //Gideceği Link
                 'create_user_code' => 1,
                 'deleted' => 0,
             ],
@@ -497,7 +497,7 @@ class DatabaseSeeder extends Seeder
                 'key'  => 'menu',
                 'value'  => 'Animeler',
                 'optional'  => '1', //1: Aktif, 2: Aktif Değil
-                'optional_2'  => '/animeler', //Gideceği Link
+                'optional_2'  => 'animeler', //Gideceği Link
                 'create_user_code' => 1,
                 'deleted' => 0,
             ],
@@ -507,7 +507,7 @@ class DatabaseSeeder extends Seeder
                 'key'  => 'menu',
                 'value'  => 'Webtoonlar',
                 'optional'  => '1', //1: Aktif, 2: Aktif Değil
-                'optional_2'  => '/webtoonlar', //Gideceği Link
+                'optional_2'  => 'webtoonlar', //Gideceği Link
                 'create_user_code' => 1,
                 'deleted' => 0,
             ],
@@ -527,7 +527,7 @@ class DatabaseSeeder extends Seeder
                 'key'  => 'menu_alt',
                 'value'  => 'Hakkımızda',
                 'optional'  => '1', //1: Aktif, 2: Aktif Değil
-                'optional_2'  => '/p/about', //Gideceği Link
+                'optional_2'  => 'p/about', //Gideceği Link
                 'create_user_code' => 1,
                 'deleted' => 0,
             ],
@@ -739,7 +739,7 @@ class DatabaseSeeder extends Seeder
                 'code' => 4,
                 'theme_code'  => 2,
                 'setting_name' => 'listCount',
-                'setting_value' => '15',
+                'setting_value' => '2',
                 'deleted' => 0,
                 'created_at' => Carbon::now(),
             ],
