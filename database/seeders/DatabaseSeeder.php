@@ -487,7 +487,7 @@ class DatabaseSeeder extends Seeder
                 'key'  => 'menu',
                 'value'  => 'Anasayfa',
                 'optional'  => '1', //1: Aktif, 2: Aktif Değil
-                'optional_2'  => '', //Gideceği Link
+                'optional_2'  => '/', //Gideceği Link
                 'create_user_code' => 1,
                 'deleted' => 0,
             ],
@@ -739,7 +739,7 @@ class DatabaseSeeder extends Seeder
                 'code' => 4,
                 'theme_code'  => 2,
                 'setting_name' => 'listCount',
-                'setting_value' => '2',
+                'setting_value' => '12',
                 'deleted' => 0,
                 'created_at' => Carbon::now(),
             ],

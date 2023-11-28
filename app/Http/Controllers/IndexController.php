@@ -95,12 +95,15 @@ class IndexController extends Controller
     {
 
         $anime = Anime::where('short_name', $request->short_name)->first();
-        $trend_animes = $this->getTrendContent(Anime::class, ['deleted' => 0], 4, 'click_count', 'ASC');
+        $trend_animes = Anime::Where('deleted', 0)->take(4)->orderBy('click_count', 'ASC')->get();
 
         $currentTime = Carbon::now();
         $anime_episodes = AnimeEpisode::where('anime_code', $anime->code)
             ->where('publish_date', '<=', $currentTime)
+            ->where('deleted', 0)
             ->get();
+
+        //dd($anime_episodes->toArray());
 
         $followed = false;
         $liked = false;

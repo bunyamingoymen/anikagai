@@ -64,7 +64,10 @@ class AnimeEpisodecontroller extends Controller
         } else {
             $anime_episode->video = "";
         }
-
+        $anime = Anime::Where('code', $request->anime_code)->first();
+        $anime->episode_count = $anime->episode_count + 1;
+        $anime->season_count = $request->season_short != $anime->season_count ?  $request->season_short : $anime->season_count;
+        $anime->save();
 
 
         $anime_episode->create_user_code = Auth::guard('admin')->user()->code;
@@ -104,6 +107,10 @@ class AnimeEpisodecontroller extends Controller
         $anime_episode->update_user_code = Auth::guard('admin')->user()->code;
 
         $anime_episode->save();
+
+        $anime = Anime::Where('code', $request->anime_code)->first();
+        $anime->season_count = $request->season_short != $anime->season_count ?  $request->season_short : $anime->season_count;
+        $anime->save();
 
         return redirect()->route('admin_anime_episodes_list')->with("success", Config::get('success.success_codes.10080012'));
     }

@@ -15,9 +15,9 @@
                         <ul>
                             @foreach ($menus as $item)
                             @if (isset($active_menu) && $active_menu->code == $item->code)
-                            <li class="active"><a href="{{$item->optional_2?? ''}}">{{$item->value}}</a></li>
+                            <li class="active"><a href="{{url($item->optional_2?? '')}}">{{$item->value}}</a></li>
                             @else
-                            <li><a href="{{$item->optional_2?? ''}}">{{$item->value}}</a></li>
+                            <li><a href="{{url($item->optional_2 ?? '')}}">{{$item->value}}</a></li>
                             @endif
                             @endforeach
                         </ul>
@@ -29,7 +29,7 @@
                     <a href="#" class="search-switch"><span class="icon_search"></span></a>
 
                     @if (!Auth::user())
-                    <a href=" {{route('loginScreen')}}"><span class="icon_profile"></span></a>
+                    <a href="{{route('loginScreen')}}"><span class="icon_profile"></span></a>
                     @else
                     <a href="{{route('profile')}}"><span class="icon_profile"></span></a>
                     <a href="{{route('logout')}}"><i class="fa fa-sign-out" aria-hidden="true"></i></a>

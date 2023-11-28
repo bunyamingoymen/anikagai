@@ -5,13 +5,17 @@ Yapılacaklar:
 
 user tablosuna facebook,intagram,twitter ve discord eklenecek
 Modallar ayarlanacak
+profil kısmında eklenen anime anime, bölümleri, webtoon, webtoon bölümleri olmalı
 
 Kullanıcı arayüzü:
 
-İzlenen bölümler tik olarak işaretlenmeli
-etiket ve kategori arama
-Anime ve webtoon için puanlama kısmı
-intro başlangıç ve intro bitiş tarihleri
-profil sayfasında favoiler, izlenenler, takip listesi
-+sayfa yapma
-+slider belirleme
+Yorum yapabilme
+puanlama
+Bölüm İzleyebilme
+İntro Geçebilme
+Bir sonraki bölüme atlayabilme
+Listelemeye etiket ve kategoriyi ekleme
+arama kısmı oluşturma
+İzlenen bölümlerin belirginleşmesi
+Şifremi Unuttum kısmı
+
