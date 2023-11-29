@@ -74,6 +74,7 @@ Route::controller(IndexDataController::class)->group(function () {
     Route::post('/likeWebtoon', 'likeWebtoon')->name('likeWebtoon');
     Route::post('/unlikeAnime', 'unlikeAnime')->name('unlikeAnime');
     Route::post('/unlikeWebtoon', 'unlikeWebtoon')->name('unlikeWebtoon');
+    Route::post('/scoreUser', 'scoreUser')->name('scoreUser');
 });
 
 Route::group(['middleware' => 'guest'], function () {

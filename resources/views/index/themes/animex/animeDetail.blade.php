@@ -105,8 +105,8 @@
                     <div class="anime__details__rating">
                         <span>{{$anime->scoreUsers}} Oy Kullanıldı</span>
                         <div class="rating">
-                            <input id="input-id" type="text" class="kv-ltr-theme-fas-star rating-loading" data-size="sm"
-                                value="{{$anime->score}}">
+                            <input id="scoreRateID" type="text" class="kv-ltr-theme-fas-star rating-loading"
+                                data-size="sm" value="{{$anime->score}}" onchange="scoreUser()">
                         </div>
 
                     </div>
@@ -168,7 +168,7 @@
 </section>
 <!-- Anime Section End -->
 
-<div id="hiddenDiv" hidden>
+<div id="hiddenDiv">
 
 </div>
 
@@ -229,15 +229,23 @@
 
 <script>
     // initialize with defaults
-$("#input-id").rating({theme: 'krajee-fas'});
+$("#scoreRateID").rating({theme: 'krajee-fas'});
 $(".caption").css("display", "none");
 $(".krajee-icon-clear").css("display", "none");
 $(".clear-rating-active").css("display", "none");
 
-
-
-// with plugin options (do not attach the CSS class "rating" to your input if using this approach)
-$("#input-id").rating({'size':'lg'});
+function scoreUser(){
+    var score = document.getElementById("scoreRateID").value;
+    var html = `<form action="{{route('scoreUser')}}" id="scoreUserSubmitForm" method="POST">
+        @csrf
+        <input type="text" name="score" value="`+score+`">
+        <input type="text" name="user_code" value="{{Auth::user()->code}}">
+        <input type="text" name="content_code" value="{{$anime->code}}">
+        <input type="text" name="content_type" value="1">
+    </form>`
+    document.getElementById("hiddenDiv").innerHTML = html;
+    document.getElementById("scoreUserSubmitForm").submit();
+}
 </script>
 
 @endsection

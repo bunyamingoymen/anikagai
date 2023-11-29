@@ -121,14 +121,14 @@ class IndexDataController extends Controller
     public function scoreUser(Request $request)
     {
         if (Auth::check()) {
-            ScoredContent::updateOrCreate(
-                [
-                    'user_code' => $request->user_code,
-                    'content_code' => $request->content_code,
-                    'content_type' => $request->content_type,
-                ],
-                ['score' => $request->score]
-            );
+            $score = ScoredContent::Where("user_code", $request->user_code)->Where("content_code", $request->content_code)->Where("content_type", $request->content_type)->first();
+            if (!$score) $score = new ScoredContent();
+
+            $score->score = $request->score;
+            $score->user_code = $request->user_code;
+            $score->content_code = $request->content_code;
+            $score->content_type = $request->content_type;
+            $score->save();
 
             $score_avg = ScoredContent::where('content_code', $request->content_code)
                 ->where('content_type', $request->content_type)
@@ -141,7 +141,8 @@ class IndexDataController extends Controller
                     ->where('code', $request->content_code)
                     ->update([
                         'score' => $score_avg,
-                        'scoreUsers' => DB::raw('scoreUsers + 1'),
+                        'scoreUsers' => ScoredContent::where('content_code', $request->content_code)
+                            ->where('content_type', $request->content_type)->count(),
                     ]);
 
                 return redirect()->back();
