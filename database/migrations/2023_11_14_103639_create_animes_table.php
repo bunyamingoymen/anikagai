@@ -25,6 +25,7 @@ return new class extends Migration
             $table->unsignedBigInteger('main_category')->default(1);
             $table->string('main_category_name')->default("Genel");
             $table->integer('click_count')->default(0);
+            $table->integer('comment_count')->default(0);
             $table->unsignedBigInteger('scoreUsers')->default(0); //Kaç kişinin oy verdiğini tutar
             $table->unsignedFloat('score', 5, 2)->default(2.5); //Maksimum 5 olabilir ve virgülden sonra iki basamağı olur.
             $table->unsignedBigInteger('create_user_code')->default(1);

@@ -24,7 +24,7 @@
             <div class="row">
                 <div class="col-lg-3">
                     <div class="anime__details__pic set-bg" data-setbg="../../../{{$anime->image}}">
-                        <div class="comment"><i class="fa fa-comments"></i> 11</div>
+                        <div class="comment"><i class="fa fa-comments"></i> {{$anime->comment_count}}</div>
                         <div class="view"><i class="fa fa-eye"></i> {{$anime->click_Count}}</div>
                     </div>
                 </div>
@@ -125,7 +125,7 @@
                             <a href="anime/{{$item->short_name}}">
                                 <div class="product__item__pic set-bg" data-setbg="../../../{{$item->image}}">
                                     <div class="ep">{{$item->score}} / 5</div>
-                                    <div class="comment"><i class="fa fa-comments"></i> 11</div>
+                                    <div class="comment"><i class="fa fa-comments"></i> {{$item->comment_count}}</div>
                                     <div class="view"><i class="fa fa-eye"></i> {{$item->click_count}} </div>
                                 </div>
                             </a>

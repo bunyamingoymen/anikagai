@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Anime;
 use App\Models\AnimeEpisode;
 use App\Models\Category;
+use App\Models\Comment;
 use App\Models\Contact;
 use App\Models\FavoriteAnime;
 use App\Models\FavoriteWebtoon;
@@ -41,7 +42,6 @@ class IndexController extends Controller
 
         return $this->loadThemeView('index', $additionalData);
     }
-
 
     public function list(Request $request)
     {
@@ -142,7 +142,43 @@ class IndexController extends Controller
             ->where('publish_date', '<=', $currentTime)
             ->where('deleted', 0)
             ->get();
-        return $this->loadThemeView('watch', compact('anime', 'episode', 'anime_episodes', 'trend_animes'));
+        $content_type = 1; //anime olduğu için
+        $comments_main = DB::table('comments')
+            ->Where('comments.deleted', 0)
+            ->Where('comments.content_code', $anime->code)
+            ->Where('comments.content_type', $content_type)
+            ->Where('comments.comment_type', 0)
+            ->Where('comments.comment_top_code', 0)
+            ->join('index_users', 'index_users.code', '=', 'comments.user_code')
+            ->select('index_users.name as user_name', 'index_users.username as user_username', 'index_users.image as user_image', 'comments.*')
+            ->orderBy('comment_short', 'ASC')
+            ->get();
+
+        $comments_alt = DB::table('comments')
+            ->Where('comments.deleted', 0)
+            ->Where('comments.content_code', $anime->code)
+            ->Where('comments.content_type', $content_type)
+            ->Where('comments.comment_type', 1)
+            ->Where('comments.comment_top_code', "!=", 0)
+            ->join('index_users', 'index_users.code', '=', 'comments.user_code')
+            ->select('index_users.name as user_name', 'index_users.username as user_username', 'index_users.image as user_image', 'comments.*')
+            ->orderBy('comment_short', 'ASC')
+            ->get();
+        //dd((intval($request->episode) + 1));
+        $next_episode_url = "none";
+        $next_episode_control =
+            AnimeEpisode::Where("deleted", 0)->Where('season_short', $request->season)->Where('episode_short', (intval($request->episode) + 1))->first();
+        if (!$next_episode_control) {
+
+            $next_episode_control =
+                AnimeEpisode::Where("deleted", 0)->Where('season_short', intval(($request->season) + 1))->Where('episode_short', 1)->first();
+        }
+
+        //dd($next_episode_control);
+
+        $next_episode_url = $next_episode_control ? "anime/" . $anime->short_name . "/" . $next_episode_control->season_short . "/" . $next_episode_control->episode_short : "none";
+        //dd($next_episode_url);
+        return $this->loadThemeView('watch', compact('anime', 'episode', 'anime_episodes', 'trend_animes', 'comments_main', 'comments_alt', 'next_episode_url'));
     }
 
     public function webtoonDetail(Request $request)
@@ -229,6 +265,39 @@ class IndexController extends Controller
         $newContact->save();
 
         return redirect()->route('contact_screen')->with('success', 'Başarılı bir şekilde mesaj gönderildi.');
+    }
+
+    public function addNewComment(Request $request)
+    {
+        $comment = new Comment();
+        $comment->code = Comment::max('code') + 1;
+        $comment->content_code = $request->content_code;
+        $comment->content_type = $request->content_type;
+        $comment->comment_type = $request->comment_type;
+        $comment->comment_top_code = $request->comment_top_code;
+
+        $before_comment = Comment::Where('content_code', $request->content_code)->Where('content_type', $request->content_type)->Where('comment_type', $request->comment_type)->Where('comment_top_code', $request->comment_top_code)->first();
+
+        $comment->comment_short = $before_comment ? $before_comment->comment_short + 1 : 1;
+
+        $comment->message = $request->message;
+
+        $comment->user_code = Auth::user()->code;
+        $comment->date = Carbon::now();
+
+        $comment->save();
+
+        if ($request->content_type == 0) {
+            $webtoon = Webtoon::Where('code', $request->content_code)->first();
+            $webtoon->comment_count = $webtoon->comment_count + 1;
+            $webtoon->save();
+        } else if ($request->content_type == 1) {
+            $anime = Anime::Where('code', $request->content_code)->first();
+            $anime->comment_count = $anime->comment_count + 1;
+            $anime->save();
+        }
+
+        return redirect()->back();
     }
 
     public function loginScreen()

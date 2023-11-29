@@ -1306,6 +1306,25 @@ ol {
 	background: #ffffff;
 }
 
+.anime__details__episodes .a_selected {
+    display: inline-block;
+    font-size: 15px;
+    color: #000000;
+    background: #ffffff;
+    padding: 10px 20px;
+    border-radius: 4px;
+    margin-right: 15px;
+    margin-bottom: 20px;
+    -webkit-transition: all, 0.3s;
+    -o-transition: all, 0.3s;
+    transition: all, 0.3s;
+}
+
+.anime__details__episodes .a_selected:hover {
+    color: #ffffff ;
+    background: rgba(255, 255, 255, 0.2);
+}
+
 /*---------------------
   Breadcrumb
 -----------------------*/

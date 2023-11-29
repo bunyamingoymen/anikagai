@@ -59,7 +59,8 @@
 
                 <div class="anime__video__player justify-content-center">
                     <video id="my-video" class="plyr" controls crossorigin playsinline
-                        poster="../../../{{$anime->image}}">
+                        poster="../../../{{$anime->image}}"
+                        style="max-width: 1280px !important; max-height: 550px !important;">
                         <source src="../../../{{$episode->video}}" type="video/mp4" size="720" />
                         <source src="../../../{{$episode->video}}" type="video/mp4" size="480" />
                         <!-- Diğer çözünürlükleri buraya ekleyebilirsiniz -->
@@ -68,25 +69,37 @@
 
                     <!-- Buton -->
                     <button id="introButton" class="overlay-button">İntroyu atla</button>
+                    @if ($next_episode_url != "none")
                     <button id="nextEpisodeButton" class="overlay-button" style="display:none;">Sonraki bölüme
                         geç</button>
+                    @endif
+
                 </div>
             </div>
             <div class="anime__details__episodes">
                 @if ($anime->season_count > 0)
                 @for ($i = $anime->season_count; $i>=1; $i--)
-                <div class="col-lg-8 col-md-8">
+                <div class="">
 
-                    <div class="col-lg-12 col-md-12 anime__details__episodes">
+                    <div class=" anime__details__episodes">
                         <div class="section-title">
                             <h5>{{$i}}.sezon</h5>
                         </div>
-                        @foreach ($anime_episodes->where('season_short',$i) as $item)
-                        <a href="{{url("anime/".$anime->short_name."/".$i."/".$item->episode_short)}}">
-                            {{$i}} - {{$item->episode_short }}.Bölüm - {{$item->name}}
-                        </a>
-                        @endforeach
+                        <div class="">
+                            @foreach ($anime_episodes->where('season_short',$i) as $item)
+                            @if ($item->season_short == $episode->season_short && $item->episode_short ==
+                            $episode->episode_short)
+                            <a class="a_selected" href="{{url("anime/".$anime->short_name."/".$i."/".$item->episode_short)}}">
+                                {{$i}} - {{$item->episode_short }}.Bölüm - {{$item->name}}
+                            </a>
+                            @else
+                            <a href="{{url("anime/".$anime->short_name."/".$i."/".$item->episode_short)}}">
+                                {{$i}} - {{$item->episode_short }}.Bölüm - {{$item->name}}
+                            </a>
+                            @endif
 
+                            @endforeach
+                        </div>
                     </div>
                 </div>
                 @endfor
@@ -102,74 +115,73 @@
 
                 <div class="anime__details__review">
                     <div class="section-title">
-                        <h5>Reviews</h5>
+                        <h5>Yorumlar</h5>
                     </div>
+                    @if (count($comments_main)>0)
+                    @foreach ($comments_main as $main_comment)
                     <div class="anime__review__item">
                         <div class="anime__review__item__pic">
-                            <img src="../../../user/animex/img/anime/review-1.jpg" alt="">
+                            <img src="../../../{{$main_comment->user_image ?? 'user/img/profile/default.png'}}" alt="">
                         </div>
                         <div class="anime__review__item__text">
-                            <h6>Chris Curry - <span>1 Hour ago</span></h6>
-                            <p>whachikan Just noticed that someone categorized this as belonging to the genre
-                                "demons" LOL</p>
+                            <h6>{{$main_comment->user_name ?? 'not_found'}} - <span>{{$main_comment->date}}</span></h6>
+                            <p>{{$main_comment->message}}</p>
+
+                            <a href="javascript:;" style="color:white; float:right;"
+                                onclick="ReplyComment('AnswerMain{{$loop->index}}','{{$anime->code}}','1','1','{{$main_comment->code}}')">
+                                <i class="fa fa-reply" aria-hidden="true"></i> Reply
+                            </a>
                         </div>
                     </div>
-                    <div class="anime__review__item">
+                    <div id="AnswerMain{{$loop->index}}"></div>
+                    @foreach ($comments_alt->Where('comment_top_code',$main_comment->code) as $alt_comment)
+                    <div class="blog__details__comment__item blog__details__comment__item--reply">
                         <div class="anime__review__item__pic">
-                            <img src="../../../user/animex/img/anime/review-2.jpg" alt="">
+                            <img src="../../../{{$alt_comment->user_image ?? 'user/img/profile/default.png'}}" alt="">
                         </div>
                         <div class="anime__review__item__text">
-                            <h6>Lewis Mann - <span>5 Hour ago</span></h6>
-                            <p>Finally it came out ages ago</p>
+                            <h6>{{$alt_comment->user_name ?? 'not_found'}} - <span>{{$alt_comment->date}}</span>
+                            </h6>
+                            <p>{{$alt_comment->message}}</p>
+
+                            <a href="javascript:;" style="color:white; float:right;"
+                                onclick="ReplyComment('AnswerAltMain{{$loop->index}}','{{$anime->code}}','1','1','{{$main_comment->code}}')">
+                                <i class="fa fa-reply" aria-hidden="true"></i> Reply
+                            </a>
                         </div>
                     </div>
-                    <div class="anime__review__item">
-                        <div class="anime__review__item__pic">
-                            <img src="../../../user/animex/img/anime/review-3.jpg" alt="">
-                        </div>
-                        <div class="anime__review__item__text">
-                            <h6>Louis Tyler - <span>20 Hour ago</span></h6>
-                            <p>Where is the episode 15 ? Slow update! Tch</p>
-                        </div>
-                    </div>
-                    <div class="anime__review__item">
-                        <div class="anime__review__item__pic">
-                            <img src="../../../user/animex/img/anime/review-4.jpg" alt="">
-                        </div>
-                        <div class="anime__review__item__text">
-                            <h6>Chris Curry - <span>1 Hour ago</span></h6>
-                            <p>whachikan Just noticed that someone categorized this as belonging to the genre
-                                "demons" LOL</p>
-                        </div>
-                    </div>
-                    <div class="anime__review__item">
-                        <div class="anime__review__item__pic">
-                            <img src="../../../user/animex/img/anime/review-5.jpg" alt="">
-                        </div>
-                        <div class="anime__review__item__text">
-                            <h6>Lewis Mann - <span>5 Hour ago</span></h6>
-                            <p>Finally it came out ages ago</p>
-                        </div>
-                    </div>
-                    <div class="anime__review__item">
-                        <div class="anime__review__item__pic">
-                            <img src="../../../user/animex/img/anime/review-6.jpg" alt="">
-                        </div>
-                        <div class="anime__review__item__text">
-                            <h6>Louis Tyler - <span>20 Hour ago</span></h6>
-                            <p>Where is the episode 15 ? Slow update! Tch</p>
-                        </div>
-                    </div>
+                    <div id="AnswerAltMain{{$loop->index}}"></div>
+                    @endforeach
+                    @endforeach
+                    @else
+                    <p style="color: white;">İlk yorum atan siz olun!</p>
+                    @endif
+
                 </div>
+                @if (Auth::user())
                 <div class="anime__details__form">
                     <div class="section-title">
-                        <h5>Your Comment</h5>
+                        <h5>Yorum Yaz</h5>
                     </div>
-                    <form action="#">
-                        <textarea placeholder="Your Comment"></textarea>
-                        <button type="submit"><i class="fa fa-location-arrow"></i> Review</button>
+                    <form action="{{route('addNewComment')}}" method="POST">
+                        @csrf
+                        <div hidden>
+                            <input type="text" name="content_code" value="{{$anime->code}}">
+                            <input type="text" name="content_type" value="1">
+                            <input type="text" name="comment_type" value="0">
+                            <input type="text" name="comment_top_code" value="0">
+                        </div>
+                        <textarea name="message" placeholder="Yorumunuz"></textarea>
+                        <button type="submit"><i class="fa fa-location-arrow"></i> Gönder</button>
                     </form>
                 </div>
+                @else
+                <div class="anime__details__form">
+                    <div class="section-title">
+                        <h5>Yorum Yapabilmeniz İçin Giriş Yapmalısınız.</h5>
+                    </div>
+                </div>
+                @endif
             </div>
             <div class="col-lg-4 col-md-4 justify-content-end">
                 <div class="anime__details__sidebar">
@@ -182,7 +194,7 @@
                             <a href="anime/{{$item->short_name}}">
                                 <div class="product__item__pic set-bg" data-setbg="../../../{{$item->image}}">
                                     <div class="ep">{{$item->score}} / 5</div>
-                                    <div class="comment"><i class="fa fa-comments"></i> 11</div>
+                                    <div class="comment"><i class="fa fa-comments"></i> {{$item->comment_count}}</div>
                                     <div class="view"><i class="fa fa-eye"></i> {{$item->click_count}} </div>
                                 </div>
                             </a>
@@ -201,6 +213,7 @@
     </div>
 </section>
 
+<!-- Video Ayarları -->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         const player = new Plyr('#my-video');
@@ -237,12 +250,18 @@
 
             if (showNextEpisodeButtonTime !== null && currentTime >= showNextEpisodeButtonTime) {
                 // Yeni butonu göster
-                showButton('nextEpisodeButton');
+                @if ($next_episode_url != "none")
+                    showButton('nextEpisodeButton');
+                @endif
+
 
                 // Video restart gerekli değil
                 restartRequired = false;
             } else {
-                hideButton('nextEpisodeButton');
+                @if ($next_episode_url != "none")
+                    hideButton('nextEpisodeButton');
+                @endif
+
 
                 // Video restart gerekli değil
                 restartRequired = false;
@@ -269,7 +288,7 @@
 
         // Butonlara tıklandığında
         var introButton = document.getElementById('introButton');
-        var nextEpisodeButton = document.getElementById('nextEpisodeButton');
+
 
         if (introButton) {
             introButton.addEventListener('click', function () {
@@ -277,13 +296,16 @@
                 player.restart();
             });
         }
+        @if ($next_episode_url != "none")
+            var nextEpisodeButton = document.getElementById('nextEpisodeButton');
+                if (nextEpisodeButton) {
+                    nextEpisodeButton.addEventListener('click', function () {
+                    // Belirlediğiniz linke git
+                    window.location.href = '{{url($next_episode_url)}}'; // bir sonraki bölüm url'i
+                });
+            }
+        @endif
 
-        if (nextEpisodeButton) {
-            nextEpisodeButton.addEventListener('click', function () {
-                // Belirlediğiniz linke git
-                window.location.href = 'https://example.com/next-episode'; // Değiştirin
-            });
-        }
 
         // Butonu göster
         function showButton(buttonId) {
@@ -306,5 +328,35 @@
             }
         }
     });
+</script>
+
+<!-- Yorum ayarları -->
+<script>
+    function ReplyComment(commentDiv, content_code, content_type, comment_type, comment_top_code){
+    var commentDiv = document.getElementById(commentDiv);
+    if(commentDiv.innerHTML == ""){
+        var html = `<div class="blog__details__comment__item blog__details__comment__item--reply">
+                <div class="anime__details__form">
+                    <form action="{{route('addNewComment')}}" method="POST">
+                        @csrf
+                        <div hidden>
+                            <input type="text" name="content_code" value="`+content_code+`">
+                            <input type="text" name="content_type" value="`+content_type+`">
+                            <input type="text" name="comment_type" value="`+comment_type+`">
+                            <input type="text" name="comment_top_code" value="`+comment_top_code+`">
+                        </div>
+                        <textarea name="message" placeholder="Yorumunuz"></textarea>
+                        <button style="float:right;" type="submit"><i class="fa fa-location-arrow"></i>
+                            Gönder</button>
+                    </form>
+                </div>
+            </div>`;
+
+    commentDiv.innerHTML = html;
+    }else{
+        commentDiv.innerHTML = "";
+    }
+
+}
 </script>
 @endsection
