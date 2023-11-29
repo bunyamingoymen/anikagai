@@ -1,6 +1,51 @@
 @extends("index.themes.animex.layouts.main")
 @section('index_content')
+<style>
+    /* Video konteynerini pozisyonlandırma */
+    .video-container {
+        position: relative;
+    }
 
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
+    /* Roboto fontunu ekleyin veya
+    kendi tercih ettiğiniz bir font kullanabilirsiniz */
+
+    .overlay-button {
+        position: absolute;
+        bottom: 125px;
+        /* Alt kenardan biraz yukarıda */
+        right: 25px;
+        /* Sağ kenardan biraz sola */
+        padding: 4px 15px;
+        background-color: #0b0c2a;
+        /* Yarı şeffaf siyah arkaplan */
+        color: white;
+        border-radius: 8px;
+        border: 2px solid rgba(255, 255, 255, 0.5);
+        /* Beyaz yarı şeffaf sınır (border) */
+        display: none;
+        opacity: 0;
+        transition: opacity 0.5s ease, transform 0.5s ease, border 0.5s ease;
+        /* Border için de animasyon eklendi */
+        box-shadow: 0 2px 10px #0b0c2a;
+        /* Gölge efekti */
+        font-family: 'Roboto', sans-serif;
+        /* Kullanılan fontu ayarlayın */
+        z-index: 99999999;
+    }
+
+    .overlay-button.show {
+        display: block;
+        opacity: 0.85;
+        transform: translateY(-10px);
+        /* Yavaşça yukarı kaydırma */
+    }
+
+    /* Butonun üzerine gelindiğinde göster */
+    .video-container:hover .overlay-button {
+        display: block;
+    }
+</style>
 
 <section class="anime-details spad">
     <div class="container">
@@ -22,83 +67,10 @@
                     </video>
 
                     <!-- Buton -->
-                    <button id="introButton" class="overlay-button">İntroyu Atla</button>
+                    <button id="introButton" class="overlay-button">İntroyu atla</button>
+                    <button id="nextEpisodeButton" class="overlay-button" style="display:none;">Sonraki bölüme
+                        geç</button>
                 </div>
-
-                <script>
-                    document.addEventListener('DOMContentLoaded', function () {
-    const player = new Plyr('#my-video');
-    var showButtonTime = 60 * 0 + 5; // Başlangıç zamanı
-    var restartRequired = false; // Video restart gerekli mi?
-
-    // Video oynatıldığında
-    player.on('timeupdate', function (event) {
-        var currentTime = event.detail.plyr.currentTime; // Geçerli video zamanını al
-
-        // Bitiş süreleri
-        var endIntro1 = 1;
-        var endIntro2 = 32;
-
-        // Belirli bir sürede iseniz
-        if (currentTime >= showButtonTime && currentTime <= endIntro1 * 60 + endIntro2) {
-            // Butonu göster
-            showButton();
-
-            // Video restart gerekli
-            restartRequired = true;
-        } else {
-            // Butonu gizle
-            hideButton();
-
-            // Video restart gerekli değil
-            restartRequired = false;
-        }
-    });
-
-    // Video restart olduğunda
-    player.on('restart', function () {
-        if (restartRequired) {
-            var endIntro1 = 1;
-            var endIntro2 = 32;
-            var targetTime = endIntro1 * 60 + endIntro2;
-
-            // Belirli bir süreye atla
-            player.currentTime = targetTime;
-
-            // Videoyu oynat
-            player.play();
-
-            // Video restart gerekli değil
-            restartRequired = false;
-        }
-    });
-
-    // Butona tıklandığında belirli bir süreye atla ve oynatmayı devam et
-    var button = document.getElementById('introButton');
-    if (button) {
-        button.addEventListener('click', function () {
-            // Videoyu restart et
-            player.restart();
-        });
-    }
-
-    // Butonu göster
-    function showButton() {
-        var button = document.getElementById('introButton');
-        if (button) {
-            button.style.display = 'block';
-        }
-    }
-
-    // Butonu gizle
-    function hideButton() {
-        var button = document.getElementById('introButton');
-        if (button) {
-            button.style.display = 'none';
-        }
-    }
-});
-                </script>
             </div>
             <div class="anime__details__episodes">
                 @if ($anime->season_count > 0)
@@ -228,4 +200,111 @@
         </div>
     </div>
 </section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const player = new Plyr('#my-video');
+        var showIntroButtonTime = 60 * 0 + 5; // Başlangıç zamanı
+        var showNextEpisodeButtonTime = null; // Video süresinin son 10 saniyesi
+        var restartRequired = false; // Video restart gerekli mi?
+
+        // Video başlatıldığında
+        player.on('play', function () {
+            showNextEpisodeButtonTime = player.duration - 10;
+        });
+
+        // Video oynatıldığında
+        player.on('timeupdate', function (event) {
+            var currentTime = event.detail.plyr.currentTime; // Geçerli video zamanını al
+
+            // Bitiş süreleri
+            var endIntro1 = 0;
+            var endIntro2 = 32;
+
+            // Belirli bir sürede iseniz
+            if (currentTime >= showIntroButtonTime && currentTime <= endIntro1 * 60 + endIntro2) {
+                // Butonu göster
+                showButton('introButton');
+
+                // Video restart gerekli
+                restartRequired = true;
+            }else {
+                // Butonları gizle
+                hideButton('introButton');
+                // Video restart gerekli değil
+                restartRequired = false;
+            }
+
+            if (showNextEpisodeButtonTime !== null && currentTime >= showNextEpisodeButtonTime) {
+                // Yeni butonu göster
+                showButton('nextEpisodeButton');
+
+                // Video restart gerekli değil
+                restartRequired = false;
+            } else {
+                hideButton('nextEpisodeButton');
+
+                // Video restart gerekli değil
+                restartRequired = false;
+            }
+        });
+
+        // Video restart olduğunda
+        player.on('restart', function () {
+            if (restartRequired) {
+                var endIntro1 = 0;
+                var endIntro2 = 32;
+                var targetTime = endIntro1 * 60 + endIntro2;
+
+                // Belirli bir süreye atla
+                player.currentTime = targetTime;
+
+                // Videoyu oynat
+                player.play();
+
+                // Video restart gerekli değil
+                restartRequired = false;
+            }
+        });
+
+        // Butonlara tıklandığında
+        var introButton = document.getElementById('introButton');
+        var nextEpisodeButton = document.getElementById('nextEpisodeButton');
+
+        if (introButton) {
+            introButton.addEventListener('click', function () {
+                // Videoyu restart et
+                player.restart();
+            });
+        }
+
+        if (nextEpisodeButton) {
+            nextEpisodeButton.addEventListener('click', function () {
+                // Belirlediğiniz linke git
+                window.location.href = 'https://example.com/next-episode'; // Değiştirin
+            });
+        }
+
+        // Butonu göster
+        function showButton(buttonId) {
+            var button = document.getElementById(buttonId);
+            if (button) {
+                button.style.display = 'block';
+                setTimeout(function () {
+                    button.classList.add('show');
+                }, 10); // Küçük bir gecikme ekleyerek yavaşça göster
+            }
+        }
+
+        // Butonu gizle
+        function hideButton(buttonId) {
+            var button = document.getElementById(buttonId);
+            if (button) {
+                setTimeout(function () {
+                    button.style.display = 'none';
+                }, 500); // Gösterme animasyonunun tamamlanması için bir gecikme ekleyebilirsiniz
+            }
+        }
+    });
+</script>
 @endsection
