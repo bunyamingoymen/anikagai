@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\FavoriteAnime;
 use App\Models\FavoriteWebtoon;
 use App\Models\FollowAnime;
+use App\Models\FollowIndexUser;
+use App\Models\FollowUser;
 use App\Models\FollowWebtoon;
 use App\Models\ScoredContent;
 use Illuminate\Http\Request;
@@ -15,30 +17,32 @@ class IndexDataController extends Controller
 {
     public function followAnime(Request $request)
     {
-        FollowAnime::create([
-            'user_code' => $request->user_code,
-            'anime_code' => $request->anime_code,
-        ]);
+        //dd($request->anime_code);
+        $followed = new FollowAnime();
+        $followed->user_code = $request->user_code;
+        $followed->anime_code = $request->anime_code;
+        $followed->save();
 
         return redirect()->back();
     }
 
     public function followWebtoon(Request $request)
     {
-        FollowWebtoon::create([
-            'user_code' => $request->user_code,
-            'webtoon_code' => $request->webtoon_code,
-        ]);
+
+        $followed = new FollowWebtoon();
+        $followed->user_code = $request->user_code;
+        $followed->webtoon_code = $request->webtoon_code;
+        $followed->save();
 
         return redirect()->back();
     }
 
     public function followUser(Request $request)
     {
-        FollowAnime::create([
-            'followed_user_code' => $request->followed_user_code,
-            'user_code' => $request->user_code,
-        ]);
+        $followed = new FollowIndexUser();
+        $followed->followed_user_code = $request->followed_user_code;
+        $followed->user_code = $request->user_code;
+        $followed->save();
 
         return redirect()->back();
     }
@@ -72,38 +76,44 @@ class IndexDataController extends Controller
 
     public function likeAnime(Request $request)
     {
-        FavoriteAnime::create([
-            'user_code' => $request->user_code,
-            'anime_code' => $request->anime_code,
-        ]);
+
+        $favorite = new FavoriteAnime();
+        $favorite->anime_code = $request->anime_code;
+        $favorite->user_code = $request->user_code;
+        $favorite->save();
 
         return redirect()->back();
     }
 
     public function likeWebtoon(Request $request)
     {
-        FavoriteWebtoon::create([
-            'user_code' => $request->user_code,
-            'webtoon_code' => $request->webtoon_code,
-        ]);
+
+        $favorite = new FavoriteWebtoon();
+        $favorite->webtoon_code = $request->webtoon_code;
+        $favorite->user_code = $request->user_code;
+        $favorite->save();
 
         return redirect()->back();
     }
 
     public function unlikeAnime(Request $request)
     {
-        FavoriteAnime::where('user_code', $request->user_code)
-            ->where('anime_code', $request->anime_code)
-            ->delete();
+
+        $favorite = new FavoriteAnime();
+        $favorite->anime_code = $request->anime_code;
+        $favorite->user_code = $request->user_code;
+        $favorite->save();
 
         return redirect()->back();
     }
 
     public function unlikeWebtoon(Request $request)
     {
-        FavoriteWebtoon::where('user_code', $request->user_code)
-            ->where('webtoon_code', $request->webtoon_code)
-            ->delete();
+
+        $favorite = new FavoriteWebtoon();
+        $favorite->webtoon_code = $request->webtoon_code;
+        $favorite->user_code = $request->user_code;
+        $favorite->save();
 
         return redirect()->back();
     }

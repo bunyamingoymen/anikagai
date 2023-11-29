@@ -1,6 +1,28 @@
 @extends("index.themes.animex.layouts.main")
 @section('index_content')
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjVShBftLdPG8FJ0V7irTLQ8Uo0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<!-- default styles -->
+<link href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/css/star-rating.min.css" media="all"
+    rel="stylesheet" type="text/css" />
+
+<!-- with v4.1.0 Krajee SVG theme is used as default (and must be loaded as below) - include any of the other theme CSS files as mentioned below (and change the theme property of the plugin) -->
+<link href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/themes/krajee-fas/theme.css" media="all"
+    rel="stylesheet" type="text/css" />
+
+<!-- important mandatory libraries -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/js/star-rating.min.js"
+    type="text/javascript"></script>
+
+<!-- with v4.1.0 Krajee SVG theme is used as default (and must be loaded as below) - include any of the other theme JS files as mentioned below (and change the theme property of the plugin) -->
+<script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/themes/krajee-fas/theme.js"></script>
+
+<!-- optionally if you need translation for your language then include locale file as mentioned below (replace LANG.js with your own locale file) -->
+<script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/js/locales/LANG.js"></script>
+
 <!-- Breadcrumb Begin -->
 <div class="breadcrumb-option">
     <div class="container">
@@ -33,17 +55,9 @@
                         <div class="anime__details__title">
                             <h3>{{$anime->name}}</h3>
                         </div>
-                        <div class="anime__details__rating">
-                            <div class="rating">
-                                <a href="#"><i class="fa fa-star"></i></a>
-                                <a href="#"><i class="fa fa-star"></i></a>
-                                <a href="#"><i class="fa fa-star"></i></a>
-                                <a href="#"><i class="fa fa-star"></i></a>
-                                <a href="#"><i class="fa fa-star-half-o"></i></a>
-                            </div>
-                            <span>{{$anime->scoreUsers}} Oy Kullanıldı</span>
-                        </div>
-                        <p>{{$anime->description}}</p>
+                        <p style="margin-top: 10px;">
+                            {{$anime->description}}
+                        </p>
                         <div class="anime__details__widget">
                             <div class="row">
                                 <div class="col-lg-6 col-md-6">
@@ -88,7 +102,16 @@
                         </div>
                         <p id="likeAnimeTextMessage" style="color:red;"></p>
                     </div>
+                    <div class="anime__details__rating">
+                        <span>{{$anime->scoreUsers}} Oy Kullanıldı</span>
+                        <div class="rating">
+                            <input id="input-id" type="text" class="kv-ltr-theme-fas-star rating-loading" data-size="sm"
+                                value="{{$anime->score}}">
+                        </div>
+
+                    </div>
                 </div>
+
             </div>
         </div>
         <div class="row">
@@ -202,6 +225,19 @@
             document.getElementById('likeAnimeTextMessage').innerText = "Lütfen Giriş Yapınız."
         @endif
     }
+</script>
+
+<script>
+    // initialize with defaults
+$("#input-id").rating({theme: 'krajee-fas'});
+$(".caption").css("display", "none");
+$(".krajee-icon-clear").css("display", "none");
+$(".clear-rating-active").css("display", "none");
+
+
+
+// with plugin options (do not attach the CSS class "rating" to your input if using this approach)
+$("#input-id").rating({'size':'lg'});
 </script>
 
 @endsection

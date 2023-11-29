@@ -8,12 +8,12 @@ Modallar ayarlanacak
 profil kısmında eklenen anime anime, bölümleri, webtoon, webtoon bölümleri olmalı
 Yapılan yorumları görebilme
 İletişimde eklenen şeyleri görebilme
+anime ve webtoon bölümü eklenene yere intro başlangıç ve bitiş dk vs sn leri gerekiyor
 
 
 Kullanıcı arayüzü:
 
 puanlama
-Bir sonraki bölüme atlayabilme
 Listelemeye etiket ve kategoriyi ekleme
 arama kısmı oluşturma
 İzlenen bölümlerin belirginleşmesi
