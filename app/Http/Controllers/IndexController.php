@@ -47,7 +47,6 @@ class IndexController extends Controller
     {
         $onlyUsers = Auth::user() ? ["0", "1"] : ["1"];
         $selected_theme = KeyValue::where('key', 'selected_theme')->first();
-        $themePath = Theme::where('code', $selected_theme->value)->first();
         $path = $request->path();
         $title = "";
         $list = [];
@@ -55,6 +54,9 @@ class IndexController extends Controller
         $listItemsSetting = ThemeSetting::where('theme_code', $selected_theme->value)->where('setting_name', 'listCount')->first();
         $listItems = $listItemsSetting ? $listItemsSetting->setting_value : 20;
         $skip = max(0, ($currentPage - 1) * $listItems);
+        $allCategory = Category::where('deleted', 0)->get();
+
+        $selectedCategory = ((!$request->category) || ($request->category == "all")) ? "all" : Category::Where('short_name', $request->category)->first()->code;
 
         $orderByMapping = [
             'created_AtASC' => ['created_at', 'ASC'],
@@ -72,11 +74,22 @@ class IndexController extends Controller
 
         if ($path == 'animeler') {
             $title = "Animeler";
-            $list = Anime::Where('deleted', 0)->whereIn('onlyUsers', $onlyUsers)->orderBy($orderByType, $orderByList)->skip($skip)->take($listItems)->get();
+
+            if ($selectedCategory == "all") {
+                $list = Anime::Where('deleted', 0)->whereIn('onlyUsers', $onlyUsers)->orderBy($orderByType, $orderByList)->skip($skip)->take($listItems)->get();
+            } else {
+                $list = Anime::Where('deleted', 0)->Where('main_category', $selectedCategory)->whereIn('onlyUsers', $onlyUsers)->orderBy($orderByType, $orderByList)->skip($skip)->take($listItems)->get();
+            }
+
             $pageCountTest = Anime::Where('deleted', 0)->count();
         } elseif ($path == 'webtoonlar') {
             $title = "Webtoonlar";
-            $list = Webtoon::Where('deleted', 0)->whereIn('onlyUsers', $onlyUsers)->skip($skip)->take($listItems)->orderBy($orderByType, $orderByList)->get();
+            if ($selectedCategory == "all") {
+                $list = Webtoon::Where('deleted', 0)->whereIn('onlyUsers', $onlyUsers)->skip($skip)->take($listItems)->orderBy($orderByType, $orderByList)->get();
+            } else {
+                $list = Webtoon::Where('deleted', 0)->Where('main_category', $selectedCategory)->whereIn('onlyUsers', $onlyUsers)->skip($skip)->take($listItems)->orderBy($orderByType, $orderByList)->get();
+            }
+
             $pageCountTest = Webtoon::Where('deleted', 0)->count();
         } else {
             abort(404); // TODO: hata sayfasına yönlendir
@@ -88,7 +101,7 @@ class IndexController extends Controller
             abort(404); // TODO: 404 sayfasına yönlendir
 
 
-        return $this->loadThemeView('list', compact('path', 'title', 'list', 'pageCount', 'currentPage'));
+        return $this->loadThemeView('list', compact('path', 'title', 'list', 'pageCount', 'currentPage', 'allCategory'));
     }
 
     public function animeDetail(Request $request)

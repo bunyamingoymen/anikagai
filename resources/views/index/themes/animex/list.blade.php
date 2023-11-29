@@ -26,16 +26,27 @@
 
                     <div class="product__page__title">
                         <div class="row">
-                            <div class="col-lg-8 col-md-8 col-sm-6">
+                            <div class="col-lg-6 col-md-6 col-sm-2">
                                 <div class="section-title">
                                     <h4>{{$title}}</h4>
                                 </div>
                             </div>
-                            <div class="col-lg-4 col-md-4 col-sm-6">
+                            <div class="col-lg-3 col-md-3 col-sm-6">
+                                <div class="product__page__filter">
+                                    <p>Kategoriler:</p>
+                                    <select class="" id="categorySelected" onchange="changeOrderBy()">
+                                        <option value="all">Hepsi</option>
+                                        @foreach ($allCategory as $category)
+                                        <option value="{{$category->short_name}}">{{$category->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3 col-md-3 col-sm-4">
                                 <div class="product__page__filter">
                                     <p>Sırala:</p>
                                     <select class="" id="orderBySelected" onchange="changeOrderBy()">
-                                        <option value="created_AtDESC" selected>Son Eklenenler</option>
+                                        <option value="created_AtDESC">Son Eklenenler</option>
                                         <option value="created_AtASC">İlk Eklenenler</option>
                                         <option value="TrendsDESC">En çok izlenenler</option>
                                         <option value="TrendsASC">En Az İzlenenler</option>
@@ -106,26 +117,58 @@
 <script>
     var page = "{{ request('p', 1) }}";
     var orderBy = "{{request('orderBy', 'created_AtDESC')}}";
+    var category = "{{request('category', 'all')}}";
 
     $(document).ready(function () {
         document.getElementById("orderBySelected").value = orderBy;
+        document.getElementById("categorySelected").value = category;
     });
 
+    var url = "";
     function changeOrderBy() {
-        var order = document.getElementById("orderBySelected").value;
-        if (page == 1) {
-            window.location.href = "?orderBy=" + order;
-        } else {
-            window.location.href = "?orderBy=" + order + "&p=" + page;
-        }
+        orderBy = document.getElementById("orderBySelected").value;
+        changeURL();
     }
 
     function changePage(nextPage) {
-        if (orderBy == "created_AtDESC") {
-            window.location.href = "?p=" + nextPage;
-        } else {
-            window.location.href = "?orderBy=" + orderBy + "&p=" + nextPage;
+        page = nextPage;
+        changeURL();
+    }
+
+    function changeCategory(){
+        category = document.getElementById("categorySelected").value;
+        changeURL();
+    }
+
+    function changeURL(){
+        url = "{{$path}}?";
+        first = false;
+
+        if(category != "all"){
+            if(first) url += "&category=" + category;
+            else{
+                first = true;
+                url += "category=" + category
+            }
         }
+
+        if(orderBy != "created_AtDESC"){
+            if(first) url += "&orderBy=" + orderBy;
+            else{
+                first = true;
+                url += "orderBy=" + orderBy
+            }
+        }
+
+        if(page != "1"){
+            if(first) url += "&p=" + page;
+            else {
+                first = true;
+                url += "p=" + page
+            }
+        }
+
+        window.location.href = url;
     }
 </script>
 

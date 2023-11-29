@@ -13,7 +13,7 @@ anime ve webtoon bölümü eklenene yere intro başlangıç ve bitiş dk vs sn l
 
 Kullanıcı arayüzü:
 
-puanlama
+
 Listelemeye etiket ve kategoriyi ekleme
 arama kısmı oluşturma
 İzlenen bölümlerin belirginleşmesi
