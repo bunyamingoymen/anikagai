@@ -41,7 +41,7 @@
                                         @endif
                                         @endif
                                         <a class="dropdown-item" href="javascript:;"
-                                            onclick="showContact({{$item->code}})">Görüntüle</a>
+                                            onclick="showContact('{{$item->name}}','{{$item->email}}','{{$item->subject}}','{{$item->message}}')">Görüntüle</a>
                                     </div>
                                 </div>
                             </td>
@@ -94,6 +94,49 @@
         </div>
     </div>
 </div>
+
+<div hidden>
+    <!-- Large modal -->
+    <button type="button" class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="modal"
+        data-target=".showContact" id="showContactButton">Modal demo</button>
+</div>
+<!--  Modal content for the above example -->
+<div class="modal fade showContact" tabindex="-1" role="dialog" aria-labelledby="showContactLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title mt-0" id="showContactLabel">İletişim</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <h3>Kişi Bilgileri:</h3>
+                    <p>İsim: <strong id="showContactName"></strong></p>
+                    <p>E-mail: <strong id="showContactMail"></strong></p>
+                </div>
+                <hr>
+                <div>
+                    <div>
+                        <p style="font-size: 1.5em; font-weight: bold;">&emsp; <span id="showContactSubject"></span></p>
+                    </div>
+                    <hr>
+                    <p>&nbsp;&emsp;
+                        <span id="showContactMessage">
+
+                        </span>
+                    </p>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal" aria-label="Close">
+                    Kapat
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 <script src="../../../admin/assets/libs/jquery/jquery.min.js"></script>
 <!-- Sayfa Değiştirme Scripti-->
@@ -250,27 +293,13 @@
     @endif
 
     //TODO
-    function showContact(code){
-            Swal.fire({
-            title: 'Emin Misin?',
-            text: 'Bu Veriyi Silmek İstiyor musunuz(ID: '+code+')?',
-            icon: 'warning',
-            showDenyButton: true,
-            showCancelButton: false,
-            confirmButtonText: 'Onayla',
-            denyButtonText: `Vazgeç`,
-            }).then((result) => {
-            /* Read more about isConfirmed, isDenied below */
-            if (result.isConfirmed) {
-            var html = `<form action='{{route('admin_contact_delete')}}' method="POST" id="deleteContactForm"> @csrf`;
-                html += `<input type="text" name="code" value='`+code+`'>`;
-                html += `</form>`
+    function showContact(name, email, subject, message) {
+        document.getElementById('showContactName').innerText =name;
+        document.getElementById('showContactMail').innerText =email;
+        document.getElementById('showContactSubject').innerText =subject;
+        document.getElementById('showContactMessage').innerText =message;
+        document.getElementById('showContactButton').click();
 
-            document.getElementById('hiddenDiv').innerHTML = html;
-
-            document.getElementById('deleteContactForm').submit();
-            }
-            })
     }
 </script>
 

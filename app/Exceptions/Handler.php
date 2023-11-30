@@ -2,8 +2,10 @@
 
 namespace App\Exceptions;
 
+use App\Models\KeyValue;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Illuminate\Support\Facades\View;
 
 class Handler extends ExceptionHandler
 {
@@ -26,5 +28,17 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    public function render($request, Throwable $exception)
+    {
+        if ($this->isHttpException($exception) && $exception->getStatusCode() == 404) {
+            $logo = KeyValue::Where('key', 'index_logo')->first();
+
+            $index_icon = KeyValue::Where('key', 'index_icon')->first();
+            return response()->view('errors.404', ['logo' => $logo, "index_icon" => $index_icon], 404);
+        }
+
+        return parent::render($request, $exception);
     }
 }

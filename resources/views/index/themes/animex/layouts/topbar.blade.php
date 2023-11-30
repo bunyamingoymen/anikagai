@@ -5,7 +5,7 @@
             <div class="col-lg-2">
                 <div class="header__logo">
                     <a href="{{route('index')}}">
-                        <img src="../../../{{$logo->value}}" alt="">
+                        <img src="../../../{{$logo->value}}" alt="" style="max-width: 93px; max-height: 23px;">
                     </a>
                 </div>
             </div>
