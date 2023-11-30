@@ -51,20 +51,13 @@
                     </ul>
                 </li>
 
-                <li class="menu-title">Kullanıcı Verileri</li>
+                <li id="userDataSection" class="menu-title" hidden>Kullanıcı Verileri</li>
 
-                <li>
-                    <a href="{{route('admin_contact_screen')}}">
-                        <i class="fas fa-envelope"></i>
-                        <span>İletişim</span>
-                    </a>
+                <li id="sidebarContact">
                 </li>
 
-                <li>
-                    <a href="{{route('admin_comment_screen')}}">
-                        <i class="fas fa-comment"></i>
-                        <span>Yorumlar</span>
-                    </a>
+                <li id="sidebarComment">
+
                 </li>
 
                 <li id="sidebarManagementAllSection" class="menu-title" hidden>Yönetim</li>
@@ -135,6 +128,25 @@
             html = `<a href="{{route('admin_animecalendar_index')}}">Takvim</a>`;
             document.getElementById('sidebarAnimeCalendar').innerHTML = html;
         @endif
+
+    @endif
+
+    @if ($authArray['contactRead'] == 1 || $authArray['commentRead'] == 1 )
+
+        document.getElementById('userDataSection').hidden = false;
+
+        var html = ``;
+
+        @if ($authArray['contactRead'] == 1)
+            html = `<a href="{{route('admin_contact_screen')}}"> <i class="fas fa-envelope"></i><span>İletişim</span></a>`;
+            document.getElementById('sidebarContact').innerHTML = html;
+        @endif
+
+        @if ($authArray['commentRead'] == 1)
+            html = `<a href="{{route('admin_comment_screen')}}"> <i class="fas fa-comment"></i> <span>Yorumlar</span> </a>`;
+            document.getElementById('sidebarComment').innerHTML = html;
+        @endif
+
 
     @endif
 
