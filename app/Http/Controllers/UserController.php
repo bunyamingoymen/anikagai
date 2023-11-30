@@ -68,6 +68,11 @@ class UserController extends Controller
         else
             $user->admin = 0;
 
+        $user->facebook = $request->facebook;
+        $user->instagram = $request->instagram;
+        $user->twitter = $request->twitter;
+        $user->discord = $request->discord;
+
 
         $user->create_user_code = Auth::guard('admin')->user()->code;
 
@@ -102,11 +107,11 @@ class UserController extends Controller
             return redirect()->back()->with('error', Config::get('error.error_codes.0010010'));
         }
 
-        if (($user->code == 0 || $user->code == 1) && ($request->user_type != 0 || $request->code != 1)) {
+        if (!($user->code == 0 || $user->code == 1) && ($request->user_type != 0 || $request->code != 1)) {
             return redirect()->back()->with('error', Config::get('error.error_codes.0000000'));
         }
 
-        if (($user->code == 0 || $user->code == 1) && !$request->admin) {
+        if (!($user->code == 0 || $user->code == 1) && !$request->admin) {
             return redirect()->back()->with('error', Config::get('error.error_codes.0000000'));
         }
 
@@ -131,6 +136,11 @@ class UserController extends Controller
             $user->admin = 1;
         else
             $user->admin = 0;
+
+        $user->facebook = $request->facebook;
+        $user->instagram = $request->instagram;
+        $user->twitter = $request->twitter;
+        $user->discord = $request->discord;
 
         $user->update_user_code = Auth::guard('admin')->user()->code;
 

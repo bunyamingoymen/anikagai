@@ -3,16 +3,15 @@
 -------------------------------------------
 Yapılacaklar:
 
-user tablosuna facebook,intagram,twitter ve discord eklenecek
 Modallar ayarlanacak
-profil kısmında eklenen anime anime, bölümleri, webtoon, webtoon bölümleri olmalı
 Yapılan yorumları görebilme
 İletişimde eklenen şeyleri görebilme
-anime ve webtoon bölümü eklenene yere intro başlangıç ve bitiş dk vs sn leri gerekiyor
+anime bölümü eklenene yere intro başlangıç ve bitiş dk vs sn leri gerekiyor
 
 
 Kullanıcı arayüzü:
 
 İzlenen bölümlerin belirginleşmesi
 Şifremi Unuttum kısmı
+pdf görüntüleme
 

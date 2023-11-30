@@ -1,6 +1,6 @@
 @extends("admin.layouts.main")
 @section('admin_content')
-@if ($update == 1)
+@if (Auth::guard('admin')->user()->code == $user->code || $update == 1)
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
@@ -54,6 +54,7 @@
                                 placeholder="Açıklama">{{$user->description}}</textarea>
                         </div>
                     </div>
+                    @if (Auth::guard('admin')->user()->code == $user->code || $update == 1)
                     <div class="row">
                         <div class="col-lg-6">
                             @if ($user->admin == 1)
@@ -65,6 +66,30 @@
                             <label for="admin">Yönetim Paneline Giriş Yetkisi</label>
                         </div>
                     </div>
+                    <div class="row">
+                        <h5>Sosyal Medya Linkleri</h5>
+                        <div class="col-md-12 mb-3">
+                            <label for="facebook-link">Facebook:</label>
+                            <input type="text" name="facebook" id="facebook-link" class="form-control"
+                                placeholder="Facebook Linki" value="{{$user->facebook ?? ''}}">
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="twitter-link">Twitter:</label>
+                            <input type="text" name="twitter" id="twitter-link" class="form-control"
+                                placeholder="Twitter Linki" value="{{$user->twitter ?? ''}}">
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="instagram-link">İnstagram:</label>
+                            <input type="text" name="instagram" id="instagram-link" class="form-control"
+                                placeholder="İnstagram Linki" value="{{$user->instagram ?? ''}}">
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="discord-link">Discord:</label>
+                            <input type="text" name="discord" id="discord-link" class="form-control"
+                                placeholder="Discord Linki" value="{{$user->discord ?? ''}}">
+                        </div>
+                    </div>
+                    @endif
                     <div style="float: right;">
 
                         <button class="btn btn-primary" type="submit">Kaydet</button>
@@ -80,7 +105,7 @@
     // Sayfa yüklenmeden önce bu JavaScript kodu çalışacak
     window.addEventListener('DOMContentLoaded', (event) => {
         // Değişkenin değerini kontrol et
-        @if ($update == 0)
+        @if (Auth::guard('admin')->user()->code != $user->code && $update == 0)
             // Değişken doğru ise yönlendirme yap
             window.location.href = '{{route("admin_index")}}';
         @endif

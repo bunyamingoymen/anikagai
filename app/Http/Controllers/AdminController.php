@@ -34,7 +34,21 @@ class AdminController extends Controller
             ->select('users.code as user_code', 'users.name as user_name', 'users.surname as user_surname', 'users.image as user_image', 'users.description as user_description')
             ->get();
 
-        return view('admin.users.profile', ['user' => $user, 'followed' => $followed, 'followed_users' => $followed_users]);
+        $anime_episodes = DB::table('anime_episodes')
+            ->where('anime_episodes.deleted', 0)
+            ->where('anime_episodes.create_user_code')
+            ->join('animes', 'animes.code', '=', 'anime_episodes.anime_code')
+            ->select('anime_episodes.*', 'animes.name as anime_name', 'animes.image as anime_image')
+            ->get();
+
+        $webtoon_episodes = DB::table('webtoon_episodes')
+            ->where('webtoon_episodes.deleted', 0)
+            ->where('webtoon_episodes.create_user_code')
+            ->join('webtoons', 'webtoons.code', '=', 'webtoon_episodes.webtoon_code')
+            ->select('webtoon_episodes.*', 'webtoons.name as webtoon_name', 'webtoons.image as webtoon_image')
+            ->get();
+
+        return view('admin.users.profile', ['user' => $user, 'followed' => $followed, 'followed_users' => $followed_users, 'anime_episodes' => $anime_episodes, 'webtoon_episodes' => $webtoon_episodes]);
     }
 
     public function loginScreen()

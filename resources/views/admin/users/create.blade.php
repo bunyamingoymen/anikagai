@@ -67,6 +67,29 @@
                             <label for="admin">Yönetim Paneline Giriş Yetkisi</label>
                         </div>
                     </div>
+                    <div class="row">
+                        <h5>Sosyal Medya Linkleri</h5>
+                        <div class="col-md-12 mb-3">
+                            <label for="facebook-link">Facebook:</label>
+                            <input type="text" name="facebook" id="facebook-link" class="form-control"
+                                placeholder="Facebook Linki">
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="twitter-link">Twitter:</label>
+                            <input type="text" name="twitter" id="twitter-link" class="form-control"
+                                placeholder="Twitter Linki">
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="instagram-link">İnstagram:</label>
+                            <input type="text" name="instagram" id="instagram-link" class="form-control"
+                                placeholder="İnstagram Linki">
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="discord-link">Discord:</label>
+                            <input type="text" name="discord" id="discord-link" class="form-control"
+                                placeholder="Discord Linki">
+                        </div>
+                    </div>
                     <div style="float: right;">
 
                         <button class="btn btn-primary" type="button" onclick="createSubmitForm()">Kaydet</button>

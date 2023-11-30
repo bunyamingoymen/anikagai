@@ -64,22 +64,34 @@
                             </div>
 
                             <ul class="social-links list-inline mt-4">
+                                @if (isset($user->facebook))
                                 <li class="list-inline-item">
-                                    <a title="" data-placement="top" data-toggle="tooltip" class="btn btn-light" href=""
-                                        data-original-title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                                    <a title="" data-placement="top" data-toggle="tooltip" class="btn btn-light"
+                                        href="{{$user->facebook}}" data-original-title="Facebook"><i
+                                            class="fab fa-facebook-f"></i></a>
                                 </li>
+                                @endif
+                                @if (isset($user->twitter))
                                 <li class="list-inline-item">
-                                    <a title="" data-placement="top" data-toggle="tooltip" class="btn btn-light" href=""
-                                        data-original-title="Twitter"><i class="fab fa-twitter"></i></a>
+                                    <a title="" data-placement="top" data-toggle="tooltip" class="btn btn-light"
+                                        href="{{$user->twitter}}" data-original-title="Twitter"><i
+                                            class="fab fa-twitter"></i></a>
                                 </li>
+                                @endif
+                                @if (isset($user->instagram))
                                 <li class="list-inline-item">
-                                    <a title="" data-placement="top" data-toggle="tooltip" class="btn btn-light" href=""
-                                        data-original-title="Skype"><i class="fab fa-instagram"></i></a>
+                                    <a title="" data-placement="top" data-toggle="tooltip" class="btn btn-light"
+                                        href="{{$user->instagram}}" data-original-title="Instagram"><i
+                                            class="fab fa-instagram"></i></a>
                                 </li>
+                                @endif
+                                @if (isset($user->discord))
                                 <li class="list-inline-item">
-                                    <a title="" data-placement="top" data-toggle="tooltip" class="btn btn-light" href=""
-                                        data-original-title="Skype"><i class="fab fa-discord"></i></a>
+                                    <a title="" data-placement="top" data-toggle="tooltip" class="btn btn-light"
+                                        href="{{$user->discord}}" data-original-title="Discord"><i
+                                            class="fab fa-discord"></i></a>
                                 </li>
+                                @endif
                             </ul>
 
                         </div>
@@ -94,71 +106,50 @@
 
                     <div class="row">
                         <div class="col-xl-8">
-                            <h5 class="header-title">Eklediği Animeler</h5>
+                            <h5 class="header-title">Animeler</h5>
 
-                            <div class=" pt-2">
-                                <h5 class="font-16 mb-1">Lead designer / Developer</h5>
-                                <p class="mb-0">websitename.com</p>
-                                <p><b>2010-2015</b></p>
-
-                                <p class="sub-header">Lorem Ipsum is simply dummy text of the
-                                    printing and typesetting industry. Lorem Ipsum has been the
-                                    industry's standard dummy text ever since the 1500s, when an
-                                    unknown printer took a galley of type and scrambled it to make a
-                                    type specimen book.
+                            @if (count($anime_episodes)>0)
+                            @foreach ($anime_episodes as $item)
+                            <div class="pt-2">
+                                <h5 class="font-16 mb-1">{{$item->anime_episodes}}</h5>
+                                <p class="mb-0">{{$item->episode_short}}.Bölüm {{$item->season_short}}.Sezon</p>
+                                <p><b>{{$item->publish_date}}</b></p>
+                                <p class="sub-header">
+                                    {{$item->description}}
                                 </p>
                             </div>
+                            @endforeach
+                            @else
+                            <div class=" pt-2">
+                                <p class="sub-header">
+                                    Herhangi bir bölüm yüklemedi.
+                                </p>
+                            </div>
+                            @endif
 
                             <hr />
 
-                            <h5 class="header-title">Eklediği Anime Bölümleri</h5>
+                            <h5 class="header-title">Webtoonlar</h5>
 
-                            <div class=" pt-2">
-                                <h5 class="font-16 mb-1">Lead designer / Developer</h5>
-                                <p class="mb-0">websitename.com</p>
-                                <p><b>2010-2015</b></p>
-
-                                <p class="sub-header">Lorem Ipsum is simply dummy text of the
-                                    printing and typesetting industry. Lorem Ipsum has been the
-                                    industry's standard dummy text ever since the 1500s, when an
-                                    unknown printer took a galley of type and scrambled it to make a
-                                    type specimen book.
+                            @if (count($webtoon_episodes)>0)
+                            @foreach ($webtoon_episodes as $item)
+                            <div class="pt-2">
+                                <h5 class="font-16 mb-1">{{$item->webtoon_episodes}}</h5>
+                                <p class="mb-0">{{$item->episode_short}}.Bölüm {{$item->season_short}}.Sezon</p>
+                                <p><b>{{$item->publish_date}}</b></p>
+                                <p class="sub-header">
+                                    {{$item->description}}
                                 </p>
                             </div>
-
-                            <hr />
-
-                            <h5 class="header-title">Eklediği Webtoonlar</h5>
-
+                            @endforeach
+                            @else
                             <div class=" pt-2">
-                                <h5 class="font-16 mb-1">Lead designer / Developer</h5>
-                                <p class="mb-0">websitename.com</p>
-                                <p><b>2010-2015</b></p>
-
-                                <p class="sub-header">Lorem Ipsum is simply dummy text of the
-                                    printing and typesetting industry. Lorem Ipsum has been the
-                                    industry's standard dummy text ever since the 1500s, when an
-                                    unknown printer took a galley of type and scrambled it to make a
-                                    type specimen book.
+                                <p class="sub-header">
+                                    Herhangi bir bölüm yüklemedi.
                                 </p>
                             </div>
+                            @endif
 
-                            <hr />
-
-                            <h5 class="header-title">Eklediği Webtoon Bölümleri</h5>
-
-                            <div class=" pt-2">
-                                <h5 class="font-16 mb-1">Lead designer / Developer</h5>
-                                <p class="mb-0">websitename.com</p>
-                                <p><b>2010-2015</b></p>
-
-                                <p class="sub-header">Lorem Ipsum is simply dummy text of the
-                                    printing and typesetting industry. Lorem Ipsum has been the
-                                    industry's standard dummy text ever since the 1500s, when an
-                                    unknown printer took a galley of type and scrambled it to make a
-                                    type specimen book.
-                                </p>
-                            </div>
                         </div>
 
 
