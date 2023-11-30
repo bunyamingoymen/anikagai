@@ -61,15 +61,39 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12 mb-3">
-                            <label for="validationCustom03">Açıklama:</label>
-                            <textarea class="form-control" name="description" id="description" cols="30" rows="10"
-                                placeholder="Açıklama"></textarea>
+                        <div class="col-md-3 mb-3">
+                            <label for="intro_start_time_min">İntro başlangıç zamanı dakikası:</label>
+                            <input type="number" id="intro_start_time_min" name="intro_start_time_min"
+                                class="form-control" placeholder="İntro Başlangıç Zamanı Dakikası (örn:0)">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="intro_start_time_sec">İntro başlangıç zamanı saniyesi:</label>
+                            <input type="number" id="intro_start_time_sec" name="intro_start_time_sec"
+                                class="form-control" placeholder="İntro Başlangıç Zamanı Saniyesi (örn:35)">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="intro_end_time_min">İntro bitiş zamanı dakikası:</label>
+                            <input type="number" id="intro_end_time_min" name="intro_end_time_min" class="form-control"
+                                placeholder="İntro Bitiş Zamanı Saniyesi (örn:1)">
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <label for="intro_end_time_sec">İntro bitiş zamanı saniyesi:</label>
+                            <input type="number" id="intro_end_time_sec" name="intro_end_time_sec" class="form-control"
+                                placeholder="İntro Bitiş Zamanı Saniyesi (örn:45)" </div>
                         </div>
                     </div>
-                    <div style="float: right;">
-                        <button class="btn btn-primary" type="button"
-                            onclick="animeEpisodeCreateFormSubmit()">Kaydet</button>
+                    <div>
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label for="validationCustom03">Açıklama:</label>
+                                <textarea class="form-control" name="description" id="description" cols="30" rows="10"
+                                    placeholder="Açıklama"></textarea>
+                            </div>
+                        </div>
+                        <div style="float: right;">
+                            <button class="btn btn-primary" type="button"
+                                onclick="animeEpisodeCreateFormSubmit()">Kaydet</button>
+                        </div>
                     </div>
                 </form>
             </div>
@@ -85,7 +109,12 @@
         var episode_short = document.getElementById('episode_short').value;
         var publish_date = document.getElementById('publish_date').value;
 
-        if(video == "" || name == "" || season_short == "" || episode_short == "" || publish_date==""){
+        var intro_start_time_min = document.getElementById('intro_start_time_min').value;
+        var intro_start_time_sec = document.getElementById('intro_start_time_sec').value;
+        var intro_end_time_min = document.getElementById('intro_end_time_min').value;
+        var intro_end_time_sec = document.getElementById('intro_end_time_sec').value;
+
+        if(video == "" || name == "" || season_short == "" || episode_short == "" || publish_date==""|| intro_start_time_min==""|| intro_start_time_sec==""|| intro_end_time_min==""|| intro_end_time_sec==""){
             Swal.fire({
                 icon: 'error',
                 title: 'Hata',

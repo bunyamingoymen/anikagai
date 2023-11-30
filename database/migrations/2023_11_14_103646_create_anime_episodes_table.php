@@ -23,6 +23,10 @@ return new class extends Migration
             $table->integer('episode_short')->default(0);
             $table->integer('click_count')->default(0);
             $table->integer('minute')->default(0);
+            $table->integer('intro_start_time_min')->default(0);
+            $table->integer('intro_start_time_sec')->default(0);
+            $table->integer('intro_end_time_min')->default(0);
+            $table->integer('intro_end_time_sec')->default(5);
             $table->date('publish_date')->default("1970-01-01");
             $table->unsignedBigInteger('create_user_code')->default(1);
             $table->unsignedBigInteger('update_user_code')->nullable();

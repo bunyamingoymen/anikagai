@@ -215,9 +215,14 @@
 
 <!-- Video Ayarları -->
 <script>
+    var intro_start_time_min = {{$episode->intro_start_time_min ?? 0}};
+    var intro_start_time_sec = {{$episode->intro_start_time_sec ?? 0}};
+    var intro_end_time_min = {{$episode->intro_end_time_min ?? 0}};
+    var intro_end_time_sec = {{$episode->intro_end_time_sec ?? 1}};
+
     document.addEventListener('DOMContentLoaded', function () {
         const player = new Plyr('#my-video');
-        var showIntroButtonTime = 60 * 0 + 5; // Başlangıç zamanı
+        var showIntroButtonTime = 60 * intro_start_time_min + intro_start_time_sec; // Başlangıç zamanı
         var showNextEpisodeButtonTime = null; // Video süresinin son 10 saniyesi
         var restartRequired = false; // Video restart gerekli mi?
 
@@ -230,12 +235,8 @@
         player.on('timeupdate', function (event) {
             var currentTime = event.detail.plyr.currentTime; // Geçerli video zamanını al
 
-            // Bitiş süreleri
-            var endIntro1 = 0;
-            var endIntro2 = 32;
-
             // Belirli bir sürede iseniz
-            if (currentTime >= showIntroButtonTime && currentTime <= endIntro1 * 60 + endIntro2) {
+            if (currentTime >= showIntroButtonTime && currentTime <= intro_end_time_min * 60 + intro_end_time_sec) {
                 // Butonu göster
                 showButton('introButton');
 
@@ -271,9 +272,8 @@
         // Video restart olduğunda
         player.on('restart', function () {
             if (restartRequired) {
-                var endIntro1 = 0;
-                var endIntro2 = 32;
-                var targetTime = endIntro1 * 60 + endIntro2;
+
+                var targetTime = intro_end_time_min * 60 + intro_end_time_sec;
 
                 // Belirli bir süreye atla
                 player.currentTime = targetTime;

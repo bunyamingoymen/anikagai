@@ -6,7 +6,6 @@ Yapılacaklar:
 Modallar ayarlanacak
 Yapılan yorumları görebilme
 İletişimde eklenen şeyleri görebilme
-anime bölümü eklenene yere intro başlangıç ve bitiş dk vs sn leri gerekiyor
 
 
 Kullanıcı arayüzü:
@@ -14,4 +13,6 @@ Kullanıcı arayüzü:
 İzlenen bölümlerin belirginleşmesi
 Şifremi Unuttum kısmı
 pdf görüntüleme
+2.temada profil ekranı
+1.temada etiket gösteirmi, arama, izleme ve pdf görüntüleme ekranı
 

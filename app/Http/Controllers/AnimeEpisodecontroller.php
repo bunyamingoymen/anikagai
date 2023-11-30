@@ -53,6 +53,11 @@ class AnimeEpisodecontroller extends Controller
         $anime_episode->publish_date = $request->publish_date;
         $anime_episode->click_count = 0;
 
+        $anime_episode->intro_start_time_min = $request->intro_start_time_min;
+        $anime_episode->intro_start_time_sec = $request->intro_start_time_sec;
+        $anime_episode->intro_end_time_min = $request->intro_end_time_min;
+        $anime_episode->intro_end_time_sec = $request->intro_end_time_sec;
+
         if ($request->hasFile('video')) {
             // Dosyayı al
             $file = $request->file('video');
@@ -64,6 +69,7 @@ class AnimeEpisodecontroller extends Controller
         } else {
             $anime_episode->video = "";
         }
+
         $anime = Anime::Where('code', $request->anime_code)->first();
         $anime->episode_count = $anime->episode_count + 1;
         $anime->season_count = $request->season_short != $anime->season_count ?  $request->season_short : $anime->season_count;
@@ -103,6 +109,11 @@ class AnimeEpisodecontroller extends Controller
         $anime_episode->season_short = $request->season_short;
         $anime_episode->episode_short = $request->episode_short;
         $anime_episode->publish_date = $request->publish_date;
+
+        $anime_episode->intro_start_time_min = $request->intro_start_time_min;
+        $anime_episode->intro_start_time_sec = $request->intro_start_time_sec;
+        $anime_episode->intro_end_time_min = $request->intro_end_time_min;
+        $anime_episode->intro_end_time_sec = $request->intro_end_time_sec;
 
         $anime_episode->update_user_code = Auth::guard('admin')->user()->code;
 
