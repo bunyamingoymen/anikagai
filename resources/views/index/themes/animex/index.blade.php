@@ -1,5 +1,8 @@
 @extends("index.themes.animex.layouts.main")
 @section('index_content')
+
+<style>
+</style>
 <!-- Hero Section Begin -->
 <section class="hero">
     <div class="container">
@@ -19,7 +22,7 @@
                 </div>
                 <div class="video-container">
                     <video class="video" preload="auto" loop muted>
-                        <source src="./../../user/animex/videos/{{$index + 1}}.mp4" type="video/mp4">
+                        <source src="" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
                 </div>
@@ -166,22 +169,66 @@
 <script src="../../../user/animex/js/owl.carousel.min.js"></script>
 <script>
     // Tüm video elementlerini seç ve varsayılan olarak gizle
+    // Önceden çekilen videoların bilgilerini saklamak için bir nesne oluştur
+    var fetchedVideos = {};
+
     var videoElements = document.querySelectorAll('.video');
     var videoElementsContainer = document.querySelectorAll('.video-container');
     videoElements.forEach(function (video) {
         //video.style.display = 'none';
     });
 
-function showVideo(index) {
-    console.log(index);
-    videoElements.forEach(function (video) {
-    //video.style.display = 'none';
-    video.pause();
-    });
+    function showVideo(index) {
 
-    videoElementsContainer[index].style.display = 'block';
-    videoElements[index].play();
-    }
+    // Daha önce çekilen bir video varsa tekrar çekme
+    if (fetchedVideos[index]) {
+        // Tüm video elementlerini duraklat ve gizle
+        videoElements.forEach(function (video) {
+            video.pause();
+        });
+
+        // Videoları gizle ve daha önce çekilmiş videoyu göster
+        videoElementsContainer.forEach(function (container, i) {
+            if (i === index) {
+                container.style.display = 'block';
+                videoElements[i].src = fetchedVideos[index];
+                videoElements[i].play();
+            } else {
+                container.style.display = 'none';
+            }
+        });
+    } else {
+        // AJAX isteği yap
+        fetch('/fetchVideo?index=' + (index+1))
+        .then(response => response.json())
+        .then(data => {
+            // Videonun URL'sini al
+            var videoUrl = data.video;
+
+            // Daha önce çekilen videoyu sakla
+            fetchedVideos[index] = videoUrl;
+
+            // Tüm video elementlerini duraklat ve gizle
+            videoElements.forEach(function (video) {
+            video.pause();
+            });
+
+        // Videoları gizle ve yeni videoyu göster
+        videoElementsContainer.forEach(function (container, i) {
+        if (i === index) {
+            container.style.display = 'block';
+            videoElements[i].src = videoUrl;
+            videoElements[i].play();
+        } else {
+            container.style.display = 'none';
+        }
+        });
+    })
+    .catch(error => {
+        console.error('Error fetching video:', error);
+    });
+}
+}
 
     function hideVideo(index) {
     videoElementsContainer[index].style.display = 'none';

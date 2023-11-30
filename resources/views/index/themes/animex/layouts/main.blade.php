@@ -30,6 +30,12 @@
     <link rel="stylesheet" href="../../../user/animex/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="../../../user/animex/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="../../../user/animex/css/style.css" type="text/css">
+
+    <!-- Plyr CSS -->
+    <link rel="stylesheet" href="https://cdn.plyr.io/3.6.8/plyr.css" />
+
+    <!-- Plyr JS -->
+    <script src="https://cdn.plyr.io/3.6.8/plyr.js"></script>
 </head>
 
 <body>
@@ -50,8 +56,8 @@
     <div class="search-model">
         <div class="h-100 d-flex align-items-center justify-content-center">
             <div class="search-close-switch"><i class="icon_close"></i></div>
-            <form class="search-model-form">
-                <input type="text" id="search-input" placeholder="Ara.....">
+            <form action="{{route('search')}}" method="GET" class="search-model-form">
+                <input type="text" name="query" id="query" placeholder="Ara.....">
             </form>
         </div>
     </div>

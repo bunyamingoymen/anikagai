@@ -38,9 +38,11 @@ Route::controller(IndexController::class)->group(function () {
 
     Route::get('/p/{short_name}', 'showPage')->name('showPage'); //TODO
 
-    Route::get('/search', 'showPage')->name('search'); //TODO
+    Route::get('/search', 'search')->name('search'); //TODO
 
     Route::post('addNewComment', 'addNewComment')->name('addNewComment'); //TODO
+
+    Route::get('/fetchVideo', 'fetchVideo');
 });
 
 Route::group(['middleware' => 'guest_index'], function () {

@@ -14,6 +14,7 @@ use App\Models\FollowWebtoon;
 use App\Models\IndexUser;
 use App\Models\KeyValue;
 use App\Models\Page;
+use App\Models\Tag;
 use App\Models\Theme;
 use App\Models\ThemeSetting;
 use App\Models\Webtoon;
@@ -24,6 +25,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Collection;
 
 class IndexController extends Controller
 {
@@ -41,6 +45,13 @@ class IndexController extends Controller
         ];
 
         return $this->loadThemeView('index', $additionalData);
+    }
+
+    public function fetchVideo(Request $request)
+    {
+        $video = '../../../user/animex/videos/' . $request->index . '.mp4';
+
+        return response()->json(['video' => $video]);
     }
 
     public function list(Request $request)
@@ -102,6 +113,79 @@ class IndexController extends Controller
 
 
         return $this->loadThemeView('list', compact('path', 'title', 'list', 'pageCount', 'currentPage', 'allCategory'));
+    }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+
+        $selected_theme = KeyValue::where('key', 'selected_theme')->first();
+        $listItemsSetting = ThemeSetting::where('theme_code', $selected_theme->value)->where('setting_name', 'listCount')->first();
+        $listItems = $listItemsSetting ? $listItemsSetting->setting_value : 20;
+
+        $currentPage = $request->p ? $request->p : 1;
+        $skip = max(0, ($currentPage - 1) * $listItems);
+        $path = "/search?query={$query}";
+
+        // Anime, Webtoon, Tag ve Category modellerinden sorguları al
+        $animeCount =
+            Anime::Where('deleted', 0)
+            ->where('name', 'LIKE', '%' . $query . '%')
+            ->orWhere('description', 'LIKE', '%' . $query . '%')
+            ->count();
+
+        $webtoonCount =
+            Webtoon::Where('deleted', 0)
+            ->where('name', 'LIKE', '%' . $query . '%')
+            ->orWhere('description', 'LIKE', '%' . $query . '%')
+            ->count();
+
+        $totalCount = $animeCount + $webtoonCount;
+        $pageCount = $totalCount % intval($listItems) == 0 ? $totalCount / $listItems : $totalCount = intval($totalCount / $listItems) + 1;
+
+
+        $results = [];
+        $animes = [];
+        $webtoons = [];
+
+        if ($skip < $animeCount) {
+            $animes =
+                Anime::Where('deleted', 0)
+                ->where('name', 'LIKE', '%' . $query . '%')
+                ->orWhere('description', 'LIKE', '%' . $query . '%')
+                ->skip($skip)->take($listItems)
+                ->get();
+
+            foreach ($animes as $anime) {
+                $anime->type = 'anime';
+            }
+            if ($animes && count($animes) > 0) array_push($results, $animes);
+        }
+
+        if (!$animes || count($animes) < $listItems) {
+
+            $newlistItem = $animes ? $listItems - count($animes) : $listItems;
+            $newSkip = $animes ? $skip - count($animes) : 0;
+
+            $webtoons =
+                Webtoon::Where('deleted', 0)
+                ->where('name', 'LIKE', '%' . $query . '%')
+                ->orWhere('description', 'LIKE', '%' . $query . '%')
+                ->skip($newSkip)->take($newlistItem)
+                ->get();
+
+            foreach ($webtoons as $webtoon) {
+                $webtoon->type = 'webtoon';
+            }
+            if ($webtoons && count($webtoons) > 0)
+                array_push($results, $webtoons);
+        }
+
+        if ($currentPage < 1 || $currentPage > $pageCount) {
+            abort(404);
+        }
+
+        return $this->loadThemeView('search', compact('results', 'pageCount', 'currentPage', 'path'));
     }
 
     public function animeDetail(Request $request)
