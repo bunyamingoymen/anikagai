@@ -11,10 +11,14 @@ class WebtoonCalendar extends Model
 
     protected $fillable = [
         'code',
-        'name',
         'webtoon_code',
         'description',
-        'publish_date',
+        'first_date',
+        'cycle_type',
+        'special_type',
+        'special_count',
+        'end_date',
+        'background_color',
         'create_user_code',
         'update_user_code',
         'deleted',

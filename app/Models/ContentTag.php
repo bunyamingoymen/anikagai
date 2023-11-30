@@ -9,7 +9,6 @@ class ContentTag extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'code',
         'tag_code',
         'content_code',
         'content_type',

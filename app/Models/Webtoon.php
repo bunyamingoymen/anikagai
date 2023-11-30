@@ -12,12 +12,22 @@ class Webtoon extends Model
     protected $fillable = [
         'code',
         'name',
+        'short_name',
         'image',
         'description',
         'episode_count',
+        'season_count',
+        'average_min',
+        'main_category',
+        'main_category_name',
+        'date',
         'click_count',
+        'comment_count',
+        'scoreUsers',
+        'score',
         'create_user_code',
         'update_user_code',
+        'onlyUsers',
         'deleted',
     ];
 }

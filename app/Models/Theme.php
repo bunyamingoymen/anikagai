@@ -12,6 +12,7 @@ class Theme extends Model
     protected $fillable = [
         'code',
         'themeName',
+        'themePath',
         'description',
         'images',
         'deleted',

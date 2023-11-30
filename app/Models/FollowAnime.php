@@ -10,8 +10,7 @@ class FollowAnime extends Model
     use HasFactory;
 
     protected $fillable = [
-        'code',
-        'followed_anime_code',
+        'anime_code',
         'user_code',
     ];
 }

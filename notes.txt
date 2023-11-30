@@ -3,14 +3,14 @@
 -------------------------------------------
 Yapılacaklar:
 
-Modallar ayarlanacak
-
+iletişimde görüntüle kısmı yapılacak
 
 Kullanıcı arayüzü:
 
 İzlenen bölümlerin belirginleşmesi
 Şifremi Unuttum kısmı
 pdf görüntüleme
-2.temada profil ekranı
+2.temada profil ekranı, sayfa ekranı
 1.temada etiket gösteirmi, arama, izleme ve pdf görüntüleme ekranı
+404 sayfası güncelleme
 

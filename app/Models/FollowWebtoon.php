@@ -10,8 +10,7 @@ class FollowWebtoon extends Model
     use HasFactory;
 
     protected $fillable = [
-        'code',
-        'followed_webtoon_code',
+        'webtoon_code',
         'user_code',
     ];
 }

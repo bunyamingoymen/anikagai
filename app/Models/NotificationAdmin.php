@@ -15,6 +15,7 @@ class NotificationAdmin extends Model
         'notification_text',
         'from_user_code',
         'to_user_code',
+        'notification_date',
         'readed',
         'create_user_code',
         'update_user_code',
