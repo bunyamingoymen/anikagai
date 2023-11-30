@@ -51,6 +51,22 @@
                     </ul>
                 </li>
 
+                <li class="menu-title">Kullanıcı Verileri</li>
+
+                <li>
+                    <a href="{{route('admin_contact_screen')}}">
+                        <i class="fas fa-envelope"></i>
+                        <span>İletişim</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{route('admin_comment_screen')}}">
+                        <i class="fas fa-comment"></i>
+                        <span>Yorumlar</span>
+                    </a>
+                </li>
+
                 <li id="sidebarManagementAllSection" class="menu-title" hidden>Yönetim</li>
 
                 <li id="sidebarUserSection" hidden>

@@ -91,5 +91,14 @@ return [
         'admin/tag/create' => 51,
         'admin/tag/update' => 53,
         'admin/tag/delete' => 54,
+
+        'admin/comment' => 55,
+        'admin/comment/ajax' => 55,
+        'admin/comment/delete' => 56,
+
+        'admin/contact' => 57,
+        'admin/contact/ajax' => 57,
+        'admin/contact/delete' => 58,
+        'admin/contact/answer' => 59,
     ],
 ];

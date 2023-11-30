@@ -31,7 +31,9 @@ Sayfaların kodları:
 15=>Page
 16=> Category
 17=> Tag
-18=> Index
+18=>İletişim
+19=>Yorum
+20=> Index
 
 */
 $success = " Başarılı Bir Şekilde ";
@@ -114,5 +116,12 @@ return [
         '10170010' => 'Etiket' . $success . $add,
         '10170012' => 'Etiket' . $success . $update,
         '10170013' => 'Etiket' . $success . $delete,
+
+        '10180012' => 'İletişim' . $success . $update,
+        '10180013' => 'İletişim' . $success . $delete,
+
+        '10190013' => 'Yorum' . $success . $delete,
+
+
     ],
 ];

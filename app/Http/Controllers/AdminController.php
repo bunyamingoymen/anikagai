@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
+use App\Models\Contact;
 use App\Models\FollowUser;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -14,6 +16,63 @@ class AdminController extends Controller
     public function index()
     {
         return view('admin.index');
+    }
+
+    public function contactScreen()
+    {
+        $contacts = Contact::Where('deleted', 0)->take(10)->get();
+        $currentCount = 1;
+        $pageCountTest = Contact::Where('deleted', 0)->count();
+        if ($pageCountTest % $this->showCount == 0)
+            $pageCount = $pageCountTest / $this->showCount;
+        else
+            $pageCount = intval($pageCountTest / $this->showCount) + 1;
+        return view("admin.contact.contact", ["contacts" => $contacts, 'pageCount' => $pageCount, 'currentCount' => $currentCount]);
+    }
+
+    public function contactAnswer(Request $request)
+    {
+        $contact = Contact::Where('deleted', 0)->Where('code', $request->code)->first();
+
+        if (!$contact) return redirect()->back()->with('error', Config::get('error.error_codes.0180013'));
+
+        $contact->answered = $request->answered;
+        $contact->save();
+        return redirect()->back()->with('success', Config::get('success.success_codes.10180012'));
+    }
+
+    public function contactDelete(Request $request)
+    {
+        $contact = Contact::Where('deleted', 0)->Where('code', $request->code)->first();
+
+        if (!$contact) return redirect()->back()->with('error', Config::get('error.error_codes.0180013'));
+
+        $contact->deleted = 1;
+        $contact->save();
+        return redirect()->back()->with('success', Config::get('success.success_codes.10180013'));
+    }
+
+    public function commentScreen()
+    {
+        $comments = Comment::Where('deleted', 0)->take(10)->get();
+        $currentCount = 1;
+        $pageCountTest = Comment::Where('deleted', 0)->count();
+        if ($pageCountTest % $this->showCount == 0)
+            $pageCount = $pageCountTest / $this->showCount;
+        else
+            $pageCount = intval($pageCountTest / $this->showCount) + 1;
+        return view("admin.comment.comment", ["comments" => $comments, 'pageCount' => $pageCount, 'currentCount' => $currentCount]);
+    }
+
+    public function commentDelete(Request $request)
+    {
+        $comment = Comment::Where('deleted', 0)->Where('code', $request->code)->first();
+
+        if (!$comment) return redirect()->back()->with('error', Config::get('error.error_codes.0190013'));
+
+        $comment->deleted = 1;
+        $comment->save();
+        return redirect()->back()->with('success', Config::get('success.success_codes.10190013'));
     }
 
     public function profile(Request $request)
@@ -72,5 +131,19 @@ class AdminController extends Controller
     {
         Auth::guard('admin')->logout();
         return redirect()->route('admin_login_screen')->with("success", "Çıkış Başarılı");
+    }
+
+    public function contactGetData(Request $request)
+    {
+        $skip = (($request->page - 1) * $this->showCount);
+        $contacts = Contact::Where('deleted', 0)->skip($skip)->take($this->showCount)->get();
+        return $contacts;
+    }
+
+    public function commentGetData(Request $request)
+    {
+        $skip = (($request->page - 1) * $this->showCount);
+        $comments = Comment::Where('deleted', 0)->skip($skip)->take($this->showCount)->get();
+        return $comments;
     }
 }

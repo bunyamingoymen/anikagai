@@ -54,6 +54,9 @@ class AppServiceProvider extends ServiceProvider
         $categoryPages = ['admin.category.create', 'admin.category.list', 'admin.category.update'];
         $tagPages = ['admin.tag.create', 'admin.tag.list', 'admin.tag.update'];
 
+        $commentPages = ['admin.comment.comment'];
+        $contactPages = ['admin.contact.contact'];
+
         //----------------------------------------------------------------
         //Admin:
         View::composer($adminPages, function ($view) {
@@ -215,6 +218,19 @@ class AppServiceProvider extends ServiceProvider
             $update = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/tag/update'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
             $delete = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/tag/delete'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
             $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
+        });
+
+        View::composer($contactPages, function ($view) {
+            $list = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/comment'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
+            $delete = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/comment/delete'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
+            $answer = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/comment/answer'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
+            $view->with(["list" => $list, "delete" => $delete, 'answer' => $answer]);
+        });
+
+        View::composer($commentPages, function ($view) {
+            $list = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/comment'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
+            $delete = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/comment/delete'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
+            $view->with(["list" => $list, "delete" => $delete]);
         });
 
         //----------------------------------------------------

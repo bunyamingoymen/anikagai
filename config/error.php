@@ -30,7 +30,9 @@ Sayfaların kodları:
 15=>Page
 16=>Category
 17=>Tag
-18=> Index
+18=>İletişim
+19=>Yorum
+20=> Index
 
 
 */
@@ -108,5 +110,10 @@ return [
         '0170002' => 'Etiket Güncellenirken Bir Hata Meydana Geldi',
         '0170012' => 'Etiket Güncellenirken Post işleminde bir hata meydana geldi',
         '0170013' => 'Etiket Silinirken Bir Hata Meydana Geldi',
+
+        '0180012' => 'İletişim Cevaplandı Olarak İşaretlenirken Bir Hata Meydana Geldi',
+        '0180013' => 'İleitişim Silinirken Bir Hata Meydana Geldi',
+
+        '0190013' => 'Yorum Silinirken Bir Hata Meydana Geldi',
     ],
 ];

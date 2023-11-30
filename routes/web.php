@@ -92,6 +92,15 @@ Route::middleware(['auth'])->group(function () {
         Route::get("/admin/logout", "logout")->name('admin_logout');
 
         Route::get("/admin/profile", "profile")->name('admin_profile');
+
+        Route::get("/admin/contact", "contactScreen")->name('admin_contact_screen');
+        Route::post("/admin/contact/ajax", "contactGetData")->name('admin_contact_get_data');
+        Route::post("/admin/contact/delete", "contactDelete")->name('admin_contact_delete');
+        Route::post("/admin/contact/answer", "contactAnswer")->name('admin_contact_answer');
+
+        Route::get("/admin/comment", "commentScreen")->name('admin_comment_screen');
+        Route::post("/admin/comment/ajax", "commentGetData")->name('admin_comment_get_data');
+        Route::post("/admin/comment/delete", "commentDelete")->name('admin_comment_delete'); //TODO
     });
 
     Route::controller(FollowUserController::class)->group(function () {

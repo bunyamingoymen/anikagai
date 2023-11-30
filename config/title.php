@@ -251,5 +251,20 @@ return [
         'admin/tag/update' => "Etiket Güncelle",
         '/admin/tag/update' => ["Admin", "Etiketler", "Etiket Güncelle"],
         '//admin/tag/update' => ["admin_index", "admin_tag_list", "#"],
+
+
+
+
+
+        'admin/contact' => "İletişim",
+        '/admin/contact' => ["Admin", "Etiket Güncelle"],
+        '//admin/contact' => ["admin_index", "#"],
+
+
+
+
+        'admin/comment' => "Yorumlar",
+        '/admin/comment' => ["Admin", "Yorumlar"],
+        '//admin/comment' => ["admin_index", "#"],
     ],
 ];

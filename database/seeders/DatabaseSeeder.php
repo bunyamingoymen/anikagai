@@ -393,6 +393,36 @@ class DatabaseSeeder extends Seeder
                 'text'  => 'Etiket Silebilme',
                 'description'  => 'Etiket Silebilme',
             ],
+            [
+                'id' => 55,
+                'code' => 55,
+                'text'  => 'Yorumları Görüntüleyebilme',
+                'description'  => 'Yorumları Görüntüleyebilme',
+            ],
+            [
+                'id' => 56,
+                'code' => 56,
+                'text'  => 'Yorumları Silebilme',
+                'description'  => 'Yorumları Silebilme',
+            ],
+            [
+                'id' => 57,
+                'code' => 57,
+                'text'  => 'İletişimleri Görebilme',
+                'description'  => 'İletişimleri Görebilme',
+            ],
+            [
+                'id' => 58,
+                'code' => 58,
+                'text'  => 'İletişimleri Silebilme',
+                'description'  => 'İletişimleri Silebilme',
+            ],
+            [
+                'id' => 59,
+                'code' => 59,
+                'text'  => 'İletişimleri Cevaplayabilme',
+                'description'  => 'İletişimleri Cevaplayabilme',
+            ],
         ]);
 
         //logo, footer, sosyal_medya

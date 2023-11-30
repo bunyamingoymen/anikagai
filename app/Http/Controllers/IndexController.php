@@ -358,7 +358,11 @@ class IndexController extends Controller
     {
         $newContact = new Contact();
         $newContact->code = Contact::max('code') + 1;
-        $newContact->fill($request->only(['name', 'email', 'subject', 'message']));
+
+        $newContact->name = $request->name;
+        $newContact->email = $request->email;
+        $newContact->subject = $request->subject;
+        $newContact->message = $request->message;
         $newContact->save();
 
         return redirect()->route('contact_screen')->with('success', 'Başarılı bir şekilde mesaj gönderildi.');

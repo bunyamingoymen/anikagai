@@ -4,8 +4,6 @@
 Yapılacaklar:
 
 Modallar ayarlanacak
-Yapılan yorumları görebilme
-İletişimde eklenen şeyleri görebilme
 
 
 Kullanıcı arayüzü:
