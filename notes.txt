@@ -19,7 +19,6 @@ animex için yapılması gerekenler:
 
 mox teması için yapılması gerekenler:
 
-4.izleme sayfası
 5.görüntüleme(pdf) sayfası
 6. İzlenen bölümelrin belirginleşmesi
 

@@ -13,6 +13,74 @@
 <link rel="stylesheet" href="../../../user/mox/css/style.css">
 <link rel="stylesheet" href="../../../user/mox/css/responsive.css">
 <!-- main-area -->
+
+<style>
+    /* The container */
+    .container {
+        display: block;
+        position: relative;
+        padding-left: 25px;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    /* Hide the browser's default checkbox */
+    .container input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
+
+    /* Create a custom checkbox */
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 20px;
+        width: 20px;
+        background-color: #eee;
+    }
+
+    /* On mouse-over, add a grey background color */
+    .container:hover input~.checkmark {
+        background-color: #ccc;
+    }
+
+    /* When the checkbox is checked, add a blue background */
+    .container input:checked~.checkmark {
+        background-color: #2196F3;
+    }
+
+    /* Create the checkmark/indicator (hidden when not checked) */
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Show the checkmark when checked */
+    .container input:checked~.checkmark:after {
+        display: block;
+    }
+
+    /* Style the checkmark/indicator */
+    .container .checkmark:after {
+        left: 9px;
+        top: 5px;
+        width: 5px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+</style>
 <main>
 
     <!-- movie-details-area -->
@@ -139,13 +207,43 @@
                                             <div class="card-body">
                                                 <ul>
                                                     @foreach ($anime_episodes->where('season_short',$i) as $item)
-                                                    <li><a href="{{route('anime/'.$i.'/'.$item->episode_short)}}"><i
-                                                                class="fas fa-play"></i> Bölüm
-                                                            {{$item->episode_short}}</a>
+                                                    <li>
+                                                        <label class="container">
+                                                            <input type="checkbox" id="watched{{$item->code}}"
+                                                                onchange="watchAnime('{{$item->code}}')"
+                                                                value="{{$item->code}}" {{count($watched)> 0 &&
+                                                            ($watched->Where('anime_episode_code',$item->code)->first())
+                                                            ? 'checked': ''}}>
+                                                            <span class="checkmark"></span>
+                                                        </label>
+                                                        @if (count($watched) > 0 &&
+                                                        ($watched->Where('anime_episode_code',$item->code)->first()))
+
+
+                                                        <a href="{{url('anime/'.$i.'/'.$item->episode_short)}}"><i
+                                                                class="fas fa-play"></i>
+                                                            <span style="color:green;"
+                                                                id='watchedATag{{$item->code}}'>Bölüm
+                                                                {{$item->episode_short}}</span> </a>
                                                         <span class="duration"><i class="far fa-clock"></i>
                                                             {{$item->minute}}
                                                             Dakika</span>
+
+                                                        @else
+                                                        <a href="{{url('anime/'.$i.'/'.$item->episode_short)}}"><i
+                                                                class="fas fa-play"></i>
+                                                            <span style="color:white;"
+                                                                id='watchedATag{{$item->code}}'>Bölüm
+                                                                {{$item->episode_short}}</span>
+
+                                                        </a>
+                                                        <span class="duration"><i class="far fa-clock"></i>
+                                                            {{$item->minute}}
+                                                            Dakika</span>
+
+                                                        @endif
                                                     </li>
+
                                                     @endforeach
 
                                                 </ul>
@@ -154,7 +252,7 @@
                                     </div>
                                     @endfor
                                     @else
-                                    <p>Herhani gib bölüm mevcut değil.</p>
+                                    <p>Herhangi bir bölüm mevcut değil.</p>
                                     @endif
 
                                 </div>
@@ -283,6 +381,52 @@
             document.getElementById('unlikeAnimeForm').submit();
         @else
             document.getElementById('likeAnimeTextMessage').innerText = "Lütfen Giriş Yapınız."
+        @endif
+    }
+</script>
+
+<!-- İzleme ile ilgili fonksiyonlar -->
+<script>
+    function watchAnime(anime_episode_code){
+        var id = "watched" + anime_episode_code;
+        var anime_code = `{{$anime->code}}`;
+        @if (Auth::user())
+
+            var value = document.getElementById(id).checked;
+
+            $.ajaxSetup({
+                headers: {
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                },
+            });
+            $.ajax({
+                type: "POST",
+                url: '{{ route("index_watched_anime") }}',
+                data: {
+                    anime_episode_code: anime_episode_code,
+                    anime_code: anime_code,
+                    content_type: 1
+                }
+            })
+            .done(function (response) {
+                if (response.response === 0) {
+                    console.log('İşlem İçin Giriş Yapılması Gerekmektedir.');
+                } else if (response.response === 1) {
+                    console.log("Bölüm izlendi olarak işaretlendi");
+                    document.getElementById('watchedATag'+anime_episode_code).style.color = 'green';
+                } else if (response.response === 2) {
+                    console.log("Bölüm izlenmedi olarak işaretlendi");
+                    document.getElementById('watchedATag'+anime_episode_code).style.color = 'white';
+                } else {
+                    console.log('Bölüm izlendi olarak işaretlenirken beklenmedik bir hata meydana geldi');
+                }
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                console.log('AJAX hatası: ' + textStatus + ' - ' + errorThrown + ' - ' + JSON.stringify(jqXHR));
+            });
+        @else
+            alert("İlk Önce Giriş yapmanız gerekmektedir.")
+            document.getElementById(id).checked = false;
         @endif
     }
 </script>
