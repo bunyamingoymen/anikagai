@@ -4,22 +4,22 @@
 Yapılacaklar:
 
 admin arayüzü:
-Slider'a video ekleme kısmı;
-Webtoon Bulunduğu sezon düzeltilecek
-Anime ve webtoon'a update kısmına seçilen etiket ve kategorileri getirme
+1- Slider'a video ekleme kısmı;
+2- Webtoon Bulunduğu sezon düzeltilecek
+3- Anime ve webtoon'a update kısmına seçilen etiket ve kategorileri getirme
+4- Üye olan kullanıcıları görebilme
+5-webtoon yüklenirken sadece pdf'e izin verilmeli
 
 Kullanıcı arayüzü:
 
-? - İzlenen bölümlerin belirginleşmesi
 Şifremi Unuttum kısmı
 
 animex için yapılması gerekenler:
 1.profil ekranı,
 
 mox teması için yapılması gerekenler:
-1.etiket ile listeleme
+
 4.izleme sayfası
 5.görüntüleme(pdf) sayfası
 6. İzlenen bölümelrin belirginleşmesi
-Bu
 

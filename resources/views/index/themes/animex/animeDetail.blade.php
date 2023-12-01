@@ -194,8 +194,7 @@
                         <h5>{{$i}}.sezon</h5>
                     </div>
                     @foreach ($anime_episodes->where('season_short',$i) as $item)
-                    @if (count($watched) > 0 &&
-                    count($watched->Where('anime_episode_code',$anime_episodes->code)->get())>1)
+                    @if (count($watched) > 0 && ($watched->Where('anime_episode_code',$item->code)->first()))
                     <a style="background-color: green;" href="{{url("anime/".$anime->short_name."/".$i."/".$item->episode_short)}}"
                         id="watchedATag{{$item->code}}" >
                         <label class="container">{{$i}}.S - {{$item->episode_short }}.B - {{$item->name}}
