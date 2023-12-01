@@ -32,6 +32,18 @@
                         </div>
                     </div>
                     <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="date">Yayınlanma Yılı:</label>
+                            <input type="number" class="form-control" id="date" name="date" placeholder="Örn: 2015"
+                                value="{{$webtoon->date}}" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="average_min">Ortalama Süre(dk):</label>
+                            <input type="number" class="form-control" id="average_min" name="average_min"
+                                placeholder="Örn: 45" value="{{$webtoon->average_min}}" required>
+                        </div>
+                    </div>
+                    <div class="row">
                         <div class="col-md-8 mb-3">
                             <label for="validationCustom03">Açıklama:</label>
                             <textarea class="form-control" name="description" id="description" cols="30" rows="15"
@@ -50,10 +62,10 @@
                     <div class="row">
                         <div class="col-md-8 mb-3">
                             <label for="main_catogery">Ana Kategori:</label>
-                            <select class="form-control js-seelct-multiple" name="main_catogery" id="main_catogery">
+                            <select class="form-control js-seelct-multiple" name="main_category" id="main_category">
                                 <option value="0">Seçiniz</option>
                                 @foreach ($categories as $category)
-                                <option value="{{$category->id}}">{{$category->name}}</option>
+                                <option value="{{$category->code}}">{{$category->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -61,9 +73,9 @@
                     <div class="row">
                         <div class="col-md-4 mb-3">
                             <label for="catogery">Kategoriler:</label>
-                            <select class="form-control js-seelct-multiple" name="catogery" id="catogery" multiple>
+                            <select class="form-control js-seelct-multiple" name="category[]" id="category" multiple>
                                 @foreach ($categories as $category)
-                                <option value="{{$category->id}}">{{$category->name}}</option>
+                                <option value="{{$category->code}}">{{$category->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -71,7 +83,7 @@
                             <label for="tag">Etiketler:</label>
                             <select class="form-control js-seelct-multiple" name="tag" id="tag" multiple>
                                 @foreach ($tags as $tag)
-                                <option value="{{$tag->id}}">{{$tag->name}}</option>
+                                <option value="{{$tag->code}}">{{$tag->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -98,7 +110,7 @@
         // templateSelection: fonksiyon //NOTE seçildiğinde işlme yapmak için
     });
     function updateWebtoonSubmitForm(params) {
-        var name = document.getElementById('name');
+        var name = document.getElementById('name').value;
 
         if(name == ""){
             Swal.fire({

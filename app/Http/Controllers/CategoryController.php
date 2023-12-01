@@ -35,6 +35,7 @@ class CategoryController extends Controller
         else $category->code = 1;
 
         $category->name = $request->name;
+        $category->short_name = $request->short_name;
         $category->description = $request->description;
 
         $category->create_user_code = Auth::guard('admin')->user()->code;
@@ -64,6 +65,7 @@ class CategoryController extends Controller
             return redirect()->back()->with("error", Config::get('error.error_codes.0160012'));
 
         $category->name = $request->name;
+        $category->short_name = $request->short_name;
         $category->description = $request->description;
 
         $category->update_user_code = Auth::guard('admin')->user()->code;

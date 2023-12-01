@@ -78,8 +78,9 @@
 
                                 </li>
                                 <li class="watch">
-                                    <a href="https://www.youtube.com/watch?v=R2gbPxeNk2E" class="btn popup-video"><i
-                                            class="fas fa-play"></i>İzle</a>
+                                    <a href="{{$firstEpisodeUrl !='none' ? url($firstEpisodeUrl) : '' }}" class="btn"><i
+                                            class="fas fa-play" {{$firstEpisodeUrl=='none' ? 'hidden' : '' }}></i>İlk
+                                        Bölümü İzle</a>
                                 </li>
 
                             </ul>
@@ -138,8 +139,8 @@
                                             <div class="card-body">
                                                 <ul>
                                                     @foreach ($anime_episodes->where('season_short',$i) as $item)
-                                                    <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                                            class="popup-video"><i class="fas fa-play"></i> Bölüm
+                                                    <li><a href="{{route('anime/'.$i.'/'.$item->episode_short)}}"><i
+                                                                class="fas fa-play"></i> Bölüm
                                                             {{$item->episode_short}}</a>
                                                         <span class="duration"><i class="far fa-clock"></i>
                                                             {{$item->minute}}
@@ -211,7 +212,8 @@
                                     <li>
                                         <span class="duration"><i class="far fa-clock"></i>
                                             {{$item->average_min}} dk</span>
-                                        <span class="rating"><i class="fas fa-thumbs-up"></i> 3.5</span>
+                                        <span class="rating"><i class="fas fa-thumbs-up"></i>
+                                            {{$item->score}}</span>
                                     </li>
                                 </ul>
                             </div>

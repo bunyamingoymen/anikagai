@@ -21,7 +21,7 @@
 
 <body class="bg-primary bg-pattern">
     <div class="home-btn d-none d-sm-block">
-        <a href="index.html"><i class="mdi mdi-home-variant h2 text-white"></i></a>
+        <a href="{{route('admin_index')}}"><i class="mdi mdi-home-variant h2 text-white"></i></a>
     </div>
 
     <div class="account-pages my-5 pt-5">
@@ -29,8 +29,8 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="text-center mb-5">
-                        <a href="index.html" class="logo"><img src="../../../admin/assets/images/logo-dark.png"
-                                height="55" alt="logo"></a>
+                        <a href="{{route('admin_index')}}" class="logo"><img
+                                src="../../../admin/assets/images/logo-dark.png" height="55" alt="logo"></a>
                     </div>
                 </div>
             </div>

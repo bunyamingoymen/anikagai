@@ -95,7 +95,7 @@
                                             <a href="javascript:;">{{$item->main_tag_name ?? 'Genel'}}</a>
                                         </li>
                                         <li>
-                                            <span class="like"><i class="fas fa-thumbs-up"></i> 3.5</span>
+                                            <span class="like"><i class="fas fa-thumbs-up"></i> {{$item->score}}</span>
                                         </li>
                                     </ul>
                                 </div>
@@ -137,7 +137,8 @@
                                                 <a href="Javascript:;">{{$item->main_tag_name ?? 'Genel'}}</a>
                                             </li>
                                             <li>
-                                                <span class="like"><i class="fas fa-thumbs-up"></i> 3.5</span>
+                                                <span class="like"><i class="fas fa-thumbs-up"></i>
+                                                    {{$item->score}}</span>
                                             </li>
                                         </ul>
                                     </div>
@@ -171,8 +172,7 @@
                             style="min-width: 195px; min-height: 285px; max-width: 195px; max-height: 285px;">
                             <img src="../../../{{$item->image}}" alt="">
                             <ul class="overlay-btn">
-                                <li><a href="anime/{{$item->short_name}}" class="btn">İzle</a></li>
-                                <li><a href="anime/{{$item->short_name}}" class="btn">Detay</a></li>
+                                <li><a href="{{url("anime/".$item->short_name)}}" class="btn">Detay</a></li>
                             </ul>
                         </div>
                         <div class="movie-content">
@@ -191,7 +191,7 @@
                                         <a href="javascirpt:;">{{$item->main_tag_name ?? 'Genel'}}</a>
                                     </li>
                                     <li>
-                                        <span class="like"><i class="fas fa-thumbs-up"></i> 3.5</span>
+                                        <span class="like"><i class="fas fa-thumbs-up"></i>{{$item->score}}</span>
                                     </li>
                                 </ul>
                             </div>
@@ -227,8 +227,6 @@
                             style="min-width: 195px; min-height: 285px; max-width: 195px; max-height: 285px;">
                             <img src="../../../{{$item->image}}" alt="">
                             <ul class="overlay-btn">
-                                <li><a href="{{url('webtoon/'.$item->short_name)}}" class="btn">Oku</a>
-                                </li>
                                 <li><a href="{{url('webtoon/'.$item->short_name)}}" class="btn">Detay</a></li>
                             </ul>
                         </div>
@@ -248,7 +246,7 @@
                                         <a href="javascirpt:;">{{$item->main_tag_name ?? 'Genel'}}</a>
                                     </li>
                                     <li>
-                                        <span class="like"><i class="fas fa-thumbs-up"></i> 3.5</span>
+                                        <span class="like"><i class="fas fa-thumbs-up"></i>{{$item->score}}</span>
                                     </li>
                                 </ul>
                             </div>

@@ -2,13 +2,24 @@
 
 -------------------------------------------
 Yapılacaklar:
+
+admin arayüzü:
 Slider'a video ekleme kısmı;
 Webtoon Bulunduğu sezon düzeltilecek
+Anime ve webtoon'a update kısmına seçilen etiket ve kategorileri getirme
 
 Kullanıcı arayüzü:
 
 ? - İzlenen bölümlerin belirginleşmesi
 Şifremi Unuttum kısmı
-2.temada profil ekranı,  ? sayfa ekranı
-1.temada etiket gösteirmi, arama, izleme ve pdf görüntüleme ekranı
+
+animex için yapılması gerekenler:
+1.profil ekranı,
+
+mox teması için yapılması gerekenler:
+1.etiket ile listeleme
+4.izleme sayfası
+5.görüntüleme(pdf) sayfası
+6. İzlenen bölümelrin belirginleşmesi
+Bu
 

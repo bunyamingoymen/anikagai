@@ -21,11 +21,11 @@
             <div class="row">
                 <div class="col-12">
                     <div class="breadcrumb-content">
-                        <h2 class="title"><span>{{$title}}</span></h2>
+                        <h2 class="title"><span>Arama</span></h2>
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="{{route('index')}}">Anasyafa</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">{{$title}}</li>
+                                <li class="breadcrumb-item active" aria-current="page">Arama</li>
                             </ol>
                         </nav>
                     </div>
@@ -42,36 +42,20 @@
                 <div class="col-lg-6">
                     <div class="section-title text-center text-lg-left">
                         <span class="sub-title"></span>
-                        <h2 class="title" id="PageTitle">Son EKlenen Animeler</h2>
+                        <h2 class="title" id="PageTitle">Sonuçlar</h2>
                     </div>
                 </div>
                 <div class="col-lg-6">
                     <div class="movie-page-meta">
                         <div class="tr-movie-menu-active text-center">
-                            <button class="active" data-filter="*">Animeler</button>
+                            <button class="active" data-filter="*">Arama</button>
                         </div>
-                        <form action="#" class="movie-filter-form">
-                            <select class="" id="categorySelected" onchange="changeCategory()">
-                                <option value="all">Hepsi</option>
-                                @foreach ($allCategory as $category)
-                                <option value="{{$category->short_name}}">{{$category->name}}</option>
-                                @endforeach
-                            </select>
-                        </form>
-                        <form action="#" class="movie-filter-form">
-
-                            <select class="custom-select" id="orderBySelected" onchange="changeOrderBy()">
-                                <option value="created_AtDESC" selected>Son Eklenenler</option>
-                                <option value="created_AtASC">İlk Eklenenler</option>
-                                <option value="TrendsDESC">En çok izlenenler</option>
-                                <option value="TrendsASC">En Az İzlenenler</option>
-                            </select>
-                        </form>
                     </div>
                 </div>
             </div>
             <div class="row tr-movie-active">
-                @foreach ($list as $item)
+                @foreach ($results as $result)
+                @foreach ($result as $item)
                 <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer cat-two">
                     <div class="movie-item movie-item-three mb-50">
                         <div class="movie-poster">
@@ -85,15 +69,14 @@
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
                                 </li>
-                                <li><a href="{{$path == 'animeler' ? url('anime/'.$item->short_name) : url('webtoon/'.$item->short_name)}}"
+                                <li><a href="{{$item->type =='anime' ? url('anime/'.$item->short_name) : url('webtoon/'.$item->short_name) }}"
                                         class="btn">Detay</a></li>
-
                             </ul>
                         </div>
                         <div class="movie-content">
                             <div class="top">
                                 <h5 class="title"><a
-                                        href="{{$path == 'animeler' ? url('anime/'.$item->short_name) : url('webtoon/'.$item->short_name)}}">{{$item->name}}</a>
+                                        href="{{$item->type =='anime' ? url('anime/'.$item->short_name) : url('webtoon/'.$item->short_name) }}">{{$item->name}}</a>
                                 </h5>
                                 <span class="date">{{$item->date}}</span>
                             </div>
@@ -111,6 +94,7 @@
                     </div>
                 </div>
                 @endforeach
+                @endforeach
 
             </div>
             <div class="row">
@@ -118,19 +102,16 @@
                     <div class="pagination-wrap mt-30">
                         <nav>
                             <ul>
-                                @if ($currentPage != 1)
-                                <li><a href="javascript:;" onclick=" changePage({{$currentPage - 1}})">Geri</a></li>
-                                @endif
+                                <li><a href="{{$path}}&p={{$currentPage - 1}}" {{ ($currentPage<=1) ? 'hidden' : ''
+                                        }}>Geri</a></li>
                                 @for ($i = 1; $i<=$pageCount; $i++) @if ($currentPage==$i) <li class="active"><a
-                                        href="javascript:;" onclick=" changePage({{$i}})">{{$i}}</a></li>
+                                        href="{{$path}}&p={{$i}}">{{$i}}</a></li>
                                     @else
-                                    <li><a href="javascript:;" onclick=" changePage({{$i}})">{{$i}}</a></li>
+                                    <li><a href="{{$path}}&p={{$i}}">{{$i}}</a></li>
                                     @endif
                                     @endfor
-                                    @if ($currentPage != $pageCount)
-                                    <li><a href=" javascript:;" onclick=" changePage({{$currentPage + 1}})">İleri</a>
-                                    </li>
-                                    @endif
+                                    <li><a href="{{$path}}&p={{$currentPage + 1}}" {{ ( $currentPage + 1>$pageCount) ?
+                                            'hidden' : '' }}>İleri</a></li>
                             </ul>
                         </nav>
                     </div>
@@ -142,65 +123,4 @@
 
 </main>
 <!-- main-area-end -->
-
-<!-- JS here -->
-<script src="../../../user/mox/js/vendor/jquery-3.6.0.min.js"></script>
-
-<script>
-    var page = "{{ request('p', 1) }}";
-    var orderBy = "{{request('orderBy', 'created_AtDESC')}}";
-    var category = "{{request('category', 'all')}}";
-
-    $(document).ready(function () {
-        document.getElementById("orderBySelected").value = orderBy;
-        document.getElementById("categorySelected").value = category;
-    });
-
-    var url = "";
-    function changeOrderBy() {
-        orderBy = document.getElementById("orderBySelected").value;
-        changeURL();
-    }
-
-    function changePage(nextPage) {
-        page = nextPage;
-        changeURL();
-    }
-
-    function changeCategory(){
-        category = document.getElementById("categorySelected").value;
-        changeURL();
-    }
-
-    function changeURL(){
-        url = "{{$path}}?";
-        first = false;
-
-        if(category != "all"){
-            if(first) url += "&category=" + category;
-            else{
-                first = true;
-                url += "category=" + category
-            }
-        }
-
-        if(orderBy != "created_AtDESC"){
-            if(first) url += "&orderBy=" + orderBy;
-            else{
-                first = true;
-                url += "orderBy=" + orderBy
-            }
-        }
-
-        if(page != "1"){
-            if(first) url += "&p=" + page;
-            else {
-                first = true;
-                url += "p=" + page
-            }
-        }
-
-        window.location.href = url;
-    }
-</script>
 @endsection

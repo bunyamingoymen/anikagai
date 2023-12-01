@@ -19,23 +19,12 @@
                         <p>
                             {{$user->description ?? 'Açıklama Mevcut değil'}}
                         </p>
-                        <div class="movie-details-prime">
-                            <ul>
-                                <li class="share"><a href="#"><i class="fas fa-share-alt"></i> Paylaş</a></li>
-                                <li class="streaming">
-                                    <h6>Full HD</h6>
-                                    <span>Tüm bölümer Mevcut</span>
-                                </li>
-                                <li class="watch"><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                        class="btn popup-video"><i class="fas fa-play"></i>İzle</a></li>
-                            </ul>
-                        </div>
                     </div>
                 </div>
                 <div class="movie-details-btn">
                     @if (false)
-                    <a href="img/poster/movie_details_img.jpg" class="download-btn" download="">İndir <img
-                            src="../../../user/mox/fonts/download.svg" alt=""></a>
+                    <a href="../../../user/mox/img/poster/movie_details_img.jpg" class="download-btn" download="">İndir
+                        <img src="../../../user/mox/fonts/download.svg" alt=""></a>
                     @endif
 
                 </div>
@@ -74,12 +63,13 @@
                 <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer tab-favorite-anime">
                     <div class="movie-item mb-60">
                         <div class="movie-poster">
-                            <a href="movie-details.html"><img src="../../../{{$item->image}}" alt=""
+                            <a href="{{url("anime/".$item->short_name)}}"><img src="../../../{{$item->image}}" alt=""
                                     style="min-width: 303px; min-height: 430px; max-width: 303px; max-height: 430px;"></a>
                         </div>
                         <div class="movie-content">
                             <div class="top">
-                                <h5 class="title"><a href="movie-details.html">{{$item->name}}</a></h5>
+                                <h5 class="title"><a href="{{url("anime/".$item->short_name)}}">{{$item->name}}</a>
+                                </h5>
                                 <span class="date">{{$item->date}}</span>
                             </div>
                             <div class="bottom">
@@ -104,12 +94,13 @@
                 <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer tab-favorite-webtoon">
                     <div class="movie-item mb-60">
                         <div class="movie-poster">
-                            <a href="movie-details.html"><img src="../../../{{$item->image}}" alt=""
+                            <a href="{{url("webtoon/".$item->short_name)}}"><img src="../../../{{$item->image}}" alt=""
                                     style="min-width: 303px; min-height: 430px; max-width: 303px; max-height: 430px;"></a>
                         </div>
                         <div class="movie-content">
                             <div class="top">
-                                <h5 class="title"><a href="movie-details.html">{{$item->name}}</a></h5>
+                                <h5 class="title"><a href="{{url("webtoon/".$item->short_name)}}">{{$item->name}}</a>
+                                </h5>
                                 <span class="date">{{$item->date}}</span>
                             </div>
                             <div class="bottom">
@@ -164,12 +155,13 @@
                 <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer tab-follow_animes">
                     <div class="movie-item mb-60">
                         <div class="movie-poster">
-                            <a href="movie-details.html"><img src="../../../{{$item->image}}" alt=""
+                            <a href="{{url("anime/".$item->short_name)}}"><img src="../../../{{$item->image}}" alt=""
                                     style="min-width: 303px; min-height: 430px; max-width: 303px; max-height: 430px;"></a>
                         </div>
                         <div class="movie-content">
                             <div class="top">
-                                <h5 class="title"><a href="movie-details.html">{{$item->name}}</a></h5>
+                                <h5 class="title"><a href="{{url("anime/".$item->short_name)}}">{{$item->name}}</a>
+                                </h5>
                                 <span class="date">{{$item->date}}</span>
                             </div>
                             <div class="bottom">
@@ -194,12 +186,13 @@
                 <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer tab-follow_webtoons">
                     <div class="movie-item mb-60">
                         <div class="movie-poster">
-                            <a href="movie-details.html"><img src="../../../{{$item->image}}" alt=""
+                            <a href="{{url("webtoon/".$item->short_name)}}"><img src="../../../{{$item->image}}" alt=""
                                     style="min-width: 303px; min-height: 430px; max-width: 303px; max-height: 430px;"></a>
                         </div>
                         <div class="movie-content">
                             <div class="top">
-                                <h5 class="title"><a href="movie-details.html">{{$item->name}}</a></h5>
+                                <h5 class="title"><a href="{{url("webtoon/".$item->short_name)}}">{{$item->name}}</a>
+                                </h5>
                                 <span class="date">{{$item->date}}</span>
                             </div>
                             <div class="bottom">
@@ -254,12 +247,13 @@
                 <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer tab-watched_animes">
                     <div class="movie-item mb-60">
                         <div class="movie-poster">
-                            <a href="movie-details.html"><img src="../../../{{$item->image}}" alt=""
+                            <a href={{url("anime/".$item->short_name)}}"><img src="../../../{{$item->image}}" alt=""
                                     style="min-width: 303px; min-height: 430px; max-width: 303px; max-height: 430px;"></a>
                         </div>
                         <div class="movie-content">
                             <div class="top">
-                                <h5 class="title"><a href="movie-details.html">{{$item->name}}</a></h5>
+                                <h5 class="title"><a href="{{url("anime/".$item->short_name)}}">{{$item->name}}</a>
+                                </h5>
                                 <span class="date">{{$item->date}}</span>
                             </div>
                             <div class="bottom">
@@ -284,12 +278,13 @@
                 <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer tab-readed_webtoons">
                     <div class="movie-item mb-60">
                         <div class="movie-poster">
-                            <a href="movie-details.html"><img src="../../../{{$item->image}}" alt=""
+                            <a href="{{url("webtoon/".$item->short_name)}}"><img src="../../../{{$item->image}}" alt=""
                                     style="min-width: 303px; min-height: 430px; max-width: 303px; max-height: 430px;"></a>
                         </div>
                         <div class="movie-content">
                             <div class="top">
-                                <h5 class="title"><a href="movie-details.html">{{$item->name}}</a></h5>
+                                <h5 class="title"><a href="{{url("webtoon/".$item->short_name)}}">{{$item->name}}</a>
+                                </h5>
                                 <span class="date">{{$item->date}}</span>
                             </div>
                             <div class="bottom">

@@ -8,7 +8,7 @@
                     <div class="header-top-link">
                         <ul class="quick-link">
                             @foreach ($menu_alts as $item)
-                            <li><a href="{{$item->optional_2 ?? '#'}}">{{$item->value}}</a></li>
+                            <li><a href="{{$item->optional_2 ? url($item->optional_2) : url("#")}}">{{$item->value}}</a></li>
                             @endforeach
                             @if (!Auth::user())
                             <li><a href="{{route('loginScreen')}}">Giriş Yap</a></li>
@@ -45,9 +45,9 @@
                                 <ul class="navigation">
                                     @foreach ($menus as $item)
                                     @if (isset($active_menu) && $active_menu->code == $item->code)
-                                    <li><a class="active" href="{{$item->optional_2 ?? ''}}">{{$item->value}}</a></li>
+                                    <li><a class="active" href="{{$item->optional_2 ? url($item->optional_2) : url("#")}}">{{$item->value}}</a></li>
                                     @else
-                                    <li><a href="{{$item->optional_2 ?? ''}}">{{$item->value}}</a></li>
+                                    <li><a href="{{$item->optional_2 ? url($item->optional_2) : url("#")}}">{{$item->value}}</a></li>
                                     @endif
                                     @endforeach
                                 </ul>
@@ -56,8 +56,8 @@
                                 <ul>
                                     <li class="d-none d-xl-block">
                                         <div class="footer-search">
-                                            <form action="#">
-                                                <input type="text" placeholder="Arama Yap">
+                                            <form action="{{route('search')}}" method="GET">
+                                                <input type="text" name="query" id="query" placeholder="Arama Yap">
                                                 <button><i class="fas fa-search"></i></button>
                                             </form>
                                         </div>

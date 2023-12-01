@@ -15,7 +15,7 @@
                         <ul>
                             @foreach ($menus as $item)
                             @if (isset($active_menu) && $active_menu->code == $item->code)
-                            <li class="active"><a href="{{url($item->optional_2?? '')}}">{{$item->value}}</a></li>
+                            <li class="active"><a href="{{$item->optional_2 ? url($item->optional_2) : url("#")}}">{{$item->value}}</a></li>
                             @else
                             <li><a href="{{url($item->optional_2 ?? '')}}">{{$item->value}}</a></li>
                             @endif

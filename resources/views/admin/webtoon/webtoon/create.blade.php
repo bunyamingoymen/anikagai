@@ -49,10 +49,10 @@
                     <div class="row">
                         <div class="col-md-8 mb-3">
                             <label for="main_category">Ana Kategori:</label>
-                            <select class="form-control js-seelct-multiple" name="main_category" id="main_catogery">
+                            <select class="form-control js-seelct-multiple" name="main_category" id="main_category">
                                 <option value="0">Seçiniz</option>
                                 @foreach ($categories as $category)
-                                <option value="{{$category->id}}">{{$category->name}}</option>
+                                <option value="{{$category->code}}">{{$category->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -60,9 +60,9 @@
                     <div class="row">
                         <div class="col-md-4 mb-3">
                             <label for="catogery">Kategoriler:</label>
-                            <select class="form-control js-seelct-multiple" name="catogery" id="catogery" multiple>
+                            <select class="form-control js-seelct-multiple" name="category[]" id="category" multiple>
                                 @foreach ($categories as $category)
-                                <option value="{{$category->id}}">{{$category->name}}</option>
+                                <option value="{{$category->code}}">{{$category->name}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -70,7 +70,7 @@
                             <label for="tag">Etiketler:</label>
                             <select class="form-control js-seelct-multiple" name="tag" id="tag" multiple>
                                 @foreach ($tags as $tag)
-                                <option value="{{$tag->id}}">{{$tag->name}}</option>
+                                <option value="{{$tag->code}}">{{$tag->name}}</option>
                                 @endforeach
                             </select>
                         </div>

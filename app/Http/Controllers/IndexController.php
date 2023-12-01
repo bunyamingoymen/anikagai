@@ -69,7 +69,6 @@ class IndexController extends Controller
         $allCategory = Category::where('deleted', 0)->get();
 
         $selectedCategory = ((!$request->category) || ($request->category == "all")) ? "all" : Category::Where('short_name', $request->category)->first()->code;
-
         $orderByMapping = [
             'created_AtASC' => ['created_at', 'ASC'],
             'created_AtDESC' => ['created_at', 'DESC'],
@@ -108,7 +107,6 @@ class IndexController extends Controller
         }
         //dd($listItems);
         $pageCount = $pageCountTest % intval($listItems) == 0 ? $pageCountTest / $listItems : $pageCount = intval($pageCountTest / $listItems) + 1;
-
         if ($currentPage > $pageCount || $currentPage < 1)
             abort(404); // TODO: 404 sayfasına yönlendir
 

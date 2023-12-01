@@ -34,7 +34,7 @@
                             <div class="col-lg-3 col-md-3 col-sm-6">
                                 <div class="product__page__filter">
                                     <p>Kategoriler:</p>
-                                    <select class="" id="categorySelected" onchange="changeOrderBy()">
+                                    <select class="" id="categorySelected" onchange="changeCategory()">
                                         <option value="all">Hepsi</option>
                                         @foreach ($allCategory as $category)
                                         <option value="{{$category->short_name}}">{{$category->name}}</option>
