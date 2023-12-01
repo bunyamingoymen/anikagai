@@ -74,7 +74,7 @@
                                 placeholder="Şifre Tekrarı *">
                             <span class="icon_lock"></span>
                         </div>
-                        <button class="site-btn" type="button" onclick="registerSubmitFormButton()">Giriş Yap</button>
+                        <button class="site-btn" type="button" onclick="registerSubmitFormButton()">Kayıt Ol</button>
                     </form>
                 </div>
             </div>

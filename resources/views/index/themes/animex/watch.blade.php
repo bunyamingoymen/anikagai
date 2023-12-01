@@ -93,9 +93,26 @@
                                 {{$i}} - {{$item->episode_short }}.Bölüm - {{$item->name}}
                             </a>
                             @else
-                            <a href="{{url("anime/".$anime->short_name."/".$i."/".$item->episode_short)}}">
-                                {{$i}} - {{$item->episode_short }}.Bölüm - {{$item->name}}
+                            @if (count($watched) > 0 &&
+                            count($watched->Where('anime_episode_code',$anime_episodes->code)->get())>1)
+                            <a style="background-color: green;" href="{{url("anime/".$anime->short_name."/".$i."/".$item->episode_short)}}"
+                                id="watchedATag{{$item->code}}" >
+                                <label class="container">{{$i}}.S - {{$item->episode_short }}.B - {{$item->name}}
+                                    <input type="checkbox" id="watched{{$item->code}}"
+                                        onchange="watchAnime('{{$item->code}}')" value="{{$item->code}}" checked>
+                                    <span class="checkmark"></span>
+                                </label>
                             </a>
+                            @else
+                            <a href="{{url("anime/".$anime->short_name."/".$i."/".$item->episode_short)}}"
+                                id="watchedATag{{$item->code}}" >
+                                <label class="container">{{$i}}.S - {{$item->episode_short }}.B - {{$item->name}}
+                                    <input type="checkbox" id="watched{{$item->code}}"
+                                        onchange="watchAnime('{{$item->code}}')" value="{{$item->code}}">
+                                    <span class="checkmark"></span>
+                                </label>
+                            </a>
+                            @endif
                             @endif
 
                             @endforeach

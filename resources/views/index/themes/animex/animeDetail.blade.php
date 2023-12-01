@@ -1,6 +1,74 @@
 @extends("index.themes.animex.layouts.main")
 @section('index_content')
 
+<style>
+    /* The container */
+    .container {
+        display: block;
+        position: relative;
+        padding-left: 25px;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    /* Hide the browser's default checkbox */
+    .container input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
+
+    /* Create a custom checkbox */
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 20px;
+        width: 20px;
+        background-color: #eee;
+    }
+
+    /* On mouse-over, add a grey background color */
+    .container:hover input~.checkmark {
+        background-color: #ccc;
+    }
+
+    /* When the checkbox is checked, add a blue background */
+    .container input:checked~.checkmark {
+        background-color: #2196F3;
+    }
+
+    /* Create the checkmark/indicator (hidden when not checked) */
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Show the checkmark when checked */
+    .container input:checked~.checkmark:after {
+        display: block;
+    }
+
+    /* Style the checkmark/indicator */
+    .container .checkmark:after {
+        left: 9px;
+        top: 5px;
+        width: 5px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+</style>
+
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
     integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjVShBftLdPG8FJ0V7irTLQ8Uo0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -126,9 +194,27 @@
                         <h5>{{$i}}.sezon</h5>
                     </div>
                     @foreach ($anime_episodes->where('season_short',$i) as $item)
-                    <a href="{{url("anime/".$anime->short_name."/".$i."/".$item->episode_short)}}">
-                        {{$i}} - {{$item->episode_short }}.Bölüm - {{$item->name}}
+                    @if (count($watched) > 0 &&
+                    count($watched->Where('anime_episode_code',$anime_episodes->code)->get())>1)
+                    <a style="background-color: green;" href="{{url("anime/".$anime->short_name."/".$i."/".$item->episode_short)}}"
+                        id="watchedATag{{$item->code}}" >
+                        <label class="container">{{$i}}.S - {{$item->episode_short }}.B - {{$item->name}}
+                            <input type="checkbox" id="watched{{$item->code}}" onchange="watchAnime('{{$item->code}}')"
+                                value="{{$item->code}}" checked>
+                            <span class="checkmark"></span>
+                        </label>
                     </a>
+                    @else
+                    <a href="{{url("anime/".$anime->short_name."/".$i."/".$item->episode_short)}}"
+                        id="watchedATag{{$item->code}}" >
+                        <label class="container">{{$i}}.S - {{$item->episode_short }}.B - {{$item->name}}
+                            <input type="checkbox" id="watched{{$item->code}}" onchange="watchAnime('{{$item->code}}')"
+                                value="{{$item->code}}">
+                            <span class="checkmark"></span>
+                        </label>
+                    </a>
+                    @endif
+
                     @endforeach
 
                 </div>
@@ -252,6 +338,52 @@ function scoreUser(){
 document.getElementById("likeAnimeTextMessage").innerText = "Lütfen İlk Önce Giriş Yapınız.";
     @endif
 }
+</script>
+
+<!-- İzleme ile ilgili fonksiyonlar -->
+<script>
+    function watchAnime(anime_episode_code){
+        var id = "watched" + anime_episode_code;
+        var anime_code = `{{$anime->code}}`;
+        @if (Auth::user())
+
+            var value = document.getElementById(id).checked;
+
+            $.ajaxSetup({
+                headers: {
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                },
+            });
+            $.ajax({
+                type: "POST",
+                url: '{{ route("index_watched_anime") }}',
+                data: {
+                    anime_episode_code: anime_episode_code,
+                    anime_code: anime_code,
+                    content_type: 1
+                }
+            })
+            .done(function (response) {
+                if (response.response === 0) {
+                    console.log('İşlem İçin Giriş Yapılması Gerekmektedir.');
+                } else if (response.response === 1) {
+                    console.log("Bölüm izlendi olarak işaretlendi");
+                    document.getElementById('watchedATag'+anime_episode_code).style.background = 'green';
+                } else if (response.response === 2) {
+                    console.log("Bölüm izlenmedi olarak işaretlendi");
+                    document.getElementById('watchedATag'+anime_episode_code).style.background = '';
+                } else {
+                    console.log('Bölüm izlendi olarak işaretlenirken beklenmedik bir hata meydana geldi');
+                }
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                console.log('AJAX hatası: ' + textStatus + ' - ' + errorThrown + ' - ' + JSON.stringify(jqXHR));
+            });
+        @else
+            alert("İlk Önce Giriş yapmanız gerekmektedir.")
+            document.getElementById(id).checked = false;
+        @endif
+    }
 </script>
 
 @endsection

@@ -3,12 +3,12 @@
 -------------------------------------------
 Yapılacaklar:
 Slider'a video ekleme kısmı;
-
+Webtoon Bulunduğu sezon düzeltilecek
 
 Kullanıcı arayüzü:
 
-İzlenen bölümlerin belirginleşmesi
+? - İzlenen bölümlerin belirginleşmesi
 Şifremi Unuttum kısmı
-2.temada profil ekranı, sayfa ekranı
+2.temada profil ekranı,  ? sayfa ekranı
 1.temada etiket gösteirmi, arama, izleme ve pdf görüntüleme ekranı
 

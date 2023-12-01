@@ -33,6 +33,8 @@ Route::controller(IndexController::class)->group(function () {
     Route::post("/control/username/ajax", 'controlUsername')->name('index_control_username');
     Route::post("/control/email/ajax", 'controlEmail')->name('index_control_email');
 
+    Route::post("/control/watchedAnime/ajax", 'watchedAnime')->name('index_watched_anime');
+
     Route::get('/contact', 'contactScreen')->name('contact_screen');
     Route::post('/contact', 'contact')->name('contact');
 

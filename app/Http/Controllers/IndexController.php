@@ -17,6 +17,7 @@ use App\Models\Page;
 use App\Models\Tag;
 use App\Models\Theme;
 use App\Models\ThemeSetting;
+use App\Models\WatchedAnime;
 use App\Models\Webtoon;
 use App\Models\WebtoonEpisode;
 use Illuminate\Http\Request;
@@ -233,8 +234,13 @@ class IndexController extends Controller
 
             $firstEpisodeUrl = "anime/" . $anime->short_name . "/" . $minSeasonShort . "/" . $minEpisodeShort;
         }
+        $watched = [];
+        if (Auth::user())
+            $watched = WatchedAnime::Where('anime_code', $anime->code)->Where('user_code', Auth::user()->code)->Where('content_type', 1)->get();
 
-        return $this->loadThemeView('animeDetail', compact('anime', 'trend_animes', 'anime_episodes', 'categories', 'followed', 'liked', 'firstEpisodeUrl'));
+
+
+        return $this->loadThemeView('animeDetail', compact('anime', 'trend_animes', 'anime_episodes', 'categories', 'followed', 'liked', 'firstEpisodeUrl', 'watched'));
     }
 
     public function watch(Request $request)
@@ -282,8 +288,12 @@ class IndexController extends Controller
         //dd($next_episode_control);
 
         $next_episode_url = $next_episode_control ? "anime/" . $anime->short_name . "/" . $next_episode_control->season_short . "/" . $next_episode_control->episode_short : "none";
-        //dd($next_episode_url);
-        return $this->loadThemeView('watch', compact('anime', 'episode', 'anime_episodes', 'trend_animes', 'comments_main', 'comments_alt', 'next_episode_url'));
+
+        $watched = [];
+        if (Auth::user())
+            $watched = WatchedAnime::Where('anime_code', $anime->code)->Where('user_code', Auth::user()->code)->Where('content_type', 1)->get();
+
+        return $this->loadThemeView('watch', compact('anime', 'episode', 'anime_episodes', 'trend_animes', 'comments_main', 'comments_alt', 'next_episode_url', 'watched'));
     }
 
     public function webtoonDetail(Request $request)
@@ -336,6 +346,10 @@ class IndexController extends Controller
             $firstEpisodeUrl = "webtoon/" . $webtoon->short_name . "/" . $minSeasonShort . "/" . $minEpisodeShort;
         }
 
+        $watched = [];
+        if (Auth::user())
+            $watched = WatchedAnime::Where('anime_code', $webtoon->code)->Where('user_code', Auth::user()->code)->Where('content_type', 0)->get();
+
         $additionalData = [
             'webtoon' => $webtoon,
             'trend_webtoons' => $trend_webtoons,
@@ -344,6 +358,7 @@ class IndexController extends Controller
             'followed' => $followed,
             'liked' => $liked,
             'firstEpisodeUrl' => $firstEpisodeUrl,
+            'watched' => $watched,
         ];
 
         return $this->loadThemeView('webtoonDetail', $additionalData);
@@ -400,7 +415,11 @@ class IndexController extends Controller
 
         $next_episode_url = $next_episode_control ? "webtoon/" . $webtoon->short_name . "/" . $next_episode_control->season_short . "/" . $next_episode_control->episode_short : "none";
 
-        return $this->loadThemeView('read', compact('webtoon', 'episode', 'webtoon_episodes', 'trend_webtoons', 'comments_main', 'comments_alt', 'next_episode_url'));
+        $watched = [];
+        if (Auth::user())
+            $watched = WatchedAnime::Where('anime_code', $webtoon->code)->Where('user_code', Auth::user()->code)->Where('content_type', 0)->get();
+
+        return $this->loadThemeView('read', compact('webtoon', 'episode', 'webtoon_episodes', 'trend_webtoons', 'comments_main', 'comments_alt', 'next_episode_url', 'watched'));
     }
 
     public function showPage(Request $request)
@@ -575,6 +594,28 @@ class IndexController extends Controller
         $control = !IndexUser::where('email', $request->email)->exists();
 
         return response()->json(['control' => $control]);
+    }
+
+    public function watchedAnime(Request $request)
+    {
+        $response = 0; //0: başarısız, 1: eklendi 2:silindi;
+
+        if (Auth::user()) {
+            $watched = WatchedAnime::Where('anime_code', $request->anime_code)->Where('anime_episode_code', $request->anime_episode_code)->Where('content_type', $request->content_type)->Where('user_code', Auth::user()->code)->first();
+            if ($watched) {
+                $watched->delete();
+                $response = 2;
+            } else {
+                $watched = new WatchedAnime();
+                $watched->anime_code = $request->anime_code;
+                $watched->anime_episode_code = $request->anime_episode_code;
+                $watched->content_type = $request->content_type;
+                $watched->user_code = Auth::user()->code;
+                $watched->save();
+                $response = 1;
+            }
+        }
+        return response()->json(['response' => $response]);
     }
 
 
