@@ -226,7 +226,15 @@ class IndexController extends Controller
             ->select('categories.*')
             ->get();
 
-        return $this->loadThemeView('animeDetail', compact('anime', 'trend_animes', 'anime_episodes', 'categories', 'followed', 'liked'));
+        $firstEpisodeUrl = 'none';
+        if (count($anime_episodes) > 0) {
+            $minSeasonShort = $anime_episodes->min('season_short');
+            $minEpisodeShort = $anime_episodes->where('season_short', $minSeasonShort)->min('episode_short');
+
+            $firstEpisodeUrl = "anime/" . $anime->short_name . "/" . $minSeasonShort . "/" . $minEpisodeShort;
+        }
+
+        return $this->loadThemeView('animeDetail', compact('anime', 'trend_animes', 'anime_episodes', 'categories', 'followed', 'liked', 'firstEpisodeUrl'));
     }
 
     public function watch(Request $request)
@@ -289,9 +297,12 @@ class IndexController extends Controller
 
         $currentTime = now();
 
-        $webtoon_episodes = WebtoonEpisode::where('webtoon_code', $webtoon->code)
+        $webtoon_episodes = WebtoonEpisode::Where('deleted', 0)
+            ->where('webtoon_code', $webtoon->code)
             ->where('publish_date', '<=', $currentTime)
             ->get();
+
+        //dd($webtoon_episodes);
 
         $followed = false;
         $liked = false;
@@ -317,6 +328,14 @@ class IndexController extends Controller
             ->select('categories.*')
             ->get();
 
+        $firstEpisodeUrl = 'none';
+        if (count($webtoon_episodes) > 0) {
+            $minSeasonShort = $webtoon_episodes->min('season_short');
+            $minEpisodeShort = $webtoon_episodes->where('season_short', $minSeasonShort)->min('episode_short');
+
+            $firstEpisodeUrl = "webtoon/" . $webtoon->short_name . "/" . $minSeasonShort . "/" . $minEpisodeShort;
+        }
+
         $additionalData = [
             'webtoon' => $webtoon,
             'trend_webtoons' => $trend_webtoons,
@@ -324,14 +343,64 @@ class IndexController extends Controller
             'categories' => $categories,
             'followed' => $followed,
             'liked' => $liked,
+            'firstEpisodeUrl' => $firstEpisodeUrl,
         ];
 
         return $this->loadThemeView('webtoonDetail', $additionalData);
     }
 
-    public function read()
+    public function read(Request $request)
     {
-        return $this->loadThemeView('read');
+        $webtoon = Webtoon::Where('deleted', 0)->Where('short_name', $request->short_name)->first();
+        $episode = WebtoonEpisode::Where("deleted", 0)->Where('season_short', $request->season)->Where('episode_short', $request->episode)->first();
+
+        $trend_webtoons = Webtoon::Where('deleted', 0)->take(4)->orderBy('click_count', 'ASC')->get();
+
+        $currentTime = Carbon::now();
+        $webtoon_episodes = WebtoonEpisode::where('webtoon_code', $webtoon->code)
+            ->where('publish_date', '<=', $currentTime)
+            ->where('deleted', 0)
+            ->get();
+
+        $content_type = 0; //webtoon olduğu için
+
+        $comments_main = DB::table('comments')
+            ->Where('comments.deleted', 0)
+            ->Where('comments.content_code', $webtoon->code)
+            ->Where('comments.content_type', $content_type)
+            ->Where('comments.comment_type', 0)
+            ->Where('comments.comment_top_code', 0)
+            ->join('index_users', 'index_users.code', '=', 'comments.user_code')
+            ->select('index_users.name as user_name', 'index_users.username as user_username', 'index_users.image as user_image', 'comments.*')
+            ->orderBy('comment_short', 'ASC')
+            ->get();
+
+
+        $comments_alt = DB::table('comments')
+            ->Where('comments.deleted', 0)
+            ->Where('comments.content_code', $webtoon->code)
+            ->Where('comments.content_type', $content_type)
+            ->Where('comments.comment_type', 1)
+            ->Where('comments.comment_top_code', "!=", 0)
+            ->join('index_users', 'index_users.code', '=', 'comments.user_code')
+            ->select('index_users.name as user_name', 'index_users.username as user_username', 'index_users.image as user_image', 'comments.*')
+            ->orderBy('comment_short', 'ASC')
+            ->get();
+
+        //dd((intval($request->episode) + 1));
+        $next_episode_url = "none";
+        $next_episode_control =
+            WebtoonEpisode::Where("deleted", 0)->Where('season_short', $request->season)->Where('episode_short', (intval($request->episode) + 1))->first();
+
+        if (!$next_episode_control) {
+
+            $next_episode_control =
+                WebtoonEpisode::Where("deleted", 0)->Where('season_short', intval(($request->season) + 1))->Where('episode_short', 1)->first();
+        }
+
+        $next_episode_url = $next_episode_control ? "webtoon/" . $webtoon->short_name . "/" . $next_episode_control->season_short . "/" . $next_episode_control->episode_short : "none";
+
+        return $this->loadThemeView('read', compact('webtoon', 'episode', 'webtoon_episodes', 'trend_webtoons', 'comments_main', 'comments_alt', 'next_episode_url'));
     }
 
     public function showPage(Request $request)

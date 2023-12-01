@@ -75,7 +75,8 @@
                         <div class="movie-item movie-item-two mb-30">
                             <div class="movie-poster"
                                 style="min-width: 195px; min-height: 285px; max-width: 195px; max-height: 285px;">
-                                <a href="webtoon/{{$item->short_name}}"><img src="../../../{{$item->image}}" alt=""></a>
+                                <a href="{{url('webtoon/'.$item->short_name)}}"><img src="../../../{{$item->image}}"
+                                        alt=""></a>
                             </div>
                             <div class="movie-content">
                                 <div class="rating">
@@ -85,7 +86,8 @@
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
                                 </div>
-                                <h5 class="title"><a href="webtoon/{{$item->short_name}}">{{$item->name}}</a></h5>
+                                <h5 class="title"><a href="{{url('webtoon/'.$item->short_name)}}">{{$item->name}}</a>
+                                </h5>
                                 <span class="rel">{{$item->main_tag_name ?? 'Genel'}}</span>
                                 <div class="movie-content-bottom">
                                     <ul>
@@ -115,7 +117,7 @@
                             <div class="movie-item movie-item-two mb-30">
                                 <div class="movie-poster"
                                     style="min-width: 195px; min-height: 285px; max-width: 195px; max-height: 285px;">
-                                    <a href="anime/{{$item->short_name}}"><img src="../../../{{$item->image}}"
+                                    <a href="{{url('anime/'.$item->short_name)}}"><img src="../../../{{$item->image}}"
                                             alt=""></a>
                                 </div>
                                 <div class="movie-content">
@@ -126,7 +128,8 @@
                                         <i class="fas fa-star"></i>
                                         <i class="fas fa-star"></i>
                                     </div>
-                                    <h5 class="title"><a href="anime/{{$item->short_name}}">{{$item->name}}</a></h5>
+                                    <h5 class="title"><a href="{{url('anime/'.$item->short_name)}}">{{$item->name}}</a>
+                                    </h5>
                                     <span class="rel">{{$item->main_tag_name ?? 'Genel'}}</span>
                                     <div class="movie-content-bottom">
                                         <ul>
@@ -180,7 +183,7 @@
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
                             </div>
-                            <h5 class="title"><a href="anime/{{$item->short_name}}">{{$item->name}}</a></h5>
+                            <h5 class="title"><a href="{{url('anime/'.$item->short_name)}}">{{$item->name}}</a></h5>
                             <span class="rel">{{$item->main_tag_name ?? 'Genel'}}</span>
                             <div class="movie-content-bottom">
                                 <ul>
@@ -224,9 +227,9 @@
                             style="min-width: 195px; min-height: 285px; max-width: 195px; max-height: 285px;">
                             <img src="../../../{{$item->image}}" alt="">
                             <ul class="overlay-btn">
-                                <li><a href="webtoon/{{$item->short_name}}" class="btn">Oku</a>
+                                <li><a href="{{url('webtoon/'.$item->short_name)}}" class="btn">Oku</a>
                                 </li>
-                                <li><a href="webtoon/{{$item->short_name}}" class="btn">Detay</a></li>
+                                <li><a href="{{url('webtoon/'.$item->short_name)}}" class="btn">Detay</a></li>
                             </ul>
                         </div>
                         <div class="movie-content">
@@ -237,7 +240,7 @@
                                 <i class="fas fa-star"></i>
                                 <i class="fas fa-star"></i>
                             </div>
-                            <h5 class="title"><a href="webtoon/{{$item->short_name}}">{{$item->name}}</a></h5>
+                            <h5 class="title"><a href="{{url('webtoon/'.$item->short_name)}}">{{$item->name}}</a></h5>
                             <span class="rel">{{$item->main_tag_name ?? 'Genel'}}</span>
                             <div class="movie-content-bottom">
                                 <ul>

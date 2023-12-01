@@ -39,7 +39,8 @@
 
                         <div class="col-lg-3 col-md-6 col-sm-6">
                             <div class="product__item">
-                                <a href="{{$item->type =='anime' ? 'anime/' : 'webtoon/' }}{{$item->short_name}}">
+                                <a
+                                    href="{{$item->type =='anime' ? url('anime/'.$item->short_name) : url('webtoon/'.$item->short_name) }}{{$item->short_name}}">
                                     <div class="product__item__pic set-bg" data-setbg="../../../{{$item->image}}">
                                         <div class="ep">{{$item->score}} / 5</div>
                                         <div class="comment"><i class="fa fa-comments"></i> {{$item->comment_count}}
@@ -52,7 +53,7 @@
                                         <li>{{$item->main_category_name}}</li>
                                     </ul>
                                     <h5>
-                                        <a href="{{$item->type =='anime' ? 'anime/' : 'webtoon/' }}{{$item->short_name}}"">{{$item->name}}</a>
+                                        <a href="{{$item->type =='anime' ? url('anime/'.$item->short_name) : url('webtoon/'.$item->short_name) }}{{$item->short_name}}"">{{$item->name}}</a>
                                     </h5>
                                 </div>
                             </div>

@@ -196,12 +196,13 @@
                 <div class="col-xl-3 col-lg-4 col-sm-6">
                     <div class="movie-item mb-50">
                         <div class="movie-poster">
-                            <a href="/webtoon/{{$item->short_name}}"><img src="../../../{{$item->image}}" alt=""
+                            <a href="{{url('webtoon/'.$item->short_name)}}"><img src="../../../{{$item->image}}" alt=""
                                     style="min-width: 303px; min-height: 430px; max-width: 303px; max-height: 430px;"></a>
                         </div>
                         <div class="movie-content">
                             <div class="top">
-                                <h5 class="title"><a href="/webtoon/{{$item->short_name}}">{{$item->name}}</a></h5>
+                                <h5 class="title"><a href="{{url('webtoon/'.$item->short_name)}}">{{$item->name}}</a>
+                                </h5>
                                 <span class="date">{{$item->date}}</span>
                             </div>
                             <div class="bottom">

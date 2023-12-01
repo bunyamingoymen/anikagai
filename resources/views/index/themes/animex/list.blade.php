@@ -60,9 +60,9 @@
                         <div class="col-lg-3 col-md-6 col-sm-6">
                             <div class="product__item">
                                 @if ($path == "animeler")
-                                <a href="anime/{{$item->short_name}}">
+                                <a href="{{url('anime/'.$item->short_name)}}">
                                     @elseif ($path == "webtoonlar")
-                                    <a href="webtoon/{{$item->short_name}}">
+                                    <a href="{{url('webtoon/'.$item->short_name)}}">
                                         @endif
                                         <div class="product__item__pic set-bg" data-setbg="../../../{{$item->image}}">
                                             <div class="ep">{{$item->score}} / 5</div>
@@ -77,9 +77,9 @@
                                         </ul>
                                         <h5>
                                             @if ($path == "animeler")
-                                            <a href="anime/{{$item->short_name}}">{{$item->name}}</a>
+                                            <a href="{{url('anime/'.$item->short_name)}}">{{$item->name}}</a>
                                             @elseif ($path == "webtoonlar")
-                                            <a href="webtoon/{{$item->short_name}}">{{$item->name}}</a>
+                                            <a href="{{url('webtoon/'.$item->short_name)}}">{{$item->name}}</a>
                                             @endif
                                         </h5>
                                     </div>

@@ -2,15 +2,13 @@
 
 -------------------------------------------
 Yapılacaklar:
-
+Slider'a video ekleme kısmı;
 
 
 Kullanıcı arayüzü:
 
 İzlenen bölümlerin belirginleşmesi
 Şifremi Unuttum kısmı
-pdf görüntüleme
 2.temada profil ekranı, sayfa ekranı
 1.temada etiket gösteirmi, arama, izleme ve pdf görüntüleme ekranı
-Kayıt olda şifreler uyuşuyor mu diye kontrol et.
 

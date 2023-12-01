@@ -98,7 +98,9 @@
                                     class="fa fa-heart-o"></i> Favorilere Ekle</a>
                             @endif
 
-                            <a href="#" class="watch-btn"><span>İzle</span> <i class="fa fa-angle-right"></i></a>
+                            <a href="{{url($firstEpisodeUrl)}}" {{$firstEpisodeUrl !="none" ? "" : "hidden" }}
+                                class="watch-btn"><span>İlk Bölümü
+                                    İzle</span> <i class="fa fa-angle-right"></i></a>
                         </div>
                         <p id="likeAnimeTextMessage" style="color:red;"></p>
                     </div>
@@ -145,7 +147,7 @@
                     @foreach ($trend_animes as $item)
                     <div class="col-lg-8 col-md-12 col-sm-12">
                         <div class="product__item">
-                            <a href="anime/{{$item->short_name}}">
+                            <a href="{{url("anime/".$item->short_name)}}">
                                 <div class="product__item__pic set-bg" data-setbg="../../../{{$item->image}}">
                                     <div class="ep">{{$item->score}} / 5</div>
                                     <div class="comment"><i class="fa fa-comments"></i> {{$item->comment_count}}</div>
@@ -156,7 +158,7 @@
                                 <ul>
                                     <li>{{$item->main_category_name ?? 'Genel'}}</li>
                                 </ul>
-                                <h5><a href="webtoon/{{$item->short_name}}">{{$item->name}}</a></h5>
+                                <h5><a href="{{url("anime/".$item->short_name)}}">{{$item->name}}</a></h5>
                             </div>
                         </div>
                     </div>

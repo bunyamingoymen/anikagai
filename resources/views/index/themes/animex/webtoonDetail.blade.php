@@ -1,6 +1,28 @@
 @extends("index.themes.animex.layouts.main")
 @section('index_content')
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjVShBftLdPG8FJ0V7irTLQ8Uo0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<!-- default styles -->
+<link href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/css/star-rating.min.css" media="all"
+    rel="stylesheet" type="text/css" />
+
+<!-- with v4.1.0 Krajee SVG theme is used as default (and must be loaded as below) - include any of the other theme CSS files as mentioned below (and change the theme property of the plugin) -->
+<link href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/themes/krajee-fas/theme.css" media="all"
+    rel="stylesheet" type="text/css" />
+
+<!-- important mandatory libraries -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/js/star-rating.min.js"
+    type="text/javascript"></script>
+
+<!-- with v4.1.0 Krajee SVG theme is used as default (and must be loaded as below) - include any of the other theme JS files as mentioned below (and change the theme property of the plugin) -->
+<script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/themes/krajee-fas/theme.js"></script>
+
+<!-- optionally if you need translation for your language then include locale file as mentioned below (replace LANG.js with your own locale file) -->
+<script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/js/locales/LANG.js"></script>
+
 <!-- Breadcrumb Begin -->
 <div class="breadcrumb-option">
     <div class="container">
@@ -17,14 +39,14 @@
 </div>
 <!-- Breadcrumb End -->
 
-<!-- Webtoon Section Begin -->
+<!-- Anime Section Begin -->
 <section class="anime-details spad">
     <div class="container">
         <div class="anime__details__content">
             <div class="row">
                 <div class="col-lg-3">
                     <div class="anime__details__pic set-bg" data-setbg="../../../{{$webtoon->image}}">
-                        <div class="comment"><i class="fa fa-comments"></i> {{$item->comment_count}}</div>
+                        <div class="comment"><i class="fa fa-comments"></i> {{$webtoon->comment_count}}</div>
                         <div class="view"><i class="fa fa-eye"></i> {{$webtoon->click_Count}}</div>
                     </div>
                 </div>
@@ -33,17 +55,9 @@
                         <div class="anime__details__title">
                             <h3>{{$webtoon->name}}</h3>
                         </div>
-                        <div class="anime__details__rating">
-                            <div class="rating">
-                                <a href="#"><i class="fa fa-star"></i></a>
-                                <a href="#"><i class="fa fa-star"></i></a>
-                                <a href="#"><i class="fa fa-star"></i></a>
-                                <a href="#"><i class="fa fa-star"></i></a>
-                                <a href="#"><i class="fa fa-star-half-o"></i></a>
-                            </div>
-                            <span>{{$webtoon->scoreUsers}} Oy Kullanıldı</span>
-                        </div>
-                        <p>{{$webtoon->description}}</p>
+                        <p style="margin-top: 10px;">
+                            {{$webtoon->description}}
+                        </p>
                         <div class="anime__details__widget">
                             <div class="row">
                                 <div class="col-lg-6 col-md-6">
@@ -73,7 +87,7 @@
                             <a href="javascript:;" onclick="unfollowWebtoon()" class="follow-btn"><i
                                     class="fa fa-plus"></i> Takipten Çıkar</a>
                             @else
-                            <a href="javascript:;" onclick="followWebtoon()" class="follow-btn"><i
+                            <a href="javascript:;" onclick="followWebtoone()" class="follow-btn"><i
                                     class="fa fa-plus"></i>
                                 Takip Et</a>
                             @endif
@@ -85,42 +99,57 @@
                                     class="fa fa-heart-o"></i> Favorilere Ekle</a>
                             @endif
 
-                            <a href="#" class="watch-btn"><span>Oku</span> <i class="fa fa-angle-right"></i></a>
+                            <a href="{{url($firstEpisodeUrl)}}" {{$firstEpisodeUrl !="none" ? "" : "hidden" }}
+                                class="watch-btn"><span>İlk Bölümü
+                                    İzle</span> <i class="fa fa-angle-right"></i></a>
                         </div>
                         <p id="likeWebtoonTextMessage" style="color:red;"></p>
                     </div>
+                    <div class="anime__details__rating">
+                        <span>{{$webtoon->scoreUsers}} Oy Kullanıldı</span>
+                        <div class="rating">
+                            <input id="scoreRateID" type="text" class="kv-ltr-theme-fas-star rating-loading"
+                                data-size="sm" value="{{$webtoon->score}}" onchange="scoreUser()">
+                        </div>
+
+                    </div>
                 </div>
+
             </div>
         </div>
         <div class="row">
+            @if ($webtoon->season_count > 0)
+            @for ($i = $webtoon->season_count; $i>=1; $i--)
             <div class="col-lg-8 col-md-8">
-                @if ($webtoon->season_count > 0)
-                @for ($i = $webtoon->season_count; $i>=1; $i--)
-                <div class="col-lg-12 col-md-12 webtoon__details__episodes">
+
+                <div class="col-lg-12 col-md-12 anime__details__episodes">
                     <div class="section-title">
                         <h5>{{$i}}.sezon</h5>
                     </div>
                     @foreach ($webtoon_episodes->where('season_short',$i) as $item)
-                    <a href="#">Bölüm {{$loop->index + 1}} - {{$item->name}}</a>
+                    <a href="{{url("webtoon/".$webtoon->short_name."/".$i."/".$item->episode_short)}}">
+                        {{$i}} - {{$item->episode_short }}.Bölüm - {{$item->name}}
+                    </a>
+
                     @endforeach
-                    @endfor
-                    @else
-                    <div class="col-lg-12 col-md-12 section-title">
-                        <h5>Herhani gib bölüm mevcut değil.</h5>
-                    </div>
-                    @endif
 
                 </div>
             </div>
+            @endfor
+            @else
+            <div class="col-lg-12 col-md-12 section-title">
+                <h5>Herhani gib bölüm mevcut değil.</h5>
+            </div>
+            @endif
             <div class="col-lg-4 col-md-4 justify-content-end">
-                <div class="webtoon__details__sidebar">
+                <div class="anime__details__sidebar">
                     <div class="section-title">
                         <h5>Benzer İçerikler</h5>
                     </div>
                     @foreach ($trend_webtoons as $item)
                     <div class="col-lg-8 col-md-12 col-sm-12">
                         <div class="product__item">
-                            <a href="webtoon/{{$item->short_name}}">
+                            <a href="{{url('webtoon/'.$item->short_name)}}">
                                 <div class="product__item__pic set-bg" data-setbg="../../../{{$item->image}}">
                                     <div class="ep">{{$item->score}} / 5</div>
                                     <div class="comment"><i class="fa fa-comments"></i> {{$item->comment_count}}</div>
@@ -131,7 +160,7 @@
                                 <ul>
                                     <li>{{$item->main_category_name ?? 'Genel'}}</li>
                                 </ul>
-                                <h5><a href="webtoon/{{$item->short_name}}">{{$item->name}}</a></h5>
+                                <h5><a href="{{url('webtoon/'.$item->short_name)}}">{{$item->name}}</a></h5>
                             </div>
                         </div>
                     </div>
@@ -141,9 +170,9 @@
         </div>
     </div>
 </section>
-<!-- Webtoon Section End -->
+<!-- Anime Section End -->
 
-<div id="hiddenDiv" hidden>
+<div id="hiddenDiv">
 
 </div>
 
@@ -158,7 +187,7 @@
             document.getElementById('hiddenDiv').innerHTML = code;
             document.getElementById('followWebtoonForm').submit();
         @else
-            document.getElementById('followWebtoonTextMessage').innerText = "Lütfen Giriş Yapınız."
+            document.getElementById('likeWebtoonTextMessage').innerText = "Lütfen Giriş Yapınız."
         @endif
     }
     function unfollowWebtoon(){
@@ -171,7 +200,7 @@
             document.getElementById('hiddenDiv').innerHTML = code;
             document.getElementById('unfollowWebtoonForm').submit();
         @else
-            document.getElementById('followWebtoonTextMessage').innerText = "Lütfen Giriş Yapınız."
+            document.getElementById('likeWebtoonTextMessage').innerText = "Lütfen Giriş Yapınız."
         @endif
     }
     function likeWebtoon(){
@@ -200,6 +229,31 @@
             document.getElementById('likeWebtoonTextMessage').innerText = "Lütfen Giriş Yapınız."
         @endif
     }
+</script>
+
+<script>
+    // initialize with defaults
+$("#scoreRateID").rating({theme: 'krajee-fas'});
+$(".caption").css("display", "none");
+$(".krajee-icon-clear").css("display", "none");
+$(".clear-rating-active").css("display", "none");
+
+function scoreUser(){
+    @if (Auth::user())
+        var score = document.getElementById("scoreRateID").value;
+        var html = `<form action="{{route('scoreUser')}}" id="scoreUserSubmitForm" method="POST">
+            @csrf
+            <input type="text" name="score" value="`+score+`">
+            <input type="text" name="user_code" value="{{Auth::user()->code}}">
+            <input type="text" name="content_code" value="{{$webtoon->code}}">
+            <input type="text" name="content_type" value="0">
+        </form>`
+        document.getElementById("hiddenDiv").innerHTML = html;
+        document.getElementById("scoreUserSubmitForm").submit();
+    @else
+    document.getElementById("likeWebtoonTextMessage").innerText = "Lütfen İlk Önce Giriş Yapınız.";
+    @endif
+}
 </script>
 
 @endsection

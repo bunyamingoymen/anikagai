@@ -11,19 +11,7 @@
                     <div class="row">
                         <div hidden>
                             <input type="text" id='code' name='code' value="{{$webtoon_episode->code}}">
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label for="webtoon_code">Webtoon:</label>
-                            <select name="webtoon_code" id="webtoon_code" class="form-control" required>
-                                @foreach ($webtoons as $webtoon)
-                                @if ($webtoon_episode->webtoon_code == $webtoon->code)
-                                <option value="{{$webtoon->code}}" selected>{{$webtoon->name}}</option>
-                                @else
-                                <option value="{{$webtoon->code}}">{{$webtoon->name}}</option>
-                                @endif
-
-                                @endforeach
-                            </select>
+                            <input type="text" id='webtoon_code' name='webtoon_code' value="{{$webtoon->code}}">
                         </div>
                         <div class="col-md-4 mb-3">
                             <label for="name">Bölüm Adı:</label>

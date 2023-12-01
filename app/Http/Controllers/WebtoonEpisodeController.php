@@ -65,7 +65,10 @@ class WebtoonEpisodeController extends Controller
             $webtoon_episode->file = "";
         }
 
-
+        $webtoon = Webtoon::Where('code', $request->webtoon_code)->first();
+        $webtoon->episode_count = $webtoon->episode_count + 1;
+        $webtoon->season_count = $request->season_short != $webtoon->season_count ?  $request->season_short : $webtoon->season_count;
+        $webtoon->save();
 
         $webtoon_episode->create_user_code = Auth::guard('admin')->user()->code;
 
@@ -104,6 +107,10 @@ class WebtoonEpisodeController extends Controller
         $webtoon_episode->update_user_code = Auth::guard('admin')->user()->code;
 
         $webtoon_episode->save();
+
+        $anime = Webtoon::Where('code', $request->webtoon_code)->first();
+        $anime->season_count = $request->season_short != $anime->season_count ?  $request->season_short : $anime->season_count;
+        $anime->save();
 
         return redirect()->route('admin_webtoon_episodes_list')->with("success", Config::get('success.success_codes.10110012'));
     }

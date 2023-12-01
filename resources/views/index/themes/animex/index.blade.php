@@ -46,7 +46,8 @@
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4">
                             <div class="btn__all">
-                                <a href="#" class="primary-btn">Tümünü Görüntüle <span class="arrow_right"></span></a>
+                                <a href="{{route('anime_list')}}" class="primary-btn">Tümünü Görüntüle <span
+                                        class="arrow_right"></span></a>
                             </div>
                         </div>
                     </div>
@@ -54,7 +55,7 @@
                         @foreach ($animes as $item)
                         <div class="col-lg-4 col-md-6 col-sm-6">
                             <div class="product__item">
-                                <a href="anime/{{$item->short_name}}">
+                                <a href="{{url('anime/'.$item->short_name)}}">
                                     <div class="product__item__pic set-bg" data-setbg="../../../{{$item->image}}">
                                         <div class="ep">{{$item->score}} / 5</div>
                                         <div class="comment"><i class="fa fa-comments"></i> {{$item->comment_count}}
@@ -66,7 +67,7 @@
                                     <ul>
                                         <li>{{$item->main_category_name ?? 'Genel'}}</li>
                                     </ul>
-                                    <h5><a href="anime/{{$item->short_name}}">{{$item->name}}</a></h5>
+                                    <h5><a href="{{url('anime/'.$item->short_name)}}">{{$item->name}}</a></h5>
                                 </div>
                             </div>
                         </div>
@@ -84,7 +85,8 @@
                         </div>
                         <div class="col-lg-4 col-md-4 col-sm-4">
                             <div class="btn__all">
-                                <a href="#" class="primary-btn">Tümünü Görüntüle <span class="arrow_right"></span></a>
+                                <a href="{{route('webtoon_list')}}" class="primary-btn">Tümünü Görüntüle <span
+                                        class="arrow_right"></span></a>
                             </div>
                         </div>
                     </div>
@@ -92,7 +94,7 @@
                         @foreach ($webtoons as $item)
                         <div class="col-lg-4 col-md-6 col-sm-6">
                             <div class="product__item">
-                                <a href="anime/{{$item->short_name}}">
+                                <a href="{{url('webtoon/'.$item->short_name)}}">
                                     <div class="product__item__pic set-bg" data-setbg="../../../{{$item->image}}">
                                         <div class="ep">{{$item->score}} / 5</div>
                                         <div class="comment"><i class="fa fa-comments"></i> {{$item->comment_count}}
@@ -104,7 +106,7 @@
                                     <ul>
                                         <li>{{$item->main_category_name ?? 'Genel'}}</li>
                                     </ul>
-                                    <h5><a href="webtoon/{{$item->short_name}}">{{$item->name}}</a></h5>
+                                    <h5><a href="{{url('webtoon/'.$item->short_name)}}">{{$item->name}}</a></h5>
                                 </div>
                             </div>
                         </div>
@@ -130,7 +132,7 @@
                                 <ul>
                                     <li>{{$item->main_category_name}}</li>
                                 </ul>
-                                <h5><a href="anime/{{$item->short_name}}">{{$item->name}}</a></h5>
+                                <h5><a href="{{url('anime/'.$item->short_name)}}">{{$item->name}}</a></h5>
                                 <span><i class="fa fa-eye"></i> {{$item->click_count}} Görüntülenme</span>
                             </div>
                         </div>
@@ -152,7 +154,7 @@
                                 <ul>
                                     <li>{{$item->main_category_name}}</li>
                                 </ul>
-                                <h5><a href="webtoon/{{$item->short_name}}">{{$item->name}}</a></h5>
+                                <h5><a href="{{url('webtoon/'.$item->short_name)}}">{{$item->name}}</a></h5>
                                 <span><i class="fa fa-eye"></i> {{$item->click_count}} Görüntülenme</span>
                             </div>
                         </div>

@@ -180,15 +180,18 @@
             document.getElementById("registerMessageText").innerText =
                 "Lütfen Tüm gerekli alanları doldurunuz.";
         } else if (controlIsUsername && controlIsEmail) {
-            document.getElementById("registerSubmitForm").submit();
+
+            if (password == password_repeat) {
+                document.getElementById("registerSubmitForm").submit();
+            }else{
+                document.getElementById("registerMessageText").innerText =
+                    "Şifre İle Şifre Tekrarı aynı değil.";
+            }
         } else {
             if (!controlIsUsername) {
                 document.getElementById("registerMessageText").innerText =
                     "Bu Kullanıcı adı alınamaz";
-            } else if (password != password_repeat) {
-                document.getElementById("registerMessageText").innerText =
-                    "Şifre İle Şifre Tekrarı aynı değil.";
-            } else {
+            }  else {
                 document.getElementById("registerMessageText").innerText =
                     "Bu E-mail adresi alınamaz";
             }

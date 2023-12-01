@@ -10,6 +10,7 @@ class WatchedAnime extends Model
     use HasFactory;
     protected $fillable = [
         'anime_code',
+        'anime_episode_code',
         'user_code',
     ];
 }

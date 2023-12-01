@@ -202,7 +202,7 @@
                                 <ul>
                                     <li>{{$item->main_category_name ?? 'Genel'}}</li>
                                 </ul>
-                                <h5><a href="webtoon/{{$item->short_name}}">{{$item->name}}</a></h5>
+                                <h5><a href="{{url('anime/'.$item->short_name)}}">{{$item->name}}</a></h5>
                             </div>
                         </div>
                     </div>

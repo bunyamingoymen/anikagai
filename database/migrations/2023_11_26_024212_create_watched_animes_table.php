@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('watched_animes', function (Blueprint $table) {
             $table->id();
             $table->string('anime_code');
+            $table->string('anime_episode_code');
             $table->string('user_code');
             $table->timestamps();
         });

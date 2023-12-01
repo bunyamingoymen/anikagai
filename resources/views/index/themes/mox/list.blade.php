@@ -82,18 +82,19 @@
                                 <li><a href="" # class="btn">Oku</a></li>
                                 @endif
                                 @if ($path == "animeler")
-                                <li><a href="anime/{{$item->short_name}}" class="btn">Detay</a></li>
+                                <li><a href="{{url('anime/'.$item->short_name)}}" class="btn">Detay</a></li>
                                 @elseif ($path == "webtoonlar")
-                                <li><a href="webtoon/{{$item->short_name}}" class="btn">Detay</a></li>
+                                <li><a href="{{url('webtoon/'.$item->short_name)}}" class="btn">Detay</a></li>
                                 @endif
                             </ul>
                         </div>
                         <div class="movie-content">
                             <div class="top">
                                 @if ($path == "animeler")
-                                <h5 class="title"><a href="anime/{{$item->short_name}}">{{$item->name}}</a></h5>
+                                <h5 class="title"><a href="{{url('anime/'.$item->short_name)}}">{{$item->name}}</a></h5>
                                 @elseif ($path == "webtoonlar")
-                                <h5 class="title"><a href="webtoon/{{$item->short_name}}">{{$item->name}}</a></h5>
+                                <h5 class="title"><a href="{{url('webtoon/'.$item->short_name)}}">{{$item->name}}</a>
+                                </h5>
                                 @endif
                                 <span class="date">{{$item->date}}</span>
                             </div>
