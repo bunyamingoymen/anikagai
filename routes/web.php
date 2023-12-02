@@ -12,6 +12,7 @@ use App\Http\Controllers\DataController;
 use App\Http\Controllers\FollowUserController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\IndexDataController;
+use App\Http\Controllers\IndexUserController;
 use App\Http\Controllers\KeyValueController;
 use App\Http\Controllers\NotificationAdminController;
 use App\Http\Controllers\PageController;
@@ -164,6 +165,19 @@ Route::middleware(['auth'])->group(function () {
             Route::post("/admin/user/update", "userUpdate")->name('admin_user_update');
 
             Route::post("/admin/user/delete", "userDelete")->name('admin_user_delete');
+        });
+
+        Route::controller(IndexUserController::class)->group(function () {
+            Route::get("/admin/indexUser/list", "indexUserList")->name('admin_indexuser_list');
+            Route::post("/admin/indexUser/list/ajax", "indexUserGetData")->name('admin_indexuser_get_data');
+
+            Route::get("/admin/indexUser/create", "indexUserCreateScreen")->name('admin_indexuser_create_screen');
+            Route::post("/admin/indexUser/create", "indexUserCreate")->name('admin_indexuser_create');
+
+            Route::get("/admin/indexUser/update", "indexUserUpdateScreen")->name('admin_indexuser_update_screen');
+            Route::post("/admin/indexUser/update", "indexUserUpdate")->name('admin_indexuser_update');
+
+            Route::post("/admin/indexUser/delete", "indexUserDelete")->name('admin_indexuser_delete');
         });
 
         Route::controller(AuthGroupController::class)->group(function () {

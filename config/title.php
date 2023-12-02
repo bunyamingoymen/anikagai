@@ -266,5 +266,21 @@ return [
         'admin/comment' => "Yorumlar",
         '/admin/comment' => ["Admin", "Yorumlar"],
         '//admin/comment' => ["admin_index", "#"],
+
+
+
+
+
+        'admin/indexUser/list' => "Üyeler",
+        '/admin/indexUser/list' => ["Admin", "Üyeler"],
+        '//admin/indexUser/list' => ["admin_index", "#"],
+
+        'admin/indexUser/create' => "Yeni Üye Oluştur",
+        '/admin/indexUser/create' => ["Admin", "Üyeler", "Yeni Üye Oluştur"],
+        '//admin/indexUser/create' => ["admin_index", 'admin_indexuser_list', "#"],
+
+        'admin/indexUser/update' => "Üyeyi Güncelle",
+        '/admin/indexUser/update' => ["Admin", "Üyeler", "Üyeyi Güncelle"],
+        '//admin/indexUser/update' => ["admin_index", 'admin_indexuser_list', "#"],
     ],
 ];

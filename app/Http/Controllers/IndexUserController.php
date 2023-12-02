@@ -1,0 +1,129 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\IndexUser;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Hash;
+
+class IndexUserController extends Controller
+{
+    public function indexUserList()
+    {
+        $indexUsers = IndexUser::Where('code', '!=', 0)->take(10)->get();
+        $currentCount = 1;
+        $pageCountTest = IndexUser::count();
+        if ($pageCountTest % $this->showCount == 0)
+            $pageCount = $pageCountTest / $this->showCount;
+        else
+            $pageCount = intval($pageCountTest / $this->showCount) + 1;
+        return view("admin.indexUsers.list", ["indexUsers" => $indexUsers, 'pageCount' => $pageCount, 'currentCount' => $currentCount]);
+    }
+
+    public function indexUserCreateScreen()
+    {
+        return view("admin.indexUsers.create");
+    }
+
+    public function indexUserCreate(Request $request)
+    {
+        $indexUser = new IndexUser();
+
+        $indexUsers_code = IndexUser::orderBy('created_at', 'DESC')->first();
+        if ($indexUsers_code) $indexUser->code = $indexUsers_code->code + 1;
+        else $indexUser->code = 1;
+
+        $user_email = IndexUser::Where('email', $request->email)->first();
+        if ($user_email) {
+            return redirect()->back()->with('error', Config::get('error.error_codes.0010010'));
+        }
+
+        $indexUser->name = $request->name;
+        $indexUser->username = $request->username;
+        $indexUser->email = $request->email;
+        $indexUser->password = Hash::make($request->password);
+
+        if ($request->hasFile('image')) {
+            // Dosyayı al
+            $file = $request->file('image');
+
+            $path = public_path('files/users/profile');
+            $name = $indexUser->code . "." . $file->getClientOriginalExtension();
+            $file->move($path, $name);
+            $indexUser->image = "files/users/profile/" . $name;
+        } else {
+            $indexUser->image = "";
+        }
+
+        $indexUser->description = $request->description;
+
+        $indexUser->save();
+
+        return redirect()->route('admin_indexuser_list')->with("success", Config::get('success.success_codes.10010010'));
+    }
+
+    public function indexUserUpdateScreen(Request $request)
+    {
+        $indexUser = IndexUser::Where('code', $request->code)->first();
+
+        if (!$indexUser)
+            return redirect()->back()->with("error", Config::get('error.error_codes.0010002'));
+
+        return view("admin.indexUsers.update", ["indexUser" => $indexUser]);
+    }
+
+    public function indexUserUpdate(Request $request)
+    {
+        $indexUser = IndexUser::Where('code', $request->code)->first();
+
+        if (!$indexUser)
+            return redirect()->back()->with("error", Config::get('error.error_codes.0010012'));
+
+        $user_email = indexUser::Where('email', $request->email)->Where('code', "!=", $request->code)->first();
+
+        if ($user_email) {
+            return redirect()->back()->with('error', Config::get('error.error_codes.0010010'));
+        }
+
+        $indexUser->name = $request->name;
+        $indexUser->username = $request->username;
+        $indexUser->email = $request->email;
+        $indexUser->password = Hash::make($request->password);
+
+        if ($request->hasFile('image')) {
+            // Dosyayı al
+            $file = $request->file('image');
+
+            $path = public_path('files/users/profile');
+            $name = $indexUser->code . "." . $file->getClientOriginalExtension();
+            $file->move($path, $name);
+            $indexUser->image = "files/users/profile/" . $name;
+        }
+
+        $indexUser->description = $request->description;
+
+        $indexUser->save();
+
+        return redirect()->route('admin_indexuser_list')->with("success", Config::get('success.success_codes.10010012'));
+    }
+
+    public function indexUserDelete(Request $request)
+    {
+        $indexUser = IndexUser::Where('code', $request->code)->first();
+
+        if (!$indexUser)
+            return redirect()->back()->with("error", Config::get('error.error_codes.0010013'));
+
+        $indexUser->delete();
+        $indexUser->save();
+        return redirect()->route('admin_indexuser_list')->with("success", Config::get('success.success_codes.10010013'));
+    }
+
+    public function indexUserGetData(Request $request)
+    {
+        $skip = (($request->page - 1) * $this->showCount);
+        $indexUsers = IndexUser::skip($skip)->take($this->showCount)->get();
+        return $indexUsers;
+    }
+}

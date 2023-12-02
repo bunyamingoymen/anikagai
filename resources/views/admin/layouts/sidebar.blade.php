@@ -53,12 +53,11 @@
 
                 <li id="userDataSection" class="menu-title" hidden>Kullanıcı Verileri</li>
 
-                <li id="sidebarContact">
-                </li>
+                <li id="sidebarContact"></li>
 
-                <li id="sidebarComment">
+                <li id="sidebarComment"></li>
 
-                </li>
+                <li id="sidebarIndexUser"></li>
 
                 <li id="sidebarManagementAllSection" class="menu-title" hidden>Yönetim</li>
 
@@ -131,7 +130,7 @@
 
     @endif
 
-    @if ($authArray['contactRead'] == 1 || $authArray['commentRead'] == 1 )
+    @if ($authArray['contactRead'] == 1 || $authArray['commentRead'] == 1 || $authArray['indexUserRead'] == 1)
 
         document.getElementById('userDataSection').hidden = false;
 
@@ -145,6 +144,11 @@
         @if ($authArray['commentRead'] == 1)
             html = `<a href="{{route('admin_comment_screen')}}"> <i class="fas fa-comment"></i> <span>Yorumlar</span> </a>`;
             document.getElementById('sidebarComment').innerHTML = html;
+        @endif
+
+        @if ($authArray['indexUserRead'] == 1)
+            html = `<a href="{{route('admin_indexuser_list')}}"> <i class="fas fa-address-card"></i> <span>Üyeler</span> </a>`;
+            document.getElementById('sidebarIndexUser').innerHTML = html;
         @endif
 
 

@@ -435,6 +435,30 @@ class DatabaseSeeder extends Seeder
                 'text'  => 'İletişimleri Cevaplayabilme',
                 'description'  => 'İletişimleri Cevaplayabilme',
             ],
+            [
+                'id' => 60,
+                'code' => 60,
+                'text'  => 'Üye oluşturabilme',
+                'description'  => 'Üye Oluşturabilme',
+            ],
+            [
+                'id' => 61,
+                'code' => 61,
+                'text'  => 'Üye Listeleyebilme',
+                'description'  => 'Üye Listeleyebilme',
+            ],
+            [
+                'id' => 62,
+                'code' => 62,
+                'text'  => 'Üye Güncelleyebilme',
+                'description'  => 'Üye Güncelleyebilme',
+            ],
+            [
+                'id' => 63,
+                'code' => 63,
+                'text'  => 'Üye Silebilme',
+                'description'  => 'Üye Silebilme',
+            ],
         ]);
 
         //logo, footer, sosyal_medya

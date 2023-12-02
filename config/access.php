@@ -100,5 +100,11 @@ return [
         'admin/contact/ajax' => 57,
         'admin/contact/delete' => 58,
         'admin/contact/answer' => 59,
+
+        'admin/indexUser/list' => 61,
+        'admin/indexUser/list/ajax' => 61,
+        'admin/indexUser/create' => 60,
+        'admin/indexUser/update' => 62,
+        'admin/indexUser/delete' => 63,
     ],
 ];

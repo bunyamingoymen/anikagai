@@ -55,6 +55,7 @@ class AppServiceProvider extends ServiceProvider
             $pagePages = ['admin.pages.create', 'admin.pages.list', 'admin.pages.update', 'admin.pages.show'];
             $categoryPages = ['admin.category.create', 'admin.category.list', 'admin.category.update'];
             $tagPages = ['admin.tag.create', 'admin.tag.list', 'admin.tag.update'];
+            $indexUserPages = ['admin.indexUsers.create', 'admin.indexUsers.list', 'admin.indexUsers.update'];
 
             $commentPages = ['admin.comment.comment'];
             $contactPages = ['admin.contact.contact'];
@@ -120,6 +121,8 @@ class AppServiceProvider extends ServiceProvider
                     $commentRead = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/comment') ? 1 : 0;
                     $contactRead = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/contact') ? 1 : 0;
 
+                    $indexUserRead = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/indexUser/list') ? 1 : 0;
+
                     $authArray = [
                         'userRead' => $userRead, 'userGroupRead' => $userGroupRead, 'groupAuthRead' => $groupAuthRead,
                         'changeHome' => $changeHome, 'changeLogo' => $changeLogo, 'changeMeta' => $changeMeta, 'changeTitle' => $changeTitle, 'changeMenu' => $changeMenu, 'changeSocialMedia' => $changeSocialMedia,
@@ -128,6 +131,7 @@ class AppServiceProvider extends ServiceProvider
                         'webtoonRead' => $webtoonRead, 'webtoonEpisodeRead' => $webtoonEpisodeRead, 'webtoonCalendarRead' => $webtoonCalendarRead,
                         'pageRead' => $pageRead, 'categoryRead' => $categoryRead, 'tagRead' => $tagRead,
                         'commentRead' => $commentRead, 'contactRead' => $contactRead,
+                        'indexUserRead' => $indexUserRead,
                     ];
                     //----------------------------------------------------------------
 
@@ -281,6 +285,15 @@ class AppServiceProvider extends ServiceProvider
                     $delete = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/comment/delete') ? 1 : 0;
 
                     $view->with(["list" => $list, "delete" => $delete]);
+                });
+
+                View::composer($indexUserPages, function ($view) {
+                    $create = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/indexUser/create') ? 1 : 0;
+                    $list = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/indexUser/list') ? 1 : 0;
+                    $update = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/indexUser/update') ? 1 : 0;
+                    $delete = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/indexUser/delete') ? 1 : 0;
+
+                    $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
                 });
             }
             //----------------------------------------------------
