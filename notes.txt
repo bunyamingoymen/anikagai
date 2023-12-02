@@ -7,8 +7,9 @@ admin arayüzü:
 1- Slider'a video ekleme kısmı;
 2- Webtoon Bulunduğu sezon düzeltilecek
 3- Anime ve webtoon'a update kısmına seçilen etiket ve kategorileri getirme
-4- Üye olan kullanıcıları görebilme
-5-webtoon yüklenirken sadece pdf'e izin verilmeli
+4-webtoon yüklenirken sadece pdf'e izin verilmeli
+5- Üye olan kullanıcıları görebilme
+
 
 Kullanıcı arayüzü:
 
@@ -19,6 +20,8 @@ animex için yapılması gerekenler:
 
 mox teması için yapılması gerekenler:
 
+4.izleme sayfası
 5.görüntüleme(pdf) sayfası
-6. İzlenen bölümelrin belirginleşmesi
 
+Diğer aklıma gelenler:
+normal kullanıcı bilgilerini değiştirebilmeli

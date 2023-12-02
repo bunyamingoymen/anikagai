@@ -155,7 +155,7 @@
                             <a href="javascript:;" onclick="unfollowWebtoon()" class="follow-btn"><i
                                     class="fa fa-plus"></i> Takipten Çıkar</a>
                             @else
-                            <a href="javascript:;" onclick="followWebtoone()" class="follow-btn"><i
+                            <a href="javascript:;" onclick="followWebtoon()" class="follow-btn"><i
                                     class="fa fa-plus"></i>
                                 Takip Et</a>
                             @endif

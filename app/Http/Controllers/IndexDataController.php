@@ -98,11 +98,7 @@ class IndexDataController extends Controller
 
     public function unlikeAnime(Request $request)
     {
-
-        $favorite = new FavoriteAnime();
-        $favorite->anime_code = $request->anime_code;
-        $favorite->user_code = $request->user_code;
-        $favorite->save();
+        FavoriteAnime::Where('anime_code', $request->anime_code)->where('user_code', $request->user_code)->delete();
 
         return redirect()->back();
     }
@@ -110,10 +106,7 @@ class IndexDataController extends Controller
     public function unlikeWebtoon(Request $request)
     {
 
-        $favorite = new FavoriteWebtoon();
-        $favorite->webtoon_code = $request->webtoon_code;
-        $favorite->user_code = $request->user_code;
-        $favorite->save();
+        FavoriteWebtoon::Where('webtoon_code', $request->webtoon_code)->where('user_code', $request->user_code)->delete();
 
         return redirect()->back();
     }
