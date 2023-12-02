@@ -369,21 +369,21 @@ class DataController extends Controller
 
     public function titleList()
     {
-        $index_title = KeyValue::Where('key', 'index_title')->first();
-        if (!$index_title) {
+        $data['index_title'] = KeyValue::Where('key', 'index_title')->first();
+        if (!$data['index_title']) {
             return redirect()->back()->with("error", Config::get('error.error_codes.0120401'));
         }
-        return view('admin.data.title', ['index_title' => $index_title]);
+        return view('admin.data.title', ['index_title' => $data['index_title']]);
     }
 
     public function titleChange(Request $request)
     {
-        $index_title = KeyValue::Where('key', 'index_title')->first();
-        if (!$index_title) {
+        $data['index_title'] = KeyValue::Where('key', 'index_title')->first();
+        if (!$data['index_title']) {
             return redirect()->back()->with("error", Config::get('error.error_codes.0120312'));
         }
-        $index_title->value = $request->index_title;
-        $index_title->save();
+        $data['index_title']->value = $request->index_title;
+        $data['index_title']->save();
         return redirect()->back()->with('success', Config::get('success.success_codes.10120412'));
     }
 }

@@ -20,7 +20,7 @@
                             @endif
                         </ul>
                         <ul class="header-social">
-                            @foreach ($social_media as $item)
+                            @foreach ($data['social_media'] as $item)
                             <li><a href="{{$item->optional ?? ''}}"><i class="fab fa-{{$item->value}}"></i></a></li>
                             @endforeach
                         </ul>
@@ -38,7 +38,8 @@
                         <nav class="menu-nav show">
                             <div class="logo">
                                 <a href="{{route('index')}}">
-                                    <img src="../../../{{$logo->value}}" alt="Logo" style="max-width: 155px;">
+                                    <img src="../../../{{$data['index_logo']->value}}" alt="Logo"
+                                        style="max-width: 155px;">
                                 </a>
                             </div>
                             <div class="navbar-wrap main-menu d-none d-lg-flex">

@@ -1,6 +1,7 @@
 @extends("index.themes.mox.layouts.main")
 @section('index_content')
-@if (isset($webtoon_active) && isset($anime_active) && $webtoon_active->value == 0 && $anime_active->value == 0)
+@if (isset($data['webtoon_active']) && isset($data['anime_active']) && $data['webtoon_active']->value == 0 &&
+$data['anime_active']->value == 0)
 <main>
     <div class="gallery-area position-relative mb-2">
         <p style="color: black; text-align: center;">Sistemdei bütün veriler kapalı</p>
@@ -43,14 +44,14 @@
                 <div class="col-lg-6">
                     <div class="ucm-nav-wrap">
                         <ul class="nav nav-tabs" id="myTab" role="tablist">
-                            @if ($webtoon_active->value == 1)
+                            @if ($data['webtoon_active']->value == 1)
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link active" id="webtoons-tab" data-toggle="tab" href="#webtoons"
                                     role="tab" aria-controls="webtoons" aria-selected="false">Webtoon</a>
                             </li>
                             @endif
-                            @if ($anime_active->value == 1)
-                            @if ($webtoon_active->value == 0)
+                            @if ($data['anime_active']->value == 1)
+                            @if ($data['webtoon_active']->value == 0)
                             <li class="nav-item" role="presentation">
                                 <a class="nav-link active" id="anime-tab" data-toggle="tab" href="#anime" role="tab"
                                     aria-controls="anime" aria-selected="false">Anime</a>
@@ -68,7 +69,7 @@
                 </div>
             </div>
             <div class="tab-content" id="myTabContent">
-                @if ($webtoon_active->value == 1)
+                @if ($data['webtoon_active']->value == 1)
                 <div class="tab-pane fade show active" id="webtoons" role="tabpanel" aria-labelledby="webtoons-tab">
                     <div class="ucm-active-two owl-carousel">
                         @foreach ($trend_webtoons as $item)
@@ -106,8 +107,8 @@
                     </div>
                 </div>
                 @endif
-                @if ($anime_active->value == 1)
-                @if ($webtoon_active->value == 0)
+                @if ($data['anime_active']->value == 1)
+                @if ($data['webtoon_active']->value == 0)
                 <div class="tab-pane fade show active" id="anime" role="tabpanel" aria-labelledby="anime-tab">
                     @else
                     <div class="tab-pane fade" id="anime" role="tabpanel" aria-labelledby="anime-tab">
@@ -153,7 +154,7 @@
     </section>
     <!-- up-coming-movie-area-end -->
 
-    @if ($anime_active->value == 1)
+    @if ($data['anime_active']->value == 1)
     <!-- top-rated-movie -->
     <section class="top-rated-movie tr-movie-bg2" data-background="../../../user/mox/img/bg/tr_movies_bg.jpg">
         <div class="container">
@@ -208,7 +209,7 @@
     <!-- top-rated-movie-end -->
     @endif
 
-    @if ($webtoon_active->value == 1)
+    @if ($data['webtoon_active']->value == 1)
     <!-- top-rated-movie -->
     <section class="top-rated-movie tr-movie-bg2" data-background="../../../user/mox/img/bg/tr_movies_bg.jpg">
         <div class="container">

@@ -48,17 +48,17 @@
                 <div class="col-lg-8">
                     <div class="tr-movie-menu-active text-center">
                         <button class="active" data-filter="*">Hepsi</button>
-                        @if ($anime_active->value == 1)
+                        @if ($data['anime_active']->value == 1)
                         <button class="" data-filter=".tab-favorite-anime">Animeler</button>
                         @endif
-                        @if ($webtoon_active->value == 1)
+                        @if ($data['webtoon_active']->value == 1)
                         <button class="" data-filter=".tab-favorite-webtoon">Webtoonlar</button>
                         @endif
                     </div>
                 </div>
             </div>
             <div class="row tr-movie-active">
-                @if ($anime_active->value == 1)
+                @if ($data['anime_active']->value == 1)
                 @foreach ($favorite_animes as $item)
                 <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer tab-favorite-anime">
                     <div class="movie-item mb-60">
@@ -89,7 +89,7 @@
                 </div>
                 @endforeach
                 @endif
-                @if ($webtoon_active->value == 1)
+                @if ($data['webtoon_active']->value == 1)
                 @foreach ($favorite_webtoons as $item)
                 <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer tab-favorite-webtoon">
                     <div class="movie-item mb-60">
@@ -140,17 +140,17 @@
                 <div class="col-lg-8">
                     <div class="tr-movie-menu-active text-center">
                         <button class="active" data-filter="*">Hepsi</button>
-                        @if ($anime_active->value == 1)
+                        @if ($data['anime_active']->value == 1)
                         <button class="" data-filter=".tab-follow_animes">Animeler</button>
                         @endif
-                        @if ($webtoon_active->value == 1)
+                        @if ($data['webtoon_active']->value == 1)
                         <button class="" data-filter=".tab-follow_webtoons">Webtoonlar</button>
                         @endif
                     </div>
                 </div>
             </div>
             <div class="row tr-movie-active">
-                @if ($anime_active->value == 1)
+                @if ($data['anime_active']->value == 1)
                 @foreach ($follow_animes as $item)
                 <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer tab-follow_animes">
                     <div class="movie-item mb-60">
@@ -181,7 +181,7 @@
                 </div>
                 @endforeach
                 @endif
-                @if ($webtoon_active->value == 1)
+                @if ($data['webtoon_active']->value == 1)
                 @foreach ($follow_webtoons as $item)
                 <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer tab-follow_webtoons">
                     <div class="movie-item mb-60">
@@ -232,17 +232,17 @@
                 <div class="col-lg-8">
                     <div class="tr-movie-menu-active text-center">
                         <button class="active" data-filter="*">Hepsi</button>
-                        @if ($anime_active->value == 1)
+                        @if ($data['anime_active']->value == 1)
                         <button class="" data-filter=".tab-watched_animes">Animeler</button>
                         @endif
-                        @if ($webtoon_active->value == 1)
+                        @if ($data['webtoon_active']->value == 1)
                         <button class="" data-filter=".tab-readed_webtoons">Webtoonlar</button>
                         @endif
                     </div>
                 </div>
             </div>
             <div class="row tr-movie-active">
-                @if ($anime_active->value == 1)
+                @if ($data['anime_active']->value == 1)
                 @foreach ($watched_animes as $item)
                 <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer tab-watched_animes">
                     <div class="movie-item mb-60">
@@ -273,7 +273,7 @@
                 </div>
                 @endforeach
                 @endif
-                @if ($webtoon_active->value == 1)
+                @if ($data['webtoon_active']->value == 1)
                 @foreach ($readed_webtoons as $item)
                 <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer tab-readed_webtoons">
                     <div class="movie-item mb-60">

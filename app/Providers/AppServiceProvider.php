@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Schema;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -57,213 +58,313 @@ class AppServiceProvider extends ServiceProvider
         $commentPages = ['admin.comment.comment'];
         $contactPages = ['admin.contact.contact'];
 
-        //----------------------------------------------------------------
-        //Admin:
-        View::composer($adminPages, function ($view) {
-            //--Bildirimler
-            $notificationAdmin = DB::table('notification_admins')
-                ->Where('notification_admins.deleted', 0)
-                ->Where('notification_admins.readed', 0)
-                ->Where('notification_admins.to_user_code', Auth::guard('admin')->user()->code)
-                ->join('users', 'users.code', '=', 'notification_admins.from_user_code')
-                ->select('notification_admins.*', 'users.name as from_user_name', 'users.surname as from_user_surname')
-                ->get();
-            $notificationAdminCount = count($notificationAdmin);
+        if ($this->hasTable('users')) {
+
             //----------------------------------------------------------------
-            //--Başlıklar
-            $title = Config::get('title.titles.' . Request::path());
-            $pathName = Config::get('title.titles./' . Request::path());
-            $pathRoute = Config::get('title.titles.//' . Request::path());
-            //----------------------------------------------------------------
-            //--Yetkiler
-            $userRead = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', 2)->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $userGroupRead = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', 6)->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $groupAuthRead = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', 10)->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $changeHome = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', 13)->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $changeLogo = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', 14)->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $changeMeta = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', 15)->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $changeTitle = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', 16)->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $changeMenu = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', 17)->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $changeSocialMedia = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', 18)->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $adminMetaTag = (Auth::guard('admin')->user()->user_type == 0) ? 1 : 0;
-            $KeyValue = (Auth::guard('admin')->user()->user_type == 0) ? 1 : 0;
-            $clauseAuthUpdate = (Auth::guard('admin')->user()->user_type == 0) ? 1 : 0;
-            $animeRead = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', 20)->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $animeEpisodeRead = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', 24)->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $animeCalendarRead = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', 28)->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $webtoonRead = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', 32)->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $webtoonEpisodeRead = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', 36)->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $webtoonCalendarRead = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', 40)->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $pageRead = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', 44)->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $categoryRead = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', 48)->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $tagRead = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', 52)->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
+            //Admin:
+            View::composer($adminPages, function ($view) {
+                //--Bildirimler
+                $notificationAdmin = null;
+                $notificationAdminCount = 0;
 
-            $commentRead = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', 55)->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
+                // Veritabanı tablosu var mı kontrol et
+                if ($this->hasTable('notification_admins') && Auth::guard('admin')->check()) {
+                    $notificationAdmin = DB::table('notification_admins')
+                        ->where('notification_admins.deleted', 0)
+                        ->where('notification_admins.readed', 0)
+                        ->where('notification_admins.to_user_code', Auth::guard('admin')->user()->code)
+                        ->join('users', 'users.code', '=', 'notification_admins.from_user_code')
+                        ->select('notification_admins.*', 'users.name as from_user_name', 'users.surname as from_user_surname')
+                        ->get();
 
-            $contactRead = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', 57)->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
+                    $notificationAdminCount = count($notificationAdmin);
+                }
+                //----------------------------------------------------------------
+                // Başlıklar
+                $title = Config::get('title.titles.' . Request::path());
+                $pathName = Config::get('title.titles./' . Request::path());
+                $pathRoute = Config::get('title.titles.//' . Request::path());
+                //----------------------------------------------------------------
+                //--Yetkiler
 
-            $authArray = [
-                'userRead' => $userRead, 'userGroupRead' => $userGroupRead, 'groupAuthRead' => $groupAuthRead,
-                'changeHome' => $changeHome, 'changeLogo' => $changeLogo, 'changeMeta' => $changeMeta, 'changeTitle' => $changeTitle, 'changeMenu' => $changeMenu, 'changeSocialMedia' => $changeSocialMedia,
-                'adminMetaTag' => $adminMetaTag, 'KeyValue' => $KeyValue, 'clauseAuthUpdate' => $clauseAuthUpdate,
-                'animeRead' => $animeRead, 'animeEpisodeRead' => $animeEpisodeRead, 'animeCalendarRead' => $animeCalendarRead,
-                'webtoonRead' => $webtoonRead, 'webtoonEpisodeRead' => $webtoonEpisodeRead, 'webtoonCalendarRead' => $webtoonCalendarRead,
-                'pageRead' => $pageRead, 'categoryRead' => $categoryRead, 'tagRead' => $tagRead,
-                'commentRead' => $commentRead, 'contactRead' => $contactRead,
-            ];
-            //----------------------------------------------------------------
+                //NOTE: Superuser Yetkileri
+                $adminMetaTag = (Auth::guard('admin')->user()->user_type == 0) ? 1 : 0;
+                $KeyValue = (Auth::guard('admin')->user()->user_type == 0) ? 1 : 0;
+                $clauseAuthUpdate = (Auth::guard('admin')->user()->user_type == 0) ? 1 : 0;
+                //------------------------
 
-            // Görünüme veriyi gönder
-            $view->with(['notificationAdmin' => $notificationAdmin, 'notificationAdminCount' => $notificationAdminCount, 'title' => $title, 'pathName' => $pathName, 'pathRoute' => $pathRoute, 'authArray' => $authArray]);
-        });
+                $userRead = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/user/list') ? 1 : 0;
+                $userGroupRead = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/authGroup/list') ? 1 : 0;
+                $groupAuthRead = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/auth/list') ? 1 : 0;
 
-        //Diğer Sayfalar:
+                $changeLogo = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/data/logo') ? 1 : 0;
+                $changeHome = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/data/home') ? 1 : 0;
+                $changeMeta = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/data/meta') ? 1 : 0;
+                $changeTitle =  $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/data/title') ? 1 : 0;
+                $changeMenu = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/data/menu') ? 1 : 0;
+                $changeSocialMedia = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/data/social') ? 1 : 0;
 
-        View::composer($userPages, function ($view) {
-            $create = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/user/create'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $list = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/user/list'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $update = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/user/update'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $delete = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/user/delete'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
-        });
+                $animeRead = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/anime/list') ? 1 : 0;
+                $animeEpisodeRead = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/animeEpisodes/list') ? 1 : 0;
+                $animeCalendarRead = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/anime/calendar') ? 1 : 0;
 
-        View::composer($authGroupPages, function ($view) {
-            $create = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/authGroup/create'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $list = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/authGroup/list'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $update = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/authGroup/update'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $delete = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/authGroup/delete'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
-        });
+                $webtoonRead =  $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/webtoon/list') ? 1 : 0;
+                $webtoonEpisodeRead = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/webtoonEpisodes/list') ? 1 : 0;
+                $webtoonCalendarRead = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/webtoon/calendar') ? 1 : 0;
 
-        View::composer($authPages, function ($view) {
-            $list = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/auth/list'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $update = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/auth/list/change'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $view->with(["list" => $list, "update" => $update]);
-        });
+                $pageRead = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/page/list') ? 1 : 0;
+                $categoryRead =  $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/category/list') ? 1 : 0;
+                $tagRead = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/tag/list') ? 1 : 0;
 
-        View::composer($dataPages, function ($view) {
-            $homeData = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/data/home'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $logoData = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/data/logo'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $metaData = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/data/meta'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $menuData = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/data/menu'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $socialData = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/data/social'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $titleData = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/data/title'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
+                $commentRead = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/comment') ? 1 : 0;
+                $contactRead = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/contact') ? 1 : 0;
 
-            $view->with(["homeData" => $homeData, "logoData" => $logoData, "metaData" => $metaData, "menuData" => $menuData, "socialData" => $socialData, 'titleData' => $titleData]);
-        });
+                $authArray = [
+                    'userRead' => $userRead, 'userGroupRead' => $userGroupRead, 'groupAuthRead' => $groupAuthRead,
+                    'changeHome' => $changeHome, 'changeLogo' => $changeLogo, 'changeMeta' => $changeMeta, 'changeTitle' => $changeTitle, 'changeMenu' => $changeMenu, 'changeSocialMedia' => $changeSocialMedia,
+                    'adminMetaTag' => $adminMetaTag, 'KeyValue' => $KeyValue, 'clauseAuthUpdate' => $clauseAuthUpdate,
+                    'animeRead' => $animeRead, 'animeEpisodeRead' => $animeEpisodeRead, 'animeCalendarRead' => $animeCalendarRead,
+                    'webtoonRead' => $webtoonRead, 'webtoonEpisodeRead' => $webtoonEpisodeRead, 'webtoonCalendarRead' => $webtoonCalendarRead,
+                    'pageRead' => $pageRead, 'categoryRead' => $categoryRead, 'tagRead' => $tagRead,
+                    'commentRead' => $commentRead, 'contactRead' => $contactRead,
+                ];
+                //----------------------------------------------------------------
 
-        View::composer($animePages, function ($view) {
-            $create = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/anime/create'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $list = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/anime/list'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $update = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/anime/update'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $delete = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/anime/delete'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
-        });
+                // Görünüme veriyi gönder
+                $view->with([
+                    'notificationAdmin' => $notificationAdmin,
+                    'notificationAdminCount' => $notificationAdminCount,
+                    'title' => $title,
+                    'pathName' => $pathName,
+                    'pathRoute' => $pathRoute,
+                    'authArray' => $authArray,
+                ]);
+            });
 
-        View::composer($animeEpisodePages, function ($view) {
-            $create = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/animeEpisodes/create'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $list = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/animeEpisodes/list'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $update = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/animeEpisodes/update'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $delete = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/animeEpisodes/delete'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
-        });
+            //Diğer Sayfalar:
 
-        View::composer($animeCalendarPages, function ($view) {
-            $create = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/anime/calendar/addEvent'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $list = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/anime/calendar'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $update = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/anime/calendar'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $delete = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/anime/calendar'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
-        });
+            View::composer($userPages, function ($view) {
+                $create = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/user/create') ? 1 : 0;
+                $list = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/user/list') ? 1 : 0;
+                $update = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/user/update') ? 1 : 0;
+                $delete = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/user/delete') ? 1 : 0;
 
-        View::composer($webtoonPages, function ($view) {
-            $create = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/webtoon/create'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $list = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/webtoon/list'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $update = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/webtoon/update'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $delete = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/webtoon/delete'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
-        });
+                $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
+            });
 
-        View::composer($webtoonEpisodePages, function ($view) {
-            $create = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/animeEpisodes/create'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $list = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/animeEpisodes/list'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $update = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/animeEpisodes/update'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $delete = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/animeEpisodes/delete'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
-        });
+            View::composer($authGroupPages, function ($view) {
 
-        View::composer($webtoonCalendarPages, function ($view) {
-            $create = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/webtoon/calendar/addEvent'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $list = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/webtoon/calendar'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $update = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/webtoon/calendar'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $delete = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/webtoon/calendar'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
-        });
+                $create = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/authGroup/create') ? 1 : 0;
+                $list = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/authGroup/list') ? 1 : 0;
+                $update = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/authGroup/update') ? 1 : 0;
+                $delete = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/authGroup/delete') ? 1 : 0;
 
-        View::composer($pagePages, function ($view) {
-            $create = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/page/create'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $list = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/page/list'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $show = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/page/show'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $update = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/page/update'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $delete = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/page/delete'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $view->with(["create" => $create, "list" => $list, "show" => $show, "update" => $update, "delete" => $delete]);
-        });
+                $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
+            });
 
-        View::composer($categoryPages, function ($view) {
-            $create = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/category/create'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $list = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/category/list'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $update = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/category/update'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $delete = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/category/delete'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
-        });
+            View::composer($authPages, function ($view) {
+                $list = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/auth/list') ? 1 : 0;
+                $update = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/auth/list/change') ? 1 : 0;
 
-        View::composer($tagPages, function ($view) {
-            $create = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/tag/create'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $list = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/tag/list'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $update = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/tag/update'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $delete = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/tag/delete'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
-        });
+                $view->with(["list" => $list, "update" => $update]);
+            });
 
-        View::composer($contactPages, function ($view) {
-            $list = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/comment'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $delete = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/comment/delete'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $answer = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/comment/answer'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $view->with(["list" => $list, "delete" => $delete, 'answer' => $answer]);
-        });
+            View::composer($dataPages, function ($view) {
 
-        View::composer($commentPages, function ($view) {
-            $list = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/comment'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $delete = ((Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1) || (count(AuthorizationClauseGroup::Where('clause_id', Config::get('access.path_access_codes.' . 'admin/comment/delete'))->Where('group_id', Auth::guard('admin')->user()->user_type)->get()) > 0)) ? 1 : 0;
-            $view->with(["list" => $list, "delete" => $delete]);
-        });
+                $homeData = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/data/home') ? 1 : 0;
+                $logoData = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/data/logo') ? 1 : 0;
+                $metaData = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/data/meta') ? 1 : 0;
+                $menuData = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/data/menu') ? 1 : 0;
+                $socialData = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/data/social') ? 1 : 0;
+                $titleData = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/data/title') ? 1 : 0;
 
+                $view->with(["homeData" => $homeData, "logoData" => $logoData, "metaData" => $metaData, "menuData" => $menuData, "socialData" => $socialData, 'titleData' => $titleData]);
+            });
+
+            View::composer($animePages, function ($view) {
+
+                $create = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/anime/create') ? 1 : 0;
+                $list = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/anime/list') ? 1 : 0;
+                $update = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/anime/update') ? 1 : 0;
+                $delete = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/anime/delete') ? 1 : 0;
+
+                $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
+            });
+
+            View::composer($animeEpisodePages, function ($view) {
+                $create = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/animeEpisodes/create') ? 1 : 0;
+                $list = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/animeEpisodes/list') ? 1 : 0;
+                $update = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/animeEpisodes/update') ? 1 : 0;
+                $delete = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/animeEpisodes/delete') ? 1 : 0;
+
+                $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
+            });
+
+            View::composer($animeCalendarPages, function ($view) {
+
+                $create = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/anime/calendar/addEvent') ? 1 : 0;
+                $list = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/anime/calendar') ? 1 : 0;
+                $update = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/anime/calendar') ? 1 : 0;
+                $delete = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/anime/calendar') ? 1 : 0;
+
+                $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
+            });
+
+            View::composer($webtoonPages, function ($view) {
+                $create = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/webtoon/create') ? 1 : 0;
+                $list = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/webtoon/list') ? 1 : 0;
+                $update = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/webtoon/update') ? 1 : 0;
+                $delete = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/webtoon/delete') ? 1 : 0;
+
+                $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
+            });
+
+            View::composer($webtoonEpisodePages, function ($view) {
+                $create = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/webtoonEpisodes/create') ? 1 : 0;
+                $list = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/webtoonEpisodes/list') ? 1 : 0;
+                $update = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/webtoonEpisodes/update') ? 1 : 0;
+                $delete = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/webtoonEpisodes/delete') ? 1 : 0;
+
+                $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
+            });
+
+            View::composer($webtoonCalendarPages, function ($view) {
+                $create = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/webtoon/calendar/addEvent') ? 1 : 0;
+                $list = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/webtoon/calendar') ? 1 : 0;
+                $update = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/webtoon/calendar') ? 1 : 0;
+                $delete = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/webtoon/calendar') ? 1 : 0;
+
+                $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
+            });
+
+            View::composer($pagePages, function ($view) {
+                $create = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/page/create') ? 1 : 0;
+                $list = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/page/list') ? 1 : 0;
+                $show = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/page/show') ? 1 : 0;
+                $update = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/page/update') ? 1 : 0;
+                $delete = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/page/delete') ? 1 : 0;
+
+                $view->with(["create" => $create, "list" => $list, "show" => $show, "update" => $update, "delete" => $delete]);
+            });
+
+            View::composer($categoryPages, function ($view) {
+
+                $create = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/category/create') ? 1 : 0;
+                $list = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/category/list') ? 1 : 0;
+                $update = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/category/update') ? 1 : 0;
+                $delete = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/category/delete') ? 1 : 0;
+
+                $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
+            });
+
+            View::composer($tagPages, function ($view) {
+                $create = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/tag/create') ? 1 : 0;
+                $list = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/tag/list') ? 1 : 0;
+                $update = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/tag/update') ? 1 : 0;
+                $delete = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/tag/delete') ? 1 : 0;
+
+                $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
+            });
+
+            View::composer($contactPages, function ($view) {
+                $list = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/contact') ? 1 : 0;
+                $answer = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/contact/answer') ? 1 : 0;
+                $delete = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/contact/delete') ? 1 : 0;
+
+
+                $view->with(["list" => $list, "delete" => $delete, 'answer' => $answer]);
+            });
+
+            View::composer($commentPages, function ($view) {
+                $list = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/comment') ? 1 : 0;
+                $delete = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/comment/delete') ? 1 : 0;
+
+                $view->with(["list" => $list, "delete" => $delete]);
+            });
+        }
         //----------------------------------------------------
         //Index:
-
+        if ($this->hasTable('key_values')) {
+        }
         View::composer($indexPages, function ($view) {
 
-            $logo = KeyValue::Where('key', 'index_logo')->first();
-            $logo_footer = KeyValue::Where('key', 'index_logo_footer')->first();
+            $keys = [
+                'index_logo', 'index_logo_footer', 'index_icon', 'index_title', 'index_text',
+                'footer_copyright',
+                'anime_active', 'webtoon_active'
+            ];
 
-            $index_icon = KeyValue::Where('key', 'index_icon')->first();
-            $index_title = KeyValue::Where('key', 'index_title')->first();
-            $index_text = KeyValue::Where('key', 'index_text')->first();
+            $keysGet = [
+                'meta', 'admin_meta', 'social_media'
+            ];
 
-            $meta = KeyValue::Where('key', 'meta')->Where('deleted', 0)->get();
-            $admin_meta = KeyValue::Where('key', 'admin_meta')->Where('deleted', 0)->get();
+            $data = collect();
 
-            $social_media = KeyValue::Where('key', 'social_media')->Where('deleted', 0)->get();
-            $menus = KeyValue::Where('key', 'menu')->where('optional', 1)->Where('deleted', 0)->get();
-            $menu_alts = KeyValue::Where('key', 'menu_alt')->where('optional', 1)->Where('deleted', 0)->get();
-            $active_menu = KeyValue::Where('key', 'menu')->Where('optional_2', Request::path())->first();
-            $footer_copyright = KeyValue::Where('key', 'footer_copyright')->first();
+            foreach ($keys as $key) {
+                $item = KeyValue::where('key', $key)->where('deleted', 0)->first();
+                $data->put($key, $item);
+            }
 
-            $anime_active = KeyValue::Where('key', 'anime_active')->first();
-            $webtoon_active = KeyValue::Where('key', 'webtoon_active')->first();
+            foreach ($keysGet as $key) {
+                $item = KeyValue::where('key', $key)->where('deleted', 0)->get();
+                $data->put($key, $item);
+            }
 
-            // Görünüme veriyi gönder
-            $view->with('logo', $logo)->with('logo_footer', $logo_footer)->with('index_text', $index_text)->with('footer_copyright', $footer_copyright)->with('social_media', $social_media)->with('menus', $menus)->with('menu_alts', $menu_alts)->with('active_menu', $active_menu)->with('index_icon', $index_icon)->with('index_title', $index_title)->with('meta', $meta)->with('admin_meta', $admin_meta)->with('anime_active', $anime_active)->with('webtoon_active', $webtoon_active);
+            // Özel durumlar
+            $menus = KeyValue::where('key', 'menu')->where('optional', 1)->where('deleted', 0)->get();
+            $menu_alts = KeyValue::where('key', 'menu_alt')->where('optional', 1)->where('deleted', 0)->get();
+            $active_menu = KeyValue::where('key', 'menu')->where('optional_2', Request::path())->first();
+
+            $view->with('data', $data)
+                ->with('menus', $menus)
+                ->with('menu_alts', $menu_alts)
+                ->with('active_menu', $active_menu);
         });
+    }
+
+    function hasTable($tableName)
+    {
+        try {
+            Schema::hasTable($tableName);
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    function checkAuthorization($adminUserType, $configKey)
+    {
+
+        $hasTable = $this->hasTable('authorization_clause_groups');
+
+        if (!$hasTable || $adminUserType === null || $configKey === null) {
+            return false;
+        }
+
+        $clauseId = Config::get($configKey);
+
+        // Null kontrolü
+        if ($clauseId === null) {
+            return false;
+        }
+
+        return $adminUserType == 0 || $adminUserType == 1 ||
+            AuthorizationClauseGroup::where('clause_id', $clauseId)
+            ->where('group_id', $adminUserType)
+            ->exists();
+    }
+
+    function checkIndexPage($adminUserType, $action)
+    {
+        $hasTable = $this->hasTable('authorization_clause_groups');
+        if (!$hasTable || !$adminUserType) {
+            return false;
+        }
+
+        $clauseId = Config::get('access.path_access_codes.admin/webtoon/' . $action);
+        return ($adminUserType == 0 || $adminUserType == 1) ||
+            (count(AuthorizationClauseGroup::where('clause_id', $clauseId)
+                ->where('group_id', $adminUserType)
+                ->get()) > 0);
     }
 }

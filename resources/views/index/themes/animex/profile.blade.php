@@ -75,13 +75,13 @@
                 </div>
             </div>
         </div>
-        @if ($anime_active->value == 1 || $webtoon_active->value == 1)
+        @if ($data['anime_active']->value == 1 || $data['webtoon_active']->value == 1)
         <div class="anime__details__content">
             <div class="row">
                 <div class="col-lg-12">
                     <div class="anime__details__text">
                         <ul class="nav nav-tabs">
-                            @if ($anime_active->value == 1)
+                            @if ($data['anime_active']->value == 1)
                             <li class="nav-item">
                                 <a class="nav-link active active_tab_button" id="favorite_animes" aria-current="page"
                                     href="javascript:;" onclick="selectTab('favorite_animes','favorite_animes_tab')"
@@ -89,16 +89,17 @@
                                     Animeler</a>
                             </li>
                             @endif
-                            @if ($webtoon_active->value == 1)
+                            @if ($data['webtoon_active']->value == 1)
                             <li class="nav-item">
-                                <a class="nav-link {{$anime_active->value == 0 ? 'active active_tab_button' : ''}}"
-                                    id="favorite_webtoons" style="{{$anime_active->value == 0 ? '' : 'color:white;'}}"
+                                <a class="nav-link {{$data['anime_active']->value == 0 ? 'active active_tab_button' : ''}}"
+                                    id="favorite_webtoons"
+                                    style="{{$data['anime_active']->value == 0 ? '' : 'color:white;'}}"
                                     href="javascript:;" onclick="selectTab('favorite_webtoons','favorite_webtoons_tab')"
                                     data-bs-target="#favorite_webtoons_tab">Favori
                                     Webtoonlar</a>
                             </li>
                             @endif
-                            @if ($anime_active->value == 1)
+                            @if ($data['anime_active']->value == 1)
                             <li class="nav-item">
                                 <a class="nav-link" id="follow_animes" style="color:white;" href="javascript:;"
                                     onclick="selectTab('follow_animes', 'follow_animes_tab')"
@@ -106,7 +107,7 @@
                                     Animeler</a>
                             </li>
                             @endif
-                            @if ($webtoon_active->value == 1)
+                            @if ($data['webtoon_active']->value == 1)
                             <li class="nav-item">
                                 <a class="nav-link" id="follow_webtoons" style="color:white;" href="javascript:;"
                                     onclick="selectTab('follow_webtoons','follow_webtoons_tab')"
@@ -115,7 +116,7 @@
                             @endif
                         </ul>
                         <div class="tab-content" id="myTabContent">
-                            @if ($anime_active->value == 1)
+                            @if ($data['anime_active']->value == 1)
                             <div class="tab-pane fade show active active_tab" id="favorite_animes_tab" role="tabpanel"
                                 aria-labelledby="favorite_animes_tab">
                                 <div class="col-lg-12 mt-5">
@@ -154,8 +155,8 @@
                                 </div>
                             </div>
                             @endif
-                            @if ($webtoon_active->value == 1)
-                            <div class="tab-pane fade {{$anime_active->value == 0 ? 'show active active_tab' : ''}}"
+                            @if ($data['webtoon_active']->value == 1)
+                            <div class="tab-pane fade {{$data['anime_active']->value == 0 ? 'show active active_tab' : ''}}"
                                 id="favorite_webtoons_tab" role="tabpanel" aria-labelledby="favorite_webtoons_tab">
                                 <div class="col-lg-12 mt-5">
                                     <div class="product__page__content">
@@ -193,7 +194,7 @@
                                 </div>
                             </div>
                             @endif
-                            @if ($anime_active->value == 1)
+                            @if ($data['anime_active']->value == 1)
                             <div class="tab-pane fade" id="follow_animes_tab" role="tabpanel"
                                 aria-labelledby="follow_animes_tab">
                                 <div class="col-lg-12 mt-5">
@@ -232,7 +233,7 @@
                                 </div>
                             </div>
                             @endif
-                            @if ($webtoon_active->value == 1)
+                            @if ($data['webtoon_active']->value == 1)
                             <div class="tab-pane fade" id="follow_webtoons_tab" role="tabpanel"
                                 aria-labelledby="favorite_webtoons_tab">
                                 <div class="col-lg-12 mt-5">

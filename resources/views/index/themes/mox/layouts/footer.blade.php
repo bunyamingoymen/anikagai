@@ -5,8 +5,8 @@
                 <div class="row align-items-center">
                     <div class="col-lg-3">
                         <div class="footer-logo">
-                            <a href="{{route('index')}}"><img src="../../../{{$logo_footer->value}}" alt=""
-                                    style="max-width: 155px;"></a>
+                            <a href="{{route('index')}}"><img src="../../../{{$data['index_logo_footer']->value}}"
+                                    alt="" style="max-width: 155px;"></a>
                         </div>
                     </div>
 
@@ -14,7 +14,7 @@
                         <div class="row align-items-center">
                             <div class="col-md-10">
                                 <div class="quick-link-list">
-                                    <p>{{$index_text->value}}</p>
+                                    <p>{{$data['index_text']->value}}</p>
                                 </div>
                             </div>
                         </div>
@@ -22,7 +22,7 @@
                             <nav>
                                 <div class="footer-social">
                                     <ul>
-                                        @foreach ($social_media as $item)
+                                        @foreach ($data['social_media'] as $item)
                                         <li><a href="{{$item->optional ?? ''}}"><i
                                                     class="fab fa-{{$item->value}}"></i></a></li>
                                         @endforeach
@@ -41,7 +41,7 @@
                 <div class="col-lg-6 col-md-6">
                     <div class="copyright-text">
                         <p>
-                            {!! $footer_copyright->value !!}
+                            {!! $data['footer_copyright']->value !!}
                     </div>
                 </div>
             </div>

@@ -36,7 +36,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-8">
-                @if ($anime_active->value == 1)
+                @if ($data['anime_active']->value == 1)
                 <div class="trending__product">
                     <div class="row">
                         <div class="col-lg-8 col-md-8 col-sm-8">
@@ -75,7 +75,7 @@
                     </div>
                 </div>
                 @endif
-                @if ($webtoon_active->value == 1)
+                @if ($data['webtoon_active']->value == 1)
                 <div class="trending__product">
                     <div class="row">
                         <div class="col-lg-8 col-md-8 col-sm-8">
@@ -117,7 +117,7 @@
             </div>
             <div class="col-lg-4 col-md-6 col-sm-8">
                 <div class="product__sidebar">
-                    @if ($anime_active->value == 1)
+                    @if ($data['anime_active']->value == 1)
                     <div class="product__sidebar__comment">
                         <div class="section-title">
                             <h5>Trend Animeler</h5>
@@ -139,7 +139,7 @@
                         @endforeach
                     </div>
                     @endif
-                    @if ($webtoon_active->value == 1)
+                    @if ($data['webtoon_active']->value == 1)
                     <div class="product__sidebar__comment">
                         <div class="section-title">
                             <h5>Trend Webtoonlar</h5>

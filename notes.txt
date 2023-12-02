@@ -15,10 +15,5 @@ Kullanıcı arayüzü:
 
 Şifremi Unuttum kısmı
 
-mox teması için yapılması gerekenler:
-
-4.izleme sayfası
-5.görüntüleme(pdf) sayfası
-
 Diğer aklıma gelenler:
 normal kullanıcı bilgilerini değiştirebilmeli

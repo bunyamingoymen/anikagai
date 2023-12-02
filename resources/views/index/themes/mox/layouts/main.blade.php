@@ -3,17 +3,17 @@
 
 <head>
     <meta charset="utf-8">
-    @foreach ($admin_meta as $item)
+    @foreach ($data['admin_meta'] as $item)
     <meta http-equiv="{{$item->optional_2 ?? ''}}" name="{{$item->value}}" content="{{$item->optional ?? ''}}">
     @endforeach
 
-    @foreach ($meta as $item)
+    @foreach ($data['meta'] as $item)
     <meta http-equiv="{{$item->optional_2 ?? ''}}" name="{{$item->value}}" content="{{$item->optional ?? ''}}">
     @endforeach
 
-    <title>{{$index_title->value}}</title>
+    <title>{{$data['index_title']->value}}</title>
 
-    <link rel="shortcut icon" type="image/x-icon" href="../../../{{$index_icon->value}}">
+    <link rel="shortcut icon" type="image/x-icon" href="../../../{{$data['index_icon']->value}}">
 
     <!-- CSS here -->
     <link rel="stylesheet" href="../../../user/mox/css/bootstrap.min.css">

@@ -6,14 +6,14 @@
         <div class="row">
             <div class="col-lg-3">
                 <div class="footer__logo">
-                    <a href="{{route('index')}}"><img src="../../../{{$logo_footer->value}}" alt=""
+                    <a href="{{route('index')}}"><img src="../../../{{$data['index_logo_footer']->value}}" alt=""
                             style="max-width: 155px;"></a>
                 </div>
             </div>
             <div class="col-lg-6  ">
                 <div class="footer__nav mt-2">
                     <ul>
-                        @foreach ($social_media as $item)
+                        @foreach ($data['social_media'] as $item)
                         <li><a href="{{$item->optional ?? '#'}}"><i class="fa fa-{{$item->value}}"></i></a></li>
                         @endforeach
                     </ul>
@@ -28,7 +28,7 @@
             </div>
             <div class="col-lg-3">
                 <p>
-                    {!! $footer_copyright->value !!}
+                    {!! $data['footer_copyright']->value !!}
                 </p>
 
             </div>
