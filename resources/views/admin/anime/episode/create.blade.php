@@ -4,6 +4,7 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
+
             <div class="card-body">
                 <form class="needs-validation" id="animeEpisodeCreateForm" action="" method="POST"
                     enctype="multipart/form-data">
@@ -25,8 +26,9 @@
                     <div class="row">
                         <div class="col-md-4 mb-3">
                             <label for="">Bölüm(Video):</label>
+                            <small>Sadece video dosyası kabul edilmektedir.</small>
                             <input type="file" class="form-control" id="video" name="video" placeholder="Dosya Seçiniz"
-                                required>
+                                accept="video/*" required>
                         </div>
                         <div class="col-md-4 mb-3">
                             <label for="anime_code">Anime:</label>

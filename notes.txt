@@ -5,9 +5,6 @@ Yapılacaklar:
 
 admin arayüzü:
 1- Slider'a video ekleme kısmı;
-2- Webtoon Bulunduğu sezon düzeltilecek
-3- Anime ve webtoon'a update kısmına seçilen etiket ve kategorileri getirme
-4-webtoon yüklenirken sadece pdf'e izin verilmeli
 5- Üye olan kullanıcıları görebilme
 
 
@@ -17,3 +14,5 @@ Kullanıcı arayüzü:
 
 Diğer aklıma gelenler:
 normal kullanıcı bilgilerini değiştirebilmeli
+normal kullancıcı giriş yapmamışsa prfile gidemez, giriş yapmışsa login'e gidemez
+Varsayılan kategorri silinememeli

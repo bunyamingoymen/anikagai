@@ -63,7 +63,11 @@
                             <select class="form-control js-seelct-multiple" name="main_category" id="main_category">
                                 <option value="0">Seçiniz</option>
                                 @foreach ($categories as $category)
+                                @if ($anime->main_category == $category->code)
+                                <option value="{{$category->code}}" selected>{{$category->name}}</option>
+                                @else
                                 <option value="{{$category->code}}">{{$category->name}}</option>
+                                @endif
                                 @endforeach
                             </select>
                         </div>
@@ -73,15 +77,26 @@
                             <label for="catogery">Kategoriler:</label>
                             <select class="form-control js-seelct-multiple" name="category[]" id="category" multiple>
                                 @foreach ($categories as $category)
+                                @if (count($selectedCategories)>0 &&
+                                $selectedCategories->Where('category_code',$category->code)->first())
+                                <option value="{{$category->code}}" selected>{{$category->name}}</option>
+                                @else
                                 <option value="{{$category->code}}">{{$category->name}}</option>
+                                @endif
+
                                 @endforeach
                             </select>
                         </div>
                         <div class="col-md-4 mb-3">
                             <label for="tag">Etiketler:</label>
-                            <select class="form-control js-seelct-multiple" name="tag" id="tag" multiple>
+                            <select class="form-control js-seelct-multiple" name="tag[]" id="tag" multiple>
                                 @foreach ($tags as $tag)
+                                @if (count($selectedTags)>0 &&
+                                $selectedTags->Where('tag_code',$category->code)->first())
+                                <option value="{{$tag->code}}" selected>{{$tag->name}}</option>
+                                @else
                                 <option value="{{$tag->code}}">{{$tag->name}}</option>
+                                @endif
                                 @endforeach
                             </select>
                         </div>

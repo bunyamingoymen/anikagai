@@ -5,6 +5,7 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
+
                 <form class="needs-validation" id="webtoonEpisodeCreateForm" action="" method="POST"
                     enctype="multipart/form-data">
                     @csrf
@@ -20,13 +21,15 @@
                     </div>
                     <div class="row">
                         <div class="col-md-4 mb-3">
-                            <label for="">Bölüm(Video):</label>
+                            <label for="">Bölüm(PDF):</label>
+                            <small>Sadece PDF Kabul edilmektedir.</small>
                             <input type="file" class="form-control" id="video" name="video" placeholder="Dosya Seçiniz"
-                                required>
+                                accept=".pdf" required>
                         </div>
                         <div class="col-md-4 mb-3">
                             <label for="webtoon_code">Webtoon:</label>
-                            <select name="webtoon_code" id="webtoon_code" class="form-control" required>
+                            <select name="webtoon_code" id="webtoon_code" class="form-control" onchange="getSeason();"
+                                required>
                                 @foreach ($webtoons as $webtoon)
                                 <option value="{{$webtoon->code}}">{{$webtoon->name}}</option>
                                 @endforeach
@@ -40,7 +43,11 @@
                     <div class="row">
                         <div class="col-md-2 mb-3">
                             <label for="season_short">Bulunduğu Sezon:</label>
-                            <input type="number" id="season_short" name="season_short" class="form-control">
+                            <select name="season_short" id="season_short" class="form-control">
+                                @for ($i = 1; $i <= $webtoons->first()->season_count + 1; $i++)
+                                    <option value="{{$i}}">{{$i}}.sezon</option>
+                                    @endfor
+                            </select>
                         </div>
                         <div class="col-md-2 mb-3">
                             <label for="episode_short">Bölüm Sırası:</label>
@@ -145,6 +152,28 @@
 
         }
     }
+
+    function getSeason(){
+        var webtoon_code = document.getElementById('webtoon_code').value;
+        $.ajaxSetup({
+        headers: {
+        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        }
+        });
+        $.ajax({
+        type: 'POST',
+        url: '{{route("admin_webtoon_get_season")}}',
+        data:{ code:webtoon_code},
+        success: function(season) {
+        var code = ``;
+        //console.log(JSON.stringify(season.season_count));
+        for(let i = 1; i<=season.season_count + 1; i++){ code +=`<option value="${i}">${i}.sezon</option>`;
+            }
+
+            document.getElementById('season_short').innerHTML = code;
+            }
+            });
+            }
 </script>
 @endif
 <script>

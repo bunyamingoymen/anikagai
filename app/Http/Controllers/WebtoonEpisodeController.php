@@ -85,10 +85,10 @@ class WebtoonEpisodeController extends Controller
         if (!$webtoon_episode)
             return redirect()->back()->with("error", Config::get('error.error_codes.0110002'));
 
-        $webtoons = Webtoon::Where('deleted', 0)->get();
+        $webtoon = Webtoon::Where('deleted', 0)->Where('code', $webtoon_episode->webtoon_code)->first();
 
 
-        return view("admin.webtoon.episode.update", ["webtoon_episode" => $webtoon_episode, "webtoons" => $webtoons]);
+        return view("admin.webtoon.episode.update", ["webtoon_episode" => $webtoon_episode, "webtoon" => $webtoon]);
     }
 
     public function epsiodeUpdate(Request $request)

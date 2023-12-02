@@ -13,17 +13,24 @@
                             <input type="text" id='code' name='code' value="{{$webtoon_episode->code}}">
                             <input type="text" id='webtoon_code' name='webtoon_code' value="{{$webtoon->code}}">
                         </div>
-                        <div class="col-md-4 mb-3">
+                        <div class="col-md-6 mb-3">
                             <label for="name">Bölüm Adı:</label>
                             <input type="text" id="name" name="name" class="form-control"
                                 value="{{$webtoon_episode->name}}">
                         </div>
-                        <div class="col-md-2 mb-3">
+                        <div class="col-md-3 mb-3">
                             <label for="season_short">Bulunduğu Sezon:</label>
-                            <input type="number" id="season_short" name="season_short" class="form-control"
-                                value="{{$webtoon_episode->season_short}}">
+                            <select name="season_short" id="season_short" class="form-control">
+                                @for ($i = 1; $i <= $webtoon->season_count + 1; $i++)
+                                    @if ($webtoon_episode->season_short == $i )
+                                    <option value="{{$i}}" selected>{{$i}}.sezon</option>
+                                    @else
+                                    <option value="{{$i}}">{{$i}}.sezon</option>
+                                    @endif
+                                    @endfor
+                            </select>
                         </div>
-                        <div class="col-md-2 mb-3">
+                        <div class="col-md-3 mb-3">
                             <label for="episode_short">Bölüm Sırası:</label>
                             <input type="number" id="episode_short" name="episode_short" class="form-control"
                                 value="{{$webtoon_episode->episode_short}}">

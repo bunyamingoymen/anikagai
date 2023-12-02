@@ -314,7 +314,6 @@
 <script>
     function ReplyComment(commentDiv, content_code, content_type, comment_type, comment_top_code){
         var commentDiv = document.getElementById(commentDiv);
-        alert(commentDiv);
         if(commentDiv.innerHTML == ""){
             var html = `<li class="comment-reply"> <div class="contact-form">
                         <form action="{{route('addNewComment')}}" method="POST">

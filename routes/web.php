@@ -257,6 +257,8 @@ Route::middleware(['auth'])->group(function () {
             Route::get("/admin/webtoon/list", "webtoonList")->name('admin_webtoon_list');
             Route::post("/admin/webtoon/list/ajax", "webtoonGetData")->name('admin_webtoon_get_data');
 
+            Route::post("/admin/webtoon/season/ajax", "webtoonGetSeason")->name('admin_webtoon_get_season');
+
             Route::get("/admin/webtoon/create", "webtoonCreateScreen")->name('admin_webtoon_create_screen');
             Route::post("/admin/webtoon/create", "webtoonCreate")->name('admin_webtoon_create');
 

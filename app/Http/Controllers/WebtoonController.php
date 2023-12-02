@@ -69,12 +69,12 @@ class WebtoonController extends Controller
 
         $webtoon->save();
 
-        if ($request->catogery) {
-            foreach ($request->catogery as $item) {
+        if ($request->category) {
+            foreach ($request->category as $item) {
                 $content = new ContentCategory();
                 $content->category_code = $item;
                 $content->content_code = $webtoon->code;
-                $content->content_type = 1;
+                $content->content_type = 0;
                 $content->save();
             }
         }
@@ -84,7 +84,7 @@ class WebtoonController extends Controller
                 $content = new ContentTag();
                 $content->tag_code = $item;
                 $content->content_code = $webtoon->code;
-                $content->content_type = 1;
+                $content->content_type = 0;
                 $content->save();
             }
         }
@@ -101,10 +101,12 @@ class WebtoonController extends Controller
             return redirect()->back()->with("error", Config::get('error.error_codes.0090002'));
 
         $categories = Category::Where('deleted', 0)->get();
+        $selectedCategories = ContentCategory::Where('content_code', $webtoon->code)->Where('content_type', 0)->get();
+
         $tags = Tag::Where('deleted', 0)->get();
+        $selectedTags = ContentTag::Where('content_code', $webtoon->code)->Where('content_type', 0)->get();
 
-
-        return view("admin.webtoon.webtoon.update", ["webtoon" => $webtoon, "categories" => $categories, "tags" => $tags]);
+        return view("admin.webtoon.webtoon.update", ["webtoon" => $webtoon, "categories" => $categories, "tags" => $tags, "selectedCategories" => $selectedCategories, "selectedTags" => $selectedTags]);
     }
 
     public function webtoonUpdate(Request $request)
@@ -141,24 +143,24 @@ class WebtoonController extends Controller
 
         $webtoon->save();
 
-        ContentCategory::Where('content_code', $webtoon->code)->Where('content_type', 1)->delete();
-        if ($request->catogery) {
-            foreach ($request->catogery as $item) {
+        ContentCategory::Where('content_code', $webtoon->code)->Where('content_type', 0)->delete();
+        if ($request->category) {
+            foreach ($request->category as $item) {
                 $content = new ContentCategory();
                 $content->category_code = $item;
                 $content->content_code = $webtoon->code;
-                $content->content_type = 1;
+                $content->content_type = 0;
                 $content->save();
             }
         }
 
-        ContentTag::Where('content_code', $webtoon->code)->Where('content_type', 1)->delete();
+        ContentTag::Where('content_code', $webtoon->code)->Where('content_type', 0)->delete();
         if ($request->tag) {
             foreach ($request->tag as $item) {
                 $content = new ContentTag();
                 $content->tag_code = $item;
                 $content->content_code = $webtoon->code;
-                $content->content_type = 1;
+                $content->content_type = 0;
                 $content->save();
             }
         }
@@ -184,5 +186,12 @@ class WebtoonController extends Controller
         $skip = (($request->page - 1) * $this->showCount);
         $webtoons = Webtoon::Where('deleted', 0)->skip($skip)->take($this->showCount)->get();
         return $webtoons;
+    }
+
+    public function webtoonGetSeason(Request $request)
+    {
+        $season = Webtoon::Where('code', $request->code)->first();
+
+        return $season;
     }
 }

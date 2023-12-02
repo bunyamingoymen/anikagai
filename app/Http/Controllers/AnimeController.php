@@ -71,7 +71,7 @@ class AnimeController extends Controller
 
         $anime->save();
 
-        foreach ($request->catogery as $item) {
+        foreach ($request->category as $item) {
             $content = new ContentCategory();
             $content->category_code = $item;
             $content->content_code = $anime->code;
@@ -99,9 +99,12 @@ class AnimeController extends Controller
             return redirect()->back()->with("error", Config::get('error.error_codes.0060002'));
 
         $categories = Category::Where('deleted', 0)->get();
-        $tags = Tag::Where('deleted', 0)->get();
+        $selectedCategories = ContentCategory::Where('content_code', $anime->code)->Where('content_type', 1)->get();
 
-        return view("admin.anime.anime.update", ["anime" => $anime, 'categories' => $categories, 'tags' => $tags]);
+        $tags = Tag::Where('deleted', 0)->get();
+        $selectedTags = ContentTag::Where('content_code', $anime->code)->Where('content_type', 1)->get();
+
+        return view("admin.anime.anime.update", ["anime" => $anime, 'categories' => $categories, 'tags' => $tags, 'selectedCategories' => $selectedCategories, 'selectedTags' => $selectedTags]);
     }
 
     public function animeUpdate(Request $request)
@@ -141,8 +144,8 @@ class AnimeController extends Controller
         $anime->save();
 
         ContentCategory::Where('content_code', $anime->code)->Where('content_type', 1)->delete();
-        if ($request->catogery) {
-            foreach ($request->catogery as $item) {
+        if ($request->category) {
+            foreach ($request->category as $item) {
                 $content = new ContentCategory();
                 $content->category_code = $item;
                 $content->content_code = $anime->code;

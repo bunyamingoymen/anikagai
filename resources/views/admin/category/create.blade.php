@@ -37,7 +37,6 @@
 </div>
 <script>
     function categoryCreatesubmitForm(){
-        alert("dsafsdf");
         var name = document.getElementById('name').value;
         if(name == ""){
             Swal.fire({

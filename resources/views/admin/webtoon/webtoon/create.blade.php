@@ -68,7 +68,7 @@
                         </div>
                         <div class="col-md-4 mb-3">
                             <label for="tag">Etiketler:</label>
-                            <select class="form-control js-seelct-multiple" name="tag" id="tag" multiple>
+                            <select class="form-control js-seelct-multiple" name="tag[]" id="tag" multiple>
                                 @foreach ($tags as $tag)
                                 <option value="{{$tag->code}}">{{$tag->name}}</option>
                                 @endforeach
