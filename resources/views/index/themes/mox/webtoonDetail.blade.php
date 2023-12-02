@@ -122,7 +122,8 @@
                                             data-toggle="collapse" data-target="#collapse{{$i}}" aria-expanded="false"
                                             aria-controls="collapse{{$i}}">
                                             <span class="season">{{$i}} . sezon</span>
-                                            <span class="video-count">{{count($webtoon->where('season_short',$i))}}
+                                            <span
+                                                class="video-count">{{count($webtoon_episodes->where('season_short',$i))}}
                                                 Bölüm</span>
                                         </button>
                                     </div>
@@ -137,8 +138,8 @@
                                             <div class="card-body">
                                                 <ul>
                                                     @foreach ($webtoon_episodes->where('season_short',$i) as $item)
-                                                    <li><a href="https://www.youtube.com/watch?v=R2gbPxeNk2E"
-                                                            class="popup-video"><i class="fas fa-play"></i> Bölüm
+                                                    <li><a href="{{url("webtoon/".$webtoon->short_name."/".$i."/".$item->episode_short)}}"
+                                                            class=""><i class="fas fa-play"></i> Bölüm
                                                             {{$item->episode_short}}</a>
                                                         <span class="duration"><i class="far fa-clock"></i>
                                                             {{$item->minute}}

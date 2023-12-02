@@ -15,9 +15,6 @@ Kullanıcı arayüzü:
 
 Şifremi Unuttum kısmı
 
-animex için yapılması gerekenler:
-1.profil ekranı,
-
 mox teması için yapılması gerekenler:
 
 4.izleme sayfası

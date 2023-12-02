@@ -388,6 +388,8 @@ class IndexController extends Controller
             ->orderBy('comment_short', 'ASC')
             ->get();
 
+        //dd($comments_main);
+
 
         $comments_alt = DB::table('comments')
             ->Where('comments.deleted', 0)

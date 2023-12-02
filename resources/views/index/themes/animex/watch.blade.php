@@ -40,6 +40,7 @@
         transform: translateY(-10px);
         /* Yavaşça yukarı kaydırma */
     }
+    
 
     /* Butonun üzerine gelindiğinde göster */
     .video-container:hover .overlay-button {

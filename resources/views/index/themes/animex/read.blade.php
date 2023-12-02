@@ -84,7 +84,7 @@
                             <p>{{$main_comment->message}}</p>
 
                             <a href="javascript:;" style="color:white; float:right;"
-                                onclick="ReplyComment('AnswerMain{{$loop->index}}','{{$webtoon->code}}','1','1','{{$main_comment->code}}')">
+                                onclick="ReplyComment('AnswerMain{{$loop->index}}','{{$webtoon->code}}','0','1','{{$main_comment->code}}')">
                                 <i class="fa fa-reply" aria-hidden="true"></i> Reply
                             </a>
                         </div>
@@ -101,7 +101,7 @@
                             <p>{{$alt_comment->message}}</p>
 
                             <a href="javascript:;" style="color:white; float:right;"
-                                onclick="ReplyComment('AnswerAltMain{{$loop->index}}','{{$webtoon->code}}','1','1','{{$main_comment->code}}')">
+                                onclick="ReplyComment('AnswerAltMain{{$loop->index}}','{{$webtoon->code}}','0','1','{{$main_comment->code}}')">
                                 <i class="fa fa-reply" aria-hidden="true"></i> Reply
                             </a>
                         </div>
@@ -123,7 +123,7 @@
                         @csrf
                         <div hidden>
                             <input type="text" name="content_code" value="{{$webtoon->code}}">
-                            <input type="text" name="content_type" value="1">
+                            <input type="text" name="content_type" value="0">
                             <input type="text" name="comment_type" value="0">
                             <input type="text" name="comment_top_code" value="0">
                         </div>

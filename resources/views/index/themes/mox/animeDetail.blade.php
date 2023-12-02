@@ -220,7 +220,8 @@
                                                         ($watched->Where('anime_episode_code',$item->code)->first()))
 
 
-                                                        <a href="{{url('anime/'.$i.'/'.$item->episode_short)}}"><i
+                                                        <a
+                                                            href="{{url('anime/'.$anime->short_name.'/'.$i.'/'.$item->episode_short)}}"><i
                                                                 class="fas fa-play"></i>
                                                             <span style="color:green;"
                                                                 id='watchedATag{{$item->code}}'>Bölüm
@@ -230,7 +231,8 @@
                                                             Dakika</span>
 
                                                         @else
-                                                        <a href="{{url('anime/'.$i.'/'.$item->episode_short)}}"><i
+                                                        <a
+                                                            href="{{url('anime/'.$anime->short_name.'/'.$i.'/'.$item->episode_short)}}"><i
                                                                 class="fas fa-play"></i>
                                                             <span style="color:white;"
                                                                 id='watchedATag{{$item->code}}'>Bölüm
