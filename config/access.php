@@ -106,5 +106,8 @@ return [
         'admin/indexUser/create' => 60,
         'admin/indexUser/update' => 62,
         'admin/indexUser/delete' => 63,
+
+        'admin/data/sliderVideo' => 64,
+        'admin/data/sliderVideo/ajax' => 64,
     ],
 ];

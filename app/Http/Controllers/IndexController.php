@@ -50,7 +50,9 @@ class IndexController extends Controller
 
     public function fetchVideo(Request $request)
     {
-        $video = '../../../user/animex/videos/' . $request->index . '.mp4';
+        $keyValue = KeyValue::where('key', 'slider_video')->where("value", $request->code)->where('deleted', 0)->first();
+        $video = 'none';
+        if ($keyValue && $keyValue->optional) $video = "../../../" . $keyValue->optional;
 
         return response()->json(['video' => $video]);
     }

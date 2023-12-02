@@ -282,5 +282,13 @@ return [
         'admin/indexUser/update' => "Üyeyi Güncelle",
         '/admin/indexUser/update' => ["Admin", "Üyeler", "Üyeyi Güncelle"],
         '//admin/indexUser/update' => ["admin_index", 'admin_indexuser_list', "#"],
+
+
+
+
+
+        'admin/data/sliderVideo' => "Slider Videoları",
+        '/admin/data/sliderVideo' => ["Admin", "Slider Videoları"],
+        '//admin/data/sliderVideo' => ["admin_index", "#"],
     ],
 ];

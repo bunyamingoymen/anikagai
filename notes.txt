@@ -3,10 +3,6 @@
 -------------------------------------------
 Yapılacaklar:
 
-admin arayüzü:
-1- Slider'a video ekleme kısmı;
-5- Üye olan kullanıcıları görebilme
-
 
 Kullanıcı arayüzü:
 

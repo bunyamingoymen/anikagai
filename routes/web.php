@@ -231,6 +231,9 @@ Route::middleware(['auth'])->group(function () {
 
             Route::get("/admin/data/title", "titleList")->name('admin_data_title_list');
             Route::post("/admin/data/title", "titleChange")->name('admin_data_title');
+
+            Route::get("/admin/data/sliderVideo", "sliderVideoScreen")->name('admin_data_slider_video_list');
+            Route::post("/admin/data/sliderVideo/ajax", "changeSliderVideo")->name('admin_data_slider_video');
         });
 
         Route::controller(AnimeController::class)->group(function () {

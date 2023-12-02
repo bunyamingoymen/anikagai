@@ -459,6 +459,12 @@ class DatabaseSeeder extends Seeder
                 'text'  => 'Üye Silebilme',
                 'description'  => 'Üye Silebilme',
             ],
+            [
+                'id' => 64,
+                'code' => 64,
+                'text'  => 'Slider videolarını listeleyip güncelleyebilme',
+                'description'  => 'Slider videolarını listeleyip güncelleyebilme',
+            ],
         ]);
 
         //logo, footer, sosyal_medya
@@ -721,7 +727,7 @@ class DatabaseSeeder extends Seeder
                 'id' => 27,
                 'code' => 27,
                 'key'  => 'slider_image',
-                'value'  => '1',
+                'value'  => 'Bleach',
                 'optional' => 'user/img/images/gallery_03.jpg',
                 'optional_2' => '/', //url
                 'create_user_code' => 1,
@@ -739,12 +745,57 @@ class DatabaseSeeder extends Seeder
             ],
         ]);
 
+        //selected_theme
         DB::table('key_values')->insert([
             [
                 'id' => 29,
                 'code' => 29,
                 'key'  => 'selected_theme',
                 'value'  => '1',
+                'create_user_code' => 1,
+                'deleted' => 0,
+                'created_at' => Carbon::now(),
+            ],
+        ]);
+
+        //slider_video
+        DB::table('key_values')->insert([
+            [
+                'id' => 30,
+                'code' => 30,
+                'key'  => 'slider_video',
+                'value'  => '25', //slider_code
+                'optional' => 'user/animex/videos/1.mp4',
+                'create_user_code' => 1,
+                'deleted' => 0,
+                'created_at' => Carbon::now(),
+            ],
+            [
+                'id' => 31,
+                'code' => 31,
+                'key'  => 'slider_video',
+                'value'  => '26', //slider_code
+                'optional' => 'user/animex/videos/2.mp4',
+                'create_user_code' => 1,
+                'deleted' => 0,
+                'created_at' => Carbon::now(),
+            ],
+            [
+                'id' => 32,
+                'code' => 32,
+                'key'  => 'slider_video',
+                'value'  => '27', //slider_code
+                'optional' => 'user/animex/videos/3.mp4',
+                'create_user_code' => 1,
+                'deleted' => 0,
+                'created_at' => Carbon::now(),
+            ],
+            [
+                'id' => 33,
+                'code' => 33,
+                'key'  => 'slider_video',
+                'value'  => '28', //slider_code
+                'optional' => 'user/animex/videos/4.mp4',
                 'create_user_code' => 1,
                 'deleted' => 0,
                 'created_at' => Carbon::now(),

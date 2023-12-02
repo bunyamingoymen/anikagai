@@ -39,6 +39,12 @@ class IndexUserController extends Controller
             return redirect()->back()->with('error', Config::get('error.error_codes.0010010'));
         }
 
+        $username = indexUser::Where('username', $request->username)->first();
+
+        if ($username) {
+            return redirect()->back()->with('error', "Bu Kullanıcı Adı Alınamaz..");
+        }
+
         $indexUser->name = $request->name;
         $indexUser->username = $request->username;
         $indexUser->email = $request->email;
@@ -84,6 +90,12 @@ class IndexUserController extends Controller
 
         if ($user_email) {
             return redirect()->back()->with('error', Config::get('error.error_codes.0010010'));
+        }
+
+        $username = indexUser::Where('username', $request->username)->Where('code', "!=", $request->code)->first();
+
+        if ($username) {
+            return redirect()->back()->with('error', "Bu Kullanıcı Adı Alınamaz..");
         }
 
         $indexUser->name = $request->name;

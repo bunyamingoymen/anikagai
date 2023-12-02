@@ -9,7 +9,7 @@
         <div class="hero__slider owl-carousel">
             @foreach ($slider_image as $index => $item)
             <div id="heroSlider{{$index + 1}}" class="hero__items set-bg"
-                data-setbg="../../../{{$item->optional ?? ''}}" onmouseover="showVideo({{ $index }})"
+                data-setbg="../../../{{$item->optional ?? ''}}" onmouseover="showVideo({{ $index }},{{ $item->code }})"
                 onmouseout="hideVideo({{ $index }})">
                 <div class="row">
                     <div class="col-lg-6">
@@ -21,7 +21,7 @@
                     </div>
                 </div>
                 <div class="video-container">
-                    <video class="video" preload="auto" loop muted>
+                    <video class="video" preload="auto" loop>
                         <source src="" type="video/mp4">
                         Your browser does not support the video tag.
                     </video>
@@ -180,13 +180,16 @@
         //video.style.display = 'none';
     });
 
-    function showVideo(index) {
+    function showVideo(index, code) {
 
     // Daha önce çekilen bir video varsa tekrar çekme
     if (fetchedVideos[index]) {
+        //console.log('video yükleniyor...');
         // Tüm video elementlerini duraklat ve gizle
         videoElements.forEach(function (video) {
-            video.pause();
+            if(!video.paused){
+                video.pause();
+            }
         });
 
         // Videoları gizle ve daha önce çekilmiş videoyu göster
@@ -194,37 +197,51 @@
             if (i === index) {
                 container.style.display = 'block';
                 videoElements[i].src = fetchedVideos[index];
-                videoElements[i].play();
+                if(videoElements[i].paused){
+                    videoElements[i].play();
+                }
+
             } else {
                 container.style.display = 'none';
             }
         });
     } else {
+        //console.log('video çekiliyor...');
         // AJAX isteği yap
-        fetch('/fetchVideo?index=' + (index+1))
+        fetch('/fetchVideo?code=' + (code))
         .then(response => response.json())
         .then(data => {
             // Videonun URL'sini al
             var videoUrl = data.video;
+            if(videoUrl != "none"){
+                // Daha önce çekilen videoyu sakla
+                fetchedVideos[index] = videoUrl;
 
-            // Daha önce çekilen videoyu sakla
-            fetchedVideos[index] = videoUrl;
+                // Tüm video elementlerini duraklat ve gizle
+                videoElements.forEach(function (video) {
+                    if(!video.paused){
+                        video.pause();
+                    }
 
-            // Tüm video elementlerini duraklat ve gizle
-            videoElements.forEach(function (video) {
-            video.pause();
-            });
+                });
 
-        // Videoları gizle ve yeni videoyu göster
-        videoElementsContainer.forEach(function (container, i) {
-        if (i === index) {
-            container.style.display = 'block';
-            videoElements[i].src = videoUrl;
-            videoElements[i].play();
-        } else {
-            container.style.display = 'none';
-        }
-        });
+                // Videoları gizle ve yeni videoyu göster
+                videoElementsContainer.forEach(function (container, i) {
+                    if (i === index) {
+                    container.style.display = 'block';
+                    videoElements[i].src = videoUrl;
+                    if(videoElements[i].paused){
+                        videoElements[i].play();
+                    }
+
+                    } else {
+                        container.style.display = 'none';
+                    }
+                });
+            }else{
+                //console.log('Video Not Found');
+            }
+
     })
     .catch(error => {
         console.error('Error fetching video:', error);
@@ -233,8 +250,10 @@
 }
 
     function hideVideo(index) {
-    videoElementsContainer[index].style.display = 'none';
-    videoElements[index].pause();
+        videoElementsContainer[index].style.display = 'none';
+        if(!videoElements[index].paused){
+            videoElements[index].pause();
+        }
     }
 </script>
 @endsection

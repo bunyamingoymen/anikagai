@@ -102,7 +102,7 @@ class DataController extends Controller
         $slider->key = 'slider_image';
         if ($request->hasFile('slider_image')) {
             $image = $request->file('slider_image');
-            $path = 'user/img/images/';
+            $path = 'files/sliders/images/';
             $name = "gallery_0" . count(KeyValue::Where('key', 'slider_image')->get()) . "." . $image->getClientOriginalExtension();
             $image->move(public_path($path), $name);
 
@@ -385,5 +385,40 @@ class DataController extends Controller
         $data['index_title']->value = $request->index_title;
         $data['index_title']->save();
         return redirect()->back()->with('success', Config::get('success.success_codes.10120412'));
+    }
+
+    public function sliderVideoScreen()
+    {
+        $slider_images = KeyValue::Where('deleted', 0)->Where('key', 'slider_image')->get();
+        $slider_video = KeyValue::Where('deleted', 0)->Where('key', 'slider_video')->get();
+        return view('admin.data.sliderVideo', ['slider_images' => $slider_images, 'slider_video' => $slider_video]);
+    }
+
+    public function changeSliderVideo(Request $request)
+    {
+        $slider_video = KeyValue::Where('key', 'slider_video')->Where('value', $request->slider_image_code)->first();
+        if (!$slider_video) {
+            $slider_video = new KeyValue();
+            $slider_video->code = KeyValue::max('code') + 1;
+            $slider_video->key = 'slider_video';
+            $slider_video->value = $request->slider_image_code;
+            $slider_video->create_user_code = Auth::guard('admin')->user()->code;
+        }
+
+        if ($request->hasFile('video')) {
+            // Dosyayı al
+            $file = $request->file('video');
+
+            $path = public_path('files/sliders/videos/');
+            $name = $request->slider_image_code . "." . $file->getClientOriginalExtension();
+            $file->move($path, $name);
+            $slider_video->optional = 'files/sliders/videos/' . $name;
+        } else {
+            $slider_video->optional = "none";
+        }
+        $slider_video->update_user_code = Auth::guard('admin')->user()->code;
+        $slider_video->save();
+
+        return response()->json(['success' => true]);
     }
 }

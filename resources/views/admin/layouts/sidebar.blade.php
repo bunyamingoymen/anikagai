@@ -80,6 +80,7 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li id="sidebarHomeSettings"></li>
+                        <li id="sidebarSliderVideo"></li>
                         <li id="sidebarLogoSettings"></li>
                         <li id="sidebarMetaSettings"></li>
                         <li id="sidebarTitleSettings"></li>
@@ -227,7 +228,7 @@
 
         @endif
 
-        @if ($authArray['changeHome'] == 1 || $authArray['changeLogo'] == 1 || $authArray['changeMeta'] == 1 || $authArray['changeTitle'] == 1 || $authArray['changeMenu'] == 1 || $authArray['changeSocialMedia'] == 1)
+        @if ($authArray['changeHome'] == 1 || $authArray['changeLogo'] == 1 || $authArray['changeMeta'] == 1 || $authArray['changeTitle'] == 1 || $authArray['changeMenu'] == 1 || $authArray['changeSocialMedia'] == 1 || $authArray['changeSliderVideo'])
 
             document.getElementById('sidebarDataSection').hidden = false;
 
@@ -236,6 +237,11 @@
             @if ($authArray['changeHome'] == 1)
                 html = `<a href="{{route('admin_data_home_list')}}">Anasayfa Ayarları</a>`;
                 document.getElementById('sidebarHomeSettings').innerHTML = html;
+            @endif
+
+            @if ($authArray['changeSliderVideo'] == 1)
+                html = `<a href="{{route('admin_data_slider_video_list')}}">Slider Videoları</a>`;
+                document.getElementById('sidebarSliderVideo').innerHTML = html;
             @endif
 
             @if ($authArray['changeLogo'] == 1)

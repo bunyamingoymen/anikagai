@@ -45,7 +45,7 @@ class AppServiceProvider extends ServiceProvider
             $userPages = ['admin.users.create', 'admin.users.list', 'admin.users.update'];
             $authGroupPages = ['admin.auth.groups.create', 'admin.auth.groups.list', 'admin.auth.groups.update'];
             $authPages = ['admin.auth.auth.list'];
-            $dataPages = ['admin.data.home', 'admin.data.logo', 'admin.data.menu', 'admin.data.meta', 'admin.data.social', 'admin.data.title'];
+            $dataPages = ['admin.data.home', 'admin.data.logo', 'admin.data.menu', 'admin.data.meta', 'admin.data.social', 'admin.data.title', 'admin.data.sliderVideo'];
             $animePages = ['admin.anime.anime.create', 'admin.anime.anime.list', 'admin.anime.anime.update'];
             $animeEpisodePages = ['admin.anime.episode.create', 'admin.anime.episode.list', 'admin.anime.episode.update'];
             $animeCalendarPages = ['admin.anime.calendar.calendar'];
@@ -123,6 +123,8 @@ class AppServiceProvider extends ServiceProvider
 
                     $indexUserRead = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/indexUser/list') ? 1 : 0;
 
+                    $changeSliderVideo = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/data/sliderVideo') ? 1 : 0;
+
                     $authArray = [
                         'userRead' => $userRead, 'userGroupRead' => $userGroupRead, 'groupAuthRead' => $groupAuthRead,
                         'changeHome' => $changeHome, 'changeLogo' => $changeLogo, 'changeMeta' => $changeMeta, 'changeTitle' => $changeTitle, 'changeMenu' => $changeMenu, 'changeSocialMedia' => $changeSocialMedia,
@@ -132,6 +134,7 @@ class AppServiceProvider extends ServiceProvider
                         'pageRead' => $pageRead, 'categoryRead' => $categoryRead, 'tagRead' => $tagRead,
                         'commentRead' => $commentRead, 'contactRead' => $contactRead,
                         'indexUserRead' => $indexUserRead,
+                        'changeSliderVideo' => $changeSliderVideo,
                     ];
                     //----------------------------------------------------------------
 
@@ -177,13 +180,14 @@ class AppServiceProvider extends ServiceProvider
                 View::composer($dataPages, function ($view) {
 
                     $homeData = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/data/home') ? 1 : 0;
+                    $sliderVideoData = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/data/sliderVideo') ? 1 : 0;
                     $logoData = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/data/logo') ? 1 : 0;
                     $metaData = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/data/meta') ? 1 : 0;
                     $menuData = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/data/menu') ? 1 : 0;
                     $socialData = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/data/social') ? 1 : 0;
                     $titleData = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/data/title') ? 1 : 0;
 
-                    $view->with(["homeData" => $homeData, "logoData" => $logoData, "metaData" => $metaData, "menuData" => $menuData, "socialData" => $socialData, 'titleData' => $titleData]);
+                    $view->with(["homeData" => $homeData, "logoData" => $logoData, "metaData" => $metaData, "menuData" => $menuData, "socialData" => $socialData, 'titleData' => $titleData, 'sliderVideoData' => $sliderVideoData]);
                 });
 
                 View::composer($animePages, function ($view) {
