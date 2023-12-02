@@ -40,7 +40,7 @@
         transform: translateY(-10px);
         /* Yavaşça yukarı kaydırma */
     }
-    
+
 
     /* Butonun üzerine gelindiğinde göster */
     .video-container:hover .overlay-button {
@@ -52,11 +52,7 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <!-- Plyr CSS -->
-                <link rel="stylesheet" href="https://cdn.plyr.io/3.6.8/plyr.css" />
 
-                <!-- Plyr JS -->
-                <script src="https://cdn.plyr.io/3.6.8/plyr.js"></script>
 
                 <div class="anime__video__player justify-content-center">
                     <video id="my-video" class="plyr" controls crossorigin playsinline

@@ -1264,9 +1264,7 @@ ol {
 	color: transparent;
 }
 
-.anime__video__player .plyr--full-ui input[type=range] {
-	color: #ffffff;
-}
+
 
 .anime__video__player .plyr__controls .plyr__controls__item.plyr__progress__container {
 	position: absolute;
@@ -1276,7 +1274,7 @@ ol {
 }
 
 .anime__video__player .plyr__menu {
-	margin-right: 70px;
+	margin-right: 1%;
 }
 
 .anime__video__player .plyr__controls .plyr__controls__item:first-child {
@@ -1296,12 +1294,6 @@ ol {
 	width: auto;
 	left: 76px;
 	bottom: 8px;
-}
-
-.anime__video__player .plyr__controls .plyr__controls__item.plyr__time {
-	position: absolute;
-	left: 106px;
-	bottom: 12px;
 }
 
 .anime__video__player .plyr__control--overlaid {
