@@ -112,7 +112,7 @@
             var short_name = short_name.toLowerCase();
 
             document.getElementById('short_name').value = short_name;
-            document.getElementById('animeCreateForm').submit();
+            document.getElementById('webtoonCreateForm').submit();
         }
     }
 </script>

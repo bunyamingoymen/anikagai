@@ -7,7 +7,6 @@ Yapılacaklar:
 Kullanıcı arayüzü:
 
 Şifremi Unuttum kısmı
+Bilgileri değiştirebilme ekranı
 
-Diğer aklıma gelenler:
-normal kullanıcı bilgilerini değiştirebilmeli
-Varsayılan kategorri silinememeli
+
