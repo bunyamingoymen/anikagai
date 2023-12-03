@@ -30,9 +30,7 @@ class AnimeCalendarController extends Controller
     {
         $anime_calendar = new AnimeCalendar();
 
-        $anime_calendar_code = AnimeCalendar::orderBy('created_at', 'DESC')->first();
-        if ($anime_calendar_code) $anime_calendar->code = $anime_calendar_code->code + 1;
-        else $anime_calendar->code = 1;
+        $anime_calendar->code = AnimeCalendar::max('code') + 1;
 
         $anime_calendar->anime_code = $request->anime_code;
         $anime_calendar->description = $request->description;

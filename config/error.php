@@ -106,6 +106,7 @@ return [
         '0160002' => 'Kategori Güncellenirken Bir Hata Meydana Geldi',
         '0160012' => 'Kategori Güncellenirken Post işleminde bir hata meydana geldi',
         '0160013' => 'Kategori Silinirken Bir Hata Meydana Geldi',
+        '0160113' => 'Varsayılan Kategori Silinemez.',
 
         '0170002' => 'Etiket Güncellenirken Bir Hata Meydana Geldi',
         '0170012' => 'Etiket Güncellenirken Post işleminde bir hata meydana geldi',

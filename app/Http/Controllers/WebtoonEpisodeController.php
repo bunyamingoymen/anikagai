@@ -39,9 +39,7 @@ class WebtoonEpisodeController extends Controller
     {
         $webtoon_episode = new WebtoonEpisode();
 
-        $webtoon_episode_code = WebtoonEpisode::orderBy('created_at', 'DESC')->first();
-        if ($webtoon_episode_code) $webtoon_episode->code = $webtoon_episode_code->code + 1;
-        else $webtoon_episode->code = 1;
+        $webtoon_episode->code = WebtoonEpisode::max('code') + 1;
 
         $webtoon_episode->name = $request->name;
 

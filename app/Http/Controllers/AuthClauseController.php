@@ -31,9 +31,7 @@ class AuthClauseController extends Controller
     {
         $clause = new AuthorizationClause();
 
-        $clause_code = AuthorizationClause::orderBy('created_at', 'DESC')->first();
-        if ($clause_code) $clause->code = $clause_code->code + 1;
-        else $clause->code = 1;
+        $clause->code = AuthorizationClause::max('code') + 1;
 
         $clause->text = $request->text;
         $clause->description = $request->description;

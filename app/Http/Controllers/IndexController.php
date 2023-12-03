@@ -201,8 +201,6 @@ class IndexController extends Controller
             ->where('deleted', 0)
             ->get();
 
-        //dd($anime_episodes->toArray());
-
         $followed = false;
         $liked = false;
 
@@ -226,6 +224,7 @@ class IndexController extends Controller
             ->join('animes', 'animes.code', '=', 'content_categories.content_code')
             ->select('categories.*')
             ->get();
+
 
         $firstEpisodeUrl = 'none';
         if (count($anime_episodes) > 0) {

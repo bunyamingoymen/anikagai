@@ -30,9 +30,7 @@ class CategoryController extends Controller
     {
         $category = new Category();
 
-        $category_code = Category::orderBy('created_at', 'DESC')->first();
-        if ($category_code) $category->code = $category_code->code + 1;
-        else $category->code = 1;
+        $category->code = Category::max('code') + 1;
 
         $category->name = $request->name;
         $category->short_name = $request->short_name;
@@ -81,6 +79,10 @@ class CategoryController extends Controller
 
         if (!$category)
             return redirect()->back()->with("error", Config::get('error.error_codes.0160013'));
+
+        if ($category->code == 1) {
+            return redirect()->back()->with("error", Config::get('error.error_codes.0160113'));
+        }
 
         $category->deleted = 1;
         $category->update_user_code = Auth::guard('admin')->user()->code;

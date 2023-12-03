@@ -132,7 +132,7 @@
                                     <ul>
                                         <li><span>Türü:</span> Anime</li>
                                         <li><span>Yayınlanma:</span>{{$anime->date}}</li>
-                                        <li><span>Kategoriler:</span> {{$anime->main_category_name ?? 'Genel'}}
+                                        <li><span>Kategoriler:</span> {{$anime->main_category_name ?? 'Genel'}},
                                             @foreach ($categories as $item)
                                             {{$item->name}},
                                             @endforeach

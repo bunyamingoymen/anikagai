@@ -30,9 +30,7 @@ class WebtoonCalendarController extends Controller
     {
         $webtoon_calendar = new WebtoonCalendar();
 
-        $webtoon_calendar_code = WebtoonCalendar::orderBy('created_at', 'DESC')->first();
-        if ($webtoon_calendar_code) $webtoon_calendar->code = $webtoon_calendar_code->code + 1;
-        else $webtoon_calendar->code = 1;
+        $webtoon_calendar->code = WebtoonCalendar::max('code') + 1;
 
         $webtoon_calendar->webtoon_code = $request->webtoon_code;
         $webtoon_calendar->description = $request->description;

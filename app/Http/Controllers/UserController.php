@@ -35,9 +35,7 @@ class UserController extends Controller
     {
         $user = new User();
 
-        $user_code = User::orderBy('created_at', 'DESC')->first();
-        if ($user_code) $user->code = $user_code->code + 1;
-        else $user->code = 1;
+        $user->code = User::max('code') + 1;
 
         $user_email = User::Where('email', $request->email)->first();
         if ($user_email) {

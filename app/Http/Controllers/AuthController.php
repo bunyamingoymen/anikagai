@@ -28,9 +28,7 @@ class AuthController extends Controller
         foreach ($selectedClauses as $item) {
             $new_clause_group = new AuthorizationClauseGroup();
 
-            $new_clause_group_code = AuthorizationClauseGroup::orderBy('created_at', 'DESC')->first();
-            if ($new_clause_group_code) $new_clause_group->code = $new_clause_group_code->code + 1;
-            else $new_clause_group->code = 1;
+            $new_clause_group->code = AuthorizationClauseGroup::max('code') + 1;
 
             $new_clause_group->group_id = $request->groupSelectBox;
             $new_clause_group->clause_id = $item;

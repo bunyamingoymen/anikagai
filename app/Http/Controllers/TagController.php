@@ -30,9 +30,7 @@ class TagController extends Controller
     {
         $tag = new Tag();
 
-        $tag_code = Tag::orderBy('created_at', 'DESC')->first();
-        if ($tag_code) $tag->code = $tag_code->code + 1;
-        else $tag->code = 1;
+        $tag->code = Tag::max('code') + 1;
 
         $tag->name = $request->name;
         $tag->description = $request->description;

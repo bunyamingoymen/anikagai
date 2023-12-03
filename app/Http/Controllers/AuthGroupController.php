@@ -31,9 +31,7 @@ class AuthGroupController extends Controller
     {
         $group = new AuthorizationGroup();
 
-        $group_code = AuthorizationGroup::orderBy('created_at', 'DESC')->first();
-        if ($group_code) $group->code = $group_code->code + 1;
-        else $group->code = 1;
+        $group->code = AuthorizationGroup::max('code') + 1;
 
         $group->text = $request->text;
         $group->description = $request->description;

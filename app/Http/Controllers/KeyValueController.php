@@ -30,9 +30,7 @@ class KeyValueController extends Controller
     {
         $keyValue = new KeyValue();
 
-        $keyValue_code = KeyValue::orderBy('created_at', 'DESC')->first();
-        if ($keyValue_code) $keyValue->code = $keyValue_code->code + 1;
-        else $keyValue->code = 1;
+        $keyValue->code = KeyValue::max('code') + 1;
 
         $keyValue->key = $request->key;
         $keyValue->value = $request->value;

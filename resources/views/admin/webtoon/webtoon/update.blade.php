@@ -95,7 +95,7 @@
                             <select class="form-control js-seelct-multiple" name="tag[]" id="tag" multiple>
                                 @foreach ($tags as $tag)
                                 @if (count($selectedTags)>0 &&
-                                $selectedTags->Where('tag_code',$category->code)->first())
+                                $selectedTags->Where('tag_code',$tag->code)->first())
                                 <option value="{{$tag->code}}" selected>{{$tag->name}}</option>
                                 @else
                                 <option value="{{$tag->code}}">{{$tag->name}}</option>

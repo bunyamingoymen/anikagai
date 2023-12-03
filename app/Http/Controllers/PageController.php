@@ -30,9 +30,7 @@ class PageController extends Controller
     {
         $page = new Page();
 
-        $page_code = Page::orderBy('created_at', 'DESC')->first();
-        if ($page_code) $page->code = $page_code->code + 1;
-        else $page->code = 1;
+        $page->code = Page::max('code') + 1;
 
         $page_name_control = Page::Where('short_name', $request->short_name)->Where('deleted', 0)->first();
 

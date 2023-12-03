@@ -95,9 +95,7 @@ class DataController extends Controller
     {
         $slider = new KeyValue();
 
-        $slider_code = KeyValue::orderBy('created_at', 'DESC')->first();
-        if ($slider_code) $slider->code = $slider_code->code + 1;
-        else $slider->code = 1;
+        $slider->code = KeyValue::max('code') + 1;
 
         $slider->key = 'slider_image';
         if ($request->hasFile('slider_image')) {
@@ -189,9 +187,7 @@ class DataController extends Controller
 
         $menu = new KeyValue();
 
-        $menu_code = KeyValue::orderBy('created_at', 'DESC')->first();
-        if ($menu_code) $menu->code = $menu_code->code + 1;
-        else $menu->code = 1;
+        $menu->code = KeyValue::max('code') + 1;
 
         $menu->key = $request->menu_type;
         $menu->value = $request->menu;
@@ -260,9 +256,7 @@ class DataController extends Controller
     {
         $meta = new KeyValue();
 
-        $meta_code = KeyValue::orderBy('created_at', 'DESC')->first();
-        if ($meta_code) $meta->code = $meta_code->code + 1;
-        else $meta->code = 1;
+        $meta->code = KeyValue::max('code') + 1;;
 
         $meta->key = $request->key;
         $meta->value = $request->name ? $request->name : " ";
@@ -328,9 +322,7 @@ class DataController extends Controller
     {
         $social = new KeyValue();
 
-        $social_code = KeyValue::orderBy('created_at', 'DESC')->first();
-        if ($social_code) $social->code = $social_code->code + 1;
-        else $social->code = 1;
+        $social->code = KeyValue::max('code') + 1;
 
         $social->key = 'social_media';
         $social->value = $request->social;

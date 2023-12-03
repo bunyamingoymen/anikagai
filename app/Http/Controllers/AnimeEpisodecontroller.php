@@ -38,10 +38,7 @@ class AnimeEpisodecontroller extends Controller
     public function episodeCreate(Request $request)
     {
         $anime_episode = new AnimeEpisode();
-
-        $anime_episode_code = AnimeEpisode::orderBy('created_at', 'DESC')->first();
-        if ($anime_episode_code) $anime_episode->code = $anime_episode_code->code + 1;
-        else $anime_episode->code = 1;
+        $anime_episode->code = AnimeEpisode::max('code') + 1;
 
         $anime_episode->name = $request->name;
 

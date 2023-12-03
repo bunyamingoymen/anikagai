@@ -10,5 +10,4 @@ Kullanıcı arayüzü:
 
 Diğer aklıma gelenler:
 normal kullanıcı bilgilerini değiştirebilmeli
-normal kullancıcı giriş yapmamışsa prfile gidemez, giriş yapmışsa login'e gidemez
 Varsayılan kategorri silinememeli

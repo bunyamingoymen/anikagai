@@ -13,9 +13,7 @@ class NotificationAdminController extends Controller
     {
         $newMessage = new NotificationAdmin();
 
-        $newMessage_code = NotificationAdmin::orderBy('created_at', 'DESC')->first();
-        if ($newMessage_code) $newMessage->code = $newMessage_code->code + 1;
-        else $newMessage->code = 1;
+        $newMessage->code = NotificationAdmin::max('code') + 1;
 
         $newMessage->notification_title = $request->notification_title;
         $newMessage->notification_text = $request->notification_text;

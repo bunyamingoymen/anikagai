@@ -31,7 +31,7 @@ class DatabaseSeeder extends Seeder
                 'name'  => 'Bünyamin',
                 'surname'  => 'Göymen',
                 'email' => 'bunyamingoymen@gmail.com',
-                'password' => Hash::make("123"),
+                'password' => Hash::make("introlistalemi.anikagai.com"),
                 'image' => 'admin/assets/images/users/avatar-1.jpg',
                 'description' => "Sitenin kurucusu",
                 'user_type' => 0, //0: Super User, 1: Admin, 2 ve daha sonrası:Yetkilendirme sistemi
@@ -43,13 +43,13 @@ class DatabaseSeeder extends Seeder
             [
                 'id' => 2,
                 'code' => 1,
-                'name'  => 'Bünyamin',
-                'surname'  => 'Göymen',
-                'email' => 'bunyamingoymen2@gmail.com',
-                'password' => Hash::make("123"),
-                'image' => 'admin/assets/images/users/avatar-2.jpg',
+                'name'  => 'Anikagai',
+                'surname'  => 'Admin',
+                'email' => 'anikagai@gmail.com',
+                'password' => Hash::make("anikagai1256"),
+                'image' => 'admin/assets/images/users/avatar-1.jpg',
                 'description' => "Site Sahibi",
-                'user_type' => 0, //0: Super User, 1: Admin, 2 ve daha sonrası:Yetkilendirme sistemi
+                'user_type' => 1, //0: Super User, 1: Admin, 2 ve daha sonrası:Yetkilendirme sistemi
                 'admin' => 1,
                 'create_user_code' => 0,
                 'update_user_code' => 0,

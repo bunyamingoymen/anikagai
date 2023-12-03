@@ -13,9 +13,7 @@ class FollowUserController extends Controller
     {
         $follow = new FollowUser();
 
-        $follow_code = FollowUser::orderBy('created_at', 'DESC')->first();
-        if ($follow_code) $follow->code = $follow_code->code + 1;
-        else $follow->code = 1;
+        $follow = FollowUser::max('code') + 1;
 
         $follow->followed_user_code = $request->followed_user_code;
         $follow->user_code = Auth::guard('admin')->user()->code;

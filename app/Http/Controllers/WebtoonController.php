@@ -36,9 +36,7 @@ class WebtoonController extends Controller
     {
         $webtoon = new Webtoon();
 
-        $webtoon_code = Webtoon::orderBy('created_at', 'DESC')->first();
-        if ($webtoon_code) $webtoon->code = $webtoon_code->code + 1;
-        else $webtoon->code = 1;
+        $webtoon->code = Webtoon::max('code') + 1;
 
         $webtoon->name = $request->name;
         $webtoon->short_name = $request->short_name;

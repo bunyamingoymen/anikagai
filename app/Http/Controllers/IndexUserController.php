@@ -30,9 +30,7 @@ class IndexUserController extends Controller
     {
         $indexUser = new IndexUser();
 
-        $indexUsers_code = IndexUser::orderBy('created_at', 'DESC')->first();
-        if ($indexUsers_code) $indexUser->code = $indexUsers_code->code + 1;
-        else $indexUser->code = 1;
+        $indexUser->code = IndexUser::max('code') + 1;
 
         $user_email = IndexUser::Where('email', $request->email)->first();
         if ($user_email) {

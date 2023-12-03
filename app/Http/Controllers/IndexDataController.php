@@ -17,7 +17,6 @@ class IndexDataController extends Controller
 {
     public function followAnime(Request $request)
     {
-        //dd($request->anime_code);
         $followed = new FollowAnime();
         $followed->user_code = $request->user_code;
         $followed->anime_code = $request->anime_code;

@@ -29,7 +29,7 @@ Route::controller(IndexController::class)->group(function () {
     Route::get('/webtoonlar', 'list')->name('webtoon_list');
 
     Route::get('/logout', 'logout')->name('logout');
-    Route::get('/profile', 'profile')->name('profile');
+
 
     Route::post("/control/username/ajax", 'controlUsername')->name('index_control_username');
     Route::post("/control/email/ajax", 'controlEmail')->name('index_control_email');
@@ -39,11 +39,11 @@ Route::controller(IndexController::class)->group(function () {
     Route::get('/contact', 'contactScreen')->name('contact_screen');
     Route::post('/contact', 'contact')->name('contact');
 
-    Route::get('/p/{short_name}', 'showPage')->name('showPage'); //TODO
+    Route::get('/p/{short_name}', 'showPage')->name('showPage');
 
-    Route::get('/search', 'search')->name('search'); //TODO
+    Route::get('/search', 'search')->name('search');
 
-    Route::post('addNewComment', 'addNewComment')->name('addNewComment'); //TODO
+    Route::post('addNewComment', 'addNewComment')->name('addNewComment');
 
     Route::get('/fetchVideo', 'fetchVideo');
 });
@@ -53,6 +53,11 @@ Route::group(['middleware' => 'guest_index'], function () {
     Route::get('/login', [IndexController::class, "loginScreen"])->name('loginScreen');
     Route::post('/register', [IndexController::class, "register"])->name('register');
     Route::post('/login', [IndexController::class, "login"])->name('login');
+});
+
+Route::group(['middleware' => 'index_user'], function () {
+    //oturum kapalıyken girilmemesi gereken sayfalar
+    Route::get('/profile', [IndexController::class, "profile"])->name('profile');
 });
 
 

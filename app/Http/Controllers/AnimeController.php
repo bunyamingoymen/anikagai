@@ -37,9 +37,7 @@ class AnimeController extends Controller
     {
         $anime = new Anime();
 
-        $anime_code = Anime::orderBy('created_at', 'DESC')->first();
-        if ($anime_code) $anime->code = $anime_code->code + 1;
-        else $anime->code = 1;
+        $anime->code = Anime::max('code') + 1;
 
         $anime->name = $request->name;
 
