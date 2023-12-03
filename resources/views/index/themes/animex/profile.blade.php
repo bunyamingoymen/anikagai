@@ -22,9 +22,8 @@
         <div class="anime__details__content">
             <div class="row">
                 <div class="col-lg-3">
-                    <div class="anime__details__pic set-bg"
-                        data-setbg="../../../{{$user->image ?? 'user/img/profile/default.png'}}">
-                    </div>
+                    <img src="../../../{{$user->image ?? 'user/img/profile/default.png'}}" alt=""
+                        style="max-height: 200px; min-height: 200px;">
                 </div>
                 <div class="col-lg-9">
                     <div class="anime__details__text">
@@ -52,6 +51,14 @@
                             </div>
                         </div>
                         <div class="anime__details__btn">
+                            @if ($user->code == Auth::user()->code)
+                            <a href="{{route('change_profile_settings_screen')}}" class="follow-btn"><i
+                                    class="fa fa-info"></i>
+                                Bilgilerimi Değiştir</a>
+                            <a href="{{route('change_profile_password_screen')}}" class="follow-btn"><i
+                                    class="fa fa-key"></i>
+                                Şifremi değiştir</a>
+                            @else
                             @if (true)
                             <a href="javascript:;" onclick="unfollowAnime()" class="follow-btn"><i
                                     class="fa fa-plus"></i>
@@ -69,6 +76,8 @@
                                     class="fa fa-heart-o"></i>
                                 Favorilere Ekle</a>
                             @endif
+                            @endif
+
                         </div>
                         <p id="likeAnimeTextMessage" style="color:red;"></p>
                     </div>

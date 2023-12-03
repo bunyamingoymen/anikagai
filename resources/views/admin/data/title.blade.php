@@ -12,7 +12,7 @@
                         <div class="row">
                             <div class="col-lg-8">
                                 <input type="text" class="form-control" name="index_title" id="index_title"
-                                    value="{{$data['index_title']->value}}">
+                                    value="{{$index_title->value}}">
                             </div>
                             <div class="col-lg-2">
                                 <button class="btn btn-primary">Değiştir</button>

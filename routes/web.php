@@ -58,6 +58,13 @@ Route::group(['middleware' => 'guest_index'], function () {
 Route::group(['middleware' => 'index_user'], function () {
     //oturum kapalıyken girilmemesi gereken sayfalar
     Route::get('/profile', [IndexController::class, "profile"])->name('profile');
+
+    Route::get('/changeProfile', [IndexController::class, "changeProfileSettingsScreen"])->name('change_profile_settings_screen');
+    Route::post('/changeProfile', [IndexController::class, "changeProfileSettings"])->name('change_profile_settings');
+    Route::post('/changeProfileImage', [IndexController::class, "changeProfileImage"])->name('change_profile_image');
+
+    Route::get('/changeProfilePassword', [IndexController::class, "changeProfilePasswordScreen"])->name('change_profile_password_screen');
+    Route::post('/changeProfilePassword', [IndexController::class, "changeProfilePassword"])->name('change_profile_password');
 });
 
 

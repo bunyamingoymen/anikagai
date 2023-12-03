@@ -1,3 +1,15 @@
+Değiştiirlen dosyaları:
+AnimeController
+DataController
+IndexController
+AppServiceProvider
+admin/data/title.blade.php
+c- index/animex/changepassword.blade.php
+c- index/animex/changeprofile.blade.php
+index/animex/index.blade.php
+index/animex/profile.blade.php
+index/animex/watch.blade.php
+web.php
 
 
 -------------------------------------------
@@ -7,6 +19,10 @@ Yapılacaklar:
 Kullanıcı arayüzü:
 
 Şifremi Unuttum kısmı
-Bilgileri değiştirebilme ekranı
+
+diğer:
+anime ve webtoon oluşturmada resim kısmına sadece resim kabul edilmeli
+video yüklenirken tekrar kaydet'e basılırsa basılması engellenmeli
+slidershow değeri değiştirilmesine rağmen arayüzde slider değişikliği olmuyor
 
 

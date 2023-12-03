@@ -64,6 +64,7 @@ class DataController extends Controller
         $sliderShow = ThemeSetting::Where('theme_code', $selected_theme->value)->Where('setting_name', 'showSlider')->first();
         $sliderShow->setting_value = $request->sliderShow;
         $sliderShow->save();
+        //dd($sliderShow->setting_value);
 
         return redirect()->route('admin_data_home_list')->with("success", Config::get('success.success_codes.10120512'));
     }

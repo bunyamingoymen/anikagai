@@ -6,6 +6,7 @@ use App\Models\AuthorizationClauseGroup;
 use App\Models\KeyValue;
 use App\Models\NotificationAdmin;
 use App\Models\Theme;
+use App\Models\ThemeSetting;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
@@ -332,10 +333,13 @@ class AppServiceProvider extends ServiceProvider
                 $menu_alts = KeyValue::where('key', 'menu_alt')->where('optional', 1)->where('deleted', 0)->get();
                 $active_menu = KeyValue::where('key', 'menu')->where('optional_2', Request::path())->first();
 
+                $sliderShow = ThemeSetting::Where('theme_code', KeyValue::Where('key', 'selected_theme')->first()->value)->Where('setting_name', 'showSlider')->first();
+
                 $view->with('data', $data)
                     ->with('menus', $menus)
                     ->with('menu_alts', $menu_alts)
-                    ->with('active_menu', $active_menu);
+                    ->with('active_menu', $active_menu)
+                    ->with('sliderShow', $sliderShow);
             });
         }
     }

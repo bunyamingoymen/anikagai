@@ -222,6 +222,7 @@
     var intro_start_time_sec = {{$episode->intro_start_time_sec ?? 0}};
     var intro_end_time_min = {{$episode->intro_end_time_min ?? 0}};
     var intro_end_time_sec = {{$episode->intro_end_time_sec ?? 1}};
+    var endIntroButtonTime = 60 * intro_end_time_min + intro_end_time_sec; // Başlangıç zamanı
 
     document.addEventListener('DOMContentLoaded', function () {
         const player = new Plyr('#my-video');
@@ -242,14 +243,9 @@
             if (currentTime >= showIntroButtonTime && currentTime <= intro_end_time_min * 60 + intro_end_time_sec) {
                 // Butonu göster
                 showButton('introButton');
-
-                // Video restart gerekli
-                restartRequired = true;
             }else {
                 // Butonları gizle
                 hideButton('introButton');
-                // Video restart gerekli değil
-                restartRequired = false;
             }
 
             if (showNextEpisodeButtonTime !== null && currentTime >= showNextEpisodeButtonTime) {
@@ -257,18 +253,10 @@
                 @if ($next_episode_url != "none")
                     showButton('nextEpisodeButton');
                 @endif
-
-
-                // Video restart gerekli değil
-                restartRequired = false;
             } else {
                 @if ($next_episode_url != "none")
                     hideButton('nextEpisodeButton');
                 @endif
-
-
-                // Video restart gerekli değil
-                restartRequired = false;
             }
         });
 
@@ -283,9 +271,6 @@
 
                 // Videoyu oynat
                 player.play();
-
-                // Video restart gerekli değil
-                restartRequired = false;
             }
         });
 
@@ -296,7 +281,7 @@
         if (introButton) {
             introButton.addEventListener('click', function () {
                 // Videoyu restart et
-                player.restart();
+                player.currentTime =endIntroButtonTime;
             });
         }
         @if ($next_episode_url != "none")

@@ -68,21 +68,23 @@ class AnimeController extends Controller
         $anime->create_user_code = Auth::guard('admin')->user()->code;
 
         $anime->save();
-
-        foreach ($request->category as $item) {
-            $content = new ContentCategory();
-            $content->category_code = $item;
-            $content->content_code = $anime->code;
-            $content->content_type = 1;
-            $content->save();
+        if ($request->category) {
+            foreach ($request->category as $item) {
+                $content = new ContentCategory();
+                $content->category_code = $item;
+                $content->content_code = $anime->code;
+                $content->content_type = 1;
+                $content->save();
+            }
         }
-
-        foreach ($request->tag as $item) {
-            $content = new ContentTag();
-            $content->tag_code = $item;
-            $content->content_code = $anime->code;
-            $content->content_type = 1;
-            $content->save();
+        if ($request->tag) {
+            foreach ($request->tag as $item) {
+                $content = new ContentTag();
+                $content->tag_code = $item;
+                $content->content_code = $anime->code;
+                $content->content_type = 1;
+                $content->save();
+            }
         }
 
         return redirect()->route('admin_anime_list')->with("success", Config::get('success.success_codes.10060010'));

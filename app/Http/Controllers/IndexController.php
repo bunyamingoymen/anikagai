@@ -583,16 +583,95 @@ class IndexController extends Controller
         return $this->loadThemeView('profile', compact('user', 'favorite_animes', 'follow_animes', 'watched_animes', 'favorite_webtoons', 'follow_webtoons', 'readed_webtoons'));
     }
 
+    public function changeProfileSettingsScreen()
+    {
+        if (Auth::user()) {
+            $user = Auth::user();
+
+            return $this->loadThemeView('changeProfile', compact('user'));
+        }
+        return redirect()->back()->with('error', "İlk Önce giriş yapmanız gerekmektedir.");
+    }
+
+    public function changeProfileSettings(Request $request)
+    {
+        //dd($request->toArray());
+        if (Auth::user()) {
+            $user = IndexUser::Where('code', Auth::user()->code)->first();
+            //dd($request->toArray());
+            $user->name = $request->name;
+            $user->username = $request->username;
+            $user->email = $request->email;
+            $user->save();
+
+            return redirect()->route('profile')->with('success', "Başarılı Bir Şekilde Bilgiler Değiştirildi");
+        }
+        return redirect()->back()->with('error', "İlk Önce giriş yapmanız gerekmektedir.");
+    }
+
+    public function changeProfileImage(Request $request)
+    {
+        if (Auth::user()) {
+            $user = IndexUser::Where('code', Auth::user()->code)->first();
+
+            if ($request->hasFile('image')) {
+                // Dosyayı al
+                $file = $request->file('image');
+
+                $path = public_path('files/users/profile');
+                $name = $user->code . "." . $file->getClientOriginalExtension();
+                $file->move($path, $name);
+                $user->image = "files/users/profile/" . $name;
+
+                $user->save();
+
+                return redirect()->route('profile')->with('success', "Başarılı Bir Şekilde Resim Değiştirildi");
+            } else {
+                return redirect()->back()->with('error', "Herhangi bir dosya yüklenmedi");
+            }
+        }
+        return redirect()->back()->with('error', "İlk Önce giriş yapmanız gerekmektedir.");
+    }
+    public function changeProfilePasswordScreen()
+    {
+        if (Auth::user()) {
+            return $this->loadThemeView('changePassword');
+        }
+        return redirect()->back()->with('error', "İlk Önce giriş yapmanız gerekmektedir.");
+    }
+    public function changeProfilePassword(Request $request)
+    {
+        if (Auth::user()) {
+            $user = IndexUser::Where('code', Auth::user()->code)->first();
+
+            if (Hash::check($request->old_password, $user->password)) {
+                $user->password = Hash::make($request->password);
+                $user->save();
+
+                return redirect()->route('profile')->with('success', "Başarılı Bir Şekilde Şifre Değiştirildi");
+            } else {
+                return redirect()->back()->with('error', "Eski Şifre aynı değildir.");
+            }
+        }
+        return redirect()->back()->with('error', "İlk Önce giriş yapmanız gerekmektedir.");
+    }
+
     public function controlUsername(Request $request)
     {
-        $control = !IndexUser::where('username', $request->username)->exists();
+        if ($request->code)
+            $control = !IndexUser::where('username', $request->username)->where('code', "!=", $request->code)->exists();
+        else
+            $control = !IndexUser::where('username', $request->username)->exists();
 
         return response()->json(['control' => $control]);
     }
 
     public function controlEmail(Request $request)
     {
-        $control = !IndexUser::where('email', $request->email)->exists();
+        if ($request->code)
+            $control = !IndexUser::where('email', $request->email)->where('code', "!=", $request->code)->exists();
+        else
+            $control = !IndexUser::where('email', $request->email)->exists();
 
         return response()->json(['control' => $control]);
     }

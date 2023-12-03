@@ -4,6 +4,7 @@
 <style>
 </style>
 <!-- Hero Section Begin -->
+@if ($sliderShow->setting_value == '1')
 <section class="hero">
     <div class="container">
         <div class="hero__slider owl-carousel">
@@ -31,6 +32,7 @@
         </div>
     </div>
 </section>
+@endif
 <!-- Hero Section End -->
 <section class="product spad">
     <div class="container">
