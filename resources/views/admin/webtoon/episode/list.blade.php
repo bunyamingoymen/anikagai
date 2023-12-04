@@ -6,8 +6,11 @@
         <div class="card">
             <div class="card-body">
                 <div class="" style="">
+                    @if ($create == 1)
                     <a class="btn btn-primary mb-3" style="float: right;"
-                        href="{{route('admin_webtoon_episodes_create_screen')}}">+ Yeni</a>
+                        href="{{route('admin_webtoon_episodes_create_screen')}}">+
+                        Yeni</a>
+                    @endif
                 </div>
 
 

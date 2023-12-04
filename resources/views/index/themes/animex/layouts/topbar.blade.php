@@ -10,7 +10,7 @@
                     </a>
                 </div>
             </div>
-            <div class="col-lg-6">
+            <div class="col-lg-7">
                 <div class="header__nav">
                     <nav class="header__menu mobile-menu">
                         <ul>
@@ -25,7 +25,7 @@
                     </nav>
                 </div>
             </div>
-            <div class="col-lg-4">
+            <div class="col-lg-3">
                 <div class="header__right">
                     <a href="#" class="search-switch"><span class="icon_search"></span></a>
 

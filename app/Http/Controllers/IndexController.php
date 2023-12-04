@@ -107,7 +107,6 @@ class IndexController extends Controller
         } else {
             abort(404); // TODO: hata sayfasına yönlendir
         }
-        //dd($listItems);
         $pageCount = $pageCountTest % intval($listItems) == 0 ? $pageCountTest / $listItems : $pageCount = intval($pageCountTest / $listItems) + 1;
         if ($currentPage > $pageCount || $currentPage < 1)
             abort(404); // TODO: 404 sayfasına yönlendir
@@ -274,7 +273,6 @@ class IndexController extends Controller
             ->select('index_users.name as user_name', 'index_users.username as user_username', 'index_users.image as user_image', 'comments.*')
             ->orderBy('comment_short', 'ASC')
             ->get();
-        //dd((intval($request->episode) + 1));
         $next_episode_url = "none";
         $next_episode_control =
             AnimeEpisode::Where("deleted", 0)->Where('season_short', $request->season)->Where('episode_short', (intval($request->episode) + 1))->first();
@@ -284,7 +282,6 @@ class IndexController extends Controller
                 AnimeEpisode::Where("deleted", 0)->Where('season_short', intval(($request->season) + 1))->Where('episode_short', 1)->first();
         }
 
-        //dd($next_episode_control);
 
         $next_episode_url = $next_episode_control ? "anime/" . $anime->short_name . "/" . $next_episode_control->season_short . "/" . $next_episode_control->episode_short : "none";
 
@@ -311,7 +308,6 @@ class IndexController extends Controller
             ->where('publish_date', '<=', $currentTime)
             ->get();
 
-        //dd($webtoon_episodes);
 
         $followed = false;
         $liked = false;
@@ -389,7 +385,6 @@ class IndexController extends Controller
             ->orderBy('comment_short', 'ASC')
             ->get();
 
-        //dd($comments_main);
 
 
         $comments_alt = DB::table('comments')
@@ -403,7 +398,6 @@ class IndexController extends Controller
             ->orderBy('comment_short', 'ASC')
             ->get();
 
-        //dd((intval($request->episode) + 1));
         $next_episode_url = "none";
         $next_episode_control =
             WebtoonEpisode::Where("deleted", 0)->Where('season_short', $request->season)->Where('episode_short', (intval($request->episode) + 1))->first();
@@ -595,10 +589,8 @@ class IndexController extends Controller
 
     public function changeProfileSettings(Request $request)
     {
-        //dd($request->toArray());
         if (Auth::user()) {
             $user = IndexUser::Where('code', Auth::user()->code)->first();
-            //dd($request->toArray());
             $user->name = $request->name;
             $user->username = $request->username;
             $user->email = $request->email;

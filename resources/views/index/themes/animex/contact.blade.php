@@ -40,6 +40,9 @@
                             <div class="input__item">
                                 <textarea name="message" placeholder="Mesaj Giriniz..." cols="103" rows="10"></textarea>
                             </div>
+                            <div>
+                                <span id="contactSuccessMessage" style="color: green;"></span>
+                            </div>
                             <button type="submit" class="site-btn">Gönder</button>
                         </form>
                     </div>
@@ -53,7 +56,7 @@
 <!-- main-area-end -->
 <script>
     @if (session('success'))
-        document.getElementById('successMessage').innerText = "{{session('success')}}"
+        document.getElementById('contactSuccessMessage').innerText = "{{session('success')}}"
     @endif
 </script>
 @endsection

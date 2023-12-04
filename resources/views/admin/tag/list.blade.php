@@ -6,8 +6,10 @@
         <div class="card">
             <div class="card-body">
                 <div class="" style="">
+                    @if ($create == 1)
                     <a class="btn btn-primary mb-3" style="float: right;" href="{{route('admin_tag_create_screen')}}">+
                         Yeni</a>
+                    @endif
                 </div>
 
 
@@ -150,7 +152,7 @@
 </script>
 
 <script>
-    @if ($delete == 0)
+    @if ($delete == 1)
         function deleteTag(code){
             Swal.fire({
                 title: 'Emin Misin?',

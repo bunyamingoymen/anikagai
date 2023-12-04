@@ -18,7 +18,7 @@
                         <tr>
                             <th scope="col">..</th>
                             <th scope="col">#</th>
-                            <th scope="col">Yazı</th>
+                            <th scope="col">Grup İsmi</th>
                             <th scope="col">Açıklama</th>
                         </tr>
                     </thead>

@@ -70,7 +70,7 @@ class PageController extends Controller
 
         $page_name_control = Page::Where('short_name', $request->short_name)->Where('deleted', 0)->Where('code', "!=", $request->code)->first();
 
-        if (!$page_name_control)
+        if ($page_name_control)
             return redirect()->back()->with('error', Config::get('error.error_codes.0150010'));
 
         $page->name = $request->name;

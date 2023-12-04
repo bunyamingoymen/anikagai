@@ -39,7 +39,7 @@
                 <hr>
                 <p>Tema Ayarları:</p>
                 <div class="mt-5 col-lg-12">
-                    <form action="{{route('admin_data_show_content')}}" method="POST">
+                    <form action="{{route('admin_data_show_content')}}" id="admin_data_show_contentForm" method="POST">
                         @csrf
                         <div class="row">
                             <div class="col-lg-6">
@@ -75,7 +75,8 @@
                 </div>
                 <hr>
                 <div class="mt-5 col-lg-12">
-                    <form action="{{route('admin_data_change_theme_settings')}}" method="POST">
+                    <form action="{{route('admin_data_change_theme_settings')}}"
+                        id="admin_data_change_theme_settingsForm" method="POST">
                         @csrf
                         <div class="row">
                             <div class="col-lg-6 mt-3">
@@ -184,25 +185,25 @@
     function addSlider(){
         count++;
         var html = `<div class="mt-5" id="newSlider`+count+`">
-            <form action="{{route('admin_data_add_slider_images')}}" method="POST" enctype="multipart/form-data">
+            <form action="{{route('admin_data_add_slider_images')}}" id="adminDataAddSliderImagesForm`+count+`" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="">
                         <p>`+count+` - </p>
                     </div>
                     <div class="col-lg-3">
-                        <input type="file" name="slider_image" id="slider_image" class="form-control">
+                        <input type="file" name="slider_image" id="add_slider_slider_image`+count+`" class="form-control">
                     </div>
                     <div class="col-lg-3">
                         <label for="">Yazı:</label>
-                        <input type="text" class="form-control" name="value" id="value" value="">
+                        <input type="text" class="form-control" name="value" id="add_slider_value`+count+`" value="">
                     </div>
                     <div class="col-lg-3">
                         <label for="">Link:</label>
-                        <input type="text" class="form-control" name="optional_2" id="optional_2" value="">
+                        <input type="text" class="form-control" name="optional_2" id="add_slider_optional_2`+count+`" value="" >
                     </div>
                     <div class="col-lg-2 mt-3">
-                        <button class="btn btn-primary" type="submit">Kaydet</button>
+                        <button class="btn btn-primary" type="button" onclick="addSliderFormSubmit(`+count+`)">Kaydet</button>
                         <button class="btn btn-danger" type="button" onclick="deleteHTML('newSlider`+count+`')">Sil</button>
                     </div>
                 </div>
@@ -214,8 +215,28 @@
 
     }
 
+    function addSliderFormSubmit(count){
+        var image = document.getElementById('add_slider_slider_image'+count).value;
+        var value = document.getElementById('add_slider_value'+count).value;
+        var optional2 = document.getElementById('add_slider_optional_2'+count).value;
+
+        if(image == "" || value == ""){
+            Swal.fire({
+                title: "Hata",
+                text: "Lütfen Gerekli Yerleri Doldurunuz.",
+                icon: "error"
+            });
+        }else{
+            document.getElementById('adminDataAddSliderImagesForm'+count).submit();
+        }
+    }
+
     function deleteHTML(htmlID){
         document.getElementById(htmlID).remove();
+    }
+
+    function admin_data_change_theme_settings(){
+        document.getElementById('admin_data_change_theme_settingsForm').submit();
     }
 
 </script>

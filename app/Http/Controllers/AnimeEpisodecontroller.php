@@ -15,6 +15,7 @@ class AnimeEpisodecontroller extends Controller
     {
         //$anime_episodes = AnimeEpisode::Where('deleted', 0)->take(10)->get();
         $anime_episodes = DB::table('anime_episodes')
+            ->Where('anime_episodes.deleted', 0)
             ->join('animes', 'animes.code', '=', 'anime_episodes.anime_code')
             ->select('anime_episodes.*', 'animes.name as anime_name', 'animes.image as anime_image')
             ->get();
@@ -139,7 +140,13 @@ class AnimeEpisodecontroller extends Controller
     public function episodeGetData(Request $request)
     {
         $skip = (($request->page - 1) * $this->showCount);
-        $anime_episode = AnimeEpisode::Where('deleted', 0)->skip($skip)->take($this->showCount)->get();
+        $anime_episode = DB::table('anime_episodes')
+            ->Where('anime_episodes.deleted', 0)
+            ->join('animes', 'animes.code', '=', 'anime_episodes.anime_code')
+            ->select('anime_episodes.*', 'animes.name as anime_name', 'animes.image as anime_image')
+            ->skip($skip)->take($this->showCount)
+            ->get();
+
         return $anime_episode;
     }
 }

@@ -22,7 +22,6 @@ class AuthController extends Controller
 
     public function authChange(Request $request)
     {
-        //dd($request->toArray());
         AuthorizationClauseGroup::Where("group_id", $request->groupSelectBox)->delete();
         $selectedClauses = $request->selected_clauses ?? [];
         foreach ($selectedClauses as $item) {

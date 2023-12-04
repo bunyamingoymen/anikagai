@@ -68,7 +68,7 @@ class TagController extends Controller
 
         $tag->save();
 
-        return redirect()->route('admin_tag_list')->with("success", Config::get('success.success_codes.10160012'));
+        return redirect()->route('admin_tag_list')->with("success", Config::get('success.success_codes.10170013'));
     }
 
     public function tagDelete(Request $request)
@@ -76,7 +76,7 @@ class TagController extends Controller
         $tag = Tag::Where('code', $request->code)->Where('deleted', 0)->first();
 
         if (!$tag)
-            return redirect()->back()->with("error", Config::get('error.error_codes.10170012'));
+            return redirect()->back()->with("error", Config::get('error.error_codes.0170013'));
 
         $tag->deleted = 1;
         $tag->update_user_code = Auth::guard('admin')->user()->code;

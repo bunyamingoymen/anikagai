@@ -21,7 +21,6 @@ class WebtoonCalendarController extends Controller
             ->select('webtoon_calendars.*', 'webtoons.name as webtoon_name')
             ->get();
 
-        //dd($webtoon_calendars->toArray());
 
         return view('admin.webtoon.calendar.calendar', ['webtoons' => $webtoons, 'webtoon_calendars' => $webtoon_calendars]);
     }

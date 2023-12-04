@@ -105,11 +105,7 @@ class UserController extends Controller
             return redirect()->back()->with('error', Config::get('error.error_codes.0010010'));
         }
 
-        if (!($user->code == 0 || $user->code == 1) && ($request->user_type != 0 || $request->code != 1)) {
-            return redirect()->back()->with('error', Config::get('error.error_codes.0000000'));
-        }
-
-        if (!($user->code == 0 || $user->code == 1) && !$request->admin) {
+        if (!(Auth::guard('admin')->user()->code == 0 || Auth::guard('admin')->user()->code == 1) && ($request->user_type == 0 || $request->code == 1)) {
             return redirect()->back()->with('error', Config::get('error.error_codes.0000000'));
         }
 
@@ -173,9 +169,8 @@ class UserController extends Controller
         if (!$user)
             return redirect()->back()->with("error", Config::get('error.error_codes.0010112'));
 
-        //dd(Auth::guard('admin')->user()->user_type);
-        if (!(($user->user_type == 0 || $user->user_type == 1) && (Auth::guard('admin')->user()->user_type == 0 || Auth::guard('admin')->user()->user_type == 1))) {
-            return redirect()->back()->with("error", Config::get('error.error_codes.0000000'));
+        if (!(Auth::guard('admin')->user()->code == 0 || Auth::guard('admin')->user()->code == 1) && ($user->user_type == 0 || $user->user_type == 1)) {
+            return redirect()->back()->with('error', Config::get('error.error_codes.0000000'));
         }
 
         /*

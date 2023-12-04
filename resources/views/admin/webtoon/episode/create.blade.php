@@ -130,7 +130,7 @@
                     //console.log(response);
                     Swal.fire({
                         title: "Başarılı",
-                        text: "Video Başarılı Bir Şekilde Yüklendi. Sayfayı Kapatabilirsiniz.",
+                        text: "Webtoon Başarılı Bir Şekilde Yüklendi. Sayfayı Kapatabilirsiniz.",
                         icon: "success"
                     });
 
@@ -141,7 +141,7 @@
                     //console.log(error);
                     Swal.fire({
                         title: "Error",
-                        text: "Video yüklenirken bir hata meydana geldi.",
+                        text: "Webtoon yüklenirken bir hata meydana geldi.",
                         icon: "error"
                     });
 

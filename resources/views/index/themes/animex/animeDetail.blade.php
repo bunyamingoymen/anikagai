@@ -197,20 +197,30 @@
                     @if (count($watched) > 0 && ($watched->Where('anime_episode_code',$item->code)->first()))
                     <a style="background-color: green;" href="{{url("anime/".$anime->short_name."/".$i."/".$item->episode_short)}}"
                         id="watchedATag{{$item->code}}" >
-                        <label class="container">{{$i}}.S - {{$item->episode_short }}.B - {{$item->name}}
-                            <input type="checkbox" id="watched{{$item->code}}" onchange="watchAnime('{{$item->code}}')"
-                                value="{{$item->code}}" checked>
-                            <span class="checkmark"></span>
-                        </label>
+                        <div>
+                            <label class="container">
+                                <input type="checkbox" id="watched{{$item->code}}"
+                                    onchange="watchAnime('{{$item->code}}')" value="{{$item->code}}" checked>
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                        <div class="ml-4">
+                            {{$i}}.S - {{$item->episode_short }}.B - {{$item->name}}
+                        </div>
                     </a>
                     @else
                     <a href="{{url("anime/".$anime->short_name."/".$i."/".$item->episode_short)}}"
                         id="watchedATag{{$item->code}}" >
-                        <label class="container">{{$i}}.S - {{$item->episode_short }}.B - {{$item->name}}
-                            <input type="checkbox" id="watched{{$item->code}}" onchange="watchAnime('{{$item->code}}')"
-                                value="{{$item->code}}">
-                            <span class="checkmark"></span>
-                        </label>
+                        <div>
+                            <label class="container">
+                                <input type="checkbox" id="watched{{$item->code}}"
+                                    onchange="watchAnime('{{$item->code}}')" value="{{$item->code}}">
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+                        <div class="ml-4">
+                            {{$i}}.S - {{$item->episode_short }}.B - {{$item->name}}
+                        </div>
                     </a>
                     @endif
 

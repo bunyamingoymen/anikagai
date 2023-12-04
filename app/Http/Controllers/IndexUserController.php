@@ -126,7 +126,7 @@ class IndexUserController extends Controller
             return redirect()->back()->with("error", Config::get('error.error_codes.0010013'));
 
         $indexUser->delete();
-        $indexUser->save();
+
         return redirect()->route('admin_indexuser_list')->with("success", Config::get('success.success_codes.10010013'));
     }
 

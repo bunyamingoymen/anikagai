@@ -48,7 +48,8 @@
                             </td>
                             <th scope="row">{{$item->code}}</th>
                             <td>
-                                <img class="rounded-circle header-profile-user" src="../../../{{$item->image ?? ''}}"
+                                <img class="rounded-circle header-profile-user"
+                                    src="../../../{{$item->image ?? 'user/img/profile/default.png'}}"
                                     alt="{{$item->name}}">
                             </td>
                             <td>{{$item->name}}</td>
@@ -129,8 +130,17 @@
                                     code += `</div>
                                 </div>
                             </td>
-                            <th scope="row">`+indexUsers[i].code+`</th>
-                            <td>`+indexUsers[i].name+`</td>
+                            <th scope="row">`+indexUsers[i].code+`</th>`
+                            if (indexUsers[i].image.length != 0) {
+                                code += `img class="rounded-circle header-profile-user"
+                                src="../../../`+indexUsers[i].image+`"
+                                alt="`+indexUsers[i].name+`">`
+                            }else{
+                                code += `img class="rounded-circle header-profile-user"
+                                src="../../../user/img/profile/default.png"
+                                alt="`+indexUsers[i].name+`">`
+                            }
+                            code += `<td>`+indexUsers[i].name+`</td>
                             <td>`+indexUsers[i].username+`</td>
                             <td>`+indexUsers[i].email+`</td>
                         </tr>`;

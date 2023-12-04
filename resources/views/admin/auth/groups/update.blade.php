@@ -14,8 +14,8 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12 mb-3">
-                            <label for="validationCustom01">Yazı:</label>
-                            <input type="text" class="form-control" id="text" name="text" placeholder="Yazı"
+                            <label for="validationCustom01">Grup İsmi:</label>
+                            <input type="text" class="form-control" id="text" name="text" placeholder="Grup İsmi"
                                 value="{{$group->text}}" required>
                         </div>
                     </div>
@@ -40,7 +40,7 @@
     // Sayfa yüklenmeden önce bu JavaScript kodu çalışacak
     window.addEventListener('DOMContentLoaded', (event) => {
         // Değişkenin değerini kontrol et
-        @if ($create == 0)
+        @if ($update == 0)
             // Değişken doğru ise yönlendirme yap
             window.location.href = '{{route("admin_index")}}';
         @endif

@@ -15,6 +15,7 @@ class WebtoonEpisodeController extends Controller
     {
 
         $webtoon_episodes = DB::table('webtoon_episodes')
+            ->Where('webtoon_episodes.deleted', 0)
             ->join('webtoons', 'webtoons.code', '=', 'webtoon_episodes.webtoon_code')
             ->select('webtoon_episodes.*', 'webtoons.name as webtoon_name', 'webtoons.image as webtoon_image')
             ->get();
@@ -101,6 +102,7 @@ class WebtoonEpisodeController extends Controller
         $webtoon_episode->description = $request->description;
         $webtoon_episode->season_short = $request->season_short;
         $webtoon_episode->episode_short = $request->episode_short;
+        $webtoon_episode->publish_date = $request->publish_date;
 
         $webtoon_episode->update_user_code = Auth::guard('admin')->user()->code;
 
@@ -129,7 +131,13 @@ class WebtoonEpisodeController extends Controller
     public function episodeGetData(Request $request)
     {
         $skip = (($request->page - 1) * $this->showCount);
-        $webtoon_episode = WebtoonEpisode::Where('deleted', 0)->skip($skip)->take($this->showCount)->get();
+
+        $webtoon_episode = DB::table('webtoon_episodes')
+            ->Where('webtoon_episodes.deleted', 0)
+            ->join('webtoons', 'webtoons.code', '=', 'webtoon_episodes.webtoon_code')
+            ->select('webtoon_episodes.*', 'webtoons.name as webtoon_name', 'webtoons.image as webtoon_image')
+            ->skip($skip)->take($this->showCount)
+            ->get();
         return $webtoon_episode;
     }
 }

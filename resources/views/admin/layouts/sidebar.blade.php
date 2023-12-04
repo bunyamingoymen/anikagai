@@ -201,7 +201,7 @@
 
     @endif
 
-    @if ($authArray['userRead'] == 1 || $authArray['userGroupRead'] == 1 || $authArray['groupAuthRead'] == 1 || $authArray['changeHome'] == 1 || $authArray['changeLogo'] == 1 || $authArray['changeMeta'] == 1 || $authArray['changeTitle'] == 1 || $authArray['changeMenu'] == 1 || $authArray['changeSocialMedia'] == 1 || $authArray['adminMetaTag'] == 1 || $authArray['KeyValue'] == 1 || $authArray['clauseAuthUpdate'] == 1)
+    @if ($authArray['userRead'] == 1 || $authArray['userGroupRead'] == 1 || $authArray['groupAuthRead'] == 1 || $authArray['changeHome'] == 1 || $authArray['changeLogo'] == 1 || $authArray['changeMeta'] == 1 || $authArray['changeTitle'] == 1 || $authArray['changeMenu'] == 1 || $authArray['changeSocialMedia'] == 1 || $authArray['adminMetaTag'] == 1 || $authArray['KeyValue'] == 1 || $authArray['clauseAuthUpdate'] == 1 || $authArray['changeSliderVideo'] == 1)
 
         document.getElementById('sidebarManagementAllSection').hidden = false;
 
@@ -228,7 +228,7 @@
 
         @endif
 
-        @if ($authArray['changeHome'] == 1 || $authArray['changeLogo'] == 1 || $authArray['changeMeta'] == 1 || $authArray['changeTitle'] == 1 || $authArray['changeMenu'] == 1 || $authArray['changeSocialMedia'] == 1 || $authArray['changeSliderVideo'])
+        @if ($authArray['changeHome'] == 1 || $authArray['changeLogo'] == 1 || $authArray['changeMeta'] == 1 || $authArray['changeTitle'] == 1 || $authArray['changeMenu'] == 1 || $authArray['changeSocialMedia'] == 1 || $authArray['changeSliderVideo'] == 1)
 
             document.getElementById('sidebarDataSection').hidden = false;
 

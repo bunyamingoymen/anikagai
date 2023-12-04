@@ -50,23 +50,40 @@ Route::controller(IndexController::class)->group(function () {
 
 Route::group(['middleware' => 'guest_index'], function () {
     // Oturum açıkken erişilmemesi gereken sayfalar
-    Route::get('/login', [IndexController::class, "loginScreen"])->name('loginScreen');
-    Route::post('/register', [IndexController::class, "register"])->name('register');
-    Route::post('/login', [IndexController::class, "login"])->name('login');
+    Route::controller(IndexController::class)->group(function () {
+        Route::get('/login', "loginScreen")->name('loginScreen');
+        Route::post('/register', "register")->name('register');
+        Route::post('/login', "login")->name('login');
+    });
 });
 
 Route::group(['middleware' => 'index_user'], function () {
     //oturum kapalıyken girilmemesi gereken sayfalar
-    Route::get('/profile', [IndexController::class, "profile"])->name('profile');
+    Route::controller(IndexController::class)->group(function () {
+        Route::get('/profile', "profile")->name('profile');
 
-    Route::get('/changeProfile', [IndexController::class, "changeProfileSettingsScreen"])->name('change_profile_settings_screen');
-    Route::post('/changeProfile', [IndexController::class, "changeProfileSettings"])->name('change_profile_settings');
-    Route::post('/changeProfileImage', [IndexController::class, "changeProfileImage"])->name('change_profile_image');
+        Route::get('/changeProfile', "changeProfileSettingsScreen")->name('change_profile_settings_screen');
+        Route::post('/changeProfile', "changeProfileSettings")->name('change_profile_settings');
+        Route::post('/changeProfileImage', "changeProfileImage")->name('change_profile_image');
 
-    Route::get('/changeProfilePassword', [IndexController::class, "changeProfilePasswordScreen"])->name('change_profile_password_screen');
-    Route::post('/changeProfilePassword', [IndexController::class, "changeProfilePassword"])->name('change_profile_password');
+        Route::get('/changeProfilePassword',  "changeProfilePasswordScreen")->name('change_profile_password_screen');
+        Route::post('/changeProfilePassword', "changeProfilePassword")->name('change_profile_password');
+    });
+
+    Route::controller(IndexDataController::class)->group(function () {
+        Route::post('/followAnime', 'followAnime')->name('followAnime');
+        Route::post('/followWebtoon', 'followWebtoon')->name('followWebtoon');
+        Route::post('/followUser', 'followUser')->name('followUser');
+        Route::post('/unfollowAnime', 'unfollowAnime')->name('unfollowAnime');
+        Route::post('/unfollowWebtoon', 'unfollowWebtoon')->name('unfollowWebtoon');
+        Route::post('/unfollowUser', 'unfollowUser')->name('unfollowUser');
+        Route::post('/likeAnime', 'likeAnime')->name('likeAnime');
+        Route::post('/likeWebtoon', 'likeWebtoon')->name('likeWebtoon');
+        Route::post('/unlikeAnime', 'unlikeAnime')->name('unlikeAnime');
+        Route::post('/unlikeWebtoon', 'unlikeWebtoon')->name('unlikeWebtoon');
+        Route::post('/scoreUser', 'scoreUser')->name('scoreUser');
+    });
 });
-
 
 Route::group(['middleware' => 'click'], function () {
     Route::controller(IndexController::class)->group(function () {
@@ -80,24 +97,12 @@ Route::group(['middleware' => 'click'], function () {
     });
 });
 
-Route::controller(IndexDataController::class)->group(function () {
-    Route::post('/followAnime', 'followAnime')->name('followAnime');
-    Route::post('/followWebtoon', 'followWebtoon')->name('followWebtoon');
-    Route::post('/followUser', 'followUser')->name('followUser');
-    Route::post('/unfollowAnime', 'unfollowAnime')->name('unfollowAnime');
-    Route::post('/unfollowWebtoon', 'unfollowWebtoon')->name('unfollowWebtoon');
-    Route::post('/unfollowUser', 'unfollowUser')->name('unfollowUser');
-    Route::post('/likeAnime', 'likeAnime')->name('likeAnime');
-    Route::post('/likeWebtoon', 'likeWebtoon')->name('likeWebtoon');
-    Route::post('/unlikeAnime', 'unlikeAnime')->name('unlikeAnime');
-    Route::post('/unlikeWebtoon', 'unlikeWebtoon')->name('unlikeWebtoon');
-    Route::post('/scoreUser', 'scoreUser')->name('scoreUser');
-});
-
 Route::group(['middleware' => 'guest'], function () {
     // Oturum açıkken erişilmemesi gereken sayfalar
-    Route::get("/admin/login", [AdminController::class, "loginScreen"])->name('admin_login_screen');
-    Route::post("/admin/login", [AdminController::class, "login"])->name('admin_login');
+    Route::controller(AdminController::class)->group(function () {
+        Route::get("/admin/login",  "loginScreen")->name('admin_login_screen');
+        Route::post("/admin/login", "login")->name('admin_login');
+    });
 });
 
 Route::middleware(['auth'])->group(function () {
@@ -107,15 +112,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get("/admin/logout", "logout")->name('admin_logout');
 
         Route::get("/admin/profile", "profile")->name('admin_profile');
-
-        Route::get("/admin/contact", "contactScreen")->name('admin_contact_screen');
-        Route::post("/admin/contact/ajax", "contactGetData")->name('admin_contact_get_data');
-        Route::post("/admin/contact/delete", "contactDelete")->name('admin_contact_delete');
-        Route::post("/admin/contact/answer", "contactAnswer")->name('admin_contact_answer');
-
-        Route::get("/admin/comment", "commentScreen")->name('admin_comment_screen');
-        Route::post("/admin/comment/ajax", "commentGetData")->name('admin_comment_get_data');
-        Route::post("/admin/comment/delete", "commentDelete")->name('admin_comment_delete'); //TODO
     });
 
     Route::controller(FollowUserController::class)->group(function () {
@@ -128,9 +124,14 @@ Route::middleware(['auth'])->group(function () {
         Route::post("/admin/readNotification", "readNotification")->name('admin_read_notification');
     });
 
-    Route::post("/admin/user/changePassword", [UserController::class, "userChangePassword"])->name('admin_user_change_password');
+    Route::controller(UserController::class)->group(function () {
+        Route::get("/admin/user/update", "userUpdateScreen")->name('admin_user_update_screen');
+        Route::post("/admin/user/update",  "userUpdate")->name('admin_user_update');
+        Route::post("/admin/user/changePassword", "userChangePassword")->name('admin_user_change_password');
+    });
 
     Route::middleware(['superuser'])->group(function () {
+
         Route::controller(KeyValueController::class)->group(function () {
             Route::get("/admin/keyValue/list", "keyValueList")->name('admin_keyvalue_list');
             Route::post("/admin/keyValue/list/ajax", "keyValueGetData")->name('admin_keyvalue_get_data');
@@ -142,10 +143,6 @@ Route::middleware(['auth'])->group(function () {
             Route::post("/admin/keyValue/update", "keyValueUpdate")->name('admin_keyvalue_update');
 
             Route::post("/admin/keyValue/delete", "keyValueDelete")->name('admin_keyvalue_delete');
-
-            Route::get('/admin/php/test', function () {
-                dd(phpinfo());
-            });
         });
 
         Route::controller(AuthClauseController::class)->group(function () {
@@ -161,10 +158,27 @@ Route::middleware(['auth'])->group(function () {
             Route::post("/admin/authClause/delete", "AuthClauseDelete")->name('admin_authclause_delete');
         });
 
-        Route::get("/admin/data/adminMeta", [DataController::class, "adminMetaList"])->name('admin_data_admin_meta_list');
+        Route::controller(DataController::class)->group(function () {
+            Route::get("/admin/data/adminMeta", "adminMetaList")->name('admin_data_admin_meta_list');
+        });
+
+        Route::get('/admin/php/test', function () {
+            dd(phpinfo());
+        });
     });
 
     Route::middleware(['access'])->group(function () {
+
+        Route::controller(AdminController::class)->group(function () {
+            Route::get("/admin/contact", "contactScreen")->name('admin_contact_screen');
+            Route::post("/admin/contact/ajax", "contactGetData")->name('admin_contact_get_data');
+            Route::post("/admin/contact/delete", "contactDelete")->name('admin_contact_delete');
+            Route::post("/admin/contact/answer", "contactAnswer")->name('admin_contact_answer');
+
+            Route::get("/admin/comment", "commentScreen")->name('admin_comment_screen');
+            Route::post("/admin/comment/ajax", "commentGetData")->name('admin_comment_get_data');
+            Route::post("/admin/comment/delete", "commentDelete")->name('admin_comment_delete'); //TODO
+        });
 
         Route::controller(UserController::class)->group(function () {
             Route::get("/admin/user/list", "userList")->name('admin_user_list');
@@ -172,9 +186,6 @@ Route::middleware(['auth'])->group(function () {
 
             Route::get("/admin/user/create", "userCreateScreen")->name('admin_user_create_screen');
             Route::post("/admin/user/create", "userCreate")->name('admin_user_create');
-
-            Route::get("/admin/user/update", "userUpdateScreen")->name('admin_user_update_screen');
-            Route::post("/admin/user/update", "userUpdate")->name('admin_user_update');
 
             Route::post("/admin/user/delete", "userDelete")->name('admin_user_delete');
         });

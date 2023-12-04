@@ -29,7 +29,6 @@ class DataController extends Controller
 
     public function homeChange(Request $request)
     {
-
         $selected_theme = KeyValue::Where('key', 'selected_theme')->first();
         $selected_theme->value = $request->selected_theme;
         $selected_theme->save();
@@ -64,7 +63,7 @@ class DataController extends Controller
         $sliderShow = ThemeSetting::Where('theme_code', $selected_theme->value)->Where('setting_name', 'showSlider')->first();
         $sliderShow->setting_value = $request->sliderShow;
         $sliderShow->save();
-        //dd($sliderShow->setting_value);
+
 
         return redirect()->route('admin_data_home_list')->with("success", Config::get('success.success_codes.10120512'));
     }
@@ -84,7 +83,6 @@ class DataController extends Controller
     public function deleteSliderImages(Request $request)
     {
         $slider = KeyValue::Where('key', 'slider_image')->Where('code', $request->code)->first();
-        //dd($slider);
         $slider->deleted = 1;
         $slider->update_user_code = Auth::guard('admin')->user()->code;
         $slider->save();
@@ -120,7 +118,7 @@ class DataController extends Controller
     {
 
         $logo = KeyValue::Where('key', 'index_logo')->first();
-        //dd($logo->toArray());
+        
         $logo_footer = KeyValue::Where('key', 'index_logo_footer')->first();
 
         $icon = KeyValue::Where('key', 'index_icon')->first();

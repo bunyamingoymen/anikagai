@@ -13,9 +13,10 @@ class FollowUserController extends Controller
     {
         $follow = new FollowUser();
 
-        $follow = FollowUser::max('code') + 1;
+        $follow->code = FollowUser::max('code') + 1;
 
-        $follow->followed_user_code = $request->followed_user_code;
+        $follow->followed_user_code = intval($request->followed_user_code);
+
         $follow->user_code = Auth::guard('admin')->user()->code;
 
         $follow->save();

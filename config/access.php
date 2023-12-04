@@ -23,6 +23,10 @@ return [
 
         'admin/data/home' => 13,
         'admin/data/home/showContent' => 13,
+        'admin/data/home/changeThemeSettings' => 13,
+        'admin/data/home/changeSliderImages' => 13,
+        'admin/data/home/deleteSliderImages' => 13,
+        'admin/data/home/addSliderImages' => 13,
 
         'admin/data/logo' => 14,
 
@@ -45,6 +49,7 @@ return [
 
         'admin/anime/list' => 20,
         'admin/anime/list/ajax' => 20,
+        'admin/anime/season/ajax' => 20,
         'admin/anime/create' => 19,
         'admin/anime/update' => 21,
         'admin/anime/delete' => 22,
@@ -60,6 +65,7 @@ return [
 
         'admin/webtoon/list' => 32,
         'admin/webtoon/list/ajax' => 32,
+        'admin/webtoon/season/ajax' => 32,
         'admin/webtoon/create' => 31,
         'admin/webtoon/update' => 33,
         'admin/webtoon/delete' => 34,

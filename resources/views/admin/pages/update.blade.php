@@ -9,9 +9,12 @@
         <div class="card">
             <div class="card-body">
 
-                <form class="needs-validation" id="pageCreateForm" action="{{route('admin_page_create')}}"
+                <form class="needs-validation" id="pageUpdateForm" action="{{route('admin_page_update')}}"
                     method="POST">
                     @csrf
+                    <div hidden>
+                        <input type="text" name="code" value="{{$page->code}}">
+                    </div>
                     <div class="row">
                         <div class="col-md-12 mb-3">
                             <label for="name">Sayfanın İsmi:</label>
@@ -86,7 +89,7 @@
             })
         }else{
             document.getElementById('short_name').value = short_name;
-            document.getElementById('pageCreateForm').submit();
+            document.getElementById('pageUpdateForm').submit();
         }
     }
 </script>

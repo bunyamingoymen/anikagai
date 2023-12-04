@@ -9,6 +9,7 @@
                     <h4>Başlık: </h4>
                     <p>Site açıkken sekmede görünen ismi buradan değiştirebilirsiniz.</p>
                     <form action="{{route('admin_data_title')}}" method="POST">
+                        @csrf
                         <div class="row">
                             <div class="col-lg-8">
                                 <input type="text" class="form-control" name="index_title" id="index_title"

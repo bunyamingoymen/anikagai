@@ -11,8 +11,9 @@
                     @csrf
                     <div class="row">
                         <div class="col-md-12 mb-3">
-                            <label for="text">Yazı:</label>
-                            <input type="text" class="form-control" id="text" name="text" placeholder="Yazı" required>
+                            <label for="text">Grup İsmi:</label>
+                            <input type="text" class="form-control" id="text" name="text" placeholder="Grup İsmi"
+                                required>
                         </div>
                     </div>
                     <div class="row">

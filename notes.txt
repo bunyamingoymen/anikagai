@@ -1,16 +1,49 @@
 Değiştiirlen dosyaları:
-AnimeController
+.gitgone
+AnimeEpisodeController
+AuthController
 DataController
+FollowUserController
 IndexController
-AppServiceProvider
-admin/data/title.blade.php
-c- index/animex/changepassword.blade.php
-c- index/animex/changeprofile.blade.php
-index/animex/index.blade.php
-index/animex/profile.blade.php
-index/animex/watch.blade.php
-web.php
+IndexUserController
+PageController
+TagController
+UserController
+WebtoonCalendarController
+WebtoonEpisodesController
 
+AccessMiddleware
+
+Config/access.php
+Config/success.php
+
+admin/auth/groups/create.blade.php
+admin/auth/groups/list.blade.php
+admin/auth/groups/update.blade.php
+
+admin/category/list.blade.php
+
+admin/data/home.blade.php
+admin/data/title.blade.php
+
+admin/indexUsers/list.blade.php
+
+admin/layouts/sidebar.blade.php
+
+admin/pages/update.blade.php
+
+admin/register/login.blade.php
+
+admin/tag/list.blade.php
+
+admin/webtoon/epsiode/create.blade.php
+admin/webtoon/epsiode/list.blade.php
+
+index/themes/animex/animeDetail.blade.php
+index/themes/animex/contact.blade.php
+index/themes/animex/layouts/footer.blade.php
+index/themes/animex/layouts/topbar.blade.php
+index/themes/animex/webtoonDetail.blade.php
 
 -------------------------------------------
 Yapılacaklar:
@@ -24,5 +57,44 @@ diğer:
 anime ve webtoon oluşturmada resim kısmına sadece resim kabul edilmeli
 video yüklenirken tekrar kaydet'e basılırsa basılması engellenmeli
 slidershow değeri değiştirilmesine rağmen arayüzde slider değişikliği olmuyor
+mobilde slider sorunu
++18 bölümü eklenecek
+üyelere özel anime ve webtoonlar için "Görebilmek için giriş yapınız" diye bir yazı yazılmalı
+Takvim
+3.tema
+İzleme sayfası'nın yüklemesi yavaş
+Her update de code değeri var olmayacak. js ile o getirilecek
+footer da discord logosu çıkmıyor(fa fa-discord)
+Benzer içerikleri gösterme
+Takvimde güncelleyip silebilme işlemi
+otomatik izlendi olarak işaretleme
+---------------------------------------------
+Kontrol edilecek işlemler:
 
+--Admin Paneli:
++Anime Bütün Değerler için CRUD işlemi(+Anime, +Anime Bölümü, +Anime Takvimi)
++Webtoon içib Bütün Değerler için CRUD işlemi(+webtoon, + Webtoon Bölümü, + Webtoon Takvimi)
++Sayfalar için bütün Değerler için CRUD işlemi
++Kategori için bütün değerler için CRUD işlemi
++Etiketler için bütün değerler için CRUD işlemi
++İletişim, yorumlar ve üyeler için Görüntüleme İşlemi (+İletişim, +Yorumlar, +Üyeler)
++Kullanıcılar için bütün değerler için CRUD işlemi (+kullanıcılar, +kullanıcı grupları, +grup yetkileri)
++Site verileri için bütün değerler için CRUD işlemi(+Anasayfa Ayarları, +Logo, +Meta, +Başlık, +menü, +sosyal medya, +slider_videoları)
++Yönetim için bütün değerler için CRUD işlemleri(+Admin Meta, +keyvalue, +yetki maddeleri)
++Yetkilendirme Kontrolü(admin arayüzüne girebilme, diğer işlemlerin tek tek denenmesi.)
 
+--Arayüz:
+
+---1.Tema:
+-Anime içind değişikliklerin görünmesi
+-Webtoon için değişikliklerin görünmesi
+-Kategori için bütün değişikliklerin görünmesi
+-iletişim, yorum ve üyelik sistemi
+
+---2.Tema:
+-Anime için değişikliklerin görünmesi
+-Webtoon için değişikliklerin görünmesi
+-Kategori için bütün değişikliklerin görünmesi
+-iletişim, yorum ve üyelik sistemi
+
+-Bunların hepsi mobil de de test edilmeli.

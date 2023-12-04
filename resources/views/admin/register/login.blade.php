@@ -17,6 +17,10 @@
     <!-- App Css-->
     <link href="../../../admin/assets/css/app.min.css" rel="stylesheet" type="text/css" />
 
+
+    <!-- Sweet Alert-->
+    <link href="../../../admin/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+
 </head>
 
 <body class="bg-primary bg-pattern">
@@ -80,15 +84,26 @@
     <script src="../../../admin/assets/libs/simplebar/simplebar.min.js"></script>
     <script src="../../../admin/assets/libs/node-waves/waves.min.js"></script>
 
+    <!-- Sweet Alerts js -->
+    <script src="../../../admin/assets/libs/sweetalert2/sweetalert2.min.js"></script>
+
     <script src="../../../admin/assets/js/app.js"></script>
 
     <script>
         @if (session('error'))
-            alert('{{session("error")}}');
+            Swal.fire({
+                title: "Hata",
+                text: "{{session('error')}}",
+                icon: "error"
+            });
         @endif
 
         @if (session('success'))
-            alert('{{session("success")}}');
+            Swal.fire({
+                title: "Başarılı",
+                text: "{{session('success')}}",
+                icon: "success"
+            });
         @endif
     </script>
 
