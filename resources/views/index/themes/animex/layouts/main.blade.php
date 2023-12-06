@@ -31,12 +31,15 @@
 
     <!-- Css Styles -->
     <link rel="stylesheet" href="../../../user/animex/css/bootstrap.min.css" type="text/css">
-    <link rel="stylesheet" href="../../../user/animex/css/font-awesome.min.css" type="text/css">
+    <!-- <link rel="stylesheet" href="../../../user/animex/css/font-awesome.min.css" type="text/css">-->
+    <script src="https://kit.fontawesome.com/b49f043adc.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../../../user/animex/css/elegant-icons.css" type="text/css">
     <link rel="stylesheet" href="../../../user/animex/css/plyr.css" type="text/css">
     <link rel="stylesheet" href="../../../user/animex/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="../../../user/animex/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="../../../user/animex/css/style.css" type="text/css">
+
+    <link rel="stylesheet" href="../../../index/css/censor.css" type="text/css">
 </head>
 
 <body>

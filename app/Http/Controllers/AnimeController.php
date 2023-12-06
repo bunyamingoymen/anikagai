@@ -62,8 +62,10 @@ class AnimeController extends Controller
         $anime->main_category = $request->main_category ? $request->main_category : 1;
         $anime->main_category_name = $request->main_category ? Category::Where('code', $request->main_category)->first()->name : "Genel";
 
-        if ($request->onlyUsers) $anime->onlyUsers = 1;
-        else $anime->onlyUsers = 0;
+        $anime->showStatus = $request->showStatus;
+
+        if ($request->plusEighteen) $anime->plusEighteen = 1;
+        else $anime->plusEighteen = 0;
 
         $anime->create_user_code = Auth::guard('admin')->user()->code;
 
@@ -135,8 +137,10 @@ class AnimeController extends Controller
         $anime->main_category = $request->main_category ? $request->main_category : 1;
         $anime->main_category_name = $request->main_category ? Category::Where('code', $request->main_category)->first()->name : "Genel";
 
-        if ($request->onlyUsers) $anime->onlyUsers = 1;
-        else $anime->onlyUsers = 0;
+        $anime->showStatus = $request->showStatus;
+
+        if ($request->plusEighteen) $anime->plusEighteen = 1;
+        else $anime->plusEighteen = 0;
 
 
         $anime->update_user_code = Auth::guard('admin')->user()->code;

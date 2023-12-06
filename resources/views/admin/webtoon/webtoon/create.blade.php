@@ -75,9 +75,27 @@
                             </select>
                         </div>
                     </div>
-                    <div>
-                        <input type="checkbox" id="onlyUsers" name="onlyUsers" checked>
-                        <label for="onlyUsers">Herkes Görebilir.(Seçili olmaz ise sadece üyeler görebilir.)</label>
+                    <div class="row">
+                        <div class="col-md-8 mb-3">
+                            <label for="">Görünürlük Tipi:</label>
+                            <select name="showStatus" id="" class="form-control">
+                                <option value="0" selected>Herkes görebilir</option>
+                                <option value="1">Üye olanlar görebilir. Üye olmayanlar hiçbir şekilde göremez.</option>
+                                <option value="2">Üye olanlar görebilir. Üye olmayanlar sansürlü bir şekilde görebilir.
+                                </option>
+                                <option value="3">Sadece Link Üzerinden Erişilebilir.Listelemede çıkmaz.</option>
+                                <option value="4">Hiçkimse Göremez.Gizlidir.</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8 ">
+                            <input type="checkbox" id="plusEighteen" name="plusEighteen">
+                            <label for="plusEighteen">
+                                <span style="font-weight: bold;">+18:</span>
+                                Listelemede ya da aramalarda hiç görünmez. Sadece kendi kısmına görünür.
+                            </label>
+                        </div>
                     </div>
                     <div style="float: right;">
                         <button class="btn btn-primary" type="button"

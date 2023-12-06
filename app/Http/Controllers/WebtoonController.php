@@ -60,8 +60,10 @@ class WebtoonController extends Controller
         $webtoon->main_category = $request->main_category ? $request->main_category : 1;
         $webtoon->main_category_name = $request->main_category ? Category::Where('code', $request->main_category)->first()->name : "Genel";
 
-        if ($request->onlyUsers) $webtoon->onlyUsers = 1;
-        else $webtoon->onlyUsers = 0;
+        $webtoon->showStatus = $request->showStatus;
+
+        if ($request->plusEighteen) $webtoon->plusEighteen = 1;
+        else $webtoon->plusEighteen = 0;
 
         $webtoon->create_user_code = Auth::guard('admin')->user()->code;
 
@@ -134,8 +136,10 @@ class WebtoonController extends Controller
         $webtoon->main_category = $request->main_category ? $request->main_category : 1;
         $webtoon->main_category_name = $request->main_category ? Category::Where('code', $request->main_category)->first()->name : "Genel";
 
-        if ($request->onlyUsers) $webtoon->onlyUsers = 1;
-        else $webtoon->onlyUsers = 0;
+        $webtoon->showStatus = $request->showStatus;
+
+        if ($request->plusEighteen) $webtoon->plusEighteen = 1;
+        else $webtoon->plusEighteen = 0;
 
         $webtoon->update_user_code = Auth::guard('admin')->user()->code;
 

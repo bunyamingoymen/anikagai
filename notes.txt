@@ -1,72 +1,49 @@
 Değiştiirlen dosyaları:
--Index Controller;
--IndexDataController;
 
+1-AnimeController
+2-IndexController
+3-WebtoonController
 
--public/user/animex/css/style.css
--public/user/animex/js/main.js
+4-Models/Anime
+5-Models/Webtoon
 
--public/user/mox/css/style.css
+6-create_webtoons_table
+7-create_animes_table
 
--public/user/img/images/gallery_01.jpg
--public/user/img/images/gallery_02.jpg
+8-admin/anime/anime/create.blade.php
+9-admin/anime/anime/list.blade.php
+10-admin/anime/anime/update.blade.php
 
--admin/anime/anime/create.blade.php
--admin/anime/anime/update.blade.php
+11-admin/webtoon/webtoon/update.blade.php
+12-admin/webtoon/webtoon/list.blade.php
+13-admin/webtoon/webtoon/update.blade.php
 
--admin/anime/episode/create.blade.php
--admin/anime/episode/update.blade.php
+14-index/themes/animex/layouts/footer.blade.php
+15-index/themes/animex/layouts/main.blade.php
+16-index/themes/animex/layouts/topbar.blade.php
+17-index/themes/animex/index.blade.php
+18-index/themes/animex/list.blade.php
+19-index/themes/animex/search.blade.php
 
--admin/indexUsers/create.blade.php
--admin/indexUsers/update.blade.php
-
--admin/users/create.blade.php
--admin/users/update.blade.php
-
--admin/webtoon/episode/create.blade.php
-
--admin/webtoon/webtoon/create.blade.php
--admin/webtoon/webtoon/update.blade.php
-
--index/themes/animex/layouts/main.blade.php
--index/themes/animex/animeDetail.blade.php
--index/themes/animex/index.blade.php
--index/themes/animex/list.blade.php
--index/themes/animex/login.blade.php
--index/themes/animex/profile.blade.php
--index/themes/animex/read.blade.php
--index/themes/animex/watch.blade.php
--index/themes/animex/webtoonDetail.blade.php
-
--index/themes/mox/layouts/main.blade.php
-
--index/themes/mox/login.blade.php
-
--index/themes/mox/watch.blade.php
-
--web.php
 -------------------------------------------
-Yapılacaklar:
+*Yapılacaklar:
 
+**Admin Arayüzü:
 
-Kullanıcı arayüzü:
+**Kullanıcı arayüzü:
+-Şifremi Unuttum kısmı
 
-Şifremi Unuttum kısmı
-
-diğer:
-anime ve webtoon oluşturmada resim kısmına sadece resim kabul edilmeli
-video yüklenirken tekrar kaydet'e basılırsa basılması engellenmeli
-mobilde slider sorunu
-+18 bölümü eklenecek
-üyelere özel anime ve webtoonlar için "Görebilmek için giriş yapınız" diye bir yazı yazılmalı
-Takvim
-3.tema
-Her update de code değeri var olmayacak. js ile o getirilecek
-footer da discord logosu çıkmıyor(fa fa-discord)
-Benzer içerikleri gösterme
-Takvimde güncelleyip silebilme işlemi
-otomatik izlendi olarak işaretleme
-mox temasında prfil bilgisi değiştirme, takip etme..vs. eklenecek
+**Diğer:
+- +18 bölümü eklenecek
+-Takvim
+-3.tema
+-Her update de code değeri var olmayacak. js ile o getirilecek
+-Benzer içerikleri gösterme
+-Takvimde güncelleyip silebilme işlemi
+-otomatik izlendi olarak işaretleme
+-mox temasında prfil bilgisi değiştirme, takip etme..vs. eklenecek,
+-mox temasında görüntülenme ayarlanacak.
+-Anime ve webtoon'lar a izleme ve okuma kısmı b gitmemeli.
 ---------------------------------------------
 Kontrol edilecek işlemler:
 

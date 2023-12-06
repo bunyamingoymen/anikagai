@@ -25,9 +25,10 @@ class Webtoon extends Model
         'comment_count',
         'scoreUsers',
         'score',
+        'showStatus',
+        'plusEighteen',
         'create_user_code',
         'update_user_code',
-        'onlyUsers',
         'deleted',
     ];
 }

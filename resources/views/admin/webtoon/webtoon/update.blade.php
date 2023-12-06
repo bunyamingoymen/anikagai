@@ -106,13 +106,36 @@
                             </select>
                         </div>
                     </div>
-                    <div>
-                        @if ($webtoon->onlyUsers)
-                        <input type="checkbox" id="onlyUsers" name="onlyUsers" checked>
-                        @else
-                        <input type="checkbox" id="onlyUsers" name="onlyUsers">
-                        @endif
-                        <label for="onlyUsers">Herkes Görebilir.(Seçili olmaz ise sadece üyeler görebilir.)</label>
+                    <div class="row">
+                        <div class="col-md-8 mb-3">
+                            <label for="">Görünürlük Tipi:</label>
+                            <select name="showStatus" id="" class="form-control">
+                                <option value="0" {{$webtoon->showStatus == 0 ? 'selected' : ''}}>Herkes görebilir
+                                </option>
+                                <option value="1" {{$webtoon->showStatus == 1 ? 'selected' : ''}}>Üye olanlar görebilir.
+                                    Üye
+                                    olmayanlar hiçbir şekilde göremez.</option>
+                                <option value="2" {{$webtoon->showStatus == 2 ? 'selected' : ''}}>Üye olanlar görebilir.
+                                    Üye
+                                    olmayanlar sansürlü bir şekilde görebilir.
+                                </option>
+                                <option value="3" {{$webtoon->showStatus == 3 ? 'selected' : ''}}>Sadece Link Üzerinden
+                                    Erişilebilir.Listelemede çıkmaz.</option>
+                                <option value="4" {{$webtoon->showStatus == 4 ? 'selected' : ''}}>Hiçkimse
+                                    Göremez.Gizlidir.
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-8 ">
+                            <input type="checkbox" id="plusEighteen" name="plusEighteen" {{$webtoon->plusEighteen
+                            == 1 ? 'checked' : ''}}>
+                            <label for="plusEighteen">
+                                <span style="font-weight: bold;">+18:</span>
+                                Listelemede ya da aramalarda hiç görünmez. Sadece kendi kısmına görünür.
+                            </label>
+                        </div>
                     </div>
                     <div style="float: right;">
                         <button class="btn btn-primary" type="button"

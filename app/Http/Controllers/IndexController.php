@@ -26,21 +26,17 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Pagination\Paginator;
-use Illuminate\Support\Collection;
 
 class IndexController extends Controller
 {
     public function index()
     {
-        $onlyUsers = Auth::user() ? ["0", "1"] : ["1"];
         $indexShowContent = ThemeSetting::Where('theme_code', KeyValue::Where('key', 'selected_theme')->first()->value)->Where('setting_name', 'indexShowContent')->first()->setting_value;
         $additionalData = [
-            'trend_animes' => $this->getTrendContent(Anime::class, $onlyUsers, 6, 'click_count'),
-            'trend_webtoons' => $this->getTrendContent(Webtoon::class, $onlyUsers, 6, 'click_count'),
-            'animes' => $this->getContent(Anime::class, $onlyUsers, $indexShowContent, 'created_at', 'DESC'),
-            'webtoons' => $this->getContent(Webtoon::class, $onlyUsers, $indexShowContent, 'created_at', 'DESC'),
+            'trend_animes' => $this->getTrendContent(Anime::class, $this->sendShowStatus(1), 6, 'click_count'),
+            'trend_webtoons' => $this->getTrendContent(Webtoon::class, $this->sendShowStatus(1), 6, 'click_count'),
+            'animes' => $this->getContent(Anime::class, $this->sendShowStatus(0), $indexShowContent, 'created_at', 'DESC'),
+            'webtoons' => $this->getContent(Webtoon::class, $this->sendShowStatus(0), $indexShowContent, 'created_at', 'DESC'),
             'slider_image' => KeyValue::where('key', 'slider_image')->where('deleted', 0)->get(),
             'slider_show' => ThemeSetting::where('theme_code', KeyValue::Where('key', 'selected_theme')->first()->value)->where('setting_name', 'showSlider')->first()->setting_value,
         ];
@@ -59,7 +55,6 @@ class IndexController extends Controller
 
     public function list(Request $request)
     {
-        $onlyUsers = Auth::user() ? ["0", "1"] : ["1"];
         $selected_theme = KeyValue::where('key', 'selected_theme')->first();
         $path = $request->path();
         $title = "";
@@ -69,6 +64,11 @@ class IndexController extends Controller
         $listItems = $listItemsSetting ? $listItemsSetting->setting_value : 20;
         $skip = max(0, ($currentPage - 1) * $listItems);
         $allCategory = Category::where('deleted', 0)->get();
+
+        $adult = 0;
+        if ($request->adult && $request->adult == "on")
+            $adult = 1;
+
 
         $selectedCategory = ((!$request->category) || ($request->category == "all")) ? "all" : Category::Where('short_name', $request->category)->first()->code;
         $orderByMapping = [
@@ -89,21 +89,21 @@ class IndexController extends Controller
             $title = "Animeler";
 
             if ($selectedCategory == "all") {
-                $list = Anime::Where('deleted', 0)->whereIn('onlyUsers', $onlyUsers)->orderBy($orderByType, $orderByList)->skip($skip)->take($listItems)->get();
+                $list = Anime::Where('deleted', 0)->whereIn('showStatus', $this->sendShowStatus(0))->where('plusEighteen', $adult)->orderBy($orderByType, $orderByList)->skip($skip)->take($listItems)->get();
             } else {
-                $list = Anime::Where('deleted', 0)->Where('main_category', $selectedCategory)->whereIn('onlyUsers', $onlyUsers)->orderBy($orderByType, $orderByList)->skip($skip)->take($listItems)->get();
+                $list = Anime::Where('deleted', 0)->Where('main_category', $selectedCategory)->whereIn('showStatus', $this->sendShowStatus(0))->where('plusEighteen', $adult)->orderBy($orderByType, $orderByList)->skip($skip)->take($listItems)->get();
             }
 
-            $pageCountTest = Anime::Where('deleted', 0)->count();
+            $pageCountTest = Anime::Where('deleted', 0)->where('plusEighteen', $adult)->count();
         } elseif ($path == 'webtoonlar') {
             $title = "Webtoonlar";
             if ($selectedCategory == "all") {
-                $list = Webtoon::Where('deleted', 0)->whereIn('onlyUsers', $onlyUsers)->skip($skip)->take($listItems)->orderBy($orderByType, $orderByList)->get();
+                $list = Webtoon::Where('deleted', 0)->whereIn('showStatus', $this->sendShowStatus(0))->where('plusEighteen', $adult)->skip($skip)->take($listItems)->orderBy($orderByType, $orderByList)->get();
             } else {
-                $list = Webtoon::Where('deleted', 0)->Where('main_category', $selectedCategory)->whereIn('onlyUsers', $onlyUsers)->skip($skip)->take($listItems)->orderBy($orderByType, $orderByList)->get();
+                $list = Webtoon::Where('deleted', 0)->Where('main_category', $selectedCategory)->whereIn('showStatus', $this->sendShowStatus(0))->where('plusEighteen', $adult)->skip($skip)->take($listItems)->orderBy($orderByType, $orderByList)->get();
             }
 
-            $pageCountTest = Webtoon::Where('deleted', 0)->count();
+            $pageCountTest = Webtoon::Where('deleted', 0)->where('plusEighteen', $adult)->count();
         } else {
             abort(404); // TODO: hata sayfasına yönlendir
         }
@@ -111,7 +111,7 @@ class IndexController extends Controller
         if ($currentPage > $pageCount || $currentPage < 1)
             abort(404); // TODO: 404 sayfasına yönlendir
 
-
+        //dd($list->toArray());
         return $this->loadThemeView('list', compact('path', 'title', 'list', 'pageCount', 'currentPage', 'allCategory'));
     }
 
@@ -130,12 +130,16 @@ class IndexController extends Controller
         // Anime, Webtoon, Tag ve Category modellerinden sorguları al
         $animeCount =
             Anime::Where('deleted', 0)
+            ->where('plusEighteen', 0)
+            ->whereIn('showStatus', $this->sendShowStatus(0))
             ->where('name', 'LIKE', '%' . $query . '%')
             ->orWhere('description', 'LIKE', '%' . $query . '%')
             ->count();
 
         $webtoonCount =
             Webtoon::Where('deleted', 0)
+            ->where('plusEighteen', 0)
+            ->whereIn('showStatus', $this->sendShowStatus(0))
             ->where('name', 'LIKE', '%' . $query . '%')
             ->orWhere('description', 'LIKE', '%' . $query . '%')
             ->count();
@@ -151,9 +155,14 @@ class IndexController extends Controller
         if ($skip < $animeCount) {
             $animes =
                 Anime::Where('deleted', 0)
-                ->where('name', 'LIKE', '%' . $query . '%')
-                ->orWhere('description', 'LIKE', '%' . $query . '%')
-                ->skip($skip)->take($listItems)
+                ->where('plusEighteen', 0)
+                ->whereIn('showStatus', $this->sendShowStatus(0))
+                ->where(function ($queryBuilder) use ($query) {
+                    $queryBuilder->where('name', 'LIKE', '%' . $query . '%')
+                        ->orWhere('description', 'LIKE', '%' . $query . '%');
+                })
+                ->skip($skip)
+                ->take($listItems)
                 ->get();
 
             foreach ($animes as $anime) {
@@ -169,9 +178,14 @@ class IndexController extends Controller
 
             $webtoons =
                 Webtoon::Where('deleted', 0)
-                ->where('name', 'LIKE', '%' . $query . '%')
-                ->orWhere('description', 'LIKE', '%' . $query . '%')
-                ->skip($newSkip)->take($newlistItem)
+                ->where('plusEighteen', 0)
+                ->whereIn('showStatus', $this->sendShowStatus(0))
+                ->where(function ($queryBuilder) use ($query) {
+                    $queryBuilder->where('name', 'LIKE', '%' . $query . '%')
+                        ->orWhere('description', 'LIKE', '%' . $query . '%');
+                })
+                ->skip($skip)
+                ->take($listItems)
                 ->get();
 
             foreach ($webtoons as $webtoon) {
@@ -192,7 +206,10 @@ class IndexController extends Controller
     {
 
         $anime = Anime::where('short_name', $request->short_name)->first();
-        $trend_animes = Anime::Where('deleted', 0)->take(4)->orderBy('click_count', 'ASC')->get();
+        if (!$anime || $anime->showStatus == 4 || (!Auth::user() && ($anime->showStatus == 1 || $anime->showStatus == 2)))
+            abort(404);
+
+        $trend_animes = $this->getTrendContent(Anime::class, $this->sendShowStatus(1), 6, 'click_count');
 
         $currentTime = Carbon::now();
         $anime_episodes = AnimeEpisode::where('anime_code', $anime->code)
@@ -244,8 +261,12 @@ class IndexController extends Controller
     public function watch(Request $request)
     {
         $anime = Anime::Where('deleted', 0)->Where('short_name', $request->short_name)->first();
+
+        if (!$anime || $anime->showStatus == 4 || (!Auth::user() && ($anime->showStatus == 1 || $anime->showStatus == 2)))
+            abort(404);
+
         $episode = AnimeEpisode::Where("deleted", 0)->Where('season_short', $request->season)->Where('episode_short', $request->episode)->first();
-        $trend_animes = Anime::Where('deleted', 0)->take(4)->orderBy('click_count', 'ASC')->get();
+        $trend_animes = $this->getTrendContent(Anime::class, $this->sendShowStatus(1), 6, 'click_count');
         $currentTime = Carbon::now();
         $anime_episodes = AnimeEpisode::where('anime_code', $anime->code)
             ->where('publish_date', '<=', $currentTime)
@@ -294,12 +315,12 @@ class IndexController extends Controller
 
     public function webtoonDetail(Request $request)
     {
-        $webtoon = Webtoon::where('short_name', $request->short_name)->firstOrFail();
+        $webtoon = Webtoon::where('short_name', $request->short_name)->first();
+        if (!$webtoon || $webtoon->showStatus == 4 || (!Auth::user() && ($webtoon->showStatus == 1 || $webtoon->showStatus == 2)))
+            abort(404);
 
-        $trend_webtoons = Webtoon::where('deleted', 0)
-            ->take(4)
-            ->orderBy('click_count', 'ASC')
-            ->get();
+
+        $trend_webtoons = $this->getTrendContent(Webtoon::class, $this->sendShowStatus(1), 6, 'click_count');
 
         $currentTime = now();
 
@@ -362,9 +383,13 @@ class IndexController extends Controller
     public function read(Request $request)
     {
         $webtoon = Webtoon::Where('deleted', 0)->Where('short_name', $request->short_name)->first();
+
+        if (!$webtoon || $webtoon->showStatus == 4 || (!Auth::user() && ($webtoon->showStatus == 1 || $webtoon->showStatus == 2)))
+            abort(404);
+
         $episode = WebtoonEpisode::Where("deleted", 0)->Where('season_short', $request->season)->Where('episode_short', $request->episode)->first();
 
-        $trend_webtoons = Webtoon::Where('deleted', 0)->take(4)->orderBy('click_count', 'ASC')->get();
+        $trend_webtoons = $this->getTrendContent(Webtoon::class, $this->sendShowStatus(1), 6, 'click_count');
 
         $currentTime = Carbon::now();
         $webtoon_episodes = WebtoonEpisode::where('webtoon_code', $webtoon->code)
@@ -523,6 +548,7 @@ class IndexController extends Controller
         return redirect()->route('index');
     }
 
+    //TODO Burada da sansürlü anime ve webtoonlar gidiyor. Onları sansürle
     public function profile(Request $request)
     {
         $user = IndexUser::where('username', $request->username)->first();
@@ -530,46 +556,44 @@ class IndexController extends Controller
         if (!$user)
             $user = Auth::user();
 
-        $onlyUsers = Auth::user() ? ["0", "1"] : ["1"];
-
         $favorite_animes = DB::table('animes')
             ->Where('favorite_animes.user_code', $user->code)
-            ->whereIn('animes.onlyUsers', $onlyUsers)
+            ->whereIn('animes.showStatus', $this->sendShowStatus(0))
             ->join('favorite_animes', 'favorite_animes.anime_code', '=', 'animes.code')
             ->select('animes.*')
             ->get();
 
         $follow_animes = DB::table('animes')
             ->Where('follow_animes.user_code', $user->code)
-            ->whereIn('animes.onlyUsers', $onlyUsers)
+            ->whereIn('animes.showStatus', $this->sendShowStatus(0))
             ->join('follow_animes', 'follow_animes.anime_code', '=', 'animes.code')
             ->select('animes.*')
             ->get();
 
         $watched_animes = DB::table('animes')
             ->Where('watched_animes.user_code', $user->code)
-            ->whereIn('animes.onlyUsers', $onlyUsers)
+            ->whereIn('animes.showStatus', $this->sendShowStatus(0))
             ->join('watched_animes', 'watched_animes.anime_code', '=', 'animes.code')
             ->select('animes.*')
             ->get();
 
         $favorite_webtoons = DB::table('webtoons')
             ->Where('favorite_webtoons.user_code', $user->code)
-            ->whereIn('webtoons.onlyUsers', $onlyUsers)
+            ->whereIn('webtoons.showStatus', $this->sendShowStatus(0))
             ->join('favorite_webtoons', 'favorite_webtoons.webtoon_code', '=', 'webtoons.code')
             ->select('webtoons.*')
             ->get();
 
         $follow_webtoons = DB::table('webtoons')
             ->Where('follow_webtoons.user_code', $user->code)
-            ->whereIn('webtoons.onlyUsers', $onlyUsers)
+            ->whereIn('webtoons.showStatus', $this->sendShowStatus(0))
             ->join('follow_webtoons', 'follow_webtoons.webtoon_code', '=', 'webtoons.code')
             ->select('webtoons.*')
             ->get();
 
         $readed_webtoons = DB::table('webtoons')
             ->Where('readed_webtoons.user_code', $user->code)
-            ->whereIn('webtoons.onlyUsers', $onlyUsers)
+            ->whereIn('webtoons.showStatus', $this->sendShowStatus(0))
             ->join('readed_webtoons', 'readed_webtoons.webtoon_code', '=', 'webtoons.code')
             ->select('webtoons.*')
             ->get();
@@ -579,8 +603,6 @@ class IndexController extends Controller
             $followed_user = FollowIndexUser::where('followed_user_code', $user->code)
                 ->where('user_code', Auth::user()->code)->exists();
         }
-
-        //dd($followed_user);
 
         return $this->loadThemeView('profile', compact('user', 'favorite_animes', 'follow_animes', 'watched_animes', 'favorite_webtoons', 'follow_webtoons', 'readed_webtoons', 'followed_user'));
     }
@@ -709,18 +731,34 @@ class IndexController extends Controller
         return view("index." . $themePath->themePath . ".$viewName", $additionalData);
     }
 
-    protected function getTrendContent($modelClass, $onlyUsers, $take, $orderBy)
-    {
-        return $modelClass::where('deleted', 0)->whereIn('onlyUsers', $onlyUsers)->take($take)->orderBy($orderBy, 'DESC')->get();
-    }
-
-    protected function getContent($modelClass, $onlyUsers, $take, $orderByType, $orderByList, $skip = 0)
+    protected function getTrendContent($modelClass, $showStatus, $take, $orderBy)
     {
         return $modelClass::where('deleted', 0)
-            ->whereIn('onlyUsers', $onlyUsers)
+            ->where('plusEighteen', 0)
+            ->whereIn('showStatus', $showStatus)
+            ->take($take)
+            ->orderBy($orderBy, 'DESC')
+            ->get();
+    }
+
+    protected function getContent($modelClass, $showStatus, $take, $orderByType, $orderByList, $skip = 0)
+    {
+        return $modelClass::where('deleted', 0)
+            ->where('plusEighteen', 0)
+            ->whereIn('showStatus', $showStatus)
             ->skip($skip)
             ->take($take)
             ->orderBy($orderByType, $orderByList)
             ->get();
+    }
+
+    public function sendShowStatus($type = 0)
+    {
+        //type 0 ise normal listelemedir. 1 ise trend yada benzer içerikleri listelemedir.
+
+        if ($type == 0)
+            return Auth::user() ? ["0", "1", "2"] : ["0", "2"];
+        if ($type == 1)
+            return Auth::user() ? ["0", "1", "2"] : ["0"];
     }
 }

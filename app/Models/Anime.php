@@ -25,8 +25,9 @@ class Anime extends Model
         'comment_count',
         'scoreUsers',
         'score',
+        'showStatus',
+        'plusEighteen',
         'create_user_code',
-        'onlyUsers',
         'update_user_code',
         'deleted',
     ];

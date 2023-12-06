@@ -14,7 +14,7 @@
                 <div class="footer__nav mt-2">
                     <ul>
                         @foreach ($data['social_media'] as $item)
-                        <li><a href="{{$item->optional ?? '#'}}"><i class="fa fa-{{$item->value}}"></i></a></li>
+                        <li><a href="{{$item->optional ?? '#'}}"><i class="fa-brands fa-{{$item->value}}"></i></a></li>
                         @endforeach
                     </ul>
                 </div>

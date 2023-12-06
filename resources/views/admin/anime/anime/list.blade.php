@@ -20,7 +20,7 @@
                             <th scope="col">#</th>
                             <th scope="col">Resim</th>
                             <th scope="col">İsim</th>
-                            <th scope="col">Açıklama</th>
+                            <th scope="col">Durumu</th>
                             <th scope="col">Bölüm Sayısı</th>
                             <th scope="col">Tıklanma Sayısı</th>
                         </tr>
@@ -52,7 +52,26 @@
                                     alt="{{$item->name}}">
                             </td>
                             <td>{{$item->name}}</td>
-                            <td>{{$item->description}}</td>
+                            <td>
+                                @if ($item->plusEighteen == 1)
+                                <span class="badge badge-pill badge-dark">+18</span>
+                                @endif
+
+                                @if ($item->showStatus == 0)
+                                <span class="badge badge-pill badge-success">Görünür</span>
+                                @elseif ($item->showStatus == 1)
+                                <span class="badge badge-pill badge-warning">Üyelere Özel</span>
+                                @elseif($item->showStatus == 2)
+                                <span class="badge badge-pill badge-secondary">Sansürlü</span>
+                                @elseif($item->showStatus == 3)
+                                <span class="badge badge-pill badge-primary">Liste Dışı</span>
+                                @elseif($item->showStatus == 4)
+                                <span class="badge badge-pill badge-danger">Gizli</span>
+                                @else
+                                <span class="badge badge-pill badge-light"><span style="color:red;">HATA</span></span>
+                                @endif
+
+                            </td>
                             <td>{{$item->episode_count}}</td>
                             <td>{{$item->click_count}}</td>
                         </tr>
@@ -132,9 +151,25 @@
                             <td>
                                 <img class="rounded-circle header-profile-user" src="../../../`+animes[i].image+`" alt="`+animes[i].name+`">
                                 </td>
-                            <td>`+animes[i].name+`</td>
-                            <td>`+animes[i].description+`</td>
-                            <td>`+animes[i].episode_count+`</td>
+                            <td>`+animes[i].name+`</td>`
+                            if (animes[i].plusEighteen == 1) {
+                                code += `<span class="badge badge-pill badge-dark">+18</span>`;
+                            }
+
+                            if (animes[i].showStatus == 0) {
+                                code += `<span class="badge badge-pill badge-success">Görünür</span>`;
+                            }else if (animes[i].showStatus == 1) {
+                                code += `<span class="badge badge-pill badge-warning">Üyelere Özel</span>`;
+                            }else if (animes[i].showStatus == 2) {
+                                code += `<span class="badge badge-pill badge-secondary">Sansürlü</span>`;
+                            }else if (animes[i].showStatus == 3) {
+                                code += `<span class="badge badge-pill badge-primary">Liste Dışı</span>`;
+                            }else if (animes[i].showStatus == 4) {
+                                code += `<span class="badge badge-pill badge-danger">Gizli</span>`;
+                            }else{
+                                code += `<span class="badge badge-pill badge-light"><span style="color:red;">HATA</span></span>`;
+                            }
+                            code += `<td>`+animes[i].episode_count+`</td>
                             <td>`+animes[i].click_count+`</td>
                         </tr>`;
                     document.getElementById('animeTableTbody').innerHTML = code;

@@ -1,7 +1,21 @@
 @extends("index.themes.animex.layouts.main")
 @section('index_content')
-
 <style>
+    .plusEighteen {
+        color: #ffffff;
+        font-weight: 600;
+        font-family: 'Oswald', sans-serif;
+        line-height: 21px;
+        text-transform: uppercase;
+        padding-left: 20px;
+        position: relative;
+        opacity: 0.5;
+        transition: opacity 0.5s ease, transform 0.1s ease, border 0.1s ease;
+    }
+
+    .plusEighteen:hover {
+        opacity: 1;
+    }
 </style>
 <!-- Hero Section Begin -->
 @if ($sliderShow->setting_value == '1')
@@ -56,6 +70,8 @@
                     </div>
                     <div class="row">
                         @foreach ($animes as $item)
+                        @if ($item->showStatus == 0 || (Auth::user() && ($item->showStatus == 1 || $item->showStatus ==
+                        2)))
                         <div class="col-lg-4 col-md-6 col-sm-6">
                             <div class="product__item">
                                 <a href="{{url('anime/'.$item->short_name)}}">
@@ -74,6 +90,32 @@
                                 </div>
                             </div>
                         </div>
+                        @else
+                        <div class="col-lg-4 col-md-6 col-sm-6">
+                            <div class="product__item">
+                                <a href="{{route('loginScreen')}}">
+                                    <div class="product__item__pic" style="">
+                                        <div
+                                            style="width: 100%; height: 100%; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                                            <div class="censor set-bg" data-setbg="../../../{{$item->image}}">
+                                            </div>
+                                            <div style="margin-top: 20px; z-index: 2;">
+                                                <a class="overlay-button" href="{{route('loginScreen')}}">Görmek için
+                                                    giriş yapınız</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="product__item__text">
+                                        <ul>
+                                            <li>Bilinmiyor</li>
+                                        </ul>
+                                        <h5><a href="{{route('loginScreen')}}">Bilinmiyor</a></h5>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        @endif
+
                         @endforeach
                     </div>
                 </div>
@@ -95,6 +137,8 @@
                     </div>
                     <div class="row">
                         @foreach ($webtoons as $item)
+                        @if ($item->showStatus == 0 || (Auth::user() && ($item->showStatus == 1 || $item->showStatus ==
+                        2)))
                         <div class="col-lg-4 col-md-6 col-sm-6">
                             <div class="product__item">
                                 <a href="{{url('webtoon/'.$item->short_name)}}">
@@ -113,6 +157,31 @@
                                 </div>
                             </div>
                         </div>
+                        @else
+                        <div class="col-lg-4 col-md-6 col-sm-6">
+                            <div class="product__item">
+                                <a href="{{route('loginScreen')}}">
+                                    <div class="product__item__pic" style="">
+                                        <div
+                                            style="width: 100%; height: 100%; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                                            <div class="censor set-bg" data-setbg="../../../{{$item->image}}">
+                                            </div>
+                                            <div style="margin-top: 20px; z-index: 2;">
+                                                <a class="overlay-button" href="{{route('loginScreen')}}">Görmek için
+                                                    giriş yapınız</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="product__item__text">
+                                        <ul>
+                                            <li>Bilinmiyor</li>
+                                        </ul>
+                                        <h5><a href="{{route('loginScreen')}}">Bilinmiyor</a></h5>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        @endif
                         @endforeach
                     </div>
                 </div>
@@ -120,8 +189,28 @@
             </div>
             <div class="col-lg-4 col-md-6 col-sm-8">
                 <div class="product__sidebar">
+                    <div class=" product__sidebar__comment">
+                        <div class="section-title">
+                            @if ($data['anime_active']->value == 1)
+                            <p class="plusEighteen">
+                                <a href="{{url('animeler/?adult=on')}}" style="color:#fff;">
+                                    +18 Animeler
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </a>
+                            </p>
+                            @endif
+                            @if ($data['webtoon_active']->value == 1)
+                            <p class="plusEighteen">
+                                <a href="{{url('webtoonlar/?adult=on')}}" style="color:#fff;">
+                                    +18 Webtoonlar
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </a>
+                            </p>
+                            @endif
+                        </div>
+                    </div>
                     @if ($data['anime_active']->value == 1)
-                    <div class="product__sidebar__comment">
+                    <div class=" product__sidebar__comment">
                         <div class="section-title">
                             <h5>Trend Animeler</h5>
                         </div>

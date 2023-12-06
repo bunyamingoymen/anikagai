@@ -52,7 +52,26 @@
                                     alt="{{$item->name}}">
                             </td>
                             <td>{{$item->name}}</td>
-                            <td>{{$item->description}}</td>
+                            <td>
+                                @if ($item->plusEighteen == 1)
+                                <span class="badge badge-pill badge-dark">+18</span>
+                                @endif
+
+                                @if ($item->showStatus == 0)
+                                <span class="badge badge-pill badge-success">Görünür</span>
+                                @elseif ($item->showStatus == 1)
+                                <span class="badge badge-pill badge-warning">Üyelere Özel</span>
+                                @elseif($item->showStatus == 2)
+                                <span class="badge badge-pill badge-secondary">Sansürlü</span>
+                                @elseif($item->showStatus == 3)
+                                <span class="badge badge-pill badge-primary">Liste Dışı</span>
+                                @elseif($item->showStatus == 4)
+                                <span class="badge badge-pill badge-danger">Gizli</span>
+                                @else
+                                <span class="badge badge-pill badge-light"><span style="color:red;">HATA</span></span>
+                                @endif
+
+                            </td>
                             <td>{{$item->episode_count}}</td>
                             <td>{{$item->click_count}}</td>
                         </tr>
@@ -133,8 +152,24 @@
                             <td>
                                 <img class="rounded-circle header-profile-user" src="../../../`+webtoons[i].image+`" alt="`+webtoons[i].name+`">
                                 </td>
-                            <td>`+webtoons[i].name+`</td>
-                            <td>`+webtoons[i].description+`</td>
+                            <td>`+webtoons[i].name+`</td>`
+                            if (webtoons[i].plusEighteen == 1) {
+                                code += `<span class="badge badge-pill badge-dark">+18</span>`;
+                            }
+                            
+                            if (webtoons[i].showStatus == 0) {
+                                code += `<span class="badge badge-pill badge-success">Görünür</span>`;
+                            }else if (webtoons[i].showStatus == 1) {
+                                code += `<span class="badge badge-pill badge-warning">Üyelere Özel</span>`;
+                            }else if (webtoons[i].showStatus == 2) {
+                                code += `<span class="badge badge-pill badge-secondary">Sansürlü</span>`;
+                            }else if (webtoons[i].showStatus == 3) {
+                                code += `<span class="badge badge-pill badge-primary">Liste Dışı</span>`;
+                            }else if (webtoons[i].showStatus == 4) {
+                                code += `<span class="badge badge-pill badge-danger">Gizli</span>`;
+                            }else{
+                                code += `<span class="badge badge-pill badge-light"><span style="color:red;">HATA</span></span>`;
+                            }
                             <td>`+webtoons[i].episode_count+`</td>
                             <td>`+webtoons[i].click_count+`</td>
                         </tr>`;
