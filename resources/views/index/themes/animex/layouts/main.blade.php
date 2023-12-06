@@ -21,21 +21,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
 
+    <!-- Sweet Alert-->
+    <link href="../../../admin/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+    <link href="
+    https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@5.0.15/dark.min.css
+    " rel="stylesheet">
+    <!-- Sweet Alerts js -->
+    <script src="../../../admin/assets/libs/sweetalert2/sweetalert2.min.js"></script>
+
     <!-- Css Styles -->
     <link rel="stylesheet" href="../../../user/animex/css/bootstrap.min.css" type="text/css">
     <link rel="stylesheet" href="../../../user/animex/css/font-awesome.min.css" type="text/css">
     <link rel="stylesheet" href="../../../user/animex/css/elegant-icons.css" type="text/css">
     <link rel="stylesheet" href="../../../user/animex/css/plyr.css" type="text/css">
-    <link rel="stylesheet" href="../../../user/animex/css/nice-select.css" type="text/css">
     <link rel="stylesheet" href="../../../user/animex/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="../../../user/animex/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="../../../user/animex/css/style.css" type="text/css">
-
-    <!-- Plyr CSS -->
-    <link rel="stylesheet" href="https://cdn.plyr.io/3.6.8/plyr.css" />
-
-    <!-- Plyr JS -->
-    <script src="https://cdn.plyr.io/3.6.8/plyr.js"></script>
 </head>
 
 <body>
@@ -72,6 +73,25 @@
     <script src="../../../user/animex/js/jquery.slicknav.js"></script>
     <script src="../../../user/animex/js/owl.carousel.min.js"></script>
     <script src="../../../user/animex/js/main.js"></script>
+
+    <script>
+        @if(session('error'))
+            Swal.fire({
+                title: "Hata",
+                text: "{{session('error')}}",
+                color: "#fff",
+                icon: "error"
+            });
+        @endif
+        @if(session('success'))
+            Swal.fire({
+                title: "Başarılı",
+                text: "{{session('success')}}",
+                color: "#fff",
+                icon: "success"
+            });
+        @endif
+    </script>
 
 
 </body>

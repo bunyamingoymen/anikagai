@@ -24,7 +24,7 @@
                         <div class="col-md-4 mb-3">
                             <label for="">Resim:</label>
                             <input type="file" class="form-control" id="image" name="image" placeholder="Dosya Seçiniz"
-                                required>
+                                accept="image/*" required>
                         </div>
                     </div>
                     <div class="row">
@@ -92,6 +92,7 @@
     $(".js-seelct-multiple").select2({
         // templateSelection: fonksiyon //NOTE seçildiğinde işlme yapmak için
     });
+
     function  createWebtoonSubmitForm(params) {
         var name = document.getElementById('name').value;
 

@@ -52,34 +52,30 @@
                         </div>
                         <div class="anime__details__btn">
                             @if ($user->code == Auth::user()->code)
-                            <a href="{{route('change_profile_settings_screen')}}" class="follow-btn"><i
-                                    class="fa fa-info"></i>
-                                Bilgilerimi Değiştir</a>
-                            <a href="{{route('change_profile_password_screen')}}" class="follow-btn"><i
-                                    class="fa fa-key"></i>
-                                Şifremi değiştir</a>
+                            <div>
+                                <a href="{{route('change_profile_settings_screen')}}" class="follow-btn"><i
+                                        class="fa fa-info"></i>
+                                    Bilgilerimi Değiştir</a>
+                                <a href="{{route('change_profile_password_screen')}}" class="follow-btn"><i
+                                        class="fa fa-key"></i>
+                                    Şifremi değiştir</a>
+                            </div>
                             @else
-                            @if (true)
-                            <a href="javascript:;" onclick="unfollowAnime()" class="follow-btn"><i
-                                    class="fa fa-plus"></i>
-                                Takipten Çıkar</a>
-                            @else
-                            <a href="javascript:;" onclick="followAnime()" class="follow-btn"><i class="fa fa-plus"></i>
-                                Takip Et</a>
+                            <div>
+                                @if ($followed_user)
+                                <a href="javascript:;" onclick="unfollowIndexUser()" class="follow-btn">
+                                    <i class="fa fa-plus"></i>
+                                    Kullanıcıyı Takipten Çıkar
+                                </a>
+                                @else
+                                <a href="javascript:;" onclick="followIndexUser()" class="follow-btn">
+                                    <i class="fa fa-plus"></i>
+                                    Kullanıcıyı Takip Et
+                                </a>
+                                @endif
+                            </div>
                             @endif
-                            @if (true)
-                            <a href="javascript:;" onclick="dislikeAnime()" class="follow-btn"><i
-                                    class="fa fa-heart"></i>
-                                Favorilerden Çıkar</a>
-                            @else
-                            <a href="javascript:;" onclick="likeAnime()" class="follow-btn"><i
-                                    class="fa fa-heart-o"></i>
-                                Favorilere Ekle</a>
-                            @endif
-                            @endif
-
                         </div>
-                        <p id="likeAnimeTextMessage" style="color:red;"></p>
                     </div>
                 </div>
             </div>
@@ -291,6 +287,11 @@
 </section>
 <!-- Anime Section End -->
 
+
+<div hidden id="hiddenDiv">
+
+</div>
+
 <script>
     function selectTab(id, tab_id) {
         document.getElementsByClassName('active_tab_button')[0].style.color = "white";
@@ -311,6 +312,45 @@
 
 
     }
+</script>
+
+<script>
+    const authMessage = "Lütfen İlk Önce Giriş Yapınız!"
+    function followIndexUser(){
+        @if (Auth::user())
+            var code = `<form action="{{route('followIndexUser')}}" method="POST" id="followIndexUserForm">
+                @csrf
+                <input type="text" name="followed_user_code" value="{{$user->code}}">
+            </form>`;
+            document.getElementById('hiddenDiv').innerHTML = code;
+            document.getElementById('followIndexUserForm').submit();
+        @else
+            Swal.fire({
+                title: "Hata",
+                text: authMessage,
+                color: "#fff",
+                icon: "error"
+            });
+        @endif
+    }
+    function unfollowIndexUser(){
+        @if (Auth::user())
+            var code = `<form action="{{route('unfollowIndexUser')}}" method="POST" id="unfollowIndexUserForm">
+                @csrf
+                <input type="text" name="followed_user_code" value="{{$user->code}}">
+            </form>`;
+            document.getElementById('hiddenDiv').innerHTML = code;
+            document.getElementById('unfollowIndexUserForm').submit();
+        @else
+            Swal.fire({
+                title: "Hata",
+                text: authMessage,
+                color: "#fff",
+                icon: "error"
+            });
+        @endif
+    }
+
 </script>
 
 @endsection

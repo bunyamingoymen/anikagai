@@ -64,14 +64,6 @@ class IndexDataController extends Controller
         return redirect()->back();
     }
 
-    public function unfollowUser(Request $request)
-    {
-        FollowAnime::where('followed_user_code', $request->followed_user_code)
-            ->where('user_code', $request->user_code)
-            ->delete();
-
-        return redirect()->back();
-    }
 
     public function likeAnime(Request $request)
     {
@@ -144,5 +136,28 @@ class IndexDataController extends Controller
         } else {
             return redirect()->back()->with('error', 'İlk Önce Giriş Yapmalısınız.');
         }
+    }
+
+    public function followIndexUser(Request $request)
+    {
+        if (!Auth::user())
+            return redirect()->back()->with("error", "Lütfen ilk önce giriş yapınız.");
+        $follow_user = new FollowIndexUser();
+        $follow_user->followed_user_code = $request->followed_user_code;
+        $follow_user->user_code = Auth::user()->code;
+        $follow_user->save();
+
+        return redirect()->back();
+    }
+
+    public function unfollowIndexUser(Request $request)
+    {
+        if (!Auth::user())
+            return redirect()->back()->with("error", "Lütfen ilk önce giriş yapınız.");
+        FollowIndexUser::where('followed_user_code', $request->followed_user_code)
+            ->where('user_code', Auth::user()->code)
+            ->delete();
+
+        return redirect()->back();
     }
 }

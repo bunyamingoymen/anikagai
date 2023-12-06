@@ -93,8 +93,8 @@
                             </div>
                         </div>
                         <div style="float: right;">
-                            <button class="btn btn-primary" type="button"
-                                onclick="animeEpisodeCreateFormSubmit()">Kaydet</button>
+                            <button class="btn btn-primary" type="button" onclick="animeEpisodeCreateFormSubmit()"
+                                id="animeEpisodeCreateSubmitButton">Kaydet</button>
                         </div>
                     </div>
                 </form>
@@ -104,86 +104,101 @@
 </div>
 
 <script>
+    var is_submitted = false;
     function animeEpisodeCreateFormSubmit(){
-        var video = document.getElementById('video').value;
-        var name = document.getElementById('name').value;
-        var season_short = document.getElementById('season_short').value;
-        var episode_short = document.getElementById('episode_short').value;
-        var publish_date = document.getElementById('publish_date').value;
+        if(!is_submitted){
 
-        var intro_start_time_min = document.getElementById('intro_start_time_min').value;
-        var intro_start_time_sec = document.getElementById('intro_start_time_sec').value;
-        var intro_end_time_min = document.getElementById('intro_end_time_min').value;
-        var intro_end_time_sec = document.getElementById('intro_end_time_sec').value;
+            is_submitted = true;
+            document.getElementById("animeEpisodeCreateSubmitButton").disabled = true;
 
-        if(video == "" || name == "" || season_short == "" || episode_short == "" || publish_date==""|| intro_start_time_min==""|| intro_start_time_sec==""|| intro_end_time_min==""|| intro_end_time_sec==""){
-            Swal.fire({
-                icon: 'error',
-                title: 'Hata',
-                text: 'Lütfen Gerekli Doldurunuz!',
-            })
-        }else{
+            var video = document.getElementById('video').value;
+            var name = document.getElementById('name').value;
+            var season_short = document.getElementById('season_short').value;
+            var episode_short = document.getElementById('episode_short').value;
+            var publish_date = document.getElementById('publish_date').value;
 
-            var formData = new FormData(document.getElementById('animeEpisodeCreateForm'));
+            var intro_start_time_min = document.getElementById('intro_start_time_min').value;
+            var intro_start_time_sec = document.getElementById('intro_start_time_sec').value;
+            var intro_end_time_min = document.getElementById('intro_end_time_min').value;
+            var intro_end_time_sec = document.getElementById('intro_end_time_sec').value;
 
-            Swal.fire({
-                title: "Yükleniyor..!",
-                text: "Video Yüklenmeye Başladı. Lütfen Tamamlanana kadar bu sayfayı kapatmayınız!",
-                icon: "warning"
-            });
+            if(
+                video == "" || name == "" || season_short == "" ||
+                episode_short == "" || publish_date==""|| intro_start_time_min==""||
+                intro_start_time_sec==""|| intro_end_time_min==""|| intro_end_time_sec==""
+                )
+                {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Hata',
+                    text: 'Lütfen Gerekli Doldurunuz!',
+                })
+            }else{
 
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                }
-            });
-            $.ajax({
-                url: '{{route("admin_anime_episodes_create")}}', // Dosya yüklemeyi işleyen PHP dosyanızın yolunu belirtin.
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                xhr: function () {
-                var xhr = new XMLHttpRequest();
+                var formData = new FormData(document.getElementById('animeEpisodeCreateForm'));
 
-                // İlerleme olayını dinle
-                xhr.upload.addEventListener('progress', function (e) {
-                if (e.lengthComputable) {
-                var percent = (e.loaded / e.total) * 100;
-                    document.getElementById('percentValue').innerText = parseInt(percent) + "%"
-                    document.getElementById('progress-bar-video').style.width = percent + "%"
+                Swal.fire({
+                    title: "Yükleniyor..!",
+                    text: "Video Yüklenmeye Başladı. Lütfen Tamamlanana kadar bu sayfayı kapatmayınız!",
+                    icon: "warning"
+                });
 
-                    document.getElementById('progress-bar-video').setAttribute("aria-valuenow", percent);
-                }
-                }, false);
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                });
+                $.ajax({
+                    url: '{{route("admin_anime_episodes_create")}}', // Dosya yüklemeyi işleyen PHP dosyanızın yolunu belirtin.
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    xhr: function () {
+                        var xhr = new XMLHttpRequest();
 
-                return xhr;
-                },
-                success: function (response) {
-                    // Yükleme tamamlandığında yapılacak işlemler
-                    //console.log(response);
-                    Swal.fire({
-                        title: "Başarılı",
-                        text: "Video Başarılı Bir Şekilde Yüklendi. Sayfayı Kapatabilirsiniz.",
-                        icon: "success"
-                    });
+                        // İlerleme olayını dinle
+                        xhr.upload.addEventListener('progress', function (e) {
+                        if (e.lengthComputable) {
+                        var percent = (e.loaded / e.total) * 100;
+                        document.getElementById('percentValue').innerText = parseInt(percent) + "%"
+                        document.getElementById('progress-bar-video').style.width = percent + "%"
 
-                    document.getElementById('percentValue').innerText = "Tamamlandı"
-                },
-                error: function (error) {
-                    // Hata durumunda yapılacak işlemler
-                    //console.log(error);
-                    Swal.fire({
-                        title: "Error",
-                        text: "Video yüklenirken bir hata meydana geldi.",
-                        icon: "error"
-                    });
+                        document.getElementById('progress-bar-video').setAttribute("aria-valuenow", percent);
+                        }
+                        }, false);
 
-                    document.getElementById('percentValue').innerText = "Hata"
-                    console.log('hata: ' + JSON.stringify(error));
-                }
-            });
+                        return xhr;
+                    },
+                    success: function (response) {
+                        // Yükleme tamamlandığında yapılacak işlemler
+                        //console.log(response);
+                        is_submitted = false;
+                        document.getElementById("animeEpisodeCreateSubmitButton").disabled = false;
+                        Swal.fire({
+                            title: "Başarılı",
+                            text: "Video Başarılı Bir Şekilde Yüklendi. Sayfayı Kapatabilirsiniz.",
+                            icon: "success"
+                        });
 
+                        document.getElementById('percentValue').innerText = "Tamamlandı"
+                    },
+                    error: function (error) {
+                        // Hata durumunda yapılacak işlemler
+                        //console.log(error);
+                        is_submitted = false;
+                        document.getElementById("animeEpisodeCreateSubmitButton").disabled = false;
+                        Swal.fire({
+                            title: "Error",
+                            text: "Video yüklenirken bir hata meydana geldi.",
+                            icon: "error"
+                        });
+
+                        document.getElementById('percentValue').innerText = "Hata"
+                            console.log('hata: ' + JSON.stringify(error));
+                    }
+                });
+            }
         }
     }
 

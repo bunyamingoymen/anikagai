@@ -16,16 +16,17 @@
                     <div class="col-lg-6">
                         <div class="hero__text">
                             <h2>{{$item->value}}</h2>
-                            <a href="{{$item->optional_2 ?? ''}}"><span>Sayfaya Git</span> <i
+                            <a href="{{$item->optional_2 ?? ''}}"><span>Şimdi İzle</span> <i
                                     class="fa fa-angle-right"></i></a>
                         </div>
+
                     </div>
-                </div>
-                <div class="video-container">
-                    <video class="video" preload="auto" loop>
-                        <source src="" type="video/mp4">
-                        Your browser does not support the video tag.
-                    </video>
+                    <div class="video-container">
+                        <video class="video" preload="auto" loop>
+                            <source src="" type="video/mp4">
+                            Your browser does not support the video tag.
+                        </video>
+                    </div>
                 </div>
             </div>
             @endforeach

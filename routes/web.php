@@ -46,6 +46,8 @@ Route::controller(IndexController::class)->group(function () {
     Route::post('addNewComment', 'addNewComment')->name('addNewComment');
 
     Route::get('/fetchVideo', 'fetchVideo');
+
+    Route::get('/profile', "profile")->name('profile');
 });
 
 Route::group(['middleware' => 'guest_index'], function () {
@@ -60,7 +62,6 @@ Route::group(['middleware' => 'guest_index'], function () {
 Route::group(['middleware' => 'index_user'], function () {
     //oturum kapalıyken girilmemesi gereken sayfalar
     Route::controller(IndexController::class)->group(function () {
-        Route::get('/profile', "profile")->name('profile');
 
         Route::get('/changeProfile', "changeProfileSettingsScreen")->name('change_profile_settings_screen');
         Route::post('/changeProfile', "changeProfileSettings")->name('change_profile_settings');
@@ -76,12 +77,14 @@ Route::group(['middleware' => 'index_user'], function () {
         Route::post('/followUser', 'followUser')->name('followUser');
         Route::post('/unfollowAnime', 'unfollowAnime')->name('unfollowAnime');
         Route::post('/unfollowWebtoon', 'unfollowWebtoon')->name('unfollowWebtoon');
-        Route::post('/unfollowUser', 'unfollowUser')->name('unfollowUser');
         Route::post('/likeAnime', 'likeAnime')->name('likeAnime');
         Route::post('/likeWebtoon', 'likeWebtoon')->name('likeWebtoon');
         Route::post('/unlikeAnime', 'unlikeAnime')->name('unlikeAnime');
         Route::post('/unlikeWebtoon', 'unlikeWebtoon')->name('unlikeWebtoon');
         Route::post('/scoreUser', 'scoreUser')->name('scoreUser');
+
+        Route::post('/followUser', 'followIndexUser')->name('followIndexUser');
+        Route::post('/unfollowUser', 'unfollowIndexUser')->name('unfollowIndexUser');
     });
 });
 

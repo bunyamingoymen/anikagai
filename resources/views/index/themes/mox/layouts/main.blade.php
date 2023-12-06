@@ -28,6 +28,11 @@
     <link rel="stylesheet" href="../../../user/mox/css/default.css">
     <link rel="stylesheet" href="../../../user/mox/css/style.css">
     <link rel="stylesheet" href="../../../user/mox/css/responsive.css">
+
+    <!--plyr-->
+    <script src="../../../user/animex/js/player.js"></script>
+    <link rel="stylesheet" href="../../../user/animex/css/plyr.css" type="text/css">
+
 </head>
 
 <body>
@@ -71,6 +76,7 @@
     <script src="../../../user/mox/js/aos.js"></script>
     <script src="../../../user/mox/js/plugins.js"></script>
     <script src="../../../user/mox/js/main.js"></script>
+
     <!-- Sweet Alerts js -->
     <script src="../../../admin/assets/libs/sweetalert2/sweetalert2.min.js"></script>
 </body>

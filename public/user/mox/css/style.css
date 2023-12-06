@@ -2959,3 +2959,89 @@ label {
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
 }
+
+.anime__video__player {
+    margin-bottom: 70px;
+}
+
+.anime__video__player .plyr--video {
+    border-radius: 5px;
+    background: transparent;
+}
+
+.anime__video__player .plyr audio,
+.anime__video__player .plyr iframe,
+.anime__video__player .plyr video {
+    width: 102%;
+}
+
+.anime__video__player .plyr--full-ui.plyr--video .plyr__control--overlaid {
+    display: block;
+}
+
+.anime__video__player .plyr--video .plyr__control.plyr__tab-focus,
+.anime__video__player .plyr--video .plyr__control:hover,
+.anime__video__player .plyr--video .plyr__control[aria-expanded=true] {
+    background: transparent;
+}
+
+.anime__video__player .plyr--video .plyr__controls {
+    background: transparent;
+}
+
+.anime__video__player .plyr--video .plyr__progress__buffer {
+    color: transparent;
+}
+
+
+
+.anime__video__player .plyr__controls .plyr__controls__item.plyr__progress__container {
+    position: absolute;
+    left: 26px;
+    bottom: 45px;
+    width: calc(100% - 60px);
+}
+
+.anime__video__player .plyr__menu {
+    margin-right: 1%;
+}
+
+.anime__video__player .plyr__controls .plyr__controls__item:first-child {
+    position: absolute;
+    left: 32px;
+    bottom: 8px;
+}
+
+.anime__video__player .plyr__controls .plyr__controls__item:last-child {
+    position: absolute;
+    right: 32px;
+    bottom: 8px;
+}
+
+.anime__video__player .plyr__volume {
+    position: absolute;
+    width: auto;
+    left: 176px;
+}
+
+.anime__video__player .plyr__time--current {
+    position: absolute;
+    width: auto;
+    left: 76px;
+}
+
+.anime__video__player .plyr__time--duration {
+    position: absolute;
+    width: auto;
+    left: 126px;
+}
+
+.anime__video__player .plyr__control--overlaid {
+    background: transparent;
+    background: var(--plyr-video-control-background-hover, var(--plyr-color-main, var(--plyr-color-main, transparent)));
+}
+
+.anime__video__player .plyr__control--overlaid svg {
+    height: 60px;
+    width: 50px;
+}

@@ -80,15 +80,12 @@
     });
 
     // Owl Carousel'ın duraklatılması ve devam ettirilmesi
-    hero_s
-        .on("mouseenter", function () {
-            hero_s.trigger("stop.owl.autoplay");
-        })
-        .on("mouseleave", function () {
-            hero_s.trigger("play.owl.autoplay", [
-                hero_s.data("owl.autoplay.timeout"),
-            ]);
-        });
+    hero_s.on("mouseenter", function () {
+        hero_s.trigger("stop.owl.autoplay");
+    });
+    hero_s.on("mouseleave", function () {
+        hero_s.trigger("play.owl.autoplay");
+    });
 
     /*------------------
         Video Player

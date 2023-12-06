@@ -80,11 +80,15 @@
                             <img src="../../../{{$main_comment->user_image ?? 'user/img/profile/default.png'}}" alt="">
                         </div>
                         <div class="anime__review__item__text">
-                            <h6>{{$main_comment->user_name ?? 'not_found'}} - <span>{{$main_comment->date}}</span></h6>
+                            <h6>
+                                <a style="color:#fff;" href={{url('profile?username='.$main_comment->user_username)}}>
+                                    {{$main_comment->user_name ?? ' not_found'}} </a>
+                                    - <span>{{$main_comment->date}}</span>
+                            </h6>
                             <p>{{$main_comment->message}}</p>
 
                             <a href="javascript:;" style="color:white; float:right;"
-                                onclick="ReplyComment('AnswerMain{{$loop->index}}','{{$webtoon->code}}','0','1','{{$main_comment->code}}')">
+                                onclick="ReplyComment('AnswerMain{{$loop->index}}','{{$episode->code}}','0','1','{{$main_comment->code}}')">
                                 <i class="fa fa-reply" aria-hidden="true"></i> Reply
                             </a>
                         </div>
@@ -96,12 +100,15 @@
                             <img src="../../../{{$alt_comment->user_image ?? 'user/img/profile/default.png'}}" alt="">
                         </div>
                         <div class="anime__review__item__text">
-                            <h6>{{$alt_comment->user_name ?? 'not_found'}} - <span>{{$alt_comment->date}}</span>
+                            <h6>
+                                <a style="color:#fff;" href={{url('profile?username='.$alt_comment->user_username)}}>
+                                    {{$alt_comment->user_name ?? ' not_found'}} </a>
+                                    - <span>{{$alt_comment->date}}</span>
                             </h6>
                             <p>{{$alt_comment->message}}</p>
 
                             <a href="javascript:;" style="color:white; float:right;"
-                                onclick="ReplyComment('AnswerAltMain{{$loop->index}}','{{$webtoon->code}}','0','1','{{$main_comment->code}}')">
+                                onclick="ReplyComment('AnswerAltMain{{$loop->index}}','{{$episode->code}}','0','1','{{$main_comment->code}}')">
                                 <i class="fa fa-reply" aria-hidden="true"></i> Reply
                             </a>
                         </div>
@@ -122,7 +129,8 @@
                     <form action="{{route('addNewComment')}}" method="POST">
                         @csrf
                         <div hidden>
-                            <input type="text" name="content_code" value="{{$webtoon->code}}">
+                            <input type="text" name="webtoon_code" value="{{$webtoon->code}}">
+                            <input type="text" name="content_code" value="{{$episode->code}}">
                             <input type="text" name="content_type" value="0">
                             <input type="text" name="comment_type" value="0">
                             <input type="text" name="comment_top_code" value="0">
@@ -191,6 +199,7 @@
                         <form action="{{route('addNewComment')}}" method="POST">
                             @csrf
                             <div hidden>
+                                <input type="text" name="webtoon_code" value="{{$webtoon->code}}">
                                 <input type="text" name="content_code" value="`+content_code+`">
                                 <input type="text" name="content_type" value="`+content_type+`">
                                 <input type="text" name="comment_type" value="`+comment_type+`">

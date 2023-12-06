@@ -32,7 +32,8 @@
                     <div class="row">
                         <div class="col-md-4 mb-3">
                             <label for="image">Resim:</label>
-                            <input type="file" class="form-control" id="image" name="image" placeholder="Dosya Seçiniz">
+                            <input type="file" class="form-control" id="image" name="image" placeholder="Dosya Seçiniz"
+                                accept="image/*">
                         </div>
                         <div class="col-lg-4 mb-3">
                             <label for="user_type">Kullanıcı Grubu</label>

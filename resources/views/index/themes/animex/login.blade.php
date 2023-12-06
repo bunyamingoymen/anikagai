@@ -86,17 +86,24 @@
 <!-- Js Plugins -->
 <script src="../../../user/animex/js/jquery-3.3.1.min.js"></script>
 
+<!--Kayıt İşlemleri için fonksiyonlar-->
 <script>
     var controlIsUsername = false;
     var controlIsEmail = false;
     function controlUsername() {
         var username = document.getElementById("registerUsername").value;
+        var regex = /^[a-zA-Z0-9]+$/;
         if (username.length < 3) {
             document.getElementById("controlUsernameText").innerText =
                 "Kullanılamaz";
             document.getElementById("controlUsernameText").style.color = "red";
             controlIsUsername = false;
-        } else {
+        } else if(!regex.test(username)){
+            document.getElementById("controlUsernameText").innerText =
+                "Kullanılamaz";
+            document.getElementById("controlUsernameText").style.color = "red";
+            controlIsUsername = false;
+        }else {
             $.ajaxSetup({
                 headers: {
                     "X-CSRF-TOKEN": "{{ csrf_token() }}",
@@ -199,5 +206,17 @@
     }
 
 </script>
+
+<script>
+    @if(session('error'))
+    Swal.fire({
+        title: "Hata",
+        text: "{{session('error')}}",
+        icon: "error"
+        });
+    document.getElementsByClassName('nice-select')[0].hidden = true;
+    @endif
+</script>
+
 
 @endsection

@@ -10,11 +10,11 @@ use App\Models\Contact;
 use App\Models\FavoriteAnime;
 use App\Models\FavoriteWebtoon;
 use App\Models\FollowAnime;
+use App\Models\FollowIndexUser;
 use App\Models\FollowWebtoon;
 use App\Models\IndexUser;
 use App\Models\KeyValue;
 use App\Models\Page;
-use App\Models\Tag;
 use App\Models\Theme;
 use App\Models\ThemeSetting;
 use App\Models\WatchedAnime;
@@ -254,7 +254,7 @@ class IndexController extends Controller
         $content_type = 1; //anime olduğu için
         $comments_main = DB::table('comments')
             ->Where('comments.deleted', 0)
-            ->Where('comments.content_code', $anime->code)
+            ->Where('comments.content_code', $episode->code)
             ->Where('comments.content_type', $content_type)
             ->Where('comments.comment_type', 0)
             ->Where('comments.comment_top_code', 0)
@@ -265,7 +265,7 @@ class IndexController extends Controller
 
         $comments_alt = DB::table('comments')
             ->Where('comments.deleted', 0)
-            ->Where('comments.content_code', $anime->code)
+            ->Where('comments.content_code', $episode->code)
             ->Where('comments.content_type', $content_type)
             ->Where('comments.comment_type', 1)
             ->Where('comments.comment_top_code', "!=", 0)
@@ -376,7 +376,7 @@ class IndexController extends Controller
 
         $comments_main = DB::table('comments')
             ->Where('comments.deleted', 0)
-            ->Where('comments.content_code', $webtoon->code)
+            ->Where('comments.content_code', $episode->code)
             ->Where('comments.content_type', $content_type)
             ->Where('comments.comment_type', 0)
             ->Where('comments.comment_top_code', 0)
@@ -389,7 +389,7 @@ class IndexController extends Controller
 
         $comments_alt = DB::table('comments')
             ->Where('comments.deleted', 0)
-            ->Where('comments.content_code', $webtoon->code)
+            ->Where('comments.content_code', $episode->code)
             ->Where('comments.content_type', $content_type)
             ->Where('comments.comment_type', 1)
             ->Where('comments.comment_top_code', "!=", 0)
@@ -472,11 +472,11 @@ class IndexController extends Controller
         $comment->save();
 
         if ($request->content_type == 0) {
-            $webtoon = Webtoon::Where('code', $request->content_code)->first();
+            $webtoon = Webtoon::Where('code', $request->webtoon_code)->first();
             $webtoon->comment_count = $webtoon->comment_count + 1;
             $webtoon->save();
         } else if ($request->content_type == 1) {
-            $anime = Anime::Where('code', $request->content_code)->first();
+            $anime = Anime::Where('code', $request->anime_code)->first();
             $anime->comment_count = $anime->comment_count + 1;
             $anime->save();
         }
@@ -574,7 +574,15 @@ class IndexController extends Controller
             ->select('webtoons.*')
             ->get();
 
-        return $this->loadThemeView('profile', compact('user', 'favorite_animes', 'follow_animes', 'watched_animes', 'favorite_webtoons', 'follow_webtoons', 'readed_webtoons'));
+        $followed_user = false;
+        if ($user->code != Auth::user()->code) {
+            $followed_user = FollowIndexUser::where('followed_user_code', $user->code)
+                ->where('user_code', Auth::user()->code)->exists();
+        }
+
+        //dd($followed_user);
+
+        return $this->loadThemeView('profile', compact('user', 'favorite_animes', 'follow_animes', 'watched_animes', 'favorite_webtoons', 'follow_webtoons', 'readed_webtoons', 'followed_user'));
     }
 
     public function changeProfileSettingsScreen()

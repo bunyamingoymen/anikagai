@@ -171,7 +171,6 @@
                                 class="watch-btn"><span>İlk Bölümü
                                     İzle</span> <i class="fa fa-angle-right"></i></a>
                         </div>
-                        <p id="likeWebtoonTextMessage" style="color:red;"></p>
                     </div>
                     <div class="anime__details__rating">
                         <span>{{$webtoon->scoreUsers}} Oy Kullanıldı</span>
@@ -275,6 +274,7 @@
 
 <!--Beğenme, Beğenmeme ile ilgili fonksiyonlar-->
 <script>
+    const authMessage = "Lütfen İlk Önce Giriş Yapınız!"
     function followWebtoon(){
         @if (Auth::user())
             var code = `<form action="{{route('followWebtoon')}}" method="POST" id="followWebtoonForm">
@@ -285,7 +285,12 @@
             document.getElementById('hiddenDiv').innerHTML = code;
             document.getElementById('followWebtoonForm').submit();
         @else
-            document.getElementById('likeWebtoonTextMessage').innerText = "Lütfen Giriş Yapınız."
+            Swal.fire({
+                title: "Hata",
+                text: authMessage,
+                color: "#fff",
+                icon: "error"
+            });
         @endif
     }
     function unfollowWebtoon(){
@@ -298,7 +303,12 @@
             document.getElementById('hiddenDiv').innerHTML = code;
             document.getElementById('unfollowWebtoonForm').submit();
         @else
-            document.getElementById('likeWebtoonTextMessage').innerText = "Lütfen Giriş Yapınız."
+            Swal.fire({
+                title: "Hata",
+                text: authMessage,
+                color: "#fff",
+                icon: "error"
+            });
         @endif
     }
     function likeWebtoon(){
@@ -311,7 +321,12 @@
             document.getElementById('hiddenDiv').innerHTML = code;
             document.getElementById('likeWebtoonForm').submit();
         @else
-            document.getElementById('likeWebtoonTextMessage').innerText = "Lütfen Giriş Yapınız."
+            Swal.fire({
+                    title: "Hata",
+                    text: authMessage,
+                    color: "#fff",
+                    icon: "error"
+            });
         @endif
     }
     function dislikeWebtoon(){
@@ -324,7 +339,12 @@
             document.getElementById('hiddenDiv').innerHTML = code;
             document.getElementById('unlikeWebtoonForm').submit();
         @else
-            document.getElementById('likeWebtoonTextMessage').innerText = "Lütfen Giriş Yapınız."
+            Swal.fire({
+                title: "Hata",
+                text: authMessage,
+                color: "#fff",
+                icon: "error"
+            });
         @endif
     }
 </script>
@@ -350,7 +370,12 @@
             document.getElementById("hiddenDiv").innerHTML = html;
             document.getElementById("scoreUserSubmitForm").submit();
         @else
-        document.getElementById("likeWebtoonTextMessage").innerText = "Lütfen İlk Önce Giriş Yapınız.";
+            Swal.fire({
+                title: "Hata",
+                text: authMessage,
+                color: "#fff",
+                icon: "error"
+            });
         @endif
     }
 </script>

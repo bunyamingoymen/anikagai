@@ -12,7 +12,7 @@
 
     .overlay-button {
         position: absolute;
-        bottom: 125px;
+        bottom: 75px;
         /* Alt kenardan biraz yukarıda */
         right: 25px;
         /* Sağ kenardan biraz sola */
@@ -21,11 +21,11 @@
         /* Yarı şeffaf siyah arkaplan */
         color: white;
         border-radius: 8px;
-        border: 2px solid rgba(255, 255, 255, 0.5);
+        border: 2px solid rgba(255, 255, 255, 0);
         /* Beyaz yarı şeffaf sınır (border) */
-        display: none;
+        display: block;
         opacity: 0;
-        transition: opacity 0.5s ease, transform 0.5s ease, border 0.5s ease;
+        transition: opacity 0.5s ease, transform 0.1s ease, border 0.1s ease;
         /* Border için de animasyon eklendi */
         box-shadow: 0 2px 10px #0b0c2a;
         /* Gölge efekti */
@@ -34,11 +34,14 @@
         z-index: 99999999;
     }
 
-    .overlay-button.show {
-        display: block;
-        opacity: 0.85;
-        transform: translateY(-10px);
-        /* Yavaşça yukarı kaydırma */
+    .overlay-button:hover {
+        opacity: 1;
+        border: 2px solid rgba(255, 255, 255, 0.5);
+    }
+
+    .video_size_class {
+        max-width: 1280px !important;
+        max-height: 550px !important;
     }
 
 
@@ -52,22 +55,16 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-
-
                 <div class="anime__video__player justify-content-center">
-                    <video id="my-video" class="plyr" controls crossorigin playsinline
-                        poster="../../../{{$anime->image}}"
-                        style="max-width: 1280px !important; max-height: 550px !important;">
+                    <video id="anime-video-player-url" class="plyr video_size_class" controls crossorigin playsinline
+                        poster="../../../{{$anime->image}}">
                         <source src="../../../{{$episode->video}}" type="video/mp4" size="720" />
-                        <source src="../../../{{$episode->video}}" type="video/mp4" size="480" />
                         <!-- Diğer çözünürlükleri buraya ekleyebilirsiniz -->
                         Your browser does not support the video tag.
                     </video>
 
-                    <!-- Buton -->
-                    <button id="introButton" class="overlay-button">İntroyu atla</button>
                     @if ($next_episode_url != "none")
-                    <button id="nextEpisodeButton" class="overlay-button" style="display:none;">Sonraki bölüme
+                    <button id="nextEpisodeButton" class="overlay-button" style="display:none;" hidden>Sonraki bölüme
                         geç</button>
                     @endif
 
@@ -127,11 +124,15 @@
                             <img src="../../../{{$main_comment->user_image ?? 'user/img/profile/default.png'}}" alt="">
                         </div>
                         <div class="anime__review__item__text">
-                            <h6>{{$main_comment->user_name ?? 'not_found'}} - <span>{{$main_comment->date}}</span></h6>
+                            <h6>
+                                <a style="color:#fff;" href={{url('profile?username='.$main_comment->user_username)}}  >
+                                    {{$main_comment->user_name ?? ' not_found'}} </a>
+                                    - <span>{{$main_comment->date}}</span>
+                            </h6>
                             <p>{{$main_comment->message}}</p>
 
                             <a href="javascript:;" style="color:white; float:right;"
-                                onclick="ReplyComment('AnswerMain{{$loop->index}}','{{$anime->code}}','1','1','{{$main_comment->code}}')">
+                                onclick="ReplyComment('AnswerMain{{$loop->index}}','{{$episode->code}}','1','1','{{$main_comment->code}}')">
                                 <i class="fa fa-reply" aria-hidden="true"></i> Reply
                             </a>
                         </div>
@@ -143,12 +144,15 @@
                             <img src="../../../{{$alt_comment->user_image ?? 'user/img/profile/default.png'}}" alt="">
                         </div>
                         <div class="anime__review__item__text">
-                            <h6>{{$alt_comment->user_name ?? 'not_found'}} - <span>{{$alt_comment->date}}</span>
+                            <h6>
+                                <a style="color:#fff;" href={{url('profile?username='.$alt_comment->user_username)}}>
+                                    {{$alt_comment->user_name ?? ' not_found'}} </a>
+                                    - <span>{{$alt_comment->date}}</span>
                             </h6>
                             <p>{{$alt_comment->message}}</p>
 
                             <a href="javascript:;" style="color:white; float:right;"
-                                onclick="ReplyComment('AnswerAltMain{{$loop->index}}','{{$anime->code}}','1','1','{{$main_comment->code}}')">
+                                onclick="ReplyComment('AnswerAltMain{{$loop->index}}','{{$episode->code}}','1','1','{{$main_comment->code}}')">
                                 <i class="fa fa-reply" aria-hidden="true"></i> Reply
                             </a>
                         </div>
@@ -169,7 +173,8 @@
                     <form action="{{route('addNewComment')}}" method="POST">
                         @csrf
                         <div hidden>
-                            <input type="text" name="content_code" value="{{$anime->code}}">
+                            <input type="text" name="anime_code" value="{{$anime->code}}">
+                            <input type="text" name="content_code" value="{{$episode->code}}">
                             <input type="text" name="content_type" value="1">
                             <input type="text" name="comment_type" value="0">
                             <input type="text" name="comment_top_code" value="0">
@@ -218,91 +223,193 @@
 
 <!-- Video Ayarları -->
 <script>
-    var intro_start_time_min = {{$episode->intro_start_time_min ?? 0}};
-    var intro_start_time_sec = {{$episode->intro_start_time_sec ?? 0}};
-    var intro_end_time_min = {{$episode->intro_end_time_min ?? 0}};
-    var intro_end_time_sec = {{$episode->intro_end_time_sec ?? 1}};
-    var endIntroButtonTime = 60 * intro_end_time_min + intro_end_time_sec; // Başlangıç zamanı
+    var intro_start_time_min = {{$episode->intro_start_time_min ?? 0}}; // intr başlama zamanı dakikası
+    var intro_start_time_sec = {{$episode->intro_start_time_sec ?? 0}}; // intro başlama saniyesi
+    var showIntroButtonTime = 60 * intro_start_time_min + intro_start_time_sec; // İntro Başlangıç zamanı
+    var intro_end_time_min = {{$episode->intro_end_time_min ?? 0}}; //intro bitiş zamanı dakikası
+    var intro_end_time_sec = {{$episode->intro_end_time_sec ?? 1}}; //intro bitiş zamanı saniyesi
+    var endIntroButtonTime = 60 * intro_end_time_min + intro_end_time_sec; // intro bitiş zamanı
 
+    var is_show_intro_button = false; //Daha önce intryo atla butonu gösterildi mi?
+    var is_hide_intro_button = false; //Daha önce introyu atla butonu gizlendi mi?
+
+    var is_show_next_episode_button = false; //Daha önce bir sonraki bölüme atla butonu gösteirldi mi?
+
+    //plyr de gösterilecek kontroller
+    var controls = [
+        'play-large', // ortadaki büyük başlat tuşu
+        'play', // alttaki başlat tuşu
+        'progress', // İlerleme Bölümü
+        'current-time', // Şu anki zaman
+        'duration', // Toplam zaman
+        'mute', // Ses kapatma
+        'volume', // Ses kontrol
+        'settings', // Ayarler menüsü
+        'fullscreen', // fullscreen tuşu
+    ];
+
+    var settings = [
+        'play',
+        'captions',
+        'quality',
+        'speed',
+        'loop'
+    ];
+
+    var tooltips = { controls: false, seek: true };
+
+    //plyr kütüphanesi elemanları
     document.addEventListener('DOMContentLoaded', function () {
-        const player = new Plyr('#my-video');
-        var showIntroButtonTime = 60 * intro_start_time_min + intro_start_time_sec; // Başlangıç zamanı
-        var showNextEpisodeButtonTime = null; // Video süresinin son 10 saniyesi
-        var restartRequired = false; // Video restart gerekli mi?
 
-        // Video başlatıldığında
-        player.on('play', function () {
-            showNextEpisodeButtonTime = player.duration - 10;
+
+        var player = new Plyr('#anime-video-player-url',{
+            controls: controls,
+            settings: settings,
+            tooltips: tooltips,
         });
 
-        // Video oynatıldığında
+        //introButton oluşturuluyor
+        var introButton = document.createElement('button');
+        introButton.type = 'button';
+        introButton.id = 'introButton';
+        introButton.className = 'plyr__controls__item overlay-button'; // Plyr kontrol sınıfını ekleyin
+        introButton.innerHTML = 'İntroyu Atla';
+        introButton.hidden = true;
+        document.getElementsByClassName('plyr__controls')[0].appendChild(introButton);
+
+        //bir sonraki bölüm varsa. Sonraki bölüme atla butonu oluşturuluyor.
+        @if ($next_episode_url != "none")
+            var nextButton = document.createElement('button');
+            nextButton.type = 'button';
+            nextButton.id = 'nextEpisodeButton';
+            nextButton.className = 'plyr__controls__item overlay-button'; // Plyr kontrol sınıfını ekleyin
+            nextButton.innerHTML = 'Sonraki Bölüme Geç';
+            nextButton.hidden = true;
+            document.getElementsByClassName('plyr__controls')[0].appendChild(nextButton);
+        @endif
+
+        var showNextEpisodeButtonTime = null; // Video süresinin son 10 saniyesi
+        var isFullScreen = false; //video tam ekranda mı?
+
+        // Video başlatıldığında / durdurulup-başlatıldığında
+        player.on('play', function () {
+            showNextEpisodeButtonTime = player.duration - 140;
+        });
+
+        // Video oynatılırken
         player.on('timeupdate', function (event) {
             var currentTime = event.detail.plyr.currentTime; // Geçerli video zamanını al
 
-            // Belirli bir sürede iseniz
-            if (currentTime >= showIntroButtonTime && currentTime <= intro_end_time_min * 60 + intro_end_time_sec) {
-                // Butonu göster
+            // İntro başlangıç zamanı ile bitiş zamanı arassında ise ve daha önce intro butonu gözükmediyse
+            if ((currentTime >= showIntroButtonTime && currentTime <= endIntroButtonTime) && !is_show_intro_button) {
+                // İntroyu atla butonunu göster
                 showButton('introButton');
-            }else {
-                // Butonları gizle
+                is_show_intro_button = true;
+
+                //intro Atla butonunun aktif olduğunu göstermek için control'ü gösteriyoruz. ve 3 saniye sonra gizliyoruz.
+                document.getElementsByClassName('plyr--video')[0].classList.remove('plyr--hide-controls');
+                controlsTimeout = setTimeout(() => {
+                    document.getElementsByClassName('plyr--video')[0].classList.add('plyr--hide-controls');
+                }, 3000); // 3000 milisaniye (3 saniye) sonra gizle
+            }
+
+            //introyu atla butonu daha önce gizlenmediyse ve şu anki zaamn introyu atla zamanını geçtiyse butonu gizler
+            if (currentTime > endIntroButtonTime && !is_hide_intro_button) {
+                // İntroyu atla butonunu gizle
                 hideButton('introButton');
+                is_hide_intro_button = true;
             }
 
-            if (showNextEpisodeButtonTime !== null && currentTime >= showNextEpisodeButtonTime) {
-                // Yeni butonu göster
-                @if ($next_episode_url != "none")
+            //bir sonraki bölüm varsa son saniyeler buton gözükür.
+            @if ($next_episode_url != "none")
+                //Video son 10 saniyesinde ve daah önce sonraki bölüme geç butonu gösterilmediyse
+                if (showNextEpisodeButtonTime !== null && showNextEpisodeButtonTime <= currentTime && !is_show_next_episode_button) {
                     showButton('nextEpisodeButton');
-                @endif
-            } else {
-                @if ($next_episode_url != "none")
-                    hideButton('nextEpisodeButton');
-                @endif
+                    is_show_next_episode_button = true;
+
+                    //Sonraki Bölüme Atla butonunun aktif olduğunu göstermek için control'ü gösteriyoruz. ve 3 saniye sonra gizliyoruz.
+                    document.getElementsByClassName('plyr--video')[0].classList.remove('plyr--hide-controls');
+                    controlsTimeout = setTimeout(() => {
+                        document.getElementsByClassName('plyr--video')[0].classList.add('plyr--hide-controls');
+                    }, 3000); // 3000 milisaniye (3 saniye) sonra gizle
+                }
+            @endif
+
+        });
+
+        //video tam ekran butonuna basıldığında
+        player.on('fullscreenchange', (event) => {
+            if(isFullScreen){
+                //tam ekrandan çıkıyor
+                isFullScreen = false;
+                document.getElementById('anime-video-player-url').classList.add('video_size_class');
+
+            }
+            else{
+                //tam ekrana giriyor
+                isFullScreen = true;
+                document.getElementById('anime-video-player-url').classList.remove('video_size_class');
+
             }
         });
 
-        // Video restart olduğunda
+        //video yeniden başlatıldğında
         player.on('restart', function () {
-            if (restartRequired) {
+            //Video yeniden başlatılırsa introyu atla ve sonraki bölüme atla değerleri sıfırlanması gerekmektedir.
+            var is_show_intro_button = false;
+            var is_hide_intro_button = false;
+            var is_show_next_episode_button = false;
 
-                var targetTime = intro_end_time_min * 60 + intro_end_time_sec;
-
-                // Belirli bir süreye atla
-                player.currentTime = targetTime;
-
-                // Videoyu oynat
-                player.play();
-            }
+            hideButton('introButton');
+            @if ($next_episode_url != "none")
+                hideButton('nextEpisodeButton');
+            @endif
         });
 
-        // Butonlara tıklandığında
-        var introButton = document.getElementById('introButton');
+        //sayfa tamamen yüklendiğin
+        $(document).ready(function () {
+           // Butonlara tıklandığında
+            var introButton = document.getElementById('introButton');
 
-
-        if (introButton) {
-            introButton.addEventListener('click', function () {
-                // Videoyu restart et
-                player.currentTime =endIntroButtonTime;
-            });
-        }
-        @if ($next_episode_url != "none")
-            var nextEpisodeButton = document.getElementById('nextEpisodeButton');
-                if (nextEpisodeButton) {
-                    nextEpisodeButton.addEventListener('click', function () {
-                    // Belirlediğiniz linke git
-                    window.location.href = '{{url($next_episode_url)}}'; // bir sonraki bölüm url'i
+            //introButton tuşu varsa ve ona basılırsa
+            if (introButton) {
+                introButton.addEventListener('click', function () {
+                    player.currentTime =endIntroButtonTime;
                 });
             }
-        @endif
 
+            //bir sonraki bölüm varsa ve ona basılırsa
+            @if ($next_episode_url != "none")
+                var nextEpisodeButton = document.getElementById('nextEpisodeButton');
+                if (nextEpisodeButton) {
+                    nextEpisodeButton.addEventListener('click', function () {
+                        // Belirlediğiniz linke git
+                        window.location.href = '{{url($next_episode_url)}}'; // bir sonraki bölüm url'i
+                    });
+                }
+            @endif
+        })
 
         // Butonu göster
         function showButton(buttonId) {
             var button = document.getElementById(buttonId);
             if (button) {
-                button.style.display = 'block';
-                setTimeout(function () {
-                    button.classList.add('show');
-                }, 10); // Küçük bir gecikme ekleyerek yavaşça göster
+                opacity = 0;
+                count = 0;
+                button.hidden = false;
+                var old_opacity = button.style.opacity;
+                if(old_opacity == 0){
+                    var animationInterval = setInterval(function() {
+                        if (count < 8)
+                        {
+                            count++; button.style.display='block' ;
+                            opacity +=0.1; button.style.opacity=opacity;
+                        } else {
+                            clearInterval(animationInterval);
+                        }
+                    }, 10);
+                }
+
             }
         }
 
@@ -310,12 +417,12 @@
         function hideButton(buttonId) {
             var button = document.getElementById(buttonId);
             if (button) {
-                setTimeout(function () {
-                    button.style.display = 'none';
-                }, 500); // Gösterme animasyonunun tamamlanması için bir gecikme ekleyebilirsiniz
+                button.hidden = true;
+                button.opacity = 0;
             }
         }
     });
+
 </script>
 
 <!-- Yorum ayarları -->
@@ -328,6 +435,7 @@
                     <form action="{{route('addNewComment')}}" method="POST">
                         @csrf
                         <div hidden>
+                            <input type="text" name="anime_code" value="{{$anime->code}}">
                             <input type="text" name="content_code" value="`+content_code+`">
                             <input type="text" name="content_type" value="`+content_type+`">
                             <input type="text" name="comment_type" value="`+comment_type+`">

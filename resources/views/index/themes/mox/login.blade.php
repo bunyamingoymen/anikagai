@@ -97,12 +97,18 @@
     var controlIsEmail = false;
     function controlUsername() {
         var username = document.getElementById("registerUsername").value;
+        var regex = /^[a-zA-Z0-9]+$/;
         if (username.length < 3) {
             document.getElementById("controlUsernameText").innerText =
                 "Kullanılamaz";
             document.getElementById("controlUsernameText").style.color = "red";
             controlIsUsername = false;
-        } else {
+        }else if(!regex.test(username)){
+            document.getElementById("controlUsernameText").innerText =
+                "Kullanılamaz";
+            document.getElementById("controlUsernameText").style.color = "red";
+            controlIsUsername = false;
+        }else {
             $.ajaxSetup({
                 headers: {
                     "X-CSRF-TOKEN": "{{ csrf_token() }}",

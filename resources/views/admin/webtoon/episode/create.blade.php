@@ -66,8 +66,8 @@
                         </div>
                     </div>
                     <div style="float: right;">
-                        <button class="btn btn-primary" type="button"
-                            onclick="webtoonEpisodeCreateFormSubmit()">Kaydet</button>
+                        <button class="btn btn-primary" type="button" onclick="webtoonEpisodeCreateFormSubmit()"
+                            id="webtoonEpisodeCreateSubmitButton">Kaydet</button>
                     </div>
                 </form>
             </div>
@@ -75,81 +75,92 @@
     </div>
 </div>
 <script>
+    var is_submitted = false;
     function webtoonEpisodeCreateFormSubmit(){
-        var video = document.getElementById('video').value;
-        var name = document.getElementById('name').value;
-        var season_short = document.getElementById('season_short').value;
-        var episode_short = document.getElementById('episode_short').value;
-        var publish_date = document.getElementById('publish_date').value;
+        if(!is_submitted){
 
-        if(video == "" || name == "" || season_short == "" || episode_short == "" || publish_date==""){
-            Swal.fire({
-                icon: 'error',
-                title: 'Hata',
-                text: 'Lütfen Gerekli Doldurunuz!',
-            })
-        }else{
+            is_submitted = true;
+            document.getElementById("webtoonEpisodeCreateSubmitButton").disabled = true;
 
-            var formData = new FormData(document.getElementById('webtoonEpisodeCreateForm'));
+            var video = document.getElementById('video').value;
+            var name = document.getElementById('name').value;
+            var season_short = document.getElementById('season_short').value;
+            var episode_short = document.getElementById('episode_short').value;
+            var publish_date = document.getElementById('publish_date').value;
 
-            Swal.fire({
-                title: "Yükleniyor..!",
-                text: "Video Yüklenmeye Başladı. Lütfen Tamamlanana kadar bu sayfayı kapatmayınız!",
-                icon: "warning"
-            });
+            if(video == "" || name == "" || season_short == "" || episode_short == "" || publish_date==""){
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Hata',
+                    text: 'Lütfen Gerekli Doldurunuz!',
+                })
+            }else{
 
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                }
-            });
-            $.ajax({
-                url: '{{route("admin_webtoon_episodes_create")}}', // Dosya yüklemeyi işleyen PHP dosyanızın yolunu belirtin.
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                xhr: function () {
-                var xhr = new XMLHttpRequest();
+                var formData = new FormData(document.getElementById('webtoonEpisodeCreateForm'));
 
-                // İlerleme olayını dinle
-                xhr.upload.addEventListener('progress', function (e) {
-                if (e.lengthComputable) {
-                var percent = (e.loaded / e.total) * 100;
-                    document.getElementById('percentValue').innerText = parseInt(percent) + "%"
-                    document.getElementById('progress-bar-video').style.width = percent + "%"
+                Swal.fire({
+                    title: "Yükleniyor..!",
+                    text: "Video Yüklenmeye Başladı. Lütfen Tamamlanana kadar bu sayfayı kapatmayınız!",
+                    icon: "warning"
+                });
 
-                    document.getElementById('progress-bar-video').setAttribute("aria-valuenow", percent);
-                }
-                }, false);
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                });
+                $.ajax({
+                    url: '{{route("admin_webtoon_episodes_create")}}', // Dosya yüklemeyi işleyen PHP dosyanızın yolunu belirtin.
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    xhr: function () {
+                        var xhr = new XMLHttpRequest();
 
-                return xhr;
-                },
-                success: function (response) {
-                    // Yükleme tamamlandığında yapılacak işlemler
-                    //console.log(response);
-                    Swal.fire({
-                        title: "Başarılı",
-                        text: "Webtoon Başarılı Bir Şekilde Yüklendi. Sayfayı Kapatabilirsiniz.",
-                        icon: "success"
-                    });
+                        // İlerleme olayını dinle
+                        xhr.upload.addEventListener('progress', function (e) {
+                        if (e.lengthComputable) {
+                        var percent = (e.loaded / e.total) * 100;
+                            document.getElementById('percentValue').innerText = parseInt(percent) + "%"
+                            document.getElementById('progress-bar-video').style.width = percent + "%"
 
-                    document.getElementById('percentValue').innerText = "Tamamlandı"
-                },
-                error: function (error) {
-                    // Hata durumunda yapılacak işlemler
-                    //console.log(error);
-                    Swal.fire({
-                        title: "Error",
-                        text: "Webtoon yüklenirken bir hata meydana geldi.",
-                        icon: "error"
-                    });
+                            document.getElementById('progress-bar-video').setAttribute("aria-valuenow", percent);
+                        }
+                        }, false);
 
-                    document.getElementById('percentValue').innerText = "Hata"
-                    console.log('hata: ' + JSON.stringify(error));
-                }
-            });
+                        return xhr;
+                    },
+                    success: function (response) {
+                        // Yükleme tamamlandığında yapılacak işlemler
+                        //console.log(response);
+                        is_submitted = false;
+                        document.getElementById("webtoonEpisodeCreateSubmitButton").disabled = false;
+                        Swal.fire({
+                            title: "Başarılı",
+                            text: "Webtoon Başarılı Bir Şekilde Yüklendi. Sayfayı Kapatabilirsiniz.",
+                            icon: "success"
+                        });
 
+                        document.getElementById('percentValue').innerText = "Tamamlandı"
+                    },
+                    error: function (error) {
+                        // Hata durumunda yapılacak işlemler
+                        //console.log(error);
+                        is_submitted = false;
+                        document.getElementById("webtoonEpisodeCreateSubmitButton").disabled = false;
+                        Swal.fire({
+                            title: "Error",
+                            text: "Webtoon yüklenirken bir hata meydana geldi.",
+                            icon: "error"
+                        });
+
+                        document.getElementById('percentValue').innerText = "Hata"
+                        console.log('hata: ' + JSON.stringify(error));
+                    }
+                });
+
+            }
         }
     }
 

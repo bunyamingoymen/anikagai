@@ -1,50 +1,50 @@
 Değiştiirlen dosyaları:
-.gitgone
-AnimeEpisodeController
-AuthController
-DataController
-FollowUserController
-IndexController
-IndexUserController
-PageController
-TagController
-UserController
-WebtoonCalendarController
-WebtoonEpisodesController
+-Index Controller;
+-IndexDataController;
 
-AccessMiddleware
 
-Config/access.php
-Config/success.php
+-public/user/animex/css/style.css
+-public/user/animex/js/main.js
 
-admin/auth/groups/create.blade.php
-admin/auth/groups/list.blade.php
-admin/auth/groups/update.blade.php
+-public/user/mox/css/style.css
 
-admin/category/list.blade.php
+-public/user/img/images/gallery_01.jpg
+-public/user/img/images/gallery_02.jpg
 
-admin/data/home.blade.php
-admin/data/title.blade.php
+-admin/anime/anime/create.blade.php
+-admin/anime/anime/update.blade.php
 
-admin/indexUsers/list.blade.php
+-admin/anime/episode/create.blade.php
+-admin/anime/episode/update.blade.php
 
-admin/layouts/sidebar.blade.php
+-admin/indexUsers/create.blade.php
+-admin/indexUsers/update.blade.php
 
-admin/pages/update.blade.php
+-admin/users/create.blade.php
+-admin/users/update.blade.php
 
-admin/register/login.blade.php
+-admin/webtoon/episode/create.blade.php
 
-admin/tag/list.blade.php
+-admin/webtoon/webtoon/create.blade.php
+-admin/webtoon/webtoon/update.blade.php
 
-admin/webtoon/epsiode/create.blade.php
-admin/webtoon/epsiode/list.blade.php
+-index/themes/animex/layouts/main.blade.php
+-index/themes/animex/animeDetail.blade.php
+-index/themes/animex/index.blade.php
+-index/themes/animex/list.blade.php
+-index/themes/animex/login.blade.php
+-index/themes/animex/profile.blade.php
+-index/themes/animex/read.blade.php
+-index/themes/animex/watch.blade.php
+-index/themes/animex/webtoonDetail.blade.php
 
-index/themes/animex/animeDetail.blade.php
-index/themes/animex/contact.blade.php
-index/themes/animex/layouts/footer.blade.php
-index/themes/animex/layouts/topbar.blade.php
-index/themes/animex/webtoonDetail.blade.php
+-index/themes/mox/layouts/main.blade.php
 
+-index/themes/mox/login.blade.php
+
+-index/themes/mox/watch.blade.php
+
+-web.php
 -------------------------------------------
 Yapılacaklar:
 
@@ -56,22 +56,21 @@ Kullanıcı arayüzü:
 diğer:
 anime ve webtoon oluşturmada resim kısmına sadece resim kabul edilmeli
 video yüklenirken tekrar kaydet'e basılırsa basılması engellenmeli
-slidershow değeri değiştirilmesine rağmen arayüzde slider değişikliği olmuyor
 mobilde slider sorunu
 +18 bölümü eklenecek
 üyelere özel anime ve webtoonlar için "Görebilmek için giriş yapınız" diye bir yazı yazılmalı
 Takvim
 3.tema
-İzleme sayfası'nın yüklemesi yavaş
 Her update de code değeri var olmayacak. js ile o getirilecek
 footer da discord logosu çıkmıyor(fa fa-discord)
 Benzer içerikleri gösterme
 Takvimde güncelleyip silebilme işlemi
 otomatik izlendi olarak işaretleme
+mox temasında prfil bilgisi değiştirme, takip etme..vs. eklenecek
 ---------------------------------------------
 Kontrol edilecek işlemler:
 
---Admin Paneli:
+---Admin Paneli:
 +Anime Bütün Değerler için CRUD işlemi(+Anime, +Anime Bölümü, +Anime Takvimi)
 +Webtoon içib Bütün Değerler için CRUD işlemi(+webtoon, + Webtoon Bölümü, + Webtoon Takvimi)
 +Sayfalar için bütün Değerler için CRUD işlemi
@@ -83,18 +82,18 @@ Kontrol edilecek işlemler:
 +Yönetim için bütün değerler için CRUD işlemleri(+Admin Meta, +keyvalue, +yetki maddeleri)
 +Yetkilendirme Kontrolü(admin arayüzüne girebilme, diğer işlemlerin tek tek denenmesi.)
 
---Arayüz:
+---Arayüz:
 
----1.Tema:
--Anime içind değişikliklerin görünmesi
--Webtoon için değişikliklerin görünmesi
--Kategori için bütün değişikliklerin görünmesi
--iletişim, yorum ve üyelik sistemi
+--slider
+--Oy kullanma
+--İzleme
+--yorum yapabilme
+--Görüntüleyip/Listeleyebilme(--webtoon, --anime)
+--takip edebilme(--webtoon, --anime)
+--beğenebilme(--webtoon, --anime)
+--kullanıcı takip edebilme
+--Bilgileri güncelleyebilme
 
----2.Tema:
--Anime için değişikliklerin görünmesi
--Webtoon için değişikliklerin görünmesi
--Kategori için bütün değişikliklerin görünmesi
--iletişim, yorum ve üyelik sistemi
+Her özelliği 2 Tema da da test edilmeli
 
--Bunların hepsi mobil de de test edilmeli.
+

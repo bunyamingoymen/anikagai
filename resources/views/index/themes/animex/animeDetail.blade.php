@@ -170,7 +170,6 @@
                                 class="watch-btn"><span>İlk Bölümü
                                     İzle</span> <i class="fa fa-angle-right"></i></a>
                         </div>
-                        <p id="likeAnimeTextMessage" style="color:red;"></p>
                     </div>
                     <div class="anime__details__rating">
                         <span>{{$anime->scoreUsers}} Oy Kullanıldı</span>
@@ -270,6 +269,7 @@
 </div>
 
 <script>
+    const authMessage = "Lütfen İlk Önce Giriş Yapınız!"
     function followAnime(){
         @if (Auth::user())
             var code = `<form action="{{route('followAnime')}}" method="POST" id="followAnimeForm">
@@ -280,7 +280,12 @@
             document.getElementById('hiddenDiv').innerHTML = code;
             document.getElementById('followAnimeForm').submit();
         @else
-            document.getElementById('likeAnimeTextMessage').innerText = "Lütfen Giriş Yapınız."
+            Swal.fire({
+                title: "Hata",
+                text: authMessage,
+                color: "#fff",
+                icon: "error"
+            });
         @endif
     }
     function unfollowAnime(){
@@ -293,7 +298,12 @@
             document.getElementById('hiddenDiv').innerHTML = code;
             document.getElementById('unfollowAnimeForm').submit();
         @else
-            document.getElementById('likeAnimeTextMessage').innerText = "Lütfen Giriş Yapınız."
+            Swal.fire({
+                title: "Hata",
+                text: authMessage,
+                color: "#fff",
+                icon: "error"
+            });
         @endif
     }
     function likeAnime(){
@@ -306,7 +316,12 @@
             document.getElementById('hiddenDiv').innerHTML = code;
             document.getElementById('likeAnimeForm').submit();
         @else
-            document.getElementById('likeAnimeTextMessage').innerText = "Lütfen Giriş Yapınız."
+            Swal.fire({
+                title: "Hata",
+                text: authMessage,
+                color: "#fff",
+                icon: "error"
+            });
         @endif
     }
     function dislikeAnime(){
@@ -319,17 +334,22 @@
             document.getElementById('hiddenDiv').innerHTML = code;
             document.getElementById('unlikeAnimeForm').submit();
         @else
-            document.getElementById('likeAnimeTextMessage').innerText = "Lütfen Giriş Yapınız."
+            Swal.fire({
+                title: "Hata",
+                text: authMessage,
+                color: "#fff",
+                icon: "error"
+            });
         @endif
     }
 </script>
 
 <script>
     // initialize with defaults
-$("#scoreRateID").rating({theme: 'krajee-fas'});
-$(".caption").css("display", "none");
-$(".krajee-icon-clear").css("display", "none");
-$(".clear-rating-active").css("display", "none");
+    $("#scoreRateID").rating({theme: 'krajee-fas'});
+    $(".caption").css("display", "none");
+    $(".krajee-icon-clear").css("display", "none");
+    $(".clear-rating-active").css("display", "none");
 
 function scoreUser(){
     @if (Auth::user())
@@ -344,7 +364,13 @@ function scoreUser(){
         document.getElementById("hiddenDiv").innerHTML = html;
         document.getElementById("scoreUserSubmitForm").submit();
     @else
-document.getElementById("likeAnimeTextMessage").innerText = "Lütfen İlk Önce Giriş Yapınız.";
+        document.getElementById("scoreRateID").value = "{{$anime->score}}"
+        Swal.fire({
+            title: "Hata",
+            text: authMessage,
+            color: "#fff",
+            icon: "error"
+        });
     @endif
 }
 </script>

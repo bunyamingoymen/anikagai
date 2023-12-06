@@ -1292,8 +1292,19 @@ ol {
 .anime__video__player .plyr__volume {
 	position: absolute;
 	width: auto;
-	left: 76px;
-	bottom: 8px;
+	left: 176px;
+}
+
+.anime__video__player .plyr__time--current {
+    position: absolute;
+    width: auto;
+    left: 76px;
+}
+
+.anime__video__player .plyr__time--duration {
+    position: absolute;
+    width: auto;
+    left: 126px;
 }
 
 .anime__video__player .plyr__control--overlaid {
@@ -2454,8 +2465,19 @@ ol {
 		width: 85px;
 	}
 	.anime__video__player .plyr__volume {
-		left: 65px;
+		left: 176px;
 	}
+
+    .anime__video__player .plyr__time--current {
+        left: 76px;
+    }
+
+    .anime__video__player .plyr__time--duration {
+        left: 126px;
+    }
+    .anime__video__player .plyr__time {
+        left: 65px;
+    }
 	.anime__video__player .plyr__controls .plyr__controls__item.plyr__time {
 		left: 95px;
 	}

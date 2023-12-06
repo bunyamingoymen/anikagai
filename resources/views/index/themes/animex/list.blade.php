@@ -1,6 +1,6 @@
 @extends("index.themes.animex.layouts.main")
 @section('index_content')
-
+<link rel="stylesheet" href="../../../user/animex/css/nice-select.css" type="text/css">
 <!-- Breadcrumb Begin -->
 <div class="breadcrumb-option">
     <div class="container">
