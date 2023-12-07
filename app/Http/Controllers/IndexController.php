@@ -20,6 +20,7 @@ use App\Models\ThemeSetting;
 use App\Models\WatchedAnime;
 use App\Models\Webtoon;
 use App\Models\WebtoonEpisode;
+use App\Models\WebtoonFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -424,22 +425,20 @@ class IndexController extends Controller
             ->get();
 
         $next_episode_url = "none";
-        $next_episode_control =
-            WebtoonEpisode::Where("deleted", 0)->Where('season_short', $request->season)->Where('episode_short', (intval($request->episode) + 1))->first();
+        $next_episode_control = WebtoonEpisode::Where("deleted", 0)->Where('season_short', $request->season)->Where('episode_short', (intval($request->episode) + 1))->first();
 
         if (!$next_episode_control) {
-
-            $next_episode_control =
-                WebtoonEpisode::Where("deleted", 0)->Where('season_short', intval(($request->season) + 1))->Where('episode_short', 1)->first();
+            $next_episode_control = WebtoonEpisode::Where("deleted", 0)->Where('season_short', intval(($request->season) + 1))->Where('episode_short', 1)->first();
         }
 
         $next_episode_url = $next_episode_control ? "webtoon/" . $webtoon->short_name . "/" . $next_episode_control->season_short . "/" . $next_episode_control->episode_short : "none";
 
         $watched = [];
-        if (Auth::user())
-            $watched = WatchedAnime::Where('anime_code', $webtoon->code)->Where('user_code', Auth::user()->code)->Where('content_type', 0)->get();
+        if (Auth::user()) $watched = WatchedAnime::Where('anime_code', $webtoon->code)->Where('user_code', Auth::user()->code)->Where('content_type', 0)->get();
 
-        return $this->loadThemeView('read', compact('webtoon', 'episode', 'webtoon_episodes', 'trend_webtoons', 'comments_main', 'comments_alt', 'next_episode_url', 'watched'));
+        $files = WebtoonFile::Where('deleted', 0)->Where('webtoon_episode_code', $episode->code)->get();
+        //dd($files);
+        return $this->loadThemeView('read', compact('webtoon', 'episode', 'webtoon_episodes', 'trend_webtoons', 'comments_main', 'comments_alt', 'next_episode_url', 'watched', 'files'));
     }
 
     public function showPage(Request $request)

@@ -13,6 +13,7 @@ class WebtoonFile extends Model
         'webtoon_episode_code',
         'file_type',
         'file',
+        'file_order',
         'create_user_code',
         'update_user_code',
         'deleted',

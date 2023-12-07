@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Webtoon;
 use App\Models\WebtoonEpisode;
+use App\Models\WebtoonFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -52,18 +53,6 @@ class WebtoonEpisodeController extends Controller
         $webtoon_episode->publish_date = $request->publish_date;
         $webtoon_episode->click_count = 0;
 
-        if ($request->hasFile('video')) {
-            // Dosyayı al
-            $file = $request->file('video');
-
-            $path = public_path('files/webtoons/webtoonsEpisodes/' . $request->webtoon_code . "/" . $webtoon_episode->season_short . '/' . $webtoon_episode->episode_short);
-            $name = $webtoon_episode->code . "." . $file->getClientOriginalExtension();
-            $file->move($path, $name);
-            $webtoon_episode->file = 'files/webtoons/webtoonsEpisodes/' . $request->webtoon_code . "/" . $webtoon_episode->season_short . '/' . $webtoon_episode->episode_short . "/" . $name;
-        } else {
-            $webtoon_episode->file = "";
-        }
-
         $webtoon = Webtoon::Where('code', $request->webtoon_code)->first();
         $webtoon->episode_count = $webtoon->episode_count + 1;
         $webtoon->season_count = $request->season_short != $webtoon->season_count ?  $request->season_short : $webtoon->season_count;
@@ -72,6 +61,55 @@ class WebtoonEpisodeController extends Controller
         $webtoon_episode->create_user_code = Auth::guard('admin')->user()->code;
 
         $webtoon_episode->save();
+
+        $fileTypeSelect = $request->fileTypeSelect;
+        if ($fileTypeSelect == "pdf") {
+            $pdf = new WebtoonFile();
+
+            $pdf->code = WebtoonFile::max('code') + 1;
+
+            $pdf->webtoon_episode_code = $webtoon_episode->code;
+            $pdf->file_type = "pdf";
+            if ($request->hasFile('pdf')) {
+                // Dosyayı al
+                $file = $request->file('pdf');
+
+                $path = public_path('files/webtoons/webtoonsEpisodes/' . $request->webtoon_code . "/" . $webtoon_episode->season_short . '/' . $webtoon_episode->episode_short);
+                $name = $pdf->code . "." . $file->getClientOriginalExtension();
+                $file->move($path, $name);
+                $pdf->file = 'files/webtoons/webtoonsEpisodes/' . $request->webtoon_code . "/" . $webtoon_episode->season_short . '/' . $webtoon_episode->episode_short . "/" . $name;
+            } else {
+                $pdf->file = "";
+            }
+            $pdf->file_order = 1;
+            $pdf->create_user_code = Auth::guard('admin')->user()->code;
+
+            $pdf->save();
+        } else if ($fileTypeSelect == "image") {
+            for ($i = 1; $i <= $request->totalFileCount; $i++) {
+                $image = new WebtoonFile();
+
+                $image->code = WebtoonFile::max('code') + 1;
+
+                $image->webtoon_episode_code = $webtoon_episode->code;
+                $image->file_type = "image";
+
+                if ($request->hasFile('imageFile' . $i)) {
+                    $file = $request->file('imageFile' . $i);
+
+                    $path = public_path('files/webtoons/webtoonsEpisodes/' . $request->webtoon_code . "/" . $webtoon_episode->season_short . '/' . $webtoon_episode->episode_short);
+                    $name = $webtoon_episode->code . "_" . $image->code . "." . $file->getClientOriginalExtension();
+                    $file->move($path, $name);
+
+                    $image->file = 'files/webtoons/webtoonsEpisodes/' . $request->webtoon_code . "/" . $webtoon_episode->season_short . '/' . $webtoon_episode->episode_short . "/" . $name;
+                } else {
+                    $image->file = "";
+                }
+                $image->file_order = $request->input('imageShort' . $i);
+                $image->create_user_code = Auth::guard('admin')->user()->code;
+                $image->save();
+            }
+        }
 
         return response()->json(['success' => true]);
     }

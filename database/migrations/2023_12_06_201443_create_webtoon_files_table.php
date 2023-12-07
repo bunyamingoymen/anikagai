@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('code');
             $table->unsignedBigInteger('webtoon_episode_code');
-            $table->unsignedBigInteger('file_type');
-            $table->unsignedBigInteger('file');
+            $table->string('file_type');
+            $table->string('file');
+            $table->unsignedBigInteger('file_order'); //dosya sırası
             $table->unsignedBigInteger('create_user_code')->default(1);
             $table->unsignedBigInteger('update_user_code')->nullable();
             $table->tinyInteger('deleted')->default(0); // 0: silinmemiş, aktif, görünür. 1: silinmiş, pasif, görünmez

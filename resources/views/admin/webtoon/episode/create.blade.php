@@ -21,12 +21,6 @@
                     </div>
                     <div class="row">
                         <div class="col-md-4 mb-3">
-                            <label for="">Bölüm(PDF):</label>
-                            <small>Sadece PDF Kabul edilmektedir.</small>
-                            <input type="file" class="form-control" id="video" name="video" placeholder="Dosya Seçiniz"
-                                accept=".pdf" required>
-                        </div>
-                        <div class="col-md-4 mb-3">
                             <label for="webtoon_code">Webtoon:</label>
                             <select name="webtoon_code" id="webtoon_code" class="form-control" onchange="getSeason();"
                                 required>
@@ -39,8 +33,6 @@
                             <label for="name">Bölüm Adı:</label>
                             <input type="text" id="name" name="name" class="form-control">
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-md-2 mb-3">
                             <label for="season_short">Bulunduğu Sezon:</label>
                             <select name="season_short" id="season_short" class="form-control">
@@ -53,7 +45,9 @@
                             <label for="episode_short">Bölüm Sırası:</label>
                             <input type="number" id="episode_short" name="episode_short" class="form-control">
                         </div>
-                        <div class="col-md-8 mb-3">
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 mb-3">
                             <label for="publish_date">Yayınlanma Tarihi:</label>
                             <input type="date" id="publish_date" name="publish_date" class="form-control">
                         </div>
@@ -65,6 +59,58 @@
                                 placeholder="Açıklama"></textarea>
                         </div>
                     </div>
+                    <hr>
+                    <div>
+                        <div>
+                            <h4><strong>Bölüm Dosyaları</strong></h4>
+                        </div>
+                        <div hidden>
+                            <input type="number" name="totalFileCount" id="totalFileCount" value="1">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="">Webtoon Dosya Tipi:</label>
+                            <small>Yüklemek istediğiniz dosya tipini giriniz..</small>
+                            <select class="form-control" name="fileTypeSelect" id="fileTypeSelect"
+                                onchange="changeFileType()">
+                                <option value="pdf" selected>PDF</option>
+                                <option value="image">Resim</option>
+                            </select>
+                        </div>
+                        <div class="col-lg-6" id="uploadPdfFileDiv">
+                            <label for="">PDF Dosyasını Seçiniz:</label>
+                            <div class="row">
+                                <a class="btn btn-danger" style="color: #fff;">1</a>
+                                <div class="col-lg-10">
+                                    <input type="file" class="form-control" id="pdf" name="pdf"
+                                        placeholder="Dosya Seçiniz" accept=".pdf" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-8" id="uploadImageFileDiv" hidden>
+                            <label for="">Resim / Resimleri Seçiniz:</label>
+                            <div class="mt-2" id="imageFormDiv">
+                                <div class="row" id="imageInput1Div">
+                                    <a class="btn btn-danger" style="color: #fff;" id="imageInputButtonATag1">1</a>
+                                    <div class="col-lg-6">
+                                        <label id="imageFileLabel1" for="imageFile1">Resim:</label>
+                                        <input type="file" class="form-control" id="imageFile1" name="imageFile1"
+                                            placeholder="Dosya Seçiniz" accept="image/*" required>
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <label id="imageShortLabel1" for="imageShort1">Sıra:</label>
+                                        <input type="number" id="imageShort1" class="form-control" name="imageShort1"
+                                            value="1">
+                                    </div>
+                                </div>
+                                <hr id="imageInputHR1">
+                            </div>
+                            <div class="mt-3">
+                                <button class="btn btn-info" type="button" onclick="addImageInput()">+ Bir Resim Daha
+                                    Ekleyin</button>
+                            </div>
+
+                        </div>
+                    </div>
                     <div style="float: right;">
                         <button class="btn btn-primary" type="button" onclick="webtoonEpisodeCreateFormSubmit()"
                             id="webtoonEpisodeCreateSubmitButton">Kaydet</button>
@@ -74,17 +120,98 @@
         </div>
     </div>
 </div>
+<!-- Dosya Tipi İşlemleri -->
+<script>
+    var totalFile = 1;
+    function changeFileType(){
+        var value = document.getElementById("fileTypeSelect").value;
+        if(value === "pdf"){
+            document.getElementById('uploadPdfFileDiv').hidden = false;
+            document.getElementById('uploadImageFileDiv').hidden = true;
+        }else{
+            document.getElementById('uploadPdfFileDiv').hidden = true;
+            document.getElementById('uploadImageFileDiv').hidden = false;
+        }
+    }
+
+    function addImageInput(){
+        totalFile++;
+        var html = `<div class="row mt-3" id="imageInput`+totalFile+`Div">
+            <a class="btn btn-danger" style="color: #fff;" id="imageInputButtonATag`+totalFile+`">`+totalFile+`</a>
+            <div class="col-lg-6">
+                <label id="imageFileLabel`+totalFile+`" for="imageFile`+totalFile+`">Resim:</label>
+                <input type="file" class="form-control" id="imageFile`+totalFile+`" name="imageFile`+totalFile+`" placeholder="Dosya Seçiniz" accept="image/*"
+                    required>
+            </div>
+            <div class="col-lg-2">
+                <label id="imageShortLabel`+totalFile+`" for="imageShort`+totalFile+`">Sıra:</label>
+                <input type="number" class="form-control" id="imageShort`+totalFile+`" name="imageShort`+totalFile+`" value="`+totalFile+`">
+            </div>
+            <div class=" col-lg-2">
+                <label for="">Sil:</label>
+                <div>
+                    <button class="btn btn-warning" type="button" id="removeImageInputButton`+totalFile+`" onclick="removeImageInput('`+totalFile+`');"> <i class="far fa-trash-alt"></i>
+                         Sil</button>
+                </div>
+            </div>
+        </div>
+        <hr id="imageInputHR`+totalFile+`">`;
+        document.getElementById('imageFormDiv').innerHTML += html;
+    }
+
+    function removeImageInput(input_code){
+
+        document.getElementById("imageInput"+input_code+"Div").remove();
+        document.getElementById("imageInputHR"+input_code).remove();
+        if(input_code != totalFile){
+            for (let i = parseInt(input_code)+ 1; i <=parseInt(totalFile); i++) {
+                console.log(i + " ------------------------------------------------------- " + i);
+                var newOrder = i - 1;
+                //Ana div değişikliği yapılıyor
+                document.getElementById("imageInput"+i+"Div").id = "imageInput"+newOrder+"Div";
+
+                //yanında sırayı yazan kırmızı buton ayarlanıyor.
+                document.getElementById("imageInputButtonATag"+i).innerText = newOrder; //içerik
+                document.getElementById("imageInputButtonATag"+i).id = "imageInputButtonATag"+newOrder; //id değeri
+
+                //dosya alınan input değerinin label etiketi ayarlanıyor:
+                document.getElementById("imageFileLabel"+i).htmlFor = "imageFile"+newOrder;
+                document.getElementById("imageFileLabel"+i).id = "imageFileLabel"+newOrder;
+
+                //dosya alınan input değeri güncelleniyor:
+                document.getElementById("imageFile"+i).name = "imageFile"+newOrder;
+                document.getElementById("imageFile"+i).id = "imageFile"+newOrder;
+
+                //sıra numarasını belirten input değerinin label etiketi ayarlanıyor:
+                document.getElementById("imageShortLabel"+i).htmlFor = "imageShort"+newOrder;
+                document.getElementById("imageShortLabel"+i).id = "imageShortLabel"+newOrder;
+
+                //sıra numarasını belirten input değeri güncelleniyor:
+                document.getElementById("imageShort"+i).name = "imageShort"+newOrder;
+                document.getElementById("imageShort"+i).value = newOrder;
+                document.getElementById("imageShort"+i).id = "imageShort"+newOrder;
+
+                //sil butonu güncelleniyor:
+                document.getElementById("removeImageInputButton"+i).setAttribute( "onClick", "removeImageInput("+newOrder+");" );
+                document.getElementById("removeImageInputButton"+i).id = "removeImageInputButton" + newOrder;
+
+                //hr güncelleniyor
+                document.getElementById("imageInputHR"+i).id = "imageInputHR"+newOrder;
+            }
+        }
+        totalFile--;
+    }
+</script>
+
 <script>
     var is_submitted = false;
     function webtoonEpisodeCreateFormSubmit(){
-
-        var video = document.getElementById('video').value;
         var name = document.getElementById('name').value;
         var season_short = document.getElementById('season_short').value;
         var episode_short = document.getElementById('episode_short').value;
         var publish_date = document.getElementById('publish_date').value;
 
-        if(video == "" || name == "" || season_short == "" || episode_short == "" || publish_date==""){
+        if(name == "" || season_short == "" || episode_short == "" || publish_date==""){
             Swal.fire({
                 icon: 'error',
                 title: 'Hata',
@@ -94,7 +221,7 @@
 
             is_submitted = true;
             document.getElementById("webtoonEpisodeCreateSubmitButton").disabled = true;
-
+            document.getElementById('totalFileCount').value = totalFile;
             var formData = new FormData(document.getElementById('webtoonEpisodeCreateForm'));
 
             Swal.fire({
@@ -142,6 +269,7 @@
                     });
 
                     document.getElementById('percentValue').innerText = "Tamamlandı"
+                    //console.log(response);
                 },
                 error: function (error) {
                     // Hata durumunda yapılacak işlemler

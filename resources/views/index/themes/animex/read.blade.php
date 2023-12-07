@@ -1,6 +1,42 @@
 @extends("index.themes.animex.layouts.main")
 @section('index_content')
 
+<style>
+    .overlay-button {
+        position: absolute !important;
+        bottom: 75px !important;
+        /* Alt kenardan biraz yukarıda */
+        right: 75px !important;
+        /* Sağ kenardan biraz sola */
+        padding: 4px 15px !important;
+        background-color: #0b0c2a;
+        /* Yarı şeffaf siyah arkaplan */
+        color: white;
+        border-radius: 8px;
+        border: 2px solid rgba(255, 255, 255, 0);
+        /* Beyaz yarı şeffaf sınır (border) */
+        transition: opacity 0.5s ease, transform 0.1s ease, border 0.1s ease;
+        /* Border için de animasyon eklendi */
+        box-shadow: 0 2px 10px #0b0c2a;
+        /* Gölge efekti */
+        font-family: 'Roboto', sans-serif !important;
+        /* Kullanılan fontu ayarlayın */
+        z-index: 99999999;
+    }
+
+    .overlay-button:hover {
+        opacity: 1;
+        border: 2px solid rgba(255, 255, 255, 0.5);
+    }
+
+    @media only screen and (max-width: 479px) {
+        .overlay-button {
+            opacity: 0;
+            display: none;
+        }
+    }
+</style>
+
 <section class="anime-details spad">
     <div class="container">
         <div class="row">
@@ -10,11 +46,19 @@
                         <h5 style="color:#e53637">+18</h5>
                     </div>
                 </div>
-                <div class="anime__video__player justify-content-center">
-                    <div style="position: relative;">
-                        <iframe id="myIframe" src="../../../{{$episode->file}}" style="width:1080px; height:640px;"
-                            frameborder="0" allowfullscreen></iframe>
-                        <button onclick="toggleFullScreen()">Tam Ekran</button>
+                <div class="justify-content-center">
+                    <div style="position: relative; justify-content-center">
+                        @foreach ($files as $item)
+                        @if ($item->file_type=="pdf")
+                        <iframe id="myIframe" src="../../../{{$item->file}}"
+                            style="max-width: 100%; min-width: 100%; height:800px;" frameborder="0"
+                            allowfullscreen></iframe>
+                        <button onclick="toggleFullScreen()" class="overlay-button">Tam Ekran</button>
+                        @else
+                        <img src="../../../{{$item->file}}" alt="{{$item->code}}"
+                            style="max-width: 50%; position: relative; left:25%;">
+                        @endif
+                        @endforeach
                     </div>
                     <div id="document-viewer"></div>
                 </div>
@@ -37,23 +81,13 @@
                             </a>
                             @else
                             @if (count($watched) > 0 &&
-                            count($watched->Where('anime_episode_code',$anime_episodes->code)->get())>1)
-                            <a style="background-color: green;" href="{{url("webtoon/".$webtoon->short_name."/".$i."/".$item->episode_short)}}"
-                                id="watchedATag{{$item->code}}">
-                                <label class="container">{{$i}}.S - {{$item->episode_short }}.B - {{$item->name}}
-                                    <input type="checkbox" id="watched{{$item->code}}"
-                                        onchange="watchAnime('{{$item->code}}')" value="{{$item->code}}">
-                                    <span class="checkmark"></span>
-                                </label>
+                            count($watched->Where('anime_episode_code',$webtoon_episodes->code)->get())>1)
+                            <a style="background-color: green;" class="a_selected" href="{{url("webtoon/".$webtoon->short_name."/".$i."/".$item->episode_short)}}">
+                                {{$i}} - {{$item->episode_short }}.Bölüm - {{$item->name}}
                             </a>
                             @else
-                            <a href="{{url("webtoon/".$webtoon->short_name."/".$i."/".$item->episode_short)}}"
-                                id="watchedATag{{$item->code}}">
-                                <label class="container">{{$i}}.S - {{$item->episode_short }}.B - {{$item->name}}
-                                    <input type="checkbox" id="watched{{$item->code}}"
-                                        onchange="watchAnime('{{$item->code}}')" value="{{$item->code}}" checked>
-                                    <span class="checkmark"></span>
-                                </label>
+                            <a class="" href="{{url("webtoon/".$webtoon->short_name."/".$i."/".$item->episode_short)}}">
+                                {{$i}} - {{$item->episode_short }}.Bölüm - {{$item->name}}
                             </a>
                             @endif
                             @endif
@@ -65,7 +99,7 @@
                 @endfor
                 @else
                 <div class="col-lg-12 col-md-12 section-title">
-                    <h5>Herhani gib bölüm mevcut değil.</h5>
+                    <h5>Herhangi bir bölüm mevcut değil.</h5>
                 </div>
                 @endif
             </div>

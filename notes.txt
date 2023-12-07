@@ -3,46 +3,47 @@ Değiştiirlen dosyaları:
 1-AnimeController
 2-IndexController
 3-WebtoonController
+4-WebtoonEpisodeController
 
-4-access.php
+5-access.php
 
-5-Models/Anime
-6-Models/Webtoon
-7-Models/WebtoonEpisode
-8-Models/WebtoonFile
+6-Models/Anime
+7-Models/Webtoon
+8-Models/WebtoonEpisode
+9-Models/WebtoonFile
 
-9-create_webtoons_table
-10-create_webtoons_episode_table
-11-create_webtoon_files_table
-12-create_animes_table
+10-create_webtoons_table
+11-create_webtoons_episode_table
+12-create_webtoon_files_table
+13-create_animes_table
 
-13- admin/contact/contact.blade.php
-14-admin/anime/anime/create.blade.php
-15-admin/anime/anime/list.blade.php
-16-admin/anime/anime/update.blade.php
-17-admin/anime/episode/create.blade.php
+14- admin/contact/contact.blade.php
+15-admin/anime/anime/create.blade.php
+16-admin/anime/anime/list.blade.php
+17-admin/anime/anime/update.blade.php
+18-admin/anime/episode/create.blade.php
 
-18-admin/webtoon/webtoon/create.blade.php
-19-admin/webtoon/webtoon/list.blade.php
-20-admin/webtoon/webtoon/update.blade.php
-21-admin/webtoon/episode/create.blade.php
+19-admin/webtoon/webtoon/create.blade.php
+20-admin/webtoon/webtoon/list.blade.php
+21-admin/webtoon/webtoon/update.blade.php
+22-admin/webtoon/episode/create.blade.php
 
-22-index/themes/animex/layouts/footer.blade.php
-23-index/themes/animex/layouts/main.blade.php
-24-index/themes/animex/layouts/topbar.blade.php
-25-index/themes/animex/index.blade.php
-26-index/themes/animex/list.blade.php
-27-index/themes/animex/search.blade.php
-28-index/themes/animex/animeDetail.blade.php
-29-index/themes/animex/read.blade.php
-30-index/themes/animex/watch.blade.php
-31-index/themes/animex/changePassword.blade.php
-32-index/themes/animex/changeProfile.blade.php
-33-index/themes/animex/profile.blade.php
+23-index/themes/animex/layouts/footer.blade.php
+24-index/themes/animex/layouts/main.blade.php
+25-index/themes/animex/layouts/topbar.blade.php
+26-index/themes/animex/index.blade.php
+27-index/themes/animex/list.blade.php
+28-index/themes/animex/search.blade.php
+29-index/themes/animex/animeDetail.blade.php
+30-index/themes/animex/read.blade.php
+31-index/themes/animex/watch.blade.php
+32-index/themes/animex/changePassword.blade.php
+33-index/themes/animex/changeProfile.blade.php
+34-index/themes/animex/profile.blade.php
 
-34-index/themes/mox/watch.blade.php
+35-index/themes/mox/watch.blade.php
 
-35-web.php
+36-web.php
 -------------------------------------------
 *Yapılacaklar:
 
@@ -56,9 +57,10 @@ Değiştiirlen dosyaları:
 -3.tema
 -Her update de code değeri var olmayacak. js ile o getirilecek
 -Takvimde güncelleyip silebilme işlemi
--mox temasında prfil bilgisi değiştirme, takip etme..vs. eklenecek,
--mox temasında görüntülenme ayarlanacak.
--webtoon'a ister pdf ister de resim yüklenebilmeli
+-mox temasında profil bilgisi değiştirme, takip etme..vs. eklenecek,
+-mox temasında görüntülenme ayarlanacak.(listeleme ve aramada)
+-mox temasında read kısmı düzenlenecek.
+-mox temasına +18 değer eklenecek
 ---------------------------------------------
 Kontrol edilecek işlemler:
 
@@ -79,6 +81,7 @@ Kontrol edilecek işlemler:
 -+-slider
 -+-Oy kullanma
 -+-İzleme
+-+-okuma
 ++-yorum yapabilme
 -+-Görüntüleyip/Listeleyebilme(-+-webtoon, -+-anime)
 -+-takip edebilme(-+-webtoon, -+-anime, -+-kullanıcı)
