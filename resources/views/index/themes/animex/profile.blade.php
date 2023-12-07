@@ -51,7 +51,7 @@
                             </div>
                         </div>
                         <div class="anime__details__btn">
-                            @if ($user->code == Auth::user()->code)
+                            @if (Auth::user() && $user->code == Auth::user()->code)
                             <div>
                                 <a href="{{route('change_profile_settings_screen')}}" class="follow-btn"><i
                                         class="fa fa-info"></i>
@@ -128,6 +128,10 @@
                                     <div class="product__page__content">
                                         <div class="row">
                                             @foreach ($favorite_animes as $item)
+                                            @if ($item->showStatus == 0 || (Auth::user() && ($item->showStatus == 1 ||
+                                            $item->showStatus
+                                            ==
+                                            2)))
                                             <div class="col-lg-3 col-md-6 col-sm-6">
                                                 <div class="product__item">
                                                     <a href="{{url('anime/'.$item->short_name)}}">
@@ -154,6 +158,37 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            @else
+                                            <div class="col-lg-3 col-md-6 col-sm-6">
+                                                <div class="product__item">
+                                                    <a href="{{route('loginScreen')}}">
+                                                        <div class="product__item__pic"
+                                                            data-setbg="../../../{{$item->image}}">
+                                                            <div
+                                                                style="width: 100%; height: 100%; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                                                                <div class="censor set-bg"
+                                                                    data-setbg="../../../{{$item->image}}">
+                                                                </div>
+                                                                <div style="margin-top: 20px; z-index: 2;">
+                                                                    <a class="overlay-button"
+                                                                        href="{{route('loginScreen')}}">
+                                                                        Görmek için giriş yapınız
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <div class="product__item__text">
+                                                        <ul>
+                                                            <li>Bilinmiyor</li>
+                                                        </ul>
+                                                        <h5>
+                                                            <a href="{{route('loginScreen')}}">Bilinmiyor</a>
+                                                        </h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @endif
                                             @endforeach
                                         </div>
                                     </div>
@@ -167,6 +202,10 @@
                                     <div class="product__page__content">
                                         <div class="row">
                                             @foreach ($favorite_webtoons as $item)
+                                            @if ($item->showStatus == 0 || (Auth::user() && ($item->showStatus == 1 ||
+                                            $item->showStatus
+                                            ==
+                                            2)))
                                             <div class="col-lg-3 col-md-6 col-sm-6">
                                                 <div class="product__item">
                                                     <a href="{{url('anime/'.$item->short_name)}}">
@@ -193,6 +232,37 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            @else
+                                            <div class="col-lg-3 col-md-6 col-sm-6">
+                                                <div class="product__item">
+                                                    <a href="{{route('loginScreen')}}">
+                                                        <div class="product__item__pic"
+                                                            data-setbg="../../../{{$item->image}}">
+                                                            <div
+                                                                style="width: 100%; height: 100%; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                                                                <div class="censor set-bg"
+                                                                    data-setbg="../../../{{$item->image}}">
+                                                                </div>
+                                                                <div style="margin-top: 20px; z-index: 2;">
+                                                                    <a class="overlay-button"
+                                                                        href="{{route('loginScreen')}}">
+                                                                        Görmek için giriş yapınız
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <div class="product__item__text">
+                                                        <ul>
+                                                            <li>Bilinmiyor</li>
+                                                        </ul>
+                                                        <h5>
+                                                            <a href="{{route('loginScreen')}}">Bilinmiyor</a>
+                                                        </h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @endif
                                             @endforeach
                                         </div>
                                     </div>
@@ -206,6 +276,10 @@
                                     <div class="product__page__content">
                                         <div class="row">
                                             @foreach ($follow_animes as $item)
+                                            @if ($item->showStatus == 0 || (Auth::user() && ($item->showStatus == 1 ||
+                                            $item->showStatus
+                                            ==
+                                            2)))
                                             <div class="col-lg-3 col-md-6 col-sm-6">
                                                 <div class="product__item">
                                                     <a href="{{url('anime/'.$item->short_name)}}">
@@ -232,6 +306,37 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            @else
+                                            <div class="col-lg-3 col-md-6 col-sm-6">
+                                                <div class="product__item">
+                                                    <a href="{{route('loginScreen')}}">
+                                                        <div class="product__item__pic"
+                                                            data-setbg="../../../{{$item->image}}">
+                                                            <div
+                                                                style="width: 100%; height: 100%; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                                                                <div class="censor set-bg"
+                                                                    data-setbg="../../../{{$item->image}}">
+                                                                </div>
+                                                                <div style="margin-top: 20px; z-index: 2;">
+                                                                    <a class="overlay-button"
+                                                                        href="{{route('loginScreen')}}">
+                                                                        Görmek için giriş yapınız
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <div class="product__item__text">
+                                                        <ul>
+                                                            <li>Bilinmiyor</li>
+                                                        </ul>
+                                                        <h5>
+                                                            <a href="{{route('loginScreen')}}">Bilinmiyor</a>
+                                                        </h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @endif
                                             @endforeach
                                         </div>
                                     </div>
@@ -245,6 +350,10 @@
                                     <div class="product__page__content">
                                         <div class="row">
                                             @foreach ($follow_webtoons as $item)
+                                            @if ($item->showStatus == 0 || (Auth::user() && ($item->showStatus == 1 ||
+                                            $item->showStatus
+                                            ==
+                                            2)))
                                             <div class="col-lg-3 col-md-6 col-sm-6">
                                                 <div class="product__item">
                                                     <a href="{{url('anime/'.$item->short_name)}}">
@@ -271,6 +380,37 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            @else
+                                            <div class="col-lg-3 col-md-6 col-sm-6">
+                                                <div class="product__item">
+                                                    <a href="{{route('loginScreen')}}">
+                                                        <div class="product__item__pic"
+                                                            data-setbg="../../../{{$item->image}}">
+                                                            <div
+                                                                style="width: 100%; height: 100%; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                                                                <div class="censor set-bg"
+                                                                    data-setbg="../../../{{$item->image}}">
+                                                                </div>
+                                                                <div style="margin-top: 20px; z-index: 2;">
+                                                                    <a class="overlay-button"
+                                                                        href="{{route('loginScreen')}}">
+                                                                        Görmek için giriş yapınız
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </a>
+                                                    <div class="product__item__text">
+                                                        <ul>
+                                                            <li>Bilinmiyor</li>
+                                                        </ul>
+                                                        <h5>
+                                                            <a href="{{route('loginScreen')}}">Bilinmiyor</a>
+                                                        </h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @endif
                                             @endforeach
                                         </div>
                                     </div>
@@ -286,7 +426,6 @@
     </div>
 </section>
 <!-- Anime Section End -->
-
 
 <div hidden id="hiddenDiv">
 

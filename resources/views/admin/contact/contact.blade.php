@@ -292,7 +292,6 @@
         }
     @endif
 
-    //TODO
     function showContact(name, email, subject, message) {
         document.getElementById('showContactName').innerText =name;
         document.getElementById('showContactMail').innerText =email;

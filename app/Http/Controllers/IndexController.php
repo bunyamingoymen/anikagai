@@ -548,7 +548,6 @@ class IndexController extends Controller
         return redirect()->route('index');
     }
 
-    //TODO Burada da sansürlü anime ve webtoonlar gidiyor. Onları sansürle
     public function profile(Request $request)
     {
         $user = IndexUser::where('username', $request->username)->first();
@@ -601,7 +600,7 @@ class IndexController extends Controller
             ->get();
 
         $followed_user = false;
-        if ($user->code != Auth::user()->code) {
+        if ((Auth::user()) && ($user->code != Auth::user()->code)) {
             $followed_user = FollowIndexUser::where('followed_user_code', $user->code)
                 ->where('user_code', Auth::user()->code)->exists();
         }

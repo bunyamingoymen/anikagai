@@ -180,7 +180,7 @@ Route::middleware(['auth'])->group(function () {
 
             Route::get("/admin/comment", "commentScreen")->name('admin_comment_screen');
             Route::post("/admin/comment/ajax", "commentGetData")->name('admin_comment_get_data');
-            Route::post("/admin/comment/delete", "commentDelete")->name('admin_comment_delete'); //TODO
+            Route::post("/admin/comment/delete", "commentDelete")->name('admin_comment_delete');
         });
 
         Route::controller(UserController::class)->group(function () {

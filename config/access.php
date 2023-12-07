@@ -9,7 +9,7 @@ return [
         'admin/user/create' => 1,
         'admin/user/update' => 3,
         'admin/user/delete' => 4,
-        //'admin/user/changePassword' => 1, //TODO Buna özel bir sistem geliştir
+        //'admin/user/changePassword' => 1,  //NOTE Burası kapalı. Bu access'ye bu bağlı değil
 
         'admin/authGroup/list' => 6,
         'admin/authGroup/list/ajax' => 6,
