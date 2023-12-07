@@ -55,7 +55,6 @@ Değiştiirlen dosyaları:
 -Takvim
 -3.tema
 -Her update de code değeri var olmayacak. js ile o getirilecek
--Benzer içerikleri gösterme
 -Takvimde güncelleyip silebilme işlemi
 -mox temasında prfil bilgisi değiştirme, takip etme..vs. eklenecek,
 -mox temasında görüntülenme ayarlanacak.

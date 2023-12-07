@@ -33,8 +33,8 @@ class IndexController extends Controller
     {
         $indexShowContent = ThemeSetting::Where('theme_code', KeyValue::Where('key', 'selected_theme')->first()->value)->Where('setting_name', 'indexShowContent')->first()->setting_value;
         $additionalData = [
-            'trend_animes' => $this->getTrendContent(Anime::class, $this->sendShowStatus(1), 6, 'click_count'),
-            'trend_webtoons' => $this->getTrendContent(Webtoon::class, $this->sendShowStatus(1), 6, 'click_count'),
+            'trend_animes' => $this->getTrendContent(Anime::class, 0, $this->sendShowStatus(1), 6, 'click_count'),
+            'trend_webtoons' => $this->getTrendContent(Webtoon::class, 0, $this->sendShowStatus(1), 6, 'click_count'),
             'animes' => $this->getContent(Anime::class, $this->sendShowStatus(0), $indexShowContent, 'created_at', 'DESC'),
             'webtoons' => $this->getContent(Webtoon::class, $this->sendShowStatus(0), $indexShowContent, 'created_at', 'DESC'),
             'slider_image' => KeyValue::where('key', 'slider_image')->where('deleted', 0)->get(),
@@ -209,7 +209,7 @@ class IndexController extends Controller
         if (!$anime || $anime->showStatus == 4 || (!Auth::user() && ($anime->showStatus == 1 || $anime->showStatus == 2)))
             abort(404);
 
-        $trend_animes = $this->getTrendContent(Anime::class, $this->sendShowStatus(1), 6, 'click_count');
+        $trend_animes = $this->getTrendContent(Anime::class, $anime->main_category, $this->sendShowStatus(1), 6, 'click_count');
 
         $currentTime = Carbon::now();
         $anime_episodes = AnimeEpisode::where('anime_code', $anime->code)
@@ -266,7 +266,7 @@ class IndexController extends Controller
             abort(404);
 
         $episode = AnimeEpisode::Where("deleted", 0)->Where('season_short', $request->season)->Where('episode_short', $request->episode)->first();
-        $trend_animes = $this->getTrendContent(Anime::class, $this->sendShowStatus(1), 6, 'click_count');
+        $trend_animes = $this->getTrendContent(Anime::class, $anime->main_category, $this->sendShowStatus(1), 6, 'click_count');
         $currentTime = Carbon::now();
         $anime_episodes = AnimeEpisode::where('anime_code', $anime->code)
             ->where('publish_date', '<=', $currentTime)
@@ -320,7 +320,7 @@ class IndexController extends Controller
             abort(404);
 
 
-        $trend_webtoons = $this->getTrendContent(Webtoon::class, $this->sendShowStatus(1), 6, 'click_count');
+        $trend_webtoons = $this->getTrendContent(Webtoon::class, $webtoon->main_category, $this->sendShowStatus(1), 6, 'click_count');
 
         $currentTime = now();
 
@@ -389,7 +389,7 @@ class IndexController extends Controller
 
         $episode = WebtoonEpisode::Where("deleted", 0)->Where('season_short', $request->season)->Where('episode_short', $request->episode)->first();
 
-        $trend_webtoons = $this->getTrendContent(Webtoon::class, $this->sendShowStatus(1), 6, 'click_count');
+        $trend_webtoons = $this->getTrendContent(Webtoon::class, $webtoon->main_category, $this->sendShowStatus(1), 6, 'click_count');
 
         $currentTime = Carbon::now();
         $webtoon_episodes = WebtoonEpisode::where('webtoon_code', $webtoon->code)
@@ -732,14 +732,24 @@ class IndexController extends Controller
         return view("index." . $themePath->themePath . ".$viewName", $additionalData);
     }
 
-    protected function getTrendContent($modelClass, $showStatus, $take, $orderBy)
+    protected function getTrendContent($modelClass, $main_category = 0, $showStatus, $take, $orderBy)
     {
-        return $modelClass::where('deleted', 0)
-            ->where('plusEighteen', 0)
-            ->whereIn('showStatus', $showStatus)
-            ->take($take)
-            ->orderBy($orderBy, 'DESC')
-            ->get();
+        if ($main_category == 0) {
+            return $modelClass::where('deleted', 0)
+                ->where('plusEighteen', 0)
+                ->whereIn('showStatus', $showStatus)
+                ->take($take)
+                ->orderBy($orderBy, 'DESC')
+                ->get();
+        } else {
+            return $modelClass::where('deleted', 0)
+                ->where('plusEighteen', 0)
+                ->Where('main_category', $main_category)
+                ->whereIn('showStatus', $showStatus)
+                ->take($take)
+                ->orderBy($orderBy, 'DESC')
+                ->get();
+        }
     }
 
     protected function getContent($modelClass, $showStatus, $take, $orderByType, $orderByList, $skip = 0)
