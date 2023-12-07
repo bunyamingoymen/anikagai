@@ -65,7 +65,13 @@
     function controlUsername() {
         var username = document.getElementById("registerUsername").value;
         var code = "{{$user->code}}";
+        var regex = /^[a-zA-Z0-9]+$/;
         if (username.length < 3) {
+            document.getElementById("controlUsernameText").innerText =
+                "Kullanılamaz";
+            document.getElementById("controlUsernameText").style.color = "red";
+            controlIsUsername = false;
+        }else if(!regex.test(username)){
             document.getElementById("controlUsernameText").innerText =
                 "Kullanılamaz";
             document.getElementById("controlUsernameText").style.color = "red";
@@ -140,7 +146,6 @@
         var name = document.getElementById("registerName").value;
         var username = document.getElementById("registerUsername").value;
         var email = document.getElementById("registerEmail").value;
-
         if (
             name.length == 0 ||
             username.length == 0 ||

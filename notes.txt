@@ -33,8 +33,10 @@ Değiştiirlen dosyaları:
 26-index/themes/animex/animeDetail.blade.php
 27-index/themes/animex/read.blade.php
 28-index/themes/animex/watch.blade.php
+29-index/themes/animex/changePassword.blade.php
+30-index/themes/animex/changeProfile.blade.php
 
-29-index/themes/mox/watch.blade.php
+31-index/themes/mox/watch.blade.php
 
 -------------------------------------------
 *Yapılacaklar:
@@ -70,15 +72,16 @@ Kontrol edilecek işlemler:
 
 ---Arayüz:
 
--+slider
--+Oy kullanma
--+İzleme
--++yorum yapabilme
--+Görüntüleyip/Listeleyebilme(--webtoon, --anime)
--+takip edebilme(-+webtoon, -+anime, -+kullanıcı)
--+beğenebilme(-+webtoon, -+anime)
---Bilgileri güncelleyebilme
+-+-slider
+-+-Oy kullanma
+-+-İzleme
+++-yorum yapabilme
+-+-Görüntüleyip/Listeleyebilme(-+-webtoon, -+-anime)
+-+-takip edebilme(-+-webtoon, -+-anime, -+-kullanıcı)
+-+-beğenebilme(-+-webtoon, -+-anime)
+-+-Bilgileri güncelleyebilme
 
 Her özelliği 2 Tema da da test edilmeli
+3.Tema Bu özelliklerle birlikte eklenmeli
 
 

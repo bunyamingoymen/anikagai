@@ -17,12 +17,12 @@
                             <span class="icon_key"></i></span>
                         </div>
                         <div class="input__item">
-                            <input type="password" name="password" id="password" placeholder="Eski Şifre *">
+                            <input type="password" name="password" id="password" placeholder="Yeni Şifre *">
                             <span class="icon_key"></i></span>
                         </div>
                         <div class="input__item">
                             <input type="password" name="password_repeat" id="password_repeat"
-                                placeholder="Eski Şifre *">
+                                placeholder="Yeni Şifre Tekrarı *">
                             <span class="icon_key"></i></span>
                         </div>
                         <span style="color:red;" id="ErrorTextMessage2"></span>
