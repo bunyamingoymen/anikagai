@@ -33,6 +33,22 @@
     <script src="../../../user/animex/js/player.js"></script>
     <link rel="stylesheet" href="../../../user/animex/css/plyr.css" type="text/css">
 
+    <style>
+        .set-bg {
+            background-size: cover;
+            background-position: top center;
+        }
+    </style>
+
+    <script>
+        $(".set-bg").each(function () {
+            var bg = $(this).data("setbg");
+            $(this).css("background-image", "url("+ bg + ")");
+        });
+    </script>
+
+
+
 </head>
 
 <body>
@@ -79,6 +95,8 @@
 
     <!-- Sweet Alerts js -->
     <script src="../../../admin/assets/libs/sweetalert2/sweetalert2.min.js"></script>
+
+
 </body>
 
 

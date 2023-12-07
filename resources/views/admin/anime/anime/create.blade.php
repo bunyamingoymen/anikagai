@@ -49,7 +49,6 @@
                         <div class="col-md-8 mb-3">
                             <label for="main_category">Ana Kategori:</label>
                             <select class="form-control js-seelct-multiple" name="main_category" id="main_category">
-                                <option value="0">Seçiniz</option>
                                 @foreach ($categories as $category)
                                 <option value="{{$category->code}}">{{$category->name}}</option>
                                 @endforeach
@@ -111,10 +110,11 @@
 
     function  createAnimeSubmitForm(params) {
         var name = document.getElementById('name').value;
-
         var image = document.getElementById('image').value;
+        var date = document.getElementById('date').value;
+        var average_min = document.getElementById('average_min').value;
 
-        if(name == "" || image == ""){
+        if(name == "" || image == "" || date == "" || average_min == ""){
             Swal.fire({
                     icon: 'error',
                     title: 'Hata',

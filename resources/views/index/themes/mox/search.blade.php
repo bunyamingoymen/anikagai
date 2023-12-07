@@ -56,27 +56,23 @@
             <div class="row tr-movie-active">
                 @foreach ($results as $result)
                 @foreach ($result as $item)
+                @if ($item->showStatus == 0 || (Auth::user() && ($item->showStatus == 1 || $item->showStatus ==
+                2)))
                 <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer cat-two">
                     <div class="movie-item movie-item-three mb-50">
                         <div class="movie-poster">
                             <img src="../../../{{$item->image}}" alt=""
                                 style="min-width: 303px; min-height: 430px; max-width: 303px; max-height: 430px;">
                             <ul class="overlay-btn">
-                                <li class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                </li>
-                                <li><a href="{{$item->type =='anime' ? url('anime/'.$item->short_name) : url('webtoon/'.$item->short_name) }}"
+                                <li><a href="{{$path == 'animeler' ? url('anime/'.$item->short_name) : url('webtoon/'.$item->short_name)}}"
                                         class="btn">Detay</a></li>
+
                             </ul>
                         </div>
                         <div class="movie-content">
                             <div class="top">
                                 <h5 class="title"><a
-                                        href="{{$item->type =='anime' ? url('anime/'.$item->short_name) : url('webtoon/'.$item->short_name) }}">{{$item->name}}</a>
+                                        href="{{$path == 'animeler' ? url('anime/'.$item->short_name) : url('webtoon/'.$item->short_name)}}">{{$item->name}}</a>
                                 </h5>
                                 <span class="date">{{$item->date}}</span>
                             </div>
@@ -93,6 +89,39 @@
                         </div>
                     </div>
                 </div>
+                @else
+                <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer cat-two">
+                    <div class="movie-item movie-item-three mb-50">
+                        <div class="movie-poster">
+                            <div class="movie-poster" style="filter: blur(7px);">
+                                <img src=" ../../../{{$item->image}}" alt="" style=" min-width: 303px; min-height: 430px; max-width:
+                                                                            303px; max-height: 430px;">
+                            </div>
+                            <ul class="overlay-btn">
+                                <li><a href="{{route('login')}}" class="btn">Görmek için giriş yapınız</a></li>
+
+                            </ul>
+                        </div>
+                        <div class="movie-content">
+                            <div class="top">
+                                <h5 class="title"><a href="{{route('login')}}">Bilinmiyor</a>
+                                </h5>
+                                <span class=" date">0000</span>
+                            </div>
+                            <div class="bottom">
+                                <ul>
+                                    <li><span class="quality">Bilinmiyor</span></li>
+                                    <li>
+                                        <span class="duration"><i class="far fa-clock"></i>
+                                            0 dk</span>
+                                        <span class="rating"><i class="fas fa-thumbs-up"></i>{{$item->score}}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
                 @endforeach
                 @endforeach
 

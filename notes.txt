@@ -60,11 +60,10 @@ Değiştiirlen dosyaları:
 -mox temasında profil bilgisi değiştirme, takip etme..vs. eklenecek,
 -mox temasında görüntülenme ayarlanacak.(listeleme ve aramada)
 -mox temasında read kısmı düzenlenecek.
--mox temasına +18 değer eklenecek
 ---------------------------------------------
 Kontrol edilecek işlemler:
 
----Admin Paneli:
++++Admin Paneli:
 +Anime Bütün Değerler için CRUD işlemi(+Anime, +Anime Bölümü, +Anime Takvimi)
 +Webtoon içib Bütün Değerler için CRUD işlemi(+webtoon, + Webtoon Bölümü, + Webtoon Takvimi)
 +Sayfalar için bütün Değerler için CRUD işlemi

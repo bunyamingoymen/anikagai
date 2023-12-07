@@ -152,8 +152,10 @@
     });
     function updateWebtoonSubmitForm(params) {
         var name = document.getElementById('name').value;
+        var date = document.getElementById('date').value;
+        var average_min = document.getElementById('average_min').value;
 
-        if(name == ""){
+        if(name == "" || date == "" || average_min == ""){
             Swal.fire({
                 icon: 'error',
                 title: 'Hata',

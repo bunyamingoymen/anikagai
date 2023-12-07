@@ -1,5 +1,24 @@
 @extends("index.themes.mox.layouts.main")
 @section('index_content')
+
+<style>
+    .plusEighteen {
+        color: #eb3434;
+        font-weight: 600;
+        font-family: 'Oswald', sans-serif;
+        line-height: 21px;
+        text-transform: uppercase;
+        padding-left: 20px;
+        position: relative;
+        opacity: 0.5;
+        transition: opacity 0.5s ease, transform 0.1s ease, border 0.1s ease;
+    }
+
+    .plusEighteen:hover {
+        opacity: 1;
+    }
+</style>
+
 @if (isset($data['webtoon_active']) && isset($data['anime_active']) && $data['webtoon_active']->value == 0 &&
 $data['anime_active']->value == 0)
 <main>
@@ -73,20 +92,12 @@ $data['anime_active']->value == 0)
                 <div class="tab-pane fade show active" id="webtoons" role="tabpanel" aria-labelledby="webtoons-tab">
                     <div class="ucm-active-two owl-carousel">
                         @foreach ($trend_webtoons as $item)
-                        <div class="movie-item movie-item-two mb-30">
-                            <div class="movie-poster"
-                                style="min-width: 195px; min-height: 285px; max-width: 195px; max-height: 285px;">
+                        <div class="movie-item movie-item-two mb-30" style="max-height: 50%; min-height: 50%;">
+                            <div class="movie-poster">
                                 <a href="{{url('webtoon/'.$item->short_name)}}"><img src="../../../{{$item->image}}"
                                         alt=""></a>
                             </div>
                             <div class="movie-content">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                </div>
                                 <h5 class="title"><a href="{{url('webtoon/'.$item->short_name)}}">{{$item->name}}</a>
                                 </h5>
                                 <span class="rel">{{$item->main_tag_name ?? 'Genel'}}</span>
@@ -115,20 +126,12 @@ $data['anime_active']->value == 0)
                         @endif
                         <div class="ucm-active-two owl-carousel">
                             @foreach ($trend_animes as $item)
-                            <div class="movie-item movie-item-two mb-30">
-                                <div class="movie-poster"
-                                    style="min-width: 195px; min-height: 285px; max-width: 195px; max-height: 285px;">
+                            <div class="movie-item movie-item-two mb-30" style="max-height: 50%; min-height: 50%;">
+                                <div class="movie-poster">
                                     <a href="{{url('anime/'.$item->short_name)}}"><img src="../../../{{$item->image}}"
                                             alt=""></a>
                                 </div>
                                 <div class="movie-content">
-                                    <div class="rating">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                    </div>
                                     <h5 class="title"><a href="{{url('anime/'.$item->short_name)}}">{{$item->name}}</a>
                                     </h5>
                                     <span class="rel">{{$item->main_tag_name ?? 'Genel'}}</span>
@@ -160,30 +163,32 @@ $data['anime_active']->value == 0)
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
-                    <div class="section-title title-style-three text-center mb-70">
-                        <h2 class="title">Animeler</h2>
+                    <div class="text-center mb-70">
+                        <div class="section-title title-style-three text-center mb-20">
+                            <h2 class="title">Animeler</h2>
+                        </div>
+                        <p class="plusEighteen ">
+                            <a href="{{url('animeler/?adult=on')}}" style="color:#fff;">
+                                +18 Animeler
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </p>
                     </div>
                 </div>
             </div>
             <div class="row movie-item-row">
                 @foreach ($animes as $item)
-                <div class="custom-col-">
+                @if ($item->showStatus == 0 || (Auth::user() && ($item->showStatus == 1 || $item->showStatus ==
+                2)))
+                <div class="custom-col-" style="max-height: 50%; min-height: 50%;">
                     <div class="movie-item movie-item-two">
-                        <div class="movie-poster"
-                            style="min-width: 195px; min-height: 285px; max-width: 195px; max-height: 285px;">
+                        <div class="movie-poster">
                             <img src="../../../{{$item->image}}" alt="">
                             <ul class="overlay-btn">
                                 <li><a href="{{url("anime/".$item->short_name)}}" class="btn">Detay</a></li>
                             </ul>
                         </div>
                         <div class="movie-content">
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
                             <h5 class="title"><a href="{{url('anime/'.$item->short_name)}}">{{$item->name}}</a></h5>
                             <span class="rel">{{$item->main_tag_name ?? 'Genel'}}</span>
                             <div class="movie-content-bottom">
@@ -199,6 +204,30 @@ $data['anime_active']->value == 0)
                         </div>
                     </div>
                 </div>
+                @else
+                <div class="custom-col-" style="max-height: 50%; min-height: 50%;">
+                    <div class="movie-item movie-item-two">
+                        <div class="movie-poster">
+                            <img class="censor" src="../../../{{$item->image}}" alt="" style="filter: blur(7px);">
+                            <ul class="overlay-btn">
+                                <li><a href="{{route('login')}}" class="btn">Görmek için
+                                        giriş yapınız</a></li>
+                            </ul>
+                        </div>
+                        <div class="movie-content">
+                            <h5 class="title"><a href="{{route('login')}}">Bilinmiyor</a></h5>
+                            <span class="rel">Bilinmiyor</span>
+                            <div class="movie-content-bottom">
+                                <ul>
+                                    <li class="tag">
+                                        <a href="javascirpt:;">Bilinmiyor</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
                 @endforeach
             </div>
             <div class="tr-movie-btn text-center mt-25">
@@ -215,30 +244,32 @@ $data['anime_active']->value == 0)
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
-                    <div class="section-title title-style-three text-center mb-70">
-                        <h2 class="title">Webtoonlar</h2>
+                    <div class="text-center mb-70">
+                        <div class="section-title title-style-three text-center mb-20">
+                            <h2 class="title">Webtoonlar</h2>
+                        </div>
+                        <p class="plusEighteen ">
+                            <a href="{{url('webtoonlar/?adult=on')}}" style="color:#fff;">
+                                +18 Webtoonlar
+                                <i class="fas fa-arrow-right"></i>
+                            </a>
+                        </p>
                     </div>
                 </div>
             </div>
             <div class="row movie-item-row">
                 @foreach ($webtoons as $item)
-                <div class="custom-col-">
+                @if ($item->showStatus == 0 || (Auth::user() && ($item->showStatus == 1 || $item->showStatus ==
+                2)))
+                <div class="custom-col-" style="max-height: 50%; min-height: 50%;">
                     <div class="movie-item movie-item-two">
-                        <div class="movie-poster"
-                            style="min-width: 195px; min-height: 285px; max-width: 195px; max-height: 285px;">
+                        <div class="movie-poster">
                             <img src="../../../{{$item->image}}" alt="">
                             <ul class="overlay-btn">
                                 <li><a href="{{url('webtoon/'.$item->short_name)}}" class="btn">Detay</a></li>
                             </ul>
                         </div>
                         <div class="movie-content">
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
                             <h5 class="title"><a href="{{url('webtoon/'.$item->short_name)}}">{{$item->name}}</a></h5>
                             <span class="rel">{{$item->main_tag_name ?? 'Genel'}}</span>
                             <div class="movie-content-bottom">
@@ -254,6 +285,30 @@ $data['anime_active']->value == 0)
                         </div>
                     </div>
                 </div>
+                @else
+                <div class="custom-col-" style="max-height: 50%; min-height: 50%;">
+                    <div class="movie-item movie-item-two">
+                        <div class="movie-poster">
+                            <img class="censor" src="../../../{{$item->image}}" alt="" style="filter: blur(7px);">
+                            <ul class="overlay-btn">
+                                <li><a href="{{route('login')}}" class="btn">Görmek için
+                                        giriş yapınız</a></li>
+                            </ul>
+                        </div>
+                        <div class="movie-content">
+                            <h5 class="title"><a href="{{route('login')}}">Bilinmiyor</a></h5>
+                            <span class="rel">Bilinmiyor</span>
+                            <div class="movie-content-bottom">
+                                <ul>
+                                    <li class="tag">
+                                        <a href="javascirpt:;">Bilinmiyor</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
                 @endforeach
 
             </div>

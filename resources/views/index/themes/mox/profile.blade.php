@@ -2,7 +2,7 @@
 @section('index_content')
 <main>
 
-    <!-- movie-details-area -->
+    <!-- Kullanıcı Bilgileri Bölümü -->
     <section class="movie-details-area" data-background="../../../user/mox/img/bg/movie_details_bg.jpg">
         <div class="container">
             <div class="row align-items-center position-relative">
@@ -31,9 +31,9 @@
             </div>
         </div>
     </section>
-    <!-- movie-details-area-end -->
+    <!-- Kullanıcı Bilgileri Bölümü End -->
 
-    <!-- up-coming-movie-area -->
+    <!-- Beğenilenler Bölümü -->
     <section class="top-rated-movie tr-movie-bg" data-background="../../user/mox/img/bg/tr_movies_bg.jpg">
         <div class="container">
             <div class="row justify-content-center">
@@ -60,73 +60,149 @@
             <div class="row tr-movie-active">
                 @if ($data['anime_active']->value == 1)
                 @foreach ($favorite_animes as $item)
+                @if ($item->showStatus == 0 || (Auth::user() && ($item->showStatus == 1 || $item->showStatus ==
+                2)))
                 <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer tab-favorite-anime">
-                    <div class="movie-item mb-60">
+                    <div class="movie-item movie-item-three mb-50">
                         <div class="movie-poster">
-                            <a href="{{url("anime/".$item->short_name)}}"><img src="../../../{{$item->image}}" alt=""
-                                    style="min-width: 303px; min-height: 430px; max-width: 303px; max-height: 430px;"></a>
+                            <img src="../../../{{$item->image}}" alt=""
+                                style="min-width: 303px; min-height: 430px; max-width: 303px; max-height: 430px;">
+                            <ul class="overlay-btn">
+                                <li><a href="{{url('anime/'.$item->short_name)}}" class="btn">Detay</a></li>
+
+                            </ul>
                         </div>
                         <div class="movie-content">
                             <div class="top">
-                                <h5 class="title"><a href="{{url("anime/".$item->short_name)}}">{{$item->name}}</a>
+                                <h5 class="title"><a href="{{url('anime/'.$item->short_name)}}">{{$item->name}}</a>
                                 </h5>
                                 <span class="date">{{$item->date}}</span>
                             </div>
                             <div class="bottom">
                                 <ul>
-                                    <li><span class="quality">{{$item->main_category_name ?? 'Genel'}}</span>
-                                    </li>
+                                    <li><span class="quality">{{$item->main_category_name}}</span></li>
                                     <li>
                                         <span class="duration"><i class="far fa-clock"></i>
-                                            {{$item->average_min}}</span>
-                                        <span class="rating"><i class="fas fa-thumbs-up"></i>
-                                            {{$item->score}}</span>
+                                            {{$item->average_min}} dk</span>
+                                        <span class="rating"><i class="fas fa-thumbs-up"></i>{{$item->score}}</span>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
+                @else
+                <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer tab-favorite-anime">
+                    <div class="movie-item movie-item-three mb-50">
+                        <div class="movie-poster">
+                            <div class="movie-poster" style="filter: blur(7px);">
+                                <img src=" ../../../{{$item->image}}" alt="" style=" min-width: 303px; min-height: 430px; max-width:
+                                                                                303px; max-height: 430px;">
+                            </div>
+                            <ul class="overlay-btn">
+                                <li><a href="{{route('login')}}" class="btn">Görmek için giriş yapınız</a></li>
+
+                            </ul>
+                        </div>
+                        <div class="movie-content">
+                            <div class="top">
+                                <h5 class="title"><a href="{{route('login')}}">Bilinmiyor</a>
+                                </h5>
+                                <span class=" date">0000</span>
+                            </div>
+                            <div class="bottom">
+                                <ul>
+                                    <li><span class="quality">Bilinmiyor</span></li>
+                                    <li>
+                                        <span class="duration"><i class="far fa-clock"></i>
+                                            0 dk</span>
+                                        <span class="rating"><i class="fas fa-thumbs-up"></i>{{$item->score}}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
                 @endforeach
                 @endif
+
                 @if ($data['webtoon_active']->value == 1)
                 @foreach ($favorite_webtoons as $item)
+                @if ($item->showStatus == 0 || (Auth::user() && ($item->showStatus == 1 || $item->showStatus ==
+                2)))
                 <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer tab-favorite-webtoon">
-                    <div class="movie-item mb-60">
+                    <div class="movie-item movie-item-three mb-50">
                         <div class="movie-poster">
-                            <a href="{{url("webtoon/".$item->short_name)}}"><img src="../../../{{$item->image}}" alt=""
-                                    style="min-width: 303px; min-height: 430px; max-width: 303px; max-height: 430px;"></a>
+                            <img src="../../../{{$item->image}}" alt=""
+                                style="min-width: 303px; min-height: 430px; max-width: 303px; max-height: 430px;">
+                            <ul class="overlay-btn">
+                                <li><a href="{{url('webtoon/'.$item->short_name)}}" class="btn">Detay</a></li>
+
+                            </ul>
                         </div>
                         <div class="movie-content">
                             <div class="top">
-                                <h5 class="title"><a href="{{url("webtoon/".$item->short_name)}}">{{$item->name}}</a>
+                                <h5 class="title"><a href="{{url('webtoon/'.$item->short_name)}}">{{$item->name}}</a>
                                 </h5>
                                 <span class="date">{{$item->date}}</span>
                             </div>
                             <div class="bottom">
                                 <ul>
-                                    <li><span class="quality">{{$item->main_category_name ?? 'Genel'}}</span>
-                                    </li>
+                                    <li><span class="quality">{{$item->main_category_name}}</span></li>
                                     <li>
                                         <span class="duration"><i class="far fa-clock"></i>
-                                            {{$item->average_min}}</span>
-                                        <span class="rating"><i class="fas fa-thumbs-up"></i>
-                                            {{$item->score}}</span>
+                                            {{$item->average_min}} dk</span>
+                                        <span class="rating"><i class="fas fa-thumbs-up"></i>{{$item->score}}</span>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
+                @else
+                <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer tab-favorite-webtoon">
+                    <div class="movie-item movie-item-three mb-50">
+                        <div class="movie-poster">
+                            <div class="movie-poster" style="filter: blur(7px);">
+                                <img src=" ../../../{{$item->image}}" alt=""
+                                    style=" min-width: 303px; min-height: 430px; max-width:
+                                                                                                                303px; max-height: 430px;">
+                            </div>
+                            <ul class="overlay-btn">
+                                <li><a href="{{route('login')}}" class="btn">Görmek için giriş yapınız</a></li>
+
+                            </ul>
+                        </div>
+                        <div class="movie-content">
+                            <div class="top">
+                                <h5 class="title"><a href="{{route('login')}}">Bilinmiyor</a>
+                                </h5>
+                                <span class=" date">0000</span>
+                            </div>
+                            <div class="bottom">
+                                <ul>
+                                    <li><span class="quality">Bilinmiyor</span></li>
+                                    <li>
+                                        <span class="duration"><i class="far fa-clock"></i>
+                                            0 dk</span>
+                                        <span class="rating"><i class="fas fa-thumbs-up"></i>{{$item->score}}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
                 @endforeach
                 @endif
 
             </div>
         </div>
     </section>
-    <!-- up-coming-movie-area-end -->
+    <!-- Beğenilenler Bölümü End -->
 
-    <!-- up-coming-movie-area -->
+    <!-- Takip Edilenler Bölümü-->
     <section class="top-rated-movie tr-movie-bg" data-background="../../user/mox/img/bg/tr_movies_bg.jpg">
         <div class="container">
             <div class="row justify-content-center">
@@ -152,73 +228,149 @@
             <div class="row tr-movie-active">
                 @if ($data['anime_active']->value == 1)
                 @foreach ($follow_animes as $item)
+                @if ($item->showStatus == 0 || (Auth::user() && ($item->showStatus == 1 || $item->showStatus ==
+                2)))
                 <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer tab-follow_animes">
-                    <div class="movie-item mb-60">
+                    <div class="movie-item movie-item-three mb-50">
                         <div class="movie-poster">
-                            <a href="{{url("anime/".$item->short_name)}}"><img src="../../../{{$item->image}}" alt=""
-                                    style="min-width: 303px; min-height: 430px; max-width: 303px; max-height: 430px;"></a>
+                            <img src="../../../{{$item->image}}" alt=""
+                                style="min-width: 303px; min-height: 430px; max-width: 303px; max-height: 430px;">
+                            <ul class="overlay-btn">
+                                <li><a href="{{url('anime/'.$item->short_name)}}" class="btn">Detay</a></li>
+
+                            </ul>
                         </div>
                         <div class="movie-content">
                             <div class="top">
-                                <h5 class="title"><a href="{{url("anime/".$item->short_name)}}">{{$item->name}}</a>
+                                <h5 class="title"><a href="{{url('anime/'.$item->short_name)}}">{{$item->name}}</a>
                                 </h5>
                                 <span class="date">{{$item->date}}</span>
                             </div>
                             <div class="bottom">
                                 <ul>
-                                    <li><span class="quality">{{$item->main_category_name ?? 'Genel'}}</span>
-                                    </li>
+                                    <li><span class="quality">{{$item->main_category_name}}</span></li>
                                     <li>
                                         <span class="duration"><i class="far fa-clock"></i>
-                                            {{$item->average_min}}</span>
-                                        <span class="rating"><i class="fas fa-thumbs-up"></i>
-                                            {{$item->score}}</span>
+                                            {{$item->average_min}} dk</span>
+                                        <span class="rating"><i class="fas fa-thumbs-up"></i>{{$item->score}}</span>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
+                @else
+                <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer tab-follow_animes">
+                    <div class="movie-item movie-item-three mb-50">
+                        <div class="movie-poster">
+                            <div class="movie-poster" style="filter: blur(7px);">
+                                <img src=" ../../../{{$item->image}}" alt=""
+                                    style=" min-width: 303px; min-height: 430px; max-width:
+                                                                                                                                            303px; max-height: 430px;">
+                            </div>
+                            <ul class="overlay-btn">
+                                <li><a href="{{route('login')}}" class="btn">Görmek için giriş yapınız</a></li>
+
+                            </ul>
+                        </div>
+                        <div class="movie-content">
+                            <div class="top">
+                                <h5 class="title"><a href="{{route('login')}}">Bilinmiyor</a>
+                                </h5>
+                                <span class=" date">0000</span>
+                            </div>
+                            <div class="bottom">
+                                <ul>
+                                    <li><span class="quality">Bilinmiyor</span></li>
+                                    <li>
+                                        <span class="duration"><i class="far fa-clock"></i>
+                                            0 dk</span>
+                                        <span class="rating"><i class="fas fa-thumbs-up"></i>{{$item->score}}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
                 @endforeach
                 @endif
                 @if ($data['webtoon_active']->value == 1)
                 @foreach ($follow_webtoons as $item)
+                @if ($item->showStatus == 0 || (Auth::user() && ($item->showStatus == 1 || $item->showStatus ==
+                2)))
                 <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer tab-follow_webtoons">
-                    <div class="movie-item mb-60">
+                    <div class="movie-item movie-item-three mb-50">
                         <div class="movie-poster">
-                            <a href="{{url("webtoon/".$item->short_name)}}"><img src="../../../{{$item->image}}" alt=""
-                                    style="min-width: 303px; min-height: 430px; max-width: 303px; max-height: 430px;"></a>
+                            <img src="../../../{{$item->image}}" alt=""
+                                style="min-width: 303px; min-height: 430px; max-width: 303px; max-height: 430px;">
+                            <ul class="overlay-btn">
+                                <li><a href="{{url('webtoon/'.$item->short_name)}}" class="btn">Detay</a></li>
+
+                            </ul>
                         </div>
                         <div class="movie-content">
                             <div class="top">
-                                <h5 class="title"><a href="{{url("webtoon/".$item->short_name)}}">{{$item->name}}</a>
+                                <h5 class="title"><a href="{{url('webtoon/'.$item->short_name)}}">{{$item->name}}</a>
                                 </h5>
                                 <span class="date">{{$item->date}}</span>
                             </div>
                             <div class="bottom">
                                 <ul>
-                                    <li><span class="quality">{{$item->main_category_name ?? 'Genel'}}</span>
-                                    </li>
+                                    <li><span class="quality">{{$item->main_category_name}}</span></li>
                                     <li>
                                         <span class="duration"><i class="far fa-clock"></i>
-                                            {{$item->average_min}}</span>
-                                        <span class="rating"><i class="fas fa-thumbs-up"></i>
-                                            {{$item->score}}</span>
+                                            {{$item->average_min}} dk</span>
+                                        <span class="rating"><i class="fas fa-thumbs-up"></i>{{$item->score}}</span>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
+                @else
+                <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer tab-follow_webtoons">
+                    <div class="movie-item movie-item-three mb-50">
+                        <div class="movie-poster">
+                            <div class="movie-poster" style="filter: blur(7px);">
+                                <img src=" ../../../{{$item->image}}" alt=""
+                                    style=" min-width: 303px; min-height: 430px; max-width:
+                                                                                                                            303px; max-height: 430px;">
+                            </div>
+                            <ul class="overlay-btn">
+                                <li><a href="{{route('login')}}" class="btn">Görmek için giriş yapınız</a></li>
+
+                            </ul>
+                        </div>
+                        <div class="movie-content">
+                            <div class="top">
+                                <h5 class="title"><a href="{{route('login')}}">Bilinmiyor</a>
+                                </h5>
+                                <span class=" date">0000</span>
+                            </div>
+                            <div class="bottom">
+                                <ul>
+                                    <li><span class="quality">Bilinmiyor</span></li>
+                                    <li>
+                                        <span class="duration"><i class="far fa-clock"></i>
+                                            0 dk</span>
+                                        <span class="rating"><i class="fas fa-thumbs-up"></i>{{$item->score}}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
                 @endforeach
                 @endif
 
             </div>
         </div>
     </section>
-    <!-- up-coming-movie-area-end -->
+    <!-- Takip Edilenler Bölümü End-->
 
-    <!-- up-coming-movie-area -->
+    <!-- İzlenenler Bölümü -->
     <section class="top-rated-movie tr-movie-bg" data-background="../../user/mox/img/bg/tr_movies_bg.jpg">
         <div class="container">
             <div class="row justify-content-center">
@@ -244,71 +396,147 @@
             <div class="row tr-movie-active">
                 @if ($data['anime_active']->value == 1)
                 @foreach ($watched_animes as $item)
+                @if ($item->showStatus == 0 || (Auth::user() && ($item->showStatus == 1 || $item->showStatus ==
+                2)))
                 <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer tab-watched_animes">
-                    <div class="movie-item mb-60">
+                    <div class="movie-item movie-item-three mb-50">
                         <div class="movie-poster">
-                            <a href={{url("anime/".$item->short_name)}}"><img src="../../../{{$item->image}}" alt=""
-                                    style="min-width: 303px; min-height: 430px; max-width: 303px; max-height: 430px;"></a>
+                            <img src="../../../{{$item->image}}" alt=""
+                                style="min-width: 303px; min-height: 430px; max-width: 303px; max-height: 430px;">
+                            <ul class="overlay-btn">
+                                <li><a href="{{url('webtoon/'.$item->short_name)}}" class="btn">Detay</a></li>
+
+                            </ul>
                         </div>
                         <div class="movie-content">
                             <div class="top">
-                                <h5 class="title"><a href="{{url("anime/".$item->short_name)}}">{{$item->name}}</a>
+                                <h5 class="title"><a href="{{url('webtoon/'.$item->short_name)}}">{{$item->name}}</a>
                                 </h5>
                                 <span class="date">{{$item->date}}</span>
                             </div>
                             <div class="bottom">
                                 <ul>
-                                    <li><span class="quality">{{$item->main_category_name ?? 'Genel'}}</span>
-                                    </li>
+                                    <li><span class="quality">{{$item->main_category_name}}</span></li>
                                     <li>
                                         <span class="duration"><i class="far fa-clock"></i>
-                                            {{$item->average_min}}</span>
-                                        <span class="rating"><i class="fas fa-thumbs-up"></i>
-                                            {{$item->score}}</span>
+                                            {{$item->average_min}} dk</span>
+                                        <span class="rating"><i class="fas fa-thumbs-up"></i>{{$item->score}}</span>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
+                @else
+                <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer tab-watched_animes">
+                    <div class="movie-item movie-item-three mb-50">
+                        <div class="movie-poster">
+                            <div class="movie-poster" style="filter: blur(7px);">
+                                <img src=" ../../../{{$item->image}}" alt=""
+                                    style=" min-width: 303px; min-height: 430px; max-width:
+                                                                                                                                303px; max-height: 430px;">
+                            </div>
+                            <ul class="overlay-btn">
+                                <li><a href="{{route('login')}}" class="btn">Görmek için giriş yapınız</a></li>
+
+                            </ul>
+                        </div>
+                        <div class="movie-content">
+                            <div class="top">
+                                <h5 class="title"><a href="{{route('login')}}">Bilinmiyor</a>
+                                </h5>
+                                <span class=" date">0000</span>
+                            </div>
+                            <div class="bottom">
+                                <ul>
+                                    <li><span class="quality">Bilinmiyor</span></li>
+                                    <li>
+                                        <span class="duration"><i class="far fa-clock"></i>
+                                            0 dk</span>
+                                        <span class="rating"><i class="fas fa-thumbs-up"></i>{{$item->score}}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
                 @endforeach
                 @endif
                 @if ($data['webtoon_active']->value == 1)
                 @foreach ($readed_webtoons as $item)
+                @if ($item->showStatus == 0 || (Auth::user() && ($item->showStatus == 1 || $item->showStatus ==
+                2)))
                 <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer tab-readed_webtoons">
-                    <div class="movie-item mb-60">
+                    <div class="movie-item movie-item-three mb-50">
                         <div class="movie-poster">
-                            <a href="{{url("webtoon/".$item->short_name)}}"><img src="../../../{{$item->image}}" alt=""
-                                    style="min-width: 303px; min-height: 430px; max-width: 303px; max-height: 430px;"></a>
+                            <img src="../../../{{$item->image}}" alt=""
+                                style="min-width: 303px; min-height: 430px; max-width: 303px; max-height: 430px;">
+                            <ul class="overlay-btn">
+                                <li><a href="{{url('webtoon/'.$item->short_name)}}" class="btn">Detay</a></li>
+
+                            </ul>
                         </div>
                         <div class="movie-content">
                             <div class="top">
-                                <h5 class="title"><a href="{{url("webtoon/".$item->short_name)}}">{{$item->name}}</a>
+                                <h5 class="title"><a href="{{url('webtoon/'.$item->short_name)}}">{{$item->name}}</a>
                                 </h5>
                                 <span class="date">{{$item->date}}</span>
                             </div>
                             <div class="bottom">
                                 <ul>
-                                    <li><span class="quality">{{$item->main_category_name ?? 'Genel'}}</span>
-                                    </li>
+                                    <li><span class="quality">{{$item->main_category_name}}</span></li>
                                     <li>
                                         <span class="duration"><i class="far fa-clock"></i>
-                                            {{$item->average_min}}</span>
-                                        <span class="rating"><i class="fas fa-thumbs-up"></i>
-                                            {{$item->score}}</span>
+                                            {{$item->average_min}} dk</span>
+                                        <span class="rating"><i class="fas fa-thumbs-up"></i>{{$item->score}}</span>
                                     </li>
                                 </ul>
                             </div>
                         </div>
                     </div>
                 </div>
+                @else
+                <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer tab-readed_webtoons">
+                    <div class="movie-item movie-item-three mb-50">
+                        <div class="movie-poster">
+                            <div class="movie-poster" style="filter: blur(7px);">
+                                <img src=" ../../../{{$item->image}}" alt=""
+                                    style=" min-width: 303px; min-height: 430px; max-width:
+                                                                                                                                                303px; max-height: 430px;">
+                            </div>
+                            <ul class="overlay-btn">
+                                <li><a href="{{route('login')}}" class="btn">Görmek için giriş yapınız</a></li>
+
+                            </ul>
+                        </div>
+                        <div class="movie-content">
+                            <div class="top">
+                                <h5 class="title"><a href="{{route('login')}}">Bilinmiyor</a>
+                                </h5>
+                                <span class=" date">0000</span>
+                            </div>
+                            <div class="bottom">
+                                <ul>
+                                    <li><span class="quality">Bilinmiyor</span></li>
+                                    <li>
+                                        <span class="duration"><i class="far fa-clock"></i>
+                                            0 dk</span>
+                                        <span class="rating"><i class="fas fa-thumbs-up"></i>{{$item->score}}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @endif
                 @endforeach
                 @endif
 
             </div>
         </div>
     </section>
-    <!-- up-coming-movie-area-end -->
+    <!-- İzlenenler Bölümü End -->
 
 </main>
 @endsection

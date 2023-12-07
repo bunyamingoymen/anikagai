@@ -62,7 +62,6 @@
                         <div class="col-md-8 mb-3">
                             <label for="main_catogery">Ana Kategori:</label>
                             <select class="form-control js-seelct-multiple" name="main_category" id="main_category">
-                                <option value="0">Seçiniz</option>
                                 @foreach ($categories as $category)
                                 @if ($anime->main_category == $category->code)
                                 <option value="{{$category->code}}" selected>{{$category->name}}</option>
@@ -149,8 +148,10 @@
 
     function updateAnimeSubmitForm(params) {
         var name = document.getElementById('name').value;
+        var date = document.getElementById('date').value;
+        var average_min = document.getElementById('average_min').value;
 
-        if(name == ""){
+        if(name == ""|| date == "" || average_min == ""){
             Swal.fire({
                 icon: 'error',
                 title: 'Hata',
