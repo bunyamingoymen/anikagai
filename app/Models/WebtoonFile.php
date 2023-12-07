@@ -5,21 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class WebtoonEpisode extends Model
+class WebtoonFile extends Model
 {
     use HasFactory;
-
     protected $fillable = [
         'code',
-        'name',
-        'webtoon_code',
-        'image',
-        'description',
-        'season_short',
-        'episode_short',
-        'click_count',
-        'minute',
-        'publish_date',
+        'webtoon_episode_code',
+        'file_type',
+        'file',
         'create_user_code',
         'update_user_code',
         'deleted',

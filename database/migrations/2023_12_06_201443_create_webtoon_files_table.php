@@ -11,18 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('webtoon_episodes', function (Blueprint $table) {
+        Schema::create('webtoon_files', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('code');
-            $table->string('name');
-            $table->unsignedBigInteger('webtoon_code');
-            $table->string('image')->nullable();
-            $table->longText('description')->nullable();
-            $table->integer('season_short')->default(0);
-            $table->integer('episode_short')->default(0);
-            $table->integer('click_count')->default(0);
-            $table->integer('minute')->default(0);
-            $table->date('publish_date')->default("1970-01-01");
+            $table->unsignedBigInteger('webtoon_episode_code');
+            $table->unsignedBigInteger('file_type');
+            $table->unsignedBigInteger('file');
             $table->unsignedBigInteger('create_user_code')->default(1);
             $table->unsignedBigInteger('update_user_code')->nullable();
             $table->tinyInteger('deleted')->default(0); // 0: silinmemiş, aktif, görünür. 1: silinmiş, pasif, görünmez
@@ -35,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('webtoon_episodes');
+        Schema::dropIfExists('webtoon_files');
     }
 };

@@ -5,7 +5,11 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
-
+                <div class="anime__details__review">
+                    <div class="section-title" {{$webtoon->plusEighteen == "0" ? "hidden" : ""}}>
+                        <h5 style="color:#e53637">+18</h5>
+                    </div>
+                </div>
                 <div class="anime__video__player justify-content-center">
                     <div style="position: relative;">
                         <iframe id="myIframe" src="../../../{{$episode->file}}" style="width:1080px; height:640px;"

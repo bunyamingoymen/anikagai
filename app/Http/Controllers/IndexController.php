@@ -555,6 +555,8 @@ class IndexController extends Controller
 
         if (!$user)
             $user = Auth::user();
+        if (!$user)
+            return redirect()->route("loginScreen");
 
         $favorite_animes = DB::table('animes')
             ->Where('favorite_animes.user_code', $user->code)

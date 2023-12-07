@@ -6,24 +6,35 @@ Değiştiirlen dosyaları:
 
 4-Models/Anime
 5-Models/Webtoon
+6-Models/WebtoonEpisode
+7-Models/WebtoonFile
 
-6-create_webtoons_table
-7-create_animes_table
+8-create_webtoons_table
+9-create_webtoons_episode_table
+10-create_webtoon_files_table
+11-create_animes_table
 
-8-admin/anime/anime/create.blade.php
-9-admin/anime/anime/list.blade.php
-10-admin/anime/anime/update.blade.php
+12-admin/anime/anime/create.blade.php
+13-admin/anime/anime/list.blade.php
+14-admin/anime/anime/update.blade.php
+15-admin/anime/episode/create.blade.php
 
-11-admin/webtoon/webtoon/update.blade.php
-12-admin/webtoon/webtoon/list.blade.php
-13-admin/webtoon/webtoon/update.blade.php
+16-admin/webtoon/webtoon/create.blade.php
+17-admin/webtoon/webtoon/list.blade.php
+18-admin/webtoon/webtoon/update.blade.php
+19-admin/webtoon/episode/create.blade.php
 
-14-index/themes/animex/layouts/footer.blade.php
-15-index/themes/animex/layouts/main.blade.php
-16-index/themes/animex/layouts/topbar.blade.php
-17-index/themes/animex/index.blade.php
-18-index/themes/animex/list.blade.php
-19-index/themes/animex/search.blade.php
+20-index/themes/animex/layouts/footer.blade.php
+21-index/themes/animex/layouts/main.blade.php
+22-index/themes/animex/layouts/topbar.blade.php
+23-index/themes/animex/index.blade.php
+24-index/themes/animex/list.blade.php
+25-index/themes/animex/search.blade.php
+26-index/themes/animex/animeDetail.blade.php
+27-index/themes/animex/read.blade.php
+28-index/themes/animex/watch.blade.php
+
+29-index/themes/mox/watch.blade.php
 
 -------------------------------------------
 *Yapılacaklar:
@@ -34,16 +45,14 @@ Değiştiirlen dosyaları:
 -Şifremi Unuttum kısmı
 
 **Diğer:
-- +18 bölümü eklenecek
 -Takvim
 -3.tema
 -Her update de code değeri var olmayacak. js ile o getirilecek
 -Benzer içerikleri gösterme
 -Takvimde güncelleyip silebilme işlemi
--otomatik izlendi olarak işaretleme
 -mox temasında prfil bilgisi değiştirme, takip etme..vs. eklenecek,
 -mox temasında görüntülenme ayarlanacak.
--Anime ve webtoon'lar a izleme ve okuma kısmı b gitmemeli.
+-webtoon'a ister pdf ister de resim yüklenebilmeli
 ---------------------------------------------
 Kontrol edilecek işlemler:
 
@@ -61,14 +70,13 @@ Kontrol edilecek işlemler:
 
 ---Arayüz:
 
---slider
---Oy kullanma
---İzleme
---yorum yapabilme
---Görüntüleyip/Listeleyebilme(--webtoon, --anime)
---takip edebilme(--webtoon, --anime)
---beğenebilme(--webtoon, --anime)
---kullanıcı takip edebilme
+-+slider
+-+Oy kullanma
+-+İzleme
+-++yorum yapabilme
+-+Görüntüleyip/Listeleyebilme(--webtoon, --anime)
+-+takip edebilme(-+webtoon, -+anime, -+kullanıcı)
+-+beğenebilme(-+webtoon, -+anime)
 --Bilgileri güncelleyebilme
 
 Her özelliği 2 Tema da da test edilmeli

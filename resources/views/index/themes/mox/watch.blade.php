@@ -11,25 +11,25 @@
     kendi tercih ettiğiniz bir font kullanabilirsiniz */
 
     .overlay-button {
-        position: absolute;
-        bottom: 75px;
+        position: absolute !important;
+        bottom: 75px !important;
         /* Alt kenardan biraz yukarıda */
-        right: 25px;
+        right: 25px !important;
         /* Sağ kenardan biraz sola */
-        padding: 4px 15px;
+        padding: 4px 15px !important;
         background-color: #0b0c2a;
         /* Yarı şeffaf siyah arkaplan */
         color: white;
         border-radius: 8px;
         border: 2px solid rgba(255, 255, 255, 0);
         /* Beyaz yarı şeffaf sınır (border) */
-        display: block;
+        display: block !important;
         opacity: 0;
         transition: opacity 0.5s ease, transform 0.1s ease, border 0.1s ease;
         /* Border için de animasyon eklendi */
         box-shadow: 0 2px 10px #0b0c2a;
         /* Gölge efekti */
-        font-family: 'Roboto', sans-serif;
+        font-family: 'Roboto', sans-serif !important;
         /* Kullanılan fontu ayarlayın */
         z-index: 99999999;
     }
@@ -189,6 +189,46 @@
     @endif
 </script>
 
+<!-- İzleme ile ilgili fonksiyonlar -->
+<script>
+    function watchAnime(anime_episode_code){
+        var anime_code = `{{$anime->code}}`;
+        @if (Auth::user())
+            $.ajaxSetup({
+                headers: {
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                },
+            });
+            $.ajax({
+                type: "POST",
+                url: '{{ route("index_watched_anime") }}',
+                data: {
+                    anime_episode_code: anime_episode_code,
+                    anime_code: anime_code,
+                    content_type: 1
+                }
+            })
+            .done(function (response) {
+                if (response.response === 0) {
+                    console.log('İşlem İçin Giriş Yapılması Gerekmektedir.');
+                } else if (response.response === 1) {
+                    console.log("Bölüm izlendi olarak işaretlendi");
+                } else if (response.response === 2) {
+                    console.log("Bölüm izlenmedi olarak işaretlendi");
+                } else {
+                    console.log('Bölüm izlendi olarak işaretlenirken beklenmedik bir hata meydana geldi');
+                }
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                console.log('AJAX hatası: ' + textStatus + ' - ' + errorThrown + ' - ' + JSON.stringify(jqXHR));
+            });
+        @else
+            alert("İlk Önce Giriş yapmanız gerekmektedir.")
+            document.getElementById(id).checked = false;
+        @endif
+    }
+</script>
+
 <!-- Video Ayarları -->
 <script>
     var intro_start_time_min = {{$episode->intro_start_time_min ?? 0}}; // intr başlama zamanı dakikası
@@ -289,19 +329,27 @@
             }
 
             //bir sonraki bölüm varsa son saniyeler buton gözükür.
-            @if ($next_episode_url != "none")
+
                 //Video son 10 saniyesinde ve daah önce sonraki bölüme geç butonu gösterilmediyse
                 if (showNextEpisodeButtonTime !== null && showNextEpisodeButtonTime <= currentTime && !is_show_next_episode_button) {
-                    showButton('nextEpisodeButton');
-                    is_show_next_episode_button = true;
 
-                    //Sonraki Bölüme Atla butonunun aktif olduğunu göstermek için control'ü gösteriyoruz. ve 3 saniye sonra gizliyoruz.
-                    document.getElementsByClassName('plyr--video')[0].classList.remove('plyr--hide-controls');
-                    controlsTimeout = setTimeout(() => {
-                        document.getElementsByClassName('plyr--video')[0].classList.add('plyr--hide-controls');
-                    }, 3000); // 3000 milisaniye (3 saniye) sonra gizle
+                    //Eğer Kullanıcı girşi yapmışsa otomatik olarak izlendi olarak işaretleniyor
+                    @if (Auth::user() && count($watched->Where('anime_episode_code',$episode->code)) == 0)
+                        watchAnime("{{$episode->code}}");
+                    @endif
+
+                    @if ($next_episode_url != "none")
+                        showButton('nextEpisodeButton');
+                        is_show_next_episode_button = true;
+
+                        //Sonraki Bölüme Atla butonunun aktif olduğunu göstermek için control'ü gösteriyoruz. ve 3 saniye sonra gizliyoruz.
+                        document.getElementsByClassName('plyr--video')[0].classList.remove('plyr--hide-controls');
+                        controlsTimeout = setTimeout(() => {
+                            document.getElementsByClassName('plyr--video')[0].classList.add('plyr--hide-controls');
+                        }, 3000); // 3000 milisaniye (3 saniye) sonra gizle
+                    @endif
                 }
-            @endif
+
 
         });
 

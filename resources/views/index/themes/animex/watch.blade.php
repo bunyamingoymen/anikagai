@@ -11,25 +11,24 @@
     kendi tercih ettiğiniz bir font kullanabilirsiniz */
 
     .overlay-button {
-        position: absolute;
-        bottom: 75px;
+        position: absolute !important;
+        bottom: 75px !important;
         /* Alt kenardan biraz yukarıda */
-        right: 25px;
+        right: 25px !important;
         /* Sağ kenardan biraz sola */
-        padding: 4px 15px;
+        padding: 4px 15px !important;
         background-color: #0b0c2a;
         /* Yarı şeffaf siyah arkaplan */
         color: white;
         border-radius: 8px;
         border: 2px solid rgba(255, 255, 255, 0);
         /* Beyaz yarı şeffaf sınır (border) */
-        display: block;
         opacity: 0;
         transition: opacity 0.5s ease, transform 0.1s ease, border 0.1s ease;
         /* Border için de animasyon eklendi */
         box-shadow: 0 2px 10px #0b0c2a;
         /* Gölge efekti */
-        font-family: 'Roboto', sans-serif;
+        font-family: 'Roboto', sans-serif !important;
         /* Kullanılan fontu ayarlayın */
         z-index: 99999999;
     }
@@ -55,6 +54,11 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12">
+                <div class="anime__details__review">
+                    <div class="section-title" {{$anime->plusEighteen == "0" ? "hidden" : ""}}>
+                        <h5 style="color:#e53637">+18</h5>
+                    </div>
+                </div>
                 <div class="anime__video__player justify-content-center">
                     <video id="anime-video-player-url" class="plyr video_size_class" controls crossorigin playsinline
                         poster="../../../{{$anime->image}}">
@@ -64,7 +68,8 @@
                     </video>
 
                     @if ($next_episode_url != "none")
-                    <button id="nextEpisodeButton" class="overlay-button" style="display:none;" hidden>Sonraki bölüme
+                    <button id="nextEpisodeButton" class="overlay-button" style="display:none;" hidden>Sonraki
+                        bölüme
                         geç</button>
                     @endif
 
@@ -87,7 +92,8 @@
                                 {{$i}} - {{$item->episode_short }}.Bölüm - {{$item->name}}
                             </a>
                             @else
-                            @if (count($watched) > 0 && ($watched->Where('anime_episode_code',$item->code)->first()))
+                            @if (count($watched) > 0 &&
+                            ($watched->Where('anime_episode_code',$item->code)->first()))
                             <a style="background-color: green;" class="a_selected" href="{{url("anime/".$anime->short_name."/".$i."/".$item->episode_short)}}">
                                 {{$i}} - {{$item->episode_short }}.Bölüm - {{$item->name}}
                             </a>
@@ -202,7 +208,8 @@
                             <a href="anime/{{$item->short_name}}">
                                 <div class="product__item__pic set-bg" data-setbg="../../../{{$item->image}}">
                                     <div class="ep">{{$item->score}} / 5</div>
-                                    <div class="comment"><i class="fa fa-comments"></i> {{$item->comment_count}}</div>
+                                    <div class="comment"><i class="fa fa-comments"></i> {{$item->comment_count}}
+                                    </div>
                                     <div class="view"><i class="fa fa-eye"></i> {{$item->click_count}} </div>
                                 </div>
                             </a>
@@ -220,6 +227,47 @@
         </div>
     </div>
 </section>
+
+<!-- İzleme ile ilgili fonksiyonlar -->
+<script>
+    function watchAnime(anime_episode_code){
+        var anime_code = `{{$anime->code}}`;
+        @if (Auth::user())
+
+            $.ajaxSetup({
+                headers: {
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                },
+            });
+            $.ajax({
+                type: "POST",
+                url: '{{ route("index_watched_anime") }}',
+                data: {
+                    anime_episode_code: anime_episode_code,
+                    anime_code: anime_code,
+                    content_type: 1
+                }
+            })
+            .done(function (response) {
+                if (response.response === 0) {
+                    console.log('İşlem İçin Giriş Yapılması Gerekmektedir.');
+                } else if (response.response === 1) {
+                    console.log("Bölüm izlendi olarak işaretlendi");
+                } else if (response.response === 2) {
+                    console.log("Bölüm izlenmedi olarak işaretlendi");
+                } else {
+                    console.log('Bölüm izlendi olarak işaretlenirken beklenmedik bir hata meydana geldi');
+                }
+            })
+            .fail(function (jqXHR, textStatus, errorThrown) {
+                console.log('AJAX hatası: ' + textStatus + ' - ' + errorThrown + ' - ' + JSON.stringify(jqXHR));
+            });
+        @else
+            alert("İlk Önce Giriş yapmanız gerekmektedir.")
+            document.getElementById(id).checked = false;
+        @endif
+    }
+</script>
 
 <!-- Video Ayarları -->
 <script>
@@ -275,6 +323,7 @@
         introButton.className = 'plyr__controls__item overlay-button'; // Plyr kontrol sınıfını ekleyin
         introButton.innerHTML = 'İntroyu Atla';
         introButton.hidden = true;
+        introButton.style.display = "none";
         document.getElementsByClassName('plyr__controls')[0].appendChild(introButton);
 
         //bir sonraki bölüm varsa. Sonraki bölüme atla butonu oluşturuluyor.
@@ -285,6 +334,7 @@
             nextButton.className = 'plyr__controls__item overlay-button'; // Plyr kontrol sınıfını ekleyin
             nextButton.innerHTML = 'Sonraki Bölüme Geç';
             nextButton.hidden = true;
+            nextButton.style.display = "none";
             document.getElementsByClassName('plyr__controls')[0].appendChild(nextButton);
         @endif
 
@@ -293,7 +343,7 @@
 
         // Video başlatıldığında / durdurulup-başlatıldığında
         player.on('play', function () {
-            showNextEpisodeButtonTime = player.duration - 140;
+            showNextEpisodeButtonTime = player.duration - 60;
         });
 
         // Video oynatılırken
@@ -321,19 +371,24 @@
             }
 
             //bir sonraki bölüm varsa son saniyeler buton gözükür.
-            @if ($next_episode_url != "none")
-                //Video son 10 saniyesinde ve daah önce sonraki bölüme geç butonu gösterilmediyse
-                if (showNextEpisodeButtonTime !== null && showNextEpisodeButtonTime <= currentTime && !is_show_next_episode_button) {
-                    showButton('nextEpisodeButton');
-                    is_show_next_episode_button = true;
+            //Video son 10 saniyesinde ve daah önce sonraki bölüme geç butonu gösterilmediyse
+            if (showNextEpisodeButtonTime !== null && showNextEpisodeButtonTime <= currentTime && !is_show_next_episode_button) {
+                showButton('nextEpisodeButton');
+                //Eğer Kullanıcı girşi yapmışsa otomatik olarak izlendi olarak işaretleniyor
+                @if (Auth::user() && count($watched->Where('anime_episode_code',$episode->code)) == 0)
+                    watchAnime("{{$episode->code}}");
+                @endif
 
+                @if ($next_episode_url != "none")
+                    is_show_next_episode_button = true;
                     //Sonraki Bölüme Atla butonunun aktif olduğunu göstermek için control'ü gösteriyoruz. ve 3 saniye sonra gizliyoruz.
                     document.getElementsByClassName('plyr--video')[0].classList.remove('plyr--hide-controls');
                     controlsTimeout = setTimeout(() => {
                         document.getElementsByClassName('plyr--video')[0].classList.add('plyr--hide-controls');
                     }, 3000); // 3000 milisaniye (3 saniye) sonra gizle
-                }
-            @endif
+                @endif
+            }
+
 
         });
 
@@ -397,6 +452,7 @@
                 opacity = 0;
                 count = 0;
                 button.hidden = false;
+                button.style.display = "block";
                 var old_opacity = button.style.opacity;
                 if(old_opacity == 0){
                     var animationInterval = setInterval(function() {
@@ -418,6 +474,7 @@
             var button = document.getElementById(buttonId);
             if (button) {
                 button.hidden = true;
+                button.style.display = "none";
                 button.opacity = 0;
             }
         }
@@ -428,31 +485,30 @@
 <!-- Yorum ayarları -->
 <script>
     function ReplyComment(commentDiv, content_code, content_type, comment_type, comment_top_code){
-    var commentDiv = document.getElementById(commentDiv);
-    if(commentDiv.innerHTML == ""){
-        var html = `<div class="blog__details__comment__item blog__details__comment__item--reply">
-                <div class="anime__details__form">
-                    <form action="{{route('addNewComment')}}" method="POST">
-                        @csrf
-                        <div hidden>
-                            <input type="text" name="anime_code" value="{{$anime->code}}">
-                            <input type="text" name="content_code" value="`+content_code+`">
-                            <input type="text" name="content_type" value="`+content_type+`">
-                            <input type="text" name="comment_type" value="`+comment_type+`">
-                            <input type="text" name="comment_top_code" value="`+comment_top_code+`">
-                        </div>
-                        <textarea name="message" placeholder="Yorumunuz"></textarea>
-                        <button style="float:right;" type="submit"><i class="fa fa-location-arrow"></i>
-                            Gönder</button>
-                    </form>
-                </div>
-            </div>`;
+        var commentDiv = document.getElementById(commentDiv);
+        if(commentDiv.innerHTML == ""){
+            var html = `<div class="blog__details__comment__item blog__details__comment__item--reply">
+                    <div class="anime__details__form">
+                        <form action="{{route('addNewComment')}}" method="POST">
+                            @csrf
+                            <div hidden>
+                                <input type="text" name="anime_code" value="{{$anime->code}}">
+                                <input type="text" name="content_code" value="`+content_code+`">
+                                <input type="text" name="content_type" value="`+content_type+`">
+                                <input type="text" name="comment_type" value="`+comment_type+`">
+                                <input type="text" name="comment_top_code" value="`+comment_top_code+`">
+                            </div>
+                            <textarea name="message" placeholder="Yorumunuz"></textarea>
+                            <button style="float:right;" type="submit"><i class="fa fa-location-arrow"></i>
+                                Gönder</button>
+                        </form>
+                    </div>
+                </div>`;
 
-    commentDiv.innerHTML = html;
-    }else{
-        commentDiv.innerHTML = "";
+            commentDiv.innerHTML = html;
+        }else{
+            commentDiv.innerHTML = "";
+        }
     }
-
-}
 </script>
 @endsection
