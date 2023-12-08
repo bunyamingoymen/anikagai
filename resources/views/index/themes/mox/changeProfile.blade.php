@@ -3,79 +3,65 @@
 <!-- main-area -->
 <main>
 
-    <!-- breadcrumb-area -->
-    <section class="breadcrumb-area breadcrumb-bg" data-background="../../../user/mox/img/bg/breadcrumb_bg.jpg">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="breadcrumb-content">
-                        <h2 class="title">Giriş Yap</h2>
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="{{route('index')}}">Anasayfa</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Giriş Yap</li>
-                            </ol>
-                        </nav>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- breadcrumb-area-end -->
-
     <!-- contact-area -->
     <section class="contact-area contact-bg" data-background="../../../user/mox/img/bg/contact_bg.jpg">
         <div class="container">
             <div class="row">
-                <div class="col-xl-6">
+                <div class="col-xl-4">
                     <div class="contact-form-wrap">
                         <div class="widget-title mb-50">
-                            <h5 class="title">Giriş Yap</h5>
+                            <h5 class="title">Resim Değiştir</h5>
                         </div>
                         <div class="contact-form">
-                            <form action="{{route('login')}}" method="POST">
-                                @csrf
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <input type="text" name="email" id="email" placeholder="E-mail *">
-                                    </div>
-                                    <div class="col-md-12">
-                                        <input type="password" name="password" id="password" placeholder="Şifre *">
-                                    </div>
+                            <div class="../../../user/mox/movie-details-img">
+                                <img src="../../../{{$user->image ?? 'user/img/profile/default.png'}}" alt=""
+                                    style="min-width: 303px;  max-width: 303px;">
+                                <div class="mt-5">
+                                    <form action="{{route('change_profile_image')}}" id="changeProfileImageForm"
+                                        method="POST" enctype="multipart/form-data">
+                                        @csrf
+                                        <input type="file" id="imageInput" name="image" onchange="changeImageFileForm()"
+                                            accept="image/*" hidden>
+                                        <button class="btn" type="button" onclick="changeImageFile()">Resmi
+                                            Değiştir</button>
+                                    </form>
                                 </div>
-                                <button class="btn">Giriş Yap</button>
-                            </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-xl-6">
+                <div class="col-xl-8">
                     <div class="contact-form-wrap">
                         <div class="widget-title mb-50">
-                            <h5 class="title">Üye Ol</h5>
+                            <h5 class="title">Bilgileri Değiştir</h5>
                         </div>
                         <div class="contact-form">
-                            <form action="{{route('register')}}" method="POST" id="registerSubmitForm">
+                            <form action="{{route('change_profile_settings')}}" method="POST" id="changeProfileForm">
                                 @csrf
                                 <div class="row">
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <small>  </small>
-                                        <input type="text" name="name" id="registerName" placeholder="İsim *">
+                                        <input type="text" name="name" id="registerName" placeholder="İsim *"
+                                            value="{{$user->name}}">
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-12">
                                         <small id="controlUsernameText"> </small>
                                         <input type="text" name="username" id="registerUsername"
-                                            placeholder="Kullanıcı Adı *" onchange="controlUsername()">
+                                            placeholder="Kullanıcı Adı *" onchange="controlUsername()"
+                                            value="{{$user->username}}">
+
+                                    </div>
+                                    <div class="col-md-12">
+                                        <small id="controlEmailText"> </small>
+                                        <input type="email" name="email" id="registerEmail" placeholder="E-mail *"
+                                            onchange="controlEmail()" value="{{$user->email}}">
 
                                     </div>
                                 </div>
-                                <small id="controlEmailText"> </small>
-                                <input type="email" name="email" id="registerEmail" placeholder="E-mail *"
-                                    onchange="controlEmail()">
-                                <input type="password" name="password" id="registerPassword" placeholder="Şifre *">
-                                <input type="password" name="password_repeat" id="registerPassword_repeat"
-                                    placeholder="Şifre Tekrarı *">
-                                <p id="registerMessageText" style="color: red;"></p>
-                                <button class="btn" type="button" onclick="registerSubmitFormButton()">Üye Ol</button>
+
+                                <p id="controlEmailText" style="color: red;"></p>
+                                <button class="btn" type="button" onclick="changeProfileFormButton()">Bilgileri
+                                    Değiştir</button>
                             </form>
                         </div>
                     </div>
@@ -84,19 +70,18 @@
         </div>
     </section>
     <!-- contact-area-end -->
-
-
 </main>
-<!-- main-area-end -->
 
-<!-- Js Plugins -->
-<script src="../../../user/animex/js/jquery-3.3.1.min.js"></script>
+<!-- JS here -->
+<script src="../../../user/mox/js/vendor/jquery-3.6.0.min.js"></script>
 
 <script>
-    var controlIsUsername = false;
-    var controlIsEmail = false;
+    var controlIsUsername = true;
+    var controlIsEmail = true;
+
     function controlUsername() {
         var username = document.getElementById("registerUsername").value;
+        var code = "{{$user->code}}";
         var regex = /^[a-zA-Z0-9]+$/;
         if (username.length < 3) {
             document.getElementById("controlUsernameText").innerText =
@@ -108,7 +93,7 @@
                 "Kullanılamaz";
             document.getElementById("controlUsernameText").style.color = "red";
             controlIsUsername = false;
-        }else {
+        } else {
             $.ajaxSetup({
                 headers: {
                     "X-CSRF-TOKEN": "{{ csrf_token() }}",
@@ -117,7 +102,7 @@
             $.ajax({
                 type: "POST",
                 url: '{{route("index_control_username")}}',
-                data: { username: username },
+                data: { username: username, code:code },
                 success: function (control) {
                     if (control.control) {
                         document.getElementById("controlUsernameText").innerText =
@@ -139,6 +124,7 @@
 
     function controlEmail() {
         var email = document.getElementById("registerEmail");
+        var code = "{{$user->code}}";
         var value = email.value;
         if (!email.checkValidity() || value.length == 0) {
             document.getElementById("controlEmailText").innerText = "Kullanılamaz";
@@ -153,7 +139,7 @@
             $.ajax({
                 type: "POST",
                 url: '{{route("index_control_email")}}',
-                data: { email: value },
+                data: { email: value , code: code},
                 success: function (control) {
                     if (control.control) {
                         document.getElementById("controlEmailText").innerText =
@@ -173,42 +159,39 @@
         }
     }
 
-    function registerSubmitFormButton() {
+    function changeProfileFormButton() {
         var name = document.getElementById("registerName").value;
         var username = document.getElementById("registerUsername").value;
         var email = document.getElementById("registerEmail").value;
-        var password = document.getElementById("registerPassword").value;
-        var password_repeat = document.getElementById(
-            "registerPassword_repeat"
-        ).value;
-
         if (
             name.length == 0 ||
             username.length == 0 ||
-            email.length == 0 ||
-            password.length == 0 ||
-            password_repeat.length == 0
+            email.length == 0
         ) {
-            document.getElementById("registerMessageText").innerText =
+            document.getElementById("controlEmailText").innerText =
                 "Lütfen Tüm gerekli alanları doldurunuz.";
         } else if (controlIsUsername && controlIsEmail) {
-
-            if (password == password_repeat) {
-                document.getElementById("registerSubmitForm").submit();
-            }else{
-                document.getElementById("registerMessageText").innerText =
-                    "Şifre İle Şifre Tekrarı aynı değil.";
-            }
-        } else {
+            document.getElementById("changeProfileForm").submit();
+        }else {
             if (!controlIsUsername) {
-                document.getElementById("registerMessageText").innerText =
+                document.getElementById("controlEmailText").innerText =
                     "Bu Kullanıcı adı alınamaz";
             }  else {
-                document.getElementById("registerMessageText").innerText =
+                document.getElementById("controlEmailText").innerText =
                     "Bu E-mail adresi alınamaz";
             }
         }
     }
 
+</script>
+<!-- resim değiştirme işlemleri -->
+<script>
+    function changeImageFile(){
+        document.getElementById('imageInput').click();
+    }
+
+    function changeImageFileForm(){
+        document.getElementById('changeProfileImageForm').submit();
+    }
 </script>
 @endsection

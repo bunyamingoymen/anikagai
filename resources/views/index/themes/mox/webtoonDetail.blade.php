@@ -55,11 +55,10 @@
                                             class="fas fa-plus"></i>Takip
                                         Ediliyor</a>
                                     @else
-                                    <p style="color:red;" id="followWebtoonTextMessageUst">  </p>
                                     <a href="javascript:;" class="btn" onclick="followWebtoon()"><i
                                             class="fas fa-plus"></i>Takip
                                         Et</a>
-                                    <p style="color:red;" id="followWebtoonTextMessage">  </p>
+                                    <p style="color:red;" id="followWebtoonTextMessage"></p>
                                     @endif
 
                                 </li>
@@ -69,11 +68,10 @@
                                             class="fas fa-heart"></i>Favorilere
                                         Eklendi</a>
                                     @else
-                                    <p style="color:red;" id="likeWebtoonTextMessageUst">  </p>
                                     <a href="javascript:;" class="btn" onclick="likeWebtoon()"><i
                                             class="fas fa-heart"></i>Favorilere
                                         Ekle</a>
-                                    <p style="color:red;" id="likeWebtoonTextMessage">  </p>
+                                    <p style="color:red;" id="likeWebtoonTextMessage"></p>
                                     @endif
 
                                 </li>

@@ -19,6 +19,34 @@
                         <p>
                             {{$user->description ?? 'Açıklama Mevcut değil'}}
                         </p>
+                        <div class="movie-details-prime">
+                            <ul>
+                                @if (Auth::user() && $user->code == Auth::user()->code)
+                                <li class="watch">
+                                    <a href="{{route('change_profile_settings_screen')}}" class="btn"><i
+                                            class="fas fa-info"></i>Bilgilerimi Değiştir</a>
+                                </li>
+                                <li class="watch">
+                                    <a href="{{route('change_profile_password_screen')}}" class="btn"><i
+                                            class="fas fa-key"></i>Şifremi Değiştir</a>
+                                </li>
+                                @else
+                                @if ($followed_user)
+                                <li class=" watch">
+                                    <a href="javascript:;" class="btn" onclick="unfollowIndexUser()"><i
+                                            class="fas fa-heart"></i>Kullanıcıyı Takipten Çıkar</a>
+                                    <p style="color:red;" id="followUserTextMessage"></p>
+                                </li>
+                                @else
+                                <li class=" watch">
+                                    <a href="javascript:;" class="btn" onclick="followIndexUser()"><i
+                                            class="fas fa-heart"></i>Kullanıcıyı Takip Et</a>
+                                    <p style="color:red;" id="followUserTextMessage"></p>
+                                </li>
+                                @endif
+                                @endif
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div class="movie-details-btn">
@@ -539,4 +567,38 @@
     <!-- İzlenenler Bölümü End -->
 
 </main>
+
+<div hidden id="hiddenDiv">
+
+</div>
+
+<script>
+    const authMessage = "Lütfen İlk Önce Giriş Yapınız!"
+
+    function followIndexUser(){
+        @if (Auth::user())
+            var code = `<form action="{{route('followIndexUser')}}" method="POST" id="followIndexUserForm">
+                @csrf
+                <input type="text" name="followed_user_code" value="{{$user->code}}">
+            </form>`;
+            document.getElementById('hiddenDiv').innerHTML = code;
+            document.getElementById('followIndexUserForm').submit();
+        @else
+            document.getElementById('followUserTextMessage').innerText = authMessage;
+        @endif
+    }
+    function unfollowIndexUser(){
+        @if (Auth::user())
+            var code = `<form action="{{route('unfollowIndexUser')}}" method="POST" id="unfollowIndexUserForm">
+                @csrf
+                <input type="text" name="followed_user_code" value="{{$user->code}}">
+            </form>`;
+            document.getElementById('hiddenDiv').innerHTML = code;
+            document.getElementById('unfollowIndexUserForm').submit();
+        @else
+            document.getElementById('followUserTextMessage').innerText = authMessage;
+        @endif
+    }
+
+</script>
 @endsection

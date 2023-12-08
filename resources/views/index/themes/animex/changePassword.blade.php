@@ -64,15 +64,5 @@
     }
 
 </script>
-<!-- resim değiştirme işlemleri -->
-<script>
-    function changeImageFile(){
-        document.getElementById('imageInput').click();
-    }
-
-    function changeImageFileForm(){
-        document.getElementById('changeProfileImageForm').submit();
-    }
-</script>
 
 @endsection

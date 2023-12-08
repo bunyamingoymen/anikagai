@@ -1914,7 +1914,7 @@ label {
     font-size: 12px;
 }
 .movie-details-prime ul li.watch {
-    margin-left: auto;
+    margin-right: 10px;
 }
 .movie-details-prime ul li.watch .btn {
     font-size: 10px;

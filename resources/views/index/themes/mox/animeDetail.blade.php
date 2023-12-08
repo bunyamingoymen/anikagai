@@ -123,11 +123,10 @@
                                             class="fas fa-plus"></i>Takip
                                         Ediliyor</a>
                                     @else
-                                    <p style="color:red;" id="followAnimeTextMessageUst">  </p>
                                     <a href="javascript:;" class="btn" onclick="followAnime()"><i
                                             class="fas fa-plus"></i>Takip
                                         Et</a>
-                                    <p style="color:red;" id="followAnimeTextMessage">  </p>
+                                    <p style="color:red;" id="followAnimeTextMessage"></p>
                                     @endif
 
                                 </li>
@@ -137,11 +136,10 @@
                                             class="fas fa-heart"></i>Favorilere
                                         Eklendi</a>
                                     @else
-                                    <p style="color:red;" id="likeAnimeTextMessageUst">  </p>
                                     <a href="javascript:;" class="btn" onclick="likeAnime()"><i
                                             class="fas fa-heart"></i>Favorilere
                                         Ekle</a>
-                                    <p style="color:red;" id="likeAnimeTextMessage">  </p>
+                                    <p style="color:red;" id="likeAnimeTextMessage"></p>
                                     @endif
 
                                 </li>

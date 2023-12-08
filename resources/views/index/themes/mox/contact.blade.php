@@ -2,7 +2,6 @@
 @section('index_content')
 <!-- main-area -->
 <main>
-
     <!-- breadcrumb-area -->
     <section class="breadcrumb-area breadcrumb-bg" data-background="../../../user/mox/img/bg/breadcrumb_bg.jpg">
         <div class="container">
@@ -59,8 +58,6 @@
         </div>
     </section>
     <!-- contact-area-end -->
-
-
 </main>
 <!-- main-area-end -->
 <script>

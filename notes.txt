@@ -41,9 +41,19 @@ Değiştiirlen dosyaları:
 33-index/themes/animex/changeProfile.blade.php
 34-index/themes/animex/profile.blade.php
 
+35-index/themes/mox/layouts/main.blade.php
 35-index/themes/mox/watch.blade.php
+36-index/themes/mox/animeDetail.blade.php
+37-index/themes/mox/changePassword.blade.php
+38-index/themes/mox/changeProfile.blade.php
+39-index/themes/mox/contact.blade.php
+40-index/themes/mox/login.blade.php
+41-index/themes/mox/profile.blade.php
+42-index/themes/mox/webtoonDetail.blade.php
 
 36-web.php
+
+37- public/user/mox/css/style.css
 -------------------------------------------
 *Yapılacaklar:
 
@@ -57,8 +67,6 @@ Değiştiirlen dosyaları:
 -3.tema
 -Her update de code değeri var olmayacak. js ile o getirilecek
 -Takvimde güncelleyip silebilme işlemi
--mox temasında profil bilgisi değiştirme, takip etme..vs. eklenecek,
--mox temasında görüntülenme ayarlanacak.(listeleme ve aramada)
 -mox temasında read kısmı düzenlenecek.
 ---------------------------------------------
 Kontrol edilecek işlemler:
