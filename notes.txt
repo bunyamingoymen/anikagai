@@ -42,18 +42,20 @@ Değiştiirlen dosyaları:
 34-index/themes/animex/profile.blade.php
 
 35-index/themes/mox/layouts/main.blade.php
-35-index/themes/mox/watch.blade.php
-36-index/themes/mox/animeDetail.blade.php
-37-index/themes/mox/changePassword.blade.php
-38-index/themes/mox/changeProfile.blade.php
-39-index/themes/mox/contact.blade.php
-40-index/themes/mox/login.blade.php
-41-index/themes/mox/profile.blade.php
-42-index/themes/mox/webtoonDetail.blade.php
+36-index/themes/mox/watch.blade.php
+37-index/themes/mox/read.blade.php
+38-index/themes/mox/animeDetail.blade.php
+39-index/themes/mox/webtoonDetail.blade.php
+40-index/themes/mox/changePassword.blade.php
+41-index/themes/mox/changeProfile.blade.php
+42-index/themes/mox/contact.blade.php
+43-index/themes/mox/login.blade.php
+44-index/themes/mox/profile.blade.php
 
-36-web.php
 
-37- public/user/mox/css/style.css
+45-web.php
+
+46- public/user/mox/css/style.css
 -------------------------------------------
 *Yapılacaklar:
 
@@ -67,7 +69,7 @@ Değiştiirlen dosyaları:
 -3.tema
 -Her update de code değeri var olmayacak. js ile o getirilecek
 -Takvimde güncelleyip silebilme işlemi
--mox temasında read kısmı düzenlenecek.
+-Admin giriş anasayfası düzenlenmesi gerekiyor(en çok okunan animeler, en çok okunan webtoonlar...vs. gibi.);
 ---------------------------------------------
 Kontrol edilecek işlemler:
 
@@ -85,15 +87,15 @@ Kontrol edilecek işlemler:
 
 ---Arayüz:
 
--+-slider
--+-Oy kullanma
--+-İzleme
--+-okuma
+++-slider
+++-Oy kullanma
+++-İzleme
+++-okuma
 ++-yorum yapabilme
--+-Görüntüleyip/Listeleyebilme(-+-webtoon, -+-anime)
--+-takip edebilme(-+-webtoon, -+-anime, -+-kullanıcı)
--+-beğenebilme(-+-webtoon, -+-anime)
--+-Bilgileri güncelleyebilme
+++-Görüntüleyip/Listeleyebilme(++-webtoon, ++-anime)
+++-takip edebilme(++-webtoon, ++-anime, ++-kullanıcı)
+++-beğenebilme(++-webtoon, ++-anime)
+++-Bilgileri güncelleyebilme
 
 Her özelliği 2 Tema da da test edilmeli
 3.Tema Bu özelliklerle birlikte eklenmeli

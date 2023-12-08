@@ -12,6 +12,96 @@
 <link rel="stylesheet" href="../../../user/mox/css/default.css">
 <link rel="stylesheet" href="../../../user/mox/css/style.css">
 <link rel="stylesheet" href="../../../user/mox/css/responsive.css">
+
+<style>
+    /* The container */
+    .container {
+        display: block;
+        position: relative;
+        padding-left: 25px;
+        cursor: pointer;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+
+    /* Hide the browser's default checkbox */
+    .container input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
+
+    /* Create a custom checkbox */
+    .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 20px;
+        width: 20px;
+        background-color: #eee;
+    }
+
+    /* On mouse-over, add a grey background color */
+    .container:hover input~.checkmark {
+        background-color: #ccc;
+    }
+
+    /* When the checkbox is checked, add a blue background */
+    .container input:checked~.checkmark {
+        background-color: #2196F3;
+    }
+
+    /* Create the checkmark/indicator (hidden when not checked) */
+    .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+    }
+
+    /* Show the checkmark when checked */
+    .container input:checked~.checkmark:after {
+        display: block;
+    }
+
+    /* Style the checkmark/indicator */
+    .container .checkmark:after {
+        left: 9px;
+        top: 5px;
+        width: 5px;
+        height: 10px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+    }
+</style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjVShBftLdPG8FJ0V7irTLQ8Uo0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<!-- default styles -->
+<link href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/css/star-rating.min.css" media="all"
+    rel="stylesheet" type="text/css" />
+
+<!-- with v4.1.0 Krajee SVG theme is used as default (and must be loaded as below) - include any of the other theme CSS files as mentioned below (and change the theme property of the plugin) -->
+<link href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/themes/krajee-fas/theme.css" media="all"
+    rel="stylesheet" type="text/css" />
+
+<!-- important mandatory libraries -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/js/star-rating.min.js"
+    type="text/javascript"></script>
+
+<!-- with v4.1.0 Krajee SVG theme is used as default (and must be loaded as below) - include any of the other theme JS files as mentioned below (and change the theme property of the plugin) -->
+<script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/themes/krajee-fas/theme.js"></script>
+
+<!-- optionally if you need translation for your language then include locale file as mentioned below (replace LANG.js with your own locale file) -->
+<script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/js/locales/LANG.js"></script>
 <!-- main-area -->
 <main>
 
@@ -81,6 +171,13 @@
                                 </li>
 
                             </ul>
+                        </div>
+                        <div class="mt-5">
+                            <span>{{$webtoon->scoreUsers}} Oy Kullanıldı</span>
+                            <div class="rating">
+                                <input id="scoreRateID" type="text" class="kv-ltr-theme-fas-star rating-loading"
+                                    data-size="sm" value="{{$webtoon->score}}" onchange="scoreUser()">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -229,6 +326,8 @@
     </div>
 </main>
 <!-- main-area-end -->
+
+<!--Takip Etme/ Beğenme İşlemleri-->
 <script>
     function followWebtoon(){
         @if (Auth::user())
@@ -283,4 +382,37 @@
         @endif
     }
 </script>
+
+<!--Oy Kullanma İşlemleri-->
+<script>
+    // initialize with defaults
+    $("#scoreRateID").rating({theme: 'krajee-fas'});
+    $(".caption").css("display", "none");
+    $(".krajee-icon-clear").css("display", "none");
+    $(".clear-rating-active").css("display", "none");
+
+    function scoreUser(){
+        @if (Auth::user())
+            var score = document.getElementById("scoreRateID").value;
+            var html = `<form action="{{route('scoreUser')}}" id="scoreUserSubmitForm" method="POST">
+                @csrf
+                <input type="text" name="score" value="`+score+`">
+                <input type="text" name="user_code" value="{{Auth::user()->code}}">
+                <input type="text" name="content_code" value="{{$webtoon->code}}">
+                <input type="text" name="content_type" value="0">
+            </form>`
+            document.getElementById("hiddenDiv").innerHTML = html;
+            document.getElementById("scoreUserSubmitForm").submit();
+        @else
+            document.getElementById("scoreRateID").value = "{{$webtoon->score}}"
+            Swal.fire({
+                title: "Hata",
+                text: authMessage,
+                color: "#fff",
+                icon: "error"
+            });
+        @endif
+    }
+</script>
+
 @endsection

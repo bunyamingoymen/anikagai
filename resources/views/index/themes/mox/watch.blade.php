@@ -23,7 +23,6 @@
         border-radius: 8px;
         border: 2px solid rgba(255, 255, 255, 0);
         /* Beyaz yarı şeffaf sınır (border) */
-        display: block !important;
         opacity: 0;
         transition: opacity 0.5s ease, transform 0.1s ease, border 0.1s ease;
         /* Border için de animasyon eklendi */
@@ -62,7 +61,8 @@
                 <div class="col-xl-12">
                     <div class="contact-form-wrap">
                         <div class="widget-title mb-50">
-                            <h5 class="title">{{$anime->name}}</h5>
+                            <h5 class="title">{{$anime->name}} <span style="color:#e53637" {{$anime->plusEighteen ==
+                                    "0" ? "hidden" : ""}}>+18</span></h5>
                         </div>
                         <div class="anime__video__player justify-content-center">
                             <video id="anime-video-player-url" class="plyr video_size_class" controls crossorigin
@@ -115,7 +115,7 @@
 
                                 </div>
                                 <a href="javascript:;" class="comment-reply-link"
-                                    onclick="ReplyComment('AnswerMain{{$loop->index}}','{{$anime->code}}','1','1','{{$main_comment->code}}')">Cevapla
+                                    onclick="ReplyComment('AnswerMain{{$loop->index}}','{{$episode->code}}','1','1','{{$main_comment->code}}')">Cevapla
                                     <i class="fas fa-reply-all"></i></a>
                             </li>
 
@@ -157,7 +157,8 @@
                             <form action="{{route('addNewComment')}}" method="POST">
                                 @csrf
                                 <div hidden>
-                                    <input type="text" name="content_code" value="{{$anime->code}}">
+                                    <input type="text" name="anime_code" value="{{$anime->code}}">
+                                    <input type="text" name="content_code" value="{{$episode->code}}">
                                     <input type="text" name="content_type" value="1">
                                     <input type="text" name="comment_type" value="0">
                                     <input type="text" name="comment_top_code" value="0">
@@ -293,6 +294,7 @@
             nextButton.className = 'plyr__controls__item overlay-button'; // Plyr kontrol sınıfını ekleyin
             nextButton.innerHTML = 'Sonraki Bölüme Geç';
             nextButton.hidden = true;
+            nextButton.style.display = "none";
             document.getElementsByClassName('plyr__controls')[0].appendChild(nextButton);
         @endif
 
@@ -301,7 +303,7 @@
 
         // Video başlatıldığında / durdurulup-başlatıldığında
         player.on('play', function () {
-            showNextEpisodeButtonTime = player.duration - 140;
+            showNextEpisodeButtonTime = player.duration - 60;
         });
 
         // Video oynatılırken
@@ -413,6 +415,7 @@
                 opacity = 0;
                 count = 0;
                 button.hidden = false;
+                button.style.display = "block";
                 var old_opacity = button.style.opacity;
                 if(old_opacity == 0){
                     var animationInterval = setInterval(function() {
@@ -434,6 +437,7 @@
             var button = document.getElementById(buttonId);
             if (button) {
                 button.hidden = true;
+                button.style.display = "none";
                 button.opacity = 0;
             }
         }
@@ -450,6 +454,7 @@
                         <form action="{{route('addNewComment')}}" method="POST">
                             @csrf
                             <div hidden>
+                                <input type="text" name="anime_code" value="{{$anime->code}}">
                                 <input type="text" name="content_code" value="`+content_code+`">
                                 <input type="text" name="content_type" value="`+content_type+`">
                                 <input type="text" name="comment_type" value="`+comment_type+`">

@@ -47,7 +47,7 @@
                     </div>
                 </div>
                 <div class="justify-content-center">
-                    <div style="position: relative; justify-content-center">
+                    <div class="justify-content-center" style="position: relative;">
                         @foreach ($files as $item)
                         @if ($item->file_type=="pdf")
                         <iframe id="myIframe" src="../../../{{$item->file}}"

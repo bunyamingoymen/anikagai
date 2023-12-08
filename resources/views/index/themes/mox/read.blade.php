@@ -1,5 +1,42 @@
 @extends("index.themes.mox.layouts.main")
 @section('index_content')
+
+<style>
+    .overlay-button {
+        position: absolute !important;
+        bottom: 75px !important;
+        /* Alt kenardan biraz yukarıda */
+        right: 75px !important;
+        /* Sağ kenardan biraz sola */
+        padding: 4px 15px !important;
+        background-color: #0b0c2a;
+        /* Yarı şeffaf siyah arkaplan */
+        color: white;
+        border-radius: 8px;
+        border: 2px solid rgba(255, 255, 255, 0);
+        /* Beyaz yarı şeffaf sınır (border) */
+        transition: opacity 0.5s ease, transform 0.1s ease, border 0.1s ease;
+        /* Border için de animasyon eklendi */
+        box-shadow: 0 2px 10px #0b0c2a;
+        /* Gölge efekti */
+        font-family: 'Roboto', sans-serif !important;
+        /* Kullanılan fontu ayarlayın */
+        z-index: 99999999;
+    }
+
+    .overlay-button:hover {
+        opacity: 1;
+        border: 2px solid rgba(255, 255, 255, 0.5);
+    }
+
+    @media only screen and (max-width: 479px) {
+        .overlay-button {
+            opacity: 0;
+            display: none;
+        }
+    }
+</style>
+
 <!-- main-area -->
 <main>
 
@@ -11,13 +48,22 @@
                 <div class="col-xl-12">
                     <div class="contact-form-wrap">
                         <div class="widget-title mb-50">
-                            <h5 class="title">{{$webtoon->name}}</h5>
+                            <h5 class="title">{{$webtoon->name}} <span style="color:#e53637" {{$webtoon->plusEighteen ==
+                                    "0" ? "hidden" : ""}}>+18</span></h5>
                         </div>
                         <div class="contact-form">
-                            <div style="position: relative;">
-                                <iframe id="myIframe" src="../../../{{$episode->file}}"
-                                    style="width:100%; height:640px;" frameborder="0" allowfullscreen></iframe>
-                                <button onclick="toggleFullScreen()">Tam Ekran</button>
+                            <div style="position: relative;" class="justify-content-center">
+                                @foreach ($files as $item)
+                                @if ($item->file_type=="pdf")
+                                <iframe id="myIframe" src="../../../{{$item->file}}"
+                                    style="max-width: 100%; min-width: 100%; height:800px;" frameborder="0"
+                                    allowfullscreen></iframe>
+                                <button onclick="toggleFullScreen()" class="overlay-button">Tam Ekran</button>
+                                @else
+                                <img src="../../../{{$item->file}}" alt="{{$item->code}}"
+                                    style="position: relative; left:25%;">
+                                @endif
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -56,7 +102,7 @@
 
                                 </div>
                                 <a href="javascript:;" class="comment-reply-link"
-                                    onclick="ReplyComment('AnswerMain{{$loop->index}}','{{$webtoon->code}}','0','1','{{$main_comment->code}}')">Cevapla
+                                    onclick="ReplyComment('AnswerMain{{$loop->index}}','{{$episode->code}}','0','1','{{$main_comment->code}}')">Cevapla
                                     <i class="fas fa-reply-all"></i></a>
                             </li>
 
@@ -98,7 +144,8 @@
                             <form action="{{route('addNewComment')}}" method="POST">
                                 @csrf
                                 <div hidden>
-                                    <input type="text" name="content_code" value="{{$webtoon->code}}">
+                                    <input type="text" name="webtoon_code" value="{{$webtoon->code}}">
+                                    <input type="text" name="content_code" value="{{$episode->code}}">
                                     <input type="text" name="content_type" value="0">
                                     <input type="text" name="comment_type" value="0">
                                     <input type="text" name="comment_top_code" value="0">
@@ -151,6 +198,7 @@
                         <form action="{{route('addNewComment')}}" method="POST">
                             @csrf
                             <div hidden>
+                                <input type="text" name="webtoon_code" value="{{$webtoon->code}}">
                                 <input type="text" name="content_code" value="`+content_code+`">
                                 <input type="text" name="content_type" value="`+content_type+`">
                                 <input type="text" name="comment_type" value="`+comment_type+`">

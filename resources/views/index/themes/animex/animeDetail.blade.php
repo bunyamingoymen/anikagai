@@ -177,7 +177,6 @@
                             <input id="scoreRateID" type="text" class="kv-ltr-theme-fas-star rating-loading"
                                 data-size="sm" value="{{$anime->score}}" onchange="scoreUser()">
                         </div>
-
                     </div>
                 </div>
 

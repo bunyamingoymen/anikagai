@@ -15,6 +15,7 @@
 <!-- main-area -->
 
 <style>
+
     /* The container */
     .container {
         display: block;
@@ -81,6 +82,29 @@
         transform: rotate(45deg);
     }
 </style>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    integrity="sha512-Avb2QiuDEEvB4bZJYdft2mNjVShBftLdPG8FJ0V7irTLQ8Uo0qcPxh4Plq7G5tGm0rU+1SPhVotteLpBERwTkw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+<!-- default styles -->
+<link href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/css/star-rating.min.css" media="all"
+    rel="stylesheet" type="text/css" />
+
+<!-- with v4.1.0 Krajee SVG theme is used as default (and must be loaded as below) - include any of the other theme CSS files as mentioned below (and change the theme property of the plugin) -->
+<link href="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/themes/krajee-fas/theme.css" media="all"
+    rel="stylesheet" type="text/css" />
+
+<!-- important mandatory libraries -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/js/star-rating.min.js"
+    type="text/javascript"></script>
+
+<!-- with v4.1.0 Krajee SVG theme is used as default (and must be loaded as below) - include any of the other theme JS files as mentioned below (and change the theme property of the plugin) -->
+<script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/themes/krajee-fas/theme.js"></script>
+
+<!-- optionally if you need translation for your language then include locale file as mentioned below (replace LANG.js with your own locale file) -->
+<script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/js/locales/LANG.js"></script>
+
 <main>
 
     <!-- movie-details-area -->
@@ -150,6 +174,13 @@
                                 </li>
 
                             </ul>
+                        </div>
+                        <div class="mt-5">
+                            <span>{{$anime->scoreUsers}} Oy Kullanıldı</span>
+                            <div class="rating">
+                                <input id="scoreRateID" type="text" class="kv-ltr-theme-fas-star rating-loading"
+                                    data-size="sm" value="{{$anime->score}}" onchange="scoreUser()">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -330,6 +361,8 @@
     </div>
 </main>
 <!-- main-area-end -->
+
+<!--Takip Etme/ Beğenme İşlemleri-->
 <script>
     function followAnime(){
         @if (Auth::user())
@@ -381,6 +414,38 @@
             document.getElementById('unlikeAnimeForm').submit();
         @else
             document.getElementById('likeAnimeTextMessage').innerText = "Lütfen Giriş Yapınız."
+        @endif
+    }
+</script>
+
+<!--Oy Kullanma İşlemleri-->
+<script>
+    // initialize with defaults
+    $("#scoreRateID").rating({theme: 'krajee-fas'});
+    $(".caption").css("display", "none");
+    $(".krajee-icon-clear").css("display", "none");
+    $(".clear-rating-active").css("display", "none");
+
+    function scoreUser(){
+        @if (Auth::user())
+            var score = document.getElementById("scoreRateID").value;
+            var html = `<form action="{{route('scoreUser')}}" id="scoreUserSubmitForm" method="POST">
+                @csrf
+                <input type="text" name="score" value="`+score+`">
+                <input type="text" name="user_code" value="{{Auth::user()->code}}">
+                <input type="text" name="content_code" value="{{$anime->code}}">
+                <input type="text" name="content_type" value="1">
+            </form>`
+            document.getElementById("hiddenDiv").innerHTML = html;
+            document.getElementById("scoreUserSubmitForm").submit();
+        @else
+            document.getElementById("scoreRateID").value = "{{$anime->score}}"
+            Swal.fire({
+                title: "Hata",
+                text: authMessage,
+                color: "#fff",
+                icon: "error"
+            });
         @endif
     }
 </script>
