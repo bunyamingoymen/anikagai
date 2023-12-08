@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\AuthorizationClauseGroup;
+use App\Models\Category;
 use App\Models\KeyValue;
 use App\Models\NotificationAdmin;
 use App\Models\Theme;
@@ -335,11 +336,14 @@ class AppServiceProvider extends ServiceProvider
 
                 $sliderShow = ThemeSetting::Where('theme_code', KeyValue::Where('key', 'selected_theme')->first()->value)->Where('setting_name', 'showSlider')->first();
 
+                $categories = Category::Where('deleted', 0)->take(10)->get();
+
                 $view->with('data', $data)
                     ->with('menus', $menus)
                     ->with('menu_alts', $menu_alts)
                     ->with('active_menu', $active_menu)
-                    ->with('sliderShow', $sliderShow);
+                    ->with('sliderShow', $sliderShow)
+                    ->with('categories', $categories);
             });
         }
     }

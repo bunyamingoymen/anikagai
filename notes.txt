@@ -70,6 +70,8 @@ Değiştiirlen dosyaları:
 -Her update de code değeri var olmayacak. js ile o getirilecek
 -Takvimde güncelleyip silebilme işlemi
 -Admin giriş anasayfası düzenlenmesi gerekiyor(en çok okunan animeler, en çok okunan webtoonlar...vs. gibi.);
+-Kategorilerde en çok tıklananları gösteren bir şey olmalı
+-arama kısmında anime ve webtoonların kategorilerine göre de arama yapmalı
 ---------------------------------------------
 Kontrol edilecek işlemler:
 
