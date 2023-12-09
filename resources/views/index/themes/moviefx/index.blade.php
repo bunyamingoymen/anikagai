@@ -163,7 +163,7 @@
                                     <div class="mofy-movbox-on absolute">
                                         <div class="mofy-movpoint flex items-center justify-between absolute">
                                             <span class="flex items-center">
-                                                <i class="fas fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
                                                 {{$item->score}}
                                             </span>
                                             <p>{{$item->date}}</p>
@@ -185,14 +185,12 @@
                     <li class="mofy-moviesli" id="data_8263">
                         <div class="mofy-movbox">
                             <div class="mofy-movbox-image relative">
-                                <!-- TODO Burada sweet alert çağırıp login yaptırt-->
-                                <a href="#" title="{{$item->name}}">
+                                <a href="javascript:;" onclick="login()" title="{{$item->name}}">
                                     <img class="" src="../../../{{$item->image}}" alt="{{$item->name}}" data-src=""
                                         style="filter: blur(7px);">
                                     <div class="mofy-movbox-on absolute">
                                         <div style="margin-top: 60%; z-index: 2;">
-                                            <!-- TODO Burada sweet alert çağırıp login yaptırt-->
-                                            <a class="overlay-button" href="#"
+                                            <a class="overlay-button" href="javascript:;" onclick="login()"
                                                 style="font-size: 10px; text-align: center;">Görmek için
                                                 giriş yapınız</a>
                                         </div>
@@ -201,8 +199,7 @@
                             </div>
                             <div class="mofy-movbox-text">
                                 <span class="block">
-                                    <!--TODO Burası sweet'laert çağırıp giriş yapılmalı -->
-                                    <a href="javascript:;" class="block truncate">
+                                    <a href="javascript:;" onclick="login()" class="block truncate">
                                         Bilinmiyor
                                     </a>
                                 </span>
@@ -230,7 +227,7 @@
                                     <div class="mofy-movbox-on absolute">
                                         <div class="mofy-movpoint flex items-center justify-between absolute">
                                             <span class="flex items-center">
-                                                <i class="fas fa-star"></i>
+                                                <i class="fa-solid fa-star"></i>
                                                 {{$item->score}}
                                             </span>
                                             <p>{{$item->date}}</p>
@@ -252,14 +249,12 @@
                     <li class="mofy-moviesli" id="data_8263">
                         <div class="mofy-movbox">
                             <div class="mofy-movbox-image relative">
-                                <!-- TODO Burada sweet alert çağırıp login yaptırt-->
-                                <a href="#" title="{{$item->name}}">
+                                <a href="javascript:;" onclick="login()" title="{{$item->name}}">
                                     <img class="" src="../../../{{$item->image}}" alt="{{$item->name}}" data-src=""
                                         style="filter: blur(7px);">
                                     <div class="mofy-movbox-on absolute">
                                         <div style="margin-top: 60%; z-index: 2;">
-                                            <!-- TODO Burada sweet alert çağırıp login yaptırt-->
-                                            <a class="overlay-button" href="#"
+                                            <a class="overlay-button" href="javascript:;" onclick="login()"
                                                 style="font-size: 10px; text-align: center;">Görmek için
                                                 giriş yapınız</a>
                                         </div>
@@ -268,8 +263,7 @@
                             </div>
                             <div class="mofy-movbox-text">
                                 <span class="block">
-                                    <!--TODO Burası sweet'laert çağırıp giriş yapılmalı -->
-                                    <a href="javascript:;" class="block truncate">
+                                    <a href="javascript:;" onclick="login()" class="block truncate">
                                         Bilinmiyor
                                     </a>
                                 </span>
@@ -285,156 +279,60 @@
         </div>
         <div class="right floated sixteen wide tablet five wide computer column pt-0 pb-0">
             <div class="dark-segment">
-                <div class="segment-title" style="padding-bottom: 5px">Trendler
+                @if ($data['anime_active']->value == 1)
+                <div class="segment-title" style="padding-bottom: 5px">Trend Animeler
                 </div>
                 <ul class="clearfix">
+                    @foreach ($trend_animes as $item)
                     <li class="segment-poster-sm bigColumn" style="width:100%;padding:6.66px 10px">
                         <div class="poster poster-xs">
-                            <a href="#" data-navigo>
+                            <a href="{{url('anime/'.$item->short_name)}}">
                                 <div class="poster-subject">
-                                    <h2 class="truncate">Breaking Bad</h2>
+                                    <h2 class="truncate">{{$item->name}}</h2>
                                     <p class="poster-meta">
                                         <span class="episode-no">
-                                            <span class="item rating"><svg class="mofycon">
-                                                    <use xlink:href="#icon-star"></use>
-                                                </svg> 9.5</span>
-                                            &middot; 2008
+                                            <span class="item rating">
+                                                <i class="fa-solid fa-star"></i>
+                                                {{$item->score}}</span>
+                                            &middot; {{$item->date}}
                                         </span>
                                     </p>
                                 </div>
-                                <img src="uploads/series/breaking-bad-izle-1_thumb.jpg" alt="Breaking Bad">
+                                <img src="../../../{{$item->image}}" alt="{{$item->name}}">
                             </a>
                         </div>
                     </li>
-                    <li class="segment-poster-sm bigColumn" style="width:100%;padding:6.66px 10px">
-                        <div class="poster poster-xs">
-                            <a href="#" data-navigo>
-                                <div class="poster-subject">
-                                    <h2 class="truncate">Sherlock</h2>
-                                    <p class="poster-meta">
-                                        <span class="episode-no">
-                                            <span class="item rating"><svg class="mofycon">
-                                                    <use xlink:href="#icon-star"></use>
-                                                </svg> 9.2</span>
-                                            &middot; 2010
-                                        </span>
-                                    </p>
-                                </div>
-                                <img class="" src="uploads/series/sherlock-izle-1_thumb.jpg" alt="Sherlock">
-                            </a>
-                        </div>
-                    </li>
-                    <li class="segment-poster-sm bigColumn" style="width:100%;padding:6.66px 10px">
-                        <div class="poster poster-xs">
-                            <a href="#" data-navigo>
-                                <div class="poster-subject">
-                                    <h2 class="truncate">The Sopranos</h2>
-                                    <p class="poster-meta">
-                                        <span class="episode-no">
-                                            <span class="item rating"><svg class="mofycon">
-                                                    <use xlink:href="#icon-star"></use>
-                                                </svg> 9.2</span>
-                                            &middot; 1999
-                                        </span>
-                                    </p>
-                                </div>
-                                <img class="" src="uploads/series/the-sopranos-izle_thumb.jpg" alt="The Sopranos"
-                                    data-src="uploads/series/the-sopranos-izle_thumb.jpg">
-                            </a>
-                        </div>
-                    </li>
-                    <li class="segment-poster-sm bigColumn" style="width:100%;padding:6.66px 10px">
-                        <div class="poster poster-xs">
-                            <a href="#" data-navigo>
-                                <div class="poster-subject">
-                                    <h2 class="truncate">Arcane</h2>
-                                    <p class="poster-meta">
-                                        <span class="episode-no">
-                                            <span class="item rating"><svg class="mofycon">
-                                                    <use xlink:href="#icon-star"></use>
-                                                </svg> 9.1</span>
-                                            &middot; 2021
-                                        </span>
-                                    </p>
-                                </div>
-                                <img class="" src="uploads/series/arcane-league-of-legends_thumb.jpg" alt="Arcane">
-                            </a>
-                        </div>
-                    </li>
-                    <li class="segment-poster-sm bigColumn" style="width:100%;padding:6.66px 10px">
-                        <div class="poster poster-xs">
-                            <a href="#" data-navigo>
-                                <div class="poster-subject">
-                                    <h2 class="truncate">Friends</h2>
-                                    <p class="poster-meta">
-                                        <span class="episode-no">
-                                            <span class="item rating"><svg class="mofycon">
-                                                    <use xlink:href="#icon-star"></use>
-                                                </svg> 8.9</span>
-                                            &middot; 1994
-                                        </span>
-                                    </p>
-                                </div>
-                                <img class="" src="uploads/series/friends-izle-1_thumb.jpg" alt="Friends">
-                            </a>
-                        </div>
-                    </li>
-                    <li class="segment-poster-sm bigColumn" style="width:100%;padding:6.66px 10px">
-                        <div class="poster poster-xs">
-                            <a href="#" data-navigo>
-                                <div class="poster-subject">
-                                    <h2 class="truncate">Stranger Things</h2>
-                                    <p class="poster-meta">
-                                        <span class="episode-no">
-                                            <span class="item rating"><svg class="mofycon">
-                                                    <use xlink:href="#icon-star"></use>
-                                                </svg> 8.9</span>
-                                            &middot; 2016
-                                        </span>
-                                    </p>
-                                </div>
-                                <img class="" src="uploads/series/stranger-things-izle-4_thumb.jpg"
-                                    alt="Stranger Things">
-                            </a>
-                        </div>
-                    </li>
-                    <li class="segment-poster-sm bigColumn" style="width:100%;padding:6.66px 10px">
-                        <div class="poster poster-xs">
-                            <a href="#" data-navigo>
-                                <div class="poster-subject">
-                                    <h2 class="truncate">Peaky Blinders</h2>
-                                    <p class="poster-meta">
-                                        <span class="episode-no">
-                                            <span class="item rating"><svg class="mofycon">
-                                                    <use xlink:href="#icon-star"></use>
-                                                </svg> 8.8</span>
-                                            &middot; 2013
-                                        </span>
-                                    </p>
-                                </div>
-                                <img src="uploads/series/peaky-blinders-izle-1_thumb.jpg" alt="Peaky Blinders">
-                            </a>
-                        </div>
-                    </li>
-                    <li class="segment-poster-sm bigColumn" style="width:100%;padding:6.66px 10px">
-                        <div class="poster poster-xs">
-                            <a href="#" data-navigo>
-                                <div class="poster-subject">
-                                    <h2 class="truncate">Dark</h2>
-                                    <p class="poster-meta">
-                                        <span class="episode-no">
-                                            <span class="item rating"><svg class="mofycon">
-                                                    <use xlink:href="#icon-star"></use>
-                                                </svg> 8.6</span>
-                                            &middot; 2017
-                                        </span>
-                                    </p>
-                                </div>
-                                <img class="" src="uploads/series/dark-izle-3_thumb.jpg" alt="Dark">
-                            </a>
-                        </div>
-                    </li>
+                    @endforeach
                 </ul>
+                @endif
+            </div>
+            <div class="dark-segment">
+                @if ($data['webtoon_active']->value == 1)
+                <div class="segment-title" style="padding-bottom: 5px">Trend Animeler
+                </div>
+                <ul class="clearfix">
+                    @foreach ($trend_webtoons as $item)
+                    <li class="segment-poster-sm bigColumn" style="width:100%;padding:6.66px 10px">
+                        <div class="poster poster-xs">
+                            <a href="{{url('webtoon/'.$item->short_name)}}">
+                                <div class="poster-subject">
+                                    <h2 class="truncate">{{$item->name}}</h2>
+                                    <p class="poster-meta">
+                                        <span class="episode-no">
+                                            <span class="item rating">
+                                                <i class="fa-solid fa-star"></i>
+                                                {{$item->score}}</span>
+                                            &middot; {{$item->date}}
+                                        </span>
+                                    </p>
+                                </div>
+                                <img src="../../../{{$item->image}}" alt="{{$item->name}}">
+                            </a>
+                        </div>
+                    </li>
+                    @endforeach
+                </ul>
+                @endif
             </div>
         </div>
     </div>
@@ -442,14 +340,14 @@
 
 <script>
     var Swipes = new Swiper('.swiper-container', {
-loop: true,
-navigation: {
-nextEl: '.swiper-button-next',
-prevEl: '.swiper-button-prev',
-},
-pagination: {
-el: '.swiper-pagination',
-},
+        loop: true,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        pagination: {
+            el: '.swiper-pagination',
+        },
 });
 </script>
 @endsection

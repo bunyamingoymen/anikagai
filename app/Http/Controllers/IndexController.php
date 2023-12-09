@@ -118,6 +118,7 @@ class IndexController extends Controller
 
     public function search(Request $request)
     {
+        //TODO buraya kategori arama da eklenecek
         $query = $request->input('query');
 
         $selected_theme = KeyValue::where('key', 'selected_theme')->first();
@@ -538,7 +539,12 @@ class IndexController extends Controller
             return redirect()->route('index');
         }
 
-        return redirect()->route('loginScreen')->with("error", Config::get('error.error_codes.0020011'));
+        $errorScreen = "loginScreen";
+        if ($request->theme && $request->theme == "theme3") {
+            $errorScreen = "index";
+        }
+
+        return redirect()->route($errorScreen)->with("error", Config::get('error.error_codes.0020011'));
     }
 
     public function logout()

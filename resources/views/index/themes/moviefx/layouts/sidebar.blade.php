@@ -20,5 +20,18 @@
                 @endforeach
             </ul>
         </section>
+        <section class="guide-menu">
+            <h5 class="section-heading">Popüler Kategoriler</h5>
+            <ul class="trending-thisweek">
+                @foreach ($categories as $item)
+                <li>
+                    <a href="{{url('search?query='.$item->short_name)}}" data-navigo>
+                        <h5 class="truncate" title={{$item->name}}">#{{$item->name}}</h5>
+                        <small> + {{$item->show_count ?? "0"}} Görüntüleme</small>
+                    </a>
+                </li>
+                @endforeach
+            </ul>
+        </section>
     </div>
 </aside>

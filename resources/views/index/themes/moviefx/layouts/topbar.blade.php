@@ -27,8 +27,14 @@
         </div>
         <div id="user">
             <div class="left floated author">
+                @if (Auth::user())
+                <a class="ui button secondary" href="{{route('profile')}}">{{Auth::user()->username}}</a>
+                <a class="ui button danger" href="{{route('logout')}}">Çıkış Yap</a>
+                @else
                 <a class="ui button secondary" onclick="login()">Giriş Yap</a>
-                <a id="user-register" class="ui button secondary hidden-xs">Kayıt Ol</a>
+                <a class="ui button secondary" onclick="register()">Kayıt Ol</a>
+                @endif
+
             </div>
         </div>
     </div>

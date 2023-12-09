@@ -2,45 +2,70 @@
 <html lang="zxx">
 
 <head>
+    <!--Meta Etiketleri-->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     @foreach ($data['admin_meta'] as $item)
     <meta http-equiv="{{$item->optional_2 ?? ''}}" name="{{$item->value}}" content="{{$item->optional ?? ''}}">
     @endforeach
-
     @foreach ($data['meta'] as $item)
     <meta http-equiv="{{$item->optional_2 ?? ''}}" name="{{$item->value}}" content="{{$item->optional ?? ''}}">
     @endforeach
+
+    <!--Başlık-->
     <title>{{$data['index_title']->value}}</title>
 
+    <!--CSS Dosyaları-->
     <link rel="shortcut icon" type="image/x-icon" href="../../../{{$data['index_icon']->value}}">
-
+    <link rel="stylesheet" href="../../../index/css/censor.css" type="text/css">
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap"
         rel="stylesheet">
-
     <!-- Sweet Alert-->
-
-    <link rel="stylesheet" href="../../../index/css/censor.css" type="text/css">
-
     <link href="../../../admin/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
-    <link href="
-    https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@5.0.15/dark.min.css
-    " rel="stylesheet">
-    <!-- Sweet Alerts js -->
-    <script src="../../../admin/assets/libs/sweetalert2/sweetalert2.min.js"></script>
-
-    <!-- Css Styles -->
+    <link href=" https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@5.0.15/dark.min.css" rel="stylesheet">
     <link rel="stylesheet" href="../../../user/animex/css/bootstrap.min.css" type="text/css">
-    <!-- <link rel="stylesheet" href="../../../user/animex/css/font-awesome.min.css" type="text/css">-->
-    <script src="https://kit.fontawesome.com/b49f043adc.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="../../../user/animex/css/elegant-icons.css" type="text/css">
     <link rel="stylesheet" href="../../../user/animex/css/plyr.css" type="text/css">
     <link rel="stylesheet" href="../../../user/animex/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="../../../user/animex/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="../../../user/animex/css/style.css" type="text/css">
+
+    <script src="../../../user/animex/js/jquery-3.3.1.min.js"></script>
+    <!-- Sweet Alerts js -->
+    <script src="../../../admin/assets/libs/sweetalert2/sweetalert2.min.js"></script>
+    <!--Font Awesome js-->
+    <script src="https://kit.fontawesome.com/b49f043adc.js" crossorigin="anonymous"></script>
+
+    <!-- Js Plugins -->
+    <script src="../../../user/animex/js/bootstrap.min.js"></script>
+    <script src="../../../user/animex/js/player.js"></script>
+    <script src="../../../user/animex/js/jquery.nice-select.min.js"></script>
+    <script src="../../../user/animex/js/mixitup.min.js"></script>
+    <script src="../../../user/animex/js/jquery.slicknav.js"></script>
+    <script src="../../../user/animex/js/owl.carousel.min.js"></script>
+    <script src="../../../user/animex/js/main.js"></script>
+
+    <script>
+        @if(session('error'))
+                    Swal.fire({
+                        title: "Hata",
+                        text: "{{session('error')}}",
+                        color: "#fff",
+                        icon: "error"
+                    });
+                @endif
+                @if(session('success'))
+                    Swal.fire({
+                        title: "Başarılı",
+                        text: "{{session('success')}}",
+                        color: "#fff",
+                        icon: "success"
+                    });
+                @endif
+    </script>
+
 </head>
 
 <body>
@@ -67,35 +92,6 @@
         </div>
     </div>
     <!-- Search model end -->
-
-    <!-- Js Plugins -->
-    <script src="../../../user/animex/js/jquery-3.3.1.min.js"></script>
-    <script src="../../../user/animex/js/bootstrap.min.js"></script>
-    <script src="../../../user/animex/js/player.js"></script>
-    <script src="../../../user/animex/js/jquery.nice-select.min.js"></script>
-    <script src="../../../user/animex/js/mixitup.min.js"></script>
-    <script src="../../../user/animex/js/jquery.slicknav.js"></script>
-    <script src="../../../user/animex/js/owl.carousel.min.js"></script>
-    <script src="../../../user/animex/js/main.js"></script>
-
-    <script>
-        @if(session('error'))
-            Swal.fire({
-                title: "Hata",
-                text: "{{session('error')}}",
-                color: "#fff",
-                icon: "error"
-            });
-        @endif
-        @if(session('success'))
-            Swal.fire({
-                title: "Başarılı",
-                text: "{{session('success')}}",
-                color: "#fff",
-                icon: "success"
-            });
-        @endif
-    </script>
 
 
 </body>
