@@ -39,6 +39,14 @@ class Handler extends ExceptionHandler
             return response()->view('errors.404', ['logo' => $logo, "index_icon" => $index_icon], 404);
         }
 
+        if (file_exists(storage_path('framework/down'))) {
+            // Bakım modunda mı kontrol et
+            //if (file_exists(storage_path('framework/down'))) {
+            // Özel bir bakım sayfasına yönlendir
+            return response()->view('errors.maintenance', [], 503);
+            //}
+        }
+
         return parent::render($request, $exception);
     }
 }

@@ -17,6 +17,7 @@
         opacity: 1;
     }
 </style>
+
 <!-- Hero Section Begin -->
 @if ($sliderShow->setting_value == '1')
 <section class="hero">

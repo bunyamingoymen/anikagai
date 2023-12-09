@@ -63,7 +63,7 @@
                     @if ($data['anime_active']->value == 1)
                     <div class="column">
                         <div class="ui link list">
-                            @foreach ($trend_animes as $item)
+                            @foreach ($trend_animes->take(5) as $item)
                             <a class="item" href="{{url('anime/'.$item->short_name)}}"
                                 title="{{$item->name}}">{{$item->name}}</a>
                             @endforeach
@@ -73,7 +73,7 @@
                     @if ($data['webtoon_active']->value == 1)
                     <div class="column">
                         <div class="ui link list">
-                            @foreach ($trend_webtoons as $item)
+                            @foreach ($trend_webtoons->take(5) as $item)
                             <a class="item" href="{{url('webtoon/'.$item->short_name)}}"
                                 title="{{$item->name}}">{{$item->name}}</a>
                             @endforeach

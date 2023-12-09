@@ -22,6 +22,9 @@
         rel="stylesheet">
 
     <!-- Sweet Alert-->
+
+    <link rel="stylesheet" href="../../../index/css/censor.css" type="text/css">
+
     <link href="../../../admin/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
     <link href="
     https://cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@5.0.15/dark.min.css
@@ -38,8 +41,6 @@
     <link rel="stylesheet" href="../../../user/animex/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="../../../user/animex/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="../../../user/animex/css/style.css" type="text/css">
-
-    <link rel="stylesheet" href="../../../index/css/censor.css" type="text/css">
 </head>
 
 <body>

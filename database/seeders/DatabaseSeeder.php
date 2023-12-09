@@ -910,7 +910,7 @@ class DatabaseSeeder extends Seeder
                 'code' => 9,
                 'theme_code'  => 3,
                 'setting_name' => 'indexShowContent',
-                'setting_value' => '6',
+                'setting_value' => '8',
                 'deleted' => 0,
                 'created_at' => Carbon::now(),
             ],
