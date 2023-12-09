@@ -15,6 +15,8 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Schema;
+use App\Models\Anime;
+use App\Models\Webtoon;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -42,6 +44,8 @@ class AppServiceProvider extends ServiceProvider
             $themePath = Theme::Where('code', $selected_theme->value)->first();
 
             $indexPages = ['index.' . $themePath->themePath . '.layouts.main', 'index.' . $themePath->themePath . '.index', 'index.' . $themePath->themePath . '.profile'];
+            $themeThree = ['index.themes.moviefx.layouts.main', 'index.themes.moviefx.layouts.sidebar', 'index.themes.moviefx.layouts.topbar', 'index.themes.moviefx.layouts.footer', 'index.themes.moviefx.profile'];
+
             $adminPages = ['admin.layouts.main'];
             //
             $userPages = ['admin.users.create', 'admin.users.list', 'admin.users.update'];
@@ -304,7 +308,6 @@ class AppServiceProvider extends ServiceProvider
             }
             //----------------------------------------------------
             //Index:
-
             View::composer($indexPages, function ($view) {
 
                 $keys = [
@@ -336,14 +339,20 @@ class AppServiceProvider extends ServiceProvider
 
                 $sliderShow = ThemeSetting::Where('theme_code', KeyValue::Where('key', 'selected_theme')->first()->value)->Where('setting_name', 'showSlider')->first();
 
-                $categories = Category::Where('deleted', 0)->take(10)->get();
-
                 $view->with('data', $data)
                     ->with('menus', $menus)
                     ->with('menu_alts', $menu_alts)
                     ->with('active_menu', $active_menu)
-                    ->with('sliderShow', $sliderShow)
-                    ->with('categories', $categories);
+                    ->with('sliderShow', $sliderShow);
+            });
+
+            View::composer($themeThree, function ($view) {
+                $categories = Category::Where('deleted', 0)->take(10)->get();
+                $trend_animes = $this->getTrendContent(Anime::class, 0, $this->sendShowStatus(1), 6, 'click_count');
+                $trend_webtoons = $this->getTrendContent(Webtoon::class, 0, $this->sendShowStatus(1), 6, 'click_count');
+                $view->with('categories', $categories)
+                    ->with('trend_animes', $trend_animes)
+                    ->with('trend_webtoons', $trend_webtoons);
             });
         }
     }
@@ -392,5 +401,43 @@ class AppServiceProvider extends ServiceProvider
             (count(AuthorizationClauseGroup::where('clause_id', $clauseId)
                 ->where('group_id', $adminUserType)
                 ->get()) > 0);
+    }
+
+    protected function loadThemeView($viewName, $additionalData = [])
+    {
+        $selected_theme = KeyValue::Where('key', 'selected_theme')->first();
+        $themePath = Theme::Where('code', $selected_theme->value)->first();
+
+        return view("index." . $themePath->themePath . ".$viewName", $additionalData);
+    }
+
+    protected function getTrendContent($modelClass, $main_category = 0, $showStatus, $take, $orderBy)
+    {
+        if ($main_category == 0) {
+            return $modelClass::where('deleted', 0)
+                ->where('plusEighteen', 0)
+                ->whereIn('showStatus', $showStatus)
+                ->take($take)
+                ->orderBy($orderBy, 'DESC')
+                ->get();
+        } else {
+            return $modelClass::where('deleted', 0)
+                ->where('plusEighteen', 0)
+                ->Where('main_category', $main_category)
+                ->whereIn('showStatus', $showStatus)
+                ->take($take)
+                ->orderBy($orderBy, 'DESC')
+                ->get();
+        }
+    }
+
+    public function sendShowStatus($type = 0)
+    {
+        //type 0 ise normal listelemedir. 1 ise trend yada benzer içerikleri listelemedir.
+
+        if ($type == 0)
+            return Auth::user() ? ["0", "1", "2"] : ["0", "2"];
+        if ($type == 1)
+            return Auth::user() ? ["0", "1", "2"] : ["0"];
     }
 }

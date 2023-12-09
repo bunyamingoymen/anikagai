@@ -31,21 +31,9 @@
     <link rel="stylesheet" href="../../../user/animex/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="../../../user/animex/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="../../../user/animex/css/style.css" type="text/css">
-
     <script src="../../../user/animex/js/jquery-3.3.1.min.js"></script>
     <!-- Sweet Alerts js -->
     <script src="../../../admin/assets/libs/sweetalert2/sweetalert2.min.js"></script>
-    <!--Font Awesome js-->
-    <script src="https://kit.fontawesome.com/b49f043adc.js" crossorigin="anonymous"></script>
-
-    <!-- Js Plugins -->
-    <script src="../../../user/animex/js/bootstrap.min.js"></script>
-    <script src="../../../user/animex/js/player.js"></script>
-    <script src="../../../user/animex/js/jquery.nice-select.min.js"></script>
-    <script src="../../../user/animex/js/mixitup.min.js"></script>
-    <script src="../../../user/animex/js/jquery.slicknav.js"></script>
-    <script src="../../../user/animex/js/owl.carousel.min.js"></script>
-    <script src="../../../user/animex/js/main.js"></script>
 
     <script>
         @if(session('error'))
@@ -95,5 +83,19 @@
 
 
 </body>
+
+
+<!--Font Awesome js-->
+<script src="https://kit.fontawesome.com/b49f043adc.js" crossorigin="anonymous"></script>
+
+<!-- Js Plugins -->
+<script src="../../../user/animex/js/bootstrap.min.js"></script>
+<script src="../../../user/animex/js/player.js"></script>
+<script src="../../../user/animex/js/jquery.nice-select.min.js"></script>
+<script src="../../../user/animex/js/mixitup.min.js"></script>
+<script src="../../../user/animex/js/jquery.slicknav.js"></script>
+<script src="../../../user/animex/js/owl.carousel.min.js"></script>
+
+<script src="../../../user/animex/js/main.js"></script>
 
 </html>

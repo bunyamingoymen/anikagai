@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('follow_index_users', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('followed_user_code');
-            $table->unsignedBigInteger('user_code');
+            $table->unsignedBigInteger('followed_user_code'); //takip edilen
+            $table->unsignedBigInteger('user_code'); //takip eden
             $table->timestamps();
         });
     }

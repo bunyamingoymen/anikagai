@@ -610,7 +610,13 @@ class IndexController extends Controller
                 ->where('user_code', Auth::user()->code)->exists();
         }
 
-        return $this->loadThemeView('profile', compact('user', 'favorite_animes', 'follow_animes', 'watched_animes', 'favorite_webtoons', 'follow_webtoons', 'readed_webtoons', 'followed_user'));
+        $following_user_count = FollowIndexUser::where('followed_user_code', $user->code)->count(); //takip eden kullanıcıların sayısı
+        $followed_user_count = FollowIndexUser::where('user_code', $user->code)->count(); //takip ettiği kullanıcıların sayısı
+
+        $watched_anime_count = WatchedAnime::Where('user_code', Auth::user()->code)->Where('content_type', 1)->count();
+        $readed_webtoon_count = WatchedAnime::Where('user_code', Auth::user()->code)->Where('content_type', 0)->count();
+
+        return $this->loadThemeView('profile', compact('user', 'favorite_animes', 'follow_animes', 'watched_animes', 'favorite_webtoons', 'follow_webtoons', 'readed_webtoons', 'followed_user', 'following_user_count', 'followed_user_count', 'watched_anime_count', 'readed_webtoon_count'));
     }
 
     public function changeProfileSettingsScreen()

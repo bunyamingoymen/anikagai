@@ -262,10 +262,6 @@
 <!-- Js Plugins -->
 <script src="../../../user/animex/js/owl.carousel.min.js"></script>
 <script>
-    $(document).ready(function(){
-    alert('sayfa yüklendi');
-});
-
     // Tüm video elementlerini seç ve varsayılan olarak gizle
     // Önceden çekilen videoların bilgilerini saklamak için bir nesne oluştur
     var fetchedVideos = {};
