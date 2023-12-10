@@ -405,10 +405,12 @@ class AppServiceProvider extends ServiceProvider
 
     protected function loadThemeView($viewName, $additionalData = [])
     {
-        $selected_theme = KeyValue::Where('key', 'selected_theme')->first();
-        $themePath = Theme::Where('code', $selected_theme->value)->first();
+        if ($this->hasTable('key_values')) {
+            $selected_theme = KeyValue::Where('key', 'selected_theme')->first();
+            $themePath = Theme::Where('code', $selected_theme->value)->first();
 
-        return view("index." . $themePath->themePath . ".$viewName", $additionalData);
+            return view("index." . $themePath->themePath . ".$viewName", $additionalData);
+        }
     }
 
     protected function getTrendContent($modelClass, $main_category = 0, $showStatus, $take, $orderBy)

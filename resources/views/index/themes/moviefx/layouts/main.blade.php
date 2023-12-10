@@ -7,25 +7,26 @@
 
     <base>
     @foreach ($data['admin_meta'] as $item)
-    <meta http-equiv="{{$item->optional_2 ?? ''}}" name="{{$item->value}}" content="{{$item->optional ?? ''}}">
+        <meta http-equiv="{{ $item->optional_2 ?? '' }}" name="{{ $item->value }}" content="{{ $item->optional ?? '' }}">
     @endforeach
 
     @foreach ($data['meta'] as $item)
-    <meta http-equiv="{{$item->optional_2 ?? ''}}" name="{{$item->value}}" content="{{$item->optional ?? ''}}">
+        <meta http-equiv="{{ $item->optional_2 ?? '' }}" name="{{ $item->value }}"
+            content="{{ $item->optional ?? '' }}">
     @endforeach
 
     <meta name="theme-color" content="#FDFD96" />
 
-    <meta property="og:title" content="{{$data['index_title']->value}} ">
-    <meta property="og:site_name" content="{{$data['index_title']->value}}">
-    <meta property="og:url" content="{{route('index')}}">
-    <meta property="og:image" content="../../../{{$data['index_icon']->value}}">
+    <meta property="og:title" content="{{ $data['index_title']->value }} ">
+    <meta property="og:site_name" content="{{ $data['index_title']->value }}">
+    <meta property="og:url" content="{{ route('index') }}">
+    <meta property="og:image" content="../../../{{ $data['index_icon']->value }}">
 
-    <title>{{$data['index_title']->value}}</title>
+    <title>{{ $data['index_title']->value }}</title>
 
     <!--  CSS Dosyaları  -->
     <!-- İmages -->
-    <link rel="icon" href="../../../{{$data['index_icon']->value}}" type="image/x-icon">
+    <link rel="icon" href="../../../{{ $data['index_icon']->value }}" type="image/x-icon">
 
     <!--Swipper-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
@@ -49,6 +50,10 @@
         integrity="sha512-P9pgMgcSNlLb4Z2WAB2sH5KBKGnBfyJnq+bhcfLCFusrRc4XdXrhfDluBl/usq75NF5gTDIMcwI1GaG5gju+Mw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js"
+        integrity="sha512-WW8/jxkELe2CAiE4LvQfwm1rajOS8PHasCCx+knHG0gBHt8EXxS6T6tJRTGuDQVnluuAvMxWF4j8SNFDKceLFg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <style>
         .login-form-input {
             width: 70% !important;
@@ -70,24 +75,23 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
     @if (!Auth::user())
+        <!--Giriş yapma ve kayıt olma ile ilgili modallar-->
+        <script>
+            $(document).ready(function() {
+                @if (session('error'))
+                    Swal.fire({
+                        title: "Hata!",
+                        text: "{{ session('error') }}",
+                        type: "error"
+                    });
+                @endif
+            });
 
-    <!--Giriş yapma ve kayıt olma ile ilgili modallar-->
-    <script>
-        $(document).ready(function(){
-            @if (session('error'))
+            function login() {
                 Swal.fire({
-                    title: "Hata!",
-                    text: "{{session('error')}}",
-                    type: "error"
-                });
-            @endif
-        });
-
-        function login() {
-            Swal.fire({
-                title: `<img src="../../../{{$data['index_logo']->value}}" src="site logo" style="height: 32px; margin-top:50px;"> </img>`,
-                html: `
-                <form action="{{route('login')}}" method="POST">
+                    title: `<img src="../../../{{ $data['index_logo']->value }}" src="site logo" style="height: 32px; margin-top:50px;"> </img>`,
+                    html: `
+                <form action="{{ route('login') }}" method="POST">
                     @csrf
                     <h3>Giriş Yap</h3>
                     <input type="email" name="email" id="email" class="swal2-input login-form-input" placeholder="E-mail Adresi *" required>
@@ -102,19 +106,19 @@
                     </div>
 
                 </form>`,
-                showConfirmButton: false,
-                showCloseButton: true,
-                showCancelButton: false,
-                focusConfirm: false,
-            });
-        }
+                    showConfirmButton: false,
+                    showCloseButton: true,
+                    showCancelButton: false,
+                    focusConfirm: false,
+                });
+            }
 
-        function register() {
+            function register() {
                 Swal.fire({
-                title: `<img src="../../../{{$data['index_logo']->value}}" src="site logo" style="height: 32px; margin-top:50px;">
+                    title: `<img src="../../../{{ $data['index_logo']->value }}" src="site logo" style="height: 32px; margin-top:50px;">
                 </img>`,
-                html: `
-                <form action="{{route('register')}}" method="POST" id="registerSubmitForm">
+                    html: `
+                <form action="{{ route('register') }}" method="POST" id="registerSubmitForm">
                     @csrf
                     <h3>Kayıt Ol</h3>
                     <input type="text" name="name" id="registerName" class="swal2-input login-form-input" placeholder="İsim *" required>
@@ -141,134 +145,136 @@
                     </div>
 
                 </form>`,
-                showConfirmButton: false,
-                showCloseButton: true,
-                showCancelButton: false,
-                focusConfirm: false,
-                });
-        }
-
-    </script>
-
-    <!--Kayıt olma ile ilgili yardımcı modallar-->
-    <script>
-        var controlIsUsername = false;
-        var controlIsEmail = false;
-        function controlUsername() {
-            var username = document.getElementById("registerUsername").value;
-            var regex = /^[a-zA-Z0-9]+$/;
-            if (username.length < 3) {
-                document.getElementById("controlUsernameText").innerText =
-                    "Kullanılamaz";
-                document.getElementById("controlUsernameText").style.color = "red";
-                controlIsUsername = false;
-            } else if(!regex.test(username)){
-                document.getElementById("controlUsernameText").innerText =
-                    "Kullanılamaz";
-                document.getElementById("controlUsernameText").style.color = "red";
-                controlIsUsername = false;
-            }else {
-                $.ajaxSetup({
-                    headers: {
-                        "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                    },
-                });
-                $.ajax({
-                    type: "POST",
-                    url: '{{route("index_control_username")}}',
-                    data: { username: username },
-                    success: function (control) {
-                        if (control.control) {
-                            document.getElementById("controlUsernameText").innerText =
-                                "Kullanılabilir";
-                            document.getElementById("controlUsernameText").style.color =
-                                "green";
-                        } else {
-                            document.getElementById("controlUsernameText").innerText =
-                                "Kullanılamaz";
-                            document.getElementById("controlUsernameText").style.color =
-                                "red";
-                        }
-
-                        controlIsUsername = control.control;
-                    },
+                    showConfirmButton: false,
+                    showCloseButton: true,
+                    showCancelButton: false,
+                    focusConfirm: false,
                 });
             }
-        }
+        </script>
 
-        function controlEmail() {
-            var email = document.getElementById("registerEmail");
-            var value = email.value;
-            if (!email.checkValidity() || value.length == 0) {
-                document.getElementById("controlEmailText").innerText = "Kullanılamaz";
-                document.getElementById("controlEmailText").style.color = "red";
-                controlIsUsername = false;
-            } else {
-                $.ajaxSetup({
-                    headers: {
-                        "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                    },
-                });
-                $.ajax({
-                    type: "POST",
-                    url: '{{route("index_control_email")}}',
-                    data: { email: value },
-                    success: function (control) {
-                        if (control.control) {
-                            document.getElementById("controlEmailText").innerText =
-                                "Kullanılabilir";
-                            document.getElementById("controlEmailText").style.color =
-                                "green";
-                        } else {
-                            document.getElementById("controlEmailText").innerText =
-                                "Kullanılamaz";
-                            document.getElementById("controlEmailText").style.color =
-                                "red";
-                        }
+        <!--Kayıt olma ile ilgili yardımcı modallar-->
+        <script>
+            var controlIsUsername = false;
+            var controlIsEmail = false;
 
-                        controlIsEmail = control.control;
-                    },
-                });
-            }
-        }
+            function controlUsername() {
+                var username = document.getElementById("registerUsername").value;
+                var regex = /^[a-zA-Z0-9]+$/;
+                if (username.length < 3) {
+                    document.getElementById("controlUsernameText").innerText =
+                        "Kullanılamaz";
+                    document.getElementById("controlUsernameText").style.color = "red";
+                    controlIsUsername = false;
+                } else if (!regex.test(username)) {
+                    document.getElementById("controlUsernameText").innerText =
+                        "Kullanılamaz";
+                    document.getElementById("controlUsernameText").style.color = "red";
+                    controlIsUsername = false;
+                } else {
+                    $.ajaxSetup({
+                        headers: {
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                        },
+                    });
+                    $.ajax({
+                        type: "POST",
+                        url: '{{ route('index_control_username') }}',
+                        data: {
+                            username: username
+                        },
+                        success: function(control) {
+                            if (control.control) {
+                                document.getElementById("controlUsernameText").innerText =
+                                    "Kullanılabilir";
+                                document.getElementById("controlUsernameText").style.color =
+                                    "green";
+                            } else {
+                                document.getElementById("controlUsernameText").innerText =
+                                    "Kullanılamaz";
+                                document.getElementById("controlUsernameText").style.color =
+                                    "red";
+                            }
 
-        function registerSubmitFormButton() {
-            var name = document.getElementById("registerName").value;
-            var username = document.getElementById("registerUsername").value;
-            var email = document.getElementById("registerEmail").value;
-            var password = document.getElementById("registerPassword").value;
-            var password_repeat = document.getElementById("registerPassword_repeat").value;
-
-            if (
-                name.length == 0 ||
-                username.length == 0 ||
-                email.length == 0 ||
-                password.length == 0 ||
-                password_repeat.length == 0
-            ) {
-                document.getElementById("registerMessageText").innerText =
-                    "Lütfen Tüm gerekli alanları doldurunuz.";
-            } else if (controlIsUsername && controlIsEmail) {
-
-                if (password == password_repeat) {
-                    document.getElementById("registerSubmitForm").submit();
-                }else{
-                    document.getElementById("registerMessageText").innerText =
-                        "Şifre İle Şifre Tekrarı aynı değil.";
-                }
-            } else {
-                if (!controlIsUsername) {
-                    document.getElementById("registerMessageText").innerText =
-                        "Bu Kullanıcı adı alınamaz";
-                }  else {
-                    document.getElementById("registerMessageText").innerText =
-                        "Bu E-mail adresi alınamaz";
+                            controlIsUsername = control.control;
+                        },
+                    });
                 }
             }
-        }
 
-    </script>
+            function controlEmail() {
+                var email = document.getElementById("registerEmail");
+                var value = email.value;
+                if (!email.checkValidity() || value.length == 0) {
+                    document.getElementById("controlEmailText").innerText = "Kullanılamaz";
+                    document.getElementById("controlEmailText").style.color = "red";
+                    controlIsUsername = false;
+                } else {
+                    $.ajaxSetup({
+                        headers: {
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                        },
+                    });
+                    $.ajax({
+                        type: "POST",
+                        url: '{{ route('index_control_email') }}',
+                        data: {
+                            email: value
+                        },
+                        success: function(control) {
+                            if (control.control) {
+                                document.getElementById("controlEmailText").innerText =
+                                    "Kullanılabilir";
+                                document.getElementById("controlEmailText").style.color =
+                                    "green";
+                            } else {
+                                document.getElementById("controlEmailText").innerText =
+                                    "Kullanılamaz";
+                                document.getElementById("controlEmailText").style.color =
+                                    "red";
+                            }
 
+                            controlIsEmail = control.control;
+                        },
+                    });
+                }
+            }
+
+            function registerSubmitFormButton() {
+                var name = document.getElementById("registerName").value;
+                var username = document.getElementById("registerUsername").value;
+                var email = document.getElementById("registerEmail").value;
+                var password = document.getElementById("registerPassword").value;
+                var password_repeat = document.getElementById("registerPassword_repeat").value;
+
+                if (
+                    name.length == 0 ||
+                    username.length == 0 ||
+                    email.length == 0 ||
+                    password.length == 0 ||
+                    password_repeat.length == 0
+                ) {
+                    document.getElementById("registerMessageText").innerText =
+                        "Lütfen Tüm gerekli alanları doldurunuz.";
+                } else if (controlIsUsername && controlIsEmail) {
+
+                    if (password == password_repeat) {
+                        document.getElementById("registerSubmitForm").submit();
+                    } else {
+                        document.getElementById("registerMessageText").innerText =
+                            "Şifre İle Şifre Tekrarı aynı değil.";
+                    }
+                } else {
+                    if (!controlIsUsername) {
+                        document.getElementById("registerMessageText").innerText =
+                            "Bu Kullanıcı adı alınamaz";
+                    } else {
+                        document.getElementById("registerMessageText").innerText =
+                            "Bu E-mail adresi alınamaz";
+                    }
+                }
+            }
+        </script>
     @endif
 
 </head <body class="fluid">

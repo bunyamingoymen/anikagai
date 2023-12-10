@@ -16,6 +16,7 @@
 -Kategorilerde en çok tıklananları gösteren bir şey olmalı
 -arama kısmında anime ve webtoonların kategorilerine göre de arama yapmalı
 -tema ayarları güncellenmeli (mesela giriş yap modal ile mi ekran ile mi, buna göre redirect->route yapılacak;)
+-3.tema da profil güncelleme ve şifre değiştirme ayarlanacak
 ---------------------------------------------
 Kontrol edilecek işlemler:
 

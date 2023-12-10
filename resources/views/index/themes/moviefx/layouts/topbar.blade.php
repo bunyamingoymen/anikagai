@@ -29,10 +29,10 @@
             <div class="left floated author">
                 @if (Auth::user())
                 <a class="ui button secondary" href="{{route('profile')}}">{{Auth::user()->username}}</a>
-                <a class="ui button danger" href="{{route('logout')}}">Çıkış Yap</a>
+                <a class="ui button danger desktop-only" href="{{route('logout')}}">Çıkış Yap</a>
                 @else
                 <a class="ui button secondary" onclick="login()">Giriş Yap</a>
-                <a class="ui button secondary" onclick="register()">Kayıt Ol</a>
+                <a class="ui button secondary desktop-only" onclick="register()">Kayıt Ol</a>
                 @endif
 
             </div>

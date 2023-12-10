@@ -58,9 +58,8 @@
                     <div class="row">
                         @foreach ($list as $item)
                         <div class="col-lg-3 col-md-6 col-sm-6">
-                            @if ($item->showStatus == 0 || (Auth::user() && ($item->showStatus == 1 || $item->showStatus
-                            ==
-                            2)))
+                            @if ($item->showStatus == 0 ||
+                            (Auth::user() && ($item->showStatus == 1 || $item->showStatus ==  2)))
                             <div class="product__item">
                                 @if ($path == "animeler")
                                 <a href="{{url('anime/'.$item->short_name)}}">

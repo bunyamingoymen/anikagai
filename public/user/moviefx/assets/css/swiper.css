@@ -202,7 +202,7 @@
     padding: 3px 6px;
     line-height: 1;
     background-color: rgba(66, 227, 209, .2);
-    color: #42e3d0;
+    color: #FDFD96;
     font-size: 12px;
     position: absolute;
     top: 0;
@@ -242,7 +242,7 @@
     background-color: #1e202b;
 }
 .swiper-slide.active .episode-container h3 {
-    color: #42e3d0;
+    color: #FDFD96;
 }
 .swiper-slide.active .episode-container small {
     color: #fff;
