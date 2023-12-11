@@ -29,10 +29,22 @@
             border: 2px solid rgba(255, 255, 255, 0.5);
         }
 
+        .webtoon-image {
+            width: 80%;
+            position: relative;
+            left: 10%;
+        }
+
         @media only screen and (max-width: 479px) {
             .overlay-button {
                 opacity: 0;
                 display: none;
+            }
+
+            .webtoon-image {
+                width: 100%;
+                position: relative;
+                left: 0px;
             }
         }
     </style>
@@ -55,8 +67,7 @@
                                         allowfullscreen></iframe>
                                     <button onclick="toggleFullScreen()" class="overlay-button">Tam Ekran</button>
                                 @else
-                                    <img src="../../../{{ $item->file }}" alt="{{ $item->code }}"
-                                        style="max-width: 50%; position: relative; left:25%;">
+                                    <img src="../../../{{ $item->file }}" alt="{{ $item->code }}" class="webtoon-image">
                                 @endif
                             @endforeach
                         </div>

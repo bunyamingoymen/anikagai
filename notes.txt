@@ -17,20 +17,9 @@
 -arama kısmında anime ve webtoonların kategorilerine göre de arama yapmalı
 -tema ayarları güncellenmeli (mesela giriş yap modal ile mi ekran ile mi, buna göre redirect->route yapılacak;)
 -3.tema da profil güncelleme ve şifre değiştirme ayarlanacak
+-Admin Dashboard Kısmı Güncellenecek
 ---------------------------------------------
 Kontrol edilecek işlemler:
-
-+++Admin Paneli:
-+Anime Bütün Değerler için CRUD işlemi(+Anime, +Anime Bölümü, +Anime Takvimi)
-+Webtoon içib Bütün Değerler için CRUD işlemi(+webtoon, + Webtoon Bölümü, + Webtoon Takvimi)
-+Sayfalar için bütün Değerler için CRUD işlemi
-+Kategori için bütün değerler için CRUD işlemi
-+Etiketler için bütün değerler için CRUD işlemi
-+İletişim, yorumlar ve üyeler için Görüntüleme İşlemi (+İletişim, +Yorumlar, +Üyeler)
-+Kullanıcılar için bütün değerler için CRUD işlemi (+kullanıcılar, +kullanıcı grupları, +grup yetkileri)
-+Site verileri için bütün değerler için CRUD işlemi(+Anasayfa Ayarları, +Logo, +Meta, +Başlık, +menü, +sosyal medya, +slider_videoları)
-+Yönetim için bütün değerler için CRUD işlemleri(+Admin Meta, +keyvalue, +yetki maddeleri)
-+Yetkilendirme Kontrolü(admin arayüzüne girebilme, diğer işlemlerin tek tek denenmesi.)
 
 ---Arayüz:
 

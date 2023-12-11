@@ -24,6 +24,14 @@
 8.  Latest Section
 9.  Contact
 10.  Footer Style
+
+Varsayılan arkaplan renk kodu: #0b0c2a
+Varsayılan header ve footer renk kodu: #070720
+Varsayılan slider renk kodu: #0b0c2a
+
+Kullanılan arkaplan renk kodu: #14161D
+Kullanılan header ve footer renk kodu: #111216
+Kullanılan slider renk kodu: #14161D
 -------------------------------------------------------------------*/
 
 /*----------------------------------------*/
@@ -36,7 +44,7 @@ body {
 	height: 100%;
 	font-family: "Mulish", sans-serif;
 	-webkit-font-smoothing: antialiased;
-	background: #0b0c2a;
+	background: #14161D;
 }
 
 h1,
@@ -326,7 +334,7 @@ ol {
 -----------------------*/
 
 .header {
-	background: #070720;
+	background: #111216;
 }
 
 .header__logo {
@@ -577,7 +585,7 @@ ol {
 	font-size: 36px;
 	height: 66px;
 	width: 66px;
-	background: #0b0c2a;
+	background: #14161D;
 	line-height: 66px;
 	text-align: center;
 	color: #ffffff;
@@ -2100,7 +2108,7 @@ ol {
 -----------------------*/
 
 .footer {
-	background: #070720;
+	background: #111216;
 	padding-top: 60px;
 	padding-bottom: 40px;
 	position: relative;
