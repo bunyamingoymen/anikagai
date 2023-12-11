@@ -16,9 +16,15 @@
                 </div>
                 <!-- Kategori-->
                 <div class="cat-tags">
-                    @foreach ($allCategory as $category)
-                        <a href="javascript:;" onclick="changeCategory()" class="ui button secondary"
-                            title="{{ $category->name }}">{{ $category->name }}</a>
+                    <a href="javascript:;" onclick="changeCategory('all')" class="ui button secondary"
+                        title="Hepsi">Hepsi</a>
+                    <a href="javascript:;" onclick="changeCategory('genel')" class="ui button secondary"
+                        title="Hepsi">Genel</a>
+                    <a href="javascript:;" onclick="changeCategory('plusEighteen')" class="ui button secondary"
+                        title="Hepsi">{{ request('adult', 'off') == 'off' ? '+18' : '+18 olmayan' }}</a>
+                    @foreach ($allCategory->skip(1) as $category)
+                        <a href="javascript:;" onclick="changeCategory({{ $category->short_name }})"
+                            class="ui button secondary" title="{{ $category->name }}">{{ $category->name }}</a>
                     @endforeach
                 </div>
             </div>
@@ -55,8 +61,8 @@
                                                     <a href="{{ url('webtoon/' . $item->short_name) }}"
                                                         title="{{ $item->name }}">
                                             @endif
-                                            <img class="" src="../../../{{ $item->image }}" alt="{{ $item->name }}"
-                                                data-src="">
+                                            <img class="" src="../../../{{ $item->image }}"
+                                                alt="{{ $item->name }}" data-src="">
                                             <div class="mofy-movbox-on absolute">
                                                 <div class="mofy-movpoint flex items-center justify-between absolute">
                                                     <span class="flex items-center">
@@ -171,8 +177,12 @@
         }
 
         function changeCategory(selectedCategory) {
-            category = selectedCategory;
-            changeURL();
+            if (selectedCategory) {
+                changeAdult();
+            } else {
+                category = selectedCategory;
+                changeURL();
+            }
         }
 
         function changeURL() {

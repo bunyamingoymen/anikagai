@@ -56,7 +56,10 @@
                             <form action="#" class="movie-filter-form">
                                 <select class="" id="categorySelected" onchange="changeCategory()">
                                     <option value="all">Hepsi</option>
-                                    @foreach ($allCategory as $category)
+                                    <option value="genel">Genel</option>
+                                    <option value="plusEighteen">
+                                        {{ request('adult', 'off') == 'off' ? '+18' : '+18 olmayan' }}</option>
+                                    @foreach ($allCategory->skip(1) as $category)
                                         <option value="{{ $category->short_name }}">{{ $category->name }}</option>
                                     @endforeach
                                 </select>
@@ -223,8 +226,12 @@
         }
 
         function changeCategory() {
-            category = document.getElementById("categorySelected").value;
-            changeURL();
+            if (document.getElementById("categorySelected").value == 'plusEighteen') {
+                changeAdult();
+            } else {
+                category = document.getElementById("categorySelected").value;
+                changeURL();
+            }
         }
 
         function changeURL() {

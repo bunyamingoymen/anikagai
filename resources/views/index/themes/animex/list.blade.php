@@ -36,7 +36,10 @@
                                         <p>Kategoriler:</p>
                                         <select class="" id="categorySelected" onchange="changeCategory()">
                                             <option value="all">Hepsi</option>
-                                            @foreach ($allCategory as $category)
+                                            <option value="genel">Genel</option>
+                                            <option value="plusEighteen">
+                                                {{ request('adult', 'off') == 'off' ? '+18' : '+18 olmayan' }}</option>
+                                            @foreach ($allCategory->skip(1) as $category)
                                                 <option value="{{ $category->short_name }}">{{ $category->name }}</option>
                                             @endforeach
                                         </select>
@@ -183,12 +186,18 @@
         }
 
         function changeCategory() {
-            category = document.getElementById("categorySelected").value;
-            changeURL();
+
+            if (document.getElementById("categorySelected").value == 'plusEighteen') {
+                changeAdult();
+            } else {
+                category = document.getElementById("categorySelected").value;
+                changeURL();
+            }
+
         }
 
         function changeURL() {
-            url = "{{ $path }}?";
+            url = "{{ $path }}";
             first = false;
 
             if (adult != "off") {
@@ -196,7 +205,7 @@
                     adult += "&adult=" + "on";
                 else {
                     first = true;
-                    url += "adult=" + "on"
+                    url += "?adult=" + "on"
                 }
             }
 
@@ -204,7 +213,7 @@
                 if (first) url += "&category=" + category;
                 else {
                     first = true;
-                    url += "category=" + category
+                    url += "?category=" + category
                 }
             }
 
@@ -212,7 +221,7 @@
                 if (first) url += "&orderBy=" + orderBy;
                 else {
                     first = true;
-                    url += "orderBy=" + orderBy
+                    url += "?orderBy=" + orderBy
                 }
             }
 
@@ -220,7 +229,7 @@
                 if (first) url += "&p=" + page;
                 else {
                     first = true;
-                    url += "p=" + page
+                    url += "?p=" + page
                 }
             }
 

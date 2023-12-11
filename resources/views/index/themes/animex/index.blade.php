@@ -202,26 +202,6 @@
                 </div>
                 <div class="col-lg-4 col-md-6 col-sm-8">
                     <div class="product__sidebar">
-                        <div class=" product__sidebar__comment">
-                            <div class="section-title">
-                                @if ($data['anime_active']->value == 1)
-                                    <p class="plusEighteen">
-                                        <a href="{{ url('animeler/?adult=on') }}" style="color:#fff;">
-                                            +18 Animeler
-                                            <i class="fa-solid fa-arrow-right"></i>
-                                        </a>
-                                    </p>
-                                @endif
-                                @if ($data['webtoon_active']->value == 1)
-                                    <p class="plusEighteen">
-                                        <a href="{{ url('webtoonlar/?adult=on') }}" style="color:#fff;">
-                                            +18 Webtoonlar
-                                            <i class="fa-solid fa-arrow-right"></i>
-                                        </a>
-                                    </p>
-                                @endif
-                            </div>
-                        </div>
                         @if ($data['anime_active']->value == 1)
                             <div class=" product__sidebar__comment">
                                 <div class="section-title">
@@ -262,7 +242,8 @@
                                             <ul>
                                                 <li>{{ $item->main_category_name }}</li>
                                             </ul>
-                                            <h5><a href="{{ url('webtoon/' . $item->short_name) }}">{{ $item->name }}</a>
+                                            <h5><a
+                                                    href="{{ url('webtoon/' . $item->short_name) }}">{{ $item->name }}</a>
                                             </h5>
                                             <span><i class="fa fa-eye"></i> {{ $item->click_count }} Görüntülenme</span>
                                         </div>

@@ -1,24 +1,6 @@
 @extends('index.themes.mox.layouts.main')
 @section('index_content')
 
-    <style>
-        .plusEighteen {
-            color: #eb3434;
-            font-weight: 600;
-            font-family: 'Oswald', sans-serif;
-            line-height: 21px;
-            text-transform: uppercase;
-            padding-left: 20px;
-            position: relative;
-            opacity: 0.5;
-            transition: opacity 0.5s ease, transform 0.1s ease, border 0.1s ease;
-        }
-
-        .plusEighteen:hover {
-            opacity: 1;
-        }
-    </style>
-
     @if (isset($data['webtoon_active']) &&
             isset($data['anime_active']) &&
             $data['webtoon_active']->value == 0 &&
@@ -175,12 +157,6 @@
                             <div class="section-title title-style-three text-center mb-20">
                                 <h2 class="title">Animeler</h2>
                             </div>
-                            <p class="plusEighteen ">
-                                <a href="{{ url('animeler/?adult=on') }}" style="color:#fff;">
-                                    +18 Animeler
-                                    <i class="fas fa-arrow-right"></i>
-                                </a>
-                            </p>
                         </div>
                     </div>
                 </div>
@@ -192,13 +168,15 @@
                                     <div class="movie-poster">
                                         <img src="../../../{{ $item->image }}" alt="">
                                         <ul class="overlay-btn">
-                                            <li><a href="{{ url('anime/' . $item->short_name) }}" class="btn">Detay</a>
+                                            <li><a href="{{ url('anime/' . $item->short_name) }}"
+                                                    class="btn">Detay</a>
                                             </li>
                                         </ul>
                                     </div>
                                     <div class="movie-content">
                                         <h5 class="title"><a
-                                                href="{{ url('anime/' . $item->short_name) }}">{{ $item->name }}</a></h5>
+                                                href="{{ url('anime/' . $item->short_name) }}">{{ $item->name }}</a>
+                                        </h5>
                                         <span class="rel">{{ $item->main_tag_name ?? 'Genel' }}</span>
                                         <div class="movie-content-bottom">
                                             <ul>
@@ -259,12 +237,6 @@
                             <div class="section-title title-style-three text-center mb-20">
                                 <h2 class="title">Webtoonlar</h2>
                             </div>
-                            <p class="plusEighteen ">
-                                <a href="{{ url('webtoonlar/?adult=on') }}" style="color:#fff;">
-                                    +18 Webtoonlar
-                                    <i class="fas fa-arrow-right"></i>
-                                </a>
-                            </p>
                         </div>
                     </div>
                 </div>
