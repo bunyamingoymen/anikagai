@@ -20,7 +20,7 @@
                             </span>
                         </div>
                     </div>
-                    <h4 class="m-0 align-self-center">{{ $totalData['total_index_user'] }}</h4>
+                    <h4 class="m-0 align-self-center">{{ $totalData['total_index_user'] ?? '0' }}</h4>
                 </div>
             </div>
         </div>
@@ -38,7 +38,7 @@
                             </span>
                         </div>
                     </div>
-                    <h4 class="m-0 align-self-center">{{ $totalData['total_watch'] }}</h4>
+                    <h4 class="m-0 align-self-center">{{ $totalData['total_watch'] ?? '0' }}</h4>
                 </div>
             </div>
         </div>
@@ -56,7 +56,7 @@
                             </span>
                         </div>
                     </div>
-                    <h4 class="m-0 align-self-center">{{ $totalData['total_read'] }}</h4>
+                    <h4 class="m-0 align-self-center">{{ $totalData['total_read'] ?? '0' }}</h4>
                 </div>
             </div>
         </div>
@@ -74,7 +74,7 @@
                             </span>
                         </div>
                     </div>
-                    <h4 class="m-0 align-self-center">{{ $totalData['total_comment'] }}</h4>
+                    <h4 class="m-0 align-self-center">{{ $totalData['total_comment'] ?? '0' }}</h4>
                 </div>
             </div>
         </div>
@@ -84,6 +84,7 @@
 
     <!--Grafikler-->
     <div class="row">
+        <!--Toplam İzleme/Okuma Sayısı-->
         <div class="col-xl-8">
             <div class="card">
                 <div class="card-body">
@@ -93,6 +94,7 @@
             </div>
         </div>
 
+        <!--Zamanlara Göre Yeni Üye Sayısı-->
         <div class="col-xl-4">
             <div class="card">
                 <div class="card-body">
@@ -103,22 +105,22 @@
                         <div class="slick-slider slider-for hori-timeline-desc pt-0">
                             <div>
                                 <p class="font-size-16">Bugün</p>
-                                <h4 class="mb-4">50 Üye</h4>
+                                <h4 class="mb-4">{{ $totalData['index_user_today'] ?? '0' }} Üye</h4>
                                 <div id="earning-day-chart" class="apex-charts"></div>
                             </div>
                             <div>
                                 <p class="font-size-16">Bu Hafta</p>
-                                <h4 class="mb-4">800 Üye</h4>
+                                <h4 class="mb-4">{{ $totalData['index_user_week'] ?? '0' }} Üye</h4>
                                 <div id="earning-weekly-chart" class="apex-charts"></div>
                             </div>
                             <div>
                                 <p class="font-size-16">Bu Ay</p>
-                                <h4 class="mb-4">1.000 Üye </h4>
+                                <h4 class="mb-4">{{ $totalData['index_user_month'] ?? '0' }} Üye </h4>
                                 <div id="earning-monthly-chart" class="apex-charts"></div>
                             </div>
                             <div>
                                 <p class="font-size-16">Bu Yıl</p>
-                                <h4 class="mb-4">1.500 Üye</h4>
+                                <h4 class="mb-4">{{ $totalData['index_user_year'] }} Üye</h4>
                                 <div id="earning-yearly-chart" class="apex-charts"></div>
                             </div>
                         </div>
@@ -127,16 +129,16 @@
                             <div class="col-lg-11">
                                 <div class="slick-slider slider-nav hori-timeline-nav">
                                     <div class="slider-nav-item">
-                                        <h5 class="nav-title font-size-14 mb-0">Day</h5>
+                                        <h5 class="nav-title font-size-14 mb-0">Bugün</h5>
                                     </div>
                                     <div class="slider-nav-item">
-                                        <h5 class="nav-title font-size-14 mb-0">Week</h5>
+                                        <h5 class="nav-title font-size-14 mb-0">Bu Hafta</h5>
                                     </div>
                                     <div class="slider-nav-item">
-                                        <h5 class="nav-title font-size-14 mb-0">Month</h5>
+                                        <h5 class="nav-title font-size-14 mb-0">Bu Ay</h5>
                                     </div>
                                     <div class="slider-nav-item">
-                                        <h5 class="nav-title font-size-14 mb-0">Year</h5>
+                                        <h5 class="nav-title font-size-14 mb-0">Bu Yıl</h5>
                                     </div>
                                 </div>
                             </div>
@@ -160,178 +162,31 @@
                             <thead>
                                 <tr>
                                     <th scope="col" style="width: 50px;">
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="customCheckall">
-                                            <label class="custom-control-label" for="customCheckall"></label>
-                                        </div>
+                                        ID
                                     </th>
                                     <th scope="col" style="width: 60px;"></th>
-                                    <th scope="col">ID & Name</th>
-                                    <th scope="col">Date</th>
-                                    <th scope="col">Price</th>
-                                    <th scope="col">Quantity</th>
-                                    <th scope="col">Amount</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Action</th>
+                                    <th scope="col">İsim</th>
+                                    <th scope="col">Tarih</th>
+                                    <th scope="col">Yorum</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                            <label class="custom-control-label" for="customCheck1"></label>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <img src="assets/images/users/avatar-2.jpg" alt="user"
-                                            class="avatar-xs rounded-circle" />
-                                    </td>
-                                    <td>
-                                        <p class="mb-1 font-size-12">#AP1234</p>
-                                        <h5 class="font-size-15 mb-0">David Wiley</h5>
-                                    </td>
-                                    <td>02 Nov, 2019</td>
-                                    <td>$ 1,234</td>
-                                    <td>1</td>
+                                @foreach ($comments as $item)
+                                    <tr>
+                                        <td>{{ $loop->index + 1 }}</td>
+                                        <td>
+                                            <img src="../../../{{ $item->user_image }}" alt="user"
+                                                class="avatar-xs rounded-circle" />
+                                        </td>
+                                        <td>
+                                            <p class="mb-1 font-size-12">{{ '@' . $item->user_username }}</p>
+                                            <h5 class="font-size-15 mb-0">{{ $item->user_name }}</h5>
+                                        </td>
+                                        <td>{{ $item->date }}</td>
+                                        <td>{{ $item->message }}</td>
+                                    </tr>
+                                @endforeach
 
-                                    <td>
-                                        $ 1,234
-                                    </td>
-                                    <td>
-                                        <i class="mdi mdi-checkbox-blank-circle text-success mr-1"></i> Confirm
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-outline-success btn-sm">Edit</button>
-                                        <button type="button" class="btn btn-outline-danger btn-sm">Cancel</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="customCheck2">
-                                            <label class="custom-control-label" for="customCheck2"></label>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="avatar-xs">
-                                            <span class="avatar-title rounded-circle bg-soft-primary text-primary">
-                                                W
-                                            </span>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="mb-1 font-size-12">#AP1235</p>
-                                        <h5 class="font-size-15 mb-0">Walter Jones</h5>
-                                    </td>
-                                    <td>04 Nov, 2019</td>
-                                    <td>$ 822</td>
-                                    <td>2</td>
-
-                                    <td>
-                                        $ 1,644
-                                    </td>
-                                    <td>
-                                        <i class="mdi mdi-checkbox-blank-circle text-success mr-1"></i> Confirm
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-outline-success btn-sm">Edit</button>
-                                        <button type="button" class="btn btn-outline-danger btn-sm">Cancel</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="customCheck3">
-                                            <label class="custom-control-label" for="customCheck3"></label>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <img src="assets/images/users/avatar-3.jpg" alt="user"
-                                            class="avatar-xs rounded-circle" />
-                                    </td>
-                                    <td>
-                                        <p class="mb-1 font-size-12">#AP1236</p>
-                                        <h5 class="font-size-15 mb-0">Eric Ryder</h5>
-                                    </td>
-                                    <td>05 Nov, 2019</td>
-                                    <td>$ 1,153</td>
-                                    <td>1</td>
-
-                                    <td>
-                                        $ 1,153
-                                    </td>
-                                    <td>
-                                        <i class="mdi mdi-checkbox-blank-circle text-danger mr-1"></i> Cancel
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-outline-success btn-sm">Edit</button>
-                                        <button type="button" class="btn btn-outline-danger btn-sm">Cancel</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="customCheck4">
-                                            <label class="custom-control-label" for="customCheck4"></label>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <img src="assets/images/users/avatar-6.jpg" alt="user"
-                                            class="avatar-xs rounded-circle" />
-                                    </td>
-                                    <td>
-                                        <p class="mb-1 font-size-12">#AP1237</p>
-                                        <h5 class="font-size-15 mb-0">Kenneth Jackson</h5>
-                                    </td>
-                                    <td>06 Nov, 2019</td>
-                                    <td>$ 1,365</td>
-                                    <td>1</td>
-
-                                    <td>
-                                        $ 1,365
-                                    </td>
-                                    <td>
-                                        <i class="mdi mdi-checkbox-blank-circle text-success mr-1"></i> Confirm
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-outline-success btn-sm">Edit</button>
-                                        <button type="button" class="btn btn-outline-danger btn-sm">Cancel</button>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <div class="custom-control custom-checkbox">
-                                            <input type="checkbox" class="custom-control-input" id="customCheck5">
-                                            <label class="custom-control-label" for="customCheck5"></label>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="avatar-xs">
-                                            <span class="avatar-title rounded-circle bg-soft-primary text-primary">
-                                                R
-                                            </span>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <p class="mb-1 font-size-12">#AP1238</p>
-                                        <h5 class="font-size-15 mb-0">Ronnie Spiller</h5>
-                                    </td>
-                                    <td>08 Nov, 2019</td>
-                                    <td>$ 740</td>
-                                    <td>2</td>
-
-                                    <td>
-                                        $ 1,480
-                                    </td>
-                                    <td>
-                                        <i class="mdi mdi-checkbox-blank-circle text-warning mr-1"></i> Pending
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-outline-success btn-sm">Edit</button>
-                                        <button type="button" class="btn btn-outline-danger btn-sm">Cancel</button>
-                                    </td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -341,10 +196,50 @@
     </div>
 
     <script>
-        var okumaData = [{{ '45' }}, {{ '52' }}, {{ '38' }}, {{ '24' }},
-            {{ '33' }}, {{ '56' }}, {{ '42' }}, {{ '20' }}, {{ '6' }},
-            {{ '18' }}, {{ '22' }}, {{ '10' }}
-        ]
+        const yearReadData = [
+            {{ $totalData['read_in_year'][0] ?? '0' }}, {{ $totalData['read_in_year'][1] ?? '0' }},
+            {{ $totalData['read_in_year'][2] ?? '0' }}, {{ $totalData['read_in_year'][3] ?? '0' }},
+            {{ $totalData['read_in_year'][4] ?? '0' }}, {{ $totalData['read_in_year'][5] ?? '0' }},
+            {{ $totalData['read_in_year'][6] ?? '0' }}, {{ $totalData['read_in_year'][7] ?? '0' }},
+            {{ $totalData['read_in_year'][8] ?? '0' }}, {{ $totalData['read_in_year'][9] ?? '0' }},
+            {{ $totalData['read_in_year'][10] ?? '0' }}, {{ $totalData['read_in_year'][11] ?? '0' }}
+        ];
+
+        const yearWatchData = [
+            {{ $totalData['watch_in_year'][0] ?? '0' }}, {{ $totalData['watch_in_year'][1] ?? '0' }},
+            {{ $totalData['watch_in_year'][2] ?? '0' }}, {{ $totalData['watch_in_year'][3] ?? '0' }},
+            {{ $totalData['watch_in_year'][4] ?? '0' }}, {{ $totalData['watch_in_year'][5] ?? '0' }},
+            {{ $totalData['watch_in_year'][6] ?? '0' }}, {{ $totalData['watch_in_year'][7] ?? '0' }},
+            {{ $totalData['watch_in_year'][8] ?? '0' }}, {{ $totalData['watch_in_year'][9] ?? '0' }},
+            {{ $totalData['watch_in_year'][10] ?? '0' }}, {{ $totalData['watch_in_year'][11] ?? '0' }}
+        ];
+        //Güne göre üye olan kullanıcı oranı
+        @if ($totalData['index_user_today'] && $totalData['total_index_user'])
+            const today_index_user_count = "{{ ($totalData['index_user_today'] / $totalData['total_index_user']) * 100 }}"
+        @else
+            const today_index_user_count = "0";
+        @endif
+
+        //haftaya göre üye olan kullanıcı oranı
+        @if ($totalData['index_user_week'] && $totalData['total_index_user'])
+            const week_index_user_count = "{{ ($totalData['index_user_week'] / $totalData['total_index_user']) * 100 }}"
+        @else
+            const week_index_user_count = "0";
+        @endif
+
+        //Aya göre üye olan kullanıcı oranı
+        @if ($totalData['index_user_month'] && $totalData['total_index_user'])
+            const month_index_user_count = "{{ ($totalData['index_user_month'] / $totalData['total_index_user']) * 100 }}"
+        @else
+            const month_index_user_count = "0";
+        @endif
+
+        //Yıla göre üye olan kullanıcı oranı
+        @if ($totalData['index_user_year'] && $totalData['total_index_user'])
+            const year_index_user_count = "{{ ($totalData['index_user_year'] / $totalData['total_index_user']) * 100 }}"
+        @else
+            const year_index_user_count = "0";
+        @endif
     </script>
 
     <!-- apexcharts -->

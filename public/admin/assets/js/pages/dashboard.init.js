@@ -11,12 +11,12 @@ var options = {
     series: [
         {
             name: "İzleme",
-            data: okumaData,
+            data: yearWatchData,
         },
         {
             name: "Okuma",
             type: "area",
-            data: [35, 41, 62, 42, 13, 18, 29, 37, 36, 51, 32, 35],
+            data: yearReadData,
         },
     ],
     colors: ["#3d8ef8", "#11c46e"],
@@ -118,8 +118,8 @@ options = {
             stops: [0, 50, 65, 91],
         },
     },
-    series: [67],
-    labels: ["Day"],
+    series: [today_index_user_count],
+    labels: ["Bugün"],
 };
 (chart = new ApexCharts(
     document.querySelector("#earning-day-chart"),
@@ -159,8 +159,8 @@ options = {
             stops: [0, 50, 65, 91],
         },
     },
-    series: [72],
-    labels: ["Week"],
+    series: [week_index_user_count],
+    labels: ["Bu Hafta"],
 };
 (chart = new ApexCharts(
     document.querySelector("#earning-weekly-chart"),
@@ -200,8 +200,8 @@ options = {
             stops: [0, 50, 65, 91],
         },
     },
-    series: [83],
-    labels: ["Month"],
+    series: [month_index_user_count],
+    labels: ["Bu Ay"],
 };
 (chart = new ApexCharts(
     document.querySelector("#earning-monthly-chart"),
@@ -241,8 +241,8 @@ options = {
             stops: [0, 50, 65, 91],
         },
     },
-    series: [95],
-    labels: ["Year"],
+    series: [year_index_user_count],
+    labels: ["Bu Yıl"],
 };
 (chart = new ApexCharts(
     document.querySelector("#earning-yearly-chart"),

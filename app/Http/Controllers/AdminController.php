@@ -17,18 +17,41 @@ class AdminController extends Controller
 {
     public function index()
     {
-        $cacheKey = 'total_data';
+        $cacheKey = 'total_data_2';
 
         $totalData = cache()->remember($cacheKey, now()->addMinutes(120), function () {
+
+            $now = now();
+            $year = $now->year;
+            $month = $now->month;
+
+            $startOfWeek = now()->startOfWeek(); // Haftanın başlangıcı
+            $endOfWeek = now()->endOfWeek();     // Haftanın sonu
+
             return [
                 'total_index_user' => IndexUser::count(),
                 'total_watch' => WatchedAnime::where('content_type', 1)->count(),
                 'total_read' => WatchedAnime::where('content_type', 0)->count(),
                 'total_comment' => Comment::where('deleted', 0)->count(),
+                'index_user_year' => IndexUser::whereYear('created_at', $year)->count(),
+                'index_user_month' =>  IndexUser::whereYear('created_at', $year)->whereMonth('created_at', $month)->count(),
+                'index_user_week' => IndexUser::whereBetween('created_at', [$startOfWeek, $endOfWeek])->count(),
+                'index_user_today' => IndexUser::whereDate('created_at', now()->toDateString())->count(),
+                'read_in_year' => WatchedAnime::where('content_type', 0)->select(DB::raw('MONTH(created_at) as month'), DB::raw('COUNT(*) as count'))->whereYear('created_at', $year)->groupBy(DB::raw('MONTH(created_at)'))->get(),
+                'watch_in_year' => WatchedAnime::where('content_type', 1)->select(DB::raw('MONTH(created_at) as month'), DB::raw('COUNT(*) as count'))->whereYear('created_at', $year)->groupBy(DB::raw('MONTH(created_at)'))->get(),
             ];
         });
 
-        return view('admin.index', ['totalData' => $totalData]);
+        $comments = DB::table('comments')
+            ->Where('comments.deleted', 0)
+            ->Where('comments.user_code', 'index_users.code')
+            ->join('index_users', 'index_users.code', '=', 'comments.user_code')
+            ->select('comments.code as code', 'comments.message as message', 'comments.date as date', 'index_users.image as user_image', 'index_users.name as user_name', 'index_users.username as user_username')
+            ->orderBy('comments.created_at', 'DESC')
+            ->take(5)
+            ->get();
+
+        return view('admin.index', ['totalData' => $totalData, 'comments' => $comments]);
     }
 
     public function contactScreen()
