@@ -8,20 +8,23 @@
                     <div class="header-top-link">
                         <ul class="quick-link">
                             @foreach ($menu_alts as $item)
-                            <li><a href="{{$item->optional_2 ? url($item->optional_2) : url("#")}}">{{$item->value}}</a></li>
+                                <li><a
+                                        href="{{ $item->optional_2 ? url($item->optional_2) : url('#') }}">{{ $item->value }}</a>
+                                </li>
                             @endforeach
                             @if (!Auth::user())
-                            <li><a href="{{route('loginScreen')}}">Giriş Yap</a></li>
+                                <li><a href="{{ route('loginScreen') }}">Giriş Yap</a></li>
                             @else
-                            <li>
-                                <a href="{{route('profile')}}">{{Auth::user()->username}}</a>
-                            </li>
-                            <li><a href="{{route('logout')}}">Çıkış Yap</a></li>
+                                <li>
+                                    <a href="{{ route('profile') }}">{{ Auth::user()->username }}</a>
+                                </li>
+                                <li><a href="{{ route('logout') }}">Çıkış Yap</a></li>
                             @endif
                         </ul>
                         <ul class="header-social">
                             @foreach ($data['social_media'] as $item)
-                            <li><a href="{{$item->optional ?? ''}}"><i class="fab fa-{{$item->value}}"></i></a></li>
+                                <li><a href="{{ $item->optional ?? '' }}"><i class="fab fa-{{ $item->value }}"></i></a>
+                                </li>
                             @endforeach
                         </ul>
                     </div>
@@ -37,19 +40,23 @@
                     <div class="menu-wrap">
                         <nav class="menu-nav show">
                             <div class="logo">
-                                <a href="{{route('index')}}">
-                                    <img src="../../../{{$data['index_logo']->value}}" alt="Logo"
+                                <a href="{{ route('index') }}">
+                                    <img src="../../../{{ $data['index_logo']->value }}" alt="Logo"
                                         style="max-width: 155px;">
                                 </a>
                             </div>
                             <div class="navbar-wrap main-menu d-none d-lg-flex">
                                 <ul class="navigation">
                                     @foreach ($menus as $item)
-                                    @if (isset($active_menu) && $active_menu->code == $item->code)
-                                    <li><a class="active" href="{{$item->optional_2 ? url($item->optional_2) : url("#")}}">{{$item->value}}</a></li>
-                                    @else
-                                    <li><a href="{{$item->optional_2 ? url($item->optional_2) : url("#")}}">{{$item->value}}</a></li>
-                                    @endif
+                                        @if (isset($active_menu) && $active_menu->code == $item->code)
+                                            <li><a class="active"
+                                                    href="{{ $item->optional_2 ? url($item->optional_2) : url('#') }}">{{ $item->value }}</a>
+                                            </li>
+                                        @else
+                                            <li><a
+                                                    href="{{ $item->optional_2 ? url($item->optional_2) : url('#') }}">{{ $item->value }}</a>
+                                            </li>
+                                        @endif
                                     @endforeach
                                 </ul>
                             </div>
@@ -57,8 +64,9 @@
                                 <ul>
                                     <li class="d-none d-xl-block">
                                         <div class="footer-search">
-                                            <form action="{{route('search')}}" method="GET">
-                                                <input type="text" name="query" id="query" placeholder="Arama Yap">
+                                            <form action="{{ route('search') }}" method="GET">
+                                                <input type="text" name="query" id="query"
+                                                    placeholder="Arama Yap">
                                                 <button><i class="fas fa-search"></i></button>
                                             </form>
                                         </div>
@@ -73,7 +81,7 @@
                         <div class="close-btn"><i class="fas fa-times"></i></div>
 
                         <nav class="menu-box">
-                            <div class="nav-logo"><a href="{{route('index')}}"><img
+                            <div class="nav-logo"><a href="{{ route('index') }}"><img
                                         src="../../../user/mox/img/logo/logo.png" alt="" title=""></a>
                             </div>
                             <div class="menu-outer">

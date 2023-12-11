@@ -2,8 +2,8 @@
     <button class="mobile-menu-trigger"><span>&nbsp;</span></button>
     <div id="logo">
 
-        <a href="{{route('index')}}"
-            style="background: url(../../../{{$data['index_logo']->value}}) center no-repeat; display: block; width: 100%; height: 75px; background-size: 160px 32px;"></a>
+        <a href="{{ route('index') }}"
+            style="background: url(../../../{{ $data['index_logo']->value }}) center no-repeat; display: block; width: 100%; height: 75px; background-size: 160px 32px;"></a>
 
     </div>
     <div id="header-middle">
@@ -28,11 +28,11 @@
         <div id="user">
             <div class="left floated author">
                 @if (Auth::user())
-                <a class="ui button secondary" href="{{route('profile')}}">{{Auth::user()->username}}</a>
-                <a class="ui button danger desktop-only" href="{{route('logout')}}">Çıkış Yap</a>
+                    <a class="ui button secondary" href="{{ route('profile') }}">{{ Auth::user()->username }}</a>
+                    <a class="ui button danger desktop-only" href="{{ route('logout') }}">Çıkış Yap</a>
                 @else
-                <a class="ui button secondary" onclick="login()">Giriş Yap</a>
-                <a class="ui button secondary desktop-only" onclick="register()">Kayıt Ol</a>
+                    <a class="ui button secondary" onclick="login()">Giriş Yap</a>
+                    <a class="ui button secondary desktop-only" onclick="register()">Kayıt Ol</a>
                 @endif
 
             </div>

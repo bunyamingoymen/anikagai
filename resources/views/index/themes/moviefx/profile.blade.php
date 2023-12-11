@@ -485,7 +485,7 @@
     <!--Tab değiştirme scripti-->
     <script>
         var activeTabID =
-        "{{ $data['anime_active']->value == 1 ? 'profile-favorite-anime' : 'profile-favorite-webtoon' }}";
+            "{{ $data['anime_active']->value == 1 ? 'profile-favorite-anime' : 'profile-favorite-webtoon' }}";
         var activeButtonID =
             "{{ $data['anime_active']->value == 1 ? 'tabButtonFavoriteAnime' : 'tabButtonFavoriteWebtoon' }}";
 

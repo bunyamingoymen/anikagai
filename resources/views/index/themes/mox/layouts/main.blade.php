@@ -5,16 +5,16 @@
     <!-- Meta EtiketleriW-->
     <meta charset="utf-8">
     @foreach ($data['admin_meta'] as $item)
-    <meta http-equiv="{{$item->optional_2 ?? ''}}" name="{{$item->value}}" content="{{$item->optional ?? ''}}">
+        <meta http-equiv="{{ $item->optional_2 ?? '' }}" name="{{ $item->value }}" content="{{ $item->optional ?? '' }}">
     @endforeach
     @foreach ($data['meta'] as $item)
-    <meta http-equiv="{{$item->optional_2 ?? ''}}" name="{{$item->value}}" content="{{$item->optional ?? ''}}">
+        <meta http-equiv="{{ $item->optional_2 ?? '' }}" name="{{ $item->value }}" content="{{ $item->optional ?? '' }}">
     @endforeach
 
     <!-- Başlık -->
-    <title>{{$data['index_title']->value}}</title>
+    <title>{{ $data['index_title']->value }}</title>
 
-    <link rel="shortcut icon" type="image/x-icon" href="../../../{{$data['index_icon']->value}}">
+    <link rel="shortcut icon" type="image/x-icon" href="../../../{{ $data['index_icon']->value }}">
 
     <!-- CSS Dosyaları -->
     <link rel="stylesheet" href="../../../user/mox/css/bootstrap.min.css">
@@ -67,7 +67,7 @@
 
 <body>
 
-    @include("index.themes.mox.layouts.preloader")
+    @include('index.themes.mox.layouts.preloader')
 
     <!-- Scroll-top -->
     <button class="scroll-top scroll-to-target" data-target="html">

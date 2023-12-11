@@ -6,17 +6,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @foreach ($data['admin_meta'] as $item)
-    <meta http-equiv="{{$item->optional_2 ?? ''}}" name="{{$item->value}}" content="{{$item->optional ?? ''}}">
+        <meta http-equiv="{{ $item->optional_2 ?? '' }}" name="{{ $item->value }}" content="{{ $item->optional ?? '' }}">
     @endforeach
     @foreach ($data['meta'] as $item)
-    <meta http-equiv="{{$item->optional_2 ?? ''}}" name="{{$item->value}}" content="{{$item->optional ?? ''}}">
+        <meta http-equiv="{{ $item->optional_2 ?? '' }}" name="{{ $item->value }}" content="{{ $item->optional ?? '' }}">
     @endforeach
 
     <!--Başlık-->
-    <title>{{$data['index_title']->value}}</title>
+    <title>{{ $data['index_title']->value }}</title>
 
     <!--CSS Dosyaları-->
-    <link rel="shortcut icon" type="image/x-icon" href="../../../{{$data['index_icon']->value}}">
+    <link rel="shortcut icon" type="image/x-icon" href="../../../{{ $data['index_icon']->value }}">
     <link rel="stylesheet" href="../../../index/css/censor.css" type="text/css">
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -36,22 +36,22 @@
     <script src="../../../admin/assets/libs/sweetalert2/sweetalert2.min.js"></script>
 
     <script>
-        @if(session('error'))
-                    Swal.fire({
-                        title: "Hata",
-                        text: "{{session('error')}}",
-                        color: "#fff",
-                        icon: "error"
-                    });
-                @endif
-                @if(session('success'))
-                    Swal.fire({
-                        title: "Başarılı",
-                        text: "{{session('success')}}",
-                        color: "#fff",
-                        icon: "success"
-                    });
-                @endif
+        @if (session('error'))
+            Swal.fire({
+                title: "Hata",
+                text: "{{ session('error') }}",
+                color: "#fff",
+                icon: "error"
+            });
+        @endif
+        @if (session('success'))
+            Swal.fire({
+                title: "Başarılı",
+                text: "{{ session('success') }}",
+                color: "#fff",
+                icon: "success"
+            });
+        @endif
     </script>
 
 </head>
@@ -74,7 +74,7 @@
     <div class="search-model">
         <div class="h-100 d-flex align-items-center justify-content-center">
             <div class="search-close-switch"><i class="icon_close"></i></div>
-            <form action="{{route('search')}}" method="GET" class="search-model-form">
+            <form action="{{ route('search') }}" method="GET" class="search-model-form">
                 <input type="text" name="query" id="query" placeholder="Ara.....">
             </form>
         </div>
