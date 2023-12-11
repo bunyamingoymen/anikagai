@@ -96,7 +96,7 @@
                                             </div>
                                             <div>
                                                 <span style="margin-right:5%;"><i class="fa-solid fa-play"></i></span>
-                                                <span>İlk Bölümü İzle</span>
+                                                <span>İlk Bölümü Oku</span>
                                             </div>
                                         </a>
                                     </div>
