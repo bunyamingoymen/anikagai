@@ -40,28 +40,6 @@
         }
     </style>
 
-    <!-- JS Dosyaları -->
-    <script src="../../../user/mox/js/vendor/jquery-3.6.0.min.js"></script>
-    <script src="../../../user/mox/js/popper.min.js"></script>
-    <script src="../../../user/mox/js/bootstrap.min.js"></script>
-    <script src="../../../user/mox/js/isotope.pkgd.min.js"></script>
-    <script src="../../../user/mox/js/imagesloaded.pkgd.min.js"></script>
-    <script src="../../../user/mox/js/jquery.magnific-popup.min.js"></script>
-    <script src="../../../user/mox/js/owl.carousel.min.js"></script>
-    <script src="../../../user/mox/js/jquery.odometer.min.js"></script>
-    <script src="../../../user/mox/js/jquery.appear.js"></script>
-    <script src="../../../user/mox/js/slick.min.js"></script>
-    <script src="../../../user/mox/js/ajax-form.js"></script>
-    <script src="../../../user/mox/js/wow.min.js"></script>
-    <script src="../../../user/mox/js/aos.js"></script>
-    <script src="../../../user/mox/js/plugins.js"></script>
-    <script src="../../../user/mox/js/main.js"></script>
-
-    <!-- Sweet Alerts js -->
-    <script src="../../../admin/assets/libs/sweetalert2/sweetalert2.min.js"></script>
-    <!--plyr-->
-    <script src="../../../user/animex/js/player.js"></script>
-
 
 </head>
 
@@ -88,6 +66,28 @@
     <!-- footer-area -->
     @include('index.themes.mox.layouts.footer')
     <!-- footer-area-end -->
+
+    <!-- JS Dosyaları -->
+    <script src="../../../user/mox/js/vendor/jquery-3.6.0.min.js"></script>
+    <script src="../../../user/mox/js/popper.min.js"></script>
+    <script src="../../../user/mox/js/bootstrap.min.js"></script>
+    <script src="../../../user/mox/js/isotope.pkgd.min.js"></script>
+    <script src="../../../user/mox/js/imagesloaded.pkgd.min.js"></script>
+    <script src="../../../user/mox/js/jquery.magnific-popup.min.js"></script>
+    <script src="../../../user/mox/js/owl.carousel.min.js"></script>
+    <script src="../../../user/mox/js/jquery.odometer.min.js"></script>
+    <script src="../../../user/mox/js/jquery.appear.js"></script>
+    <script src="../../../user/mox/js/slick.min.js"></script>
+    <script src="../../../user/mox/js/ajax-form.js"></script>
+    <script src="../../../user/mox/js/wow.min.js"></script>
+    <script src="../../../user/mox/js/aos.js"></script>
+    <script src="../../../user/mox/js/plugins.js"></script>
+    <script src="../../../user/mox/js/main.js"></script>
+
+    <!-- Sweet Alerts js -->
+    <script src="../../../admin/assets/libs/sweetalert2/sweetalert2.min.js"></script>
+    <!--plyr-->
+    <script src="../../../user/animex/js/player.js"></script>
 
 
 </body>

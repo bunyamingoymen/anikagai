@@ -89,25 +89,39 @@ class IndexController extends Controller
         if ($path == 'animeler') {
             $title = "Animeler";
 
-            if ($selectedCategory == "all") {
-                $list = Anime::Where('deleted', 0)->whereIn('showStatus', $this->sendShowStatus(0))->where('plusEighteen', $adult)->orderBy($orderByType, $orderByList)->skip($skip)->take($listItems)->get();
-            } else {
-                $list = Anime::Where('deleted', 0)->Where('main_category', $selectedCategory)->whereIn('showStatus', $this->sendShowStatus(0))->where('plusEighteen', $adult)->orderBy($orderByType, $orderByList)->skip($skip)->take($listItems)->get();
+            $query = Anime::where('deleted', 0)
+                ->whereIn('showStatus', $this->sendShowStatus(0))
+                ->where('plusEighteen', $adult)
+                ->orderBy($orderByType, $orderByList)
+                ->skip($skip)
+                ->take($listItems);
+
+            if ($selectedCategory !== "all") {
+                $query->where('main_category', $selectedCategory);
             }
 
-            $pageCountTest = Anime::Where('deleted', 0)->where('plusEighteen', $adult)->count();
+            $list = $query->get();
         } elseif ($path == 'webtoonlar') {
             $title = "Webtoonlar";
-            if ($selectedCategory == "all") {
-                $list = Webtoon::Where('deleted', 0)->whereIn('showStatus', $this->sendShowStatus(0))->where('plusEighteen', $adult)->skip($skip)->take($listItems)->orderBy($orderByType, $orderByList)->get();
-            } else {
-                $list = Webtoon::Where('deleted', 0)->Where('main_category', $selectedCategory)->whereIn('showStatus', $this->sendShowStatus(0))->where('plusEighteen', $adult)->skip($skip)->take($listItems)->orderBy($orderByType, $orderByList)->get();
+
+            $query = Webtoon::where('deleted', 0)
+                ->whereIn('showStatus', $this->sendShowStatus(0))
+                ->where('plusEighteen', $adult)
+                ->orderBy($orderByType, $orderByList)
+                ->skip($skip)
+                ->take($listItems);
+
+            if ($selectedCategory !== "all") {
+                $query->where('main_category', $selectedCategory);
             }
 
-            $pageCountTest = Webtoon::Where('deleted', 0)->where('plusEighteen', $adult)->count();
+            $list = $query->get();
         } else {
             abort(404); // TODO: hata sayfasına yönlendir
         }
+
+        $pageCountTest = count($list);
+
         $pageCount = $pageCountTest % intval($listItems) == 0 ? $pageCountTest / $listItems : $pageCount = intval($pageCountTest / $listItems) + 1;
         if ($currentPage > $pageCount || $currentPage < 1)
             abort(404); // TODO: 404 sayfasına yönlendir
