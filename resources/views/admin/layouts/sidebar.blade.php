@@ -80,6 +80,7 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li id="sidebarHomeSettings"></li>
+                        <li id="sidebarThemeSettings"></li>
                         <li id="sidebarSliderVideo"></li>
                         <li id="sidebarLogoSettings"></li>
                         <li id="sidebarMetaSettings"></li>
@@ -212,7 +213,8 @@
             $authArray['adminMetaTag'] == 1 ||
             $authArray['KeyValue'] == 1 ||
             $authArray['clauseAuthUpdate'] == 1 ||
-            $authArray['changeSliderVideo'] == 1)
+            $authArray['changeSliderVideo'] == 1 ||
+            $authArray['changeThemeSettings'] == 1)
 
         document.getElementById('sidebarManagementAllSection').hidden = false;
 
@@ -245,7 +247,8 @@
                 $authArray['changeTitle'] == 1 ||
                 $authArray['changeMenu'] == 1 ||
                 $authArray['changeSocialMedia'] == 1 ||
-                $authArray['changeSliderVideo'] == 1)
+                $authArray['changeSliderVideo'] == 1 ||
+                $authArray['changeThemeSettings'] == 1)
 
             document.getElementById('sidebarDataSection').hidden = false;
 
@@ -254,6 +257,11 @@
             @if ($authArray['changeHome'] == 1)
                 html = `<a href="{{ route('admin_data_home_list') }}">Anasayfa Ayarları</a>`;
                 document.getElementById('sidebarHomeSettings').innerHTML = html;
+            @endif
+
+            @if ($authArray['changeThemeSettings'] == 1)
+                html = `<a href="{{ route('admin_data_theme_list') }}">Tema Ayarları</a>`;
+                document.getElementById('sidebarThemeSettings').innerHTML = html;
             @endif
 
             @if ($authArray['changeSliderVideo'] == 1)

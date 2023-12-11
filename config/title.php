@@ -290,5 +290,13 @@ return [
         'admin/data/sliderVideo' => "Slider Videoları",
         '/admin/data/sliderVideo' => ["Admin", "Slider Videoları"],
         '//admin/data/sliderVideo' => ["admin_index", "#"],
+
+
+
+
+
+        'admin/data/theme' => "Tema Ayarları",
+        '/admin/data/theme' => ["Admin", "Tema Ayarları"],
+        '//admin/data/theme' => ["admin_index", "#"],
     ],
 ];

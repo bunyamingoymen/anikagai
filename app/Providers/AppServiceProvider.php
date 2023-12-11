@@ -51,7 +51,7 @@ class AppServiceProvider extends ServiceProvider
             $userPages = ['admin.users.create', 'admin.users.list', 'admin.users.update'];
             $authGroupPages = ['admin.auth.groups.create', 'admin.auth.groups.list', 'admin.auth.groups.update'];
             $authPages = ['admin.auth.auth.list'];
-            $dataPages = ['admin.data.home', 'admin.data.logo', 'admin.data.menu', 'admin.data.meta', 'admin.data.social', 'admin.data.title', 'admin.data.sliderVideo'];
+            $dataPages = ['admin.data.home', 'admin.data.theme', 'admin.data.logo', 'admin.data.menu', 'admin.data.meta', 'admin.data.social', 'admin.data.title', 'admin.data.sliderVideo'];
             $animePages = ['admin.anime.anime.create', 'admin.anime.anime.list', 'admin.anime.anime.update'];
             $animeEpisodePages = ['admin.anime.episode.create', 'admin.anime.episode.list', 'admin.anime.episode.update'];
             $animeCalendarPages = ['admin.anime.calendar.calendar'];
@@ -131,16 +131,18 @@ class AppServiceProvider extends ServiceProvider
 
                     $changeSliderVideo = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/data/sliderVideo') ? 1 : 0;
 
+                    $changeThemeSettings = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/data/theme') ? 1 : 0;
+
                     $authArray = [
                         'userRead' => $userRead, 'userGroupRead' => $userGroupRead, 'groupAuthRead' => $groupAuthRead,
-                        'changeHome' => $changeHome, 'changeLogo' => $changeLogo, 'changeMeta' => $changeMeta, 'changeTitle' => $changeTitle, 'changeMenu' => $changeMenu, 'changeSocialMedia' => $changeSocialMedia,
+                        'changeHome' => $changeHome, 'changeLogo' => $changeLogo, 'changeMeta' => $changeMeta,
+                        'changeTitle' => $changeTitle, 'changeMenu' => $changeMenu, 'changeSocialMedia' => $changeSocialMedia,
                         'adminMetaTag' => $adminMetaTag, 'KeyValue' => $KeyValue, 'clauseAuthUpdate' => $clauseAuthUpdate,
                         'animeRead' => $animeRead, 'animeEpisodeRead' => $animeEpisodeRead, 'animeCalendarRead' => $animeCalendarRead,
                         'webtoonRead' => $webtoonRead, 'webtoonEpisodeRead' => $webtoonEpisodeRead, 'webtoonCalendarRead' => $webtoonCalendarRead,
                         'pageRead' => $pageRead, 'categoryRead' => $categoryRead, 'tagRead' => $tagRead,
-                        'commentRead' => $commentRead, 'contactRead' => $contactRead,
-                        'indexUserRead' => $indexUserRead,
-                        'changeSliderVideo' => $changeSliderVideo,
+                        'commentRead' => $commentRead, 'contactRead' => $contactRead, 'indexUserRead' => $indexUserRead,
+                        'changeSliderVideo' => $changeSliderVideo, 'changeThemeSettings' => $changeThemeSettings,
                     ];
                     //----------------------------------------------------------------
 
@@ -192,8 +194,9 @@ class AppServiceProvider extends ServiceProvider
                     $menuData = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/data/menu') ? 1 : 0;
                     $socialData = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/data/social') ? 1 : 0;
                     $titleData = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/data/title') ? 1 : 0;
+                    $changeThemeSettings = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/data/theme') ? 1 : 0;
 
-                    $view->with(["homeData" => $homeData, "logoData" => $logoData, "metaData" => $metaData, "menuData" => $menuData, "socialData" => $socialData, 'titleData' => $titleData, 'sliderVideoData' => $sliderVideoData]);
+                    $view->with(["homeData" => $homeData, "logoData" => $logoData, "metaData" => $metaData, "menuData" => $menuData, "socialData" => $socialData, 'titleData' => $titleData, 'sliderVideoData' => $sliderVideoData, 'changeThemeSettings' => $changeThemeSettings]);
                 });
 
                 View::composer($animePages, function ($view) {

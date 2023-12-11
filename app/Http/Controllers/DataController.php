@@ -36,6 +36,77 @@ class DataController extends Controller
         return redirect()->route('admin_data_home_list')->with("success", Config::get('success.success_codes.10120512'));
     }
 
+    public function themeList()
+    {
+        $colorOne = ThemeSetting::where('theme_code', KeyValue::where('key', 'selected_theme')->first()->value)
+            ->where('setting_name', 'colorone')
+            ->firstOr(function () {
+                return null;
+            });
+
+        $colorTwo = ThemeSetting::where('theme_code', KeyValue::where('key', 'selected_theme')->first()->value)
+            ->where('setting_name', 'colortwo')
+            ->firstOr(function () {
+                return null;
+            });
+
+        $colorThree = ThemeSetting::where('theme_code', KeyValue::where('key', 'selected_theme')->first()->value)
+            ->where('setting_name', 'colorthree')
+            ->firstOr(function () {
+                return null;
+            });
+
+        return view('admin.data.theme', ['colorOne' => $colorOne, 'colorTwo' => $colorTwo, 'colorThree' => $colorThree]);
+    }
+
+    public function changeThemeColor(Request $request)
+    {
+        $is_change = false;
+        $colorOne = ThemeSetting::where('theme_code', KeyValue::where('key', 'selected_theme')->first()->value)
+            ->where('setting_name', 'colorone')
+            ->firstOr(function () {
+                return null;
+            });
+
+        $colorTwo = ThemeSetting::where('theme_code', KeyValue::where('key', 'selected_theme')->first()->value)
+            ->where('setting_name', 'colortwo')
+            ->firstOr(function () {
+                return null;
+            });
+
+        $colorThree = ThemeSetting::where('theme_code', KeyValue::where('key', 'selected_theme')->first()->value)
+            ->where('setting_name', 'colorthree')
+            ->firstOr(function () {
+                return null;
+            });
+
+        if ($colorOne && $colorOne->setting_value != $request->colorOne) {
+            $colorOne->setting_value = $request->colorOne;
+            $colorOne->save();
+            $is_change = true;
+        }
+
+        if ($colorTwo && $colorTwo->setting_value != $request->colorTwo) {
+            $colorTwo->setting_value = $request->colorTwo;
+            $colorTwo->save();
+
+            $is_change = true;
+        }
+
+        if ($colorThree && $colorThree->setting_value != $request->colorThree) {
+            $colorThree->setting_value = $request->colorThree;
+            $colorThree->save();
+
+            $is_change = true;
+        }
+
+        if ($is_change) {
+            return redirect()->back()->with('success', Config::get('success.success_codes.10120612'));
+        }
+
+        return redirect()->back()->with('error', Config::get('error.error_codes.0120512'));
+    }
+
     public function showContent(Request $request)
     {
         $animeActive = KeyValue::Where('key', 'anime_active')->first();
@@ -118,7 +189,7 @@ class DataController extends Controller
     {
 
         $logo = KeyValue::Where('key', 'index_logo')->first();
-        
+
         $logo_footer = KeyValue::Where('key', 'index_logo_footer')->first();
 
         $icon = KeyValue::Where('key', 'index_icon')->first();

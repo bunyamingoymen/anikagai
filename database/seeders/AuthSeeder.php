@@ -14,6 +14,9 @@ class AuthSeeder extends Seeder
      */
     public function run(): void
     {
+        DB::table('authorization_groups')->truncate();
+        DB::table('authorization_clauses')->truncate();
+
         DB::table('authorization_groups')->insert([
             [
                 'id' => 1,
@@ -409,6 +412,12 @@ class AuthSeeder extends Seeder
                 'code' => 64,
                 'text'  => 'Slider videolarını listeleyip güncelleyebilme',
                 'description'  => 'Slider videolarını listeleyip güncelleyebilme',
+            ],
+            [
+                'id' => 65,
+                'code' => 65,
+                'text'  => 'Tema ayarlarını güncelleyebilme',
+                'description'  => 'Tema ayarlarını güncelleyebilme',
             ],
         ]);
     }

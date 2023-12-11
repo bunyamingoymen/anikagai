@@ -99,6 +99,8 @@ return [
 
         '10120512' => 'Anasayfa Ayarları' . $success . $update,
 
+        '10120612' => 'Temanın Renkleri' . $success . $update,
+
         '10130012' => 'Mesaj Başarılı Bir Şekilde Gönderildi',
         '10130112' => 'Bildirim Okundu Olarak İşaretlendi',
 

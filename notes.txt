@@ -18,7 +18,7 @@
 -tema ayarları güncellenmeli (mesela giriş yap modal ile mi ekran ile mi, buna göre redirect->route yapılacak;)
 -3.tema da profil güncelleme ve şifre değiştirme ayarlanacak
 -Admin Dashboard Kısmı Güncellenecek
--Tema ayraları kısmı eklenecek ve her tema için renk ekleme olmalı
+-Tema ayraları kısmı eklenecek ve her tema için renk ekleme olmalı, tema ayarlarıdna varsayılan renkler tutulmalı,
 -slider seçenekleri eklenmeli
 ---------------------------------------------
 Kontrol edilecek işlemler:

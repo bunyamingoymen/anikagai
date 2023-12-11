@@ -115,5 +115,8 @@ return [
 
         'admin/data/sliderVideo' => 64,
         'admin/data/sliderVideo/ajax' => 64,
+
+        'admin/data/theme' => 65,
+        'admin/data/changeThemeColor' => 65,
     ],
 ];
