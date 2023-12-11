@@ -16,6 +16,14 @@
     <title>{{ $data['index_title']->value }}</title>
 
     <!--CSS Dosyaları-->
+
+    <style>
+        :root {
+            --background-color: #{{ $colorOne->setting_value ?? 'fff' }};
+            --menu-footer-color: #{{ $colorTwo->setting_value ?? 'fff' }};
+        }
+    </style>
+
     <link rel="shortcut icon" type="image/x-icon" href="../../../{{ $data['index_icon']->value }}">
     <link rel="stylesheet" href="../../../index/css/censor.css" type="text/css">
     <!-- Google Font -->

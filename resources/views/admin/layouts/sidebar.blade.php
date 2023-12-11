@@ -76,7 +76,7 @@
                 <li id="sidebarDataSection" hidden>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="fas fa-database"></i>
-                        <span>Site Verileri</span>
+                        <span>Site Ayarları</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li id="sidebarHomeSettings"></li>
