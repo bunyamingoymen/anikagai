@@ -25,7 +25,7 @@
 
 <body class="bg-primary bg-pattern">
     <div class="home-btn d-none d-sm-block">
-        <a href="{{route('admin_index')}}"><i class="mdi mdi-home-variant h2 text-white"></i></a>
+        <a href="{{ route('admin_index') }}"><i class="mdi mdi-home-variant h2 text-white"></i></a>
     </div>
 
     <div class="account-pages my-5 pt-5">
@@ -33,7 +33,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="text-center mb-5">
-                        <a href="{{route('admin_index')}}" class="logo"><img
+                        <a href="{{ route('admin_index') }}" class="logo"><img
                                 src="../../../admin/assets/images/logo-dark.png" height="55" alt="logo"></a>
                     </div>
                 </div>
@@ -46,7 +46,7 @@
                         <div class="card-body p-4">
                             <div class="p-2">
                                 <h5 class="mb-5 text-center">Giriş Yap</h5>
-                                <form class="form-horizontal" action="{{route('admin_login')}}" method="POST">
+                                <form class="form-horizontal" action="{{ route('admin_login') }}" method="POST">
                                     @csrf
                                     <div class="row">
                                         <div class="col-md-12">
@@ -93,7 +93,7 @@
         @if (session('error'))
             Swal.fire({
                 title: "Hata",
-                text: "{{session('error')}}",
+                text: "{{ session('error') }}",
                 icon: "error"
             });
         @endif
@@ -101,7 +101,7 @@
         @if (session('success'))
             Swal.fire({
                 title: "Başarılı",
-                text: "{{session('success')}}",
+                text: "{{ session('success') }}",
                 icon: "success"
             });
         @endif

@@ -9,17 +9,17 @@
     <link rel="shortcut icon" href="assets/images/favicon.ico">
 
     <!-- Bootstrap Css -->
-    <link href="{{url('../../../admin/assets/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{ url('../../../admin/assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
-    <link href="{{url('../../../assets/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{ url('../../../assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- App Css-->
-    <link href="{{url('../../../assets/css/app.min.css')}}" rel="stylesheet" type="text/css" />
+    <link href="{{ url('../../../assets/css/app.min.css') }}" rel="stylesheet" type="text/css" />
 
 </head>
 
 <body>
     <div class="home-btn d-none d-sm-block">
-        <a href="{{route('index')}}"><i class="mdi mdi-home-variant h2"></i></a>
+        <a href="{{ route('index') }}"><i class="mdi mdi-home-variant h2"></i></a>
     </div>
 
     <div class="account-pages my-5 pt-5">
@@ -39,7 +39,7 @@
             <div class="row pt-4 align-items-center justify-content-center">
                 <div class="col-sm-10">
                     <div class="">
-                        <img src="{{url('../../../admin/assets/images/maintenance.png')}}" alt="lrdöşerlfrlşsdöç"
+                        <img src="{{ url('../../../admin/assets/images/maintenance.png') }}" alt="lrdöşerlfrlşsdöç"
                             class="img-fluid mx-auto d-block">
                     </div>
                 </div>

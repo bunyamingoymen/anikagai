@@ -3,7 +3,7 @@
         <div class="d-flex">
             <!-- LOGO -->
             <div class="navbar-brand-box">
-                <a href="{{route('admin_index')}}" class="logo logo-dark">
+                <a href="{{ route('admin_index') }}" class="logo logo-dark">
                     <span class="logo-sm">
                         <img src="../../../admin/assets/images/logo-dark.png" alt="" height="22">
                     </span>
@@ -12,7 +12,7 @@
                     </span>
                 </a>
 
-                <a href="{{route('admin_index')}}" class="logo logo-light">
+                <a href="{{ route('admin_index') }}" class="logo logo-light">
                     <span class="logo-sm">
                         <img src="../../../admin/assets/images/logo-sm-light.png" alt="" height="22">
                     </span>
@@ -64,7 +64,7 @@
                     aria-expanded="false">
                     <i class="mdi mdi-bell-outline"></i>
                     @if ($notificationAdminCount > 0)
-                    <span class="badge badge-danger badge-pill">{{$notificationAdminCount}}</span>
+                        <span class="badge badge-danger badge-pill">{{ $notificationAdminCount }}</span>
                     @endif
 
                 </button>
@@ -76,33 +76,34 @@
                                 <h6 class="m-0 font-weight-medium text-uppercase"> Bildirimler </h6>
                             </div>
                             <div class="col-auto">
-                                <span class="badge badge-pill badge-danger">Okunmamış {{$notificationAdminCount}}</span>
+                                <span class="badge badge-pill badge-danger">Okunmamış
+                                    {{ $notificationAdminCount }}</span>
                             </div>
                         </div>
                     </div>
                     <div data-simplebar style="max-height: 230px;">
                         @foreach ($notificationAdmin as $item)
-                        <a href="Javascript:;"
-                            onclick="readMessage('{{$item->from_user_name.' '.$item->from_user_surname}}','{{$item->notification_title}}','{{$item->notification_text}}','{{$item->code}}','{{$item->from_user_code}}');"
-                            class="text-reset notification-item">
-                            <div class="media">
-                                <div class="avatar-xs mr-3">
-                                    <span class="avatar-title bg-primary rounded-circle font-size-16">
-                                        <i class="mdi mdi-message-processing-outline"></i>
-                                    </span>
-                                </div>
-                                <div class="media-body">
-                                    <div class="row">
-                                        <div>
-                                            <h6 class="mt-0 mb-1">{{$item->notification_title}}</h6>
-                                            <div class="font-size-12 text-muted">
-                                                <p class="mb-1">{{$item->notification_text}}</p>
+                            <a href="Javascript:;"
+                                onclick="readMessage('{{ $item->from_user_name . ' ' . $item->from_user_surname }}','{{ $item->notification_title }}','{{ $item->notification_text }}','{{ $item->code }}','{{ $item->from_user_code }}');"
+                                class="text-reset notification-item">
+                                <div class="media">
+                                    <div class="avatar-xs mr-3">
+                                        <span class="avatar-title bg-primary rounded-circle font-size-16">
+                                            <i class="mdi mdi-message-processing-outline"></i>
+                                        </span>
+                                    </div>
+                                    <div class="media-body">
+                                        <div class="row">
+                                            <div>
+                                                <h6 class="mt-0 mb-1">{{ $item->notification_title }}</h6>
+                                                <div class="font-size-12 text-muted">
+                                                    <p class="mb-1">{{ $item->notification_text }}</p>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </a>
+                            </a>
                         @endforeach
                     </div>
                     <div class="p-2 border-top">
@@ -117,17 +118,17 @@
                 <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img class="rounded-circle header-profile-user"
-                        src="../../../{{Auth::guard('admin')->user()->image}}" alt="Header Avatar">
-                    <span class="d-none d-sm-inline-block ml-1">{{Auth::guard('admin')->user()->name}}
-                        {{Auth::guard('admin')->user()->surname}}</span>
+                        src="../../../{{ Auth::guard('admin')->user()->image }}" alt="Header Avatar">
+                    <span class="d-none d-sm-inline-block ml-1">{{ Auth::guard('admin')->user()->name }}
+                        {{ Auth::guard('admin')->user()->surname }}</span>
                     <i class="mdi mdi-chevron-down d-none d-sm-inline-block"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right">
                     <!-- item-->
-                    <a class="dropdown-item" href="{{route('admin_profile')}}"><i
+                    <a class="dropdown-item" href="{{ route('admin_profile') }}"><i
                             class="mdi mdi-face-profile font-size-16 align-middle mr-1"></i>Profil</a>
                     <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="{{route('admin_logout')}}"><i
+                    <a class="dropdown-item" href="{{ route('admin_logout') }}"><i
                             class="mdi mdi-logout font-size-16 align-middle mr-1"></i>
                         Çıkış Yap</a>
                 </div>
@@ -173,20 +174,22 @@
 </div><!-- /.modal -->
 
 <script>
-    function readMessage(from_user, title, message, notificaiton_code, from_user_code){
-        document.getElementById("notification_from_user").innerHTML = `<strong>Gönderen: </strong>`+from_user;
-        document.getElementById("notification_from_title").innerHTML = `<strong>Başlık: </strong>`+title;
-        document.getElementById("notification_from_message").innerHTML =`<strong>Mesaj: </strong>`+ message;
+    function readMessage(from_user, title, message, notificaiton_code, from_user_code) {
+        document.getElementById("notification_from_user").innerHTML = `<strong>Gönderen: </strong>` + from_user;
+        document.getElementById("notification_from_title").innerHTML = `<strong>Başlık: </strong>` + title;
+        document.getElementById("notification_from_message").innerHTML = `<strong>Mesaj: </strong>` + message;
         document.getElementById("notification_modal_buttons").innerHTML = `<button class="btn btn-primary" data-dismiss="modal" aria-label="Close">Tamam</button>
-        <button class="btn btn-success" onclick="sendReadedMessage(`+notificaiton_code+`)">Okundu Olarak İşaretle</button>
-        <button class="btn btn-danger" onclick="sendMessage(`+from_user_code+`,`+notificaiton_code+`)">Cevapla</button>`;
+        <button class="btn btn-success" onclick="sendReadedMessage(` + notificaiton_code + `)">Okundu Olarak İşaretle</button>
+        <button class="btn btn-danger" onclick="sendMessage(` + from_user_code + `,` + notificaiton_code +
+            `)">Cevapla</button>`;
         document.getElementById("notificationModalButton").click();
     }
 
-    function sendReadedMessage(notificaiton_code){
-        var html = `<form action='{{route("admin_read_notification")}}' method="POST" id="readNotificationForm"> @csrf`;
-            html += `<input type="text" name="code" value='`+notificaiton_code+`'>`;
-            html += `</form>`
+    function sendReadedMessage(notificaiton_code) {
+        var html =
+            `<form action='{{ route('admin_read_notification') }}' method="POST" id="readNotificationForm"> @csrf`;
+        html += `<input type="text" name="code" value='` + notificaiton_code + `'>`;
+        html += `</form>`
 
         document.getElementById('hiddenDiv').innerHTML = html;
 
@@ -196,10 +199,9 @@
     function sendMessage(user_code, answer) {
         $('.notificationModal').modal('hide');
         Swal.fire({
-        title: '<strong>Mesaj Gönder</strong>',
-        icon: 'info',
-        html:
-        `
+            title: '<strong>Mesaj Gönder</strong>',
+            icon: 'info',
+            html: `
         <div class="col-lg-12 mt-2">
             <input type="text" class="form-control" id="sendMessageTitle" placeholder="Mesaj Başlığı">
         </div>
@@ -208,26 +210,27 @@
                 placeholder="Mesaj"></textarea>
         </div>
         `,
-        showCancelButton: true,
-        confirmButtonText: 'Kaydet',
-        cancelButtonText: `Vazgeç`,
+            showCancelButton: true,
+            confirmButtonText: 'Kaydet',
+            cancelButtonText: `Vazgeç`,
         }).then((result) => {
-        if(result.value){
-        var sendMessageTitle = document.getElementById("sendMessageTitle").value;
-        var sendMessage = document.getElementById("sendMessage").value;
+            if (result.value) {
+                var sendMessageTitle = document.getElementById("sendMessageTitle").value;
+                var sendMessage = document.getElementById("sendMessage").value;
 
-        var html = `<form action='{{route("admin_send_message")}}' method="POST" id="sendMessageForm"> @csrf`;
-            html += `<input type="text" name="to_user_code" value='`+user_code+`'>`;
-            html += `<input type="text" name="notification_title" value='`+sendMessageTitle+`'>`;
-            html += `<input type="text" name="answer" value='`+answer+`'>`;
-            html += `<textarea class="form-control" name="notification_text" id="notification_text" cols="30" rows="10"
-                placeholder="Mesaj">`+sendMessage+`</textarea>`
-            html += `</form>`
+                var html =
+                    `<form action='{{ route('admin_send_message') }}' method="POST" id="sendMessageForm"> @csrf`;
+                html += `<input type="text" name="to_user_code" value='` + user_code + `'>`;
+                html += `<input type="text" name="notification_title" value='` + sendMessageTitle + `'>`;
+                html += `<input type="text" name="answer" value='` + answer + `'>`;
+                html += `<textarea class="form-control" name="notification_text" id="notification_text" cols="30" rows="10"
+                placeholder="Mesaj">` + sendMessage + `</textarea>`
+                html += `</form>`
 
-        document.getElementById('hiddenDiv').innerHTML = html;
+                document.getElementById('hiddenDiv').innerHTML = html;
 
-        document.getElementById('sendMessageForm').submit();
-        }
+                document.getElementById('sendMessageForm').submit();
+            }
         })
-        }
+    }
 </script>

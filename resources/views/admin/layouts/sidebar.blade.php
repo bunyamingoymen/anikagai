@@ -9,7 +9,7 @@
                 <li class="menu-title">Menü</li>
 
                 <li>
-                    <a href="{{route('admin_index')}}">
+                    <a href="{{ route('admin_index') }}">
                         <i class="fas fa-home"></i>
                         <span>Anasayfa</span>
                     </a>
@@ -115,20 +115,19 @@
         var html = ``;
 
         @if ($authArray['animeRead'] == 1)
-            html = `<a href="{{route('admin_anime_list')}}">Animeler</a>`;
+            html = `<a href="{{ route('admin_anime_list') }}">Animeler</a>`;
             document.getElementById('sidebarAnime').innerHTML = html;
         @endif
 
         @if ($authArray['animeEpisodeRead'] == 1)
-            html = `<a href="{{route('admin_anime_episodes_list')}}">Bölümler</a>`;
+            html = `<a href="{{ route('admin_anime_episodes_list') }}">Bölümler</a>`;
             document.getElementById('sidebarAnimeEpisode').innerHTML = html;
         @endif
 
         @if ($authArray['animeCalendarRead'] == 1)
-            html = `<a href="{{route('admin_animecalendar_index')}}">Takvim</a>`;
+            html = `<a href="{{ route('admin_animecalendar_index') }}">Takvim</a>`;
             document.getElementById('sidebarAnimeCalendar').innerHTML = html;
         @endif
-
     @endif
 
     @if ($authArray['contactRead'] == 1 || $authArray['commentRead'] == 1 || $authArray['indexUserRead'] == 1)
@@ -138,21 +137,22 @@
         var html = ``;
 
         @if ($authArray['contactRead'] == 1)
-            html = `<a href="{{route('admin_contact_screen')}}"> <i class="fas fa-envelope"></i><span>İletişim</span></a>`;
+            html =
+                `<a href="{{ route('admin_contact_screen') }}"> <i class="fas fa-envelope"></i><span>İletişim</span></a>`;
             document.getElementById('sidebarContact').innerHTML = html;
         @endif
 
         @if ($authArray['commentRead'] == 1)
-            html = `<a href="{{route('admin_comment_screen')}}"> <i class="fas fa-comment"></i> <span>Yorumlar</span> </a>`;
+            html =
+                `<a href="{{ route('admin_comment_screen') }}"> <i class="fas fa-comment"></i> <span>Yorumlar</span> </a>`;
             document.getElementById('sidebarComment').innerHTML = html;
         @endif
 
         @if ($authArray['indexUserRead'] == 1)
-            html = `<a href="{{route('admin_indexuser_list')}}"> <i class="fas fa-address-card"></i> <span>Üyeler</span> </a>`;
+            html =
+                `<a href="{{ route('admin_indexuser_list') }}"> <i class="fas fa-address-card"></i> <span>Üyeler</span> </a>`;
             document.getElementById('sidebarIndexUser').innerHTML = html;
         @endif
-
-
     @endif
 
     @if ($authArray['webtoonRead'] == 1 || $authArray['webtoonEpisodeRead'] == 1 || $authArray['webtoonCalendarRead'] == 1)
@@ -162,20 +162,19 @@
         var html = ``;
 
         @if ($authArray['webtoonRead'] == 1)
-            html = `<a href="{{route('admin_webtoon_list')}}">Webtoon'lar</a>`;
+            html = `<a href="{{ route('admin_webtoon_list') }}">Webtoon'lar</a>`;
             document.getElementById('sidebarWebtoon').innerHTML = html;
         @endif
 
         @if ($authArray['webtoonEpisodeRead'] == 1)
-            html = `<a href="{{route('admin_webtoon_episodes_list')}}">Bölümler</a>`;
+            html = `<a href="{{ route('admin_webtoon_episodes_list') }}">Bölümler</a>`;
             document.getElementById('sidebarWebtoonEpisode').innerHTML = html;
         @endif
 
         @if ($authArray['webtoonCalendarRead'] == 1)
-            html = `<a href="{{route('admin_webtooncalendar_index')}}">Takvim</a>`;
+            html = `<a href="{{ route('admin_webtooncalendar_index') }}">Takvim</a>`;
             document.getElementById('sidebarWebtoonCalendar').innerHTML = html;
         @endif
-
     @endif
 
     @if ($authArray['pageRead'] == 1 || $authArray['categoryRead'] == 1 || $authArray['tagRead'] == 1)
@@ -185,23 +184,35 @@
         var html = ``;
 
         @if ($authArray['pageRead'] == 1)
-            html = `<a href="{{route('admin_page_list')}}">Sayfalar</a>`;
+            html = `<a href="{{ route('admin_page_list') }}">Sayfalar</a>`;
             document.getElementById('sidebarPage').innerHTML = html;
         @endif
 
         @if ($authArray['categoryRead'] == 1)
-            html = `<a href="{{route('admin_category_list')}}">Kategoriler</a>`;
+            html = `<a href="{{ route('admin_category_list') }}">Kategoriler</a>`;
             document.getElementById('sidebarCategory').innerHTML = html;
         @endif
 
         @if ($authArray['tagRead'] == 1)
-            html = `<a href="{{route('admin_tag_list')}}">Etiketler</a>`;
+            html = `<a href="{{ route('admin_tag_list') }}">Etiketler</a>`;
             document.getElementById('sidebarTag').innerHTML = html;
         @endif
-
     @endif
 
-    @if ($authArray['userRead'] == 1 || $authArray['userGroupRead'] == 1 || $authArray['groupAuthRead'] == 1 || $authArray['changeHome'] == 1 || $authArray['changeLogo'] == 1 || $authArray['changeMeta'] == 1 || $authArray['changeTitle'] == 1 || $authArray['changeMenu'] == 1 || $authArray['changeSocialMedia'] == 1 || $authArray['adminMetaTag'] == 1 || $authArray['KeyValue'] == 1 || $authArray['clauseAuthUpdate'] == 1 || $authArray['changeSliderVideo'] == 1)
+    @if (
+        $authArray['userRead'] == 1 ||
+            $authArray['userGroupRead'] == 1 ||
+            $authArray['groupAuthRead'] == 1 ||
+            $authArray['changeHome'] == 1 ||
+            $authArray['changeLogo'] == 1 ||
+            $authArray['changeMeta'] == 1 ||
+            $authArray['changeTitle'] == 1 ||
+            $authArray['changeMenu'] == 1 ||
+            $authArray['changeSocialMedia'] == 1 ||
+            $authArray['adminMetaTag'] == 1 ||
+            $authArray['KeyValue'] == 1 ||
+            $authArray['clauseAuthUpdate'] == 1 ||
+            $authArray['changeSliderVideo'] == 1)
 
         document.getElementById('sidebarManagementAllSection').hidden = false;
 
@@ -212,63 +223,68 @@
             var html = ``;
 
             @if ($authArray['userRead'] == 1)
-                html = `<a href="{{route('admin_user_list')}}">Kullanıcılar</a>`;
+                html = `<a href="{{ route('admin_user_list') }}">Kullanıcılar</a>`;
                 document.getElementById('sidebarUser').innerHTML = html;
             @endif
 
             @if ($authArray['userGroupRead'] == 1)
-                html = `<a href="{{route('admin_authgroup_list')}}">Kullanıcı Grupları</a>`;
+                html = `<a href="{{ route('admin_authgroup_list') }}">Kullanıcı Grupları</a>`;
                 document.getElementById('sidebarUserGroup').innerHTML = html;
             @endif
 
             @if ($authArray['groupAuthRead'] == 1)
-                html = `<a href="{{route('admin_auth_list')}}">Grup Yetkileri</a>`;
+                html = `<a href="{{ route('admin_auth_list') }}">Grup Yetkileri</a>`;
                 document.getElementById('sidebarGroupAuth').innerHTML = html;
             @endif
-
         @endif
 
-        @if ($authArray['changeHome'] == 1 || $authArray['changeLogo'] == 1 || $authArray['changeMeta'] == 1 || $authArray['changeTitle'] == 1 || $authArray['changeMenu'] == 1 || $authArray['changeSocialMedia'] == 1 || $authArray['changeSliderVideo'] == 1)
+        @if (
+            $authArray['changeHome'] == 1 ||
+                $authArray['changeLogo'] == 1 ||
+                $authArray['changeMeta'] == 1 ||
+                $authArray['changeTitle'] == 1 ||
+                $authArray['changeMenu'] == 1 ||
+                $authArray['changeSocialMedia'] == 1 ||
+                $authArray['changeSliderVideo'] == 1)
 
             document.getElementById('sidebarDataSection').hidden = false;
 
             var html = ``;
 
             @if ($authArray['changeHome'] == 1)
-                html = `<a href="{{route('admin_data_home_list')}}">Anasayfa Ayarları</a>`;
+                html = `<a href="{{ route('admin_data_home_list') }}">Anasayfa Ayarları</a>`;
                 document.getElementById('sidebarHomeSettings').innerHTML = html;
             @endif
 
             @if ($authArray['changeSliderVideo'] == 1)
-                html = `<a href="{{route('admin_data_slider_video_list')}}">Slider Videoları</a>`;
+                html = `<a href="{{ route('admin_data_slider_video_list') }}">Slider Videoları</a>`;
                 document.getElementById('sidebarSliderVideo').innerHTML = html;
             @endif
 
             @if ($authArray['changeLogo'] == 1)
-                html = `<a href="{{route('admin_data_logo_list')}}">Logolar</a>`;
+                html = `<a href="{{ route('admin_data_logo_list') }}">Logolar</a>`;
                 document.getElementById('sidebarLogoSettings').innerHTML = html;
             @endif
 
             @if ($authArray['changeMeta'] == 1)
-                html = `<a href="{{route('admin_data_meta_list')}}">Meta Etiketleri</a>`;
+                html = `<a href="{{ route('admin_data_meta_list') }}">Meta Etiketleri</a>`;
                 document.getElementById('sidebarMetaSettings').innerHTML = html;
             @endif
 
             @if ($authArray['changeTitle'] == 1)
-                html = `<a href="{{route('admin_data_title_list')}}">Başlıklar</a>`;
+                html = `<a href="{{ route('admin_data_title_list') }}">Başlıklar</a>`;
                 document.getElementById('sidebarTitleSettings').innerHTML = html;
             @endif
 
             @if ($authArray['changeMenu'] == 1)
-                html = `<a href="{{route('admin_data_menu_list')}}">Menüler</a>`;
+                html = `<a href="{{ route('admin_data_menu_list') }}">Menüler</a>`;
                 document.getElementById('sidebarMenuSettings').innerHTML = html;
             @endif
 
             @if ($authArray['changeSocialMedia'] == 1)
-                html = `<a href="{{route('admin_data_social_list')}}">Sosyal Medya</a>`;
+                html = `<a href="{{ route('admin_data_social_list') }}">Sosyal Medya</a>`;
                 document.getElementById('sidebarSocialSettings').innerHTML = html;
             @endif
-
         @endif
 
         @if ($authArray['adminMetaTag'] == 1 || $authArray['KeyValue'] == 1 || $authArray['clauseAuthUpdate'] == 1)
@@ -278,22 +294,19 @@
             var html = ``;
 
             @if ($authArray['adminMetaTag'] == 1)
-                html = `<a href="{{route('admin_data_admin_meta_list')}}">Admin Meta Etiketleri</a>`;
+                html = `<a href="{{ route('admin_data_admin_meta_list') }}">Admin Meta Etiketleri</a>`;
                 document.getElementById('sidebarAdminMetaSettings').innerHTML = html;
             @endif
 
             @if ($authArray['KeyValue'] == 1)
-                html = `<a href="{{route('admin_keyvalue_list')}}">Key Value</a>`;
+                html = `<a href="{{ route('admin_keyvalue_list') }}">Key Value</a>`;
                 document.getElementById('sidebarKeyValue').innerHTML = html;
             @endif
 
             @if ($authArray['clauseAuthUpdate'] == 1)
-                html = `<a href="{{route('admin_authclause_list')}}">Yetki Maddeleri</a>`;
+                html = `<a href="{{ route('admin_authclause_list') }}">Yetki Maddeleri</a>`;
                 document.getElementById('sidebarAuthClause').innerHTML = html;
             @endif
-
         @endif
-
     @endif
-
 </script>

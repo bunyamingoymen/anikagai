@@ -19,7 +19,7 @@
 
     <!-- ================= Favicons ================== -->
     <!-- Standard -->
-    <link rel="shortcut icon" href="{{$index_icon->value}}">
+    <link rel="shortcut icon" href="{{ $index_icon->value }}">
     <!-- Retina iPad Touch Icon-->
 
     <!-- ============== Resources style ============== -->
@@ -31,9 +31,9 @@
     <canvas id="dotty"></canvas>
 
     <!-- Your logo on the top left -->
-    <a href="{{route('index')}}" class="logo-link" title="back home">
+    <a href="{{ route('index') }}" class="logo-link" title="back home">
 
-        <img src="../../../{{$logo->value}}" class="logo" alt="Company's logo" />
+        <img src="../../../{{ $logo->value }}" class="logo" alt="Company's logo" />
 
     </a>
 
@@ -81,9 +81,9 @@
     <footer class="light">
 
         <ul>
-            <li><a href="{{route('index')}}">Anaysafa</a></li>
+            <li><a href="{{ route('index') }}">Anaysafa</a></li>
 
-            <li><a href="{{redirect()->back()->getTargetUrl()}}">Geri Dön</a></li>
+            <li><a href="{{ redirect()->back()->getTargetUrl() }}">Geri Dön</a></li>
         </ul>
 
     </footer>
