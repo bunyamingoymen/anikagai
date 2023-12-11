@@ -117,14 +117,16 @@ class IndexController extends Controller
 
             $list = $query->get();
         } else {
-            abort(404); // TODO: hata sayfasına yönlendir
+            abort(404);
         }
 
         $pageCountTest = count($list);
 
         $pageCount = $pageCountTest % intval($listItems) == 0 ? $pageCountTest / $listItems : $pageCount = intval($pageCountTest / $listItems) + 1;
-        if ($currentPage > $pageCount || $currentPage < 1)
-            abort(404); // TODO: 404 sayfasına yönlendir
+
+        //Eğer gidilmek istene sayfa 1 den küçük yada toplam sayfadan büyük ise 404 ekranına gider. Ancak eğer ilk sayfa ise ve liste değeri boş ise 404 sayfasına gitmez.
+        if ((($currentPage > $pageCount) || ($currentPage < 1)) && !(count($list) == 0 && $currentPage == 1))
+            abort(404);
 
         //dd($list->toArray());
         return $this->loadThemeView('list', compact('path', 'title', 'list', 'pageCount', 'currentPage', 'allCategory'));

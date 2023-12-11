@@ -21,9 +21,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-
                     <div class="product__page__content">
-
                         <div class="product__page__title">
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-2">
@@ -58,73 +56,81 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            @foreach ($list as $item)
-                                <div class="col-lg-3 col-md-6 col-sm-6">
-                                    @if ($item->showStatus == 0 || (Auth::user() && ($item->showStatus == 1 || $item->showStatus == 2)))
-                                        <div class="product__item">
-                                            @if ($path == 'animeler')
-                                                <a href="{{ url('anime/' . $item->short_name) }}">
-                                                @elseif ($path == 'webtoonlar')
-                                                    <a href="{{ url('webtoon/' . $item->short_name) }}">
-                                            @endif
-                                            <div class="product__item__pic set-bg"
-                                                data-setbg="../../../{{ $item->image }}">
-                                                <div class="ep">{{ $item->score }} / 5</div>
-                                                <div class="comment"><i class="fa fa-comments"></i>
-                                                    {{ $item->comment_count }}
-                                                </div>
-                                                <div class="view"><i class="fa fa-eye"></i> {{ $item->click_count }}
-                                                </div>
-                                            </div>
-                                            </a>
-                                            <div class="product__item__text">
-                                                <ul>
-                                                    <li>{{ $item->main_category_name }}</li>
-                                                </ul>
-                                                <h5>
-                                                    @if ($path == 'animeler')
-                                                        <a
-                                                            href="{{ url('anime/' . $item->short_name) }}">{{ $item->name }}</a>
+                        @if (count($list) == 0)
+                            <div>
+                                <p style="color:#fff;">Herhangi bir içerik mevcut değil</p>
+                            </div>
+                        @else
+                            <div class="row">
+                                @foreach ($list as $item)
+                                    <div class="col-lg-3 col-md-6 col-sm-6">
+                                        @if ($item->showStatus == 0 || (Auth::user() && ($item->showStatus == 1 || $item->showStatus == 2)))
+                                            <div class="product__item">
+                                                @if ($path == 'animeler')
+                                                    <a href="{{ url('anime/' . $item->short_name) }}">
                                                     @elseif ($path == 'webtoonlar')
-                                                        <a
-                                                            href="{{ url('webtoon/' . $item->short_name) }}">{{ $item->name }}</a>
-                                                    @endif
-                                                </h5>
-                                            </div>
-                                        </div>
-                                    @else
-                                        <div class="product__item">
-                                            <a href="{{ route('loginScreen') }}">
-                                                <div class="product__item__pic">
-                                                    <div
-                                                        style="width: 100%; height: 100%; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center;">
-                                                        <div class="censor set-bg"
-                                                            data-setbg="../../../{{ $item->image }}">
-                                                        </div>
-                                                        <div style="margin-top: 20px; z-index: 2;">
-                                                            <a class="overlay-button" href="{{ route('loginScreen') }}">
-                                                                Görmek için giriş yapınız
-                                                            </a>
-                                                        </div>
+                                                        <a href="{{ url('webtoon/' . $item->short_name) }}">
+                                                @endif
+                                                <div class="product__item__pic set-bg"
+                                                    data-setbg="../../../{{ $item->image }}">
+                                                    <div class="ep">{{ $item->score }} / 5</div>
+                                                    <div class="comment"><i class="fa fa-comments"></i>
+                                                        {{ $item->comment_count }}
+                                                    </div>
+                                                    <div class="view"><i class="fa fa-eye"></i> {{ $item->click_count }}
                                                     </div>
                                                 </div>
-                                            </a>
-                                            <div class="product__item__text">
-                                                <ul>
-                                                    <li>Bilinmiyor</li>
-                                                </ul>
-                                                <h5>
-                                                    <a href="{{ route('loginScreen') }}">Bilinmiyor</a>
-                                                </h5>
+                                                </a>
+                                                <div class="product__item__text">
+                                                    <ul>
+                                                        <li>{{ $item->main_category_name }}</li>
+                                                    </ul>
+                                                    <h5>
+                                                        @if ($path == 'animeler')
+                                                            <a
+                                                                href="{{ url('anime/' . $item->short_name) }}">{{ $item->name }}</a>
+                                                        @elseif ($path == 'webtoonlar')
+                                                            <a
+                                                                href="{{ url('webtoon/' . $item->short_name) }}">{{ $item->name }}</a>
+                                                        @endif
+                                                    </h5>
+                                                </div>
                                             </div>
-                                        </div>
-                                    @endif
-                                </div>
-                            @endforeach
-                        </div>
+                                        @else
+                                            <div class="product__item">
+                                                <a href="{{ route('loginScreen') }}">
+                                                    <div class="product__item__pic">
+                                                        <div
+                                                            style="width: 100%; height: 100%; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                                                            <div class="censor set-bg"
+                                                                data-setbg="../../../{{ $item->image }}">
+                                                            </div>
+                                                            <div style="margin-top: 20px; z-index: 2;">
+                                                                <a class="overlay-button"
+                                                                    href="{{ route('loginScreen') }}">
+                                                                    Görmek için giriş yapınız
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                                <div class="product__item__text">
+                                                    <ul>
+                                                        <li>Bilinmiyor</li>
+                                                    </ul>
+                                                    <h5>
+                                                        <a href="{{ route('loginScreen') }}">Bilinmiyor</a>
+                                                    </h5>
+                                                </div>
+                                            </div>
+                                        @endif
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
+
                     </div>
-                    <div class="product__pagination">
+                    <div class="product__pagination" {{ count($list) == 0 ? 'hidden' : '' }}>
                         @if ($currentPage != 1)
                             <a href="javascript:;" onclick=" changePage({{ $currentPage - 1 }})"><i
                                     class="fa fa-angle-double-left"></i></a>
