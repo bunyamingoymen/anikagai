@@ -26,6 +26,13 @@
     <!-- alertifyjs default themes  Css -->
     <link href="../../../admin/assets/libs/alertifyjs/build/css/themes/default.min.css" rel="stylesheet"
         type="text/css" />
+
+    <!-- slick css -->
+    <link href="../../../admin/assets/libs/slick-slider/slick/slick.css" rel="stylesheet" type="text/css" />
+    <link href="../../../admin/assets/libs/slick-slider/slick/slick-theme.css" rel="stylesheet" type="text/css" />
+
+    <!-- JAVASCRIPT -->
+    <script src="../../../admin/assets/libs/jquery/jquery.min.js"></script>
 </head>
 
 <body data-sidebar="dark">
@@ -92,12 +99,12 @@
 
     </div>
 
-    <!-- JAVASCRIPT -->
-    <script src="../../../admin/assets/libs/jquery/jquery.min.js"></script>
     <script src="../../../admin/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script src="../../../admin/assets/libs/metismenu/metisMenu.min.js"></script>
     <script src="../../../admin/assets/libs/simplebar/simplebar.min.js"></script>
     <script src="../../../admin/assets/libs/node-waves/waves.min.js"></script>
+
+
 
     <!-- alertifyjs js -->
     <script src="../../../admin/assets/libs/alertifyjs/build/alertify.min.js"></script>

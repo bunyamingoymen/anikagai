@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Comment;
 use App\Models\Contact;
 use App\Models\FollowUser;
+use App\Models\IndexUser;
 use App\Models\User;
+use App\Models\WatchedAnime;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -15,7 +17,18 @@ class AdminController extends Controller
 {
     public function index()
     {
-        return view('admin.index');
+        $cacheKey = 'total_data';
+
+        $totalData = cache()->remember($cacheKey, now()->addMinutes(120), function () {
+            return [
+                'total_index_user' => IndexUser::count(),
+                'total_watch' => WatchedAnime::where('content_type', 1)->count(),
+                'total_read' => WatchedAnime::where('content_type', 0)->count(),
+                'total_comment' => Comment::where('deleted', 0)->count(),
+            ];
+        });
+
+        return view('admin.index', ['totalData' => $totalData]);
     }
 
     public function contactScreen()
