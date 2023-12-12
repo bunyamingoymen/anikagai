@@ -38,7 +38,7 @@
                                     <div class="col-lg-3 col-md-6 col-sm-6">
                                         <div class="product__item">
                                             <a
-                                                href="{{ $item->type == 'anime' ? url('anime/' . $item->short_name) : url('webtoon/' . $item->short_name) }}{{ $item->short_name }}">
+                                                href="{{ $item->type == 'anime' ? url('anime/' . $item->short_name) : url('webtoon/' . $item->short_name) }}">
                                                 <div class="product__item__pic set-bg"
                                                     data-setbg="../../../{{ $item->image }}">
                                                     <div class="ep">{{ $item->score }} / 5</div>

@@ -141,7 +141,7 @@ class IndexController extends Controller
         $listItemsSetting = ThemeSetting::where('theme_code', $selected_theme->value)->where('setting_name', 'listCount')->first();
         $listItems = $listItemsSetting ? $listItemsSetting->setting_value : 20;
 
-        
+
         $path = "/search?query={$query}";
 
         $currentPage = request()->input('p', 1); // Sayfa numarasını request'ten al, varsayılan olarak 1
@@ -172,10 +172,18 @@ class IndexController extends Controller
 
 
         // Her iki modeli birleştirip sadece belirli sayfa için sonuçları alın
-        $results = Anime::query()
-            ->from($animesQuery->union($webtoonsQuery)->toBase(), 'sub')
-            ->orderBy('created_at', 'desc')
-            ->paginate($listItems, ['*'], 'p', $currentPage);
+        // Her iki modeli birleştirip sadece belirli sayfa için sonuçları alın
+        $combinedResults = $animesQuery->union($webtoonsQuery)->orderBy('created_at', 'desc')->paginate($listItems, ['*'], 'p', $currentPage);
+
+        // Her bir sonuca ait 'type' özelliğini ayarlayın
+        $combinedResults->getCollection()->map(function ($result) {
+            $result->type = strpos($result->image, 'files/animes') === 0 ? 'anime' : 'webtoon';
+
+            return $result;
+        });
+
+        // Artık $combinedResults içinde 'type' özelliği ile her iki modelden gelen sonuçları birbirinden ayırt edebilirsiniz
+        $results = $combinedResults;
 
         $pageCount = $results->lastPage();
 

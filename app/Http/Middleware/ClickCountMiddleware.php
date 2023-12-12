@@ -31,12 +31,16 @@ class ClickCountMiddleware
             Cache::put($key, 1, 60 * 60); // 60 dakika süreyle sakla
             if ($route_name == 'animeDetail' || $route_name == 'watch') {
                 $anime = Anime::Where('short_name', $short_name)->first();
-                $anime->click_count = $anime->click_count + 1;
-                $anime->save();
+                if ($anime) {
+                    $anime->click_count = $anime->click_count + 1;
+                    $anime->save();
+                } else abort(404);
             } else if ($route_name == 'webtoonDetail' || $route_name == 'read') {
                 $webtoon = Webtoon::Where('short_name', $short_name)->first();
-                $webtoon->click_count = $webtoon->click_count + 1;
-                $webtoon->save();
+                if ($webtoon) {
+                    $webtoon->click_count = $webtoon->click_count + 1;
+                    $webtoon->save();
+                } else abort(404);
             }
             // Örneğin: YourModel::where('ip_address', $ipAddress)->increment('click_count');
         }
