@@ -8,7 +8,7 @@
 
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
         /* Roboto fontunu ekleyin veya
-        kendi tercih ettiğiniz bir font kullanabilirsiniz */
+                kendi tercih ettiğiniz bir font kullanabilirsiniz */
 
         .overlay-button {
             position: absolute !important;
@@ -53,6 +53,7 @@
     <section class="anime-details spad">
         <div class="container">
             <div class="row">
+                <!--İzlenme-->
                 <div class="col-lg-12">
                     <div class="anime__details__review">
                         <div class="section-title" {{ $anime->plusEighteen == '0' ? 'hidden' : '' }}>
@@ -75,6 +76,7 @@
 
                     </div>
                 </div>
+                <!--Bölümler-->
                 <div class="anime__details__episodes">
                     @if ($anime->season_count > 0)
                         @for ($i = $anime->season_count; $i >= 1; $i--)
@@ -114,14 +116,16 @@
                         @endfor
                     @else
                         <div class="col-lg-12 col-md-12 section-title">
-                            <h5>Herhani gib bölüm mevcut değil.</h5>
+                            <h5>Herhangi bir bölüm mevcut değil.</h5>
                         </div>
                     @endif
                 </div>
             </div>
-            <div class="row">
-                <div class="col-lg-8">
 
+            <!--Yorumlar ve Benzer içerikler-->
+            <div class="row">
+                <!--Yorumlar-->
+                <div class="col-lg-8">
                     <div class="anime__details__review">
                         <div class="section-title">
                             <h5>Yorumlar</h5>
@@ -204,6 +208,7 @@
                         </div>
                     @endif
                 </div>
+                <!--Benzer içerikler-->
                 <div class="col-lg-4 col-md-4 justify-content-end">
                     <div class="anime__details__sidebar">
                         <div class="section-title">
@@ -232,6 +237,7 @@
                     </div>
                 </div>
             </div>
+
         </div>
     </section>
 
@@ -455,7 +461,7 @@
                         nextEpisodeButton.addEventListener('click', function() {
                             // Belirlediğiniz linke git
                             window.location.href =
-                            '{{ url($next_episode_url) }}'; // bir sonraki bölüm url'i
+                                '{{ url($next_episode_url) }}'; // bir sonraki bölüm url'i
                         });
                     }
                 @endif

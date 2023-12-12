@@ -42,7 +42,7 @@
                         <div class="item" id="series-profile-wrapper">
                             <a class="ui image" id="series-profile-image-wrapper">
                                 <img class="series-profile-thumb" src="../../../{{ $webtoon->image }}"
-                                    alt="{{ $webtoon->name }}" width="300" height="451" />
+                                    alt="{{ $webtoon->name }}" style="min-width: 300px; max-width: 300px;" />
                             </a>
                             <div class="content" id="series-profile-content-wrapper">
                                 <article class="series-summary">

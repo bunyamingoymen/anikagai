@@ -42,7 +42,7 @@
                         <div class="item" id="series-profile-wrapper">
                             <a class="ui image" id="series-profile-image-wrapper">
                                 <img class="series-profile-thumb" src="../../../{{ $anime->image }}"
-                                    alt="{{ $anime->name }}" width="300" height="451" />
+                                    alt="{{ $anime->name }}" style="min-width: 300px; max-width: 300px;" />
                             </a>
                             <div class="content" id="series-profile-content-wrapper">
                                 <article class="series-summary">
@@ -56,7 +56,8 @@
                                         <div class="item">
                                             <span class="label">Kategori:</span>
                                             <!--TODO Kategori arama yap-->
-                                            <a href="#"title="{{ $anime->main_category_name ?? 'Genel' }}">
+                                            <a
+                                                href="{{ url('search?query=' . $anime->main_category_name ?? 'Genel') }}"title="{{ $anime->main_category_name ?? 'Genel' }}">
                                                 {{ $anime->main_category_name ?? 'Genel' }}
                                             </a>,
                                             @foreach ($categories as $item)

@@ -134,7 +134,6 @@ class IndexController extends Controller
 
     public function search(Request $request)
     {
-        //TODO buraya kategori arama da eklenecek
         $query = $request->input('query');
 
         $selected_theme = KeyValue::where('key', 'selected_theme')->first();
@@ -290,7 +289,6 @@ class IndexController extends Controller
         $next_episode_control =
             AnimeEpisode::Where("deleted", 0)->Where('season_short', $request->season)->Where('episode_short', (intval($request->episode) + 1))->first();
         if (!$next_episode_control) {
-
             $next_episode_control =
                 AnimeEpisode::Where("deleted", 0)->Where('season_short', intval(($request->season) + 1))->Where('episode_short', 1)->first();
         }
@@ -298,11 +296,22 @@ class IndexController extends Controller
 
         $next_episode_url = $next_episode_control ? "anime/" . $anime->short_name . "/" . $next_episode_control->season_short . "/" . $next_episode_control->episode_short : "none";
 
+        $prev_episode_url = "none";
+        $prev_episode_control =
+            AnimeEpisode::Where("deleted", 0)->Where('season_short', $request->season)->Where('episode_short', (intval($request->episode) - 1))->first();
+
+        if (!$prev_episode_control) {
+            $prev_episode_control =
+                AnimeEpisode::Where("deleted", 0)->Where('season_short', intval(($request->season) - 1))->orderBy('episode_short', 'ASC')->first();
+        }
+
+        $prev_episode_url = $prev_episode_control ? "anime/" . $anime->short_name . "/" . $prev_episode_control->season_short . "/" . $prev_episode_control->episode_short : "none";
+        //dd($next_episode_url);
         $watched = [];
         if (Auth::user())
             $watched = WatchedAnime::Where('anime_code', $anime->code)->Where('user_code', Auth::user()->code)->Where('content_type', 1)->get();
 
-        return $this->loadThemeView('watch', compact('anime', 'episode', 'anime_episodes', 'trend_animes', 'comments_main', 'comments_alt', 'next_episode_url', 'watched'));
+        return $this->loadThemeView('watch', compact('anime', 'episode', 'anime_episodes', 'trend_animes', 'comments_main', 'comments_alt', 'next_episode_url', 'prev_episode_url', 'watched'));
     }
 
     public function webtoonDetail(Request $request)
@@ -424,12 +433,24 @@ class IndexController extends Controller
 
         $next_episode_url = $next_episode_control ? "webtoon/" . $webtoon->short_name . "/" . $next_episode_control->season_short . "/" . $next_episode_control->episode_short : "none";
 
+        $prev_episode_url = "none";
+        $prev_episode_control =
+            WebtoonEpisode::Where("deleted", 0)->Where('season_short', $request->season)->Where('episode_short', (intval($request->episode) - 1))->first();
+
+        if (!$prev_episode_control) {
+            $prev_episode_control =
+                WebtoonEpisode::Where("deleted", 0)->Where('season_short', intval(($request->season) - 1))->orderBy('episode_short', 'ASC')->first();
+        }
+
+        $prev_episode_url = $prev_episode_control ? "webtoon/" . $webtoon->short_name . "/" . $prev_episode_control->season_short . "/" . $prev_episode_control->episode_short : "none";
+
+
         $watched = [];
         if (Auth::user()) $watched = WatchedAnime::Where('anime_code', $webtoon->code)->Where('user_code', Auth::user()->code)->Where('content_type', 0)->get();
 
         $files = WebtoonFile::Where('deleted', 0)->Where('webtoon_episode_code', $episode->code)->get();
-        //dd($files);
-        return $this->loadThemeView('read', compact('webtoon', 'episode', 'webtoon_episodes', 'trend_webtoons', 'comments_main', 'comments_alt', 'next_episode_url', 'watched', 'files'));
+
+        return $this->loadThemeView('read', compact('webtoon', 'episode', 'webtoon_episodes', 'trend_webtoons', 'comments_main', 'comments_alt', 'next_episode_url', 'prev_episode_url', 'watched', 'files'));
     }
 
     public function showPage(Request $request)
@@ -518,7 +539,7 @@ class IndexController extends Controller
 
         Auth::login($newUser);
 
-        return redirect()->route('index');
+        return redirect()->back();
     }
 
     public function login(Request $request)
@@ -526,7 +547,7 @@ class IndexController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-            return redirect()->route('index');
+            return redirect()->back();
         }
 
         $errorScreen = "loginScreen";

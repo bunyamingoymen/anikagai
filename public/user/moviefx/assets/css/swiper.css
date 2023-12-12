@@ -198,7 +198,7 @@
     position: relative;
 }
 .swiper-slide.season_start .episode-container:before {
-    content: 'Yeni Sezon';
+    content: 'İlk Bölüm';
     padding: 3px 6px;
     line-height: 1;
     background-color: rgba(66, 227, 209, .2);

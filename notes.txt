@@ -12,14 +12,13 @@
 -3.tema
 -Her update de code değeri var olmayacak. js ile o getirilecek
 -Takvimde güncelleyip silebilme işlemi
--Admin giriş anasayfası düzenlenmesi gerekiyor(en çok okunan animeler, en çok okunan webtoonlar...vs. gibi.);
+-Admin giriş anasayfası En çok okunan animeler, en çok okunan webtoonlar eklenmeli.
 -Kategorilerde en çok tıklananları gösteren bir şey olmalı
--arama kısmında anime ve webtoonların kategorilerine göre de arama yapmalı
 -tema ayarları güncellenmeli (mesela giriş yap modal ile mi ekran ile mi, buna göre redirect->route yapılacak;)
 -3.tema da profil güncelleme ve şifre değiştirme ayarlanacak
--Admin Dashboard Kısmı Güncellenecek
--Tema ayraları kısmı eklenecek ve her tema için renk ekleme olmalı, tema ayarlarıdna varsayılan renkler tutulmalı,
+-Tema ayraları kısmı eklenecek ve her tema için renk ekleme olmalı, tema ayarlarıdna varsayılan renkler tutulmalı,(Bu animex'e eklendi, diğerlerine ekleme bekleniyor.)
 -slider seçenekleri eklenmeli
+-kategori aramaları temalara aktarılacak
 ---------------------------------------------
 Kontrol edilecek işlemler:
 

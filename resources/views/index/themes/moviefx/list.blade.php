@@ -23,7 +23,7 @@
                     <a href="javascript:;" onclick="changeCategory('plusEighteen')" class="ui button secondary"
                         title="Hepsi">{{ request('adult', 'off') == 'off' ? '+18' : '+18 olmayan' }}</a>
                     @foreach ($allCategory->skip(1) as $category)
-                        <a href="javascript:;" onclick="changeCategory({{ $category->short_name }})"
+                        <a href="javascript:;" onclick="changeCategory('{{ $category->short_name }}')"
                             class="ui button secondary" title="{{ $category->name }}">{{ $category->name }}</a>
                     @endforeach
                 </div>
@@ -34,7 +34,7 @@
                 <div class="area latest-add-movies">
                     <div class="ui grid mb-0">
                         <div class="left floated twelve wide tablet eleven wide computer column">
-                            <h2 class="segment-title p-0 m-0">Animeler</h2>
+                            <h2 class="segment-title p-0 m-0">{{ $title }}</h2>
                         </div>
                         <div class="right floated twelve wide tablet five wide computer wide column" id="di-all-items">
                             <div class="watch-together-button">
@@ -49,98 +49,99 @@
                         </div>
                     </div>
                     <ul class="flex flex-wrap">
-                        @foreach ($list as $item)
-                            @if ($item->showStatus == 0 || (Auth::user() && ($item->showStatus == 1 || $item->showStatus == 2)))
-                                <li class="mofy-moviesli" id="data_8263">
-                                    <div class="mofy-movbox">
-                                        <div class="mofy-movbox-image relative">
-                                            @if ($path == 'animeler')
-                                                <a href="{{ url('anime/' . $item->short_name) }}"
-                                                    title="{{ $item->name }}">
-                                                @elseif ($path == 'webtoonlar')
-                                                    <a href="{{ url('webtoon/' . $item->short_name) }}"
+                        @if (count($list) == 0)
+                            <p class="p-0 m-0" style="color:white;">Herhangi Bir İçerik Mevcut Değil</p>
+                        @else
+                            @foreach ($list as $item)
+                                @if ($item->showStatus == 0 || (Auth::user() && ($item->showStatus == 1 || $item->showStatus == 2)))
+                                    <li class="mofy-moviesli" id="data_8263">
+                                        <div class="mofy-movbox">
+                                            <div class="mofy-movbox-image relative">
+                                                @if ($path == 'animeler')
+                                                    <a href="{{ url('anime/' . $item->short_name) }}"
                                                         title="{{ $item->name }}">
-                                            @endif
-                                            <img class="" src="../../../{{ $item->image }}"
-                                                alt="{{ $item->name }}" data-src="">
-                                            <div class="mofy-movbox-on absolute">
-                                                <div class="mofy-movpoint flex items-center justify-between absolute">
-                                                    <span class="flex items-center">
-                                                        <i class="fa-solid fa-star"></i>
-                                                        {{ $item->score }}
-                                                    </span>
-                                                    <p>{{ $item->date }}</p>
-                                                </div>
-                                            </div>
-                                            </a>
-                                        </div>
-                                        <div class="mofy-movbox-text">
-                                            <span class="block">
-                                                <a href="{{ url('anime/' . $item->short_name) }}" class="block truncate">
-                                                    {{ $item->name }}
-                                                </a>
-                                            </span>
-                                            <p class="truncate">{{ $item->main_category_name ?? 'Genel' }}</p>
-                                        </div>
-                                    </div>
-                                </li>
-                            @else
-                                <li class="mofy-moviesli" id="data_8263">
-                                    <div class="mofy-movbox">
-                                        <div class="mofy-movbox-image relative">
-                                            <a href="javascript:;" onclick="login()" title="{{ $item->name }}">
+                                                    @elseif ($path == 'webtoonlar')
+                                                        <a href="{{ url('webtoon/' . $item->short_name) }}"
+                                                            title="{{ $item->name }}">
+                                                @endif
                                                 <img class="" src="../../../{{ $item->image }}"
-                                                    alt="{{ $item->name }}" data-src="" style="filter: blur(7px);">
+                                                    alt="{{ $item->name }}">
                                                 <div class="mofy-movbox-on absolute">
-                                                    <div style="margin-top: 60%; z-index: 2;">
-                                                        <a class="overlay-button" href="javascript:;" onclick="login()"
-                                                            style="font-size: 10px; text-align: center;">Görmek için
-                                                            giriş yapınız</a>
+                                                    <div class="mofy-movpoint flex items-center justify-between absolute">
+                                                        <span class="flex items-center">
+                                                            <i class="fa-solid fa-star"></i>
+                                                            {{ $item->score }}
+                                                        </span>
+                                                        <p>{{ $item->date }}</p>
                                                     </div>
                                                 </div>
-                                            </a>
-                                        </div>
-                                        <div class="mofy-movbox-text">
-                                            <span class="block">
-                                                <a href="javascript:;" onclick="login()" class="block truncate">
-                                                    Bilinmiyor
                                                 </a>
-                                            </span>
-                                            <p class="truncate">Bilinmiyor</p>
+                                            </div>
+                                            <div class="mofy-movbox-text">
+                                                <span class="block">
+                                                    <a href="{{ url('anime/' . $item->short_name) }}"
+                                                        class="block truncate">
+                                                        {{ $item->name }}
+                                                    </a>
+                                                </span>
+                                                <p class="truncate">{{ $item->main_category_name ?? 'Genel' }}</p>
+                                            </div>
                                         </div>
-                                    </div>
-                                </li>
-                            @endif
-                        @endforeach
+                                    </li>
+                                @else
+                                    <li class="mofy-moviesli" id="data_8263">
+                                        <div class="mofy-movbox">
+                                            <div class="mofy-movbox-image relative">
+                                                <a href="javascript:;" onclick="login()" title="{{ $item->name }}">
+                                                    <img class="" src="../../../{{ $item->image }}"
+                                                        alt="{{ $item->name }}" data-src=""
+                                                        style="filter: blur(7px);">
+                                                    <div class="mofy-movbox-on absolute">
+                                                        <div style="margin-top: 60%; z-index: 2;">
+                                                            <a class="overlay-button" href="javascript:;" onclick="login()"
+                                                                style="font-size: 10px; text-align: center;">Görmek için
+                                                                giriş yapınız</a>
+                                                        </div>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                            <div class="mofy-movbox-text">
+                                                <span class="block">
+                                                    <a href="javascript:;" onclick="login()" class="block truncate">
+                                                        Bilinmiyor
+                                                    </a>
+                                                </span>
+                                                <p class="truncate">Bilinmiyor</p>
+                                            </div>
+                                        </div>
+                                    </li>
+                                @endif
+                            @endforeach
+                        @endif
                     </ul>
-
-                    <div class="ui pagination menu">
-                        <a href="javascript:;" onclick="changePage({{ $currentPage - 1 }})"
-                            {{ $currentPage == 1 ? 'hidden' : "class='item'" }}> {{ '<' }}
-                        </a>
-                        @for ($i = 1; $i <= $pageCount; $i++)
-                            @if ($currentPage == $i)
-                                <a href="javascript:;"onclick=" changePage({{ $i }})"
-                                    class="active item">{{ $i }}</a>
-                            @else
-                                <a href="javascript:;" onclick=" changePage({{ $i }})">{{ $i }}</a>
-                                <a href="javascript:;" onclick=" changePage({{ $i }})"
-                                    class="item">{{ $i }}</a>
-                            @endif
-                        @endfor
-                        <a href="javascript:;" onclick="changePage({{ $currentPage + 1 }})"
-                            {{ $currentPage == $pageCount ? 'hidden' : "class='item'" }}> {{ '>' }} </a>
-                    </div>
+                    @if (count($list) != 0)
+                        <div class="ui pagination menu">
+                            <a href="javascript:;" onclick="changePage({{ $currentPage - 1 }})"
+                                {{ $currentPage == 1 ? 'hidden' : "class='item'" }}> {{ '<' }}
+                            </a>
+                            @for ($i = 1; $i <= $pageCount; $i++)
+                                @if ($currentPage == $i)
+                                    <a href="javascript:;"onclick=" changePage({{ $i }})"
+                                        class="active item">{{ $i }}</a>
+                                @else
+                                    <a href="javascript:;"
+                                        onclick=" changePage({{ $i }})">{{ $i }}</a>
+                                    <a href="javascript:;" onclick=" changePage({{ $i }})"
+                                        class="item">{{ $i }}</a>
+                                @endif
+                            @endfor
+                            <a href="javascript:;" onclick="changePage({{ $currentPage + 1 }})"
+                                {{ $currentPage == $pageCount ? 'hidden' : "class='item'" }}> {{ '>' }} </a>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
-    </div>
-
-    <!--Burasılar-->
-    <div class="segment-title">Son Eklenen</div>
-    <ul class="flex flex-wrap flex-home">
-
-    </ul>
     </div>
 
     <script>
@@ -177,7 +178,7 @@
         }
 
         function changeCategory(selectedCategory) {
-            if (selectedCategory) {
+            if (selectedCategory == "plusEighteen") {
                 changeAdult();
             } else {
                 category = selectedCategory;
@@ -186,14 +187,14 @@
         }
 
         function changeURL() {
-            url = "{{ $path }}?";
+            url = "{{ $path }}";
             first = false;
 
             if (adult != "off") {
                 if (first) adult += "&adult=" + "on";
                 else {
                     first = true;
-                    url += "adult=" + "on"
+                    url += "?adult=" + "on"
                 }
             }
 
@@ -201,7 +202,7 @@
                 if (first) url += "&category=" + category;
                 else {
                     first = true;
-                    url += "category=" + category
+                    url += "?category=" + category
                 }
             }
 
@@ -209,7 +210,7 @@
                 if (first) url += "&orderBy=" + orderBy;
                 else {
                     first = true;
-                    url += "orderBy=" + orderBy
+                    url += "?orderBy=" + orderBy
                 }
             }
 
@@ -217,7 +218,7 @@
                 if (first) url += "&p=" + page;
                 else {
                     first = true;
-                    url += "p=" + page
+                    url += "?p=" + page
                 }
             }
 

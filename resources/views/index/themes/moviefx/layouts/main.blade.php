@@ -54,6 +54,8 @@
         integrity="sha512-WW8/jxkELe2CAiE4LvQfwm1rajOS8PHasCCx+knHG0gBHt8EXxS6T6tJRTGuDQVnluuAvMxWF4j8SNFDKceLFg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+    <link rel="stylesheet" href="../../../user/animex/css/plyr.css" type="text/css">
+
     <style>
         .login-form-input {
             width: 70% !important;
@@ -70,6 +72,7 @@
     <script src="../../../user/moviefx/assets/js/sweetalert2.min.js"></script>
     <script src="../../../user/moviefx/assets/js/humane.min.js?v=2"></script>
     <script src="../../../user/moviefx/assets/js/main.min.js"></script>
+    <script src="../../../user/animex/js/player.js"></script>
 
     <!-- Swipper -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>

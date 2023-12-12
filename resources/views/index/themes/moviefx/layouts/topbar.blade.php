@@ -1,5 +1,5 @@
 <header id="header">
-    <button class="mobile-menu-trigger"><span>&nbsp;</span></button>
+    <button class="mobile-menu-trigger" onclick="mobileMenu()"><span>&nbsp;</span></button>
     <div id="logo">
 
         <a href="{{ route('index') }}"
@@ -11,8 +11,8 @@
             <div>
                 <span class="deleteicon"></span>
                 <label for="tvSearch">
-                    <input type="search" name="search" class="form-control deletable" autocomplete="off" id="tvSearch"
-                        placeholder="Dizi ve film ara...">
+                    <input type="search" name="search" class="form-control deletable" autocomplete="off"
+                        id="tvSearch" placeholder="Dizi ve film ara...">
                 </label>
                 <button type="button" aria-label="Dizi veya film ara">
                     <svg class="mofycon">
@@ -39,3 +39,9 @@
         </div>
     </div>
 </header>
+
+<script>
+    function mobileMenu() {
+        alert('tıklandı');
+    }
+</script>

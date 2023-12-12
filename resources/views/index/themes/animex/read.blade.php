@@ -71,7 +71,6 @@
                                 @endif
                             @endforeach
                         </div>
-                        <div id="document-viewer"></div>
                     </div>
                 </div>
                 <div class="anime__details__episodes">
