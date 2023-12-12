@@ -119,12 +119,4 @@
 
 
     <script src="../../../user/animex/js/jquery-3.3.1.min.js"></script>
-    <script>
-        console.log('{{ count($results) }}');
-        @foreach ($results as $item)
-            @if ($item instanceof \App\Models\Anime)
-                console.log("{{ $item->click_count }}");
-            @endif
-        @endforeach
-    </script>
 @endsection
