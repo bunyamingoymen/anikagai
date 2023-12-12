@@ -18,29 +18,6 @@
                     </div>
                 </div>
             </div>
-            <div class="ui tiny modal generic-modal" id="modal-block-user">
-                <div class="generic-header title-tertiary">Engelle</div>
-                <div class="content">
-                    <div class="mb-md text-center">
-                        <svg class="mt-lg" width="40" height="40" viewBox="0 0 40 40"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path
-                                d="M20 0c-11.04 0-20 8.96-20 20s8.96 20 20 20 20-8.96 20-20-8.96-20-20-20zm-16 20c0-8.84 7.16-16 16-16 3.7 0 7.1 1.26 9.8 3.38l-22.42 22.42c-2.12-2.7-3.38-6.1-3.38-9.8zm16 16c-3.7 0-7.1-1.26-9.8-3.38l22.42-22.42c2.12 2.7 3.38 6.1 3.38 9.8 0 8.84-7.16 16-16 16z"
-                                fill="#ffffff" fill-rule="nonzero" />
-                        </svg>
-                        <h5 class="title-quaternary mt-md"><strong>@zortanov</strong> engellensin mi?</h5>
-                        <p class="description-tertiary"><strong>@zortanov</strong> artık seni takip
-                            edemeyecek, sen de
-                            <strong>@zortanov</strong> adlı kişiden gelen bildirimleri görmeyeceksin.
-                        </p>
-                        <div class="text-center actions">
-                            <button type="button" class="ui button danger profile-block-modal"
-                                data-block="pSHHL39suqwvHuxWnpk=">Engelle</button>
-                            <button type="button" class="ui button secondary cancel">İptal</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
             <section class="user-profile bg-cover-faker">
                 <div class="ui grid">
                     <div class="left floated sixteen wide tablet four wide computer column">
@@ -62,6 +39,10 @@
                                 </h2>
                                 <p>{{ $user->name }}</p>
                                 <div class="user-earnings">
+                                    @if (Auth::user())
+                                        <a href="{{ route('change_profile_settings_screen') }}" class="ui button primary"
+                                            style="font-size: 10px;"> Ayarlar</a>
+                                    @endif
                                 </div>
                             </section>
                             <section class="profile-section">
@@ -132,8 +113,7 @@
                                                             <div class="mofy-movbox-image relative">
                                                                 <a href="{{ url('anime/' . $item->short_name) }}"
                                                                     title="{{ $item->name }}">
-                                                                    <img class=""
-                                                                        src="../../../{{ $item->image }}"
+                                                                    <img class="" src="../../../{{ $item->image }}"
                                                                         alt="{{ $item->name }}" data-src="">
                                                                     <div class="mofy-movbox-on absolute">
                                                                         <div
@@ -499,5 +479,16 @@
             activeTabID = tabSectionID;
             activeButtonID = clickButtonID;
         }
+    </script>
+
+    <!--Diğer Fonksiyonlar-->
+    <script>
+        @if (session('success'))
+            Swal.fire({
+                title: "Başarılı!",
+                text: "{{ session('success') }}",
+                type: "success"
+            });
+        @endif
     </script>
 @endsection

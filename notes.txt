@@ -26,10 +26,10 @@ Kontrol edilecek işlemler:
 
 ++-slider
 ++-Oy kullanma
-++-İzleme
-++-okuma
-++-yorum yapabilme
-++-Görüntüleyip/Listeleyebilme(++-webtoon, ++-anime)
++++İzleme
++++okuma
++++yorum yapabilme
++++Görüntüleyip/Listeleyebilme(+++webtoon, +++anime)
 ++-takip edebilme(++-webtoon, ++-anime, ++-kullanıcı)
 ++-beğenebilme(++-webtoon, ++-anime)
 ++-Bilgileri güncelleyebilme

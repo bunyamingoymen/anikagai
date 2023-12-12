@@ -302,6 +302,7 @@
                 </div>
             </section>
         </div>
+        
         <!--Yorum Alanı-->
         <div class="ui">
             <h4 class="sidebar-heading">Yorumlar (<span id="review-count">{{ $anime->comment_count }}</span>)
