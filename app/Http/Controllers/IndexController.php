@@ -141,77 +141,43 @@ class IndexController extends Controller
         $listItemsSetting = ThemeSetting::where('theme_code', $selected_theme->value)->where('setting_name', 'listCount')->first();
         $listItems = $listItemsSetting ? $listItemsSetting->setting_value : 20;
 
-        $currentPage = $request->p ? $request->p : 1;
-        $skip = max(0, ($currentPage - 1) * $listItems);
+        
         $path = "/search?query={$query}";
 
-        // Anime, Webtoon, Tag ve Category modellerinden sorguları al
-        $animeCount =
-            Anime::Where('deleted', 0)
+        $currentPage = request()->input('p', 1); // Sayfa numarasını request'ten al, varsayılan olarak 1
+
+        $animesQuery = Anime::where('deleted', 0)
             ->where('plusEighteen', 0)
-            ->whereIn('showStatus', $this->sendShowStatus(0))
-            ->where('name', 'LIKE', '%' . $query . '%')
-            ->orWhere('description', 'LIKE', '%' . $query . '%')
-            ->count();
+            ->whereIn(
+                'showStatus',
+                $this->sendShowStatus(0)
+            )
+            ->where(function ($queryBuilder) use ($query) {
+                $queryBuilder->where('name', 'LIKE', '%' . $query . '%')
+                    ->orWhere('description', 'LIKE', '%' . $query . '%')
+                    ->orWhere('main_category_name', 'LIKE', '%' . $query . '%');
+            });
 
-        $webtoonCount =
-            Webtoon::Where('deleted', 0)
+        $webtoonsQuery = Webtoon::where('deleted', 0)
             ->where('plusEighteen', 0)
-            ->whereIn('showStatus', $this->sendShowStatus(0))
-            ->where('name', 'LIKE', '%' . $query . '%')
-            ->orWhere('description', 'LIKE', '%' . $query . '%')
-            ->count();
+            ->whereIn(
+                'showStatus',
+                $this->sendShowStatus(0)
+            )
+            ->where(function ($queryBuilder) use ($query) {
+                $queryBuilder->where('name', 'LIKE', '%' . $query . '%')
+                    ->orWhere('description', 'LIKE', '%' . $query . '%')
+                    ->orWhere('main_category_name', 'LIKE', '%' . $query . '%');
+            });
 
-        $totalCount = $animeCount + $webtoonCount;
-        $pageCount = $totalCount % intval($listItems) == 0 ? $totalCount / $listItems : $totalCount = intval($totalCount / $listItems) + 1;
 
+        // Her iki modeli birleştirip sadece belirli sayfa için sonuçları alın
+        $results = Anime::query()
+            ->from($animesQuery->union($webtoonsQuery)->toBase(), 'sub')
+            ->orderBy('created_at', 'desc')
+            ->paginate($listItems, ['*'], 'p', $currentPage);
 
-        $results = [];
-        $animes = [];
-        $webtoons = [];
-
-        if ($skip < $animeCount) {
-            $animes =
-                Anime::Where('deleted', 0)
-                ->where('plusEighteen', 0)
-                ->whereIn('showStatus', $this->sendShowStatus(0))
-                ->where(function ($queryBuilder) use ($query) {
-                    $queryBuilder->where('name', 'LIKE', '%' . $query . '%')
-                        ->orWhere('description', 'LIKE', '%' . $query . '%');
-                })
-                ->skip($skip)
-                ->take($listItems)
-                ->get();
-
-            foreach ($animes as $anime) {
-                $anime->type = 'anime';
-            }
-            if ($animes && count($animes) > 0) array_push($results, $animes);
-        }
-
-        if (!$animes || count($animes) < $listItems) {
-
-            $newlistItem = $animes ? $listItems - count($animes) : $listItems;
-            $newSkip = $animes ? $skip - count($animes) : 0;
-
-            $webtoons =
-                Webtoon::Where('deleted', 0)
-                ->where('plusEighteen', 0)
-                ->whereIn('showStatus', $this->sendShowStatus(0))
-                ->where(function ($queryBuilder) use ($query) {
-                    $queryBuilder->where('name', 'LIKE', '%' . $query . '%')
-                        ->orWhere('description', 'LIKE', '%' . $query . '%');
-                })
-                ->skip($skip)
-                ->take($listItems)
-                ->get();
-
-            foreach ($webtoons as $webtoon) {
-                $webtoon->type = 'webtoon';
-            }
-            if ($webtoons && count($webtoons) > 0)
-                array_push($results, $webtoons);
-        }
+        $pageCount = $results->lastPage();
 
         if ($currentPage < 1 || $currentPage > $pageCount) {
             abort(404);
