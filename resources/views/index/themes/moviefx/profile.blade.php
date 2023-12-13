@@ -39,9 +39,23 @@
                                 </h2>
                                 <p>{{ $user->name }}</p>
                                 <div class="user-earnings">
-                                    @if (Auth::user())
-                                        <a href="{{ route('change_profile_settings_screen') }}" class="ui button primary"
+                                    @if (Auth::user() && $user->code == Auth::user()->code)
+                                        <a href="{{ route('change_profile_settings_screen') }}" class="ui button danger"
                                             style="font-size: 10px;"> Ayarlar</a>
+                                    @else
+                                        @if ($followed_user)
+                                            <a href="javascript:;" onclick="unfollowIndexUser()" class="ui button primary"
+                                                style="font-size: 10px;">
+                                                <i class="fa fa-plus"></i>
+                                                Takip Ediliyor
+                                            </a>
+                                        @else
+                                            <a href="javascript:;" onclick="followIndexUser()" class="ui button secondary"
+                                                style="font-size: 10px;">
+                                                <i class="fa fa-plus"></i>
+                                                Takip Et
+                                            </a>
+                                        @endif
                                     @endif
                                 </div>
                             </section>
@@ -50,7 +64,7 @@
                                     <div class="ui middle aligned divided list">
                                         <div class="item">
                                             <div class="right floated content text-white"><a
-                                                    href="javascript:;">{{ $following_user_count }}</a></div>
+                                                    href="javascript:;">{{ $followed_user_count }}</a></div>
                                             <div class="content">Takip Ettikleri</div>
                                         </div>
                                         <div class="item">
@@ -434,6 +448,10 @@
         </div>
     </div>
 
+    <div hidden id="hiddenDiv">
+
+    </div>
+
     <!--Üyelik Tarihini Ayarlama Fonksiyonları-->
     <script>
         var date = '{{ $user->created_at }}'.split(' ')[0];
@@ -478,6 +496,46 @@
 
             activeTabID = tabSectionID;
             activeButtonID = clickButtonID;
+        }
+    </script>
+
+    <script>
+        const authMessage = "Lütfen İlk Önce Giriş Yapınız!"
+
+        function followIndexUser() {
+            @if (Auth::user())
+                var code = `<form action="{{ route('followIndexUser') }}" method="POST" id="followIndexUserForm">
+                @csrf
+                <input type="text" name="followed_user_code" value="{{ $user->code }}">
+            </form>`;
+                document.getElementById('hiddenDiv').innerHTML = code;
+                document.getElementById('followIndexUserForm').submit();
+            @else
+                Swal.fire({
+                    title: "Hata",
+                    text: authMessage,
+                    color: "#fff",
+                    type: "error"
+                });
+            @endif
+        }
+
+        function unfollowIndexUser() {
+            @if (Auth::user())
+                var code = `<form action="{{ route('unfollowIndexUser') }}" method="POST" id="unfollowIndexUserForm">
+                @csrf
+                <input type="text" name="followed_user_code" value="{{ $user->code }}">
+            </form>`;
+                document.getElementById('hiddenDiv').innerHTML = code;
+                document.getElementById('unfollowIndexUserForm').submit();
+            @else
+                Swal.fire({
+                    title: "Hata",
+                    text: authMessage,
+                    color: "#fff",
+                    type: "error"
+                });
+            @endif
         }
     </script>
 

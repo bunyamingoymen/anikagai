@@ -25,15 +25,15 @@ Kontrol edilecek işlemler:
 ---Arayüz:
 
 +++slider
-++-Oy kullanma
++++Oy kullanma
 +++İzleme
 +++okuma
 +++yorum yapabilme
 +++Görüntüleyip/Listeleyebilme(+++webtoon, +++anime)
-++-takip edebilme(++-webtoon, ++-anime, ++-kullanıcı)
-++-beğenebilme(++-webtoon, ++-anime)
++++takip edebilme(+++webtoon, +++anime, +++kullanıcı)
++++beğenebilme(+++webtoon, +++anime)
 +++Bilgileri güncelleyebilme
+++-iletişim gönderebilme
 
-3.Tema Bu özelliklerle birlikte eklenmeli
 
 

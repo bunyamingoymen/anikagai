@@ -37,7 +37,8 @@
                         <h4 class="color-text">{{ $item->value }}</h4>
                         <p onclick="sliderButtonOnclick('{{ url($item->optional_2 ?? '') }}')"><span
                                 class="slider-rude-button-container">
-                                Şimdi İzle <i class="fa fa-angle-right" style="margin-left: 5px;"></span></i>
+                                <span style="margin-left: 15%;">Şimdi İzle <i class="fa fa-angle-right"
+                                        style="margin-left: 5px;"></span></span></i>
                         </p>
                     </div>
                 </article>
