@@ -1,6 +1,16 @@
 <!doctype html>
 <html class="no-js" lang="">
 
+<style>
+    :root {
+        --one-color: #{{ $colors_code->nth(1)[0]->setting_value ?? 'fff' }};
+        --two-color: #{{ $colors_code->nth(1)[1]->setting_value ?? 'fff' }};
+        --three-color: #{{ $colors_code->nth(1)[2]->setting_value ?? 'fff' }};
+        --four-color: #{{ $colors_code->nth(1)[3]->setting_value ?? 'fff' }};
+        --five-color: #{{ $colors_code->nth(1)[4]->setting_value ?? 'fff' }};
+    }
+</style>
+
 <head>
     <!-- Meta EtiketleriW-->
     <meta charset="utf-8">

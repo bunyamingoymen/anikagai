@@ -133,15 +133,15 @@ hr.clear-bottom {
 }
 
 .sliderrude .color-text {
-    color: #fdfd96;
+    color: var(--one-color);
 }
 
 .sliderrude ::-moz-selection {
-    background: #fdfd96;
+    background: var(--one-color);
     color: white;
 }
 .sliderrude ::selection {
-    background: #fdfd96;
+    background: var(--one-color);
     color: white;
 }
 
@@ -154,7 +154,7 @@ hr.clear-bottom {
     display: block;
     padding: 7px 0;
     margin: 20px 0 60px 0;
-    background: #fdfd96;
+    background: var(--one-color);
     color: #1a1c1e;
     text-align: center;
     font-size: 18px;

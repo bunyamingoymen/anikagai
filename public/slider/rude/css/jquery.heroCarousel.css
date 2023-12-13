@@ -135,7 +135,7 @@
 
 .hero-carousel-nav li:hover,
 .hero-carousel-nav li.prev:hover {
-    background: #fdfd96;
+    background: var(--one-color);
     opacity: 1;
 }
 

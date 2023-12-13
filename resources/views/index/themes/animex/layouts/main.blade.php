@@ -19,8 +19,9 @@
 
     <style>
         :root {
-            --background-color: #{{ $colorOne->setting_value ?? 'fff' }};
-            --menu-footer-color: #{{ $colorTwo->setting_value ?? 'fff' }};
+            --background-color: #{{ $colors_code->nth(1)[0]->setting_value ?? 'fff' }};
+            --menu-footer-color: #{{ $colors_code->nth(1)[1]->setting_value ?? 'fff' }};
+            --second-color: #{{ $colors_code->nth(1)[2]->setting_value ?? 'fff' }};
         }
     </style>
 

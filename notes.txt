@@ -18,6 +18,7 @@
 -slider seçenekleri eklenmeli
 -kategori aramaları temalara aktarılacak
 -3.Temada mobilde menü gözükmüyor
+-Admin data kısmında tema renkleri ayarlamayı güncelle
 ---------------------------------------------
 Kontrol edilecek işlemler:
 

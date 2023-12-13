@@ -13,16 +13,16 @@
             cursor: pointer;
             transition: background-color 0.3s ease;
             width: 15%;
-            background-color: #14161D;
+            background-color: var(--two-color);
             padding: 10px;
-            border: 1px solid #FDFD96;
+            border: 1px solid var(--one-color);
             border-radius: 30px;
             box-sizing: content-box !important;
         }
 
         .slider-rude-button-container:hover {
-            background-color: #FDFD96;
-            color: #14161D !important;
+            background-color: var(--one-color);
+            color: var(--two-color) !important;
             /* Hover rengi */
         }
     </style>

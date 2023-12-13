@@ -24,6 +24,18 @@
 
     <title>{{ $data['index_title']->value }}</title>
 
+    <style>
+        :root {
+            --one-color: #{{ $colors_code->nth(1)[0]->setting_value ?? 'fff' }};
+            --two-color: #{{ $colors_code->nth(1)[1]->setting_value ?? 'fff' }};
+            --three-color: #{{ $colors_code->nth(1)[2]->setting_value ?? 'fff' }};
+
+            --primary-button-color: #{{ $colors_code->nth(1)[3]->setting_value ?? 'fff' }};
+            --secondary-button-color: #{{ $colors_code->nth(1)[4]->setting_value ?? 'fff' }};
+            --danger-button-color: #{{ $colors_code->nth(1)[5]->setting_value ?? 'fff' }};
+        }
+    </style>
+
     <!--  CSS Dosyaları  -->
     <!-- İmages -->
     <link rel="icon" href="../../../{{ $data['index_icon']->value }}" type="image/x-icon">

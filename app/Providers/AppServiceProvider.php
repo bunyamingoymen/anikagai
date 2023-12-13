@@ -342,32 +342,16 @@ class AppServiceProvider extends ServiceProvider
 
                 $sliderShow = ThemeSetting::Where('theme_code', KeyValue::Where('key', 'selected_theme')->first()->value)->Where('setting_name', 'showSlider')->first();
 
-                $colorOne = ThemeSetting::where('theme_code', KeyValue::where('key', 'selected_theme')->first()->value)
-                    ->where('setting_name', 'colorone')
-                    ->firstOr(function () {
-                        return null;
-                    });
-
-                $colorTwo = ThemeSetting::where('theme_code', KeyValue::where('key', 'selected_theme')->first()->value)
-                    ->where('setting_name', 'colortwo')
-                    ->firstOr(function () {
-                        return null;
-                    });
-
-                $colorThree = ThemeSetting::where('theme_code', KeyValue::where('key', 'selected_theme')->first()->value)
-                    ->where('setting_name', 'colorthree')
-                    ->firstOr(function () {
-                        return null;
-                    });
+                $colors_code = ThemeSetting::where('theme_code', KeyValue::where('key', 'selected_theme')->first()->value)
+                    ->where('setting_name', 'colors_code')
+                    ->get();
 
                 $view->with('data', $data)
                     ->with('menus', $menus)
                     ->with('menu_alts', $menu_alts)
                     ->with('active_menu', $active_menu)
                     ->with('sliderShow', $sliderShow)
-                    ->with('colorOne', $colorOne)
-                    ->with('colorTwo', $colorTwo)
-                    ->with('colorThree', $colorThree);
+                    ->with('colors_code', $colors_code);
             });
 
             View::composer($themeThree, function ($view) {

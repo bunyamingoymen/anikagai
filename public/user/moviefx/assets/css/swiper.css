@@ -1,11 +1,11 @@
 .player-seasons {
-    background: #14161d;
+    background: var(--two-color);
     width: 100%;
     border: 1px solid #1e202b;
     margin-bottom: 40px;
 }
 .season-info {
-    background: #14161d;
+    background: var(--two-color);
 }
 .season-info ul {
     list-style: none;
@@ -45,7 +45,7 @@
 }
 .season-info ul li.active {
     background-color: #42e3d1;
-    color: #14161d;
+    color: var(--two-color);
 }
 .swiper-container {
     margin-left: auto;
@@ -53,7 +53,7 @@
     position: relative;
     overflow: hidden;
     z-index: 1;
-    background: #14161d;
+    background: var(--two-color);
 }
 .swiper-container-no-flexbox .swiper-slide {
     float: left;
@@ -114,7 +114,7 @@
     border-right: 1px solid #1e202b;
 }
 .swiper-slide .episode-container {
-    background: #14161d;
+    background: var(--two-color);
     padding: 0 38px;
     padding-right: 0;
 }
@@ -202,7 +202,7 @@
     padding: 3px 6px;
     line-height: 1;
     background-color: rgba(66, 227, 209, .2);
-    color: #FDFD96;
+    color: var(--one-color);
     font-size: 12px;
     position: absolute;
     top: 0;
@@ -242,7 +242,7 @@
     background-color: #1e202b;
 }
 .swiper-slide.active .episode-container h3 {
-    color: #FDFD96;
+    color: var(--one-color);
 }
 .swiper-slide.active .episode-container small {
     color: #fff;
