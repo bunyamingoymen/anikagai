@@ -129,8 +129,6 @@
                                     <a href="javascript:;"onclick=" changePage({{ $i }})"
                                         class="active item">{{ $i }}</a>
                                 @else
-                                    <a href="javascript:;"
-                                        onclick=" changePage({{ $i }})">{{ $i }}</a>
                                     <a href="javascript:;" onclick=" changePage({{ $i }})"
                                         class="item">{{ $i }}</a>
                                 @endif

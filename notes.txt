@@ -17,6 +17,7 @@
 -Tema ayraları kısmı eklenecek ve her tema için renk ekleme olmalı, tema ayarlarıdna varsayılan renkler tutulmalı,(Bu animex'e eklendi, diğerlerine ekleme bekleniyor.)
 -slider seçenekleri eklenmeli
 -kategori aramaları temalara aktarılacak
+-3.Temada mobilde menü gözükmüyor
 ---------------------------------------------
 Kontrol edilecek işlemler:
 

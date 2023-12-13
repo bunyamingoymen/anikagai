@@ -10,15 +10,17 @@
         <div id="search">
             <div>
                 <span class="deleteicon"></span>
-                <label for="tvSearch">
-                    <input type="search" name="search" class="form-control deletable" autocomplete="off"
-                        id="tvSearch" placeholder="Dizi ve film ara...">
-                </label>
-                <button type="button" aria-label="Dizi veya film ara">
-                    <svg class="mofycon">
-                        <i class="fa fa-search"></i>
-                    </svg>
-                </button>
+                <form action="{{ route('search') }}" method="GET">
+                    <label for="tvSearch">
+                        <input type="search" name="query" class="form-control deletable" autocomplete="off"
+                            id="tvSearch" placeholder="Ara...">
+                    </label>
+                    <button type="button" aria-label="Ara">
+                        <svg class="mofycon">
+                            <i class="fa fa-search"></i>
+                        </svg>
+                    </button>
+                </form>
             </div>
             <div id="search-results" style="display: none;">
                 <div class="section-heading">En İyi Sonuçlar</div>
