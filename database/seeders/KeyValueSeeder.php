@@ -14,6 +14,7 @@ class KeyValueSeeder extends Seeder
      */
     public function run(): void
     {
+        DB::table('key_values')->truncate();
         //logo, footer, sosyal_medya
         DB::table('key_values')->insert([
             [

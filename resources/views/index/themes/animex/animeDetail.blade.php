@@ -159,6 +159,7 @@
                                             class="fa fa-plus"></i>
                                         Takip Et</a>
                                 @endif
+
                                 @if ($liked)
                                     <a href="javascript:;" onclick="dislikeAnime()" class="follow-btn"><i
                                             class="fa fa-heart"></i> Favorilerden Çıkar</a>
@@ -257,7 +258,8 @@
                                         <ul>
                                             <li>{{ $item->main_category_name ?? 'Genel' }}</li>
                                         </ul>
-                                        <h5><a href="{{ url('anime/' . $item->short_name) }}">{{ $item->name }}</a></h5>
+                                        <h5><a href="{{ url('anime/' . $item->short_name) }}">{{ $item->name }}</a>
+                                        </h5>
                                     </div>
                                 </div>
                             </div>

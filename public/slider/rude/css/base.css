@@ -1,0 +1,8 @@
+/* --------------------------------------------------------
+Import Basic Files
+-------------------------------------------------------- */
+
+@import url("normalize.css");				/* CSS Resets */
+@import url("layout.css");					/* Main Styles */
+@import url("font-awesome.css");        	/* Custom Icons */
+@import url("flexslider.css");        		/* Flex Slider */

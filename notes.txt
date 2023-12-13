@@ -24,7 +24,7 @@ Kontrol edilecek işlemler:
 
 ---Arayüz:
 
-++-slider
++++slider
 ++-Oy kullanma
 +++İzleme
 +++okuma
@@ -32,7 +32,7 @@ Kontrol edilecek işlemler:
 +++Görüntüleyip/Listeleyebilme(+++webtoon, +++anime)
 ++-takip edebilme(++-webtoon, ++-anime, ++-kullanıcı)
 ++-beğenebilme(++-webtoon, ++-anime)
-++-Bilgileri güncelleyebilme
++++Bilgileri güncelleyebilme
 
 3.Tema Bu özelliklerle birlikte eklenmeli
 

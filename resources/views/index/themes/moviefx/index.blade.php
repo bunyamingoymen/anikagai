@@ -109,42 +109,7 @@
     </style>
 
     <!--Slider-->
-    <div class="featured-segment">
-        <!-- Slider main container -->
-        <div class="swiper-container">
-
-            <!-- swiper slides -->
-            <div class="swiper-wrapper">
-                <div class="swiper-slide" style="background-image: url(https://source.unsplash.com/random?sig=24);">
-                    <h2>SIMPLE SWIPER</h2>
-                </div>
-
-                <div class="swiper-slide" style="background-image: url(https://source.unsplash.com/random?sig=53);">
-                    <h2>HELLO WORLD</h2>
-                </div>
-
-                <div class="swiper-slide" style="background-image: url(https://source.unsplash.com/random?sig=52);">
-                    <h2>Random Text 1</h2>
-                </div>
-
-                <div class="swiper-slide" style="background-image: url(https://source.unsplash.com/random?sig=21);">
-                </div>
-
-                <div class="swiper-slide" style="background-image: url(https://source.unsplash.com/random?sig=53);">
-                </div>
-            </div>
-            <!-- !swiper slides -->
-
-            <!-- next / prev arrows -->
-            <div class="swiper-button-next"></div>
-            <div class="swiper-button-prev"></div>
-            <!-- !next / prev arrows -->
-
-            <!-- pagination dots -->
-            <div class="swiper-pagination"></div>
-            <!-- !pagination dots -->
-        </div>
-    </div>
+    @include('index.slider.rude.slider')
     <div class="dark-segment">
         <div class="ui grid mt-0 mb-0">
             <div class="left floated sixteen wide tablet eleven wide computer column pt-0 pb-0">
@@ -157,7 +122,8 @@
                                     <li class="mofy-moviesli" id="data_8263">
                                         <div class="mofy-movbox">
                                             <div class="mofy-movbox-image relative">
-                                                <a href="{{ url('anime/' . $item->short_name) }}" title="{{ $item->name }}">
+                                                <a href="{{ url('anime/' . $item->short_name) }}"
+                                                    title="{{ $item->name }}">
                                                     <img class="" src="../../../{{ $item->image }}"
                                                         alt="{{ $item->name }}" data-src="">
                                                     <div class="mofy-movbox-on absolute">
@@ -174,7 +140,8 @@
                                             </div>
                                             <div class="mofy-movbox-text">
                                                 <span class="block">
-                                                    <a href="{{ url('anime/' . $item->short_name) }}" class="block truncate">
+                                                    <a href="{{ url('anime/' . $item->short_name) }}"
+                                                        class="block truncate">
                                                         {{ $item->name }}
                                                     </a>
                                                 </span>
@@ -260,8 +227,7 @@
                                                         style="filter: blur(7px);">
                                                     <div class="mofy-movbox-on absolute">
                                                         <div style="margin-top: 60%; z-index: 2;">
-                                                            <a class="overlay-button" href="javascript:;"
-                                                                onclick="login()"
+                                                            <a class="overlay-button" href="javascript:;" onclick="login()"
                                                                 style="font-size: 10px; text-align: center;">Görmek için
                                                                 giriş yapınız</a>
                                                         </div>

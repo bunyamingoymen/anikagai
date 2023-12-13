@@ -12,13 +12,13 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    
+
     public function run(): void
     {
-        $this->callUserSeeders();
-        $this->callKeyValueSeeder();
-        $this->callThemeSeeder();
-        $this->callOtherSeeders();
+        //$this->callUserSeeders();
+        //$this->callKeyValueSeeder();
+        //$this->callThemeSeeder();
+        //$this->callOtherSeeders();
     }
 
     private function callUserSeeders(): void

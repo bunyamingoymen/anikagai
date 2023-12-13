@@ -14,6 +14,9 @@ class OtherSeeder extends Seeder
      */
     public function run(): void
     {
+
+        DB::table('categories')->truncate();
+        
         DB::table('categories')->insert([
             [
                 'id' => 1,

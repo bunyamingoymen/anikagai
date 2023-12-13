@@ -1,0 +1,166 @@
+/*
+* Theme Name: Rudermann Template
+* Theme URI: http://themes.tvda.eu
+* Description: Responsive Retina Ready HTML Template for creative or digital agency
+* Author: Ilya Sidelnikov and TVDA
+* Author URI: http://themes.tvda.eu
+* Version: 1.1
+*/
+
+/* ========================================================
+   General
+======================================================== */
+
+/* Common Styles ------------------------------------------ */
+
+.sliderrude p {
+    margin-bottom: 0.8em;
+}
+.sliderrude p.lead {
+    font-size: 20px !important;
+    margin: 0 0 1em 0;
+}
+.sliderrude p.gray {
+    color: #656a71;
+}
+.sliderrudep.white {
+    color: white;
+}
+.sliderrudep.large {
+    font-size: 16px;
+}
+
+.sliderrude h1,
+.sliderrude h2,
+.sliderrude h3,
+.sliderrude h4,
+.sliderrude h5,
+.sliderrude h6 {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: bold;
+    color: white;
+    text-rendering: optimizelegibility;
+    -webkit-font-smoothing: antialiased;
+    margin: 0 0 0.6em 0;
+}
+.sliderrude h1,
+.sliderrude h2 {
+    letter-spacing: -2px;
+    line-height: 1.1;
+}
+.sliderrude h3,
+.sliderrude h4,
+.sliderrude h5 {
+    letter-spacing: -1px;
+    line-height: 1.1;
+}
+.sliderrude h1 {
+    font-size: 60px;
+}
+.sliderrude h2 {
+    font-size: 56px;
+}
+.sliderrude h3 {
+    font-size: 48px;
+}
+.sliderrude h4 {
+    font-size: 32px;
+}
+.sliderrude h5 {
+    font-size: 24px;
+}
+.sliderrude h6 {
+    font-size: 18px;
+}
+.sliderrude p + .sliderrude h1,
+.sliderrude p + .sliderrude h2,
+.sliderrude p + .sliderrude h3,
+.sliderrude p + .sliderrude h4,
+.sliderrude p + .sliderrude h5,
+.sliderrude p + .sliderrude h6 {
+    margin-top: 1.2em;
+}
+
+img {
+    /* Responsive images (ensure images don't scale beyond their parents) */
+    max-width: 100%;
+    /* Part 1: Set a maxium relative to the parent */
+    width: auto\9;
+    /* IE7-8 need help adjusting responsive images */
+    height: auto;
+    /* Part 2: Scale the height according to the width, otherwise you get stretching */
+    vertical-align: middle;
+    border: 0;
+    -ms-interpolation-mode: bicubic;
+}
+
+hr {
+    margin: 20px 0;
+    border: 0;
+    border-top: 1px solid #373a3d;
+    border-bottom: 0;
+}
+hr.dotted {
+    border-top: 1px dotted #373a3d;
+}
+hr.clear-top {
+    margin-top: 0;
+}
+hr.clear-bottom {
+    margin-bottom: 0;
+}
+
+.sliderrude article p + .sliderrude img,
+.sliderrude article h1 + .sliderrude img,
+.sliderrude article h2 + .sliderrude img,
+.sliderrude article h3 + .sliderrude img,
+.sliderrude article h4 + .sliderrude img,
+.sliderrude article h5 + .sliderrude img,
+.sliderrude article h6 + .sliderrude img {
+    margin: 14px 0 23px 0;
+}
+
+.sliderrude address {
+    display: block;
+    margin-bottom: 20px;
+    font-style: normal;
+    line-height: 1.5;
+}
+
+.sliderrude .vertical-align {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.sliderrude .color-text {
+    color: #fdfd96;
+}
+
+.sliderrude ::-moz-selection {
+    background: #fdfd96;
+    color: white;
+}
+.sliderrude ::selection {
+    background: #fdfd96;
+    color: white;
+}
+
+.sliderrude .slider {
+    margin: 44px 0 44px 0;
+    overflow: hidden;
+}
+
+.sliderrude #loading a {
+    display: block;
+    padding: 7px 0;
+    margin: 20px 0 60px 0;
+    background: #fdfd96;
+    color: #1a1c1e;
+    text-align: center;
+    font-size: 18px;
+    -webkit-font-smoothing: antialiased;
+}
+.sliderrude #loading a:hover {
+    background: #4e5257;
+    color: white;
+}
