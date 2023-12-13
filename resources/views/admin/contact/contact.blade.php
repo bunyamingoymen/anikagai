@@ -43,7 +43,7 @@
                                                         @endif
                                                     @endif
                                                     <a class="dropdown-item" href="javascript:;"
-                                                        onclick="showContact('{{ $item->name }}','{{ $item->email }}','{{ $item->subject }}','{{ $item->message }}')">Görüntüle</a>
+                                                        onclick="showContact(`{{ $item->name }}`,`{{ $item->email }}`,`{{ $item->subject }}`,`{{ $item->message }}`)">Görüntüle</a>
                                                 </div>
                                             </div>
                                         </td>
