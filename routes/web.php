@@ -297,7 +297,13 @@ Route::middleware(['auth'])->group(function () {
         Route::controller(AnimeCalendarController::class)->group(function () {
             Route::get("/admin/anime/calendar", "index")->name('admin_animecalendar_index');
 
+            Route::post("/admin/anime/calendar/ajax", "getAnimeCalendar")->name('admin_animecalendar_get_anime_calendar');
+
             Route::post("/admin/anime/calendar/addEvent", "addEvent")->name('admin_animecalendar_addevent');
+
+            Route::post("/admin/anime/calendar/changeEvent", "changeEvent")->name('admin_animecalendar_changeEvent');
+
+            Route::get("/admin/anime/calendar/deleteEvent", "deleteEvent")->name('admin_animecalendar_deleteEvent');
         });
 
         Route::controller(WebtoonController::class)->group(function () {

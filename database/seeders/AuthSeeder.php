@@ -168,12 +168,12 @@ class AuthSeeder extends Seeder
                 'description'  => 'Anime Takvimi Listeleyebilme',
             ],
             [
-                'code' => 0,
+                'code' => intval(Config::get('access.path_access_codes.admin/anime/changeEvent')),
                 'text'  => 'Anime Takvimi Güncelleyebilme',
                 'description'  => 'Anime Takvimi Güncelleyebilme',
             ],
             [
-                'code' => 0,
+                'code' => intval(Config::get('access.path_access_codes.admin/anime/deleteEvent')),
                 'text'  => 'Anime Takvimi Silebilme',
                 'description'  => 'Anime Takvimi Silebilme',
             ],

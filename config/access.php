@@ -61,7 +61,10 @@ return [
         'admin/animeEpisodes/delete' => 26,
 
         'admin/anime/calendar' => 28,
+        'admin/anime/calendar/ajax' => 28,
         'admin/anime/calendar/addEvent' => 27,
+        'admin/anime/calendar/changeEvent' => 29,
+        'admin/anime/calendar/deleteEvent' => 30,
 
         'admin/webtoon/list' => 32,
         'admin/webtoon/list/ajax' => 32,

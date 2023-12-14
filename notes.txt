@@ -8,7 +8,6 @@
 -Şifremi Unuttum kısmı
 
 **Diğer:
--Takvim
 -Her update de code değeri var olmayacak. js ile o getirilecek
 -Takvimde güncelleyip silebilme işlemi
 -Admin giriş anasayfası En çok okunan animeler, en çok okunan webtoonlar eklenmeli.

@@ -455,7 +455,37 @@ class IndexController extends Controller
 
     public function calendar()
     {
-        return $this->loadThemeView('calendar');
+        $currentDate = Carbon::now(); // Şu anki tarih ve saat
+        $oneMonthLater = $currentDate->copy()->addMonth(); // 1 ay sonraki tarih
+
+        $anime_calendars = DB::table('anime_calendars')
+            ->join('animes', 'anime_calendars.anime_code', '=', 'animes.code')
+            ->select('anime_calendars.*', 'animes.name as anime_name', 'animes.image as anime_image')
+            ->Where('animes.deleted', 0)
+            ->Where('anime_calendars.deleted', 0)
+            ->where(function ($query) use ($currentDate, $oneMonthLater) {
+                $query->where(function ($innerQuery) use ($currentDate, $oneMonthLater) {
+                    $innerQuery->whereBetween('anime_calendars.first_date', [$currentDate, $oneMonthLater])
+                        ->orWhere('anime_calendars.end_date', '>', $currentDate);
+                });
+            })
+            ->get();
+
+        $webtoon_calendars = DB::table('webtoon_calendars')
+            ->join('webtoons', 'webtoon_calendars.webtoon_code', '=', 'webtoons.code')
+            ->select('webtoon_calendars.*', 'webtoons.name as webtoons_name', 'webtoons.image as webtoons_image')
+            ->Where('webtoons.deleted', 0)
+            ->Where('webtoon_calendars.deleted', 0)
+            ->where(function ($query) use ($currentDate, $oneMonthLater) {
+                $query->where(function ($innerQuery) use ($currentDate, $oneMonthLater) {
+                    $innerQuery->whereBetween('webtoon_calendars.first_date', [$currentDate, $oneMonthLater])
+                        ->orWhere('webtoon_calendars.end_date', '>', $currentDate);
+                });
+            })
+            ->get();
+
+
+        return $this->loadThemeView('calendar', compact('anime_calendars', 'webtoon_calendars'));
     }
 
     public function showPage(Request $request)
