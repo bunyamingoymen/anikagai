@@ -178,19 +178,6 @@ class KeyValueSeeder extends Seeder
             ]
         ]);
 
-        //Anime Takvimi sub
-        DB::table('key_values')->insert([
-            [
-                'code' => KeyValue::max('code') + 1,
-                'key'  => 'menu_sub',
-                'value'  => 'Anime Takvimi',
-                'optional'  => 'Animeler', //Hangi Menünün altı olduğu(value değeri)
-                'optional_2'  => 'animeler', //Gideceği Link
-                'create_user_code' => 1,
-                'deleted' => 0,
-            ]
-        ]);
-
         //Webtoonlar
         DB::table('key_values')->insert([
             [
@@ -204,14 +191,14 @@ class KeyValueSeeder extends Seeder
             ]
         ]);
 
-        //Webtoon Takvimi sub
+        //Takvim
         DB::table('key_values')->insert([
             [
                 'code' => KeyValue::max('code') + 1,
-                'key'  => 'menu_sub',
-                'value'  => 'Webtoon Takvimi',
-                'optional'  => 'Webtoonlar', //Hangi Menünün altı olduğu(value değeri)
-                'optional_2'  => 'webtoonlar', //Gideceği Link
+                'key'  => 'menu',
+                'value'  => 'Takvim',
+                'optional'  => '1', //Hangi Menünün altı olduğu(value değeri)
+                'optional_2'  => 'calendar', //Gideceği Link
                 'create_user_code' => 1,
                 'deleted' => 0,
             ]
@@ -505,6 +492,5 @@ class KeyValueSeeder extends Seeder
                 'deleted' => 0,
             ]
         ]);
-
     }
 }

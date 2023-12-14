@@ -27,6 +27,7 @@ Route::controller(IndexController::class)->group(function () {
     Route::get('/', 'index')->name('index');
     Route::get('/animeler', 'list')->name('anime_list');
     Route::get('/webtoonlar', 'list')->name('webtoon_list');
+    Route::get('/calendar', 'calendar')->name('calendar');
 
     Route::get('/logout', 'logout')->name('logout');
 

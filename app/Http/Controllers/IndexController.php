@@ -453,6 +453,11 @@ class IndexController extends Controller
         return $this->loadThemeView('read', compact('webtoon', 'episode', 'webtoon_episodes', 'trend_webtoons', 'comments_main', 'comments_alt', 'next_episode_url', 'prev_episode_url', 'watched', 'files'));
     }
 
+    public function calendar()
+    {
+        return $this->loadThemeView('calendar');
+    }
+
     public function showPage(Request $request)
     {
         $pageShortName = $request->short_name;

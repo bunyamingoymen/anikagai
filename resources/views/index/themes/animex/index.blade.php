@@ -1,5 +1,7 @@
 @extends('index.themes.animex.layouts.main')
 @section('index_content')
+
+    @include('index.themes.animex.layouts.preloader')
     <style>
         .plusEighteen {
             color: #ffffff;

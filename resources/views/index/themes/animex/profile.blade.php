@@ -460,8 +460,6 @@
             document.getElementById(tab_id).classList.add('show');
             document.getElementById(tab_id).classList.add('active');
             document.getElementById(tab_id).classList.add('active_tab');
-
-
         }
     </script>
 
