@@ -50,6 +50,7 @@ class AnimeCalendarController extends Controller
 
     public function addEvent(Request $request)
     {
+        dd($request->toArray());
         $anime_calendar = new AnimeCalendar();
 
         $anime_calendar->code = AnimeCalendar::max('code') + 1;
@@ -83,6 +84,40 @@ class AnimeCalendarController extends Controller
 
     public function changeEvent(Request $request)
     {
+        $anime_calendar = AnimeCalendar::Where('code', $request->anime_calendar_code)->first();
+
+        if (!$anime_calendar)
+            return redirect()->back()->with('error', Config::get('error.error_codes.0070012'));
+
+
+        $anime_calendar->code = AnimeCalendar::max('code') + 1;
+
+        $anime_calendar->anime_code = $request->anime_code;
+        $anime_calendar->description = $request->description;
+        $anime_calendar->first_date = $request->first_date;
+        $anime_calendar->cycle_type = $request->cycle_type;
+        $anime_calendar->special_type = $request->special_type;
+        $anime_calendar->special_count = $request->special_count;
+        $anime_calendar->end_date = $request->end_date;
+
+        $anime_calendar->update_user_code = Auth::guard('admin')->user()->code;
+
+        $anime_calendar->save();
+
+        $calendar_order = 1;
+        AnimeCalendarList::Where('anime_calendar_code', $anime_calendar->code)->delete();
+        foreach ($request->fullDate as $date) {
+
+            $anime_calendar_list = new AnimeCalendarList();
+            $anime_calendar_list->code = AnimeCalendarList::max('code') + 1;
+            $anime_calendar_list->anime_calendar_code = $anime_calendar->code;
+            $anime_calendar_list->calendar_order = $calendar_order;
+            $anime_calendar_list->date = $date;
+            $anime_calendar_list->save();
+            $calendar_order++;
+        }
+
+        return redirect()->route('admin_animecalendar_index')->with('success', Config::get('success.success_codes.10070012'));
     }
 
     public function deleteEvent(Request $request)

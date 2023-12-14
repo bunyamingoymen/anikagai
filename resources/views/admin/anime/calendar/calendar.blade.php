@@ -11,13 +11,14 @@
             </div>
         </div>
 
-        <div hidden>
-            <!-- Large modal -->
-            <button type="button" class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="modal"
-                data-target=".addEventModal" id="addEventModalButton">Modal demo</button>
-        </div>
+
 
         @if ($create == 1)
+            <div hidden>
+                <!-- Large modal -->
+                <button type="button" class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="modal"
+                    data-target=".addEventModal" id="addEventModalButton">Modal demo</button>
+            </div>
             <!--  Modal content for the above example -->
             <div class="modal fade addEventModal" tabindex="-1" role="dialog" aria-labelledby="addEventModalLabel"
                 aria-hidden="true">
@@ -98,89 +99,122 @@
             </div><!-- /.modal -->
         @endif
 
+        @if ($update == 1)
+            <div hidden>
+                <!-- Large modal -->
+                <button type="button" class="btn btn-primary btn-sm waves-effect waves-light" data-toggle="modal"
+                    data-target=".updateEventModal" id="updateEventModalButton">Modal demo</button>
+            </div>
+            <!--  Modal content for the above example -->
+            <div class="modal fade updateEventModal" tabindex="-1" role="dialog"
+                aria-labelledby="updateEventModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title mt-0" id="updateEventModalLabel">Takvim Güncelle</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="changeEventSubmitForm" action="{{ route('admin_animecalendar_changeEvent') }}"
+                                method="POST">
+                                @csrf
+                                <div class="row col-lg-12">
+                                    <label for="changeAnime_code">Anime: </label>
+                                    <select name="anime_code" id="changeAnime_code" class="form-control" required>
+                                        <option value="" disabled selected>Bir Anime Seçiniz</option>
+                                        @foreach ($animes as $anime)
+                                            <option value="{{ $anime->code }}">{{ $anime->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="row col-lg-12 mt-2">
+                                    <label for="changeFirst_date">Başlangıç Tarihi: </label>
+                                    <input type="date" name="first_date" id="changeFirst_date" class="form-control"
+                                        required>
+                                </div>
+                                <div class="row col-lg-12 mt-2">
+                                    <label for="changeCycle_type">Tekrar: </label>
+                                    <select name="cycle_type" id="changeCycle_type" class="form-control"
+                                        onchange="changeCycleType()" required>
+                                        <option value="0" selected>Tekrarlama</option>
+                                        <option value="1">Günlük</option>
+                                        <option value="2">Haftalık</option>
+                                        <option value="3">Aylık</option>
+                                        <option value="4">Yıllık</option>
+                                        <option value="5">Özel</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-12 mt-2" id="changeSpecial_time_div" hidden>
+                                    <div class="row">
+                                        <label for="changeSpecial_type">Özel Zaman:</label>
+                                        <select name="special_type" id="changeSpecial_type" class="form-control">
+                                            <option value="1">Günlük</option>
+                                            <option value="2">Haftalık</option>
+                                            <option value="3">Aylık</option>
+                                            <option value="4">Yıllık</option>
+                                        </select>
+                                    </div>
+                                    <div class="row mt-2">
+                                        <label for="changeSpecial_count">Özel Aralık Süresi:</label>
+                                        <input type="number" name="special_count" id="changeSpecial_count"
+                                            class="form-control" placeholder="30">
+                                    </div>
+                                </div>
+                                <div class="row col-lg-12 mt-2" hidden id="ChangeEnd_date_div">
+                                    <label for="changeEnd_date">Tekrarlama Bitiş Tarihi:</label>
+                                    <input type="date" name="end_date" id="changeEnd_date" class="form-control"
+                                        required>
+                                </div>
+                                <div class="row col-lg-12 mt-2">
+                                    <label for="changeDescription">Açıklama: </label>
+                                    <textarea name="description" id="changeDescription" cols="30" rows="10" class="form-control"
+                                        placeholder="Açıklama"></textarea>
+                                </div>
+                                <div hidden>
+                                    <select name="fullDate[]" id="changeAnimeFullDate" multiple>
+                                    </select>
+                                    <input type="text" name="anime_calendar_code" id="changeAnime_calendar_code">
+                                </div>
+                                <div class="mt-2">
+                                    <button type="button" class="float-right btn btn-primary"
+                                        onclick="changeEventSubmitButton()">Güncelle</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div><!-- /.modal -->
+        @endif
+
         <script src="../../../admin/assets/libs/jquery/jquery.min.js"></script>
+
         <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
+
         <script>
             /*
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            events: [
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            { // this object will be "parsed" into an Event Object
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            title: 'The Title', // a property!
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            start: '2023-11-11', // a property!
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            end: '2023-11-12' // a property! ** see important note below about 'end' **
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            }
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            ],
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    events: [
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    { // this object will be "parsed" into an Event Object
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    title: 'The Title', // a property!
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    start: '2023-11-11', // a property!
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    end: '2023-11-12' // a property! ** see important note below about 'end' **
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    }
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    ],
 
 
 
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            calendar.addEvent({
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    title: 'dynamic event',
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    start: date,
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    allDay: true
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    });
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    calendar.addEvent({
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            title: 'dynamic event',
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            start: date,
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            allDay: true
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            });
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    */
         </script>
-        <!--Yeni Kayıt Oluşturma İşlemleri-->
+        <!--CRUD İşlemleri-->
         <script>
+            var options = [];
             @if ($create == 1)
-
-                var options = [];
-
-                function GetDay(start_date, finish_date, changeDay) {
-                    while (start_date < finish_date) {
-                        const formatted_date = start_date.getFullYear() + '-' +
-                            ('0' + (start_date.getMonth() + 1)).slice(-2) + '-' +
-                            ('0' + start_date.getDate()).slice(-2);
-                        const elem = `<option value="` + formatted_date + `" selected></option>`
-                        options.push(elem);
-                        start_date.setDate(start_date.getDate() + changeDay);
-                    }
-                }
-
-                function GetWeek(start_date, finish_date, changeWeek) {
-                    while (start_date < finish_date) {
-                        const formatted_date = start_date.getFullYear() + '-' +
-                            ('0' + (start_date.getMonth() + 1)).slice(-2) + '-' +
-                            ('0' + start_date.getDate()).slice(-2);
-                        const elem = `<option value="` + formatted_date + `" selected></option>`
-                        options.push(elem);
-                        start_date.setDate(start_date.getDate() + changeWeek * 7);
-                    }
-                }
-
-                function GetMonth(start_date, finish_date, changeMonth) {
-                    while (start_date < finish_date) {
-                        const formatted_date = start_date.getFullYear() + '-' +
-                            ('0' + (start_date.getMonth() + 1)).slice(-2) + '-' +
-                            ('0' + start_date.getDate()).slice(-2);
-                        const elem = `<option value="` + formatted_date + `" selected></option>`
-                        options.push(elem);
-
-
-                        // Eğer yılı aşarsa, bir sonraki yıla geç
-                        if (start_date.getMonth() + changeMonth > 12) {
-                            start_date.setFullYear(start_date.getFullYear() + 1);
-                        }
-
-                        start_date.setMonth(start_date.getMonth() + changeMonth);
-                    }
-                }
-
-                function GetYear(start_date, finish_date, changeYear) {
-                    while (start_date < finish_date) {
-                        const formatted_date = start_date.getFullYear() + '-' +
-                            ('0' + (start_date.getMonth() + 1)).slice(-2) + '-' +
-                            ('0' + start_date.getDate()).slice(-2);
-                        const elem = `<option value="` + formatted_date + `" selected></option>`
-                        options.push(elem);
-                        // Ay değişikliği
-                        start_date.setMonth(start_date.getMonth() + changeMonth);
-
-                        // Eğer yılı aşarsa, bir sonraki yıla geç
-                        if (start_date.getMonth() < changeMonth) {
-                            start_date.setFullYear(start_date.getFullYear() + 1);
-                        }
-                    }
-                }
 
                 function changeCycleType() {
                     var value = document.getElementById('cycle_type').value;
@@ -217,49 +251,157 @@
                         randomColor = Math.floor(Math.random() * backgroundColors.length);
                         background_color = backgroundColors[randomColor];
                         document.getElementById("background_color").value = background_color;
-                        sendDate('animeFullDate', cycle_type, special_type, special_count, first_date, end_date);
+                        sendDate('animeFullDate', cycle_type, special_type, special_count, first_date, end_date,
+                            'addEventSubmitForm');
                     }
 
-                }
-
-                function sendDate(selectBoxID, cycle_type, special_type, special_count, first_date, end_date) {
-                    //0: tekrarlama, 1:günlük, 2:haftalık, 3:aylık, 4:yıllık, 5: özel
-                    console.log(cycle_type);
-                    var start_date = new Date(first_date);
-                    var finish_date = new Date(end_date);
-                    if (cycle_type == 0) {
-                        const formatted_date = start_date.getFullYear() + '-' +
-                            ('0' + (start_date.getMonth() + 1)).slice(-2) + '-' +
-                            ('0' + start_date.getDate()).slice(-2);
-                        const elem = `<option value="` + formatted_date + `" selected></option>`
-                        options.push(elem);
-                    } else if (cycle_type == 1) GetDay(start_date, finish_date, 1);
-                    else if (cycle_type == 2) GetWeek(start_date, finish_date, 1);
-                    else if (cycle_type == 3) GetMonth(start_date, finish_date, 1);
-                    else if (cycle_type == 4) GetYear(start_date, finish_date, 1);
-                    else if (cycle_type == 5) {
-                        if (special_type == 1) GetDay(start_date, finish_date, special_count);
-                        else if (special_type == 2) GetWeek(start_date, finish_date, special_count);
-                        else if (special_type == 3) GetMonth(start_date, finish_date, special_count);
-                        else if (special_type == 4) GetYear(start_date, finish_date, special_count);
-                        else console.log("HATA 2")
-                    } else {
-                        console.log('HATA');
-                    }
-
-                    setTimeout(() => {
-                        if (options.length > 0) {
-                            for (var i = 0; i < options.length; i++) {
-                                document.getElementById(selectBoxID).innerHTML += options[i];
-                            }
-
-                            setTimeout(() => {
-                                document.getElementById("addEventSubmitForm").submit();
-                            }, 50);
-                        }
-                    }, 50);
                 }
             @endif
+
+            @if ($update == 1)
+
+                function updateEventModal(code, anime_calendar_code, anime_calendar_lists_code,
+                    first_date, end_date, cycle_type, special_type, special_count, description) {
+                    document.getElementById('changeAnime_code').value = code;
+                    document.getElementById('changeAnime_calendar_code').value = anime_calendar_code;
+                    document.getElementById('changeFirst_date').value = first_date;
+                    document.getElementById('changeEnd_date').value = end_date;
+                    document.getElementById('changeCycle_type').value = cycle_type;
+                    document.getElementById('changeSpecial_type').value = special_type;
+                    document.getElementById('changeSpecial_count').value = special_count;
+                    document.getElementById('changeDescription').value = description;
+
+                    if (cycle_type == 5) document.getElementById('changeSpecial_time_div').hidden = false;
+                    else document.getElementById('changeSpecial_time_div').hidden = true;
+
+                    if (cycle_type != 0) document.getElementById('ChangeEnd_date_div').hidden = false;
+                    else document.getElementById('ChangeEnd_date_div').hidden = true;
+
+                    document.getElementById('updateEventModalButton').click();
+                }
+
+                function changeEventSubmitButton() {
+                    var anime_code = document.getElementById('changeAnime_code').value;
+                    var first_date = document.getElementById('changeFirst_date').value;
+                    var end_date = document.getElementById('changeEnd_date').value;
+                    var cycle_type = document.getElementById('changeCycle_type').value;
+                    var special_type = document.getElementById('changeSpecial_type').value;
+                    var special_count = document.getElementById('changeSpecial_count').value;
+
+                    if (anime_code == "" || first_date == "" || cycle_type == "") {
+                        $('.addEventModal').modal('hide');
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Hata',
+                            text: 'Lütfen Gerekli Doldurunuz!',
+                        }).then((result) => {
+                            $('.updateEventModal').modal('show');
+                        })
+                    } else {
+                        sendDate('changeAnimeFullDate', cycle_type, special_type, special_count, first_date, end_date,
+                            'changeEventSubmitForm');
+                    }
+                }
+            @endif
+
+            @if ($delete == 1)
+            @endif
+
+            function GetDay(start_date, finish_date, changeDay) {
+                while (start_date < finish_date) {
+                    const formatted_date = start_date.getFullYear() + '-' +
+                        ('0' + (start_date.getMonth() + 1)).slice(-2) + '-' +
+                        ('0' + start_date.getDate()).slice(-2);
+                    const elem = `<option value="` + formatted_date + `" selected></option>`
+                    options.push(elem);
+                    start_date.setDate(start_date.getDate() + changeDay);
+                }
+            }
+
+            function GetWeek(start_date, finish_date, changeWeek) {
+                while (start_date < finish_date) {
+                    const formatted_date = start_date.getFullYear() + '-' +
+                        ('0' + (start_date.getMonth() + 1)).slice(-2) + '-' +
+                        ('0' + start_date.getDate()).slice(-2);
+                    const elem = `<option value="` + formatted_date + `" selected></option>`
+                    options.push(elem);
+                    start_date.setDate(start_date.getDate() + changeWeek * 7);
+                }
+            }
+
+            function GetMonth(start_date, finish_date, changeMonth) {
+                while (start_date < finish_date) {
+                    const formatted_date = start_date.getFullYear() + '-' +
+                        ('0' + (start_date.getMonth() + 1)).slice(-2) + '-' +
+                        ('0' + start_date.getDate()).slice(-2);
+                    const elem = `<option value="` + formatted_date + `" selected></option>`
+                    options.push(elem);
+
+
+                    // Eğer yılı aşarsa, bir sonraki yıla geç
+                    if (start_date.getMonth() + changeMonth > 12) {
+                        start_date.setFullYear(start_date.getFullYear() + 1);
+                    }
+
+                    start_date.setMonth(start_date.getMonth() + changeMonth);
+                }
+            }
+
+            function GetYear(start_date, finish_date, changeYear) {
+                while (start_date < finish_date) {
+                    const formatted_date = start_date.getFullYear() + '-' +
+                        ('0' + (start_date.getMonth() + 1)).slice(-2) + '-' +
+                        ('0' + start_date.getDate()).slice(-2);
+                    const elem = `<option value="` + formatted_date + `" selected></option>`
+                    options.push(elem);
+                    // Ay değişikliği
+                    start_date.setMonth(start_date.getMonth() + changeMonth);
+
+                    // Eğer yılı aşarsa, bir sonraki yıla geç
+                    if (start_date.getMonth() < changeMonth) {
+                        start_date.setFullYear(start_date.getFullYear() + 1);
+                    }
+                }
+            }
+
+            function sendDate(selectBoxID, cycle_type, special_type, special_count, first_date, end_date, formID) {
+                //0: tekrarlama, 1:günlük, 2:haftalık, 3:aylık, 4:yıllık, 5: özel
+                console.log(cycle_type);
+                options = [];
+                var start_date = new Date(first_date);
+                var finish_date = new Date(end_date);
+                if (cycle_type == 0) {
+                    const formatted_date = start_date.getFullYear() + '-' +
+                        ('0' + (start_date.getMonth() + 1)).slice(-2) + '-' +
+                        ('0' + start_date.getDate()).slice(-2);
+                    const elem = `<option value="` + formatted_date + `" selected></option>`
+                    options.push(elem);
+                } else if (cycle_type == 1) GetDay(start_date, finish_date, 1);
+                else if (cycle_type == 2) GetWeek(start_date, finish_date, 1);
+                else if (cycle_type == 3) GetMonth(start_date, finish_date, 1);
+                else if (cycle_type == 4) GetYear(start_date, finish_date, 1);
+                else if (cycle_type == 5) {
+                    if (special_type == 1) GetDay(start_date, finish_date, special_count);
+                    else if (special_type == 2) GetWeek(start_date, finish_date, special_count);
+                    else if (special_type == 3) GetMonth(start_date, finish_date, special_count);
+                    else if (special_type == 4) GetYear(start_date, finish_date, special_count);
+                    else console.log("HATA 2")
+                } else {
+                    console.log('HATA');
+                }
+
+                setTimeout(() => {
+                    if (options.length > 0) {
+                        for (var i = 0; i < options.length; i++) {
+                            document.getElementById(selectBoxID).innerHTML += options[i];
+                        }
+
+                        setTimeout(() => {
+                            document.getElementById(formID).submit();
+                        }, 50);
+                    }
+                }, 50);
+            }
         </script>
 
         <!--Kayıt Görüntüleme İşlemleri-->
@@ -323,13 +465,12 @@
                         console.log(info.event.title); // Etkinlik başlığı
                         console.log(info.event.start); // Etkinlik başlangıç tarihi
                         console.log(info.event.extendedProps.code); // Özel özellik
-                        changeEvent(info.event.extendedProps.code, info.event.extendedProps
+                        updateEventModal(info.event.extendedProps.code, info.event.extendedProps
                             .anime_calendar_code, info.event.extendedProps.anime_calendar_lists_code,
-                            info.event.extendedProps.anime_calendar_lists_code, info.event.extendedProps
-                            .first_date, info.event.extendedProps.end_date, info.event.extendedProps
-                            .cycle_type, info.event.extendedProps.special_type,
+                            info.event.extendedProps.first_date, info.event.extendedProps.end_date,
+                            info.event.extendedProps.cycle_type, info.event.extendedProps.special_type,
                             info.event.extendedProps.special_count, info.event.extendedProps.description
-                            );
+                        );
                     }
                 });
 

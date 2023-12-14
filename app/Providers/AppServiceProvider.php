@@ -222,8 +222,8 @@ class AppServiceProvider extends ServiceProvider
 
                     $create = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/anime/calendar/addEvent') ? 1 : 0;
                     $list = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/anime/calendar') ? 1 : 0;
-                    $update = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/anime/calendar') ? 1 : 0;
-                    $delete = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/anime/calendar') ? 1 : 0;
+                    $update = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/anime/update') ? 1 : 0;
+                    $delete = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/anime/delete') ? 1 : 0;
 
                     $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
                 });

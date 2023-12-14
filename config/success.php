@@ -68,6 +68,7 @@ return [
         '10060013' => 'Anime' . $success . $delete,
 
         '10070010' => "Takvim'e Anime" . $success . $add,
+        '10070012' => "Takvim" . $success . $add,
 
         '10080012' => 'Anime Bölümü' . $success . $update,
         '10080013' => 'Anime Bölümü' . $success . $delete,

@@ -64,6 +64,8 @@ return [
         '0060012' => 'Anime Güncellenirken bir Hata Meydana Geldi',
         '0060013' => 'Anime Silinirken Bir Hata Meydana Geldi',
 
+        '0070012' => 'Anime Takvimi Güncellenirken bir Hata Meydana Geldi',
+
         '0080002' => 'Anime Bölümleri Güncelleme Ekranına Giderken Bir Hata Meydana Geldi',
         '0080012' => 'Anime Bölümleri Güncellenirken bir Hata Meydana Geldi',
         '0080013' => 'Anime Bölümleri Silinirken Bir Hata Meydana Geldi',
