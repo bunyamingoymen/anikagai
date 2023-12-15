@@ -89,9 +89,6 @@ class AnimeCalendarController extends Controller
         if (!$anime_calendar)
             return redirect()->back()->with('error', Config::get('error.error_codes.0070012'));
 
-
-        $anime_calendar->code = AnimeCalendar::max('code') + 1;
-
         $anime_calendar->anime_code = $request->anime_code;
         $anime_calendar->description = $request->description;
         $anime_calendar->first_date = $request->first_date;
@@ -129,7 +126,7 @@ class AnimeCalendarController extends Controller
         $anime_calendar->update_user_code = Auth::guard('admin')->user()->code;
         $anime_calendar->save();
 
-        return redirect()->route('admin_animecalendar_index')->with('success', Config::get('success.success_codes.10070012'));
+        return redirect()->route('admin_animecalendar_index')->with('success', Config::get('success.success_codes.10070013'));
     }
 
     public function getAnimeCalendar(Request $request)

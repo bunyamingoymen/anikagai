@@ -337,7 +337,13 @@ Route::middleware(['auth'])->group(function () {
         Route::controller(WebtoonCalendarController::class)->group(function () {
             Route::get("/admin/webtoon/calendar", "index")->name('admin_webtooncalendar_index');
 
+            Route::post("/admin/webtoon/calendar/ajax", "getWebtoonCalendar")->name('admin_webtooncalendar_get_webtoon_calendar');
+
             Route::post("/admin/webtoon/calendar/addEvent", "addEvent")->name('admin_webtooncalendar_addevent');
+
+            Route::post("/admin/webtoon/calendar/changeEvent", "changeEvent")->name('admin_webtooncalendar_changeEvent');
+
+            Route::get("/admin/webtoon/calendar/deleteEvent", "deleteEvent")->name('admin_webtooncalendar_deleteEvent');
         });
 
         Route::controller(PageController::class)->group(function () {

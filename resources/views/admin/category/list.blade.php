@@ -174,7 +174,7 @@
                         /* Read more about isConfirmed, isDenied below */
                         if (result.isConfirmed) {
                             var html =
-                                `<form action='{{ route('admin_animecalendar_deleteEvent') }}' method="POST" id="deleteCategoryForm"> @csrf`;
+                                `<form action='{{ route('admin_category_delete') }}' method="POST" id="deleteCategoryForm"> @csrf`;
                             html += `<input type="text" name="code" value='` + code + `'>`;
                             html += `</form>`
 

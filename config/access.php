@@ -80,7 +80,10 @@ return [
         'admin/webtoonEpisodes/delete' => 38,
 
         'admin/webtoon/calendar' => 40,
+        'admin/anime/calendar/ajax' => 40,
         'admin/webtoon/calendar/addEvent' => 39,
+        'admin/webtoon/calendar/changeEvent' => 41,
+        'admin/webtoon/calendar/deleteEvent' => 42,
 
         'admin/page/list' => 44,
         'admin/page/list/ajax' => 44,

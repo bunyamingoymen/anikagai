@@ -75,6 +75,9 @@ return [
         '0090012' => 'Webtoon Güncellenirken bir Hata Meydana Geldi',
         '0090013' => 'Webtoon Silinirken Bir Hata Meydana Geldi',
 
+        '0100012' => 'Webtoon Takvimi Güncellenirken bir Hata Meydana Geldi',
+        '0100013' => 'Webtoon Takvimi Silinirken Bir Hata Meydana Geldi',
+
         '0110002' => 'Webtoon Bölümleri Güncelleme Ekranına Giderken Bir Hata Meydana Geldi',
         '0110012' => 'Webtoon Bölümleri Güncellenirken bir Hata Meydana Geldi',
         '0110013' => 'Webtoon Bölümleri Silinirken Bir Hata Meydana Geldi',

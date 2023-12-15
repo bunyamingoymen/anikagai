@@ -68,7 +68,7 @@ return [
         '10060013' => 'Anime' . $success . $delete,
 
         '10070010' => "Takvim'e Anime" . $success . $add,
-        '10070012' => "Takvim" . $success . $add,
+        '10070012' => "Takvim" . $success . $update,
         '10070013' => "Takvim" . $success . $delete,
 
         '10080012' => 'Anime Bölümü' . $success . $update,
@@ -79,6 +79,8 @@ return [
         '10090013' => 'Webtoon' . $success . $delete,
 
         '10100010' => "Takvim'e Webtoon" . $success . $add,
+        '10100012' => "Takvim" . $success . $add,
+        '10100013' => "Takvim" . $success . $delete,
 
         '10110012' => 'Webtoon Bölümü' . $success . $update,
         '10110013' => 'Webtoon Bölümü' . $success . $delete,
