@@ -122,6 +122,14 @@ class AnimeCalendarController extends Controller
 
     public function deleteEvent(Request $request)
     {
+        $anime_calendar = AnimeCalendar::where('code', $request->code)->first();
+        if (!$anime_calendar) return redirect()->back()->with('error', Config::get('error.error_codes.0070013'));
+
+        $anime_calendar->deleted = 1;
+        $anime_calendar->update_user_code = Auth::guard('admin')->user()->code;
+        $anime_calendar->save();
+
+        return redirect()->route('admin_animecalendar_index')->with('success', Config::get('success.success_codes.10070012'));
     }
 
     public function getAnimeCalendar(Request $request)
