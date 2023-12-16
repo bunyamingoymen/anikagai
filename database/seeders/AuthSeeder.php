@@ -228,12 +228,12 @@ class AuthSeeder extends Seeder
                 'description'  => 'Webtoon Takvimi Listeleyebilme',
             ],
             [
-                'code' => 0,
+                'code' => intval(Config::get('access.path_access_codes.admin/webtoon/changeEvent')),
                 'text'  => 'Webtoon Takvimi Güncelleyebilme',
                 'description'  => 'Webtoon Takvimi Güncelleyebilme',
             ],
             [
-                'code' => 0,
+                'code' => intval(Config::get('access.path_access_codes.admin/webtoon/deleteEvent')),
                 'text'  => 'Webtoon Takvimi Silebilme',
                 'description'  => 'Webtoon Takvimi Silebilme',
             ],

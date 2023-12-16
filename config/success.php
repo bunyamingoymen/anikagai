@@ -79,7 +79,7 @@ return [
         '10090013' => 'Webtoon' . $success . $delete,
 
         '10100010' => "Takvim'e Webtoon" . $success . $add,
-        '10100012' => "Takvim" . $success . $add,
+        '10100012' => "Takvim" . $success . $update,
         '10100013' => "Takvim" . $success . $delete,
 
         '10110012' => 'Webtoon Bölümü' . $success . $update,

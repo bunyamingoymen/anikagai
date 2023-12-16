@@ -25,22 +25,22 @@ class WebtoonCalendarController extends Controller
             ->Where('webtoon_calendars.deleted', 0)
             ->Where('webtoons.deleted', 0)
             ->whereBetween('webtoon_calendar_lists.date', [$currentDate, $twoMonthLater])
-            ->join('webtoon_calendars', 'webtoon_calendars.code', '=', 'webtoon_calendar_lists.webtoons_calendar_code')
-            ->join('webtoons', 'webtoons.code', '=', 'webtoon_calendars.webtoons_code')
+            ->join('webtoon_calendars', 'webtoon_calendars.code', '=', 'webtoon_calendar_lists.webtoon_calendar_code')
+            ->join('webtoons', 'webtoons.code', '=', 'webtoon_calendars.webtoon_code')
             ->select(
                 'webtoons.name as webtoon_name',
-                'webtoons.code as webtoons_code',
-                'webtoons_calendars.code as webtoons_calendar_code',
-                'webtoons_calendars.description as webtoons_calendar_description',
-                'webtoons_calendars.first_date as webtoons_calendar_first_date',
-                'webtoons_calendars.cycle_type as webtoons_calendar_cycle_type',
-                'webtoons_calendars.special_type as webtoons_calendar_special_type',
-                'webtoons_calendars.special_count as webtoons_calendar_special_count',
-                'webtoons_calendars.end_date as webtoons_calendar_end_date',
-                'webtoons_calendars.background_color as webtoons_calendar_background_color',
-                'webtoons_calendar_lists.code as webtoons_calendar_lists_code',
-                'webtoons_calendar_lists.calendar_order as webtoons_calendar_list_calendar_order',
-                'webtoons_calendar_lists.date as webtoons_calendar_list_date'
+                'webtoons.code as webtoon_code',
+                'webtoon_calendars.code as webtoon_calendar_code',
+                'webtoon_calendars.description as webtoon_calendar_description',
+                'webtoon_calendars.first_date as webtoon_calendar_first_date',
+                'webtoon_calendars.cycle_type as webtoon_calendar_cycle_type',
+                'webtoon_calendars.special_type as webtoon_calendar_special_type',
+                'webtoon_calendars.special_count as webtoon_calendar_special_count',
+                'webtoon_calendars.end_date as webtoon_calendar_end_date',
+                'webtoon_calendars.background_color as webtoon_calendar_background_color',
+                'webtoon_calendar_lists.code as webtoon_calendar_lists_code',
+                'webtoon_calendar_lists.calendar_order as webtoon_calendar_list_calendar_order',
+                'webtoon_calendar_lists.date as webtoon_calendar_list_date'
             )
             ->get();
 
@@ -107,14 +107,14 @@ class WebtoonCalendarController extends Controller
 
             $webtoon_calendar_list = new WebtoonCalendarList();
             $webtoon_calendar_list->code = WebtoonCalendarList::max('code') + 1;
-            $webtoon_calendar_list->anime_calendar_code = $webtoon_calendar->code;
+            $webtoon_calendar_list->webtoon_calendar_code = $webtoon_calendar->code;
             $webtoon_calendar_list->calendar_order = $calendar_order;
             $webtoon_calendar_list->date = $date;
             $webtoon_calendar_list->save();
             $calendar_order++;
         }
 
-        return redirect()->route('admin_animecalendar_index')->with('success', Config::get('success.success_codes.10100012'));
+        return redirect()->route('admin_webtooncalendar_index')->with('success', Config::get('success.success_codes.10100012'));
     }
 
     public function deleteEvent(Request $request)
@@ -126,7 +126,7 @@ class WebtoonCalendarController extends Controller
         $webtoon_calendar->update_user_code = Auth::guard('admin')->user()->code;
         $webtoon_calendar->save();
 
-        return redirect()->route('admin_animecalendar_index')->with('success', Config::get('success.success_codes.10100013'));
+        return redirect()->route('admin_webtooncalendar_index')->with('success', Config::get('success.success_codes.10100013'));
     }
 
     public function getWebtoonCalendar(Request $request)
@@ -142,8 +142,8 @@ class WebtoonCalendarController extends Controller
             ->join('webtoon_calendars', 'webtoon_calendars.code', '=', 'webtoon_calendar_lists.webtoon_calendar_code')
             ->join('webtoons', 'webtoons.code', '=', 'webtoon_calendars.webtoon_code')
             ->select(
-                'webtoon.name as webtoon_name',
-                'webtoon.code as webtoon_code',
+                'webtoons.name as webtoon_name',
+                'webtoons.code as webtoon_code',
                 'webtoon_calendars.code as webtoon_calendar_code',
                 'webtoon_calendars.description as webtoon_calendar_description',
                 'webtoon_calendars.first_date as webtoon_calendar_first_date',
@@ -156,6 +156,7 @@ class WebtoonCalendarController extends Controller
                 'webtoon_calendar_lists.date as webtoon_calendar_list_date'
             )
             ->get();
+
 
         return $webtoonn_calendar_lists;
     }
