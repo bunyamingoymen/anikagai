@@ -10,93 +10,52 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="mt-3">
-                            <h4>Tema Renkleri: </h4>
-                            <p>Tema renklerini buradan değiştirebilirsniz.</p>
-                            <div class="col-lg-8">
-                                @if ($colorOne)
-                                    <div class="row">
-                                        <div class="col-lg-2">
-                                            <label for="">1.Renk:</label>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <input type="color" id="colorpickerColorOne" name="color"
-                                                class="form-control" pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$"
-                                                value="{{ '#' . $colorOne->setting_value }}">
-                                        </div>
+                            @if ($colors_code)
+                                <h4>Tema Renkleri: </h4>
+                                <p>Tema renklerini buradan değiştirebilirsniz.</p>
+                                <div class="col-lg-8">
+                                    @foreach ($colors_code as $item)
+                                        <div class="row mt-3">
+                                            <div class="col-lg-2">
+                                                <label for="">{{ $loop->index + 1 }}.Renk:</label>
+                                            </div>
+                                            <div class="col-lg-3">
+                                                <input type="color" id="colorpicker{{ $loop->index }}" name="color"
+                                                    class="form-control" pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$"
+                                                    value="{{ '#' . $item->setting_value }}">
+                                            </div>
 
-                                        <div class="col-lg-3">
-                                            <input type="text" class="form-control"
-                                                pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$"
-                                                value="{{ '#' . $colorOne->setting_value }}" id="hexcolorColorOne"></input>
-                                        </div>
+                                            <div class="col-lg-3">
+                                                <input type="text" class="form-control hexcolors"
+                                                    pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$"
+                                                    value="{{ '#' . $item->setting_value }}"
+                                                    id="hexcolor{{ $loop->index }}"></input>
+                                            </div>
 
-                                        <div class="col-lg-4">
-                                            <button class="btn btn-info" onclick="defaultColor('one')">Varsayılan Olarak
-                                                Renk Ayarla</button>
+                                            <div class="col-lg-4">
+                                                <button class="btn btn-info"
+                                                    onclick="defaultColor({{ $loop->index }})">Varsayılan Olarak
+                                                    Renk Ayarla</button>
+                                            </div>
                                         </div>
+                                    @endforeach
+
+                                    <div class="col-lg-2 mt-3 float-right">
+                                        <button class="btn btn-primary"
+                                            onclick="changeColorSubmitButton()">Değiştir</button>
                                     </div>
-                                @endif
-
-                                @if ($colorTwo)
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-lg-2">
-                                            <label for="">2.Renk:</label>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <input type="color" id="colorpickerColorTwo" name="color"
-                                                class="form-control" pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$"
-                                                value="{{ '#' . $colorTwo->setting_value }}">
-                                        </div>
-
-                                        <div class="col-lg-3">
-                                            <input type="text" class="form-control"
-                                                pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$"
-                                                value="{{ '#' . $colorTwo->setting_value }}" id="hexcolorColorTwo"></input>
-                                        </div>
-
-                                        <div class="col-lg-4">
-                                            <button class="btn btn-info" onclick="defaultColor('two')">Varsayılan Olarak
-                                                Renk Ayarla</button>
-                                        </div>
-                                    </div>
-                                @endif
-
-                                @if ($colorThree)
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-lg-2">
-                                            <label for="">1.Renk:</label>
-                                        </div>
-                                        <div class="col-lg-3">
-                                            <input type="color" id="colorpickerColorThree" name="color"
-                                                class="form-control" pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$"
-                                                value="{{ '#' . $colorThree->setting_value }}">
-                                        </div>
-
-                                        <div class="col-lg-3">
-                                            <input type="text" class="form-control"
-                                                pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$"
-                                                value="{{ '#' . $colorThree->setting_value }}"
-                                                id="hexcolorColorThree"></input>
-                                        </div>
-
-                                        <div class="col-lg-4">
-                                            <button class="btn btn-info">Varsayılan Olarak Renk Ayarla</button>
-                                        </div>
-                                    </div>
-                                @endif
-
-                                <div class="col-lg-2 mt-3 float-right">
-                                    <button class="btn btn-primary" onclick="changeColorSubmitButton()">Değiştir</button>
                                 </div>
-                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
+
+        <select name="colors[]" id="" multiple>
+            <option value=""></option>
+        </select>
         <!-- JAVASCRIPT -->
         <script src="../../../admin/assets/libs/jquery/jquery.min.js"></script>
 
@@ -105,60 +64,43 @@
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
         <script>
-            $('#colorpickerColorOne').on('input', function() {
-                $('#hexcolorColorOne').val(this.value);
-            });
-            $('#hexcolorColorOne').on('input', function() {
-                $('#colorpickerColorOne').val(this.value);
-            });
+            @foreach ($colors_code as $item)
+                $('#colorpicker{{ $loop->index }}').on('input', function() {
+                    $('#hexcolor{{ $loop->index }}').val(this.value);
+                });
+            @endforeach
 
-            $('#colorpickerColorTwo').on('input', function() {
-                $('#hexcolorColorTwo').val(this.value);
-            });
-            $('#hexcolorColorTw').on('input', function() {
-                $('#colorpickerColorTwo').val(this.value);
-            });
+            function defaultColor(color_number) {
 
-            $('#colorpickerColorThree').on('input', function() {
-                $('#hexcolorColorThree').val(this.value);
-            });
-            $('#hexcolorColorThree').on('input', function() {
-                $('#colorpickerColorThree').val(this.value);
-            });
+                var defaultValue = @json($colors_code_defaults->nth(1));
 
-            function defaultColor(clickColor) {
-                if (clickColor == 'one') {
-                    $('#hexcolorColorOne').val('#14161D');
-                    $('#colorpickerColorOne').val('#14161D');
-                } else if (clickColor == 'two') {
-                    $('#hexcolorColorTwo').val('#111216');
-                    $('#colorpickerColorTwo').val('#111216');
-                }
+                $('#hexcolor' + color_number).val(
+                    '#' + (defaultValue[color_number] ? defaultValue[color_number].setting_value : 'fff')
+                );
+
+                $('#colorpicker' + color_number).val(
+                    '#' + (defaultValue[color_number] ? defaultValue[color_number].setting_value : 'fff')
+                );
             }
 
             function changeColorSubmitButton() {
                 var html = ` <form id="changeColorFormID" action="{{ route('admin_data_change_theme_color') }}" method="POST">
                                 @csrf
-
+                                <select name="colors[]" id="" multiple>
                             `
+
+                var colors = documentçgetElementsByClassName('colors');
                 var colorOne = document.getElementById('hexcolorColorOne');
                 var colorTwo = document.getElementById('hexcolorColorTwo');
                 var colorThree = document.getElementById('hexcolorColorOne');
 
-                if (colorOne) {
-                    html += `<input type="text" id="colorOne" name="colorOne" value="` + colorOne.value.replace('#', '') + `">`;
+                for (let i = 0; i < colors.length; i++) {
+                    const element = colors[i];
+                    html += `<option value="` + element + `" selected></option>`;
+
                 }
 
-                if (colorTwo) {
-                    html += `<input type="text" id="colorTwo" name="colorTwo" value="` + colorTwo.value.replace('#', '') + `">`
-                }
-
-                if (colorThree) {
-                    html += `<input type="text" id="colorThree" name="colorThree" value="` + colorThree.value.replace('#', '') +
-                        `">`
-                }
-
-                html += `</form>`
+                html += `</select></form>`
 
                 document.getElementById('hiddenDiv').innerHTML = html;
                 document.getElementById('changeColorFormID').submit();

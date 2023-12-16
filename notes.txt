@@ -9,7 +9,6 @@
 
 **Diğer:
 -Her update de code değeri var olmayacak. js ile o getirilecek
--Takvimde güncelleyip silebilme işlemi
 -Admin giriş anasayfası En çok okunan animeler, en çok okunan webtoonlar eklenmeli.
 -Kategorilerde en çok tıklananları gösteren bir şey olmalı
 -tema ayarları güncellenmeli (mesela giriş yap modal ile mi ekran ile mi, buna göre redirect->route yapılacak;)

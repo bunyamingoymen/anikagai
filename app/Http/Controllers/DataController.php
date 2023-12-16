@@ -38,73 +38,32 @@ class DataController extends Controller
 
     public function themeList()
     {
-        $colorOne = ThemeSetting::where('theme_code', KeyValue::where('key', 'selected_theme')->first()->value)
-            ->where('setting_name', 'colorone')
-            ->firstOr(function () {
-                return null;
-            });
+        $colors_code = ThemeSetting::where('theme_code', KeyValue::where('key', 'selected_theme')->first()->value)
+            ->where('setting_name', 'colors_code')
+            ->get();
 
-        $colorTwo = ThemeSetting::where('theme_code', KeyValue::where('key', 'selected_theme')->first()->value)
-            ->where('setting_name', 'colortwo')
-            ->firstOr(function () {
-                return null;
-            });
+        $colors_code_defaults = ThemeSetting::where('theme_code', KeyValue::where('key', 'selected_theme')->first()->value)
+            ->where('setting_name', 'colors_code_default')
+            ->get();
 
-        $colorThree = ThemeSetting::where('theme_code', KeyValue::where('key', 'selected_theme')->first()->value)
-            ->where('setting_name', 'colorthree')
-            ->firstOr(function () {
-                return null;
-            });
-
-        return view('admin.data.theme', ['colorOne' => $colorOne, 'colorTwo' => $colorTwo, 'colorThree' => $colorThree]);
+        return view('admin.data.theme', ['colors_code' => $colors_code, 'colors_code_defaults' => $colors_code_defaults]);
     }
 
     public function changeThemeColor(Request $request)
     {
-        $is_change = false;
-        $colorOne = ThemeSetting::where('theme_code', KeyValue::where('key', 'selected_theme')->first()->value)
-            ->where('setting_name', 'colorone')
-            ->firstOr(function () {
-                return null;
-            });
+        $colors_code = ThemeSetting::where('theme_code', KeyValue::where('key', 'selected_theme')->first()->value)
+            ->where('setting_name', 'colors_code')
+            ->get();
+        if ($colors_code)
+            return redirect()->back()->with('error', Config::get('error.error_codes.0120512'));
 
-        $colorTwo = ThemeSetting::where('theme_code', KeyValue::where('key', 'selected_theme')->first()->value)
-            ->where('setting_name', 'colortwo')
-            ->firstOr(function () {
-                return null;
-            });
-
-        $colorThree = ThemeSetting::where('theme_code', KeyValue::where('key', 'selected_theme')->first()->value)
-            ->where('setting_name', 'colorthree')
-            ->firstOr(function () {
-                return null;
-            });
-
-        if ($colorOne && $colorOne->setting_value != $request->colorOne) {
-            $colorOne->setting_value = $request->colorOne;
-            $colorOne->save();
-            $is_change = true;
+        foreach ($request->colors as $index => $item) {
+            $color_code = ThemeSetting::where('theme_code', KeyValue::where('key', 'selected_theme')->first()->value)
+                ->where('setting_name', 'colors_code')->skip($index)->first();
+            $color_code->setting_value = $item;
+            $color_code->save();
         }
-
-        if ($colorTwo && $colorTwo->setting_value != $request->colorTwo) {
-            $colorTwo->setting_value = $request->colorTwo;
-            $colorTwo->save();
-
-            $is_change = true;
-        }
-
-        if ($colorThree && $colorThree->setting_value != $request->colorThree) {
-            $colorThree->setting_value = $request->colorThree;
-            $colorThree->save();
-
-            $is_change = true;
-        }
-
-        if ($is_change) {
-            return redirect()->back()->with('success', Config::get('success.success_codes.10120612'));
-        }
-
-        return redirect()->back()->with('error', Config::get('error.error_codes.0120512'));
+        return redirect()->back()->with('success', Config::get('success.success_codes.10120612'));
     }
 
     public function showContent(Request $request)
