@@ -50,7 +50,6 @@ class AnimeCalendarController extends Controller
 
     public function addEvent(Request $request)
     {
-        dd($request->toArray());
         $anime_calendar = new AnimeCalendar();
 
         $anime_calendar->code = AnimeCalendar::max('code') + 1;

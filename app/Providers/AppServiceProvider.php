@@ -43,7 +43,7 @@ class AppServiceProvider extends ServiceProvider
             $selected_theme = KeyValue::Where('key', 'selected_theme')->first();
             $themePath = Theme::Where('code', $selected_theme->value)->first();
 
-            $indexPages = ['index.' . $themePath->themePath . '.layouts.main', 'index.' . $themePath->themePath . '.index', 'index.' . $themePath->themePath . '.profile'];
+            $indexPages = ['index.' . $themePath->themePath . '.layouts.main', 'index.' . $themePath->themePath . '.index', 'index.' . $themePath->themePath . '.profile', 'index.' . $themePath->themePath . '.calendar'];
             $themeThree = ['index.themes.moviefx.layouts.main', 'index.themes.moviefx.layouts.sidebar', 'index.themes.moviefx.layouts.topbar', 'index.themes.moviefx.layouts.footer', 'index.themes.moviefx.profile'];
 
             $adminPages = ['admin.layouts.main'];

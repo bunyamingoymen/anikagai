@@ -197,13 +197,38 @@ class KeyValueSeeder extends Seeder
                 'code' => KeyValue::max('code') + 1,
                 'key'  => 'menu',
                 'value'  => 'Takvim',
-                'optional'  => '1', //Hangi Menünün altı olduğu(value değeri)
+                'optional'  => '1', //1: Aktif, 2: Aktif Değil
                 'optional_2'  => 'calendar', //Gideceği Link
                 'create_user_code' => 1,
                 'deleted' => 0,
             ]
         ]);
 
+        //Anime Takvimi
+        DB::table('key_values')->insert([
+            [
+                'code' => KeyValue::max('code') + 1,
+                'key'  => 'menu',
+                'value'  => 'Anime Takvimi',
+                'optional'  => '2', //1: Aktif, 2: Aktif Değil
+                'optional_2'  => 'animeCalendar', //Gideceği Link
+                'create_user_code' => 1,
+                'deleted' => 0,
+            ]
+        ]);
+
+        //Webtoon Takvimi
+        DB::table('key_values')->insert([
+            [
+                'code' => KeyValue::max('code') + 1,
+                'key'  => 'menu',
+                'value'  => 'Webtoon Takvimi',
+                'optional'  => '2', //1: Aktif, 2: Aktif Değil
+                'optional_2'  => 'webtoonCalendar', //Gideceği Link
+                'create_user_code' => 1,
+                'deleted' => 0,
+            ]
+        ]);
         //İletişim
         DB::table('key_values')->insert([
             [

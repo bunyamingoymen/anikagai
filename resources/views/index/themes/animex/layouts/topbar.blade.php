@@ -2,7 +2,7 @@
 <header class="header">
     <div class="container">
         <div class="row">
-            <div class="col-lg-2">
+            <div class="col-lg-1">
                 <div class="header__logo">
                     <a href="{{ route('index') }}">
                         <img src="../../../{{ $data['index_logo']->value }}" alt=""
@@ -10,7 +10,7 @@
                     </a>
                 </div>
             </div>
-            <div class="col-lg-7">
+            <div class="col-lg-8">
                 <div class="header__nav">
                     <nav class="header__menu mobile-menu">
                         <ul>

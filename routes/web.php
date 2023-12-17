@@ -28,6 +28,8 @@ Route::controller(IndexController::class)->group(function () {
     Route::get('/animeler', 'list')->name('anime_list');
     Route::get('/webtoonlar', 'list')->name('webtoon_list');
     Route::get('/calendar', 'calendar')->name('calendar');
+    Route::get('/animeCalendar', 'calendar')->name('anime_calendar');
+    Route::get('/webtoonCalendar', 'calendar')->name('anime_calendar');
 
     Route::get('/logout', 'logout')->name('logout');
 

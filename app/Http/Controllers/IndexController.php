@@ -453,39 +453,85 @@ class IndexController extends Controller
         return $this->loadThemeView('read', compact('webtoon', 'episode', 'webtoon_episodes', 'trend_webtoons', 'comments_main', 'comments_alt', 'next_episode_url', 'prev_episode_url', 'watched', 'files'));
     }
 
-    public function calendar()
+    public function calendar(Request $request)
     {
+        $path = $request->path();
+
         $currentDate = Carbon::now(); // Şu anki tarih ve saat
         $oneMonthLater = $currentDate->copy()->addMonth(); // 1 ay sonraki tarih
 
-        $anime_calendars = DB::table('anime_calendars')
-            ->join('animes', 'anime_calendars.anime_code', '=', 'animes.code')
-            ->select('anime_calendars.*', 'animes.name as anime_name', 'animes.image as anime_image')
-            ->Where('animes.deleted', 0)
-            ->Where('anime_calendars.deleted', 0)
-            ->where(function ($query) use ($currentDate, $oneMonthLater) {
-                $query->where(function ($innerQuery) use ($currentDate, $oneMonthLater) {
-                    $innerQuery->whereBetween('anime_calendars.first_date', [$currentDate, $oneMonthLater])
-                        ->orWhere('anime_calendars.end_date', '>', $currentDate);
-                });
-            })
-            ->get();
+        $anime_calendar_lists = [];
+        $webtoonn_calendar_lists = [];
+        $groupedAnimeCalendarLists = [];
+        $groupedWebtoonCalendarLists = [];
 
-        $webtoon_calendars = DB::table('webtoon_calendars')
-            ->join('webtoons', 'webtoon_calendars.webtoon_code', '=', 'webtoons.code')
-            ->select('webtoon_calendars.*', 'webtoons.name as webtoons_name', 'webtoons.image as webtoons_image')
-            ->Where('webtoons.deleted', 0)
-            ->Where('webtoon_calendars.deleted', 0)
-            ->where(function ($query) use ($currentDate, $oneMonthLater) {
-                $query->where(function ($innerQuery) use ($currentDate, $oneMonthLater) {
-                    $innerQuery->whereBetween('webtoon_calendars.first_date', [$currentDate, $oneMonthLater])
-                        ->orWhere('webtoon_calendars.end_date', '>', $currentDate);
-                });
-            })
-            ->get();
+        $showAnime = 0;
+        $showWebtoon = 0;
 
+        $currentDate = Carbon::now(); // Şu anki tarih ve saat
+        $oneMonthLater = $currentDate->copy()->addMonth(1);
+        $currentDate = Carbon::now()->subDay();
 
-        return $this->loadThemeView('calendar', compact('anime_calendars', 'webtoon_calendars'));
+        if ($path == 'calendar' || $path == 'animeCalendar') {
+            $showAnime = 1;
+            $anime_calendar_lists = DB::table('anime_calendar_lists')
+                ->Where('anime_calendars.deleted', 0)
+                ->Where('animes.deleted', 0)
+                ->whereBetween('anime_calendar_lists.date', [$currentDate, $oneMonthLater])
+                ->join('anime_calendars', 'anime_calendars.code', '=', 'anime_calendar_lists.anime_calendar_code')
+                ->join('animes', 'animes.code', '=', 'anime_calendars.anime_code')
+                ->select(
+                    'animes.name as anime_name',
+                    'animes.code as anime_code',
+                    'animes.image as anime_image',
+                    'anime_calendars.code as anime_calendar_code',
+                    'anime_calendars.description as anime_calendar_description',
+                    'anime_calendars.first_date as anime_calendar_first_date',
+                    'anime_calendars.cycle_type as anime_calendar_cycle_type',
+                    'anime_calendars.special_type as anime_calendar_special_type',
+                    'anime_calendars.special_count as anime_calendar_special_count',
+                    'anime_calendars.end_date as anime_calendar_end_date',
+                    'anime_calendars.background_color as anime_calendar_background_color',
+                    'anime_calendar_lists.code as anime_calendar_lists_code',
+                    'anime_calendar_lists.calendar_order as anime_calendar_list_calendar_order',
+                    'anime_calendar_lists.date as anime_calendar_list_date'
+                )
+                ->orderBy('anime_calendar_lists.date', 'ASC')
+                ->get();
+
+            $groupedAnimeCalendarLists = $anime_calendar_lists->groupBy('anime_calendar_list_date');
+        }
+
+        if ($path == 'calendar' || $path == 'webtoonCalendar') {
+            $showWebtoon = 1;
+            $webtoonn_calendar_lists = DB::table('webtoon_calendar_lists')
+                ->Where('webtoon_calendars.deleted', 0)
+                ->Where('webtoons.deleted', 0)
+                ->whereBetween('webtoon_calendar_lists.date', [$currentDate, $oneMonthLater])
+                ->join('webtoon_calendars', 'webtoon_calendars.code', '=', 'webtoon_calendar_lists.webtoon_calendar_code')
+                ->join('webtoons', 'webtoons.code', '=', 'webtoon_calendars.webtoon_code')
+                ->select(
+                    'webtoons.name as webtoon_name',
+                    'webtoons.code as webtoon_code',
+                    'webtoons.image as webtoon_image',
+                    'webtoon_calendars.code as webtoon_calendar_code',
+                    'webtoon_calendars.description as webtoon_calendar_description',
+                    'webtoon_calendars.first_date as webtoon_calendar_first_date',
+                    'webtoon_calendars.cycle_type as webtoon_calendar_cycle_type',
+                    'webtoon_calendars.special_type as webtoon_calendar_special_type',
+                    'webtoon_calendars.special_count as webtoon_calendar_special_count',
+                    'webtoon_calendars.end_date as webtoon_calendar_end_date',
+                    'webtoon_calendars.background_color as webtoon_calendar_background_color',
+                    'webtoon_calendar_lists.calendar_order as webtoon_calendar_list_calendar_order',
+                    'webtoon_calendar_lists.date as webtoon_calendar_list_date'
+                )
+                ->orderBy('webtoon_calendar_lists.date', 'ASC')
+                ->get();
+
+            $groupedWebtoonCalendarLists = $webtoonn_calendar_lists->groupBy('webtoon_calendar_list_date');
+        }
+
+        return $this->loadThemeView('calendar', compact('anime_calendar_lists', 'groupedAnimeCalendarLists', 'showAnime', 'webtoonn_calendar_lists', 'groupedWebtoonCalendarLists', 'showWebtoon'));
     }
 
     public function showPage(Request $request)

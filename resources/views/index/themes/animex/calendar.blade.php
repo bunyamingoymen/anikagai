@@ -101,316 +101,115 @@
                             </div>
                         </div>
                         <ul class="nav nav-tabs">
-
-                            <li class="nav-item">
-                                <a class="nav-link active active_tab_button" id="anime_calendar" aria-current="page"
-                                    href="javascript:;" onclick="selectTab('anime_calendar','anime_calendar_tab')"
-                                    data-bs-target="#anime_calendar_tab">Anime Takvimi</a>
-                            </li>
-
-                            <li class="nav-item">
-                                <a class="nav-link" id="webtoon_calendar" href="javascript:;" style="color:white;"
-                                    onclick="selectTab('webtoon_calendar','webtoon_calendar_tab')"
-                                    data-bs-target="#webtoon_calendar_tab">Webtoon Takvimi</a>
-                            </li>
+                            @if ($data['anime_active']->value == 1 && $showAnime == 1)
+                                <li class="nav-item">
+                                    <a class="nav-link active active_tab_button" id="anime_calendar" aria-current="page"
+                                        href="javascript:;" onclick="selectTab('anime_calendar','anime_calendar_tab')"
+                                        data-bs-target="#anime_calendar_tab">Anime Takvimi</a>
+                                </li>
+                            @endif
+                            @if ($data['webtoon_active']->value == 1 && $showWebtoon == 1)
+                                <li class="nav-item">
+                                    <a class="nav-link {{ !($data['anime_active']->value == 1 && $showAnime == 1) ? 'active active_tab_button' : '' }}"
+                                        id="webtoon_calendar" href="javascript:;"
+                                        style="{{ $data['anime_active']->value == 1 && $showAnime == 1 ? 'color:white;' : '' }}"
+                                        onclick="selectTab('webtoon_calendar','webtoon_calendar_tab')"
+                                        data-bs-target="#webtoon_calendar_tab">Webtoon Takvimi</a>
+                                </li>
+                            @endif
                         </ul>
                         <div class="tab-content" id="myTabContent">
-                            <div class="tab-pane fade show active active_tab" id="anime_calendar_tab" role="tabpanel"
-                                aria-labelledby="favorite_animes_tab">
-                                <div class="col-lg-12 mt-5">
-                                    <div class="product__page__content">
-                                        <div class="row">
+                            @if ($data['anime_active']->value == 1 && $showAnime == 1)
+                                <div class="tab-pane fade show active active_tab" id="anime_calendar_tab" role="tabpanel"
+                                    aria-labelledby="favorite_animes_tab">
+                                    <div class="col-lg-12 mt-5">
+                                        <div class="product__page__content">
+                                            <div class="row">
 
-                                            <div class="">
-                                                <div class="product__item">
-                                                    <div class="col-lg-4 product__item__text calendar-text">
-                                                        <h5 class="">
-                                                            <a>25 Aralık</a>
-                                                        </h5>
+                                                <div class="">
+                                                    @foreach ($groupedAnimeCalendarLists as $date => $group)
+                                                        <div class="product__item">
+                                                            <div class="col-lg-4 product__item__text calendar-text">
+                                                                <h5 class="">
+                                                                    <a class="specialDates">{{ $date }}</a>
+                                                                </h5>
 
-                                                    </div>
-                                                    <div class="row" style="margin-left: 150px;">
-                                                        <div class="product__item__text row">
-                                                            <div>
-                                                                <img src="../../../files/animes/animesImages/2.jpg"
-                                                                    alt=""
-                                                                    style="width: 30px; height: 30px; margin-top: 10px; margin-bottom: 10px; overflow: hidden;  border-radius: 8px;">
                                                             </div>
-                                                            <div>
-                                                                <h5 style="font-size: 16px; ">
-                                                                    Tokyo Ghoul <span
-                                                                        style="font-size: 14px; color:#a0a0a0"> 1.sezon
-                                                                        1.Bölüm</span>
-                                                                </h5>
-                                                            </div>
-                                                        </div>
-                                                        <div class="product__item__text row">
-                                                            <div>
-                                                                <img src="../../../files/animes/animesImages/2.jpg"
-                                                                    alt=""
-                                                                    style="width: 30px; height: 30px; margin-top: 10px; margin-bottom: 10px; overflow: hidden;  border-radius: 8px;">
-                                                            </div>
-                                                            <div>
-                                                                <h5 style="font-size: 16px; ">
-                                                                    Tokyo Ghoul <span
-                                                                        style="font-size: 14px; color:#a0a0a0"> 1.sezon
-                                                                        1.Bölüm</span>
-                                                                </h5>
+                                                            <div class="row" style="margin-left: 150px;">
+                                                                @foreach ($group as $item)
+                                                                    <div class="product__item__text row">
+                                                                        <div>
+                                                                            <img src="../../../{{ $item->anime_image }}"
+                                                                                alt=""
+                                                                                style="width: 30px; height: 30px; margin-top: 10px; margin-bottom: 10px; overflow: hidden;  border-radius: 8px;">
+                                                                        </div>
+                                                                        <div>
+                                                                            <h5 style="font-size: 16px; ">
+                                                                                {{ $item->anime_name }} <span
+                                                                                    style="font-size: 14px; color:#a0a0a0">
+                                                                                    {{ $item->anime_calendar_description }}</span>
+                                                                            </h5>
+                                                                        </div>
+                                                                    </div>
+                                                                @endforeach
                                                             </div>
                                                         </div>
-                                                        <div class="product__item__text row">
-                                                            <div>
-                                                                <img src="../../../files/animes/animesImages/2.jpg"
-                                                                    alt=""
-                                                                    style="width: 30px; height: 30px; margin-top: 10px; margin-bottom: 10px; overflow: hidden;  border-radius: 8px;">
-                                                            </div>
-                                                            <div>
-                                                                <h5 style="font-size: 16px; ">
-                                                                    Tokyo Ghoul <span
-                                                                        style="font-size: 14px; color:#a0a0a0"> 1.sezon
-                                                                        1.Bölüm</span>
-                                                                </h5>
-                                                            </div>
-                                                        </div>
-                                                        <div class="product__item__text row">
-                                                            <div>
-                                                                <img src="../../../files/animes/animesImages/2.jpg"
-                                                                    alt=""
-                                                                    style="width: 30px; height: 30px; margin-top: 10px; margin-bottom: 10px; overflow: hidden;  border-radius: 8px;">
-                                                            </div>
-                                                            <div>
-                                                                <h5 style="font-size: 16px; ">
-                                                                    Tokyo Ghoul <span
-                                                                        style="font-size: 14px; color:#a0a0a0"> 1.sezon
-                                                                        1.Bölüm</span>
-                                                                </h5>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="product__item">
-                                                    <div class="col-lg-4 product__item__text calendar-text">
-                                                        <h5 class="">
-                                                            <a>25 Aralık</a>
-                                                        </h5>
-
-                                                    </div>
-                                                    <div class="row" style="margin-left: 150px;">
-                                                        <div class="product__item__text row">
-                                                            <div>
-                                                                <img src="../../../files/animes/animesImages/2.jpg"
-                                                                    alt=""
-                                                                    style="width: 30px; height: 30px; margin-top: 10px; margin-bottom: 10px; overflow: hidden;  border-radius: 8px;">
-                                                            </div>
-                                                            <div>
-                                                                <h5 style="font-size: 16px; ">
-                                                                    Tokyo Ghoul <span
-                                                                        style="font-size: 14px; color:#a0a0a0"> 1.sezon
-                                                                        1.Bölüm</span>
-                                                                </h5>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="product__item__text row">
-                                                            <div>
-                                                                <img src="../../../files/animes/animesImages/2.jpg"
-                                                                    alt=""
-                                                                    style="width: 30px; height: 30px; margin-top: 10px; margin-bottom: 10px; overflow: hidden;  border-radius: 8px;">
-                                                            </div>
-                                                            <div>
-                                                                <h5 style="font-size: 16px; ">
-                                                                    Tokyo Ghoul <span
-                                                                        style="font-size: 14px; color:#a0a0a0"> 1.sezon
-                                                                        1.Bölüm</span>
-                                                                </h5>
-                                                            </div>
-                                                        </div>
-                                                        <div class="product__item__text row">
-                                                            <div>
-                                                                <img src="../../../files/animes/animesImages/2.jpg"
-                                                                    alt=""
-                                                                    style="width: 30px; height: 30px; margin-top: 10px; margin-bottom: 10px; overflow: hidden;  border-radius: 8px;">
-                                                            </div>
-                                                            <div>
-                                                                <h5 style="font-size: 16px; ">
-                                                                    Tokyo Ghoul <span
-                                                                        style="font-size: 14px; color:#a0a0a0"> 1.sezon
-                                                                        1.Bölüm</span>
-                                                                </h5>
-                                                            </div>
-                                                        </div>
-                                                        <div class="product__item__text row">
-                                                            <div>
-                                                                <img src="../../../files/animes/animesImages/2.jpg"
-                                                                    alt=""
-                                                                    style="width: 30px; height: 30px; margin-top: 10px; margin-bottom: 10px; overflow: hidden;  border-radius: 8px;">
-                                                            </div>
-                                                            <div>
-                                                                <h5 style="font-size: 16px; ">
-                                                                    Tokyo Ghoul <span
-                                                                        style="font-size: 14px; color:#a0a0a0"> 1.sezon
-                                                                        1.Bölüm</span>
-                                                                </h5>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                    @endforeach
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="tab-pane fade show active active_tab" id="webtoon_calendar_tab" role="tabpanel"
-                                aria-labelledby="favorite_animes_tab">
-                                <div class="col-lg-12 mt-5">
-                                    <div class="product__page__content">
-                                        <div class="row">
+                            @endif
+                            @if ($data['webtoon_active']->value == 1 && $showWebtoon == 1)
+                                <div class="tab-pane fade {{ !($data['webtoon_active']->value == 1 && $showWebtoon == 1) ? 'show active active_tab' : '' }}"
+                                    id="webtoon_calendar_tab" role="tabpanel" aria-labelledby="favorite_animes_tab">
+                                    <div class="col-lg-12 mt-5">
+                                        <div class="product__page__content">
+                                            <div class="row">
 
-                                            <div class="">
-                                                <div class="product__item">
-                                                    <div class="col-lg-4 product__item__text calendar-text">
-                                                        <h5 class="">
-                                                            <a>26 Aralık</a>
-                                                        </h5>
+                                                <div class="">
+                                                    @foreach ($groupedWebtoonCalendarLists as $date => $group)
+                                                        <div class="product__item">
+                                                            <div class="col-lg-4 product__item__text calendar-text">
+                                                                <h5 class="">
+                                                                    <a class="specialDates">{{ $date }}</a>
+                                                                </h5>
 
-                                                    </div>
-                                                    <div class="row" style="margin-left: 150px;">
-                                                        <div class="product__item__text row">
-                                                            <div>
-                                                                <img src="../../../files/animes/animesImages/3.jpg"
-                                                                    alt=""
-                                                                    style="width: 30px; height: 30px; margin-top: 10px; margin-bottom: 10px; overflow: hidden;  border-radius: 8px;">
                                                             </div>
-                                                            <div>
-                                                                <h5 style="font-size: 16px; ">
-                                                                    Tokyo Ghoul <span
-                                                                        style="font-size: 14px; color:#a0a0a0"> 1.sezon
-                                                                        1.Bölüm</span>
-                                                                </h5>
-                                                            </div>
-                                                        </div>
-                                                        <div class="product__item__text row">
-                                                            <div>
-                                                                <img src="../../../files/animes/animesImages/3.jpg"
-                                                                    alt=""
-                                                                    style="width: 30px; height: 30px; margin-top: 10px; margin-bottom: 10px; overflow: hidden;  border-radius: 8px;">
-                                                            </div>
-                                                            <div>
-                                                                <h5 style="font-size: 16px; ">
-                                                                    Tokyo Ghoul <span
-                                                                        style="font-size: 14px; color:#a0a0a0"> 1.sezon
-                                                                        1.Bölüm</span>
-                                                                </h5>
+                                                            <div class="row" style="margin-left: 150px;">
+                                                                @foreach ($group as $item)
+                                                                    <div class="product__item__text row">
+                                                                        <div>
+                                                                            <img src="../../../{{ $item->webtoon_image }}"
+                                                                                alt=""
+                                                                                style="width: 30px; height: 30px; margin-top: 10px; margin-bottom: 10px; overflow: hidden;  border-radius: 8px;">
+                                                                        </div>
+                                                                        <div>
+                                                                            <h5 style="font-size: 16px; ">
+                                                                                {{ $item->webtoon_name }} <span
+                                                                                    style="font-size: 14px; color:#a0a0a0">
+                                                                                    {{ $item->webtoon_calendar_description }}</span>
+                                                                            </h5>
+                                                                        </div>
+                                                                    </div>
+                                                                @endforeach
                                                             </div>
                                                         </div>
-                                                        <div class="product__item__text row">
-                                                            <div>
-                                                                <img src="../../../files/animes/animesImages/3.jpg"
-                                                                    alt=""
-                                                                    style="width: 30px; height: 30px; margin-top: 10px; margin-bottom: 10px; overflow: hidden;  border-radius: 8px;">
-                                                            </div>
-                                                            <div>
-                                                                <h5 style="font-size: 16px; ">
-                                                                    Tokyo Ghoul <span
-                                                                        style="font-size: 14px; color:#a0a0a0"> 1.sezon
-                                                                        1.Bölüm</span>
-                                                                </h5>
-                                                            </div>
-                                                        </div>
-                                                        <div class="product__item__text row">
-                                                            <div>
-                                                                <img src="../../../files/animes/animesImages/3.jpg"
-                                                                    alt=""
-                                                                    style="width: 30px; height: 30px; margin-top: 10px; margin-bottom: 10px; overflow: hidden;  border-radius: 8px;">
-                                                            </div>
-                                                            <div>
-                                                                <h5 style="font-size: 16px; ">
-                                                                    Tokyo Ghoul <span
-                                                                        style="font-size: 14px; color:#a0a0a0"> 1.sezon
-                                                                        1.Bölüm</span>
-                                                                </h5>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="product__item">
-                                                    <div class="col-lg-4 product__item__text calendar-text">
-                                                        <h5 class="">
-                                                            <a>27 Aralık</a>
-                                                        </h5>
-
-                                                    </div>
-                                                    <div class="row" style="margin-left: 150px;">
-                                                        <div class="product__item__text row">
-                                                            <div>
-                                                                <img src="../../../files/animes/animesImages/4.jpg"
-                                                                    alt=""
-                                                                    style="width: 30px; height: 30px; margin-top: 10px; margin-bottom: 10px; overflow: hidden;  border-radius: 8px;">
-                                                            </div>
-                                                            <div>
-                                                                <h5 style="font-size: 16px; ">
-                                                                    Tokyo Ghoul <span
-                                                                        style="font-size: 14px; color:#a0a0a0"> 1.sezon
-                                                                        1.Bölüm</span>
-                                                                </h5>
-                                                            </div>
-                                                        </div>
-
-                                                        <div class="product__item__text row">
-                                                            <div>
-                                                                <img src="../../../files/animes/animesImages/4.jpg"
-                                                                    alt=""
-                                                                    style="width: 30px; height: 30px; margin-top: 10px; margin-bottom: 10px; overflow: hidden;  border-radius: 8px;">
-                                                            </div>
-                                                            <div>
-                                                                <h5 style="font-size: 16px; ">
-                                                                    Tokyo Ghoul <span
-                                                                        style="font-size: 14px; color:#a0a0a0"> 1.sezon
-                                                                        1.Bölüm</span>
-                                                                </h5>
-                                                            </div>
-                                                        </div>
-                                                        <div class="product__item__text row">
-                                                            <div>
-                                                                <img src="../../../files/animes/animesImages/24.jpg"
-                                                                    alt=""
-                                                                    style="width: 30px; height: 30px; margin-top: 10px; margin-bottom: 10px; overflow: hidden;  border-radius: 8px;">
-                                                            </div>
-                                                            <div>
-                                                                <h5 style="font-size: 16px; ">
-                                                                    Tokyo Ghoul <span
-                                                                        style="font-size: 14px; color:#a0a0a0"> 1.sezon
-                                                                        1.Bölüm</span>
-                                                                </h5>
-                                                            </div>
-                                                        </div>
-                                                        <div class="product__item__text row">
-                                                            <div>
-                                                                <img src="../../../files/animes/animesImages/4.jpg"
-                                                                    alt=""
-                                                                    style="width: 30px; height: 30px; margin-top: 10px; margin-bottom: 10px; overflow: hidden;  border-radius: 8px;">
-                                                            </div>
-                                                            <div>
-                                                                <h5 style="font-size: 16px; ">
-                                                                    Tokyo Ghoul <span
-                                                                        style="font-size: 14px; color:#a0a0a0"> 1.sezon
-                                                                        1.Bölüm</span>
-                                                                </h5>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                    @endforeach
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+    <!--Tab değiştirme-->
     <script>
         function selectTab(id, tab_id) {
             document.getElementsByClassName('active_tab_button')[0].style.color = "white";
@@ -428,6 +227,38 @@
             document.getElementById(tab_id).classList.add('show');
             document.getElementById(tab_id).classList.add('active');
             document.getElementById(tab_id).classList.add('active_tab');
+        }
+    </script>
+
+    <!--Tarih  Ayarlama-->
+    <script>
+        var dates = document.getElementsByClassName('specialDates');
+
+        for (var i = 0; i < dates.length; i++) {
+            var text = dates[i].innerText.split('-');
+            dates[i].innerText = getDate(text[0], text[1], text[2]);
+        }
+
+        function getDate(year, month, day) {
+            return day + " " + getMonth(month) + " " + year
+        }
+
+        function getMonth(month) {
+
+            if (month == 1) return "Ocak";
+            else if (month == 2) return "Şubat";
+            else if (month == 3) return "Mart";
+            else if (month == 4) return "Nisan";
+            else if (month == 5) return "Mayıs";
+            else if (month == 6) return "Haziran";
+            else if (month == 7) return "Temmuz";
+            else if (month == 8) return "Ağustos";
+            else if (month == 9) return "Eylül";
+            else if (month == 10) return "Ekim";
+            else if (month == 11) return "Kasım";
+            else if (month == 12) return "Aralık";
+            else return "HATA";
+
         }
     </script>
 @endsection
