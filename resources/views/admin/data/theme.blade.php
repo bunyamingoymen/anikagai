@@ -52,10 +52,6 @@
             </div>
         </div>
 
-
-        <select name="colors[]" id="" multiple>
-            <option value=""></option>
-        </select>
         <!-- JAVASCRIPT -->
         <script src="../../../admin/assets/libs/jquery/jquery.min.js"></script>
 
@@ -89,15 +85,11 @@
                                 <select name="colors[]" id="" multiple>
                             `
 
-                var colors = documentçgetElementsByClassName('colors');
-                var colorOne = document.getElementById('hexcolorColorOne');
-                var colorTwo = document.getElementById('hexcolorColorTwo');
-                var colorThree = document.getElementById('hexcolorColorOne');
+                var colors = document.getElementsByClassName('hexcolors');
 
                 for (let i = 0; i < colors.length; i++) {
-                    const element = colors[i];
+                    const element = colors[i].value.replace('#', '');
                     html += `<option value="` + element + `" selected></option>`;
-
                 }
 
                 html += `</select></form>`

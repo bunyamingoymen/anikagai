@@ -54,8 +54,8 @@ class DataController extends Controller
         $colors_code = ThemeSetting::where('theme_code', KeyValue::where('key', 'selected_theme')->first()->value)
             ->where('setting_name', 'colors_code')
             ->get();
-        if ($colors_code)
-            return redirect()->back()->with('error', Config::get('error.error_codes.0120512'));
+        if (!$colors_code)
+            return redirect()->back()->with('error', Config::get('error.error_codes.0120412'));
 
         foreach ($request->colors as $index => $item) {
             $color_code = ThemeSetting::where('theme_code', KeyValue::where('key', 'selected_theme')->first()->value)

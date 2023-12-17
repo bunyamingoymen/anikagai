@@ -100,7 +100,6 @@ return [
         '0120312' => 'Başlık Güncellenirken Bir Hata Meydana Geldi',
 
         '0120412' => 'Temanın Renkleri Değiştirilirken Bir Hata Meydana Geldi',
-        '0120512' => 'Herhangi Bir Değişiklik Yapılmadı',
 
         '0130012' => 'Bildirim Okundu Olarak İşaretlenirken Bir Hata Meydana Geldi',
 
