@@ -72,13 +72,29 @@
         }
 
         @media only screen and (max-width: 479px) {
+
+            .calendar-text {
+                width: 150px;
+            }
+
             .product__item .row .product__item__text {
-                width: 375px;
+                width: 100px;
+                height: 50px;
                 left: auto;
                 position: relative;
                 right: 40%;
                 margin-top: 10px;
                 display: block;
+            }
+
+            .product__item .row .product__item__text .divimg {
+                width: 10%;
+                position: absolute;
+            }
+
+            .product__item .row .product__item__text .divtext {
+                width: 80%;
+                margin-left: 10px;
             }
 
             .product__item .row .product__item__text img {
@@ -91,33 +107,41 @@
                 box-sizing: none;
             }
 
+            .product__item .row .product__item__text h5 {
+                line-height: 1;
+            }
+
+            .product__item .row .product__item__text .divtext .h5description {
+                display: none;
+            }
+
             /*
-                                                                    .product__item .row .product__item__text {
-                                                                        text-align: center;
-                                                                        background-color: var(--background-color);
-                                                                        padding: 0px;
-                                                                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                                                                        border: 2px solid var(--second-color);
-                                                                        border-radius: 10px;
+                                                                                                                                                                                        .product__item .row .product__item__text {
+                                                                                                                                                                                            text-align: center;
+                                                                                                                                                                                            background-color: var(--background-color);
+                                                                                                                                                                                            padding: 0px;
+                                                                                                                                                                                            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                                                                                                                                                                                            border: 2px solid var(--second-color);
+                                                                                                                                                                                            border-radius: 10px;
 
-                                                                    }
+                                                                                                                                                                                        }
 
-                                                                    .product__item .row .product__item__text img {
-                                                                        width: 20px;
-                                                                        height: 20px;
-                                                                        position: absolute;
-                                                                        overflow: hidden;
-                                                                        border-radius: 8px;
+                                                                                                                                                                                        .product__item .row .product__item__text img {
+                                                                                                                                                                                            width: 20px;
+                                                                                                                                                                                            height: 20px;
+                                                                                                                                                                                            position: absolute;
+                                                                                                                                                                                            overflow: hidden;
+                                                                                                                                                                                            border-radius: 8px;
 
-                                                                    }
+                                                                                                                                                                                        }
 
-                                                                    .product__item .row .product__item__text h5 {
-                                                                        text-align: center;
-                                                                        color: #fff;
-                                                                        line-height: 1;
-                                                                        margin-left: 20px;
-                                                                    }
-                                                                    */
+                                                                                                                                                                                        .product__item .row .product__item__text h5 {
+                                                                                                                                                                                            text-align: center;
+                                                                                                                                                                                            color: #fff;
+                                                                                                                                                                                            line-height: 1;
+                                                                                                                                                                                            margin-left: 20px;
+                                                                                                                                                                                        }
+                                                                                                                                                                                        */
         }
     </style>
 
@@ -189,13 +213,14 @@
                                                             <div class="row" style="margin-left: 150px;">
                                                                 @foreach ($group as $item)
                                                                     <div class="product__item__text row">
-                                                                        <div>
+                                                                        <div class="divimg">
                                                                             <img src="../../../{{ $item->anime_image }}"
                                                                                 alt="" style="">
                                                                         </div>
-                                                                        <div>
+                                                                        <div class="divtext">
                                                                             <h5 style="font-size: 16px; ">
                                                                                 {{ $item->anime_name }} <span
+                                                                                    class="h5description"
                                                                                     style="font-size: 14px; color:#a0a0a0">
                                                                                     {{ $item->anime_calendar_description }}</span>
                                                                             </h5>
@@ -230,12 +255,12 @@
                                                             <div class="row" style="margin-left: 150px;">
                                                                 @foreach ($group as $item)
                                                                     <div class="product__item__text row">
-                                                                        <div>
+                                                                        <div class="divimg">
                                                                             <img src="../../../{{ $item->webtoon_image }}"
                                                                                 alt=""
                                                                                 style="width: 30px; height: 30px; margin-top: 10px; margin-bottom: 10px; overflow: hidden;  border-radius: 8px;">
                                                                         </div>
-                                                                        <div>
+                                                                        <div class="divtext">
                                                                             <h5 style="font-size: 16px; ">
                                                                                 {{ $item->webtoon_name }} <span
                                                                                     style="font-size: 14px; color:#a0a0a0">
