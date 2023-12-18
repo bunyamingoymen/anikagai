@@ -232,7 +232,7 @@
 
                     Swal.fire({
                         title: "Yükleniyor..!",
-                        text: "Video Yüklenmeye Başladı. Lütfen Tamamlanana kadar bu sayfayı kapatmayınız!",
+                        text: "Webtoon Yüklenmeye Başladı. Lütfen Tamamlanana kadar bu sayfayı kapatmayınız!",
                         icon: "warning"
                     });
 

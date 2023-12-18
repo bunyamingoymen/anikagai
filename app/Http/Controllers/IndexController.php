@@ -206,6 +206,7 @@ class IndexController extends Controller
         $anime_episodes = AnimeEpisode::where('anime_code', $anime->code)
             ->where('publish_date', '<=', $currentTime)
             ->where('deleted', 0)
+            ->orderBy('episode_short', 'ASC')
             ->get();
 
         $followed = false;
@@ -262,6 +263,7 @@ class IndexController extends Controller
         $anime_episodes = AnimeEpisode::where('anime_code', $anime->code)
             ->where('publish_date', '<=', $currentTime)
             ->where('deleted', 0)
+            ->orderBy('episode_short', 'ASC')
             ->get();
         $content_type = 1; //anime olduğu için
         $comments_main = DB::table('comments')
@@ -302,8 +304,9 @@ class IndexController extends Controller
 
         if (!$prev_episode_control) {
             $prev_episode_control =
-                AnimeEpisode::Where("deleted", 0)->Where('season_short', intval(($request->season) - 1))->orderBy('episode_short', 'ASC')->first();
+                AnimeEpisode::Where("deleted", 0)->Where('season_short', intval(($request->season) - 1))->orderBy('episode_short', 'DESC')->first();
         }
+
 
         $prev_episode_url = $prev_episode_control ? "anime/" . $anime->short_name . "/" . $prev_episode_control->season_short . "/" . $prev_episode_control->episode_short : "none";
         //dd($next_episode_url);
@@ -328,6 +331,7 @@ class IndexController extends Controller
         $webtoon_episodes = WebtoonEpisode::Where('deleted', 0)
             ->where('webtoon_code', $webtoon->code)
             ->where('publish_date', '<=', $currentTime)
+            ->orderBy('episode_short', 'ASC')
             ->get();
 
 
@@ -396,6 +400,7 @@ class IndexController extends Controller
         $webtoon_episodes = WebtoonEpisode::where('webtoon_code', $webtoon->code)
             ->where('publish_date', '<=', $currentTime)
             ->where('deleted', 0)
+            ->orderBy('episode_short', 'ASC')
             ->get();
 
         $content_type = 0; //webtoon olduğu için
@@ -439,7 +444,7 @@ class IndexController extends Controller
 
         if (!$prev_episode_control) {
             $prev_episode_control =
-                WebtoonEpisode::Where("deleted", 0)->Where('season_short', intval(($request->season) - 1))->orderBy('episode_short', 'ASC')->first();
+                WebtoonEpisode::Where("deleted", 0)->Where('season_short', intval(($request->season) - 1))->orderBy('episode_short', 'DESC')->first();
         }
 
         $prev_episode_url = $prev_episode_control ? "webtoon/" . $webtoon->short_name . "/" . $prev_episode_control->season_short . "/" . $prev_episode_control->episode_short : "none";

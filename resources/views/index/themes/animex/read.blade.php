@@ -47,17 +47,61 @@
                 left: 0px;
             }
         }
+
+        .next-prev-button {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .next-prev-button div a {
+            background-color: #0b0c2a;
+            color: white;
+            border-radius: 10px;
+            padding: 4px 15px !important;
+
+            border: 2px solid rgba(175, 175, 175, 0.3);
+            box-shadow: 0 2px 10px #0b0c2a;
+            transition: opacity 0.5s ease, transform 0.1s ease, border 0.5s ease;
+            font-family: 'Roboto', sans-serif !important;
+            display: flex;
+            align-items: center;
+        }
+
+        .next-prev-button div a:hover {
+            border: 2px solid rgba(255, 255, 255, 0.8);
+        }
     </style>
 
     <section class="anime-details spad">
         <div class="container">
             <div class="row">
+
                 <div class="col-lg-12">
                     <div class="anime__details__review">
                         <div class="section-title" {{ $webtoon->plusEighteen == '0' ? 'hidden' : '' }}>
                             <h5 style="color:#e53637">+18</h5>
                         </div>
                     </div>
+                    @if ($prev_episode_url != 'none' || $next_episode_url != 'none')
+                        <div class="row mt-5 mb-5 next-prev-button">
+                            @if ($prev_episode_url != 'none')
+                                <div class="mr-4">
+                                    <a href="{{ url($prev_episode_url) }}">
+                                        <span class="arrow_left mr-2"></span>
+                                        Önceki Bölüme Geç
+                                    </a>
+                                </div>
+                            @endif
+                            @if ($next_episode_url != 'none')
+                                <div>
+                                    <a href="{{ url($next_episode_url) }}">
+                                        Sonraki Bölüme Geç
+                                        <span class="arrow_right ml-2"></span>
+                                    </a>
+                                </div>
+                            @endif
+                        </div>
+                    @endif
                     <div class="justify-content-center">
                         <div class="justify-content-center" style="position: relative;">
                             @foreach ($files as $item)
@@ -72,6 +116,26 @@
                             @endforeach
                         </div>
                     </div>
+                    @if ($prev_episode_url != 'none' || $next_episode_url != 'none')
+                        <div class="row mt-5 mb-5 next-prev-button">
+                            @if ($prev_episode_url != 'none')
+                                <div class="mr-4">
+                                    <a href="{{ url($prev_episode_url) }}">
+                                        <span class="arrow_left mr-2"></span>
+                                        Önceki Bölüme Geç
+                                    </a>
+                                </div>
+                            @endif
+                            @if ($next_episode_url != 'none')
+                                <div>
+                                    <a href="{{ url($next_episode_url) }}">
+                                        Sonraki Bölüme Geç
+                                        <span class="arrow_right ml-2"></span>
+                                    </a>
+                                </div>
+                            @endif
+                        </div>
+                    @endif
                 </div>
                 <div class="anime__details__episodes">
                     @if ($webtoon->season_count > 0)
@@ -213,7 +277,8 @@
                                     <a href="{{ url('webtoon/' . $item->short_name) }}">
                                         <div class="product__item__pic set-bg" data-setbg="../../../{{ $item->image }}">
                                             <div class="ep">{{ $item->score }} / 5</div>
-                                            <div class="comment"><i class="fa fa-comments"></i> {{ $item->comment_count }}
+                                            <div class="comment"><i class="fa fa-comments"></i>
+                                                {{ $item->comment_count }}
                                             </div>
                                             <div class="view"><i class="fa fa-eye"></i> {{ $item->click_count }} </div>
                                         </div>

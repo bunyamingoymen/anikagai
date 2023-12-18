@@ -8,7 +8,7 @@
 
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
         /* Roboto fontunu ekleyin veya
-                kendi tercih ettiğiniz bir font kullanabilirsiniz */
+                                                                                                                                                                                                                                                    kendi tercih ettiğiniz bir font kullanabilirsiniz */
 
         .overlay-button {
             position: absolute !important;
@@ -48,7 +48,33 @@
         .video-container:hover .overlay-button {
             display: block;
         }
+
+        .next-prev-button {
+            position: absolute;
+            left: 30px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .next-prev-button div a {
+            background-color: #0b0c2a;
+            color: white;
+            border-radius: 10px;
+            padding: 4px 15px !important;
+
+            border: 2px solid rgba(175, 175, 175, 0.3);
+            box-shadow: 0 2px 10px #0b0c2a;
+            transition: opacity 0.5s ease, transform 0.1s ease, border 0.5s ease;
+            font-family: 'Roboto', sans-serif !important;
+            display: flex;
+            align-items: center;
+        }
+
+        .next-prev-button div a:hover {
+            border: 2px solid rgba(255, 255, 255, 0.8);
+        }
     </style>
+
 
     <section class="anime-details spad">
         <div class="container">
@@ -73,7 +99,26 @@
                                 bölüme
                                 geç</button>
                         @endif
-
+                        @if ($prev_episode_url != 'none' || $next_episode_url != 'none')
+                            <div class="row mt-2 next-prev-button">
+                                @if ($prev_episode_url != 'none')
+                                    <div class="mr-4">
+                                        <a href="{{ url($prev_episode_url) }}">
+                                            <span class="arrow_left mr-2"></span>
+                                            Önceki Bölüme Geç
+                                        </a>
+                                    </div>
+                                @endif
+                                @if ($next_episode_url != 'none')
+                                    <div>
+                                        <a href="{{ url($next_episode_url) }}">
+                                            Sonraki Bölüme Geç
+                                            <span class="arrow_right ml-2"></span>
+                                        </a>
+                                    </div>
+                                @endif
+                            </div>
+                        @endif
                     </div>
                 </div>
                 <!--Bölümler-->
@@ -220,7 +265,8 @@
                                     <a href="anime/{{ $item->short_name }}">
                                         <div class="product__item__pic set-bg" data-setbg="../../../{{ $item->image }}">
                                             <div class="ep">{{ $item->score }} / 5</div>
-                                            <div class="comment"><i class="fa fa-comments"></i> {{ $item->comment_count }}
+                                            <div class="comment"><i class="fa fa-comments"></i>
+                                                {{ $item->comment_count }}
                                             </div>
                                             <div class="view"><i class="fa fa-eye"></i> {{ $item->click_count }} </div>
                                         </div>
@@ -229,7 +275,8 @@
                                         <ul>
                                             <li>{{ $item->main_category_name ?? 'Genel' }}</li>
                                         </ul>
-                                        <h5><a href="{{ url('anime/' . $item->short_name) }}">{{ $item->name }}</a></h5>
+                                        <h5><a href="{{ url('anime/' . $item->short_name) }}">{{ $item->name }}</a>
+                                        </h5>
                                     </div>
                                 </div>
                             </div>
