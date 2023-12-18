@@ -1851,6 +1851,16 @@ ol {
     content: "";
 }
 
+.login__form form .login_input input {
+    height: 50px !important;
+    width: 100% !important;
+    font-size: 15px !important;
+    color: #b7b7b7 !important;
+    background: #ffffff !important;
+    border: none !important;
+    padding-left: 55px !important;
+}
+
 .login__form form .input__item input {
     height: 50px;
     width: 250%;

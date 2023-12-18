@@ -24,11 +24,11 @@
                         <h3>Giriş Yap</h3>
                         <form action="{{ route('login') }}" method="POST">
                             @csrf
-                            <div class="input__item">
+                            <div class="input__item login_input">
                                 <input type="email" name="email" id="email" placeholder="E-mail Adresi *">
                                 <span class="icon_mail"></span>
                             </div>
-                            <div class="input__item">
+                            <div class="input__item login_input">
                                 <input type="password" name="password" id="password" placeholder="Şifre *">
                                 <span class="icon_lock"></span>
                             </div>
@@ -42,13 +42,13 @@
                         <h3>Kayıt Ol</h3>
                         <form action="{{ route('register') }}" method="POST" id="registerSubmitForm">
                             @csrf
-                            <div class="input__item">
+                            <div class="input__item login_input">
                                 <input type="text" name="name" id="registerName" placeholder="İsim *">
                                 <span class="icon_profile"></i></span>
                             </div>
                             <div class="input__item">
 
-                                <div>
+                                <div class="login_input">
                                     <input type="text" name="username" id="registerUsername"
                                         placeholder="Kullanıcı Adı *" onchange="controlUsername()">
                                     <span class="icon_profile"></span>
@@ -56,7 +56,7 @@
                                 <small id="controlUsernameText"></small>
                             </div>
                             <div class="input__item">
-                                <div>
+                                <div class="login_input">
                                     <input type="email" name="email" id="registerEmail" placeholder="E-mail *"
                                         onchange="controlEmail()">
                                     <span class="icon_mail"></span>
@@ -64,11 +64,11 @@
                                 <small id="controlEmailText"></small>
                             </div>
 
-                            <div class="input__item">
+                            <div class="input__item login_input">
                                 <input type="password" name="password" id="registerPassword" placeholder="Şifre *">
                                 <span class="icon_lock"></span>
                             </div>
-                            <div class="input__item">
+                            <div class="input__item login_input">
                                 <input type="password" name="password_repeat" id="registerPassword_repeat"
                                     placeholder="Şifre Tekrarı *">
                                 <span class="icon_lock"></span>
