@@ -8,12 +8,12 @@
             padding: 0px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border: 2px solid #414a4c;
-            ;
             border-radius: 10px;
             margin-top: 10px;
             padding-right: 10px;
             padding-left: 10px;
             margin-left: 10px;
+            width: 80%;
         }
 
         .calendar-text h5 {
@@ -55,6 +55,8 @@
             height: 30px;
             margin-top: 10px;
             margin-bottom: 10px;
+            overflow: hidden;
+            border-radius: 8px;
         }
 
         .calendar-text:hover {
@@ -67,6 +69,55 @@
 
         .product__item .row .product__item__text:hover {
             opacity: 0.7;
+        }
+
+        @media only screen and (max-width: 479px) {
+            .product__item .row .product__item__text {
+                width: 375px;
+                left: auto;
+                position: relative;
+                right: 40%;
+                margin-top: 10px;
+                display: block;
+            }
+
+            .product__item .row .product__item__text img {
+                width: 25px;
+                height: 25px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+                overflow: hidden;
+                border-radius: 8px;
+                box-sizing: none;
+            }
+
+            /*
+                                                                    .product__item .row .product__item__text {
+                                                                        text-align: center;
+                                                                        background-color: var(--background-color);
+                                                                        padding: 0px;
+                                                                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                                                                        border: 2px solid var(--second-color);
+                                                                        border-radius: 10px;
+
+                                                                    }
+
+                                                                    .product__item .row .product__item__text img {
+                                                                        width: 20px;
+                                                                        height: 20px;
+                                                                        position: absolute;
+                                                                        overflow: hidden;
+                                                                        border-radius: 8px;
+
+                                                                    }
+
+                                                                    .product__item .row .product__item__text h5 {
+                                                                        text-align: center;
+                                                                        color: #fff;
+                                                                        line-height: 1;
+                                                                        margin-left: 20px;
+                                                                    }
+                                                                    */
         }
     </style>
 
@@ -140,8 +191,7 @@
                                                                     <div class="product__item__text row">
                                                                         <div>
                                                                             <img src="../../../{{ $item->anime_image }}"
-                                                                                alt=""
-                                                                                style="width: 30px; height: 30px; margin-top: 10px; margin-bottom: 10px; overflow: hidden;  border-radius: 8px;">
+                                                                                alt="" style="">
                                                                         </div>
                                                                         <div>
                                                                             <h5 style="font-size: 16px; ">

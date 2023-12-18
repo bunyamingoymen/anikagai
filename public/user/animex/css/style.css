@@ -1841,7 +1841,7 @@ ol {
     margin-bottom: 20px;
 }
 
-.login__form form .input__item:before {
+.login__form form .inputcu:before {
     position: absolute;
     left: 50px;
     top: 10px;
@@ -1853,12 +1853,21 @@ ol {
 
 .login__form form .input__item input {
     height: 50px;
-    width: 100%;
+    width: 250%;
     font-size: 15px;
     color: #b7b7b7;
     background: #ffffff;
     border: none;
     padding-left: 55px;
+}
+
+.login__form form .input__item textarea {
+    width: 250%;
+    font-size: 15px;
+    color: #b7b7b7;
+    background: #ffffff;
+    border: none;
+    padding-left: 15px;
 }
 
 .login__form form .input__item input::-webkit-input-placeholder {
@@ -1895,94 +1904,6 @@ ol {
 }
 
 .login__form .forget_pass {
-    font-size: 15px;
-    color: #ffffff;
-    display: inline-block;
-    position: absolute;
-    right: 60px;
-    bottom: 12px;
-}
-
-.login__form3 {
-    position: relative;
-    padding-left: 145px;
-}
-
-.login__form3:after {
-    position: absolute;
-    right: -14px;
-    top: -40px;
-    height: 330px;
-    width: 1px;
-}
-
-.login__form3 h3 {
-    color: #ffffff;
-    font-weight: 700;
-    font-family: "Oswald", sans-serif;
-    margin-bottom: 30px;
-}
-
-.login__form3 form .input__item {
-    position: relative;
-    width: 370px;
-    margin-bottom: 20px;
-}
-
-.login__form3 form .input__item:before {
-    position: absolute;
-    left: 50px;
-    top: 10px;
-    height: 30px;
-    width: 1px;
-    background: #b7b7b7;
-    content: "";
-}
-
-.login__form3 form .input__item input {
-    height: 50px;
-    width: 250%;
-    font-size: 15px;
-    color: #b7b7b7;
-    background: #ffffff;
-    border: none;
-    padding-left: 55px;
-}
-
-.login__form3 form .input__item input::-webkit-input-placeholder {
-    color: #b7b7b7;
-}
-
-.login__form3 form .input__item input::-moz-placeholder {
-    color: #b7b7b7;
-}
-
-.login__form3 form .input__item input:-ms-input-placeholder {
-    color: #b7b7b7;
-}
-
-.login__form3 form .input__item input::-ms-input-placeholder {
-    color: #b7b7b7;
-}
-
-.login__form3 form .input__item input::placeholder {
-    color: #b7b7b7;
-}
-
-.login__form3 form .input__item span {
-    color: #b7b7b7;
-    font-size: 20px;
-    position: absolute;
-    left: 15px;
-    top: 13px;
-}
-
-.login__form3 form button {
-    border-radius: 0;
-    margin-top: 10px;
-}
-
-.login__form3 .forget_pass {
     font-size: 15px;
     color: #ffffff;
     display: inline-block;
@@ -2529,5 +2450,23 @@ ol {
     }
     .anime__review__item__text {
         padding: 18px 20px 20px;
+    }
+
+    .login__form form .input__item input {
+        width: 100%;
+        font-size: 15px;
+        color: #b7b7b7;
+        background: #ffffff;
+        border: none;
+        padding-left: 55px;
+    }
+
+    .login__form form .input__item textarea {
+        width: 100%;
+        font-size: 15px;
+        color: #b7b7b7;
+        background: #ffffff;
+        border: none;
+        padding-left: 15px;
     }
 }
