@@ -38,8 +38,8 @@
                                 <div class="row">
                                     <div class="col-lg-6 col-md-6">
                                         <ul>
-                                            <li><span>Takip Ettiği Animeler:</span> {{ count($follow_animes) }}</li>
-                                            <li><span>Takip Ettiği Webtoonlar:</span> {{ count($follow_webtoons) }}</li>
+                                            <li><span>Takip Edilen Animeler:</span> {{ count($follow_animes) }}</li>
+                                            <li><span>Takip Edilen Webtoonlar:</span> {{ count($follow_webtoons) }}</li>
                                         </ul>
                                     </div>
                                     <div class="col-lg-6 col-md-6">

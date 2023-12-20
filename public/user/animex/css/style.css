@@ -2217,7 +2217,7 @@ ol {
         text-align: center;
     }
     .anime__details__widget ul li span {
-        width: 90px;
+        width: 150px;
     }
     .anime__details__pic {
         margin-bottom: 40px;
@@ -2405,7 +2405,7 @@ ol {
         margin-bottom: 25px;
     }
     .anime__details__widget ul li span {
-        width: 85px;
+        width: 150px;
     }
     .anime__video__player .plyr__volume {
         left: 176px;

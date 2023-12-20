@@ -8,7 +8,7 @@
 
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
         /* Roboto fontunu ekleyin veya
-                                                                                                                                                                                                                                                    kendi tercih ettiğiniz bir font kullanabilirsiniz */
+                                                                                                                                                                                                                                                        kendi tercih ettiğiniz bir font kullanabilirsiniz */
 
         .overlay-button {
             position: absolute !important;
@@ -72,6 +72,12 @@
 
         .next-prev-button div a:hover {
             border: 2px solid rgba(255, 255, 255, 0.8);
+        }
+
+        @media only screen and (max-width: 479px) {
+            .next-prev-button div a {
+                font-size: 14px;
+            }
         }
     </style>
 

@@ -71,6 +71,11 @@
             opacity: 0.7;
         }
 
+        .product__item .row .product__item__text .divtext .h5description {
+            font-size: 14px;
+            color: #a0a0a0;
+        }
+
         @media only screen and (max-width: 479px) {
 
             .calendar-text {
@@ -78,7 +83,7 @@
             }
 
             .product__item .row .product__item__text {
-                width: 100px;
+                width: 250px;
                 height: 50px;
                 left: auto;
                 position: relative;
@@ -109,39 +114,15 @@
 
             .product__item .row .product__item__text h5 {
                 line-height: 1;
+                text-align: center;
+                position: absolute;
+                top: 25%;
+                left: 25%;
             }
 
             .product__item .row .product__item__text .divtext .h5description {
                 display: none;
             }
-
-            /*
-                                                                                                                                                                                        .product__item .row .product__item__text {
-                                                                                                                                                                                            text-align: center;
-                                                                                                                                                                                            background-color: var(--background-color);
-                                                                                                                                                                                            padding: 0px;
-                                                                                                                                                                                            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                                                                                                                                                                                            border: 2px solid var(--second-color);
-                                                                                                                                                                                            border-radius: 10px;
-
-                                                                                                                                                                                        }
-
-                                                                                                                                                                                        .product__item .row .product__item__text img {
-                                                                                                                                                                                            width: 20px;
-                                                                                                                                                                                            height: 20px;
-                                                                                                                                                                                            position: absolute;
-                                                                                                                                                                                            overflow: hidden;
-                                                                                                                                                                                            border-radius: 8px;
-
-                                                                                                                                                                                        }
-
-                                                                                                                                                                                        .product__item .row .product__item__text h5 {
-                                                                                                                                                                                            text-align: center;
-                                                                                                                                                                                            color: #fff;
-                                                                                                                                                                                            line-height: 1;
-                                                                                                                                                                                            margin-left: 20px;
-                                                                                                                                                                                        }
-                                                                                                                                                                                        */
         }
     </style>
 
@@ -220,8 +201,7 @@
                                                                         <div class="divtext">
                                                                             <h5 style="font-size: 16px; ">
                                                                                 {{ $item->anime_name }} <span
-                                                                                    class="h5description"
-                                                                                    style="font-size: 14px; color:#a0a0a0">
+                                                                                    class="h5description">
                                                                                     {{ $item->anime_calendar_description }}</span>
                                                                             </h5>
                                                                         </div>
@@ -263,7 +243,7 @@
                                                                         <div class="divtext">
                                                                             <h5 style="font-size: 16px; ">
                                                                                 {{ $item->webtoon_name }} <span
-                                                                                    style="font-size: 14px; color:#a0a0a0">
+                                                                                    class="h5description">
                                                                                     {{ $item->webtoon_calendar_description }}</span>
                                                                             </h5>
                                                                         </div>

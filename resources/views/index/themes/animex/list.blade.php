@@ -29,7 +29,7 @@
                                         <h4>{{ $title }} <span id="mainTitleID" style="color:red;"></span></h4>
                                     </div>
                                 </div>
-                                <div class="col-lg-3 col-md-3 col-sm-6">
+                                <div class="col-lg-3 col-md-3 col-sm-6 mt-2">
                                     <div class="product__page__filter">
                                         <p>Kategoriler:</p>
                                         <select class="" id="categorySelected" onchange="changeCategory()">
@@ -43,7 +43,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="col-lg-3 col-md-3 col-sm-4">
+                                <div class="col-lg-3 col-md-3 col-sm-4 mt-2">
                                     <div class="product__page__filter">
                                         <p>Sırala:</p>
                                         <select class="" id="orderBySelected" onchange="changeOrderBy()">

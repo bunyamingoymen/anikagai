@@ -35,19 +35,6 @@
             left: 10%;
         }
 
-        @media only screen and (max-width: 479px) {
-            .overlay-button {
-                opacity: 0;
-                display: none;
-            }
-
-            .webtoon-image {
-                width: 100%;
-                position: relative;
-                left: 0px;
-            }
-        }
-
         .next-prev-button {
             display: flex;
             justify-content: space-between;
@@ -70,7 +57,28 @@
         .next-prev-button div a:hover {
             border: 2px solid rgba(255, 255, 255, 0.8);
         }
+
+        @media only screen and (max-width: 479px) {
+            .overlay-button {
+                opacity: 0;
+                display: none;
+            }
+
+            .webtoon-image {
+                width: 100%;
+                position: relative;
+                left: 0px;
+            }
+
+            .next-prev-button div a {
+                font-size: 14px;
+            }
+        }
     </style>
+
+    <link rel="stylesheet" href="https://unpkg.com/viewerjs@1.10.0/dist/viewer.min.css">
+    <script src="https://unpkg.com/viewerjs@1.10.0/dist/viewer.min.js"></script>
+    <script src="../../../user/animex/js/jquery-3.3.1.min.js"></script>
 
     <section class="anime-details spad">
         <div class="container">
@@ -106,12 +114,15 @@
                         <div class="justify-content-center" style="position: relative;">
                             @foreach ($files as $item)
                                 @if ($item->file_type == 'pdf')
-                                    <iframe id="myIframe" src="../../../{{ $item->file }}"
-                                        style="max-width: 100%; min-width: 100%; height:800px;" frameborder="0"
-                                        allowfullscreen></iframe>
+                                    <div class="pdf-viewer">
+                                        <iframe id="pdfViewer" src = "../../../{{ $item->file }}"
+                                            style="max-width: 100%; min-width: 100%; height:800px;" allowfullscreen
+                                            webkitallowfullscreen></iframe>
+                                    </div>
                                     <button onclick="toggleFullScreen()" class="overlay-button">Tam Ekran</button>
                                 @else
-                                    <img src="../../../{{ $item->file }}" alt="{{ $item->code }}" class="webtoon-image">
+                                    <img class="fileViewer" src="../../../{{ $item->file }}" alt="{{ $item->code }}"
+                                        class="webtoon-image">
                                 @endif
                             @endforeach
                         </div>
@@ -298,9 +309,18 @@
             </div>
         </div>
     </section>
+    <!--PDF Ayarları-->
     <script>
+        const viewer = new Viewer(document.getElementById('pdfViewer'), {
+            inline: true,
+            viewed() {
+                viewer.zoomTo(1);
+            },
+        });
+
+
         function toggleFullScreen() {
-            var iframe = document.getElementById('myIframe');
+            var iframe = document.getElementById('pdfViewer');
             if (!document.fullscreenElement) {
                 iframe.requestFullscreen();
             } else {
