@@ -257,7 +257,12 @@ class IndexController extends Controller
         if (!$anime || $anime->showStatus == 4 || (!Auth::user() && ($anime->showStatus == 1 || $anime->showStatus == 2)))
             abort(404);
 
-        $episode = AnimeEpisode::Where("deleted", 0)->Where('season_short', $request->season)->Where('episode_short', $request->episode)->first();
+        $episode = AnimeEpisode::Where("deleted", 0)->where('anime_code', $anime->code)->Where('season_short', $request->season)->Where('episode_short', $request->episode)->first();
+
+        if (!$episode) {
+            abort(404);
+        }
+
         $trend_animes = $this->getTrendContent(Anime::class, $anime->main_category, $this->sendShowStatus(1), 6, 'click_count');
         $currentTime = Carbon::now();
         $anime_episodes = AnimeEpisode::where('anime_code', $anime->code)
@@ -289,7 +294,7 @@ class IndexController extends Controller
             ->get();
         $next_episode_url = "none";
         $next_episode_control =
-            AnimeEpisode::Where("deleted", 0)->Where('season_short', $request->season)->Where('episode_short', (intval($request->episode) + 1))->first();
+            AnimeEpisode::Where("deleted", 0)->where('anime_code', $anime->code)->Where('season_short', $request->season)->Where('episode_short', (intval($request->episode) + 1))->first();
         if (!$next_episode_control) {
             $next_episode_control =
                 AnimeEpisode::Where("deleted", 0)->Where('season_short', intval(($request->season) + 1))->Where('episode_short', 1)->first();
@@ -300,11 +305,11 @@ class IndexController extends Controller
 
         $prev_episode_url = "none";
         $prev_episode_control =
-            AnimeEpisode::Where("deleted", 0)->Where('season_short', $request->season)->Where('episode_short', (intval($request->episode) - 1))->first();
+            AnimeEpisode::Where("deleted", 0)->where('anime_code', $anime->code)->Where('season_short', $request->season)->Where('episode_short', (intval($request->episode) - 1))->first();
 
         if (!$prev_episode_control) {
             $prev_episode_control =
-                AnimeEpisode::Where("deleted", 0)->Where('season_short', intval(($request->season) - 1))->orderBy('episode_short', 'DESC')->first();
+                AnimeEpisode::Where("deleted", 0)->where('anime_code', $anime->code)->Where('season_short', intval(($request->season) - 1))->orderBy('episode_short', 'DESC')->first();
         }
 
 
@@ -392,7 +397,11 @@ class IndexController extends Controller
         if (!$webtoon || $webtoon->showStatus == 4 || (!Auth::user() && ($webtoon->showStatus == 1 || $webtoon->showStatus == 2)))
             abort(404);
 
-        $episode = WebtoonEpisode::Where("deleted", 0)->Where('season_short', $request->season)->Where('episode_short', $request->episode)->first();
+        $episode = WebtoonEpisode::Where("deleted", 0)->where('webtoon_code', $webtoon->code)->Where('season_short', $request->season)->Where('episode_short', $request->episode)->first();
+
+        if (!$episode) {
+            abort(404);
+        }
 
         $trend_webtoons = $this->getTrendContent(Webtoon::class, $webtoon->main_category, $this->sendShowStatus(1), 6, 'click_count');
 
@@ -430,28 +439,28 @@ class IndexController extends Controller
             ->get();
 
         $next_episode_url = "none";
-        $next_episode_control = WebtoonEpisode::Where("deleted", 0)->Where('season_short', $request->season)->Where('episode_short', (intval($request->episode) + 1))->first();
+        $next_episode_control = WebtoonEpisode::Where("deleted", 0)->where('webtoon_code', $webtoon->code)->Where('season_short', $request->season)->Where('episode_short', (intval($request->episode) + 1))->first();
 
         if (!$next_episode_control) {
-            $next_episode_control = WebtoonEpisode::Where("deleted", 0)->Where('season_short', intval(($request->season) + 1))->Where('episode_short', 1)->first();
+            $next_episode_control = WebtoonEpisode::Where("deleted", 0)->where('webtoon_code', $webtoon->code)->Where('season_short', intval(($request->season) + 1))->Where('episode_short', 1)->first();
         }
 
         $next_episode_url = $next_episode_control ? "webtoon/" . $webtoon->short_name . "/" . $next_episode_control->season_short . "/" . $next_episode_control->episode_short : "none";
 
         $prev_episode_url = "none";
         $prev_episode_control =
-            WebtoonEpisode::Where("deleted", 0)->Where('season_short', $request->season)->Where('episode_short', (intval($request->episode) - 1))->first();
+            WebtoonEpisode::Where("deleted", 0)->where('webtoon_code', $webtoon->code)->Where('season_short', $request->season)->Where('episode_short', (intval($request->episode) - 1))->first();
 
         if (!$prev_episode_control) {
             $prev_episode_control =
-                WebtoonEpisode::Where("deleted", 0)->Where('season_short', intval(($request->season) - 1))->orderBy('episode_short', 'DESC')->first();
+                WebtoonEpisode::Where("deleted", 0)->where('webtoon_code', $webtoon->code)->Where('season_short', intval(($request->season) - 1))->orderBy('episode_short', 'DESC')->first();
         }
 
         $prev_episode_url = $prev_episode_control ? "webtoon/" . $webtoon->short_name . "/" . $prev_episode_control->season_short . "/" . $prev_episode_control->episode_short : "none";
 
 
         $watched = [];
-        if (Auth::user()) $watched = WatchedAnime::Where('anime_code', $webtoon->code)->Where('user_code', Auth::user()->code)->Where('content_type', 0)->get();
+        if (Auth::user()) $watched = WatchedAnime::Where('webtoon_code', $webtoon->code)->Where('user_code', Auth::user()->code)->Where('content_type', 0)->get();
 
         $files = WebtoonFile::Where('deleted', 0)->Where('webtoon_episode_code', $episode->code)->get();
 
