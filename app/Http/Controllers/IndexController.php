@@ -496,8 +496,10 @@ class IndexController extends Controller
                 ->join('animes', 'animes.code', '=', 'anime_calendars.anime_code')
                 ->select(
                     'animes.name as anime_name',
+                    'animes.short_name as anime_short_name',
                     'animes.code as anime_code',
                     'animes.image as anime_image',
+                    'animes.showStatus as anime_show_status',
                     'anime_calendars.code as anime_calendar_code',
                     'anime_calendars.description as anime_calendar_description',
                     'anime_calendars.first_date as anime_calendar_first_date',
@@ -526,6 +528,8 @@ class IndexController extends Controller
                 ->join('webtoons', 'webtoons.code', '=', 'webtoon_calendars.webtoon_code')
                 ->select(
                     'webtoons.name as webtoon_name',
+                    'webtoons.short_name as webtoon_short_name',
+                    'webtoons.showStatus as webtoon_show_status',
                     'webtoons.code as webtoon_code',
                     'webtoons.image as webtoon_image',
                     'webtoon_calendars.code as webtoon_calendar_code',

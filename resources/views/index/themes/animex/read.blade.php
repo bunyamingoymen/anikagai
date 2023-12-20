@@ -121,7 +121,7 @@
                                     </div>
                                     <button onclick="toggleFullScreen()" class="overlay-button">Tam Ekran</button>
                                 @else
-                                    <img class="fileViewer" src="../../../{{ $item->file }}" alt="{{ $item->code }}"
+                                    <img class="webtoon-image" src="../../../{{ $item->file }}" alt="{{ $item->code }}"
                                         class="webtoon-image">
                                 @endif
                             @endforeach

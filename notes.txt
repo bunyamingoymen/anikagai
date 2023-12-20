@@ -16,6 +16,7 @@
 -kategori aramaları temalara aktarılacak
 -3.Temada mobilde menü gözükmüyor
 -Takvimde son tarih, ilk tarihden önceyse uyarı vermeli
+webtoon yada anime bölümü silindiğinde webtoon ya da bölüm sayısı azalmalı
 ---------------------------------------------
 Kontrol edilecek işlemler:
 

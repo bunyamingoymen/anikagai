@@ -13,7 +13,7 @@
             padding-right: 10px;
             padding-left: 10px;
             margin-left: 10px;
-            width: 80%;
+            width: 200px;
         }
 
         .calendar-text h5 {
@@ -30,7 +30,6 @@
         }
 
         .product__item .row .product__item__text {
-            text-align: center;
             background-color: var(--background-color);
             margin: 0px;
             padding: 0px;
@@ -44,13 +43,22 @@
         }
 
         .product__item .row .product__item__text h5 {
-            text-align: center;
             line-height: 3;
             color: #fff;
-            margin-left: 10px;
+            margin-left: 25px;
         }
 
         .product__item .row .product__item__text img {
+            width: 30px;
+            height: 30px;
+            margin-top: 10px;
+            margin-bottom: 10px;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+
+        .product__item .row .product__item__text .unknown_content {
+            filter: blur(7px);
             width: 30px;
             height: 30px;
             margin-top: 10px;
@@ -76,6 +84,14 @@
             color: #a0a0a0;
         }
 
+        .lg_font_size {
+            font-size: 16px;
+        }
+
+        .sm_font_size {
+            font-size: 12px;
+        }
+
         @media only screen and (max-width: 479px) {
 
             .calendar-text {
@@ -83,10 +99,9 @@
             }
 
             .product__item .row .product__item__text {
-                width: 250px;
+                width: 370px;
                 height: 50px;
                 left: auto;
-                position: relative;
                 right: 40%;
                 margin-top: 10px;
                 display: block;
@@ -114,14 +129,20 @@
 
             .product__item .row .product__item__text h5 {
                 line-height: 1;
-                text-align: center;
-                position: absolute;
-                top: 25%;
-                left: 25%;
+                margin-top: 15px;
+                margin-left: 25px;
             }
 
             .product__item .row .product__item__text .divtext .h5description {
                 display: none;
+            }
+
+            .lg_font_size {
+                font-size: 14px;
+            }
+
+            .sm_font_size {
+                font-size: 10px;
             }
         }
     </style>
@@ -185,27 +206,47 @@
                                                 <div class="">
                                                     @foreach ($groupedAnimeCalendarLists as $date => $group)
                                                         <div class="product__item">
-                                                            <div class="col-lg-4 product__item__text calendar-text">
+                                                            <div class="calendar-text">
                                                                 <h5 class="">
                                                                     <a class="specialDates">{{ $date }}</a>
                                                                 </h5>
 
                                                             </div>
-                                                            <div class="row" style="margin-left: 150px;">
+                                                            <div class="row">
                                                                 @foreach ($group as $item)
-                                                                    <div class="product__item__text row">
-                                                                        <div class="divimg">
-                                                                            <img src="../../../{{ $item->anime_image }}"
-                                                                                alt="" style="">
+                                                                    @if ($item->anime_show_status == 0 || (Auth::user() && ($item->anime_show_status == 1 || $item->anime_show_status == 2)))
+                                                                        <div class="product__item__text row">
+                                                                            <div class="divimg">
+                                                                                <img src="../../../{{ $item->anime_image }}"
+                                                                                    alt="" style="">
+                                                                            </div>
+                                                                            <div class="divtext">
+                                                                                <a
+                                                                                    href="{{ url('anime/' . $item->anime_short_name) }}">
+                                                                                    <h5 class="lg_font_size">
+                                                                                        {{ $item->anime_name }} <span
+                                                                                            class="h5description">
+                                                                                            {{ $item->anime_calendar_description }}</span>
+                                                                                    </h5>
+                                                                                </a>
+                                                                            </div>
                                                                         </div>
-                                                                        <div class="divtext">
-                                                                            <h5 style="font-size: 16px; ">
-                                                                                {{ $item->anime_name }} <span
-                                                                                    class="h5description">
-                                                                                    {{ $item->anime_calendar_description }}</span>
-                                                                            </h5>
+                                                                    @elseif (!Auth::user() && $item->anime_show_status == 2)
+                                                                        <div class="product__item__text row">
+                                                                            <div class="divimg">
+                                                                                <div class="unknown_content set-bg"
+                                                                                    style="width: 25px; height: 25px;"
+                                                                                    data-setbg="../../../{{ $item->anime_image }}">
+
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="divtext">
+                                                                                <h5 class="lg_font_size">
+                                                                                    Bilinmiyor
+                                                                                </h5>
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
+                                                                    @endif
                                                                 @endforeach
                                                             </div>
                                                         </div>
@@ -226,28 +267,49 @@
                                                 <div class="">
                                                     @foreach ($groupedWebtoonCalendarLists as $date => $group)
                                                         <div class="product__item">
-                                                            <div class="col-lg-4 product__item__text calendar-text">
+                                                            <div class="calendar-text">
                                                                 <h5 class="">
                                                                     <a class="specialDates">{{ $date }}</a>
                                                                 </h5>
 
                                                             </div>
-                                                            <div class="row" style="margin-left: 150px;">
+                                                            <div class="row">
                                                                 @foreach ($group as $item)
-                                                                    <div class="product__item__text row">
-                                                                        <div class="divimg">
-                                                                            <img src="../../../{{ $item->webtoon_image }}"
-                                                                                alt=""
-                                                                                style="width: 30px; height: 30px; margin-top: 10px; margin-bottom: 10px; overflow: hidden;  border-radius: 8px;">
+                                                                    @if (
+                                                                        $item->webtoon_show_status == 0 ||
+                                                                            (Auth::user() && ($item->webtoon_show_status == 1 || $item->webtoon_show_status == 2)))
+                                                                        <div class="product__item__text row">
+                                                                            <div class="divimg">
+                                                                                <img src="../../../{{ $item->webtoon_image }}"
+                                                                                    alt="">
+                                                                            </div>
+                                                                            <div class="divtext">
+                                                                                <h5 class="lg_font_size">
+                                                                                    <a
+                                                                                        href="{{ url('webtoon/' . $item->webtoon_short_name) }}">
+                                                                                        {{ $item->webtoon_name }} <span
+                                                                                            class="h5description">
+                                                                                            {{ $item->webtoon_calendar_description }}</span>
+                                                                                    </a>
+                                                                                </h5>
+                                                                            </div>
                                                                         </div>
-                                                                        <div class="divtext">
-                                                                            <h5 style="font-size: 16px; ">
-                                                                                {{ $item->webtoon_name }} <span
-                                                                                    class="h5description">
-                                                                                    {{ $item->webtoon_calendar_description }}</span>
-                                                                            </h5>
+                                                                    @elseif (!Auth::user() && $item->webtoon_show_status == 2)
+                                                                        <div class="product__item__text row">
+                                                                            <div class="divimg">
+                                                                                <div class="unknown_content set-bg"
+                                                                                    style="width: 25px; height: 25px;"
+                                                                                    data-setbg="../../../{{ $item->webtoon_image }}">
+
+                                                                                </div>
+                                                                            </div>
+                                                                            <div class="divtext">
+                                                                                <h5 class="lg_font_size">
+                                                                                    Bilinmiyor
+                                                                                </h5>
+                                                                            </div>
                                                                         </div>
-                                                                    </div>
+                                                                    @endif
                                                                 @endforeach
                                                             </div>
                                                         </div>
