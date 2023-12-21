@@ -9122,7 +9122,7 @@ to {
     width: 68.75%!important;
 }
 .ui.grid>.row>[class*="twelve wide computer"].column, .ui.grid>.column.row>[class*="twelve wide computer"].column, .ui.grid>[class*="twelve wide computer"].column, .ui.column.grid>[class*="twelve wide computer"].column {
-    width: 75%!important;
+    width: 100%!important;
 }
 .ui.grid>.row>[class*="thirteen wide computer"].column, .ui.grid>.column.row>[class*="thirteen wide computer"].column, .ui.grid>[class*="thirteen wide computer"].column, .ui.column.grid>[class*="thirteen wide computer"].column {
     width: 81.25%!important;
@@ -27951,7 +27951,7 @@ scroll-wrapper .next-ep-holder .next-ep-wrapper .title-quaternary {
     padding-left: 91px;
 }
 .calendar-item .calendar-item-list .dark-segment>ul .segment-poster-sm {
-    width: 25%}
+    width: 33%}
 .calendar-item .calendar-item-list .dark-segment>ul .segment-poster-sm .poster.poster-xs a {
     overflow: hidden;
 }
