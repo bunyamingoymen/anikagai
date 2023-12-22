@@ -65,6 +65,7 @@
                 width: 100%;
                 position: relative;
                 left: 0px;
+                margin-bottom: 15px;
             }
         }
     </style>
@@ -109,7 +110,7 @@
                 <!--Önceki, sonraki bölüm-->
                 <div id="series-tabs" class="ui pointing secondary menu">
                     <a class="ui pointing item active" href="#" class="item"><i
-                            class=" en mr-xs"></i>{{ $webtoon->name }} İzle</a>
+                            class=" en mr-xs"></i>{{ $webtoon->name }} Oku</a>
                     @if ($next_episode_url && $next_episode_url != 'none')
                         <a href="{{ url($next_episode_url) }}" class="item navigate navigate-prev right">
                             Önceki Bölüm </a>
@@ -166,7 +167,8 @@
                                     @endif
 
                                     <div class="episode-container">
-                                        <a href="bolum-3.html" class="episode-link">
+                                        <a href="{{ url('webtoon/' . $webtoon->short_name . '/' . $item->season_short . '/' . $item->episode_short) }}"
+                                            class="episode-link">
                                             <h3>{{ $item->episode_short }}.Bölüm</h3>
                                             <small class="truncate">{{ $item->name }}</small>
                                             <date datetime="{{ $item->publish_date }}">{{ $item->publish_date }}

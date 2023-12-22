@@ -1,5 +1,18 @@
 @extends('index.themes.moviefx.layouts.main')
 @section('index_content')
+    <style>
+        .tab-segment .items .item .image img {
+            min-width: 300px;
+            max-width: 300px;
+        }
+
+        @media only screen and (max-width: 479px) {
+            .tab-segment .items .item .image img {
+                min-width: 50px;
+                max-width: 300px;
+            }
+        }
+    </style>
     <div class="inner-content container" id="page-series">
         <div id="router-view">
             <div class="bg-cover-faker">
@@ -42,7 +55,7 @@
                         <div class="item" id="series-profile-wrapper">
                             <a class="ui image" id="series-profile-image-wrapper">
                                 <img class="series-profile-thumb" src="../../../{{ $webtoon->image }}"
-                                    alt="{{ $webtoon->name }}" style="min-width: 300px; max-width: 300px;" />
+                                    alt="{{ $webtoon->name }}" />
                             </a>
                             <div class="content" id="series-profile-content-wrapper">
                                 <article class="series-summary">
@@ -148,8 +161,8 @@
                                                                                             <td
                                                                                                 class="collapsing table-episode-check">
                                                                                                 <div class="ordilabel">
-                                                                                                    <a href="#"
-                                                                                                        data-navigo>
+                                                                                                    <a
+                                                                                                        href="{{ url('webtoon/' . $webtoon->short_name . '/' . $i . '/' . $item->episode_short) }}">
                                                                                                         {{ $item->episode_short }}.Bölüm</a>
                                                                                                 </div>
                                                                                             </td>

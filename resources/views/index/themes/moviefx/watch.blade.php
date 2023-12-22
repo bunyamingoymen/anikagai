@@ -122,7 +122,7 @@
 
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
         /* Roboto fontunu ekleyin veya
-                                                                                                                                                                                                                                                                        kendi tercih ettiğiniz bir font kullanabilirsiniz */
+                                                                                                                                                                                                                                                                                    kendi tercih ettiğiniz bir font kullanabilirsiniz */
 
         .overlay-button {
             position: absolute !important;
@@ -210,7 +210,8 @@
                             Önceki Bölüm </a>
                     @endif
                     @if ($next_episode_url && $next_episode_url != 'none')
-                        <a href="{{ url($next_episode_url) }}"class="item navigate navigate-next {{!($prev_episode_url && $prev_episode_url != 'none') ? 'right' : ''}}">
+                        <a
+                            href="{{ url($next_episode_url) }}"class="item navigate navigate-next {{ !($prev_episode_url && $prev_episode_url != 'none') ? 'right' : '' }}">
                             Sonraki Bölüm
                         </a>
                     @endif
@@ -262,7 +263,8 @@
                                     @endif
 
                                     <div class="episode-container">
-                                        <a href="bolum-3.html" class="episode-link">
+                                        <a href="{{ url('anime/' . $anime->short_name . '/' . $item->season_short . '/' . $item->episode_short) }}"
+                                            class="episode-link">
                                             <h3>{{ $item->episode_short }}.Bölüm</h3>
                                             <small class="truncate">{{ $item->name }}</small>
                                             <date datetime="{{ $item->publish_date }}">{{ $item->publish_date }}
@@ -302,7 +304,7 @@
                 </div>
             </section>
         </div>
-        
+
         <!--Yorum Alanı-->
         <div class="ui">
             <h4 class="sidebar-heading">Yorumlar (<span id="review-count">{{ $anime->comment_count }}</span>)

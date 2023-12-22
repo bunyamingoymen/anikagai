@@ -193,8 +193,8 @@
                                                                                             <td
                                                                                                 class="collapsing table-episode-check">
                                                                                                 <div class="ordilabel">
-                                                                                                    <a href="#"
-                                                                                                        data-navigo>
+                                                                                                    <a
+                                                                                                        href="{{ url('anime/' . $anime->short_name . '/' . $i . '/' . $item->episode_short) }}">
                                                                                                         {{ $item->episode_short }}.Bölüm</a>
                                                                                                 </div>
                                                                                             </td>
