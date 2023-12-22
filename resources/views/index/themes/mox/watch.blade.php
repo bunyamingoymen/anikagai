@@ -8,7 +8,7 @@
 
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
         /* Roboto fontunu ekleyin veya
-        kendi tercih ettiğiniz bir font kullanabilirsiniz */
+            kendi tercih ettiğiniz bir font kullanabilirsiniz */
 
         .overlay-button {
             position: absolute !important;
@@ -281,6 +281,10 @@
                 controls: controls,
                 settings: settings,
                 tooltips: tooltips,
+                storage: {
+                    enabled: true,
+                    key: 'plyr_{{ $episode->code }}'
+                },
             });
 
             //introButton oluşturuluyor
@@ -414,7 +418,7 @@
                         nextEpisodeButton.addEventListener('click', function() {
                             // Belirlediğiniz linke git
                             window.location.href =
-                            '{{ url($next_episode_url) }}'; // bir sonraki bölüm url'i
+                                '{{ url($next_episode_url) }}'; // bir sonraki bölüm url'i
                         });
                     }
                 @endif

@@ -8,7 +8,7 @@
 
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
         /* Roboto fontunu ekleyin veya
-                                                                                                                                                                                                                                                        kendi tercih ettiğiniz bir font kullanabilirsiniz */
+                                                                                                                                                                                                                                                            kendi tercih ettiğiniz bir font kullanabilirsiniz */
 
         .overlay-button {
             position: absolute !important;
@@ -383,6 +383,10 @@
                 controls: controls,
                 settings: settings,
                 tooltips: tooltips,
+                storage: {
+                    enabled: true,
+                    key: 'plyr_{{ $episode->code }}'
+                },
             });
 
             //introButton oluşturuluyor

@@ -123,7 +123,7 @@
                     @endif
                 </div>
 
-                <!--Video kısmı-->
+                <!--Okuma kısmı-->
                 <div class="ui grid">
                     <div class="left floated left aligned column pb-0 twelve wide computer sixteen wide mobile"
                         id="playersol">
@@ -398,4 +398,49 @@
             }
         }
     </script>
+
+    <!--Kaldığı yerden devam etme-->
+    <script>
+        const autoread = 5000;
+        const scrool_cookie = "read_{{ $episode->code }}"
+        console.log('sayfa başlatıldı')
+        console.log(getSavedScrollPosition(scrool_cookie));
+        setInterval(() => {
+            saveScrollPosition();
+        }, autoread);
+
+        // Sayfa yüklendiğinde otomatik olarak kaydedilen konuma git
+        window.onload = function() {
+            goToSavedPosition();
+        }
+        // Konumu çerezlere kaydetme
+        function saveScrollPosition() {
+            var currentPosition = window.scrollY;
+            document.cookie = scrool_cookie + "=" + currentPosition;
+        }
+
+        // Kullanıcıyı belirli bir görselin olduğu yere götür
+        function goToSavedPosition() {
+            var savedPosition = getSavedScrollPosition(scrool_cookie);
+            window.scrollTo(0, savedPosition);
+        }
+
+        function getSavedScrollPosition(cookieName) {
+            const cookies = document.cookie.split(';');
+
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+
+                // Çerez adını kontrol et
+                if (cookie.startsWith(cookieName + '=')) {
+                    // Çerez adını çıkartarak değeri al
+                    return cookie.substring(cookieName.length + 1);
+                }
+            }
+
+            // Belirli bir çerez bulunamazsa null döndür
+            return null;
+        }
+    </script>
+
 @endsection

@@ -121,8 +121,8 @@
                                     </div>
                                     <button onclick="toggleFullScreen()" class="overlay-button">Tam Ekran</button>
                                 @else
-                                    <img class="webtoon-image" src="../../../{{ $item->file }}" alt="{{ $item->code }}"
-                                        class="webtoon-image">
+                                    <img id="image_{{ $item->code }}"class="webtoon-image"
+                                        src="../../../{{ $item->file }}" alt="{{ $item->code }}" class="webtoon-image">
                                 @endif
                             @endforeach
                         </div>
@@ -311,21 +311,24 @@
     </section>
     <!--PDF Ayarları-->
     <script>
-        const viewer = new Viewer(document.getElementById('pdfViewer'), {
-            inline: true,
-            viewed() {
-                viewer.zoomTo(1);
-            },
-        });
+        var pdfViewer = document.getElementById('pdfViewer');
+        if (pdfViewer) {
+            const viewer = new Viewer(document.getElementById('pdfViewer'), {
+                inline: true,
+                viewed() {
+                    viewer.zoomTo(1);
+                },
+            });
 
 
-        function toggleFullScreen() {
-            var iframe = document.getElementById('pdfViewer');
-            if (!document.fullscreenElement) {
-                iframe.requestFullscreen();
-            } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
+            function toggleFullScreen() {
+                var iframe = document.getElementById('pdfViewer');
+                if (!document.fullscreenElement) {
+                    iframe.requestFullscreen();
+                } else {
+                    if (document.exitFullscreen) {
+                        document.exitFullscreen();
+                    }
                 }
             }
         }
@@ -359,6 +362,50 @@
                 commentDiv.innerHTML = "";
             }
 
+        }
+    </script>
+
+    <!--Kaldığı yerden devam etme-->
+    <script>
+        const autoread = 5000;
+        const scrool_cookie = "read_{{ $episode->code }}"
+        console.log('sayfa başlatıldı')
+        console.log(getSavedScrollPosition(scrool_cookie));
+        setInterval(() => {
+            saveScrollPosition();
+        }, autoread);
+
+        // Sayfa yüklendiğinde otomatik olarak kaydedilen konuma git
+        window.onload = function() {
+            goToSavedPosition();
+        }
+        // Konumu çerezlere kaydetme
+        function saveScrollPosition() {
+            var currentPosition = window.scrollY;
+            document.cookie = scrool_cookie + "=" + currentPosition;
+        }
+
+        // Kullanıcıyı belirli bir görselin olduğu yere götür
+        function goToSavedPosition() {
+            var savedPosition = getSavedScrollPosition(scrool_cookie);
+            window.scrollTo(0, savedPosition);
+        }
+
+        function getSavedScrollPosition(cookieName) {
+            const cookies = document.cookie.split(';');
+
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+
+                // Çerez adını kontrol et
+                if (cookie.startsWith(cookieName + '=')) {
+                    // Çerez adını çıkartarak değeri al
+                    return cookie.substring(cookieName.length + 1);
+                }
+            }
+
+            // Belirli bir çerez bulunamazsa null döndür
+            return null;
         }
     </script>
 @endsection
