@@ -23,7 +23,19 @@
 
     <!-- optionally if you need translation for your language then include locale file as mentioned below (replace LANG.js with your own locale file) -->
     <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-star-rating@4.1.2/js/locales/LANG.js"></script>
+    <style>
+        .tab-segment .items .item .image img {
+            min-width: 300px;
+            max-width: 300px;
+        }
 
+        @media only screen and (max-width: 479px) {
+            .tab-segment .items .item .image img {
+                min-width: 50px;
+                max-width: 300px;
+            }
+        }
+    </style>
     <div class="inner-content container" id="page-series">
         <div id="router-view">
             <div class="bg-cover-faker">
@@ -66,7 +78,7 @@
                         <div class="item" id="series-profile-wrapper">
                             <a class="ui image" id="series-profile-image-wrapper">
                                 <img class="series-profile-thumb" src="../../../{{ $anime->image }}"
-                                    alt="{{ $anime->name }}" style="min-width: 300px; max-width: 300px;" />
+                                    alt="{{ $anime->name }}" />
                             </a>
                             <div class="content" id="series-profile-content-wrapper">
                                 <article class="series-summary">

@@ -1,5 +1,59 @@
+<style>
+    .custom-menu-container {
+        display: none !important;
+        position: fixed;
+        top: 120px;
+        left: -250px;
+        /* Menüyü sayfanın solundan dışarıda başlat */
+        width: 250px;
+        height: 100%;
+        background-color: var(--three-color);
+        padding-top: 20px;
+        transition: left 0.3s ease;
+        /* Animasyonlu geçiş ekleyin */
+        z-index: 1000;
+        /* Menüyü diğer öğelerin üzerine getirin */
+        overflow-y: auto;
+        max-height: calc(100vh - 20px);
+        /* Dikey kaydırma ekleyin */
+    }
+
+    /* Diğer stillemeleri ekleyin */
+
+    .main-content {
+        margin-left: 250px;
+        /* Menü açıkken içerik kaymasını önleyin */
+        transition: margin-left 0.3s ease;
+        /* Animasyonlu geçiş ekleyin */
+    }
+
+    /* İsteğe bağlı olarak menü kapalıyken görünmeyecek öğeleri gizleyebilirsiniz */
+    .custom-menu-container.closed {
+        left: -250px !important;
+    }
+
+    .custom-menu-container.opened {
+        left: 0px !important;
+    }
+
+    .main-content.closed {
+        margin-left: 0;
+    }
+
+    @media only screen and (max-width:992px) {
+        .custom-menu-container {
+            display: block !important;
+        }
+    }
+</style>
+
 <header id="header">
-    <button class="mobile-menu-trigger" onclick="mobileMenu()"><span>&nbsp;</span></button>
+    <button class="mobile-menu-trigger"><span>&nbsp;</span></button>
+    <div class="custom-menu-container closed">
+        <a href="">Link</a>
+        <a href="">Link</a>
+    </div>
+
     <div id="logo">
 
         <a href="{{ route('index') }}"
@@ -41,9 +95,3 @@
         </div>
     </div>
 </header>
-
-<script>
-    function mobileMenu() {
-        alert('tıklandı');
-    }
-</script>

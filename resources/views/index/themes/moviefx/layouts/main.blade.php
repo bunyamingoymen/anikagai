@@ -321,3 +321,40 @@
 </body>
 
 </html>
+
+<script>
+    const customMenuContainer = document.querySelector('.custom-menu-container');
+    const mobileMenuTrigger = document.querySelector('.mobile-menu-trigger');
+    const sidebar = document.querySelector('#sidebar-inner');
+
+    customMenuContainer.innerHTML = sidebar.innerHTML;
+
+    mobileMenuTrigger.addEventListener('click', () => {
+        //customMenuContainer.style.left = '0';
+        var isMenuClosed = true;
+        if (customMenuContainer.classList.contains('closed')) {
+            customMenuContainer.classList.remove('closed');
+            customMenuContainer.classList.add('opened');
+            isMenuClosed = false;
+        } else {
+            customMenuContainer.classList.add('closed');
+            customMenuContainer.classList.remove('opened');
+            isMenuClosed = true;
+        }
+
+        if (!isMenuClosed) {
+            //document.body.style.overflow = 'hidden';
+        } else {
+            //document.body.style.overflow = 'visible';
+        }
+    });
+
+    document.addEventListener('click', (event) => {
+        // Eğer tıklanan öğe menü değilse, menüyü kapat
+        if (!event.target.closest('.custom-menu-container') && !event.target.closest('.mobile-menu-trigger')) {
+            customMenuContainer.classList.add('closed');
+            customMenuContainer.classList.remove('opened');
+            // document.body.style.overflow = 'visible';
+        }
+    });
+</script>

@@ -2,7 +2,7 @@
     <div id="sidebar-inner" class="scrollbar-macosx">
         <section class="guide-menu fluid">
             <h5 class="section-heading">Menü</h5>
-            <ul class="guide-icon-menu">
+            <ul class="guide-icon-menu header__menu">
                 @foreach ($menus as $item)
                     @if (isset($active_menu) && $active_menu->code == $item->code)
                         <li>
@@ -35,3 +35,5 @@
         </section>
     </div>
 </aside>
+
+
