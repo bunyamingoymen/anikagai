@@ -88,7 +88,8 @@
                             </section>
                         </div>
                     </div>
-                    <div id="profile-content" class="right floated sixteen wide tablet twelve wide computer column">
+                    <div id="profile-content"
+                        style="width: 75%!important;"class="right floated sixteen wide tablet twelve wide computer column">
                         <div class="ui top tabular menu">
                             @if ($data['anime_active']->value == 1)
                                 <a id="tabButtonFavoriteAnime" class="item tabButton active" href="javascript:;"
@@ -116,7 +117,7 @@
                                 <div class="dark-segment">
                                     @if (count($favorite_animes) == 0)
                                         <div class="alert alert-danger" role="alert">
-                                            Kullanıcının beğendiği herhangi bir anime mevcut değil.
+                                            Kullanıcının favori herhangi bir anime mevcut değil.
                                         </div>
                                     @else
                                         <ul class="flex flex-wrap flex-home">
