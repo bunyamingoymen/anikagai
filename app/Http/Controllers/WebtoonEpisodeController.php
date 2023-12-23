@@ -156,13 +156,24 @@ class WebtoonEpisodeController extends Controller
     public function episodeDelete(Request $request)
     {
         $webtoon_episode = WebtoonEpisode::Where('code', $request->code)->Where('deleted', 0)->first();
+        $webtoon = Webtoon::Where('code', $webtoon_episode->webtoon_code)->Where('deleted', 0)->first();
 
-        if (!$webtoon_episode)
+        if (!$webtoon_episode || !$webtoon)
             return redirect()->back()->with("error", Config::get('error.error_codes.0110013'));
 
         $webtoon_episode->deleted = 1;
         $webtoon_episode->update_user_code = Auth::guard('admin')->user()->code;
         $webtoon_episode->save();
+
+        $webtoon->episode_count = $webtoon->episode_count - 1;
+
+        if (!WebtoonEpisode::Where('webtoon_code', $webtoon->code)->Where('season_short', $webtoon->season_count)->Where('deleted', 0)->exists()) {
+            $webtoon->season_count = $webtoon->season_count - 1;
+        }
+        $webtoon->update_user_code = Auth::guard('admin')->user()->code;
+        $webtoon->save();
+
+
         return redirect()->route('admin_webtoon_episodes_list')->with("success", Config::get('success.success_codes.10110013'));
     }
 

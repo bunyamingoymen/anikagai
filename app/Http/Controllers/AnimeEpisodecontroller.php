@@ -127,13 +127,24 @@ class AnimeEpisodecontroller extends Controller
     public function episodeDelete(Request $request)
     {
         $anime_episode = AnimeEpisode::Where('code', $request->code)->Where('deleted', 0)->first();
+        $anime = Anime::Where('code', $anime_episode->anime_code)->Where('deleted', 0)->first();
+        //dd($anime);
 
-        if (!$anime_episode)
+        if (!$anime_episode || !$anime)
             return redirect()->back()->with("error", Config::get('error.error_codes.0080013'));
 
         $anime_episode->deleted = 1;
         $anime_episode->update_user_code = Auth::guard('admin')->user()->code;
         $anime_episode->save();
+
+        $anime->episode_count = $anime->episode_count - 1;
+
+        if (!AnimeEpisode::Where('anime_code', $anime->code)->Where('season_short', $anime->season_count)->Where('deleted', 0)->exists()) {
+            $anime->season_count = $anime->season_count - 1;
+        }
+        $anime->update_user_code = Auth::guard('admin')->user()->code;
+        $anime->save();
+
         return redirect()->route('admin_anime_episodes_list')->with("success", Config::get('success.success_codes.10080013'));
     }
 
