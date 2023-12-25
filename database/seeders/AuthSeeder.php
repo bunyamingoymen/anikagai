@@ -78,7 +78,7 @@ class AuthSeeder extends Seeder
                 'description'  => 'Grup Yetkileri Ekleme Yetkisi',
             ],
             [
-                'code' => intval(Config::get('access.path_access_codes.admin/auth/change')),
+                'code' => intval(Config::get('access.path_access_codes.admin/auth/list/change')),
                 'text'  => 'Grup Yetkileri Güncelleme',
                 'description'  => 'Grup Yetkileri Güncelleyebilme Yetkisi',
             ],

@@ -34,7 +34,7 @@
                                 <div class="col-lg-6">
                                     <div class="hero__text">
                                         <h2>{{ $item->value }}</h2>
-                                        <a href="{{ $item->optional_2 ?? '' }}"><span>Şimdi İzle</span> <i
+                                        <a href="{{ $item->optional_2 ?? '' }}"><span>Seriye Git</span> <i
                                                 class="fa fa-angle-right"></i></a>
                                     </div>
 
