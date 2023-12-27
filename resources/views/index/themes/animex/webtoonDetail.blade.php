@@ -196,7 +196,7 @@
                                 </div>
 
                                 @foreach ($webtoon_episodes->where('season_short', $i) as $item)
-                                    @if (count($watched) > 0 && count($watched->Where('anime_episode_code', $item->code)->get()) > 1)
+                                    @if (count($watched) > 0 && count($watched->Where('anime_episode_code', $item->code)) > 0)
                                         <a style="background-color: green;"
                                             href="{{ url('webtoon/' . $webtoon->short_name . '/' . $i . '/' . $item->episode_short) }}"
                                             id="watchedATag{{ $item->code }}">
@@ -204,7 +204,7 @@
                                                 <label class="container">
                                                     <input type="checkbox" id="watched{{ $item->code }}"
                                                         onchange="watchAnime('{{ $item->code }}')"
-                                                        value="{{ $item->code }}">
+                                                        value="{{ $item->code }}" checked>
                                                     <span class="checkmark"></span>
                                                 </label>
                                             </div>

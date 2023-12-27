@@ -172,42 +172,143 @@
             }
         }
 
-        function registerSubmitFormButton() {
-            var name = document.getElementById("registerName").value;
+        function controlUsernameRegister() {
             var username = document.getElementById("registerUsername").value;
-            var email = document.getElementById("registerEmail").value;
-            var password = document.getElementById("registerPassword").value;
-            var password_repeat = document.getElementById(
-                "registerPassword_repeat"
-            ).value;
-
-            if (
-                name.length == 0 ||
-                username.length == 0 ||
-                email.length == 0 ||
-                password.length == 0 ||
-                password_repeat.length == 0
-            ) {
-                document.getElementById("registerMessageText").innerText =
-                    "Lütfen Tüm gerekli alanları doldurunuz.";
-            } else if (controlIsUsername && controlIsEmail) {
-
-                if (password == password_repeat) {
-                    document.getElementById("registerSubmitForm").submit();
-                } else {
-                    document.getElementById("registerMessageText").innerText =
-                        "Şifre İle Şifre Tekrarı aynı değil.";
-                }
+            var regex = /^[a-zA-Z0-9]+$/;
+            if (username.length < 3) {
+                Swal.fire({
+                    title: "Hata",
+                    text: "Bu Kullanıcı adı alınamaz",
+                    icon: "error"
+                });
+                controlIsUsername = false;
+            } else if (!regex.test(username)) {
+                Swal.fire({
+                    title: "Hata",
+                    text: "Bu Kullanıcı adı alınamaz",
+                    icon: "error"
+                });
+                controlIsUsername = false;
             } else {
-                if (!controlIsUsername) {
-                    document.getElementById("registerMessageText").innerText =
-                        "Bu Kullanıcı adı alınamaz";
-                } else {
-                    document.getElementById("registerMessageText").innerText =
-                        "Bu E-mail adresi alınamaz";
-                }
+                $.ajaxSetup({
+                    headers: {
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                    },
+                });
+                $.ajax({
+                    type: "POST",
+                    url: '{{ route('index_control_username') }}',
+                    data: {
+                        username: username
+                    },
+                    success: function(control) {
+                        if (control.control) {
+                            controlEmailRegister();
+                        } else {
+                            Swal.fire({
+                                title: "Hata",
+                                text: "Bu Kullanıcı adı alınamaz",
+                                icon: "error"
+                            });
+                        }
+
+                        controlIsUsername = control.control;
+                    },
+                });
             }
         }
+
+        function controlEmailRegister() {
+            var email = document.getElementById("registerEmail");
+            var value = email.value;
+            if (!email.checkValidity() || value.length == 0) {
+                Swal.fire({
+                    title: "Hata",
+                    text: "Bu E-mail adresi alınamaz",
+                    icon: "error"
+                });
+                controlIsUsername = false;
+            } else {
+                $.ajaxSetup({
+                    headers: {
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                    },
+                });
+                $.ajax({
+                        type: "POST",
+                        url: '{{ route('index_control_email') }}',
+                        data: {
+                            email: value
+                        },
+                        success: function(control) {
+                            if (control.control) {
+                                var password = document.getElementById("registerPassword").value;
+                                var password_repeat = document.getElementById(
+                                    "registerPassword_repeat").value
+                                    if (password == password_repeat) {
+                                        document.getElementById("registerSubmitForm").submit();
+                                    } else {
+                                        Swal.fire({
+                                            title: "Hata",
+                                            text: "Şifre İle Şifre Tekrarı",
+                                            icon: "error"
+                                        });
+                                    }
+                                }
+                                else {
+                                    Swal.fire({
+                                        title: "Hata",
+                                        text: "Bu E-mail adresi alınamaz",
+                                        icon: "error"
+                                    });
+                                }
+
+                                controlIsEmail = control.control;
+                            },
+                        });
+                }
+            }
+
+            function registerSubmitFormButton() {
+                var name = document.getElementById("registerName").value;
+                var username = document.getElementById("registerUsername").value;
+                var email = document.getElementById("registerEmail").value;
+                var password = document.getElementById("registerPassword").value;
+                var password_repeat = document.getElementById(
+                    "registerPassword_repeat"
+                ).value;
+
+                if (
+                    name.length == 0 ||
+                    username.length == 0 ||
+                    email.length == 0 ||
+                    password.length == 0 ||
+                    password_repeat.length == 0
+                ) {
+                    Swal.fire({
+                        title: "Hata",
+                        text: "Lütfen gerekli alanları doldurunuz.",
+                        icon: "error"
+                    });
+                } else if (controlIsUsername && controlIsEmail) {
+
+                    if (password == password_repeat) {
+                        document.getElementById("registerSubmitForm").submit();
+                    } else {
+                        Swal.fire({
+                            title: "Hata",
+                            text: "Şifre İle Şifre Tekrarı",
+                            icon: "error"
+                        });
+                    }
+                } else {
+                    if (!controlIsUsername) {
+                        controlUsernameRegister();
+                    } else {
+                        controlEmailRegister();
+                    }
+                }
+            }
     </script>
 
     <script>

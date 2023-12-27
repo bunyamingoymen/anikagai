@@ -258,7 +258,7 @@
                                 </div>
                             @endif
                             @if ($data['webtoon_active']->value == 1 && $showWebtoon == 1)
-                                <div class="tab-pane fade {{ !($data['webtoon_active']->value == 1 && $showWebtoon == 1) ? 'show active active_tab' : '' }}"
+                                <div class="tab-pane fade {{ !($data['anime_active']->value == 1 && $showAnime == 1 && ($data['webtoon_active']->value == 1 && $showWebtoon == 1)) ? 'show active active_tab' : '' }}"
                                     id="webtoon_calendar_tab" role="tabpanel" aria-labelledby="favorite_animes_tab">
                                     <div class="col-lg-12 mt-5">
                                         <div class="product__page__content">

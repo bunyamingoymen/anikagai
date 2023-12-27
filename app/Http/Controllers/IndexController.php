@@ -270,6 +270,7 @@ class IndexController extends Controller
             ->where('deleted', 0)
             ->orderBy('episode_short', 'ASC')
             ->get();
+        $currentDate = Carbon::now();
         $content_type = 1; //anime olduğu için
         $comments_main = DB::table('comments')
             ->Where('comments.deleted', 0)
@@ -294,10 +295,10 @@ class IndexController extends Controller
             ->get();
         $next_episode_url = "none";
         $next_episode_control =
-            AnimeEpisode::Where("deleted", 0)->where('anime_code', $anime->code)->Where('season_short', $request->season)->Where('episode_short', (intval($request->episode) + 1))->first();
+            AnimeEpisode::Where("deleted", 0)->where('anime_code', $anime->code)->Where('season_short', $request->season)->Where('episode_short', (intval($request->episode) + 1))->where('publish_date', '<=', $currentDate)->first();
         if (!$next_episode_control) {
             $next_episode_control =
-                AnimeEpisode::Where("deleted", 0)->Where('season_short', intval(($request->season) + 1))->Where('episode_short', 1)->first();
+                AnimeEpisode::Where("deleted", 0)->where('anime_code', $anime->code)->Where('season_short', intval(($request->season) + 1))->Where('episode_short', 1)->where('publish_date', '<=', $currentDate)->first();
         }
 
 
@@ -413,7 +414,7 @@ class IndexController extends Controller
             ->get();
 
         $content_type = 0; //webtoon olduğu için
-
+        $currentDate = Carbon::now();
         $comments_main = DB::table('comments')
             ->Where('comments.deleted', 0)
             ->Where('comments.content_code', $episode->code)
@@ -439,10 +440,10 @@ class IndexController extends Controller
             ->get();
 
         $next_episode_url = "none";
-        $next_episode_control = WebtoonEpisode::Where("deleted", 0)->where('webtoon_code', $webtoon->code)->Where('season_short', $request->season)->Where('episode_short', (intval($request->episode) + 1))->first();
+        $next_episode_control = WebtoonEpisode::Where("deleted", 0)->where('webtoon_code', $webtoon->code)->Where('season_short', $request->season)->Where('episode_short', (intval($request->episode) + 1))->where('publish_date', '<=', $currentDate)->first();
 
         if (!$next_episode_control) {
-            $next_episode_control = WebtoonEpisode::Where("deleted", 0)->where('webtoon_code', $webtoon->code)->Where('season_short', intval(($request->season) + 1))->Where('episode_short', 1)->first();
+            $next_episode_control = WebtoonEpisode::Where("deleted", 0)->where('webtoon_code', $webtoon->code)->Where('season_short', intval(($request->season) + 1))->Where('episode_short', 1)->where('publish_date', '<=', $currentDate)->first();
         }
 
         $next_episode_url = $next_episode_control ? "webtoon/" . $webtoon->short_name . "/" . $next_episode_control->season_short . "/" . $next_episode_control->episode_short : "none";
@@ -460,7 +461,7 @@ class IndexController extends Controller
 
 
         $watched = [];
-        if (Auth::user()) $watched = WatchedAnime::Where('webtoon_code', $webtoon->code)->Where('user_code', Auth::user()->code)->Where('content_type', 0)->get();
+        if (Auth::user()) $watched = WatchedAnime::Where('anime_code', $webtoon->code)->Where('user_code', Auth::user()->code)->Where('content_type', 0)->get();
 
         $files = WebtoonFile::Where('deleted', 0)->Where('webtoon_episode_code', $episode->code)->get();
 

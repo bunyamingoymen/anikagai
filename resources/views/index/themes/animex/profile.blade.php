@@ -211,7 +211,7 @@
                                                             @if ($item->showStatus == 0 || (Auth::user() && ($item->showStatus == 1 || $item->showStatus == 2)))
                                                                 <div class="col-lg-3 col-md-6 col-sm-6">
                                                                     <div class="product__item">
-                                                                        <a href="{{ url('anime/' . $item->short_name) }}">
+                                                                        <a href="{{ url('webtoon/' . $item->short_name) }}">
                                                                             <div class="product__item__pic set-bg"
                                                                                 data-setbg="../../../{{ $item->image }}">
                                                                                 <div class="ep">{{ $item->score }} /
@@ -232,7 +232,7 @@
                                                                             <h5>
 
                                                                                 <a
-                                                                                    href="{{ url('anime/' . $item->short_name) }}">{{ $item->name }}</a>
+                                                                                    href="{{ url('webtoon/' . $item->short_name) }}">{{ $item->name }}</a>
 
                                                                             </h5>
                                                                         </div>
@@ -363,7 +363,7 @@
                                                             @if ($item->showStatus == 0 || (Auth::user() && ($item->showStatus == 1 || $item->showStatus == 2)))
                                                                 <div class="col-lg-3 col-md-6 col-sm-6">
                                                                     <div class="product__item">
-                                                                        <a href="{{ url('anime/' . $item->short_name) }}">
+                                                                        <a href="{{ url('webtoon/' . $item->short_name) }}">
                                                                             <div class="product__item__pic set-bg"
                                                                                 data-setbg="../../../{{ $item->image }}">
                                                                                 <div class="ep">{{ $item->score }} /
@@ -384,7 +384,7 @@
                                                                             <h5>
 
                                                                                 <a
-                                                                                    href="{{ url('anime/' . $item->short_name) }}">{{ $item->name }}</a>
+                                                                                    href="{{ url('webtoon/' . $item->short_name) }}">{{ $item->name }}</a>
 
                                                                             </h5>
                                                                         </div>
