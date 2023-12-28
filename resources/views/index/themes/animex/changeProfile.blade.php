@@ -8,7 +8,7 @@
                     <div class="login__form login__form">
                         <h3>Resim:</h3>
                         <img src="../../../{{ $user->image ?? 'user/img/profile/default.png' }}" alt=""
-                            style="max-height: 200px; min-height: 200px;">
+                            style="max-height: 200px; min-height: 200px; border-radius: 50%;">
                         <form action="{{ route('change_profile_image') }}" id="changeProfileImageForm" method="POST"
                             enctype="multipart/form-data">
                             @csrf
@@ -18,17 +18,17 @@
                         </form>
                     </div>
                 </div>
-                <div class="col-lg-8">
+                <div class="col-lg-6">
                     <div class="login__form">
                         <h3>Bilgiler</h3>
                         <form action="{{ route('change_profile_settings') }}" method="POST" id="changeProfileForm">
                             @csrf
-                            <div class="input__item">
+                            <div class="input__item login_input">
                                 <input type="text" name="name" id="registerName" placeholder="İsim *"
                                     value="{{ $user->name }}">
                                 <span class="icon_profile"></i></span>
                             </div>
-                            <div class="input__item">
+                            <div class="input__item login_input">
 
                                 <div>
                                     <input type="text" name="username" id="registerUsername"
@@ -38,7 +38,7 @@
                                 </div>
                                 <small id="controlUsernameText"></small>
                             </div>
-                            <div class="input__item">
+                            <div class="input__item login_input">
                                 <div>
                                     <input type="email" name="email" id="registerEmail" placeholder="E-mail *"
                                         onchange="controlEmail()" value="{{ $user->email }}">

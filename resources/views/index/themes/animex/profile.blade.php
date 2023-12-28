@@ -23,7 +23,7 @@
                 <div class="row">
                     <div class="col-lg-3">
                         <img src="../../../{{ $user->image ?? 'user/img/profile/default.png' }}" alt=""
-                            style="max-height: 200px; min-height: 200px;">
+                            style="max-height: 200px; min-height: 200px; border-radius: 50%;">
                     </div>
                     <div class="col-lg-9">
                         <div class="anime__details__text">
@@ -211,7 +211,8 @@
                                                             @if ($item->showStatus == 0 || (Auth::user() && ($item->showStatus == 1 || $item->showStatus == 2)))
                                                                 <div class="col-lg-3 col-md-6 col-sm-6">
                                                                     <div class="product__item">
-                                                                        <a href="{{ url('webtoon/' . $item->short_name) }}">
+                                                                        <a
+                                                                            href="{{ url('webtoon/' . $item->short_name) }}">
                                                                             <div class="product__item__pic set-bg"
                                                                                 data-setbg="../../../{{ $item->image }}">
                                                                                 <div class="ep">{{ $item->score }} /
@@ -363,7 +364,8 @@
                                                             @if ($item->showStatus == 0 || (Auth::user() && ($item->showStatus == 1 || $item->showStatus == 2)))
                                                                 <div class="col-lg-3 col-md-6 col-sm-6">
                                                                     <div class="product__item">
-                                                                        <a href="{{ url('webtoon/' . $item->short_name) }}">
+                                                                        <a
+                                                                            href="{{ url('webtoon/' . $item->short_name) }}">
                                                                             <div class="product__item__pic set-bg"
                                                                                 data-setbg="../../../{{ $item->image }}">
                                                                                 <div class="ep">{{ $item->score }} /

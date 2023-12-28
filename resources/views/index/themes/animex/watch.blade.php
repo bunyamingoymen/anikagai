@@ -8,7 +8,7 @@
 
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
         /* Roboto fontunu ekleyin veya
-                                                                                                                                                                                                                                                            kendi tercih ettiğiniz bir font kullanabilirsiniz */
+                                                                                                                                                                                                                                                                        kendi tercih ettiğiniz bir font kullanabilirsiniz */
 
         .overlay-button {
             position: absolute !important;
@@ -199,7 +199,7 @@
 
                                         <a href="javascript:;" style="color:white; float:right;"
                                             onclick="ReplyComment('AnswerMain{{ $loop->index }}','{{ $episode->code }}','1','1','{{ $main_comment->code }}')">
-                                            <i class="fa fa-reply" aria-hidden="true"></i> Reply
+                                            <i class="fa fa-reply" aria-hidden="true"></i> Cevapla
                                         </a>
                                     </div>
                                 </div>
@@ -221,7 +221,7 @@
 
                                             <a href="javascript:;" style="color:white; float:right;"
                                                 onclick="ReplyComment('AnswerAltMain{{ $loop->index }}','{{ $episode->code }}','1','1','{{ $main_comment->code }}')">
-                                                <i class="fa fa-reply" aria-hidden="true"></i> Reply
+                                                <i class="fa fa-reply" aria-hidden="true"></i> Cevapla
                                             </a>
                                         </div>
                                     </div>

@@ -1671,7 +1671,7 @@ ol {
 }
 
 .blog__details__comment__item.blog__details__comment__item--reply {
-    padding-left: 112px;
+    padding-left: 112px ;
 }
 
 .blog__details__comment__item__pic {
@@ -2435,7 +2435,7 @@ ol {
         padding: 16px 25px 14px 20px;
     }
     .blog__details__comment__item.blog__details__comment__item--reply {
-        padding-left: 0;
+        padding-left: 60px;
     }
     .blog__details__comment__item__pic {
         margin-right: 25px;

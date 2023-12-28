@@ -26,7 +26,9 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class IndexController extends Controller
 {
@@ -140,6 +142,13 @@ class IndexController extends Controller
         $listItemsSetting = ThemeSetting::where('theme_code', $selected_theme->value)->where('setting_name', 'listCount')->first();
         $listItems = $listItemsSetting ? $listItemsSetting->setting_value : 20;
 
+        $shortName = preg_replace_callback('/[ğĞüÜşŞıİöÖçÇ\s]/u', function ($match) {
+            $normalizedChar = $match[0] === ' ' ? '-' : preg_replace('/[\p{Mn}]/u', '', iconv('UTF-8', 'ASCII//TRANSLIT', $match[0]));
+            return strtolower($normalizedChar);
+        }, $query);
+
+        $shortName = strtolower($shortName);
+
 
         $path = "/search?query={$query}";
 
@@ -151,8 +160,9 @@ class IndexController extends Controller
                 'showStatus',
                 $this->sendShowStatus(0)
             )
-            ->where(function ($queryBuilder) use ($query) {
+            ->where(function ($queryBuilder) use ($query, $shortName) {
                 $queryBuilder->where('name', 'LIKE', '%' . $query . '%')
+                    ->where('short_name', 'LIKE', '%' . $shortName . '%')
                     ->orWhere('description', 'LIKE', '%' . $query . '%')
                     ->orWhere('main_category_name', 'LIKE', '%' . $query . '%');
             });
@@ -163,8 +173,9 @@ class IndexController extends Controller
                 'showStatus',
                 $this->sendShowStatus(0)
             )
-            ->where(function ($queryBuilder) use ($query) {
+            ->where(function ($queryBuilder) use ($query, $shortName) {
                 $queryBuilder->where('name', 'LIKE', '%' . $query . '%')
+                    ->where('short_name', 'LIKE', '%' . $shortName . '%')
                     ->orWhere('description', 'LIKE', '%' . $query . '%')
                     ->orWhere('main_category_name', 'LIKE', '%' . $query . '%');
             });
@@ -760,11 +771,18 @@ class IndexController extends Controller
             $user = IndexUser::Where('code', Auth::user()->code)->first();
 
             if ($request->hasFile('image')) {
+
+                if ($user->image) {
+                    $dosyaYolu = public_path($user->image);
+                    if (File::exists($dosyaYolu)) {
+                        File::delete($dosyaYolu);
+                    }
+                }
                 // Dosyayı al
                 $file = $request->file('image');
-
+                $uniqDeger = Str::random(5);
                 $path = public_path('files/users/profile');
-                $name = $user->code . "." . $file->getClientOriginalExtension();
+                $name = $user->code . "_" . $uniqDeger . "." . $file->getClientOriginalExtension();
                 $file->move($path, $name);
                 $user->image = "files/users/profile/" . $name;
 

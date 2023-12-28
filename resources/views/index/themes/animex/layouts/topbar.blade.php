@@ -29,7 +29,7 @@
             </div>
             <div class="col-lg-3">
                 <div class="header__right">
-                    <a href="#" class="search-switch"><span class="icon_search"></span></a>
+                    <a href="javascript:;" class="search-switch"><span class="icon_search"></span></a>
 
                     @if (!Auth::user())
                         <a href="{{ route('loginScreen') }}"><span class="icon_profile"></span></a>
