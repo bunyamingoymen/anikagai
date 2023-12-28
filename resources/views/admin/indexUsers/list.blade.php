@@ -140,15 +140,17 @@
                                 </div>
                             </td>
                             <th scope="row">` + indexUsers[i].code + `</th>`
-                            if (indexUsers[i].image.length != 0) {
-                                code += `img class="rounded-circle header-profile-user"
+                            code += `<td>`
+                            if (indexUsers[i].image) {
+                                code += `<img class="rounded-circle header-profile-user"
                                 src="../../../` + indexUsers[i].image + `"
                                 alt="` + indexUsers[i].name + `">`
                             } else {
-                                code += `img class="rounded-circle header-profile-user"
+                                code += `<img class="rounded-circle header-profile-user"
                                 src="../../../user/img/profile/default.png"
                                 alt="` + indexUsers[i].name + `">`
                             }
+                            code += `</td>`
                             code += `<td>` + indexUsers[i].name + `</td>
                             <td>` + indexUsers[i].username + `</td>
                             <td>` + indexUsers[i].email + `</td>

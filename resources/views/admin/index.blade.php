@@ -196,22 +196,62 @@
     </div>
 
     <script>
+        var read_in_year = [],
+            watch_in_year = [];
+        read_in_year[0] = "0";
+        read_in_year[1] = "0";
+        read_in_year[2] = "0";
+        read_in_year[3] = "0";
+        read_in_year[4] = "0";
+        read_in_year[5] = "0";
+        read_in_year[6] = "0"
+        read_in_year[7] = "0";
+        read_in_year[8] = "0";
+        read_in_year[9] = "0";
+        read_in_year[10] = "0";
+        read_in_year[11] = "0";
+        read_in_year[12] = "0";
+
+        watch_in_year[0] = "0";
+        watch_in_year[1] = "0";
+        watch_in_year[2] = "0";
+        watch_in_year[3] = "0";
+        watch_in_year[4] = "0";
+        watch_in_year[5] = "0";
+        watch_in_year[6] = "0"
+        watch_in_year[7] = "0";
+        watch_in_year[8] = "0";
+        watch_in_year[9] = "0";
+        watch_in_year[10] = "0";
+        watch_in_year[11] = "0";
+        watch_in_year[12] = "0";
+        @if ($totalData['read_in_year'])
+            @foreach ($totalData['read_in_year'] as $item)
+                read_in_year[parseInt("{{ $item['month'] }}") - 1] = "{{ $item['count'] }}";
+            @endforeach
+        @endif
+
+        @if ($totalData['watch_in_year'])
+            @foreach ($totalData['watch_in_year'] as $item)
+                watch_in_year[parseInt("{{ $item['month'] }}") - 1] = "{{ $item['count'] }}";
+            @endforeach
+        @endif
         const yearReadData = [
-            {{ $totalData['read_in_year'][0] ?? '0' }}, {{ $totalData['read_in_year'][1] ?? '0' }},
-            {{ $totalData['read_in_year'][2] ?? '0' }}, {{ $totalData['read_in_year'][3] ?? '0' }},
-            {{ $totalData['read_in_year'][4] ?? '0' }}, {{ $totalData['read_in_year'][5] ?? '0' }},
-            {{ $totalData['read_in_year'][6] ?? '0' }}, {{ $totalData['read_in_year'][7] ?? '0' }},
-            {{ $totalData['read_in_year'][8] ?? '0' }}, {{ $totalData['read_in_year'][9] ?? '0' }},
-            {{ $totalData['read_in_year'][10] ?? '0' }}, {{ $totalData['read_in_year'][11] ?? '0' }}
+            read_in_year[0], read_in_year[1],
+            read_in_year[2], read_in_year[3],
+            read_in_year[4], read_in_year[5],
+            read_in_year[6], read_in_year[7],
+            read_in_year[8], read_in_year[9],
+            read_in_year[10], read_in_year[11]
         ];
 
         const yearWatchData = [
-            {{ $totalData['watch_in_year'][0] ?? '0' }}, {{ $totalData['watch_in_year'][1] ?? '0' }},
-            {{ $totalData['watch_in_year'][2] ?? '0' }}, {{ $totalData['watch_in_year'][3] ?? '0' }},
-            {{ $totalData['watch_in_year'][4] ?? '0' }}, {{ $totalData['watch_in_year'][5] ?? '0' }},
-            {{ $totalData['watch_in_year'][6] ?? '0' }}, {{ $totalData['watch_in_year'][7] ?? '0' }},
-            {{ $totalData['watch_in_year'][8] ?? '0' }}, {{ $totalData['watch_in_year'][9] ?? '0' }},
-            {{ $totalData['watch_in_year'][10] ?? '0' }}, {{ $totalData['watch_in_year'][11] ?? '0' }}
+            watch_in_year[0], watch_in_year[1],
+            watch_in_year[2], watch_in_year[3],
+            watch_in_year[4], watch_in_year[5],
+            watch_in_year[6], watch_in_year[7],
+            watch_in_year[8], watch_in_year[9],
+            watch_in_year[10], watch_in_year[11]
         ];
         //Güne göre üye olan kullanıcı oranı
         @if ($totalData['index_user_today'] && $totalData['total_index_user'])
