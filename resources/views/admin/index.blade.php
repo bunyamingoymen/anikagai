@@ -255,28 +255,32 @@
         ];
         //Güne göre üye olan kullanıcı oranı
         @if ($totalData['index_user_today'] && $totalData['total_index_user'])
-            const today_index_user_count = "{{ ($totalData['index_user_today'] / $totalData['total_index_user']) * 100 }}"
+            const today_index_user_count = parseInt(
+                "{{ ($totalData['index_user_today'] / $totalData['total_index_user']) * 100 }}").toString();
         @else
             const today_index_user_count = "0";
         @endif
 
         //haftaya göre üye olan kullanıcı oranı
         @if ($totalData['index_user_week'] && $totalData['total_index_user'])
-            const week_index_user_count = "{{ ($totalData['index_user_week'] / $totalData['total_index_user']) * 100 }}"
+            const week_index_user_count = parseInt(
+                "{{ ($totalData['index_user_week'] / $totalData['total_index_user']) * 100 }}").toString();
         @else
             const week_index_user_count = "0";
         @endif
 
         //Aya göre üye olan kullanıcı oranı
         @if ($totalData['index_user_month'] && $totalData['total_index_user'])
-            const month_index_user_count = "{{ ($totalData['index_user_month'] / $totalData['total_index_user']) * 100 }}"
+            const month_index_user_count = parseInt(
+                "{{ ($totalData['index_user_month'] / $totalData['total_index_user']) * 100 }}").toString();
         @else
             const month_index_user_count = "0";
         @endif
 
         //Yıla göre üye olan kullanıcı oranı
         @if ($totalData['index_user_year'] && $totalData['total_index_user'])
-            const year_index_user_count = "{{ ($totalData['index_user_year'] / $totalData['total_index_user']) * 100 }}"
+            const year_index_user_count = parseInt(
+                "{{ ($totalData['index_user_year'] / $totalData['total_index_user']) * 100 }}").toString();
         @else
             const year_index_user_count = "0";
         @endif
