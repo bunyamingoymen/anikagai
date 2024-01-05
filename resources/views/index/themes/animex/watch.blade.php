@@ -8,7 +8,7 @@
 
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
         /* Roboto fontunu ekleyin veya
-                                                                                                                                                                                                                                                                        kendi tercih ettiğiniz bir font kullanabilirsiniz */
+                                                                                                                                                                                                                                                                                    kendi tercih ettiğiniz bir font kullanabilirsiniz */
 
         .overlay-button {
             position: absolute !important;
@@ -197,10 +197,12 @@
                                         </h6>
                                         <p>{{ $main_comment->message }}</p>
 
-                                        <a href="javascript:;" style="color:white; float:right;"
-                                            onclick="ReplyComment('AnswerMain{{ $loop->index }}','{{ $episode->code }}','1','1','{{ $main_comment->code }}')">
-                                            <i class="fa fa-reply" aria-hidden="true"></i> Cevapla
-                                        </a>
+                                        @if (Auth::user())
+                                            <a href="javascript:;" style="color:white; float:right;"
+                                                onclick="ReplyComment('AnswerMain{{ $loop->index }}','{{ $episode->code }}','1','1','{{ $main_comment->code }}')">
+                                                <i class="fa fa-reply" aria-hidden="true"></i> Cevapla
+                                            </a>
+                                        @endif
                                     </div>
                                 </div>
                                 <div id="AnswerMain{{ $loop->index }}"></div>
@@ -219,10 +221,12 @@
                                             </h6>
                                             <p>{{ $alt_comment->message }}</p>
 
-                                            <a href="javascript:;" style="color:white; float:right;"
-                                                onclick="ReplyComment('AnswerAltMain{{ $loop->index }}','{{ $episode->code }}','1','1','{{ $main_comment->code }}')">
-                                                <i class="fa fa-reply" aria-hidden="true"></i> Cevapla
-                                            </a>
+                                            @if (Auth::user())
+                                                <a href="javascript:;" style="color:white; float:right;"
+                                                    onclick="ReplyComment('AnswerAltMain{{ $loop->index }}','{{ $episode->code }}','1','1','{{ $main_comment->code }}')">
+                                                    <i class="fa fa-reply" aria-hidden="true"></i> Cevapla
+                                                </a>
+                                            @endif
                                         </div>
                                     </div>
                                     <div id="AnswerAltMain{{ $loop->index }}"></div>
@@ -564,9 +568,10 @@
     <!-- Yorum ayarları -->
     <script>
         function ReplyComment(commentDiv, content_code, content_type, comment_type, comment_top_code) {
-            var commentDiv = document.getElementById(commentDiv);
-            if (commentDiv.innerHTML == "") {
-                var html = `<div class="blog__details__comment__item blog__details__comment__item--reply">
+            @if (Auth::user())
+                var commentDiv = document.getElementById(commentDiv);
+                if (commentDiv.innerHTML == "") {
+                    var html = `<div class="blog__details__comment__item blog__details__comment__item--reply">
                     <div class="anime__details__form">
                         <form action="{{ route('addNewComment') }}" method="POST">
                             @csrf
@@ -584,10 +589,11 @@
                     </div>
                 </div>`;
 
-                commentDiv.innerHTML = html;
-            } else {
-                commentDiv.innerHTML = "";
-            }
+                    commentDiv.innerHTML = html;
+                } else {
+                    commentDiv.innerHTML = "";
+                }
+            @endif
         }
     </script>
 @endsection
