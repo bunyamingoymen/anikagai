@@ -14,9 +14,7 @@
 -tema ayarları güncellenmeli (mesela giriş yap modal ile mi ekran ile mi, buna göre redirect->route yapılacak;)
 -slider seçenekleri eklenmeli
 -kategori aramaları temalara aktarılacak
--3.Temada mobilde menü gözükmüyor
 -Takvimde son tarih, ilk tarihden önceyse uyarı vermeli
-webtoon yada anime bölümü silindiğinde webtoon ya da bölüm sayısı azalmalı
 ---------------------------------------------
 Kontrol edilecek işlemler:
 

@@ -16,6 +16,7 @@ use App\Http\Controllers\IndexUserController;
 use App\Http\Controllers\KeyValueController;
 use App\Http\Controllers\NotificationAdminController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\RssController;
 use App\Http\Controllers\TagController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WebtoonCalendarController;
@@ -390,3 +391,5 @@ Route::middleware(['auth'])->group(function () {
         });
     });
 });
+
+Route::get('/feed', [RssController::class, "getRSS"])->name('getRSS');
