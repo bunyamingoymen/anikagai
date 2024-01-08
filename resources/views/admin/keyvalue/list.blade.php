@@ -39,7 +39,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <th scope="row">{{ $item->code }}</th>
+                                        <th scope="row">{{ $loop->index + 1 }}</th>
                                         <td>{{ $item->key }}</td>
                                         <td>{{ $item->value }}</td>
                                         <td>{{ $item->optional }}</td>
@@ -106,7 +106,15 @@
                     },
                     success: function(keyValues) {
                         var code = ``;
+                        var id = page <= 1 ? 1 : (page - 1) * 10 + 1;
                         for (let i = 0; i < keyValues.length; i++) {
+
+                            var keyValues_code = sendData(keyValues[i].code);
+                            var keyValues_key = sendData(keyValues[i].key);
+                            var keyValues_value = sendData(keyValues[i].value);
+                            var keyValues_optional = sendData(keyValues[i].optional);
+                            var keyValues_optional_2 = sendData(keyValues[i].optional_2);
+
                             code += `<tr>
                             <td>
                                 <div class="btn-group">
@@ -116,18 +124,18 @@
                                     </button>
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item" href="javascript:;" onclick="deleteKeyValue(` +
-                                keyValues[i].code + `)">Sil</a>
+                                keyValues_code + `)">Sil</a>
                                         <a class="dropdown-item"
-                                            href="{{ route('admin_keyvalue_update_screen') }}?code=` + keyValues[i]
-                                .code + `">Güncelle</a>
+                                            href="{{ route('admin_keyvalue_update_screen') }}?code=` +
+                                keyValues_code + `">Güncelle</a>
                                     </div>
                                 </div>
                             </td>
-                            <th scope="row">` + keyValues[i].code + `</th>
-                            <td>` + keyValues[i].key + `</td>
-                            <td>` + keyValues[i].value + `</td>
-                            <td>` + keyValues[i].optional + `</td>
-                            <td>` + keyValues[i].optional_2 + `</td>
+                            <th scope="row">` + id++ + `</th>
+                            <td>` + keyValues_key + `</td>
+                            <td>` + keyValues_value + `</td>
+                            <td>` + keyValues_optional + `</td>
+                            <td>` + keyValues_optional_2 + `</td>
                         </tr>`;
                             document.getElementById('keyValueTableTbody').innerHTML = code;
                         }

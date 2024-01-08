@@ -47,7 +47,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <th scope="row">{{ $item->code }}</th>
+                                        <th scope="row">{{ $loop->index + 1 }}</th>
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->email }}</td>
                                         <td>{{ $item->subject }}</td>
@@ -165,7 +165,15 @@
                     },
                     success: function(contacts) {
                         var code = ``;
+                        var id = page <= 1 ? 1 : (page - 1) * 10 + 1;
                         for (let i = 0; i < contacts.length; i++) {
+
+                            var contacts_code = sendData(contacts[i].code);
+                            var contacts_answered = sendData(contacts[i].answered);
+                            var contacts_name = sendData(contacts[i].name);
+                            var contacts_email = sendData(contacts[i].email);
+                            var contacts_subject = sendData(contacts[i].subject);
+
                             code += `<tr>
                             <td>
                                 <div class="btn-group">
@@ -176,28 +184,28 @@
                                     <div class="dropdown-menu">`
                             @if ($delete == 1)
                                 code += `<a class="dropdown-item" href="javascript:;" onclick="deleteContact(` +
-                                    contacts[i].code + `)">Sil</a>`
+                                    contacts_code + `)">Sil</a>`
                             @endif
                             @if ($answer == 1)
-                                if (contacts[i].answered == 1) {
+                                if (contacts_answered == 1) {
                                     code +=
                                         `<a class="dropdown-item" href="javascript:;" onclick="notAnswerContact(` +
-                                        contacts[i].code + `)">Cevaplanmadı Olarak
+                                        contacts_code + `)">Cevaplanmadı Olarak
                                                     İşaretle</a>`
                                 } else {
                                     code += `<a class="dropdown-item" href="javascript:;" onclick="answerContact(` +
-                                        contacts[i].code + `)">Cevaplandı Olarak İşaretle</a>`
+                                        contacts_code + `)">Cevaplandı Olarak İşaretle</a>`
                                 }
                             @endif
                             code += `</div>
                                 </div>
                             </td>
-                            <th scope="row">` + contacts[i].code + `</th>
-                            <td>` + contacts[i].name + `</td>
-                            <td>` + contacts[i].email + `</td>
-                            <td>` + contacts[i].subject + `</td>
+                            <th scope="row">` + id++ + `</th>
+                            <td>` + contacts_name + `</td>
+                            <td>` + contacts_email + `</td>
+                            <td>` + contacts_subject + `</td>
                             <td>`
-                            if (contacts[i].answered == 1) {
+                            if (contacts_answered == 1) {
                                 code += `<span class="badge badge-pill badge-success">Cevaplandı</span>`
                             } else {
                                 code += `<span class="badge badge-pill badge-danger">Cevaplanmadı</span>`

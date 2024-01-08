@@ -43,7 +43,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <th scope="row">{{ $item->code }}</th>
+                                        <th scope="row">{{ $loop->index + 1 }}</th>
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->description }}</td>
                                     </tr>
@@ -108,7 +108,13 @@
                     },
                     success: function(categories) {
                         var code = ``;
+                        var id = page <= 1 ? 1 : (page - 1) * 10 + 1;
                         for (let i = 0; i < categories.length; i++) {
+
+                            var categories_code = sendData(categories[i].code);
+                            var categories_name = sendData(categories[i].name);
+                            var categories_description = sendData(categories[i].description);
+
                             code += `<tr>
                             <td>
                                 <div class="btn-group">
@@ -119,19 +125,19 @@
                                     <div class="dropdown-menu">`
                             @if ($delete == 1)
                                 code += `<a class="dropdown-item" href="javascript:;" onclick="deleteCategory(` +
-                                    categories[i].code + `)">Sil</a>`
+                                    categories_code + `)">Sil</a>`
                             @endif
                             @if ($update == 1)
                                 code += `<a class="dropdown-item"
-                                                href="{{ route('admin_category_update_screen') }}?code=` + categories[
-                                    i].code + `">Güncelle</a>`
+                                                href="{{ route('admin_category_update_screen') }}?code=` +
+                                    categories_code + `">Güncelle</a>`
                             @endif
                             code += `</div>
                                 </div>
                             </td>
-                            <th scope="row">` + categories[i].code + `</th>
-                            <td>` + categories[i].name + `</td>
-                            <td>` + categories[i].description + `</td>
+                            <th scope="row">` + id++ + `</th>
+                            <td>` + categories_name + `</td>
+                            <td>` + categories_description + `</td>
                         </tr>`;
                             document.getElementById('categoryTableTbody').innerHTML = code;
                         }

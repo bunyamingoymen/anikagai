@@ -46,7 +46,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <th scope="row">{{ $item->code }}</th>
+                                        <th scope="row">{{ $loop->index + 1 }}</th>
                                         <td>{{ $item->name }}</td>
                                         <td><a href="{{ route('showPage', ['short_name' => $item->short_name]) }}"
                                                 target="_blank">p/{{ $item->short_name }}</a></td>
@@ -112,7 +112,12 @@
                     },
                     success: function(pages) {
                         var code = ``;
+                        var id = page <= 1 ? 1 : (page - 1) * 10 + 1;
                         for (let i = 0; i < pages.length; i++) {
+                            var pages_code = sendData(pages[i].code);
+                            var pages_name = sendData(pages[i].name);
+                            var pages_short_name = sendData(pages[i].short_name);
+
                             code += `<tr>
                             <td>
                                 <div class="btn-group">
@@ -122,22 +127,22 @@
                                     </button>
                                     <div class="dropdown-menu">`
                             @if ($delete == 1)
-                                code += `<a class="dropdown-item" href="javascript:;" onclick="deletePage(` + pages[
-                                    i].code + `)">Sil</a>`
+                                code += `<a class="dropdown-item" href="javascript:;" onclick="deletePage(` +
+                                    pages_code + `)">Sil</a>`
                             @endif
                             @if ($update == 1)
                                 code +=
                                     `<a class="dropdown-item" href="{{ route('admin_page_update_screen') }}?code=` +
-                                    pages[i].code + `">Güncelle</a>`
+                                    pages_code + `">Güncelle</a>`
                             @endif
-                            code += `<a class="dropdown-item" href="{{ route('admin_page_show') }}?code=` + pages[
-                                i].code + `">Görüntüle</a>`
+                            code += `<a class="dropdown-item" href="{{ route('admin_page_show') }}?code=` +
+                                pages_code + `">Görüntüle</a>`
                             code += `</div>
                                 </div>
                             </td>
-                            <th scope="row">` + pages[i].code + `</th>
-                            <td>` + pages[i].name + `</td>
-                            <td>/s/` + pages[i].short_name + `</td>
+                            <th scope="row">` + id++ + `</th>
+                            <td>` + pages_name + `</td>
+                            <td>/s/` + pages_short_name + `</td>
                         </tr>`;
                             document.getElementById('pageTableTbody').innerHTML = code;
                         }

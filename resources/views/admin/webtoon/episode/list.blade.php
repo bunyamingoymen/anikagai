@@ -47,7 +47,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <th scope="row">{{ $item->code }}</th>
+                                        <th scope="row">{{ $loop->index + 1 }}</th>
                                         <td>
                                             <img class="rounded-circle header-profile-user"
                                                 src="../../../{{ $item->webtoon_image ?? '' }}" alt="{{ $item->name }}">
@@ -104,7 +104,6 @@
             var currentPage = 1;
 
             function changePage(page) {
-                console.log(page);
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
@@ -112,13 +111,21 @@
                 });
                 $.ajax({
                     type: 'POST',
-                    url: '{{ route('admin_webtoon_get_data') }}',
+                    url: '{{ route('admin_webtoon_episodes_get_data') }}',
                     data: {
                         page: page
                     },
-                    success: function(webtoons) {
+                    success: function(webtoon_episode) {
                         var code = ``;
-                        for (let i = 0; i < webtoons.length; i++) {
+                        var id = page <= 1 ? 1 : (page - 1) * 10 + 1;
+                        for (let i = 0; i < webtoon_episode.length; i++) {
+                            var episode_count = sendData(webtoon_episode[i].code);
+                            var episode_webtoon_image = sendData(webtoon_episode[i].webtoon_image);
+                            var episode_webtoon_name = sendData(webtoon_episode[i].webtoon_name);
+                            var episode_name = sendData(webtoon_episode[i].name);
+                            var episode_season_short = sendData(webtoon_episode[i].season_short);
+                            var episode_episode_short = sendData(webtoon_episode[i].episode_short);
+
                             code += `<tr>
                             <td>
                                 <div class="btn-group">
@@ -130,27 +137,28 @@
                             @if ($delete == 1)
                                 code +=
                                     `<a class="dropdown-item" href="javascript:;" onclick="deleteWebtoonEpisde(` +
-                                    webtoons[i].code + `)">Sil</a>`
+                                    episode_count + `)">Sil</a>`
                             @endif
                             @if ($update == 1)
                                 code += `<a class="dropdown-item"
                                                 href="{{ route('admin_webtoon_episodes_update_screen') }}?code=` +
-                                    webtoons[i].code + `">Güncelle</a>`
+                                    episode_count + `">Güncelle</a>`
                             @endif
                             code += `</div>
                                 </div>
                             </td>
-                            <th scope="row">` + webtoons[i].code + `</th>
+                            <th scope="row">` + id++ + `</th>
                             <td>
-                                <img class="rounded-circle header-profile-user" src="../../../` + webtoons[i]
-                                .webtoon_image + `" alt="` + webtoons[i].webtoon_name + `">
+                                <img class="rounded-circle header-profile-user" src="../../../` +
+                                episode_webtoon_image + `" alt="` + episode_webtoon_name + `">
                                 </td>
-                            <td>` + webtoons[i].webtoon_name + `</td>
-                            <td>` + webtoons[i].name + `</td>
-                            <td>` + webtoons[i].season_short + `</td>
-                            <td>` + webtoons[i].episode_short + `</td>
+                            <td>` + episode_webtoon_name + `</td>
+                            <td>` + episode_name + `</td>
+                            <td>` + episode_season_short + `</td>
+                            <td>` + episode_episode_short + `</td>
                         </tr>`;
                             document.getElementById('webtoonTableTbody').innerHTML = code;
+
                         }
 
                         currentPaginationId = 'pagination' + currentPage;

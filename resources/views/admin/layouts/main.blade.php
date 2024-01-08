@@ -104,8 +104,6 @@
     <script src="../../../admin/assets/libs/simplebar/simplebar.min.js"></script>
     <script src="../../../admin/assets/libs/node-waves/waves.min.js"></script>
 
-
-
     <!-- alertifyjs js -->
     <script src="../../../admin/assets/libs/alertifyjs/build/alertify.min.js"></script>
 
@@ -115,6 +113,7 @@
 
     <script src="../../../admin/assets/js/app.js"></script>
 
+    <!--Uyarı Mesajları-->
     <script>
         @if (session('success'))
             alertify.success("{{ session('success') }}");
@@ -127,6 +126,17 @@
         @if (session('warning'))
             alertify.warning("{{ session('warning') }}");
         @endif
+    </script>
+
+    <!--Tabloda listelenen veriyi döndürüyor.-->
+    <script>
+        function sendData(data) {
+            var result = data;
+            if (typeof data === 'string')
+                result = data != null ? JSON.stringify(data).replaceAll('"', '').replaceAll("'", '') : "";
+
+            return result;
+        }
     </script>
 
 

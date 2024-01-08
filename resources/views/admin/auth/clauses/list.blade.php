@@ -37,7 +37,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <th scope="row">{{ $item->code }}</th>
+                                        <th scope="row">{{ $loop->index + 1 }}</th>
                                         <td>{{ $item->text }}</td>
                                         <td>{{ $item->description }}</td>
                                     </tr>
@@ -101,7 +101,13 @@
                     },
                     success: function(clauses) {
                         var code = ``;
+                        var id = page <= 1 ? 1 : (page - 1) * 10 + 1;
                         for (let i = 0; i < clauses.length; i++) {
+
+                            var clauses_code = sendData(categories[i].code);
+                            var clauses_text = sendData(categories[i].text);
+                            var clauses_description = sendData(categories[i].description);
+
                             code += `<tr>
                             <td>
                                 <div class="btn-group">
@@ -111,16 +117,16 @@
                                     </button>
                                     <div class="dropdown-menu">
                                         <a class="dropdown-item" href="javascript:;" onclick="deleteAuthClause(` +
-                                clauses[i].code + `)">Sil</a>
+                                clauses_code + `)">Sil</a>
                                         <a class="dropdown-item"
-                                            href="{{ route('admin_authclause_update_screen') }}?code=` + clauses[i]
-                                .code + `">Güncelle</a>
+                                            href="{{ route('admin_authclause_update_screen') }}?code=` +
+                                clauses_code + `">Güncelle</a>
                                     </div>
                                 </div>
                             </td>
-                            <th scope="row">` + clauses[i].code + `</th>
-                            <td>` + clauses[i].text + `</td>
-                            <td>` + clauses[i].description + `</td>
+                            <th scope="row">` + id++ + `</th>
+                            <td>` + clauses_text + `</td>
+                            <td>` + clauses_description + `</td>
                         </tr>`;
                             document.getElementById('AuthClauseTableTbody').innerHTML = code;
                         }

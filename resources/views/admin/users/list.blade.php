@@ -54,7 +54,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <th scope="row">{{ $item->code }}</th>
+                                        <th scope="row">{{ $loop->index + 1 }}</th>
                                         <td>
                                             <img class="rounded-circle header-profile-user"
                                                 src="../../../{{ $item->image ?? '' }}" alt="{{ $item->name }}">
@@ -125,7 +125,14 @@
                     },
                     success: function(users) {
                         var code = ``;
+                        var id = page <= 1 ? 1 : (page - 1) * 10 + 1;
                         for (let i = 0; i < users.length; i++) {
+                            var users_code = sendData(users[i].code);
+                            var users_name = sendData(users[i].name);
+                            var users_surname = sendData(users[i].surname);
+                            var users_email = sendData(users[i].email);
+                            var users_user_type = sendData(users[i].user_type);
+
                             code += `<tr>
                             <td>
                                 <div class="btn-group">
@@ -135,30 +142,30 @@
                                     </button>
                                     <div class="dropdown-menu">`
                             @if ($delete == 1)
-                                code += `<a class="dropdown-item" href="javascript:;" onclick="deleteUser(` + users[
-                                    i].code + `)">Sil</a>`
+                                code += `<a class="dropdown-item" href="javascript:;" onclick="deleteUser(` +
+                                    users_code + `)">Sil</a>`
                             @endif
                             @if ($update == 1 || Auth::guard('admin')->user()->code == $item->code)
                                 code +=
                                     `<a class="dropdown-item" href="{{ route('admin_user_update_screen') }}?code=` +
-                                    users[i].code + `">Güncelle</a>
+                                    users_code + `">Güncelle</a>
                                             <a class="dropdown-item" href="javascript:;" onclick="changePassword(` +
-                                    users[i].code + `)">Şifreyi
+                                    users_code + `)">Şifreyi
                                                 Değiştir</a>`
                             @endif
                             code += `
-                                        <a class="dropdown-item" href="{{ route('admin_profile') }}?code=` + users[i]
-                                .code + `">Görüntüle</a>
-                                        <a class="dropdown-item" href="javascript:;" onclick="sendMessage('` + users[i]
-                                .code + `',0);">Mesaj At</a>
+                                        <a class="dropdown-item" href="{{ route('admin_profile') }}?code=` +
+                                users_code + `">Görüntüle</a>
+                                        <a class="dropdown-item" href="javascript:;" onclick="sendMessage('` +
+                                users_code + `',0);">Mesaj At</a>
                                     </div>
                                 </div>
                             </td>
-                            <th scope="row">` + users[i].code + `</th>
-                            <td>` + users[i].name + `</td>
-                            <td>` + users[i].surname + `</td>
-                            <td>` + users[i].email + `</td>
-                            <td>` + users[i].user_type + `</td>
+                            <th scope="row">` + id++ + `</th>
+                            <td>` + users_name + `</td>
+                            <td>` + users_surname + `</td>
+                            <td>` + users_email + `</td>
+                            <td>` + users_user_type + `</td>
                         </tr>`;
                             document.getElementById('userTableTbody').innerHTML = code;
                         }

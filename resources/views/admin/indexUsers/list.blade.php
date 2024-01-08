@@ -46,7 +46,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <th scope="row">{{ $item->code }}</th>
+                                        <th scope="row">{{ $loop->index + 1 }}</th>
                                         <td>
                                             <img class="rounded-circle header-profile-user"
                                                 src="../../../{{ $item->image ?? 'user/img/profile/default.png' }}"
@@ -117,7 +117,15 @@
                     },
                     success: function(indexUsers) {
                         var code = ``;
+                        var id = page <= 1 ? 1 : (page - 1) * 10 + 1;
                         for (let i = 0; i < indexUsers.length; i++) {
+
+                            var indexUsers_code = sendData(indexUsers[i].code);
+                            var indexUsers_image = sendData(indexUsers[i].image);
+                            var indexUsers_name = sendData(indexUsers[i].name);
+                            var indexUsers_username = sendData(indexUsers[i].username);
+                            var indexUsers_email = sendData(indexUsers[i].email);
+
                             code += `<tr>
                             <td>
                                 <div class="btn-group">
@@ -128,32 +136,32 @@
                                     <div class="dropdown-menu">`
                             @if ($delete == 1)
                                 code += `<a class="dropdown-item" href="javascript:;" onclick="deleteIndexUser(` +
-                                    indexUsers[i].code + `)">Sil</a>`
+                                    indexUsers_code + `)">Sil</a>`
                             @endif
                             @if ($update == 1)
                                 code +=
                                     `<a class="dropdown-item" href="{{ route('admin_indexuser_update_screen') }}?code=` +
-                                    indexUsers[i].code + `">Güncelle</a>`
+                                    indexUsers_code + `">Güncelle</a>`
                             @endif
 
                             code += `</div>
                                 </div>
                             </td>
-                            <th scope="row">` + indexUsers[i].code + `</th>`
+                            <th scope="row">` + id++ + `</th>`
                             code += `<td>`
-                            if (indexUsers[i].image) {
+                            if (indexUsers_image.length > 0) {
                                 code += `<img class="rounded-circle header-profile-user"
-                                src="../../../` + indexUsers[i].image + `"
-                                alt="` + indexUsers[i].name + `">`
+                                src="../../../` + indexUsers_image + `"
+                                alt="` + indexUsers_name + `">`
                             } else {
                                 code += `<img class="rounded-circle header-profile-user"
                                 src="../../../user/img/profile/default.png"
-                                alt="` + indexUsers[i].name + `">`
+                                alt="` + indexUsers_name + `">`
                             }
                             code += `</td>`
-                            code += `<td>` + indexUsers[i].name + `</td>
-                            <td>` + indexUsers[i].username + `</td>
-                            <td>` + indexUsers[i].email + `</td>
+                            code += `<td>` + indexUsers_name + `</td>
+                            <td>` + indexUsers_username + `</td>
+                            <td>` + indexUsers_email + `</td>
                         </tr>`;
                             document.getElementById('indexUserTableTbody').innerHTML = code;
                         }

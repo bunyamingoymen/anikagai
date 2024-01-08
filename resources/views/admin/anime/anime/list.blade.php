@@ -46,7 +46,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <th scope="row">{{ $item->code }}</th>
+                                        <th scope="row">{{ $loop->index + 1 }}</th>
                                         <td>
                                             <img class="rounded-circle header-profile-user"
                                                 src="../../../{{ $item->image ?? '' }}" alt="{{ $item->name }}">
@@ -136,7 +136,17 @@
                     },
                     success: function(animes) {
                         var code = ``;
+                        var id = page <= 1 ? 1 : (page - 1) * 10 + 1;
                         for (let i = 0; i < animes.length; i++) {
+
+                            var anime_code = sendData(animes[i].code);
+                            var anime_name = sendData(animes[i].name);
+                            var anime_image = sendData(animes[i].image);
+                            var anime_plusEighteen = sendData(animes[i].plusEighteen);
+                            var anime_showStatus = sendData(animes[i].showStatus);
+                            var anime_episode_count = sendData(animes[i].episode_count);
+                            var anime_click_count = sendData(animes[i].click_count);
+
                             code += `<tr>
                             <td>
                                 <div class="btn-group">
@@ -147,42 +157,42 @@
                                     <div class="dropdown-menu">`
                             @if ($delete == 1)
                                 code += `<a class="dropdown-item" href="javascript:;" onclick="deleteAnime(` +
-                                    animes[i].code + `)">Sil</a>`
+                                    anime_code + `)">Sil</a>`
                             @endif
                             @if ($update == 1)
                                 code +=
                                     `<a class="dropdown-item" href="{{ route('admin_anime_update_screen') }}?code=` +
-                                    animes[i].code + `">Güncelle</a>`
+                                    anime_code + `">Güncelle</a>`
                             @endif
                             code += `</div>
                                 </div>
                             </td>
-                            <th scope="row">` + animes[i].code + `</th>
+                            <th scope="row">` + id++ + `</th>
                             <td>
-                                <img class="rounded-circle header-profile-user" src="../../../` + animes[i].image +
-                                `" alt="` + animes[i].name + `">
+                                <img class="rounded-circle header-profile-user" src="../../../` + anime_image +
+                                `" alt="` + anime_name + `">
                                 </td>
-                            <td>` + animes[i].name + `</td>`
-                            if (animes[i].plusEighteen == 1) {
+                            <td>` + anime_name + `</td>`
+                            if (anime_plusEighteen == 1) {
                                 code += `<span class="badge badge-pill badge-dark">+18</span>`;
                             }
 
-                            if (animes[i].showStatus == 0) {
+                            if (anime_showStatus == 0) {
                                 code += `<span class="badge badge-pill badge-success">Görünür</span>`;
-                            } else if (animes[i].showStatus == 1) {
+                            } else if (anime_showStatus == 1) {
                                 code += `<span class="badge badge-pill badge-warning">Üyelere Özel</span>`;
-                            } else if (animes[i].showStatus == 2) {
+                            } else if (anime_showStatus == 2) {
                                 code += `<span class="badge badge-pill badge-secondary">Sansürlü</span>`;
-                            } else if (animes[i].showStatus == 3) {
+                            } else if (anime_showStatus == 3) {
                                 code += `<span class="badge badge-pill badge-primary">Liste Dışı</span>`;
-                            } else if (animes[i].showStatus == 4) {
+                            } else if (anime_showStatus == 4) {
                                 code += `<span class="badge badge-pill badge-danger">Gizli</span>`;
                             } else {
                                 code +=
                                     `<span class="badge badge-pill badge-light"><span style="color:red;">HATA</span></span>`;
                             }
-                            code += `<td>` + animes[i].episode_count + `</td>
-                            <td>` + animes[i].click_count + `</td>
+                            code += `<td>` + anime_episode_count + `</td>
+                            <td>` + anime_click_count + `</td>
                         </tr>`;
                             document.getElementById('animeTableTbody').innerHTML = code;
                         }

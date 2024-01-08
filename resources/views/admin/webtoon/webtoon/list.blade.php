@@ -46,7 +46,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <th scope="row">{{ $item->code }}</th>
+                                        <th scope="row">{{ $loop->index + 1 }}</th>
                                         <td>
                                             <img class="rounded-circle header-profile-user"
                                                 src="../../../{{ $item->image ?? '' }}" alt="{{ $item->name }}">
@@ -130,85 +130,104 @@
                     }
                 });
                 $.ajax({
-                            type: 'POST',
-                            url: '{{ route('admin_webtoon_get_data') }}',
-                            data: {
-                                page: page
-                            },
-                            success: function(webtoons) {
-                                    var code = ``;
-                                    for (let i = 0; i < webtoons.length; i++) {
-                                        code += `<tr>
-                            <td>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                        ...
-                                    </button>
-                                    <div class="dropdown-menu">`
-                                        @if ($delete == 1)
-                                            code += `<a class="dropdown-item" href="javascript:;" onclick="deleteWebtoon(` +
-                                                webtoons[i].code + `)">Sil</a>`
-                                        @endif
-                                        @if ($update == 1)
-                                            code +=
-                                                `<a class="dropdown-item" href="{{ route('admin_webtoon_update_screen') }}?code=` +
-                                                webtoons[i].code + `">Güncelle</a>`
-                                        @endif
-                                        code += `</div>
-                                </div>
-                            </td>
-                            <th scope="row">` + webtoons[i].code + `</th>
-                            <td>
-                                <img class="rounded-circle header-profile-user" src="../../../` + webtoons[i].image +
-                                            `" alt="` + webtoons[i].name + `">
-                                </td>
-                            <td>` + webtoons[i].name + `</td>`
-                                        if (webtoons[i].plusEighteen == 1) {
-                                            code += `<span class="badge badge-pill badge-dark">+18</span>`;
-                                        }
+                    type: 'POST',
+                    url: '{{ route('admin_webtoon_get_data') }}',
+                    data: {
+                        page: page
+                    },
+                    success: function(webtoons) {
+                        var code = ``;
+                        var id = page <= 1 ? 1 : (page - 1) * 10 + 1;
+                        for (let i = 0; i < webtoons.length; i++) {
+                            var webtoons_code = sendData(webtoons[i].code);
+                            var webtoons_name = sendData(webtoons[i].name);
+                            var webtoons_image = sendData(webtoons[i].image);
+                            var webtoons_plusEighteen = sendData(webtoons[i].plusEighteen);
+                            var webtoons_showStatus = sendData(webtoons[i].showStatus);
+                            var webtoons_episode_count = sendData(webtoons[i].episode_count);
+                            var webtoons_click_count = sendData(webtoons[i].episode_count);
 
-                                        if (webtoons[i].showStatus == 0) {
-                                            code += `<span class="badge badge-pill badge-success">Görünür</span>`;
-                                        } else if (webtoons[i].showStatus == 1) {
-                                            code += `<span class="badge badge-pill badge-warning">Üyelere Özel</span>`;
-                                        } else if (webtoons[i].showStatus == 2) {
-                                            code += `<span class="badge badge-pill badge-secondary">Sansürlü</span>`;
-                                        } else if (webtoons[i].showStatus == 3) {
-                                            code += `<span class="badge badge-pill badge-primary">Liste Dışı</span>`;
-                                        } else if (webtoons[i].showStatus == 4) {
-                                            code += `<span class="badge badge-pill badge-danger">Gizli</span>`;
-                                        } else {
-                                            code +=
-                                                `<span class="badge badge-pill badge-light"><span style="color:red;">HATA</span></span>`;
-                                        } <
-                                        td > `+webtoons[i].episode_count+` < /td> <
-                                        td > `+webtoons[i].click_count+` < /td> < /
-                                            tr > `;
-                                    document.getElementById('webtoonTableTbody').innerHTML = code;
-                                }
-
-                                currentPaginationId = 'pagination' + currentPage;
-                                paginationId = 'pagination' + page;
-
-                                document.getElementById(currentPaginationId).classList.remove("active");
-                                document.getElementById(paginationId).classList.add("active");
-
-                                currentPage = page;
-
+                            code += ` < tr >
+                                    <
+                                    td >
+                                    <
+                                    div class = "btn-group" >
+                                    <
+                                    button type = "button"
+                                class = "btn btn-danger dropdown-toggle"
+                                data - toggle = "dropdown"
+                                aria - haspopup = "true"
+                                aria - expanded = "false" >
+                                    ...
+                                    <
+                                    /button> <
+                                    div class = "dropdown-menu" > `
+                            @if ($delete == 1)
+                                code += ` < a class = "dropdown-item"
+                                href = "javascript:;"
+                                onclick = "deleteWebtoon(` +
+                                    webtoons_code + `)">Sil</a>`
+                            @endif
+                            @if ($update == 1)
+                                code +=
+                                    `<a class="dropdown-item" href="{{ route('admin_webtoon_update_screen') }}?code=` +
+                                    webtoons_code + `">Güncelle</a>`
+                            @endif
+                            code += `</div>
+                                        </div>
+                                    </td>
+                                    <th scope="row">` + id++ + `</th>
+                                    <td>
+                                        <img class="rounded-circle header-profile-user" src="../../../` +
+                                webtoons_image +
+                                `" alt="` + webtoons_name + `">
+                                        </td>
+                                    <td>` + webtoons_name + `</td>`
+                            if (webtoons_plusEighteen == 1) {
+                                code += `<span class="badge badge-pill badge-dark">+18</span>`;
                             }
-                        });
+
+                            if (webtoons_showStatus == 0) {
+                                code += `<span class="badge badge-pill badge-success">Görünür</span>`;
+                            } else if (webtoons_showStatus == 1) {
+                                code += `<span class="badge badge-pill badge-warning">Üyelere Özel</span>`;
+                            } else if (webtoons_showStatus == 2) {
+                                code += `<span class="badge badge-pill badge-secondary">Sansürlü</span>`;
+                            } else if (webtoons_showStatus == 3) {
+                                code += `<span class="badge badge-pill badge-primary">Liste Dışı</span>`;
+                            } else if (webtoons_showStatus == 4) {
+                                code += `<span class="badge badge-pill badge-danger">Gizli</span>`;
+                            } else {
+                                code +=
+                                    `<span class="badge badge-pill badge-light"><span style="color:red;">HATA</span></span>`;
+                            }
+                            `<td > ` + webtoons_episode_count + ` < /td>`
+                            `<td > ` + webtoons_click_count + ` < /td> < /
+                                                    tr > `;
+                            document.getElementById('webtoonTableTbody').innerHTML = code;
+                        }
+
+                        currentPaginationId = 'pagination' + currentPage;
+                        paginationId = 'pagination' + page;
+
+                        document.getElementById(currentPaginationId).classList.remove("active");
+                        document.getElementById(paginationId).classList.add("active");
+
+                        currentPage = page;
 
                     }
+                });
 
-                    function prevPage() {
-                        if (currentPage > 1)
-                            changePage(currentPage + -1)
-                    }
+            }
 
-                    function nextPage() {
-                        if (currentPage < "{{ $pageCount }}") changePage(currentPage + 1)
-                    }
+            function prevPage() {
+                if (currentPage > 1)
+                    changePage(currentPage + -1)
+            }
+
+            function nextPage() {
+                if (currentPage < "{{ $pageCount }}") changePage(currentPage + 1)
+            }
         </script>
 
         <script>

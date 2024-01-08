@@ -44,7 +44,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <th scope="row">{{ $item->code }}</th>
+                                        <th scope="row">{{ $loop->index + 1 }}</th>
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->description }}</td>
                                     </tr>
@@ -109,7 +109,12 @@
                     },
                     success: function(tags) {
                         var code = ``;
+                        var id = page <= 1 ? 1 : (page - 1) * 10 + 1;
                         for (let i = 0; i < tags.length; i++) {
+                            var tags_code = sendData(tags[i].code);
+                            var tags_name = sendData(tags[i].name);
+                            var tags_description = sendData(tags[i].description);
+
                             code += `<tr>
                             <td>
                                 <div class="btn-group">
@@ -119,21 +124,21 @@
                                     </button>
                                     <div class="dropdown-menu">`
                             @if ($delete == 1)
-                                code += `<a class="dropdown-item" href="javascript:;" onclick="deleteTag(` + tags[i]
-                                    .code + `)">Sil</a>`
+                                code += `<a class="dropdown-item" href="javascript:;" onclick="deleteTag(` +
+                                    tags_code + `)">Sil</a>`
                             @endif
                             @if ($update == 1)
                                 code +=
                                     `<a class="dropdown-item" href="{{ route('admin_tag_update_screen') }}?code=` +
-                                    tags[i].code + `">Güncelle</a>`
+                                    tags_code + `">Güncelle</a>`
                             @endif
 
                             code += `</div>
                                 </div>
                             </td>
-                            <th scope="row">` + tags[i].code + `</th>
-                            <td>` + tags[i].name + `</td>
-                            <td>` + tags[i].description + `</td>
+                            <th scope="row">` + id++ + `</th>
+                            <td>` + tags_name + `</td>
+                            <td>` + tags_description + `</td>
                         </tr>`;
                             document.getElementById('tagTableTbody').innerHTML = code;
                         }

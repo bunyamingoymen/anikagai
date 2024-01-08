@@ -32,7 +32,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <th scope="row">{{ $item->code }}</th>
+                                        <th scope="row">{{ $loop->index + 1 }}</th>
                                         <td>{{ $item->message }}</td>
                                         <td>{{ $item->comment_short }}</td>
                                     </tr>
@@ -97,7 +97,13 @@
                     },
                     success: function(comments) {
                         var code = ``;
+                        var id = page <= 1 ? 1 : (page - 1) * 10 + 1;
                         for (let i = 0; i < comments.length; i++) {
+
+                            var comments_code = sendData(comments[i].code);
+                            var comments_message = sendData(comments[i].message);
+                            var comments_comment_short = sendData(comments[i].comment_short);
+
                             code += `<tr>
                             <td>
                                 <div class="btn-group">
@@ -108,14 +114,14 @@
                                     <div class="dropdown-menu">`
                             @if ($delete == 1)
                                 code += `<a class="dropdown-item" href="javascript:;" onclick="deleteComment(` +
-                                    comments[i].code + `)">Sil</a>`
+                                    comments_code + `)">Sil</a>`
                             @endif
                             code += `</div>
                                 </div>
                             </td>
-                            <th scope="row">` + comments[i].code + `</th>
-                            <td>` + comments[i].message + `</td>
-                            <td>` + comments[i].comment_short + `</td>
+                            <th scope="row">` + id++ + `</th>
+                            <td>` + comments_message + `</td>
+                            <td>` + comments_comment_short + `</td>
                         </tr>`;
                             document.getElementById('commentTableTbody').innerHTML = code;
                         }

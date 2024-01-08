@@ -44,7 +44,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <th scope="row">{{ $item->code }}</th>
+                                        <th scope="row">{{ $loop->index + 1 }}</th>
                                         <td>{{ $item->text }}</td>
                                         <td>{{ $item->description }}</td>
                                     </tr>
@@ -108,7 +108,13 @@
                     },
                     success: function(groups) {
                         var code = ``;
+                        var id = page <= 1 ? 1 : (page - 1) * 10 + 1;
                         for (let i = 0; i < groups.length; i++) {
+
+                            var groups_code = sendData(groups[i].code);
+                            var groups_text = sendData(groups[i].text);
+                            var groups_description = sendData(groups[i].description);
+
                             code += `<tr>
                             <td>
                                 <div class="btn-group">
@@ -119,19 +125,19 @@
                                     <div class="dropdown-menu">`
                             @if ($delete == 1)
                                 code += `<a class="dropdown-item" href="javascript:;" onclick="deleteAuthGroup(` +
-                                    groups[i].code + `)">Sil</a>`
+                                    groups_code + `)">Sil</a>`
                             @endif
                             @if ($update == 1)
                                 code +=
                                     `<a class="dropdown-item" href="{{ route('admin_authgroup_update_screen') }}?code=` +
-                                    groups[i].code + `">Güncelle</a>`
+                                    groups_code + `">Güncelle</a>`
                             @endif
                             code += `</div>
                                 </div>
                             </td>
-                            <th scope="row">` + groups[i].code + `</th>
-                            <td>` + groups[i].text + `</td>
-                            <td>` + groups[i].description + `</td>
+                            <th scope="row">` + id++ + `</th>
+                            <td>` + groups_text + `</td>
+                            <td>` + groups_description + `</td>
                         </tr>`;
                             document.getElementById('AuthGroupTableTbody').innerHTML = code;
                         }
