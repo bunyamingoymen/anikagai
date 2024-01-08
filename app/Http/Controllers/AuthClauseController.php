@@ -11,7 +11,7 @@ class AuthClauseController extends Controller
 {
     public function AuthClauseList()
     {
-        $clauses = AuthorizationClause::Where('deleted', 0)->take(10)->get();
+        $clauses = AuthorizationClause::Where('deleted', 0)->take($this->showCount)->get();
         $currentCount = 1;
         $pageCountTest = AuthorizationClause::Where('deleted', 0)->count();
         if ($pageCountTest % $this->showCount == 0)

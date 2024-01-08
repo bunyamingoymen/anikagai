@@ -13,7 +13,7 @@ class UserController extends Controller
 {
     public function userList()
     {
-        $users = User::Where('deleted', 0)->Where('code', '!=', 0)->take(10)->get();
+        $users = User::Where('deleted', 0)->Where('code', '!=', 0)->take($this->showCount)->get();
         $currentCount = 1;
         $pageCountTest = User::Where('deleted', 0)->count();
         if ($pageCountTest % $this->showCount == 0)

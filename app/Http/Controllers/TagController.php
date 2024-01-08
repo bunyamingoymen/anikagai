@@ -11,7 +11,7 @@ class TagController extends Controller
 {
     public function tagList()
     {
-        $tags = Tag::Where('deleted', 0)->take(10)->get();
+        $tags = Tag::Where('deleted', 0)->take($this->showCount)->get();
         $currentCount = 1;
         $pageCountTest = Tag::Where('deleted', 0)->count();
         if ($pageCountTest % $this->showCount == 0)

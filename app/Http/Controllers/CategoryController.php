@@ -11,7 +11,7 @@ class CategoryController extends Controller
 {
     public function categoryList()
     {
-        $categories = Category::Where('deleted', 0)->take(10)->get();
+        $categories = Category::Where('deleted', 0)->take($this->showCount)->get();
         $currentCount = 1;
         $pageCountTest = Category::Where('deleted', 0)->count();
         if ($pageCountTest % $this->showCount == 0)

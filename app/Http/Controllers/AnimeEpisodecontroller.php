@@ -18,6 +18,7 @@ class AnimeEpisodecontroller extends Controller
             ->Where('anime_episodes.deleted', 0)
             ->join('animes', 'animes.code', '=', 'anime_episodes.anime_code')
             ->select('anime_episodes.*', 'animes.name as anime_name', 'animes.image as anime_image')
+            ->take($this->showCount)
             ->get();
         $currentCount = 1;
         $pageCountTest = AnimeEpisode::Where('deleted', 0)->count();

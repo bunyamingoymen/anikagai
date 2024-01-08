@@ -15,7 +15,7 @@ class WebtoonController extends Controller
 {
     public function webtoonList()
     {
-        $webtoons = Webtoon::Where('deleted', 0)->take(10)->get();
+        $webtoons = Webtoon::Where('deleted', 0)->take($this->showCount)->get();
         $currentCount = 1;
         $pageCountTest = Webtoon::Where('deleted', 0)->count();
         if ($pageCountTest % $this->showCount == 0)

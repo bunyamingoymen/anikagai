@@ -11,7 +11,7 @@ class IndexUserController extends Controller
 {
     public function indexUserList()
     {
-        $indexUsers = IndexUser::Where('code', '!=', 0)->take(10)->get();
+        $indexUsers = IndexUser::Where('code', '!=', 0)->take($this->showCount)->get();
         $currentCount = 1;
         $pageCountTest = IndexUser::count();
         if ($pageCountTest % $this->showCount == 0)

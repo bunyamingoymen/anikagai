@@ -11,7 +11,7 @@ class PageController extends Controller
 {
     public function pageList()
     {
-        $pages = Page::Where('deleted', 0)->take(10)->get();
+        $pages = Page::Where('deleted', 0)->take($this->showCount)->get();
         $currentCount = 1;
         $pageCountTest = Page::Where('deleted', 0)->count();
         if ($pageCountTest % $this->showCount == 0)

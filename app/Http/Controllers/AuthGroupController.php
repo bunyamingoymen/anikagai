@@ -11,7 +11,7 @@ class AuthGroupController extends Controller
 {
     public function AuthGroupList()
     {
-        $groups = AuthorizationGroup::Where('deleted', 0)->take(10)->get();
+        $groups = AuthorizationGroup::Where('deleted', 0)->take($this->showCount)->get();
         $currentCount = 1;
         $pageCountTest = AuthorizationGroup::Where('deleted', 0)->count();
         if ($pageCountTest % $this->showCount == 0)
