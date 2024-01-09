@@ -173,6 +173,7 @@
                                 `" alt="` + anime_name + `">
                                 </td>
                             <td>` + anime_name + `</td>`
+                            code += `<td>`;
                             if (anime_plusEighteen == 1) {
                                 code += `<span class="badge badge-pill badge-dark">+18</span>`;
                             }
@@ -191,6 +192,7 @@
                                 code +=
                                     `<span class="badge badge-pill badge-light"><span style="color:red;">HATA</span></span>`;
                             }
+                            code += `</td>`;
                             code += `<td>` + anime_episode_count + `</td>
                             <td>` + anime_click_count + `</td>
                         </tr>`;

@@ -131,7 +131,7 @@
     <!--Tabloda listelenen veriyi döndürüyor.-->
     <script>
         function sendData(data) {
-            var result = data;
+            var result = data == null ? '' : data;
             if (typeof data === 'string')
                 result = data != null ? JSON.stringify(data).replaceAll('"', '').replaceAll("'", '') : "";
 

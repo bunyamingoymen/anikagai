@@ -20,7 +20,7 @@
                                     <th scope="col">#</th>
                                     <th scope="col">Resim</th>
                                     <th scope="col">İsim</th>
-                                    <th scope="col">Açıklama</th>
+                                    <th scope="col">Durumu</th>
                                     <th scope="col">Bölüm Sayısı</th>
                                     <th scope="col">Tıklanma Sayısı</th>
                                 </tr>
@@ -146,24 +146,16 @@
                             var webtoons_showStatus = sendData(webtoons[i].showStatus);
                             var webtoons_episode_count = sendData(webtoons[i].episode_count);
                             var webtoons_click_count = sendData(webtoons[i].episode_count);
-
-                            code += ` < tr >
-                                    <
-                                    td >
-                                    <
-                                    div class = "btn-group" >
-                                    <
-                                    button type = "button"
-                                class = "btn btn-danger dropdown-toggle"
-                                data - toggle = "dropdown"
-                                aria - haspopup = "true"
-                                aria - expanded = "false" >
-                                    ...
-                                    <
-                                    /button> <
-                                    div class = "dropdown-menu" > `
+                            code += ` <tr>
+                                    <td>
+                                    <div class = "btn-group">
+                                    <button type = "button"class = "btn btn-danger dropdown-toggle"
+                                            data-toggle = "dropdown" aria-haspopup = "true"
+                                            aria-expanded = "false" >
+                                        ...
+                                    </button> <div class = "dropdown-menu" > `
                             @if ($delete == 1)
-                                code += ` < a class = "dropdown-item"
+                                code += ` <a class = "dropdown-item"
                                 href = "javascript:;"
                                 onclick = "deleteWebtoon(` +
                                     webtoons_code + `)">Sil</a>`
@@ -176,19 +168,20 @@
                             code += `</div>
                                         </div>
                                     </td>
-                                    <th scope="row">` + id++ + `</th>
+                                    <td scope="row">` + id++ + `</td>
                                     <td>
                                         <img class="rounded-circle header-profile-user" src="../../../` +
                                 webtoons_image +
                                 `" alt="` + webtoons_name + `">
                                         </td>
                                     <td>` + webtoons_name + `</td>`
+                            code += `<td>`
                             if (webtoons_plusEighteen == 1) {
                                 code += `<span class="badge badge-pill badge-dark">+18</span>`;
                             }
-
                             if (webtoons_showStatus == 0) {
                                 code += `<span class="badge badge-pill badge-success">Görünür</span>`;
+
                             } else if (webtoons_showStatus == 1) {
                                 code += `<span class="badge badge-pill badge-warning">Üyelere Özel</span>`;
                             } else if (webtoons_showStatus == 2) {
@@ -201,9 +194,9 @@
                                 code +=
                                     `<span class="badge badge-pill badge-light"><span style="color:red;">HATA</span></span>`;
                             }
-                            `<td > ` + webtoons_episode_count + ` < /td>`
-                            `<td > ` + webtoons_click_count + ` < /td> < /
-                                                    tr > `;
+                            code += `</td>`
+                            code += `<td> ` + webtoons_episode_count + ` </td>`
+                            code += `<td> ` + webtoons_click_count + ` </td> </tr > `;
                             document.getElementById('webtoonTableTbody').innerHTML = code;
                         }
 
