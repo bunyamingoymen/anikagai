@@ -8,7 +8,7 @@
 
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
         /* Roboto fontunu ekleyin veya
-                                                                                                                                                                                                                                                                                                        kendi tercih ettiğiniz bir font kullanabilirsiniz */
+                                                                                                                                                                                                                                                                                                            kendi tercih ettiğiniz bir font kullanabilirsiniz */
 
         .overlay-button {
             position: absolute !important;
@@ -204,7 +204,7 @@
 
                                         @if (Auth::user())
                                             <a href="javascript:;" style="color:white; float:right;"
-                                                onclick="ReplyComment('AnswerMain{{ $loop->index }}','{{ $episode->code }}','1','1','{{ $main_comment->code }}')">
+                                                onclick="ReplyComment('AnswerMain{{ $main_comment->code }}','{{ $episode->code }}','1','1','{{ $main_comment->code }}')">
                                                 <i class="fa fa-reply" aria-hidden="true"></i> Cevapla
                                             </a>
                                         @endif
@@ -224,7 +224,7 @@
                                     </div>
                                 </div>
                     </div>
-                    <div id="AnswerMain{{ $loop->index }}"></div>
+                    <div id="AnswerMain{{ $main_comment->code }}"></div>
                     @foreach ($comments_alt->Where('comment_top_code', $main_comment->code) as $alt_comment)
                         <div class="blog__details__comment__item blog__details__comment__item--reply">
                             <div class="anime__review__item__pic">
@@ -242,13 +242,13 @@
 
                                 @if (Auth::user())
                                     <a href="javascript:;" style="color:white; float:right;"
-                                        onclick="ReplyComment('AnswerAltMain{{ $loop->index }}','{{ $episode->code }}','1','1','{{ $main_comment->code }}')">
+                                        onclick="ReplyComment('AnswerAltMain{{ $alt_comment->code }}','{{ $episode->code }}','1','1','{{ $main_comment->code }}')">
                                         <i class="fa fa-reply" aria-hidden="true"></i> Cevapla
                                     </a>
                                 @endif
                             </div>
                         </div>
-                        <div id="AnswerAltMain{{ $loop->index }}"></div>
+                        <div id="AnswerAltMain{{ $alt_comment->code }}"></div>
                     @endforeach
                     @endforeach
                 @else

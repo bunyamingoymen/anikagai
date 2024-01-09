@@ -222,7 +222,7 @@
 
                                         @if (Auth::user())
                                             <a class="mr-3 ml-3" href="javascript:;" style="color:white; float:right;"
-                                                onclick="ReplyComment('AnswerMain{{ $loop->index }}','{{ $episode->code }}','0','1','{{ $main_comment->code }}')">
+                                                onclick="ReplyComment('AnswerMain{{ $main_comment->code }}','{{ $episode->code }}','0','1','{{ $main_comment->code }}')">
                                                 <i class="fa fa-reply" aria-hidden="true"></i> Cevapla
                                             </a>
                                         @endif
@@ -241,7 +241,7 @@
                                         @endif
                                     </div>
                                 </div>
-                                <div id="AnswerMain{{ $loop->index }}"></div>
+                                <div id="AnswerMain{{ $main_comment->code }}"></div>
                                 @foreach ($comments_alt->Where('comment_top_code', $main_comment->code) as $alt_comment)
                                     <div class="blog__details__comment__item blog__details__comment__item--reply">
                                         <div class="anime__review__item__pic">
@@ -259,13 +259,13 @@
 
                                             @if (Auth::user())
                                                 <a href="javascript:;" style="color:white; float:right;"
-                                                    onclick="ReplyComment('AnswerAltMain{{ $loop->index }}','{{ $episode->code }}','0','1','{{ $main_comment->code }}')">
+                                                    onclick="ReplyComment('AnswerAltMain{{ $alt_comment->code }}','{{ $episode->code }}','0','1','{{ $main_comment->code }}')">
                                                     <i class="fa fa-reply" aria-hidden="true"></i> Cevapla
                                                 </a>
                                             @endif
                                         </div>
                                     </div>
-                                    <div id="AnswerAltMain{{ $loop->index }}"></div>
+                                    <div id="AnswerAltMain{{ $alt_comment->code }}"></div>
                                 @endforeach
                             @endforeach
                         @else
@@ -288,6 +288,10 @@
                                     <input type="text" name="comment_top_code" value="0">
                                 </div>
                                 <textarea name="message" placeholder="Yorumunuz"></textarea>
+                                <div>
+                                    <input type="checkbox" id="is_spoiler" name="is_spoiler">
+                                    <label for="is_spoiler" style="color: #fff">Spoiler</label>
+                                </div>
                                 <button type="submit"><i class="fa fa-location-arrow"></i> Gönder</button>
                             </form>
                         </div>
@@ -375,6 +379,10 @@
                         comment_top_code + `">
                                             </div>
                                             <textarea name="message" placeholder="Yorumunuz"></textarea>
+                                            <div>
+                                                <input type="checkbox" id="is_spoiler" name="is_spoiler">
+                                                <label for="is_spoiler" style="color: #fff">Spoiler</label>
+                                            </div>
                                             <button style="float:right;" type="submit"><i class="fa fa-location-arrow"></i>
                                                 Gönder</button>
                                         </form>
