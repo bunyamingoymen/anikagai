@@ -62,19 +62,17 @@
                             <div class="row">
                                 <div class="col-md-8 mb-3">
                                     <label for="main_catogery">Ana Kategori:</label>
-                                    <select class="form-control js-seelct-multiple" name="main_category" id="main_category">
+                                    <select class="form-control js-seelct-multiple" name="main_category[]"
+                                        id="main_category" multiple>
                                         <option value="0">Seçiniz</option>
-                                        @foreach ($categories->where('is_main', 1) as $category)
-                                            <select class="form-control js-seelct-multiple" name="main_category[]"
-                                                id="main_category"multiple>
-                                                @if (count($selectedCategories->where('is_main', 1)) > 0 &&
-                                                        $selectedCategories->Where('category_code', $category->code)->where('is_main', 1)->first())
-                                                    <option value="{{ $category->code }}" selected>{{ $category->name }}
-                                                    </option>
-                                                @else
-                                                    <option value="{{ $category->code }}">{{ $category->name }}</option>
-                                                @endif
-                                            </select>
+                                        @foreach ($categories as $category)
+                                            @if (count($selectedCategories->where('is_main', 1)) > 0 &&
+                                                    $selectedCategories->Where('category_code', $category->code)->where('is_main', 1)->first())
+                                                <option value="{{ $category->code }}" selected>{{ $category->name }}
+                                                </option>
+                                            @else
+                                                <option value="{{ $category->code }}">{{ $category->name }}</option>
+                                            @endif
                                         @endforeach
                                     </select>
                                 </div>

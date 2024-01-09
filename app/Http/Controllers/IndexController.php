@@ -241,7 +241,8 @@ class IndexController extends Controller
             ->where('content_categories.content_type', 1)
             ->join('content_categories', 'content_categories.category_code', '=', 'categories.code')
             ->join('animes', 'animes.code', '=', 'content_categories.content_code')
-            ->select('categories.*')
+            ->select('categories.*', 'content_categories.is_main')
+            ->orderBy('is_main', 'DESC')
             ->get();
 
 
@@ -373,8 +374,9 @@ class IndexController extends Controller
             ->where('content_categories.content_code', $webtoon->code)
             ->where('content_categories.content_type', 0)
             ->join('content_categories', 'content_categories.category_code', '=', 'categories.code')
-            ->join('animes', 'animes.code', '=', 'content_categories.content_code')
-            ->select('categories.*')
+            ->join('webtoons', 'webtoons.code', '=', 'content_categories.content_code')
+            ->select('categories.*', 'content_categories.is_main')
+            ->orderBy('is_main', 'DESC')
             ->get();
 
         $firstEpisodeUrl = 'none';

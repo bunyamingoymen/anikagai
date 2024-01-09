@@ -132,9 +132,12 @@
                                         <ul>
                                             <li><span>Türü:</span> Webtoon</li>
                                             <li><span>Yayınlanma:</span>{{ $webtoon->date }}</li>
-                                            <li><span>Kategoriler:</span> {{ $webtoon->main_category_name ?? 'Genel' }}
+                                            <li><span>Kategoriler:</span>
                                                 @foreach ($categories as $item)
-                                                    {{ $item->name }},
+                                                    {{ $item->name }}
+                                                    @unless ($loop->last)
+                                                        ,
+                                                    @endunless
                                                 @endforeach
                                             </li>
                                         </ul>
