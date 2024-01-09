@@ -8,7 +8,7 @@
 
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
         /* Roboto fontunu ekleyin veya
-                                                                                                                                                                                                                                                                                    kendi tercih ettiğiniz bir font kullanabilirsiniz */
+                                                                                                                                                                                                                                                                                        kendi tercih ettiğiniz bir font kullanabilirsiniz */
 
         .overlay-button {
             position: absolute !important;
@@ -203,97 +203,109 @@
                                                 <i class="fa fa-reply" aria-hidden="true"></i> Cevapla
                                             </a>
                                         @endif
-                                    </div>
-                                </div>
-                                <div id="AnswerMain{{ $loop->index }}"></div>
-                                @foreach ($comments_alt->Where('comment_top_code', $main_comment->code) as $alt_comment)
-                                    <div class="blog__details__comment__item blog__details__comment__item--reply">
-                                        <div class="anime__review__item__pic">
-                                            <img src="../../../{{ $alt_comment->user_image ?? 'user/img/profile/default.png' }}"
-                                                alt="">
-                                        </div>
-                                        <div class="anime__review__item__text">
-                                            <h6>
-                                                <a style="color:#fff;"
-                                                    href={{ url('profile?username=' . $alt_comment->user_username) }}>
-                                                    {{ $alt_comment->user_name ?? ' not_found' }} </a>
-                                                - <span>{{ $alt_comment->date }}</span>
-                                            </h6>
-                                            <p>{{ $alt_comment->message }}</p>
-
-                                            @if (Auth::user())
-                                                <a href="javascript:;" style="color:white; float:right;"
-                                                    onclick="ReplyComment('AnswerAltMain{{ $loop->index }}','{{ $episode->code }}','1','1','{{ $main_comment->code }}')">
-                                                    <i class="fa fa-reply" aria-hidden="true"></i> Cevapla
+                                        @if (Auth::guard('admin')->user())
+                                            @if ($main_comment->is_pinned == 1)
+                                                <a href="javascript:;" style="color:white; float:right;">
+                                                    <i class="fa fa-thumb-tack " aria-hidden="true"></i> Pini Kaldır
+                                                </a>
+                                            @else
+                                                <a href="javascript:;" style="color:white; float:right;">
+                                                    <i class="fa fa-thumb-tack " aria-hidden="true"></i> Pinle
                                                 </a>
                                             @endif
-                                        </div>
+                                        @endif
                                     </div>
-                                    <div id="AnswerAltMain{{ $loop->index }}"></div>
-                                @endforeach
-                            @endforeach
-                        @else
-                            <p style="color: white;">İlk yorum atan siz olun!</p>
-                        @endif
+                                </div>
+                    </div>
+                    <div id="AnswerMain{{ $loop->index }}"></div>
+                    @foreach ($comments_alt->Where('comment_top_code', $main_comment->code) as $alt_comment)
+                        <div class="blog__details__comment__item blog__details__comment__item--reply">
+                            <div class="anime__review__item__pic">
+                                <img src="../../../{{ $alt_comment->user_image ?? 'user/img/profile/default.png' }}"
+                                    alt="">
+                            </div>
+                            <div class="anime__review__item__text">
+                                <h6>
+                                    <a style="color:#fff;"
+                                        href={{ url('profile?username=' . $alt_comment->user_username) }}>
+                                        {{ $alt_comment->user_name ?? ' not_found' }} </a>
+                                    - <span>{{ $alt_comment->date }}</span>
+                                </h6>
+                                <p>{{ $alt_comment->message }}</p>
 
-                    </div>
-                    @if (Auth::user())
-                        <div class="anime__details__form">
-                            <div class="section-title">
-                                <h5>Yorum Yaz</h5>
-                            </div>
-                            <form action="{{ route('addNewComment') }}" method="POST">
-                                @csrf
-                                <div hidden>
-                                    <input type="text" name="anime_code" value="{{ $anime->code }}">
-                                    <input type="text" name="content_code" value="{{ $episode->code }}">
-                                    <input type="text" name="content_type" value="1">
-                                    <input type="text" name="comment_type" value="0">
-                                    <input type="text" name="comment_top_code" value="0">
-                                </div>
-                                <textarea name="message" placeholder="Yorumunuz"></textarea>
-                                <button type="submit"><i class="fa fa-location-arrow"></i> Gönder</button>
-                            </form>
-                        </div>
-                    @else
-                        <div class="anime__details__form">
-                            <div class="section-title">
-                                <h5>Yorum Yapabilmeniz İçin Giriş Yapmalısınız.</h5>
-                            </div>
-                        </div>
-                    @endif
-                </div>
-                <!--Benzer içerikler-->
-                <div class="col-lg-4 col-md-4 justify-content-end">
-                    <div class="anime__details__sidebar">
-                        <div class="section-title">
-                            <h5>Benzer İçerikler</h5>
-                        </div>
-                        @foreach ($trend_animes as $item)
-                            <div class="col-lg-8 col-md-12 col-sm-12">
-                                <div class="product__item">
-                                    <a href="anime/{{ $item->short_name }}">
-                                        <div class="product__item__pic set-bg" data-setbg="../../../{{ $item->image }}">
-                                            <div class="ep">{{ $item->score }} / 5</div>
-                                            <div class="comment"><i class="fa fa-comments"></i>
-                                                {{ $item->comment_count }}
-                                            </div>
-                                            <div class="view"><i class="fa fa-eye"></i> {{ $item->click_count }} </div>
-                                        </div>
+                                @if (Auth::user())
+                                    <a href="javascript:;" style="color:white; float:right;"
+                                        onclick="ReplyComment('AnswerAltMain{{ $loop->index }}','{{ $episode->code }}','1','1','{{ $main_comment->code }}')">
+                                        <i class="fa fa-reply" aria-hidden="true"></i> Cevapla
                                     </a>
-                                    <div class="product__item__text">
-                                        <ul>
-                                            <li>{{ $item->main_category_name ?? 'Genel' }}</li>
-                                        </ul>
-                                        <h5><a href="{{ url('anime/' . $item->short_name) }}">{{ $item->name }}</a>
-                                        </h5>
+                                @endif
+                            </div>
+                        </div>
+                        <div id="AnswerAltMain{{ $loop->index }}"></div>
+                    @endforeach
+                    @endforeach
+                @else
+                    <p style="color: white;">İlk yorum atan siz olun!</p>
+                    @endif
+
+                </div>
+                @if (Auth::user())
+                    <div class="anime__details__form">
+                        <div class="section-title">
+                            <h5>Yorum Yaz</h5>
+                        </div>
+                        <form action="{{ route('addNewComment') }}" method="POST">
+                            @csrf
+                            <div hidden>
+                                <input type="text" name="anime_code" value="{{ $anime->code }}">
+                                <input type="text" name="content_code" value="{{ $episode->code }}">
+                                <input type="text" name="content_type" value="1">
+                                <input type="text" name="comment_type" value="0">
+                                <input type="text" name="comment_top_code" value="0">
+                            </div>
+                            <textarea name="message" placeholder="Yorumunuz"></textarea>
+                            <button type="submit"><i class="fa fa-location-arrow"></i> Gönder</button>
+                        </form>
+                    </div>
+                @else
+                    <div class="anime__details__form">
+                        <div class="section-title">
+                            <h5>Yorum Yapabilmeniz İçin Giriş Yapmalısınız.</h5>
+                        </div>
+                    </div>
+                @endif
+            </div>
+            <!--Benzer içerikler-->
+            <div class="col-lg-4 col-md-4 justify-content-end">
+                <div class="anime__details__sidebar">
+                    <div class="section-title">
+                        <h5>Benzer İçerikler</h5>
+                    </div>
+                    @foreach ($trend_animes as $item)
+                        <div class="col-lg-8 col-md-12 col-sm-12">
+                            <div class="product__item">
+                                <a href="anime/{{ $item->short_name }}">
+                                    <div class="product__item__pic set-bg" data-setbg="../../../{{ $item->image }}">
+                                        <div class="ep">{{ $item->score }} / 5</div>
+                                        <div class="comment"><i class="fa fa-comments"></i>
+                                            {{ $item->comment_count }}
+                                        </div>
+                                        <div class="view"><i class="fa fa-eye"></i> {{ $item->click_count }} </div>
                                     </div>
+                                </a>
+                                <div class="product__item__text">
+                                    <ul>
+                                        <li>{{ $item->main_category_name ?? 'Genel' }}</li>
+                                    </ul>
+                                    <h5><a href="{{ url('anime/' . $item->short_name) }}">{{ $item->name }}</a>
+                                    </h5>
                                 </div>
                             </div>
-                        @endforeach
-                    </div>
+                        </div>
+                    @endforeach
                 </div>
             </div>
+        </div>
 
         </div>
     </section>

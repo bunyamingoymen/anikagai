@@ -182,4 +182,20 @@ class AdminController extends Controller
         $comments = Comment::Where('deleted', 0)->skip($skip)->take($this->showCount)->get();
         return $comments;
     }
+
+    public function commentPinned(Request $request)
+    {
+        if (!Auth::guard('admin')->user())
+            return redirect()->back()->with('error', Config::get('error.error_codes.0000000'));
+
+        $comment = Comment::Where('deleted', 0)->Where('code', $request->code)->first();
+        if (!$comment)
+            return redirect()->back()->with('error', Config::get('error.error_codes.0020020'));
+
+        $comment->is_pinned = $comment->is_pinned == 1 ? 0 : 1; //Tam tersini işaretliyoruz.
+
+        $comment->save();
+
+        return redirect()->back()->with('success', Config::get('success.success_codes.10020020'));
+    }
 }

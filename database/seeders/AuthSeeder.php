@@ -352,6 +352,11 @@ class AuthSeeder extends Seeder
                 'text'  => 'Tema ayarlarını güncelleyebilme',
                 'description'  => 'Tema ayarlarını güncelleyebilme',
             ],
+            [
+                'code' => intval(Config::get('access.path_access_codes.admin/comment/pinned')),
+                'text'  => 'Yorum Pinleyebilme',
+                'description'  => 'Yorum Pinleyebilme',
+            ],
         ]);
     }
 }

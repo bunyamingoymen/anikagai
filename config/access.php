@@ -107,6 +107,7 @@ return [
         'admin/comment' => 55,
         'admin/comment/ajax' => 55,
         'admin/comment/delete' => 56,
+        'admin/comment/pinned' => 66,
 
         'admin/contact' => 57,
         'admin/contact/ajax' => 57,

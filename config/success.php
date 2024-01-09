@@ -52,6 +52,7 @@ return [
         '10010112' => 'Kullanıcının Şifresi' . $success . $update,
 
         '10020011' => 'Giriş Başarılı',
+        '10020020' => 'Yorum Başarılı bir şekilde sabitlendi',
 
         '10030010' => 'Yetki Maddesi' . $success . $add,
         '10030012' => 'Yetki Maddesi' . $success . $update,

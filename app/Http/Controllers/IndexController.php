@@ -434,6 +434,7 @@ class IndexController extends Controller
             ->Where('comments.comment_top_code', 0)
             ->join('index_users', 'index_users.code', '=', 'comments.user_code')
             ->select('index_users.name as user_name', 'index_users.username as user_username', 'index_users.image as user_image', 'comments.*')
+            ->orderBy('is_pinned', 'DESC')
             ->orderBy('comment_short', 'ASC')
             ->get();
 

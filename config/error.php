@@ -51,6 +51,7 @@ return [
         '0010112' => 'Kullanıcının Şifresi Güncellenirken Bir Hata Meydana Geldi',
 
         '0020011' => 'E-mail Ya da Şifre Hatalı',
+        '0020020' => 'Yorum Sabitlenirken Bir Hata Meydana Geldi',
 
         '0030002' => 'Yetki Maddeleri Güncelleme Ekranına Giderken Bir Hata Meydana Geldi',
         '0030012' => 'Yetki Maddeleri Güncellenirken Bir Hata Meydaan Geldi',

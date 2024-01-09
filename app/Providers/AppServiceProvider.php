@@ -44,6 +44,7 @@ class AppServiceProvider extends ServiceProvider
             $themePath = Theme::Where('code', $selected_theme->value)->first();
 
             $indexPages = ['index.' . $themePath->themePath . '.layouts.main', 'index.' . $themePath->themePath . '.index', 'index.' . $themePath->themePath . '.profile', 'index.' . $themePath->themePath . '.calendar'];
+            $watchPages = ['index.' . $themePath->themePath . '.watch', 'index.' . $themePath->themePath . '.read'];
             $themeThree = ['index.themes.moviefx.layouts.main', 'index.themes.moviefx.layouts.sidebar', 'index.themes.moviefx.layouts.topbar', 'index.themes.moviefx.layouts.footer', 'index.themes.moviefx.profile'];
 
             $adminPages = ['admin.layouts.main'];
@@ -361,6 +362,16 @@ class AppServiceProvider extends ServiceProvider
                 $view->with('categories', $categories)
                     ->with('trend_animes', $trend_animes)
                     ->with('trend_webtoons', $trend_webtoons);
+            });
+
+            View::composer($watchPages, function ($view) {
+
+                if (Auth::guard('admin')->user())
+                    $commentPinned = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/comment/pinned') ? 1 : 0;
+                else
+                    $commentPinned = 0;
+
+                $view->with('commentPinned', $commentPinned);
             });
         }
     }

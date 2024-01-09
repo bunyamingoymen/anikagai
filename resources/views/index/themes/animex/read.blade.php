@@ -208,6 +208,12 @@
                                     </div>
                                     <div class="anime__review__item__text">
                                         <h6>
+                                            @if (Auth::guard('admin')->user() && $commentPinned == 1)
+                                                @if ($main_comment->is_pinned == 1)
+                                                    <span><i class="fa fa-thumb-tack " aria-hidden="true"></i></span>
+                                                @endif
+                                            @endif
+
                                             <a style="color:#fff;"
                                                 href={{ url('profile?username=' . $main_comment->user_username) }}>
                                                 {{ $main_comment->user_name ?? ' not_found' }} </a>
@@ -216,10 +222,23 @@
                                         <p>{{ $main_comment->message }}</p>
 
                                         @if (Auth::user())
-                                            <a href="javascript:;" style="color:white; float:right;"
+                                            <a class="mr-3 ml-3" href="javascript:;" style="color:white; float:right;"
                                                 onclick="ReplyComment('AnswerMain{{ $loop->index }}','{{ $episode->code }}','0','1','{{ $main_comment->code }}')">
                                                 <i class="fa fa-reply" aria-hidden="true"></i> Cevapla
                                             </a>
+                                        @endif
+                                        @if (Auth::guard('admin')->user() && $commentPinned == 1)
+                                            @if ($main_comment->is_pinned == 1)
+                                                <a href="javascript:;" onclick="commentPinned('{{ $main_comment->code }}')"
+                                                    style="color:white; float:right;">
+                                                    <i class="fa fa-thumb-tack " aria-hidden="true"></i> Pini Kaldır
+                                                </a>
+                                            @else
+                                                <a href="javascript:;" onclick="commentPinned('{{ $main_comment->code }}')"
+                                                    style="color:white; float:right;">
+                                                    <i class="fa fa-thumb-tack " aria-hidden="true"></i> Pinle
+                                                </a>
+                                            @endif
                                         @endif
                                     </div>
                                 </div>
@@ -414,5 +433,16 @@
             // Belirli bir çerez bulunamazsa null döndür
             return null;
         }
+    </script>
+
+    <!--Diğer Ayarlar-->
+    <script>
+        @if (Auth::guard('admin')->user() && $commentPinned == 1)
+            function commentPinned(code) {
+                var url = `/admin/comment/pinned?code=` + code;
+                var type = "_self"
+                window.open(url, type);
+            }
+        @endif
     </script>
 @endsection
