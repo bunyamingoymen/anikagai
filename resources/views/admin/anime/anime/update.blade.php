@@ -62,13 +62,18 @@
                                 <div class="col-md-8 mb-3">
                                     <label for="main_catogery">Ana Kategori:</label>
                                     <select class="form-control js-seelct-multiple" name="main_category" id="main_category">
-                                        @foreach ($categories as $category)
-                                            @if ($anime->main_category == $category->code)
-                                                <option value="{{ $category->code }}" selected>{{ $category->name }}
-                                                </option>
-                                            @else
-                                                <option value="{{ $category->code }}">{{ $category->name }}</option>
-                                            @endif
+                                        <option value="0">Seçiniz</option>
+                                        @foreach ($categories->where('is_main', 1) as $category)
+                                            <select class="form-control js-seelct-multiple" name="main_category[]"
+                                                id="main_category"multiple>
+                                                @if (count($selectedCategories->where('is_main', 1)) > 0 &&
+                                                        $selectedCategories->Where('category_code', $category->code)->where('is_main', 1)->first())
+                                                    <option value="{{ $category->code }}" selected>{{ $category->name }}
+                                                    </option>
+                                                @else
+                                                    <option value="{{ $category->code }}">{{ $category->name }}</option>
+                                                @endif
+                                            </select>
                                         @endforeach
                                     </select>
                                 </div>
@@ -79,7 +84,8 @@
                                     <select class="form-control js-seelct-multiple" name="category[]" id="category"
                                         multiple>
                                         @foreach ($categories as $category)
-                                            @if (count($selectedCategories) > 0 && $selectedCategories->Where('category_code', $category->code)->first())
+                                            @if (count($selectedCategories->where('is_main', 0)) > 0 &&
+                                                    $selectedCategories->Where('category_code', $category->code)->where('is_main', 0)->first())
                                                 <option value="{{ $category->code }}" selected>{{ $category->name }}
                                                 </option>
                                             @else

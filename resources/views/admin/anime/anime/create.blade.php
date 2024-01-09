@@ -48,7 +48,8 @@
                             <div class="row">
                                 <div class="col-md-8 mb-3">
                                     <label for="main_category">Ana Kategori:</label>
-                                    <select class="form-control js-seelct-multiple" name="main_category" id="main_category">
+                                    <select class="form-control js-seelct-multiple" name="main_category[]"
+                                        id="main_category"multiple>
                                         @foreach ($categories as $category)
                                             <option value="{{ $category->code }}">{{ $category->name }}</option>
                                         @endforeach

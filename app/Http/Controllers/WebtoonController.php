@@ -57,8 +57,24 @@ class WebtoonController extends Controller
         $webtoon->average_min = $request->average_min;
         $webtoon->date = $request->date;
 
-        $webtoon->main_category = $request->main_category ? $request->main_category : 1;
-        $webtoon->main_category_name = $request->main_category ? Category::Where('code', $request->main_category)->first()->name : "Genel";
+
+        if ($request->main_category) {
+            foreach ($request->main_category as $index => $item) {
+
+                if ($index == 0) {
+                    $webtoon->main_category = $item ? $item : 1;
+                    $webtoon->main_category_name = $item ? Category::Where('code', $item)->first()->name : "Genel";
+                }
+
+                $content = new ContentCategory();
+                $content->category_code = $item;
+                $content->content_code = $webtoon->code;
+                $content->content_type = 0;
+                $content->is_main = 1;
+                $content->save();
+            }
+        }
+
 
         $webtoon->showStatus = $request->showStatus;
 
@@ -133,8 +149,24 @@ class WebtoonController extends Controller
         $webtoon->average_min = $request->average_min;
         $webtoon->date = $request->date;
 
-        $webtoon->main_category = $request->main_category ? $request->main_category : 1;
-        $webtoon->main_category_name = $request->main_category ? Category::Where('code', $request->main_category)->first()->name : "Genel";
+        ContentCategory::Where('content_code', $webtoon->code)->Where('content_type', 0)->delete();
+
+        if ($request->main_category) {
+            foreach ($request->main_category as $index => $item) {
+
+                if ($index == 0) {
+                    $webtoon->main_category = $item ? $item : 1;
+                    $webtoon->main_category_name = $item ? Category::Where('code', $item)->first()->name : "Genel";
+                }
+
+                $content = new ContentCategory();
+                $content->category_code = $item;
+                $content->content_code = $webtoon->code;
+                $content->content_type = 0;
+                $content->is_main = 1;
+                $content->save();
+            }
+        }
 
         $webtoon->showStatus = $request->showStatus;
 
@@ -145,7 +177,6 @@ class WebtoonController extends Controller
 
         $webtoon->save();
 
-        ContentCategory::Where('content_code', $webtoon->code)->Where('content_type', 0)->delete();
         if ($request->category) {
             foreach ($request->category as $item) {
                 $content = new ContentCategory();

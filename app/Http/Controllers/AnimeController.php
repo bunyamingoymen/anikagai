@@ -59,8 +59,22 @@ class AnimeController extends Controller
         $anime->average_min = $request->average_min;
         $anime->date = $request->date;
 
-        $anime->main_category = $request->main_category ? $request->main_category : 1;
-        $anime->main_category_name = $request->main_category ? Category::Where('code', $request->main_category)->first()->name : "Genel";
+        if ($request->main_category) {
+            foreach ($request->main_category as $index => $item) {
+
+                if ($index == 0) {
+                    $anime->main_category = $item ? $item : 1;
+                    $anime->main_category_name = $item ? Category::Where('code', $item)->first()->name : "Genel";
+                }
+
+                $content = new ContentCategory();
+                $content->category_code = $item;
+                $content->content_code = $anime->code;
+                $content->content_type = 1;
+                $content->is_main = 1;
+                $content->save();
+            }
+        }
 
         $anime->showStatus = $request->showStatus;
 
@@ -134,8 +148,23 @@ class AnimeController extends Controller
         $anime->average_min = $request->average_min;
         $anime->date = $request->date;
 
-        $anime->main_category = $request->main_category ? $request->main_category : 1;
-        $anime->main_category_name = $request->main_category ? Category::Where('code', $request->main_category)->first()->name : "Genel";
+        ContentCategory::Where('content_code', $anime->code)->Where('content_type', 1)->delete();
+        if ($request->main_category) {
+            foreach ($request->main_category as $index => $item) {
+
+                if ($index == 0) {
+                    $anime->main_category = $item ? $item : 1;
+                    $anime->main_category_name = $item ? Category::Where('code', $item)->first()->name : "Genel";
+                }
+
+                $content = new ContentCategory();
+                $content->category_code = $item;
+                $content->content_code = $anime->code;
+                $content->content_type = 1;
+                $content->is_main = 1;
+                $content->save();
+            }
+        }
 
         $anime->showStatus = $request->showStatus;
 
@@ -147,7 +176,6 @@ class AnimeController extends Controller
 
         $anime->save();
 
-        ContentCategory::Where('content_code', $anime->code)->Where('content_type', 1)->delete();
         if ($request->category) {
             foreach ($request->category as $item) {
                 $content = new ContentCategory();
