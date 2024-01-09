@@ -847,21 +847,33 @@ class IndexController extends Controller
 
     public function watchedAnime(Request $request)
     {
-        $response = 0; //0: başarısız, 1: eklendi 2:silindi;
+        $response = 0; //0: başarısız, 1: eklendi 2:silindi, 3: zaten izlendi olarak eklenmişti;
 
         if (Auth::user()) {
             $watched = WatchedAnime::Where('anime_code', $request->anime_code)->Where('anime_episode_code', $request->anime_episode_code)->Where('content_type', $request->content_type)->Where('user_code', Auth::user()->code)->first();
-            if ($watched) {
-                $watched->delete();
-                $response = 2;
+            if ($request->only_watch && $request->only_watch == 1) {
+                if (!$watched) {
+                    $watched = new WatchedAnime();
+                    $watched->anime_code = $request->anime_code;
+                    $watched->anime_episode_code = $request->anime_episode_code;
+                    $watched->content_type = $request->content_type;
+                    $watched->user_code = Auth::user()->code;
+                    $watched->save();
+                    $response = 1;
+                } else $response = 3;
             } else {
-                $watched = new WatchedAnime();
-                $watched->anime_code = $request->anime_code;
-                $watched->anime_episode_code = $request->anime_episode_code;
-                $watched->content_type = $request->content_type;
-                $watched->user_code = Auth::user()->code;
-                $watched->save();
-                $response = 1;
+                if ($watched) {
+                    $watched->delete();
+                    $response = 2;
+                } else {
+                    $watched = new WatchedAnime();
+                    $watched->anime_code = $request->anime_code;
+                    $watched->anime_episode_code = $request->anime_episode_code;
+                    $watched->content_type = $request->content_type;
+                    $watched->user_code = Auth::user()->code;
+                    $watched->save();
+                    $response = 1;
+                }
             }
         }
         return response()->json(['response' => $response]);

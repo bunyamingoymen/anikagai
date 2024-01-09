@@ -112,7 +112,7 @@
                     @endif
                     <div class="justify-content-center">
                         <div class="justify-content-center" style="position: relative;">
-                            @foreach ($files as $item)
+                            @foreach ($files as $index => $item)
                                 @if ($item->file_type == 'pdf')
                                     <div class="pdf-viewer">
                                         <iframe id="pdfViewer" src = "../../../{{ $item->file }}"
@@ -121,8 +121,14 @@
                                     </div>
                                     <button onclick="toggleFullScreen()" class="overlay-button">Tam Ekran</button>
                                 @else
-                                    <img id="image_{{ $item->code }}"class="webtoon-image"
-                                        src="../../../{{ $item->file }}" alt="{{ $item->code }}" class="webtoon-image">
+                                    @if ($index < 3)
+                                        <img id="image_{{ $item->code }}" src="../../../{{ $item->file }}"
+                                            class="webtoon-image" alt="Resim {{ $item->code }}{{ $index + 1 }}">
+                                    @else
+                                        <img id="image_{{ $item->code }}" data-src="../../../{{ $item->file }}"
+                                            class="webtoon-image lazy-load"
+                                            alt="Resim {{ $item->code }}{{ $index + 1 }}">
+                                    @endif
                                 @endif
                             @endforeach
                         </div>
@@ -166,7 +172,7 @@
                                                     {{ $item->name }}
                                                 </a>
                                             @else
-                                                @if (count($watched) > 0 && $watched->Where('anime_episode_code', $webtoon_episodes->code)->first())
+                                                @if (count($watched) > 0 && $watched->Where('anime_episode_code', $item->code)->first())
                                                     <a style="background-color: green;" class="a_selected"
                                                         href="{{ url('webtoon/' . $webtoon->short_name . '/' . $i . '/' . $item->episode_short) }}">
                                                         {{ $i }} - {{ $item->episode_short }}.Bölüm -
@@ -424,20 +430,48 @@
         }
     </script>
 
+    <!--Resimleri Yükleme-->
+    <script>
+        var isScrollingEnabled = true; // Kontrol mekanizması
+        $(document).ready(function() {
+            // Sayfa yüklendiğinde ilk 3 resmi görüntüle
+            $('img').slice(0, 3).each(function() {
+                $(this).attr('src', $(this).data('src')).removeClass('lazy-load');
+            });
+
+            // Sayfa aşağı indikçe diğer resimleri görüntüle
+            $(window).scroll(function() {
+                // Kontrol mekanizması
+                if (isScrollingEnabled) {
+                    $('img.lazy-load').each(function() {
+                        if ($(this).offset().top < $(window).scrollTop() + $(window).height() +
+                            200) {
+                            $(this).attr('src', $(this).data('src')).removeClass('lazy-load');
+                        }
+                    });
+
+                    // Son resme geldiğinde okundu olarak işaretle
+                    checkLastImage();
+                }
+            });
+
+            // Kullanıcı kaldığı yerden devam etmek isterse
+            // Otomatik olarak kaydedilen konuma git
+            goToSavedPosition();
+        });
+    </script>
+
     <!--Kaldığı yerden devam etme-->
     <script>
         const autoread = 5000;
-        const scrool_cookie = "read_{{ $episode->code }}"
-        console.log('sayfa başlatıldı')
-        console.log(getSavedScrollPosition(scrool_cookie));
+        const scrool_cookie = "read_{{ $episode->code }}";
+
         setInterval(() => {
-            saveScrollPosition();
+            if (isScrollingEnabled) {
+                saveScrollPosition();
+            }
         }, autoread);
 
-        // Sayfa yüklendiğinde otomatik olarak kaydedilen konuma git
-        window.onload = function() {
-            goToSavedPosition();
-        }
         // Konumu çerezlere kaydetme
         function saveScrollPosition() {
             var currentPosition = window.scrollY;
@@ -447,7 +481,13 @@
         // Kullanıcıyı belirli bir görselin olduğu yere götür
         function goToSavedPosition() {
             var savedPosition = getSavedScrollPosition(scrool_cookie);
-            window.scrollTo(0, savedPosition);
+
+            // Eğer kaydedilmiş bir konum varsa
+            if (savedPosition !== null) {
+                isScrollingEnabled = false; // Kontrol mekanizması
+                window.scrollTo(0, savedPosition);
+                isScrollingEnabled = true; // Kontrol mekanizması
+            }
         }
 
         function getSavedScrollPosition(cookieName) {
@@ -465,6 +505,68 @@
 
             // Belirli bir çerez bulunamazsa null döndür
             return null;
+        }
+    </script>
+
+    <!--Son resimde ise okundu olarak işaretleme-->
+    <script>
+        var is_run = false;
+        // Kontrol mekanizması
+        function checkLastImage() {
+            var lastImage = $('img.webtoon-image:last');
+
+
+            if (lastImage.length > 0) {
+                var lastImageBottom = lastImage.offset().top + lastImage.height();
+                var windowBottom = $(window).scrollTop() + $(window).height();
+
+                // Eğer son resme gelindiğinde
+                if (lastImageBottom < windowBottom && !is_run) {
+                    is_run = true;
+                    watchAnime('{{ $episode->code }}'); // Özel işlemi tetikle
+                }
+            }
+        }
+
+        function watchAnime(anime_episode_code) {
+            console.log('işaretleme fonksiyonu çalıştı');
+            var anime_code = `{{ $webtoon->code }}`;
+            @if (Auth::user())
+
+                $.ajaxSetup({
+                    headers: {
+                        "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                    },
+                });
+                $.ajax({
+                        type: "POST",
+                        url: '{{ route('index_watched_anime') }}',
+                        data: {
+                            anime_episode_code: anime_episode_code,
+                            anime_code: anime_code,
+                            content_type: 0,
+                            only_watch: 1,
+                        }
+                    })
+                    .done(function(response) {
+                        if (response.response === 0) {
+                            console.log('İşlem İçin Giriş Yapılması Gerekmektedir.');
+                        } else if (response.response === 1) {
+                            console.log("Bölüm izlendi olarak işaretlendi");
+                        } else if (response.response === 2) {
+                            console.log("Bölüm izlenmedi olarak işaretlendi");
+                        } else if (response.response === 3) {
+                            console.log("Zaten izlendi olarak işaretlenmişti");
+                        } else {
+                            console.log('Bölüm izlendi olarak işaretlenirken beklenmedik bir hata meydana geldi');
+                        }
+                    })
+                    .fail(function(jqXHR, textStatus, errorThrown) {
+                        console.log('AJAX hatası: ' + textStatus + ' - ' + errorThrown + ' - ' + JSON.stringify(jqXHR));
+                    });
+            @else
+                console.log("İlk Önce Giriş yapmanız gerekmektedir.")
+            @endif
         }
     </script>
 
