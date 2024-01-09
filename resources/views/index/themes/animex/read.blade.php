@@ -218,7 +218,19 @@
                                                 {{ $main_comment->user_name ?? ' not_found' }} </a>
                                             - <span>{{ $main_comment->date }}</span>
                                         </h6>
-                                        <p>{{ $main_comment->message }}</p>
+
+                                        @if ($main_comment->is_spoiler == 1)
+                                            <p hidden id="spoiler_comment{{ $main_comment->code }}">
+                                                {{ $main_comment->message }}</p>
+                                            <p><a href="javascript:void();"
+                                                    id="spoiler_comment_button{{ $main_comment->code }}"
+                                                    onclick="showSpoiler('spoiler_comment{{ $main_comment->code }}', 'spoiler_comment_button{{ $main_comment->code }}')">!!
+                                                    Spoiler
+                                                    görmek için tıklayınız !!</a></p>
+                                        @else
+                                            <p> {{ $main_comment->message }}</p>
+                                        @endif
+
 
                                         @if (Auth::user())
                                             <a class="mr-3 ml-3" href="javascript:;" style="color:white; float:right;"
@@ -255,7 +267,16 @@
                                                     {{ $alt_comment->user_name ?? ' not_found' }} </a>
                                                 - <span>{{ $alt_comment->date }}</span>
                                             </h6>
-                                            <p>{{ $alt_comment->message }}</p>
+                                            @if ($alt_comment->is_spoiler == 1)
+                                                <p hidden id="spoiler_comment{{ $alt_comment->code }}">
+                                                    {{ $alt_comment->message }}</p>
+                                                <p><a href="javascript:void();"
+                                                        id="spoiler_comment_button{{ $alt_comment->code }}"
+                                                        onclick="showSpoiler('spoiler_comment{{ $alt_comment->code }}', 'spoiler_comment_button{{ $alt_comment->code }}')">!!
+                                                        Spoiler görmek için tıklayınız !!</a></p>
+                                            @else
+                                                <p> {{ $alt_comment->message }}</p>
+                                            @endif
 
                                             @if (Auth::user())
                                                 <a href="javascript:;" style="color:white; float:right;"
@@ -395,6 +416,11 @@
                 }
             @endif
 
+        }
+
+        function showSpoiler(commentID, buttonID) {
+            document.getElementById(commentID).hidden = false;
+            document.getElementById(buttonID).hidden = true;
         }
     </script>
 

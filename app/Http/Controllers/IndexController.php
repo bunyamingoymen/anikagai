@@ -618,6 +618,8 @@ class IndexController extends Controller
         $comment->user_code = Auth::user()->code;
         $comment->date = Carbon::now();
 
+        if ($request->is_spoiler) $comment->is_spoiler = 1;
+
         $comment->save();
 
         if ($request->content_type == 0) {
