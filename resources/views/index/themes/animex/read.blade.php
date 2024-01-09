@@ -208,10 +208,9 @@
                                     </div>
                                     <div class="anime__review__item__text">
                                         <h6>
-                                            @if (Auth::guard('admin')->user() && $commentPinned == 1)
-                                                @if ($main_comment->is_pinned == 1)
-                                                    <span><i class="fa fa-thumb-tack " aria-hidden="true"></i></span>
-                                                @endif
+
+                                            @if ($main_comment->is_pinned == 1)
+                                                <span><i class="fa fa-thumb-tack " aria-hidden="true"></i></span>
                                             @endif
 
                                             <a style="color:#fff;"

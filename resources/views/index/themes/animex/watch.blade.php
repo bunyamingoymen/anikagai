@@ -8,7 +8,7 @@
 
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
         /* Roboto fontunu ekleyin veya
-                                                                                                                                                                                                                                                                                        kendi tercih ettiğiniz bir font kullanabilirsiniz */
+                                                                                                                                                                                                                                                                                                        kendi tercih ettiğiniz bir font kullanabilirsiniz */
 
         .overlay-button {
             position: absolute !important;
@@ -190,6 +190,11 @@
                                     </div>
                                     <div class="anime__review__item__text">
                                         <h6>
+
+                                            @if ($main_comment->is_pinned == 1)
+                                                <span><i class="fa fa-thumb-tack " aria-hidden="true"></i></span>
+                                            @endif
+
                                             <a style="color:#fff;"
                                                 href={{ url('profile?username=' . $main_comment->user_username) }}>
                                                 {{ $main_comment->user_name ?? ' not_found' }} </a>
@@ -203,13 +208,15 @@
                                                 <i class="fa fa-reply" aria-hidden="true"></i> Cevapla
                                             </a>
                                         @endif
-                                        @if (Auth::guard('admin')->user())
+                                        @if (Auth::guard('admin')->user() && $commentPinned == 1)
                                             @if ($main_comment->is_pinned == 1)
-                                                <a href="javascript:;" style="color:white; float:right;">
+                                                <a href="javascript:;" onclick="commentPinned('{{ $main_comment->code }}')"
+                                                    style="color:white; float:right;">
                                                     <i class="fa fa-thumb-tack " aria-hidden="true"></i> Pini Kaldır
                                                 </a>
                                             @else
-                                                <a href="javascript:;" style="color:white; float:right;">
+                                                <a href="javascript:;" onclick="commentPinned('{{ $main_comment->code }}')"
+                                                    style="color:white; float:right;">
                                                     <i class="fa fa-thumb-tack " aria-hidden="true"></i> Pinle
                                                 </a>
                                             @endif
@@ -607,5 +614,16 @@
                 }
             @endif
         }
+    </script>
+
+    <!--Diğer Ayarlar-->
+    <script>
+        @if (Auth::guard('admin')->user() && $commentPinned == 1)
+            function commentPinned(code) {
+                var url = `/admin/comment/pinned?code=` + code;
+                var type = "_self"
+                window.open(url, type);
+            }
+        @endif
     </script>
 @endsection
