@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('category_code');
             $table->unsignedBigInteger('content_code');
             $table->tinyInteger('content_type'); //0: webtoon, 1: anime
+            $table->tinyInteger('is_main')->default(0); //0: Seçilen içeriğin ana kategorisi değil, 1: ana kategorisi
             $table->timestamps();
         });
     }

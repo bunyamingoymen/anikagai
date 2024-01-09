@@ -166,7 +166,7 @@
                                                     {{ $item->name }}
                                                 </a>
                                             @else
-                                                @if (count($watched) > 0 && count($watched->Where('anime_episode_code', $webtoon_episodes->code)->get()) > 1)
+                                                @if (count($watched) > 0 && $watched->Where('anime_episode_code', $webtoon_episodes->code)->first())
                                                     <a style="background-color: green;" class="a_selected"
                                                         href="{{ url('webtoon/' . $webtoon->short_name . '/' . $i . '/' . $item->episode_short) }}">
                                                         {{ $i }} - {{ $item->episode_short }}.Bölüm -

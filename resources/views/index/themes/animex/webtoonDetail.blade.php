@@ -196,7 +196,7 @@
                                 </div>
 
                                 @foreach ($webtoon_episodes->where('season_short', $i) as $item)
-                                    @if (count($watched) > 0 && count($watched->Where('anime_episode_code', $item->code)) > 0)
+                                    @if (count($watched) > 0 && $watched->Where('anime_episode_code', $item->code)->first())
                                         <a style="background-color: green;"
                                             href="{{ url('webtoon/' . $webtoon->short_name . '/' . $i . '/' . $item->episode_short) }}"
                                             id="watchedATag{{ $item->code }}">
