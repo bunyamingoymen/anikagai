@@ -240,7 +240,7 @@
                     @endfor
                 @else
                     <div class="col-lg-12 col-md-12 section-title">
-                        <h5>Herhani gib bölüm mevcut değil.</h5>
+                        <h5>Herhangi Bir Bölüm Mevcut Değil.</h5>
                     </div>
                 @endif
                 <div class="col-lg-4 col-md-4 justify-content-end">
