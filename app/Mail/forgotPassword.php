@@ -17,16 +17,20 @@ class forgotPassword extends Mailable
     public $password;
     public $subject;
     public $logo;
+    public $footer;
+    public $color;
 
     /**
      * Create a new message instance.
      */
-    public function __construct($name, $password, $subject, $logo)
+    public function __construct($name, $password, $subject, $logo, $footer, $color)
     {
         $this->name = $name;
         $this->password = $password;
         $this->subject = $subject;
         $this->logo = $logo;
+        $this->footer = $footer;
+        $this->color = $color;
     }
 
     /**

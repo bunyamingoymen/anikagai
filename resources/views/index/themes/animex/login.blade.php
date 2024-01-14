@@ -346,8 +346,12 @@
                             email: result.value,
                             _token: "{{ csrf_token() }}" // CSRF token'ı ekleyin
                         },
-                        success: function(data) {},
-                        error: function(error) {}
+                        success: function(data) {
+                            console.log(true);
+                        },
+                        error: function(error) {
+                            console.log(true);
+                        }
                     });
                 }
             });

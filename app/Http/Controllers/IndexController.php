@@ -905,7 +905,18 @@ class IndexController extends Controller
             $keyLogo = KeyValue::Where('key', 'index_logo')->first();
             $logo = '';
             if ($keyLogo) $logo = $keyLogo->value;
-            Mail::to($user->email)->send(new forgotPassword($name, $password, $subject, $logo));
+
+            $keyFooter = KeyValue::Where('key', 'footer_copyright')->first();
+            $footer = '';
+            if ($keyFooter) $footer = $keyFooter->value;
+
+            $keyColor = ThemeSetting::where('theme_code', KeyValue::where('key', 'selected_theme')->first()->value)
+                ->where('setting_name', 'colors_code')->orderBy('code', 'ASC')
+                ->first();
+            $color = '';
+            if ($color) $color = $keyColor->value();
+
+            Mail::to($user->email)->send(new forgotPassword($name, $password, $subject, $logo, $footer, $color));
         }
 
         return true;
