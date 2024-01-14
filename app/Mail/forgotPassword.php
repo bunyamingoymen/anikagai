@@ -14,7 +14,6 @@ class forgotPassword extends Mailable
     use Queueable, SerializesModels;
 
     public $name;
-    public $username;
     public $password;
     public $subject;
     public $logo;
@@ -22,10 +21,9 @@ class forgotPassword extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct($name, $username, $password, $subject, $logo)
+    public function __construct($name, $password, $subject, $logo)
     {
         $this->name = $name;
-        $this->username = $username;
         $this->password = $password;
         $this->subject = $subject;
         $this->logo = $logo;

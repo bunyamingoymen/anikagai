@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\forgotPassword;
 use App\Models\Anime;
 use App\Models\AnimeEpisode;
 use App\Models\Category;
@@ -28,6 +29,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class IndexController extends Controller
@@ -877,6 +879,35 @@ class IndexController extends Controller
             }
         }
         return response()->json(['response' => $response]);
+    }
+
+    public function forgotPassword(Request $request)
+    {
+
+        $user = IndexUser::Where('email', $request->email)->first();
+
+        if ($user) {
+            // Harfler ve sayılar içeren bir karakter kümesi
+            $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+            // Karakter kümesini karıştır
+            $randomString = str_shuffle($characters);
+
+            // İlk 10 karakteri al
+            $newPassword = substr($randomString, 0, 10);
+
+            $user->password = Hash::make($newPassword);
+
+            $subject = "Şifremi Unuttum";
+            $name = $user->name;
+            $password = $newPassword;
+            $keyLogo = KeyValue::Where('key', 'index_logo')->first();
+            $logo = '';
+            if ($keyLogo) $logo = $keyLogo->value;
+            Mail::to($user->email)->send(new forgotPassword($name, $password, $subject, $logo));
+        }
+
+        return true;
     }
 
 
