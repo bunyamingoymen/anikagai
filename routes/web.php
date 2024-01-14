@@ -52,6 +52,8 @@ Route::controller(IndexController::class)->group(function () {
     Route::get('/fetchVideo', 'fetchVideo');
 
     Route::get('/profile', "profile")->name('profile');
+
+    Route::get('/forgotPassword', 'forgotPassword')->name('forgotPassword');
 });
 
 Route::group(['middleware' => 'guest_index'], function () {

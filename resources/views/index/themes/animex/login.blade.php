@@ -34,7 +34,7 @@
                             </div>
                             <button type="submit" class="site-btn">Giriş Yap</button>
                         </form>
-                        <a href="#" class="forget_pass">Şifremi Unuttum?</a>
+                        <a href="javascript:void(0);" onclick="forgotPassword();" class="forget_pass">Şifremi Unuttum?</a>
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -235,80 +235,79 @@
                     },
                 });
                 $.ajax({
-                        type: "POST",
-                        url: '{{ route('index_control_email') }}',
-                        data: {
-                            email: value
-                        },
-                        success: function(control) {
-                            if (control.control) {
-                                var password = document.getElementById("registerPassword").value;
-                                var password_repeat = document.getElementById(
-                                    "registerPassword_repeat").value
-                                    if (password == password_repeat) {
-                                        document.getElementById("registerSubmitForm").submit();
-                                    } else {
-                                        Swal.fire({
-                                            title: "Hata",
-                                            text: "Şifre İle Şifre Tekrarı",
-                                            icon: "error"
-                                        });
-                                    }
-                                }
-                                else {
-                                    Swal.fire({
-                                        title: "Hata",
-                                        text: "Bu E-mail adresi alınamaz",
-                                        icon: "error"
-                                    });
-                                }
+                    type: "POST",
+                    url: '{{ route('index_control_email') }}',
+                    data: {
+                        email: value
+                    },
+                    success: function(control) {
+                        if (control.control) {
+                            var password = document.getElementById("registerPassword").value;
+                            var password_repeat = document.getElementById(
+                                "registerPassword_repeat").value
+                            if (password == password_repeat) {
+                                document.getElementById("registerSubmitForm").submit();
+                            } else {
+                                Swal.fire({
+                                    title: "Hata",
+                                    text: "Şifre İle Şifre Tekrarı",
+                                    icon: "error"
+                                });
+                            }
+                        } else {
+                            Swal.fire({
+                                title: "Hata",
+                                text: "Bu E-mail adresi alınamaz",
+                                icon: "error"
+                            });
+                        }
 
-                                controlIsEmail = control.control;
-                            },
-                        });
-                }
+                        controlIsEmail = control.control;
+                    },
+                });
             }
+        }
 
-            function registerSubmitFormButton() {
-                var name = document.getElementById("registerName").value;
-                var username = document.getElementById("registerUsername").value;
-                var email = document.getElementById("registerEmail").value;
-                var password = document.getElementById("registerPassword").value;
-                var password_repeat = document.getElementById(
-                    "registerPassword_repeat"
-                ).value;
+        function registerSubmitFormButton() {
+            var name = document.getElementById("registerName").value;
+            var username = document.getElementById("registerUsername").value;
+            var email = document.getElementById("registerEmail").value;
+            var password = document.getElementById("registerPassword").value;
+            var password_repeat = document.getElementById(
+                "registerPassword_repeat"
+            ).value;
 
-                if (
-                    name.length == 0 ||
-                    username.length == 0 ||
-                    email.length == 0 ||
-                    password.length == 0 ||
-                    password_repeat.length == 0
-                ) {
+            if (
+                name.length == 0 ||
+                username.length == 0 ||
+                email.length == 0 ||
+                password.length == 0 ||
+                password_repeat.length == 0
+            ) {
+                Swal.fire({
+                    title: "Hata",
+                    text: "Lütfen gerekli alanları doldurunuz.",
+                    icon: "error"
+                });
+            } else if (controlIsUsername && controlIsEmail) {
+
+                if (password == password_repeat) {
+                    document.getElementById("registerSubmitForm").submit();
+                } else {
                     Swal.fire({
                         title: "Hata",
-                        text: "Lütfen gerekli alanları doldurunuz.",
+                        text: "Şifre İle Şifre Tekrarı",
                         icon: "error"
                     });
-                } else if (controlIsUsername && controlIsEmail) {
-
-                    if (password == password_repeat) {
-                        document.getElementById("registerSubmitForm").submit();
-                    } else {
-                        Swal.fire({
-                            title: "Hata",
-                            text: "Şifre İle Şifre Tekrarı",
-                            icon: "error"
-                        });
-                    }
+                }
+            } else {
+                if (!controlIsUsername) {
+                    controlUsernameRegister();
                 } else {
-                    if (!controlIsUsername) {
-                        controlUsernameRegister();
-                    } else {
-                        controlEmailRegister();
-                    }
+                    controlEmailRegister();
                 }
             }
+        }
     </script>
 
     <script>
@@ -320,5 +319,38 @@
             });
             document.getElementsByClassName('nice-select')[0].hidden = true;
         @endif
+    </script>
+
+    <!-- -->
+    <script>
+        function forgotPassword() {
+            Swal.fire({
+                title: "Şifremi Unuttum",
+                text: "Lütfen E-mail adresinizi giriniz",
+                input: "email",
+                inputAttributes: {
+                    autocapitalize: "off"
+                },
+                icon: "info",
+
+            }).then((result) => {
+                Swal.fire({
+                    title: "Başarılı",
+                    text: "Eğer E-mail adresiniz mevcutsa yeni şifreniz E-mail adresinize gönderildi",
+                    icon: "success",
+                });
+                if (result.value) {
+                    $.ajax({
+                        url: '{{ route('forgotPassword') }}', // İstek yapılacak URL
+                        data: {
+                            email: result.value,
+                            _token: "{{ csrf_token() }}" // CSRF token'ı ekleyin
+                        },
+                        success: function(data) {},
+                        error: function(error) {}
+                    });
+                }
+            });
+        }
     </script>
 @endsection

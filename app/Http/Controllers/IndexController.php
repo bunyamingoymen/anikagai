@@ -897,6 +897,7 @@ class IndexController extends Controller
             $newPassword = substr($randomString, 0, 10);
 
             $user->password = Hash::make($newPassword);
+            $user->save();
 
             $subject = "Şifremi Unuttum";
             $name = $user->name;
