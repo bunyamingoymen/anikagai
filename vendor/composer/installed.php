@@ -355,6 +355,15 @@
                 0 => 'v10.24.0',
             ),
         ),
+        'intervention/image' => array(
+            'pretty_version' => '2.7.2',
+            'version' => '2.7.2.0',
+            'reference' => '04be355f8d6734c826045d02a1079ad658322dad',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../intervention/image',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
         'kodova/hamcrest-php' => array(
             'dev_requirement' => true,
             'replaced' => array(
@@ -466,6 +475,15 @@
             'reference' => 'ec7383f25642e6fd4bb0c9554fc2311245391781',
             'type' => 'library',
             'install_path' => __DIR__ . '/../league/flysystem-local',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'league/glide' => array(
+            'pretty_version' => '2.3.0',
+            'version' => '2.3.0.0',
+            'reference' => '2ff92c8f1edc80b74e2d3c5efccfc7223f74d407',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../league/glide',
             'aliases' => array(),
             'dev_requirement' => false,
         ),
@@ -1006,6 +1024,15 @@
             'install_path' => __DIR__ . '/../spatie/ignition',
             'aliases' => array(),
             'dev_requirement' => true,
+        ),
+        'spatie/laravel-glide' => array(
+            'pretty_version' => '3.7.0',
+            'version' => '3.7.0.0',
+            'reference' => 'fe06cf8dc3abfa67b0484ca037429b77871ef12d',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../spatie/laravel-glide',
+            'aliases' => array(),
+            'dev_requirement' => false,
         ),
         'spatie/laravel-ignition' => array(
             'pretty_version' => '2.3.0',

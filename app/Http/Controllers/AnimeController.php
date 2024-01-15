@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
+use Spatie\Glide\GlideImage;
 
 class AnimeController extends Controller
 {
@@ -51,6 +52,16 @@ class AnimeController extends Controller
             $name = $anime->code . "." . $file->getClientOriginalExtension();
             $file->move($path, $name);
             $anime->image = "files/animes/animesImages/" . $name;
+
+            // Thumb oluştur
+            $thumbPath = public_path('files/animes/animesImages/thumbnails');
+            $thumbName = $anime->code . "_thumbnail." . $file->getClientOriginalExtension();
+
+            GlideImage::create($path . '/' . $name)
+                ->modify(['w' => 230, 'h' => 325, 'fit' => 'crop'])
+                ->save($thumbPath . '/' . $thumbName);
+
+            $anime->thumb_image = "files/animes/animesImages/thumbnails/" . $thumbName;
         } else {
             $anime->image = "";
         }

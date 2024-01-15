@@ -10,6 +10,7 @@ use App\Models\Webtoon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
+use Spatie\Glide\GlideImage;
 
 class WebtoonController extends Controller
 {
@@ -49,8 +50,19 @@ class WebtoonController extends Controller
             $name = $webtoon->code . "." . $file->getClientOriginalExtension();
             $file->move($path, $name);
             $webtoon->image = "files/webtoons/webtoonImages/" . $name;
+
+            // Thumb oluştur
+            $thumbPath = public_path('files/webtoons/webtoonImages/thumbnails');
+            $thumbName = $webtoon->code . "_thumbnail." . $file->getClientOriginalExtension();
+
+            GlideImage::create($path . '/' . $name)
+                ->modify(['w' => 230, 'h' => 325, 'fit' => 'crop'])
+                ->save($thumbPath . '/' . $thumbName);
+
+            $webtoon->thumb_image = "files/webtoons/webtoonImages/thumbnails/" . $thumbName;
         } else {
             $webtoon->image = "";
+            $webtoon->thumb_image = "";
         }
 
         $webtoon->description = $request->description;
