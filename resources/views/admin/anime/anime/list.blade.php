@@ -49,7 +49,7 @@
                                         <th scope="row">{{ $loop->index + 1 }}</th>
                                         <td>
                                             <img class="rounded-circle header-profile-user"
-                                                src="../../../{{ $item->image ?? '' }}" alt="{{ $item->name }}">
+                                                src="../../../{{ $item->thumb_image ?? '' }}" alt="{{ $item->name }}">
                                         </td>
                                         <td>{{ $item->name }}</td>
                                         <td>
@@ -141,7 +141,7 @@
 
                             var anime_code = sendData(animes[i].code);
                             var anime_name = sendData(animes[i].name);
-                            var anime_image = sendData(animes[i].image);
+                            var anime_image = sendData(animes[i].thumb_image);
                             var anime_plusEighteen = sendData(animes[i].plusEighteen);
                             var anime_showStatus = sendData(animes[i].showStatus);
                             var anime_episode_count = sendData(animes[i].episode_count);

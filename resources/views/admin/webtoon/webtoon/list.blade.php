@@ -49,7 +49,7 @@
                                         <th scope="row">{{ $loop->index + 1 }}</th>
                                         <td>
                                             <img class="rounded-circle header-profile-user"
-                                                src="../../../{{ $item->image ?? '' }}" alt="{{ $item->name }}">
+                                                src="../../../{{ $item->thumb_image ?? '' }}" alt="{{ $item->name }}">
                                         </td>
                                         <td>{{ $item->name }}</td>
                                         <td>
@@ -141,7 +141,7 @@
                         for (let i = 0; i < webtoons.length; i++) {
                             var webtoons_code = sendData(webtoons[i].code);
                             var webtoons_name = sendData(webtoons[i].name);
-                            var webtoons_image = sendData(webtoons[i].image);
+                            var webtoons_image = sendData(webtoons[i].thumb_image);
                             var webtoons_plusEighteen = sendData(webtoons[i].plusEighteen);
                             var webtoons_showStatus = sendData(webtoons[i].showStatus);
                             var webtoons_episode_count = sendData(webtoons[i].episode_count);
