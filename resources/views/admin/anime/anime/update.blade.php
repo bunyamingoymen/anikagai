@@ -11,7 +11,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <form class="needs-validation" id="webtoonCreateForm" action="{{ route('admin_anime_update') }}"
+                        <form class="needs-validation" id="animeUpdateForm" action="{{ route('admin_anime_update') }}"
                             method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="row">
@@ -172,9 +172,9 @@
                     });
 
                     var short_name = short_name.toLowerCase();
-
+                    document.getElementById('code').value = "{{ $anime->code }}"
                     document.getElementById('short_name').value = short_name;
-                    document.getElementById('webtoonCreateForm').submit();
+                    document.getElementById('animeUpdateForm').submit();
                 }
             }
         </script>

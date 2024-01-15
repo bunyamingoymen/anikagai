@@ -55,6 +55,7 @@
                     var short_name = short_name.toLowerCase();
 
                     document.getElementById('short_name').value = short_name;
+                    document.getElementById('code').value = "{{ $category->code }}";
                     document.getElementById('categoryUpdateForm').submit();
                 }
 

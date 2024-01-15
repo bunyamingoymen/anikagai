@@ -6,7 +6,7 @@
                 <div class="card">
                     <div class="card-body">
 
-                        <form class="needs-validation" id="taUgpdateForm" action="{{ route('admin_tag_update') }}"
+                        <form class="needs-validation" id="tagUgpdateForm" action="{{ route('admin_tag_update') }}"
                             method="POST">
                             @csrf
                             <input type="text" name="code" id="code" value="{{ $tag->code }}" hidden>
@@ -19,9 +19,8 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-12 mb-3">
-                                    <label for="validationCustom03">Açıklama:</label>
+                                    <label for="description">Açıklama:</label>
                                     <textarea class="form-control" name="description" id="description" cols="30" rows="10" placeholder="Açıklama">{{ $tag->description ?? '' }}</textarea>
-
                                 </div>
                             </div>
                             <div style="float: right;">
@@ -32,6 +31,22 @@
                 </div>
             </div>
         </div>
+        <script>
+            function tagUgpdateFormSubmit() {
+                var name = document.getElementById('name').value;
+
+                if (name == "") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Hata',
+                        text: 'Lütfen Gerekli Doldurunuz!',
+                    })
+                } else {
+                    document.getElementById('code').value = "{{ $tag->code }}";
+                    document.getElementById('tagUgpdateForm').submit();
+                }
+            }
+        </script>
     @endif
     <script>
         // Sayfa yüklenmeden önce bu JavaScript kodu çalışacak

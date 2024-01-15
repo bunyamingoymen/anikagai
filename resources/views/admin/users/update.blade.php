@@ -5,7 +5,6 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-
                         <form class="needs-validation" id="userUpdateForm" action="{{ route('admin_user_update') }}"
                             method="POST" enctype="multipart/form-data">
                             @csrf
@@ -62,7 +61,6 @@
                                         @else
                                             <input type="checkbox" name="admin" id="admin">
                                         @endif
-
                                         <label for="admin">Yönetim Paneline Giriş Yetkisi</label>
                                     </div>
                                 </div>
@@ -91,15 +89,32 @@
                                 </div>
                             @endif
                             <div style="float: right;">
-
-                                <button class="btn btn-primary" type="submit">Kaydet</button>
-
+                                <button class="btn btn-primary" type="button"
+                                    onclick="userUpdateFormSubmit()">Kaydet</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
+        <script>
+            function userUpdateFormSubmit() {
+                var name = document.getElementById('name').value;
+                var surname = document.getElementById('surname').value;
+                var email = document.getElementById('email').value;
+
+                if (name == "" || surname == "" || email == "") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Hata',
+                        text: 'Lütfen Gerekli Doldurunuz!',
+                    })
+                } else {
+                    document.getElementById('code').value = "{{ $user->code }}";
+                    document.getElementById('userUpdateForm').submit();
+                }
+            }
+        </script>
     @endif
     <script>
         // Sayfa yüklenmeden önce bu JavaScript kodu çalışacak

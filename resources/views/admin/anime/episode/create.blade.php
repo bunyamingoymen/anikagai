@@ -67,41 +67,42 @@
                                 <div class="col-md-3 mb-3">
                                     <label for="intro_start_time_min">İntro başlangıç zamanı dakikası:</label>
                                     <input type="number" id="intro_start_time_min" name="intro_start_time_min"
-                                        class="form-control" placeholder="İntro Başlangıç Zamanı Dakikası (örn:0)">
+                                        class="form-control" placeholder="İntro Başlangıç Zamanı Dakikası (örn:0)" required>
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for="intro_start_time_sec">İntro başlangıç zamanı saniyesi:</label>
                                     <input type="number" id="intro_start_time_sec" name="intro_start_time_sec"
-                                        class="form-control" placeholder="İntro Başlangıç Zamanı Saniyesi (örn:35)">
+                                        class="form-control" placeholder="İntro Başlangıç Zamanı Saniyesi (örn:35)"
+                                        required>
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for="intro_end_time_min">İntro bitiş zamanı dakikası:</label>
                                     <input type="number" id="intro_end_time_min" name="intro_end_time_min"
-                                        class="form-control" placeholder="İntro Bitiş Zamanı Saniyesi (örn:1)">
+                                        class="form-control" placeholder="İntro Bitiş Zamanı Saniyesi (örn:1)" required>
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for="intro_end_time_sec">İntro bitiş zamanı saniyesi:</label>
                                     <input type="number" id="intro_end_time_sec" name="intro_end_time_sec"
-                                        class="form-control" placeholder="İntro Bitiş Zamanı Saniyesi (örn:45)" </div>
+                                        class="form-control" placeholder="İntro Bitiş Zamanı Saniyesi (örn:45)" required>
                                 </div>
                             </div>
-                            <div>
-                                <div class="row">
-                                    <div class="col-md-12 mb-3">
-                                        <label for="validationCustom03">Açıklama:</label>
-                                        <textarea class="form-control" name="description" id="description" cols="30" rows="10" placeholder="Açıklama"></textarea>
-                                    </div>
-                                </div>
-                                <div style="float: right;">
-                                    <button class="btn btn-primary" type="button"
-                                        onclick="animeEpisodeCreateFormSubmit()"
-                                        id="animeEpisodeCreateSubmitButton">Kaydet</button>
-                                </div>
-                            </div>
-                        </form>
                     </div>
+                    <div>
+                        <div class="row">
+                            <div class="col-md-12 mb-3">
+                                <label for="validationCustom03">Açıklama:</label>
+                                <textarea class="form-control" name="description" id="description" cols="30" rows="10" placeholder="Açıklama"></textarea>
+                            </div>
+                        </div>
+                        <div style="float: right;">
+                            <button class="btn btn-primary" type="button" onclick="animeEpisodeCreateFormSubmit()"
+                                id="animeEpisodeCreateSubmitButton">Kaydet</button>
+                        </div>
+                    </div>
+                    </form>
                 </div>
             </div>
+        </div>
         </div>
 
         <script>

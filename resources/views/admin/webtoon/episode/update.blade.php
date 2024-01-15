@@ -5,7 +5,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <form class="needs-validation" id="webtoonEpisodeCreateForm" action="" method="POST"
+                        <form class="needs-validation" id="webtoonEpisodeUpdateForm" action="" method="POST"
                             enctype="multipart/form-data">
                             @csrf
                             <div class="row">
@@ -18,7 +18,7 @@
                                 <div class="col-md-6 mb-3">
                                     <label for="name">Bölüm Adı:</label>
                                     <input type="text" id="name" name="name" class="form-control"
-                                        value="{{ $webtoon_episode->name }}">
+                                        value="{{ $webtoon_episode->name }}" required>
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for="season_short">Bulunduğu Sezon:</label>
@@ -43,7 +43,7 @@
                                 <div class="col-md-12 mb-3">
                                     <label for="publish_date">Yayınlanma Tarihi:</label>
                                     <input type="date" id="publish_date" name="publish_date" class="form-control"
-                                        value="{{ $webtoon_episode->publish_date }}">
+                                        value="{{ $webtoon_episode->publish_date }}" required>
                                 </div>
                             </div>
                             <div class="row">
@@ -53,14 +53,33 @@
                                 </div>
                             </div>
                             <div style="float: right;">
-                                <button class="btn btn-primary" type="submit">Kaydet</button>
+                                <button class="btn btn-primary" type="button"
+                                    onclick="webtoonEpisodeUpdateFormSubmit()">Kaydet</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
-        <script></script>
+        <script>
+            function webtoonEpisodeUpdateFormSubmit() {
+                var name = document.getElementById('name').value;
+                var season_short = document.getElementById('season_short').value;
+                var episode_short = document.getElementById('episode_short').value;
+                var publish_date = document.getElementById('publish_date').value;
+
+                if (name == "" || season_short == "" || episode_short == "" || publish_date == "") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Hata',
+                        text: 'Lütfen Gerekli Doldurunuz!',
+                    })
+                } else {
+                    document.getElementById('code').value = "{{ $webtoon_episode->code }}";
+                    document.getElementById('webtoonEpisodeUpdateForm').submit();
+                }
+            }
+        </script>
     @endif
     <script>
         // Sayfa yüklenmeden önce bu JavaScript kodu çalışacak

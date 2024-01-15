@@ -35,7 +35,7 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-12 mb-3">
-                                    <label for="validationCustom01">Açıklama:</label>
+                                    <label for="description">Açıklama:</label>
                                     <textarea class="form-control" name="description" id="description" cols="30" rows="3" placeholder="Açıklama">{{ $page->description }}</textarea>
                                     <small>Bu açıklama sadece yönetici panelinde görünebilir. Normal kullanıcılar burayı
                                         göremez</small>
@@ -90,6 +90,7 @@
                         text: 'Lütfen Gerekli Doldurunuz!',
                     })
                 } else {
+                    document.getElementById('code').value = "{{ $page->code }}";
                     document.getElementById('short_name').value = short_name;
                     document.getElementById('pageUpdateForm').submit();
                 }

@@ -10,7 +10,7 @@
                             method="POST" enctype="multipart/form-data">
                             @csrf
                             <div hidden>
-                                <input type="text" name="code" value={{ $indexUser->code }}>
+                                <input type="text" name="code" value="{{ $indexUser->code }}">
                             </div>
                             <div class="row">
                                 <div class="col-md-4 mb-3">
@@ -47,7 +47,7 @@
                             </div>
                             <div style="float: right;">
 
-                                <button class="btn btn-primary" type="button" onclick="createSubmitForm()">Kaydet</button>
+                                <button class="btn btn-primary" type="button" onclick="indexUserUpdateFormSubmit()">Kaydet</button>
 
                             </div>
                         </form>
@@ -56,7 +56,7 @@
             </div>
         </div>
         <script>
-            function createSubmitForm() {
+            function indexUserUpdateFormSubmit() {
                 var name = document.getElementById("name").value;
                 var username = document.getElementById("username").value;
                 var email = document.getElementById("email").value;
@@ -68,9 +68,10 @@
                         text: "Lütfen Bütün yerleri doldurunuz.",
                     });
                 } else {
-                    if (emailPattern.test(email))
+                    if (emailPattern.test(email)) {
+                        document.getElementById('code').value = "{{ $indexUser->code }}"
                         document.getElementById('indexUserUpdateForm').submit();
-                    else if (!emailPattern.test(email)) {
+                    } else if (!emailPattern.test(email)) {
                         Swal.fire({
                             icon: "error",
                             title: "Hata!",

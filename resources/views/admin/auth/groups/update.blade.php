@@ -27,13 +27,30 @@
                                 </div>
                             </div>
                             <div style="float: right;">
-                                <button class="btn btn-primary" type="submit">Kaydet</button>
+                                <button class="btn btn-primary" type="button"
+                                    onclick="authGroupUpdateForm()">Kaydet</button>
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
+        <script>
+            function authGroupUpdateForm() {
+                var text = document.getElementById('text').value;
+
+                if (text == "") {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Hata',
+                        text: 'Lütfen Gerekli Doldurunuz!',
+                    })
+                } else {
+                    document.getElementById('code').value = "{{ $group->code }}";
+                    document.getElementById('authGroupUpdateForm').submit();
+                }
+            }
+        </script>
     @endif
     <script>
         // Sayfa yüklenmeden önce bu JavaScript kodu çalışacak

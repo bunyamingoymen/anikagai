@@ -172,6 +172,7 @@
                         return match === ' ' ? '-' : match.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
                     });
 
+                    document.getElementById('code').value = "{{ $webtoon->code }}";
                     document.getElementById('short_name').value = short_name;
                     document.getElementById('webtoonUpdateForm').submit();
                 }
