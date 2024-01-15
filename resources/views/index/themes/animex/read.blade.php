@@ -335,7 +335,8 @@
                             <div class="col-lg-8 col-md-12 col-sm-12">
                                 <div class="product__item">
                                     <a href="{{ url('webtoon/' . $item->short_name) }}">
-                                        <div class="product__item__pic set-bg" data-setbg="../../../{{ $item->image }}">
+                                        <div class="product__item__pic set-bg"
+                                            data-setbg="../../../{{ $item->thumb_image }}">
                                             <div class="ep">{{ $item->score }} / 5</div>
                                             <div class="comment"><i class="fa fa-comments"></i>
                                                 {{ $item->comment_count }}

@@ -40,7 +40,7 @@
                                             <a
                                                 href="{{ $item->type == 'anime' ? url('anime/' . $item->short_name) : url('webtoon/' . $item->short_name) }}">
                                                 <div class="product__item__pic set-bg"
-                                                    data-setbg="../../../{{ $item->image }}">
+                                                    data-setbg="../../../{{ $item->thumb_image }}">
                                                     <div class="ep">{{ $item->score }} / 5</div>
                                                     <div class="comment"><i class="fa fa-comments"></i>
                                                         {{ $item->comment_count }}
@@ -70,7 +70,7 @@
                                                     <div
                                                         style="width: 100%; height: 100%; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center;">
                                                         <div class="censor set-bg"
-                                                            data-setbg="../../../{{ $item->image }}">
+                                                            data-setbg="../../../{{ $item->thumb_image }}">
                                                         </div>
                                                         <div style="margin-top: 20px; z-index: 2;">
                                                             <a class="overlay-button" href="{{ route('loginScreen') }}">
