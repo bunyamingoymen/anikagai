@@ -232,7 +232,7 @@
                                                                                     target="_blank"
                                                                                     style="font-family: Open Sans, Helvetica, Tahoma, Arial, sans-serif; padding: 0 10px;">
                                                                                     <img alt="Anikagai" height="auto"
-                                                                                        src="{{ $logo }}"
+                                                                                        src="{{ url($logo) }}"
                                                                                         style="border:0;display:block;outline:none;text-decoration:none;height:auto;width:100%;font-size:13px;"
                                                                                         width="160"> </a> </td>
                                                                         </tr>

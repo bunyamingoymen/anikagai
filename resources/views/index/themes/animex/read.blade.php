@@ -1,6 +1,8 @@
 @extends('index.themes.animex.layouts.main')
 @section('index_content')
 
+    @include('index.themes.animex.layouts.preloader')
+
     <style>
         .overlay-button {
             position: absolute !important;
@@ -121,14 +123,8 @@
                                     </div>
                                     <button onclick="toggleFullScreen()" class="overlay-button">Tam Ekran</button>
                                 @else
-                                    @if ($index < 3)
-                                        <img id="image_{{ $item->code }}" src="../../../{{ $item->file }}"
-                                            class="webtoon-image" alt="Resim {{ $item->code }}{{ $index + 1 }}">
-                                    @else
-                                        <img id="image_{{ $item->code }}" data-src="../../../{{ $item->file }}"
-                                            class="webtoon-image lazy-load"
-                                            alt="Resim {{ $item->code }}{{ $index + 1 }}">
-                                    @endif
+                                    <img id="image_{{ $item->code }}" data-src="../../../{{ $item->file }}"
+                                        class="webtoon-image lazy-load" alt="Resim {{ $item->code }}{{ $index + 1 }}">
                                 @endif
                             @endforeach
                         </div>
