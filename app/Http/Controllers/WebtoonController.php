@@ -230,7 +230,10 @@ class WebtoonController extends Controller
     {
         $skip = (($request->page - 1) * $this->showCount);
         $webtoons = Webtoon::Where('deleted', 0)->skip($skip)->take($this->showCount)->get();
-        return $webtoons;
+        return [
+            'webtoons' => $webtoons,
+            'count' => "1",
+        ];
     }
 
     public function webtoonGetSeason(Request $request)

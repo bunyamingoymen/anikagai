@@ -4,9 +4,6 @@
 
 **Admin Arayüzü:
 
-**Kullanıcı arayüzü:
--Şifremi Unuttum kısmı
-
 **Diğer:
 -Admin giriş anasayfası En çok okunan animeler, en çok okunan webtoonlar eklenmeli.
 -Kategorilerde en çok tıklananları gösteren bir şey olmalı
@@ -14,20 +11,6 @@
 -slider seçenekleri eklenmeli
 -kategori aramaları temalara aktarılacak
 ---------------------------------------------
-Kontrol edilecek işlemler:
-
----Arayüz:
-
-+++slider
-+++Oy kullanma
-+++İzleme
-+++okuma
-+++yorum yapabilme
-+++Görüntüleyip/Listeleyebilme(+++webtoon, +++anime)
-+++takip edebilme(+++webtoon, +++anime, +++kullanıcı)
-+++beğenebilme(+++webtoon, +++anime)
-+++Bilgileri güncelleyebilme
-+++iletişim gönderebilme
 
 
 

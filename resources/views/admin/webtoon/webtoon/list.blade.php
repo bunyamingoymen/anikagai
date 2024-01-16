@@ -11,7 +11,17 @@
                                     href="{{ route('admin_webtoon_create_screen') }}">+ Yeni</a>
                             @endif
                         </div>
-
+                        <div class="col-lg-12" style="">
+                            <div class="row">
+                                <div class="ml-2 mr-2">
+                                    <input type="text" placeholder="Webtoon Ara...." name="webtoonSearch"
+                                        id="webtoonSearch" class="form-control">
+                                </div>
+                                <div class="ml-2 mr-2">
+                                    <button class="btn btn-success"><i class="fas fa-search"></i> Ara</button>
+                                </div>
+                            </div>
+                        </div>
 
                         <table class="table table-hover">
                             <thead>
@@ -121,9 +131,20 @@
         <!-- Sayfa Değiştirme Scripti-->
         <script>
             var currentPage = 1;
+            var search = -1; // -1: arama değil, 0: aramaya başlandı, 1: sonuçlar getirildi
 
             function changePage(page) {
-                console.log(page);
+                if (search != -1) {
+                    var pageData = {
+                        page: page,
+                        searchData: searchData,
+                        search: search,
+                    }
+                } else {
+                    var pageData = {
+                        page: page,
+                    }
+                }
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
@@ -132,9 +153,7 @@
                 $.ajax({
                     type: 'POST',
                     url: '{{ route('admin_webtoon_get_data') }}',
-                    data: {
-                        page: page
-                    },
+                    data: pageData,
                     success: function(webtoons) {
                         var code = ``;
                         var id = page <= 1 ? 1 : (page - 1) * 10 + 1;
@@ -208,6 +227,9 @@
 
                         currentPage = page;
 
+                        if(search == 0){
+                            
+                        }
                     }
                 });
 
@@ -220,6 +242,11 @@
 
             function nextPage() {
                 if (currentPage < "{{ $pageCount }}") changePage(currentPage + 1)
+            }
+
+            function searchWebtoonButton() {
+                search = 0;
+                changePage(1);
             }
         </script>
 

@@ -25,9 +25,7 @@ class UserController extends Controller
 
     public function userCreateScreen()
     {
-
         $users_groups = AuthorizationGroup::Where('deleted', 0)->get();
-
         return view("admin.users.create", ['users_groups' => $users_groups]);
     }
 
