@@ -228,18 +228,54 @@ class WebtoonController extends Controller
 
     public function webtoonGetData(Request $request)
     {
+        $search = $request->search; // -1: arama yok, 0: ilk defa arama, 1: aramanın devamı
+        $searchData = $request->searchData ? $request->searchData : "0";
         $skip = (($request->page - 1) * $this->showCount);
-        $webtoons = Webtoon::Where('deleted', 0)->skip($skip)->take($this->showCount)->get();
+        $pageCount = -1;
+        if ($search == "-1") {
+            $webtoons = Webtoon::Where('deleted', 0)->skip($skip)->take($this->showCount)->get();
+        } else {
+
+            $shortName = preg_replace_callback('/[ğĞüÜşŞıİöÖçÇ\s]/u', function ($match) {
+                $normalizedChar = $match[0] === ' ' ? '-' : preg_replace('/[\p{Mn}]/u', '', iconv('UTF-8', 'ASCII//TRANSLIT', $match[0]));
+                return strtolower($normalizedChar);
+            }, $searchData);
+
+            $shortName = strtolower($shortName);
+
+            $webtoons = Webtoon::Where('deleted', 0)
+                ->where(function ($queryBuilder) use ($searchData, $shortName) {
+                    $queryBuilder->where('name', 'LIKE', '%' . $searchData . '%')
+                        ->where('short_name', 'LIKE', '%' . $shortName . '%')
+                        ->orWhere('description', 'LIKE', '%' . $searchData . '%')
+                        ->orWhere('main_category_name', 'LIKE', '%' . $searchData . '%');
+                })
+                ->skip($skip)->take($this->showCount)->get();
+            if ($search == "0") {
+                $pageCountTest =
+                    Webtoon::Where('deleted', 0)
+                    ->where(function ($queryBuilder) use ($searchData, $shortName) {
+                        $queryBuilder->where('name', 'LIKE', '%' . $searchData . '%')
+                            ->where('short_name', 'LIKE', '%' . $shortName . '%')
+                            ->orWhere('description', 'LIKE', '%' . $searchData . '%')
+                            ->orWhere('main_category_name', 'LIKE', '%' . $searchData . '%');
+                    })->count();
+                if ($pageCountTest % $this->showCount == 0)
+                    $pageCount = $pageCountTest / $this->showCount;
+                else
+                    $pageCount = intval($pageCountTest / $this->showCount) + 1;
+            }
+        }
+
         return [
             'webtoons' => $webtoons,
-            'count' => "1",
+            'pageCount' => $pageCount
         ];
     }
 
     public function webtoonGetSeason(Request $request)
     {
         $season = Webtoon::Where('code', $request->code)->first();
-
         return $season;
     }
 }

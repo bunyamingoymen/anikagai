@@ -18,7 +18,12 @@
                                         id="webtoonSearch" class="form-control">
                                 </div>
                                 <div class="ml-2 mr-2">
-                                    <button class="btn btn-success"><i class="fas fa-search"></i> Ara</button>
+                                    <button class="btn btn-success" onclick="searchWebtoonButton()"><i
+                                            class="fas fa-search"></i> Ara</button>
+                                </div>
+                                <div class="ml-2 mr-2">
+                                    <button class="btn btn-danger" onclick="searchWebtoonAllButton()"><i
+                                            class="fas fa-align-center"></i> Tümünü Göster</button>
                                 </div>
                             </div>
                         </div>
@@ -132,17 +137,22 @@
         <script>
             var currentPage = 1;
             var search = -1; // -1: arama değil, 0: aramaya başlandı, 1: sonuçlar getirildi
+            var searchData = "";
+            var changePagination = false;
+            var pageCount = parseInt("{{ $pageCount }}");
 
             function changePage(page) {
-                if (search != -1) {
+                if (search != -1 && searchData != "") {
                     var pageData = {
                         page: page,
-                        searchData: searchData,
                         search: search,
+                        searchData: searchData,
                     }
                 } else {
+                    search = -1
                     var pageData = {
                         page: page,
+                        search: search,
                     }
                 }
                 $.ajaxSetup({
@@ -154,7 +164,8 @@
                     type: 'POST',
                     url: '{{ route('admin_webtoon_get_data') }}',
                     data: pageData,
-                    success: function(webtoons) {
+                    success: function(response) {
+                        var webtoons = response.webtoons;
                         var code = ``;
                         var id = page <= 1 ? 1 : (page - 1) * 10 + 1;
                         for (let i = 0; i < webtoons.length; i++) {
@@ -216,20 +227,32 @@
                             code += `</td>`
                             code += `<td> ` + webtoons_episode_count + ` </td>`
                             code += `<td> ` + webtoons_click_count + ` </td> </tr > `;
-                            document.getElementById('webtoonTableTbody').innerHTML = code;
+
+                        }
+                        document.getElementById('webtoonTableTbody').innerHTML = code;
+
+                        if (search == 0) {
+                            pageCount = parseInt(response.pageCount);
+                        } else {
+                            pageCount = parseInt("{{ $pageCount }}");
                         }
 
-                        currentPaginationId = 'pagination' + currentPage;
-                        paginationId = 'pagination' + page;
+                        if (changePagination) {
+                            newPageCount(pageCount);
+                            if (search == 0) vsearch = 1;
 
-                        document.getElementById(currentPaginationId).classList.remove("active");
-                        document.getElementById(paginationId).classList.add("active");
+                            changePagination = false;
+                        }
 
+
+                        if (pageCount > 0) {
+                            currentPaginationId = 'pagination' + currentPage;
+                            paginationId = 'pagination' + page;
+
+                            document.getElementById(currentPaginationId).classList.remove("active");
+                            document.getElementById(paginationId).classList.add("active");
+                        }
                         currentPage = page;
-
-                        if(search == 0){
-                            
-                        }
                     }
                 });
 
@@ -241,12 +264,48 @@
             }
 
             function nextPage() {
-                if (currentPage < "{{ $pageCount }}") changePage(currentPage + 1)
+                if (currentPage < pageCount) changePage(currentPage + 1)
             }
 
             function searchWebtoonButton() {
                 search = 0;
+                searchData = document.getElementById('webtoonSearch').value;
+                changePagination = true;
                 changePage(1);
+            }
+
+            function searchWebtoonAllButton() {
+                search = -1;
+                searchData = "";
+                document.getElementById('webtoonSearch').value = "";
+                changePagination = true;
+                changePage(1);
+            }
+
+            function newPageCount(new_page_count) {
+                var pagination = document.getElementsByClassName('pagination')[0];
+                var html = `<li class="page-item">
+                                    <a class="page-link" href="javascript:;" onclick="prevPage();" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>`;
+                for (let i = 1; i <= new_page_count; i++) {
+                    html += `<li class="page-item" id="pagination` + i + `">
+                                            <a class="page-link " href="javascript:;"
+                                                onclick="changePage(` + i + `)">
+                                                ` + i + `
+                                            </a>
+                                        </li>`;
+                }
+
+                html += ` <li class="page-item">
+                                    <a class="page-link" href="javascript:;" onclick="nextPage();" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>`;
+
+                pagination.innerHTML = html;
+
             }
         </script>
 
