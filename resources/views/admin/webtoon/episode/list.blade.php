@@ -1,6 +1,16 @@
 @extends('admin.layouts.main')
 @section('admin_content')
     @if ($list == 1)
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <style>
+            .select2-container .select2-selection--single {
+                height: 40px !important;
+            }
+
+            .select2-container--default .select2-selection--single .select2-selection__rendered {
+                line-height: 40px !important;
+            }
+        </style>
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
@@ -11,6 +21,27 @@
                                     href="{{ route('admin_webtoon_episodes_create_screen') }}">+
                                     Yeni</a>
                             @endif
+                        </div>
+                        <div class="col-lg-12" style="">
+                            <div class="row">
+                                <div class="ml-2 mr-2">
+                                    <select name="selectWebtoon" id="selectWebtoon" style="width: 250px;">
+                                    </select>
+                                </div>
+                                <div class="ml-2 mr-2">
+                                    <input type="text" placeholder="Bölüm İsmi Ara...." name="webtoonSearch"
+                                        id="webtoonSearch" class="form-control" oninput="checkInput()">
+                                </div>
+                                <div class="ml-2 mr-2">
+                                    <button class="btn btn-success" id="webtoonSearchButton" onclick="searchWebtoonButton()"
+                                        disabled><i class="fas fa-search"></i> Ara</button>
+                                </div>
+                                <div class="ml-2 mr-2">
+                                    <button class="btn btn-danger" id="searchWebtoonAllButton"
+                                        onclick="searchWebtoonAllButton()" disabled> <i class="fas fa-align-center"></i>
+                                        Tümünü Göster</button>
+                                </div>
+                            </div>
                         </div>
 
 
@@ -99,7 +130,10 @@
         </div>
 
         <script src="../../../admin/assets/libs/jquery/jquery.min.js"></script>
-        <!-- Sayfa Değiştirme Scripti-->
+
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+        <!-- Sayfa Değiştirme ve Arama Komutları-->
         <script>
             var currentPage = 1;
 
@@ -182,8 +216,13 @@
             function nextPage() {
                 if (currentPage < "{{ $pageCount }}") changePage(currentPage + 1)
             }
+
+            function selectWebtoon(){
+                
+            }
         </script>
 
+        <!--Silme Komutları-->
         <script>
             @if ($delete == 1)
                 function deleteWebtoonEpisde(code) {
@@ -210,6 +249,75 @@
                     })
                 }
             @endif
+        </script>
+
+        <!--Select2 komutları-->
+        <script>
+            $(document).ready(function() {
+                $('#selectWebtoon').select2({
+                    ajax: {
+                        url: '{{ route('admin_webtoon_get_data') }}', // Laravel controller endpoint'iniz
+                        dataType: 'json',
+                        type: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': "{{ csrf_token() }}" // CSRF token'ı ekle
+                        },
+                        data: function(params) {
+                            return {
+                                searchData: params.term,
+                                page: 1,
+                                search: -99,
+                                // Diğer parametreleri burada ekleyebilirsiniz
+                            };
+                        },
+                        processResults: function(data) {
+                            return {
+                                results: $.map(data.webtoons, function(webtoon) {
+                                    return {
+                                        id: webtoon.code,
+                                        text: webtoon.name,
+                                        image: webtoon.image
+                                        // Diğer alanları burada ekleyebilirsiniz
+                                    };
+                                }),
+                                pagination: {
+                                    more: data.pageCount > 1 // Eğer daha fazla sayfa varsa true döndürün
+                                }
+                            };
+                        },
+                        cache: true
+                    },
+                    placeholder: 'Arama yapın...',
+                    minimumInputLength: 3, // Minimum giriş uzunluğu
+                    escapeMarkup: function(markup) {
+                        return markup;
+                    }, // Markdown işlemlerini önlemek için
+                    templateResult: formatResult, // Sonuçları özelleştirmek için
+                    templateSelection: formatResult, // Seçili öğeyi özelleştirmek için
+                })
+
+                function formatResult(webtoon) {
+                    if (!webtoon.id) {
+                        return webtoon.text;
+                    }
+                    // Resmi sonuçlarda göster
+                    // Yan yana resim ve metni göster
+                    var imageMarkup =
+                        '<img class="rounded-circle header-profile-user" src="../../../../' +
+                        webtoon
+                        .image +
+                        '" alt="webtoon_image" />';
+                    var textMarkup = '<div class="select2-result-webtoon__title">' +
+                        webtoon.text + '</div>';
+
+                    var markup = '<div class="row">' +
+                        '<div class="ml-2 select2-result-webtoon__image-container">' + imageMarkup + '</div>' +
+                        '<div class="select2-result-webtoon__text-container">' + textMarkup + '</div>' +
+                        '</div>';
+
+                    return markup;
+                }
+            });
         </script>
     @endif
     <script>

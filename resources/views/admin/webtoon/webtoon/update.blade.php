@@ -17,7 +17,7 @@
                             @csrf
                             <div class="row">
                                 <div hidden>
-                                    <input type="text" name="code" code value="{{ $webtoon->code }}">
+                                    <input type="text" name="code" id="code" value="{{ $webtoon->code }}">
                                     <input type="text" id="short_name" name="short_name"
                                         value="{{ $webtoon->short_name }}" hidden>
                                 </div>

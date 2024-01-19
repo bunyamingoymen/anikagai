@@ -15,15 +15,16 @@
                             <div class="row">
                                 <div class="ml-2 mr-2">
                                     <input type="text" placeholder="Webtoon Ara...." name="webtoonSearch"
-                                        id="webtoonSearch" class="form-control">
+                                        id="webtoonSearch" class="form-control" oninput="checkInput()">
                                 </div>
                                 <div class="ml-2 mr-2">
-                                    <button class="btn btn-success" onclick="searchWebtoonButton()"><i
-                                            class="fas fa-search"></i> Ara</button>
+                                    <button class="btn btn-success" id="webtoonSearchButton" onclick="searchWebtoonButton()"
+                                        disabled><i class="fas fa-search"></i> Ara</button>
                                 </div>
                                 <div class="ml-2 mr-2">
-                                    <button class="btn btn-danger" onclick="searchWebtoonAllButton()"><i
-                                            class="fas fa-align-center"></i> Tümünü Göster</button>
+                                    <button class="btn btn-danger" id="searchWebtoonAllButton"
+                                        onclick="searchWebtoonAllButton()" disabled> <i class="fas fa-align-center"></i>
+                                        Tümünü Göster</button>
                                 </div>
                             </div>
                         </div>
@@ -271,6 +272,8 @@
                 search = 0;
                 searchData = document.getElementById('webtoonSearch').value;
                 changePagination = true;
+                document.getElementById('webtoonSearchButton').disabled = true;
+                document.getElementById('searchWebtoonAllButton').disabled = false;
                 changePage(1);
             }
 
@@ -279,6 +282,7 @@
                 searchData = "";
                 document.getElementById('webtoonSearch').value = "";
                 changePagination = true;
+                document.getElementById('searchWebtoonAllButton').disabled = true;
                 changePage(1);
             }
 
@@ -309,6 +313,7 @@
             }
         </script>
 
+        <!--Silme işlemi-->
         <script>
             @if ($delete == 1)
                 function deleteWebtoon(code) {
@@ -335,6 +340,28 @@
                     })
                 }
             @endif
+        </script>
+
+        <!--Arama İşlemi-->
+        <script>
+            function checkInput() {
+                var inputField = document.getElementById('webtoonSearch');
+                var submitButton = document.getElementById('webtoonSearchButton');
+
+                // Input alanının değeri varsa, butonu aktif hale getir
+                if (inputField.value.trim() !== '' && inputField.value !== searchData) {
+                    submitButton.disabled = false;
+                } else {
+                    submitButton.disabled = true;
+                }
+            }
+
+            // Enter tuşuna basılınca formu gönder
+            document.getElementById('webtoonSearch').addEventListener('keyup', function(event) {
+                if (event.key === 'Enter') {
+                    searchWebtoonButton();
+                }
+            });
         </script>
     @endif
     <script>
