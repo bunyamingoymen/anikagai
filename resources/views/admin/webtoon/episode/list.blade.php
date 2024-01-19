@@ -136,6 +136,10 @@
         <!-- Sayfa Değiştirme ve Arama Komutları-->
         <script>
             var currentPage = 1;
+            var is_select_webtoon = false;
+            var selectedWebtoonCode = 0;
+            var search = -1;
+            var searchData = "";
 
             function changePage(page) {
                 $.ajaxSetup({
@@ -147,12 +151,16 @@
                     type: 'POST',
                     url: '{{ route('admin_webtoon_episodes_get_data') }}',
                     data: {
-                        page: page
+                        page: page,
+                        is_select_webtoon: is_select_webtoon,
+                        selectedWebtoonCode: selectedWebtoonCode,
+                        search: search,
+                        searchData: searchData
                     },
                     success: function(webtoon_episode) {
                         var code = ``;
                         var id = page <= 1 ? 1 : (page - 1) * 10 + 1;
-                        for (let i = 0; i < webtoon_episode.length; i++) {
+                        for (let i searchData_episode.length; i++) {
                             var episode_count = sendData(webtoon_episode[i].code);
                             var episode_webtoon_image = sendData(webtoon_episode[i].webtoon_image);
                             var episode_webtoon_name = sendData(webtoon_episode[i].webtoon_name);
@@ -217,9 +225,13 @@
                 if (currentPage < "{{ $pageCount }}") changePage(currentPage + 1)
             }
 
-            function selectWebtoon(){
-                
-            }
+            $('#selectWebtoon').on("select2:select", function(e) {
+                var data = e.params.data;
+                is_select_webtoon = true;
+                selectedWebtoonCode = parseInt(data.id)
+                document.getElementById('searchWebtoonAllButton').disabled = false;
+                changePage(1);
+            });
         </script>
 
         <!--Silme Komutları-->
@@ -287,7 +299,7 @@
                         },
                         cache: true
                     },
-                    placeholder: 'Arama yapın...',
+                    placeholder: 'Webtoon Ara...',
                     minimumInputLength: 3, // Minimum giriş uzunluğu
                     escapeMarkup: function(markup) {
                         return markup;
