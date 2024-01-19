@@ -240,7 +240,7 @@
 
                         if (changePagination) {
                             newPageCount(pageCount);
-                            if (search == 0) vsearch = 1;
+                            if (search == 0) search = 1;
 
                             changePagination = false;
                         }

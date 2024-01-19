@@ -18,7 +18,7 @@ class WebtoonEpisodeController extends Controller
         $webtoon_episodes = DB::table('webtoon_episodes')
             ->Where('webtoon_episodes.deleted', 0)
             ->join('webtoons', 'webtoons.code', '=', 'webtoon_episodes.webtoon_code')
-            ->select('webtoon_episodes.*', 'webtoons.name as webtoon_name', 'webtoons.image as webtoon_image')
+            ->select('webtoon_episodes.*', 'webtoons.name as webtoon_name', 'webtoons.thumb_image as webtoon_image')
             ->take($this->showCount)
             ->get();
         $currentCount = 1;
@@ -180,28 +180,59 @@ class WebtoonEpisodeController extends Controller
 
     public function episodeGetData(Request $request)
     {
+        $search = $request->search; // -1: arama yok, 0: ilk defa arama, 1: aramanın devamı, -99: Sayfalama iptal bütün veriyi getir.
         $skip = (($request->page - 1) * $this->showCount);
-
+        $searchData = $request->searchData ? $request->searchData : "0";
         $matchGroup = [];
-        $count = 0;
-        if ($request->is_select_webtoon && $request->selectedWebtoonCode) {
-            $count = 1;
+        $pageCount = 0;
+        if ($request->is_select_webtoon && $request->selectedWebtoonCode)
             array_push($matchGroup, ["webtoons.code", $request->selectedWebtoonCode]);
-        }
 
         array_push($matchGroup, ["webtoon_episodes.deleted", 0]);
         array_push($matchGroup, ["webtoons.deleted", 0]);
 
-        $webtoon_episode = DB::table('webtoon_episodes')
-            ->Where($matchGroup)
-            ->join('webtoons', 'webtoons.code', '=', 'webtoon_episodes.webtoon_code')
-            ->select('webtoon_episodes.*', 'webtoons.name as webtoon_name', 'webtoons.image as webtoon_image')
-            ->skip($skip)->take($this->showCount)
-            ->get();
+        if ($search == "-1") {
+            $webtoon_episode = DB::table('webtoon_episodes')
+                ->Where($matchGroup)
+                ->join('webtoons', 'webtoons.code', '=', 'webtoon_episodes.webtoon_code')
+                ->select('webtoon_episodes.*', 'webtoons.name as webtoon_name', 'webtoons.thumb_image as webtoon_image')
+                ->skip($skip)->take($this->showCount)
+                ->get();
+        } else {
+            $webtoon_episode = DB::table('webtoon_episodes')
+                ->Where($matchGroup)
+                ->where(function ($queryBuilder) use ($searchData) {
+                    $queryBuilder->where('webtoon_episodes.name', 'LIKE', '%' . $searchData . '%')
+                        ->orWhere('webtoon_episodes.description', 'LIKE', '%' . $searchData . '%')
+                        ->orWhere('webtoon_episodes.minute', 'LIKE', '%' . $searchData . '%');
+                })
+                ->join('webtoons', 'webtoons.code', '=', 'webtoon_episodes.webtoon_code')
+                ->select('webtoon_episodes.*', 'webtoons.name as webtoon_name', 'webtoons.thumb_image as webtoon_image')
+                ->skip($skip)->take($this->showCount)
+                ->get();
+        }
+
+        if ($search == "0") {
+            $pageCountTest = DB::table('webtoon_episodes')
+                ->Where($matchGroup)
+                ->where(function ($queryBuilder) use ($searchData) {
+                    $queryBuilder->where('webtoon_episodes.name', 'LIKE', '%' . $searchData . '%')
+                        ->orWhere('webtoon_episodes.description', 'LIKE', '%' . $searchData . '%')
+                        ->orWhere('webtoon_episodes.minute', 'LIKE', '%' . $searchData . '%');
+                })
+                ->join('webtoons', 'webtoons.code', '=', 'webtoon_episodes.webtoon_code')
+                ->select('webtoon_episodes.*', 'webtoons.name as webtoon_name', 'webtoons.thumb_image as webtoon_image')
+                ->count();
+
+            if ($pageCountTest % $this->showCount == 0)
+                $pageCount = $pageCountTest / $this->showCount;
+            else
+                $pageCount = intval($pageCountTest / $this->showCount) + 1;
+        }
         //return $webtoon_episode;
         return [
             'webtoon_episode' => $webtoon_episode,
-            'count' => $count
+            'pageCount' => $pageCount
         ];
     }
 }

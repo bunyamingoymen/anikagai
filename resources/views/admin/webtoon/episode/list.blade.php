@@ -33,12 +33,14 @@
                                         id="webtoonSearch" class="form-control" oninput="checkInput()">
                                 </div>
                                 <div class="ml-2 mr-2">
-                                    <button class="btn btn-success" id="webtoonSearchButton" onclick="searchWebtoonButton()"
-                                        disabled><i class="fas fa-search"></i> Ara</button>
+                                    <button class="btn btn-success" id="webtoonSearchButton"
+                                        onclick="searchWebtoonEpisodeButton()" disabled><i class="fas fa-search"></i>
+                                        Ara</button>
                                 </div>
                                 <div class="ml-2 mr-2">
                                     <button class="btn btn-danger" id="searchWebtoonAllButton"
-                                        onclick="searchWebtoonAllButton()" disabled> <i class="fas fa-align-center"></i>
+                                        onclick="searchWebtoonEpisodeAllButton()" disabled> <i
+                                            class="fas fa-align-center"></i>
                                         Tümünü Göster</button>
                                 </div>
                             </div>
@@ -141,6 +143,7 @@
             var search = -1;
             var searchData = "";
             var changePagination = false;
+            var pageCount = parseInt("{{ $pageCount }}");
 
             function changePage(page) {
                 $.ajaxSetup({
@@ -160,8 +163,6 @@
                     },
                     success: function(response) {
                         var webtoon_episode = response.webtoon_episode
-                        var count = response.count;
-                        alert(count);
                         var code = ``;
                         var id = page <= 1 ? 1 : (page - 1) * 10 + 1;
                         for (let i = 0; i < webtoon_episode.length; i++) {
@@ -203,18 +204,36 @@
                             <td>` + episode_season_short + `</td>
                             <td>` + episode_episode_short + `</td>
                         </tr>`;
-                            document.getElementById('webtoonTableTbody').innerHTML = code;
+                        }
+                        document.getElementById('webtoonTableTbody').innerHTML = code;
 
+                        if (search == 0) {
+                            pageCount = parseInt(response.pageCount);
+                        } else {
+                            pageCount = parseInt("{{ $pageCount }}");
                         }
 
-                        currentPaginationId = 'pagination' + currentPage;
-                        paginationId = 'pagination' + page;
+                        if (changePagination) {
+                            newPageCount(pageCount);
+                            if (search == 0) search = 1;
 
-                        document.getElementById(currentPaginationId).classList.remove("active");
-                        document.getElementById(paginationId).classList.add("active");
+                            changePagination = false;
+                        }
+
+
+                        if (pageCount > 0) {
+                            currentPaginationId = 'pagination' + currentPage;
+                            paginationId = 'pagination' + page;
+
+                            document.getElementById(currentPaginationId).classList.remove("active");
+                            document.getElementById(paginationId).classList.add("active");
+                        }
 
                         currentPage = page;
 
+                    },
+                    error: function(error) {
+                        console.log(error);
                     }
                 });
 
@@ -226,17 +245,68 @@
             }
 
             function nextPage() {
-                if (currentPage < "{{ $pageCount }}") changePage(currentPage + 1)
+                if (currentPage < pageCount) changePage(currentPage + 1)
             }
 
+            //Webtoon arandığında otomatik getiren fonksiyon
             $('#selectWebtoon').on("select2:select", function(e) {
                 var data = e.params.data;
                 is_select_webtoon = true;
                 selectedWebtoonCode = parseInt(data.id)
                 document.getElementById('searchWebtoonAllButton').disabled = false;
                 changePagination = true;
+                search = 0;
                 changePage(1);
             });
+
+            //arama yaptında çalışmasını sağlayan fonksiyon
+            function searchWebtoonEpisodeButton() {
+                search = 0;
+                searchData = document.getElementById('webtoonSearch').value;
+                changePagination = true;
+                document.getElementById('webtoonSearchButton').disabled = true;
+                document.getElementById('searchWebtoonAllButton').disabled = false;
+                changePage(1);
+            }
+
+            function searchWebtoonEpisodeAllButton() {
+                search = -1;
+                searchData = "";
+                is_select_webtoon = false;
+                selectedWebtoonCode = 0;
+                changePagination = true;
+                document.getElementById('webtoonSearch').value = "";
+                $('#selectWebtoon').val(null).trigger('change');
+                document.getElementById('searchWebtoonAllButton').disabled = true;
+                changePage(1);
+            }
+
+            //Sayfalama kısmını yeniden düzenleyen fonksiyon
+            function newPageCount(new_page_count) {
+                var pagination = document.getElementsByClassName('pagination')[0];
+                var html = `<li class="page-item">
+                                    <a class="page-link" href="javascript:;" onclick="prevPage();" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>`;
+                for (let i = 1; i <= new_page_count; i++) {
+                    html += `<li class="page-item" id="pagination` + i + `">
+                                            <a class="page-link " href="javascript:;"
+                                                onclick="changePage(` + i + `)">
+                                                ` + i + `
+                                            </a>
+                                        </li>`;
+                }
+
+                html += ` <li class="page-item">
+                                    <a class="page-link" href="javascript:;" onclick="nextPage();" aria-label="Next">
+                                        <span aria-hidden="true">&raquo;</span>
+                                    </a>
+                                </li>`;
+
+                pagination.innerHTML = html;
+
+            }
         </script>
 
         <!--Silme Komutları-->
@@ -333,6 +403,28 @@
                         '</div>';
 
                     return markup;
+                }
+            });
+        </script>
+
+        <!--Arama İşlemi-->
+        <script>
+            function checkInput() {
+                var inputField = document.getElementById('webtoonSearch');
+                var submitButton = document.getElementById('webtoonSearchButton');
+
+                // Input alanının değeri varsa, butonu aktif hale getir
+                if (inputField.value.trim() !== '' && inputField.value !== searchData) {
+                    submitButton.disabled = false;
+                } else {
+                    submitButton.disabled = true;
+                }
+            }
+
+            // Enter tuşuna basılınca formu gönder
+            document.getElementById('webtoonSearch').addEventListener('keyup', function(event) {
+                if (event.key === 'Enter') {
+                    searchWebtoonButton();
                 }
             });
         </script>
