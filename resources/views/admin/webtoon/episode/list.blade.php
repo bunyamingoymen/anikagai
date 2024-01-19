@@ -140,6 +140,7 @@
             var selectedWebtoonCode = 0;
             var search = -1;
             var searchData = "";
+            var changePagination = false;
 
             function changePage(page) {
                 $.ajaxSetup({
@@ -157,10 +158,13 @@
                         search: search,
                         searchData: searchData
                     },
-                    success: function(webtoon_episode) {
+                    success: function(response) {
+                        var webtoon_episode = response.webtoon_episode
+                        var count = response.count;
+                        alert(count);
                         var code = ``;
                         var id = page <= 1 ? 1 : (page - 1) * 10 + 1;
-                        for (let i searchData_episode.length; i++) {
+                        for (let i = 0; i < webtoon_episode.length; i++) {
                             var episode_count = sendData(webtoon_episode[i].code);
                             var episode_webtoon_image = sendData(webtoon_episode[i].webtoon_image);
                             var episode_webtoon_name = sendData(webtoon_episode[i].webtoon_name);
@@ -230,6 +234,7 @@
                 is_select_webtoon = true;
                 selectedWebtoonCode = parseInt(data.id)
                 document.getElementById('searchWebtoonAllButton').disabled = false;
+                changePagination = true;
                 changePage(1);
             });
         </script>

@@ -182,12 +182,26 @@ class WebtoonEpisodeController extends Controller
     {
         $skip = (($request->page - 1) * $this->showCount);
 
+        $matchGroup = [];
+        $count = 0;
+        if ($request->is_select_webtoon && $request->selectedWebtoonCode) {
+            $count = 1;
+            array_push($matchGroup, ["webtoons.code", $request->selectedWebtoonCode]);
+        }
+
+        array_push($matchGroup, ["webtoon_episodes.deleted", 0]);
+        array_push($matchGroup, ["webtoons.deleted", 0]);
+
         $webtoon_episode = DB::table('webtoon_episodes')
-            ->Where('webtoon_episodes.deleted', 0)
+            ->Where($matchGroup)
             ->join('webtoons', 'webtoons.code', '=', 'webtoon_episodes.webtoon_code')
             ->select('webtoon_episodes.*', 'webtoons.name as webtoon_name', 'webtoons.image as webtoon_image')
             ->skip($skip)->take($this->showCount)
             ->get();
-        return $webtoon_episode;
+        //return $webtoon_episode;
+        return [
+            'webtoon_episode' => $webtoon_episode,
+            'count' => $count
+        ];
     }
 }
