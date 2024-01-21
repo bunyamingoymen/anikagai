@@ -163,6 +163,7 @@
                     },
                     success: function(response) {
                         var webtoon_episode = response.webtoon_episode
+                        console.log('webtoon_episode: ' + response.webtoon_episode.length);
                         var code = ``;
                         var id = page <= 1 ? 1 : (page - 1) * 10 + 1;
                         for (let i = 0; i < webtoon_episode.length; i++) {
