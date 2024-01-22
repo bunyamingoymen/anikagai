@@ -658,15 +658,18 @@ class IndexController extends Controller
 
         Auth::login($newUser);
 
-        return redirect()->back();
+        return redirect()->route('profile');
     }
 
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
-
-        if (Auth::attempt($credentials)) {
-            return redirect()->back();
+        $credentials2["username"] = $request->input('email');
+        $credentials2["password"] = $request->input('password');
+        //$credentials['username'] = $request->input('email');
+        $remember = $request->remember_me ? true : false;
+        if (Auth::attempt($credentials, $remember) || Auth::attempt($credentials2, $remember)) {
+            return redirect()->route('index');
         }
 
         $errorScreen = "loginScreen";
@@ -679,6 +682,10 @@ class IndexController extends Controller
 
     public function logout()
     {
+        // Remember token'ını geçersiz kıl ve sil
+        Auth::user()->setRememberToken(null);
+        Auth::user()->save();
+
         Auth::logout();
         return redirect()->route('index');
     }

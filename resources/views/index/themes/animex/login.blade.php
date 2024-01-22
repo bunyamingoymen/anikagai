@@ -25,12 +25,17 @@
                         <form action="{{ route('login') }}" method="POST">
                             @csrf
                             <div class="input__item login_input">
-                                <input type="email" name="email" id="email" placeholder="E-mail Adresi *">
+                                <input type="text" name="email" id="email"
+                                    placeholder="E-mail Adresi VEYA Kullanıcı adı *">
                                 <span class="icon_mail"></span>
                             </div>
                             <div class="input__item login_input">
                                 <input type="password" name="password" id="password" placeholder="Şifre *">
                                 <span class="icon_lock"></span>
+                            </div>
+                            <div class="">
+                                <input type="checkbox" name="remember_me" id="remember_me" checked>
+                                <label for="remember_me" style="color:white;">Beni Hatırla</label>
                             </div>
                             <button type="submit" class="site-btn">Giriş Yap</button>
                         </form>
