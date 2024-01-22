@@ -22,7 +22,7 @@
                                     Yeni</a>
                             @endif
                         </div>
-                        <div class="col-lg-12" style="">
+                        <div class="col-lg-10" style="">
                             <div class="row">
                                 <div class="ml-2 mr-2">
                                     <select name="selectWebtoon" id="selectWebtoon" style="width: 250px;">

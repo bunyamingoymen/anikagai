@@ -11,7 +11,7 @@
                                     href="{{ route('admin_webtoon_create_screen') }}">+ Yeni</a>
                             @endif
                         </div>
-                        <div class="col-lg-12" style="">
+                        <div class="col-lg-10" style="">
                             <div class="row">
                                 <div class="ml-2 mr-2">
                                     <input type="text" placeholder="Webtoon Ara...." name="webtoonSearch"

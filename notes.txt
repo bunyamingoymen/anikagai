@@ -10,6 +10,7 @@
 -tema ayarları güncellenmeli (mesela giriş yap modal ile mi ekran ile mi, buna göre redirect->route yapılacak;)
 -slider seçenekleri eklenmeli
 -kategori aramaları temalara aktarılacak
+-Hiçbir webtoon yokken yeni bölüm oluşturamamalı
 ---------------------------------------------
 
 

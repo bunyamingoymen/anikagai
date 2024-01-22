@@ -17,7 +17,7 @@ class AdminController extends Controller
 {
     public function index()
     {
-        $cacheKey = 'total_data_2';
+        $cacheKey = 'total_data';
 
         $totalData = cache()->remember($cacheKey, now()->addMinutes(120), function () {
 
