@@ -234,7 +234,7 @@
                                 @foreach ($trend_webtoons as $item)
                                     <div class="product__sidebar__comment__item">
                                         <div class="product__sidebar__comment__item__pic">
-                                            <img src="../../../{{ $item->image }}" alt=""
+                                            <img src="../../../{{ $item->thumb_image }}" alt=""
                                                 style="min-width: 90px !important; min-height: 130px !important; max-width: 90px !important; max-height: 130px
                                 !important;">
                                         </div>
