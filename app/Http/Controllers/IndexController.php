@@ -480,7 +480,7 @@ class IndexController extends Controller
         $watched = [];
         if (Auth::user()) $watched = WatchedAnime::Where('anime_code', $webtoon->code)->Where('user_code', Auth::user()->code)->Where('content_type', 0)->get();
 
-        $files = WebtoonFile::Where('deleted', 0)->Where('webtoon_episode_code', $episode->code)->get();
+        $files = WebtoonFile::Where('deleted', 0)->Where('webtoon_episode_code', $episode->code)->orderBy('file_order', 'ASC')->get();
 
         return $this->loadThemeView('read', compact('webtoon', 'episode', 'webtoon_episodes', 'trend_webtoons', 'comments_main', 'comments_alt', 'next_episode_url', 'prev_episode_url', 'watched', 'files'));
     }
