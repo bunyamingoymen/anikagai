@@ -13,8 +13,9 @@
                                 <div class="col-md-12 mb-3 mt-4">
                                     <div class="progress" style="height: 30px;">
                                         <div class="progress-bar progress-bar-striped bg-danger progress-bar-animated"
-                                            role="progressbar" id="progress-bar-video" style="width: 25%;" aria-valuenow="0"
-                                            aria-valuemin="0" aria-valuemax="100"> <span id="percentValue">Yüklenme
+                                            role="progressbar" id="progress-bar-video" style="width: 100%;"
+                                            aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"> <span
+                                                id="percentValue">Yüklenme
                                                 Başlamadı</span></div>
                                     </div>
                                 </div>
@@ -73,8 +74,10 @@
                                         onchange="changeFileType()">
                                         <option value="pdf" selected>PDF</option>
                                         <option value="image">Resim</option>
+                                        <option value="zip">Zip (Toplu Resim)</option>
                                     </select>
                                 </div>
+
                                 <div class="col-lg-6" id="uploadPdfFileDiv">
                                     <label for="">PDF Dosyasını Seçiniz:</label>
                                     <div class="row">
@@ -85,6 +88,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 <div class="col-lg-8" id="uploadImageFileDiv" hidden>
                                     <label for="">Resim / Resimleri Seçiniz:</label>
                                     <div class="mt-2" id="imageFormDiv">
@@ -111,6 +115,24 @@
                                     </div>
 
                                 </div>
+
+                                <div class="col-lg-8" id="uploadZipFileDiv" hidden>
+                                    <div class="row">
+                                        <a class="btn btn-danger" style="color: #fff;">1</a>
+                                        <div class="col-lg-10">
+                                            <label for="zipFile">Zip Dosyasını Seçiniz:</label>
+                                            <input type="file" class="form-control" id="zipFile" name="zipFile"
+                                                placeholder="Dosya Seçiniz" accept=".zip" required>
+                                            <br>
+                                            <small>Sadece zip dosyası kabul edilmektedir. Rar ve türevleri kabul
+                                                edilmemektedir.</small>
+                                            <br>
+                                            <small>Zip içinde dosya isimleri sıralı bir şekilde olmak zorundadır.(Örn:
+                                                1.jpg,
+                                                2.jpg)</small>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                             <div style="float: right;">
                                 <button class="btn btn-primary" type="button" onclick="webtoonEpisodeCreateFormSubmit()"
@@ -129,10 +151,19 @@
                 var value = document.getElementById("fileTypeSelect").value;
                 if (value === "pdf") {
                     document.getElementById('uploadPdfFileDiv').hidden = false;
+
+                    document.getElementById('uploadZipFileDiv').hidden = true;
                     document.getElementById('uploadImageFileDiv').hidden = true;
-                } else {
-                    document.getElementById('uploadPdfFileDiv').hidden = true;
+                } else if (value === "image") {
                     document.getElementById('uploadImageFileDiv').hidden = false;
+
+                    document.getElementById('uploadZipFileDiv').hidden = true;
+                    document.getElementById('uploadPdfFileDiv').hidden = true;
+                } else {
+                    document.getElementById('uploadZipFileDiv').hidden = false;
+
+                    document.getElementById('uploadImageFileDiv').hidden = true;
+                    document.getElementById('uploadPdfFileDiv').hidden = true;
                 }
             }
 
@@ -268,31 +299,46 @@
                         },
                         success: function(response) {
                             // Yükleme tamamlandığında yapılacak işlemler
-                            //console.log(response);
+                            console.log(response);
                             is_submitted = false;
                             document.getElementById("webtoonEpisodeCreateSubmitButton").disabled = false;
-                            Swal.fire({
-                                title: "Başarılı",
-                                text: "Webtoon Başarılı Bir Şekilde Yüklendi. Sayfayı Kapatabilirsiniz.",
-                                icon: "success"
-                            });
+                            if (response.success) {
+                                Swal.fire({
+                                    title: "Başarılı",
+                                    text: "Webtoon Başarılı Bir Şekilde Yüklendi. Sayfayı Kapatabilirsiniz.",
+                                    icon: "success"
+                                });
 
-                            document.getElementById('percentValue').innerText = "Tamamlandı"
+                                document.getElementById('percentValue').innerText = "Tamamlandı"
+                            } else {
+                                Swal.fire({
+                                    title: "Hata",
+                                    text: "Bir hata meydana geldi",
+                                    icon: "error"
+                                });
+
+                                document.getElementById('percentValue').innerText = "Hata"
+                            }
+
+
                             //console.log(response);
                         },
-                        error: function(error) {
+                        error: function(xhr, status, error) {
                             // Hata durumunda yapılacak işlemler
                             //console.log(error);
                             is_submitted = false;
                             document.getElementById("webtoonEpisodeCreateSubmitButton").disabled = false;
+                            var error_message = "Webtoon yüklenirken bir hata meydana geldi"
+                            if (xhr.responseJSON && xhr.responseJSON.message) {
+                                error_message = xhr.responseJSON.message;
+                            }
                             Swal.fire({
                                 title: "Error",
-                                text: "Webtoon yüklenirken bir hata meydana geldi.",
+                                text: error_message,
                                 icon: "error"
                             });
 
                             document.getElementById('percentValue').innerText = "Hata"
-                            console.log('hata: ' + JSON.stringify(error));
                         }
                     });
 

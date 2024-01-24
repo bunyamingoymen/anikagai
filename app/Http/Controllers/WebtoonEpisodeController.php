@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use ZipArchive;
+use Illuminate\Support\Facades\Storage;
 
 class WebtoonEpisodeController extends Controller
 {
@@ -59,11 +61,6 @@ class WebtoonEpisodeController extends Controller
         $webtoon_episode->episode_short = $request->episode_short;
         $webtoon_episode->publish_date = $request->publish_date;
         $webtoon_episode->click_count = 0;
-
-        $webtoon = Webtoon::Where('code', $request->webtoon_code)->first();
-        $webtoon->episode_count = $webtoon->episode_count + 1;
-        $webtoon->season_count = $request->season_short > $webtoon->season_count ?  $request->season_short : $webtoon->season_count;
-        $webtoon->save();
 
         $webtoon_episode->create_user_code = Auth::guard('admin')->user()->code;
 
@@ -116,7 +113,65 @@ class WebtoonEpisodeController extends Controller
                 $image->create_user_code = Auth::guard('admin')->user()->code;
                 $image->save();
             }
+        } else if ($fileTypeSelect == "zip") {
+            if ($request->hasFile('zipFile')) {
+
+                $path = 'files/webtoons/webtoonsEpisodes/' . $request->webtoon_code . '/' . $webtoon_episode->season_short . '/' . $webtoon_episode->episode_short . '/' . $webtoon_episode->code;
+                $publicPath = public_path($path);
+
+                $file = $request->file('zipFile');
+                $name = $webtoon_episode->code . "_zip" . "." . $file->getClientOriginalExtension();
+                $file->move($publicPath, $name);
+
+                $zipPath = $publicPath . "/" . $name;
+
+                if (file_exists($zipPath)) {
+                    $zip = new ZipArchive;
+                    $zip->open($zipPath);
+                    $zip->extractTo($publicPath);
+                    $zip->close();
+
+                    //$files = Storage::allFiles($publicPath);
+                    $files = glob($publicPath . '/*');
+
+                    if (count($files) <= 0) {
+                        $webtoon_episode->delete();
+                        return response()->json(['success' => false, 'message' => 'Dosyalar bulunamadı.'], 405);
+                    }
+
+                    foreach ($files as $extractedFile) {
+                        $filename = pathinfo($extractedFile, PATHINFO_FILENAME);
+                        $extension = pathinfo($extractedFile, PATHINFO_EXTENSION);
+                        if ($extension != "zip") {
+                            if (!$this->isFileNameNumeric($filename)) {
+                                // Dosya adı sadece sayılardan oluşmuyorsa, klasörü temizle ve hata döndür
+                                Storage::deleteDirectory($publicPath);
+                                WebtoonFile::Where('webtoon_episode_code', $webtoon_episode->code)->delete();
+                                $webtoon_episode->delete();
+
+                                return response()->json(['success' => false, 'message' => 'Dosya adları sadece sayılardan oluşmalıdır. Yüklenenler silindi.' . $filename], 400);
+                            }
+                            $image = new WebtoonFile();
+
+                            $image->code = WebtoonFile::max('code') + 1;
+                            $image->webtoon_episode_code = $webtoon_episode->code;
+                            $image->file_type = "image";
+                            $image->file = $path . '/' . $filename . '.' . $extension;
+                            $image->file_order = intval($filename);
+                            $image->save();
+                        }
+                    }
+                }
+            } else {
+                $webtoon_episode->delete();
+                return response()->json(['success' => false, 'message' => 'Dosya yüklenmedi.'], 405);
+            }
         }
+
+        $webtoon = Webtoon::Where('code', $request->webtoon_code)->first();
+        $webtoon->episode_count = $webtoon->episode_count + 1;
+        $webtoon->season_count = $request->season_short > $webtoon->season_count ?  $request->season_short : $webtoon->season_count;
+        $webtoon->save();
 
         return response()->json(['success' => true]);
     }
@@ -218,5 +273,10 @@ class WebtoonEpisodeController extends Controller
             })
             ->join('webtoons', 'webtoons.code', '=', 'webtoon_episodes.webtoon_code')
             ->select('webtoon_episodes.*', 'webtoons.name as webtoon_name', 'webtoons.thumb_image as webtoon_image');
+    }
+
+    function isFileNameNumeric($filename)
+    {
+        return preg_match('/^\d+$/', $filename);
     }
 }
