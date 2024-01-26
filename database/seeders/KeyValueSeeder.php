@@ -426,7 +426,7 @@ class KeyValueSeeder extends Seeder
             [
                 'code' => KeyValue::max('code') + 1,
                 'key'  => 'selected_theme',
-                'value'  => '1',
+                'value'  => '2',
                 'create_user_code' => 1,
                 'deleted' => 0,
                 'created_at' => Carbon::now(),

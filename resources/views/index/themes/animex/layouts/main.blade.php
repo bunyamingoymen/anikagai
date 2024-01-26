@@ -12,6 +12,8 @@
         <meta http-equiv="{{ $item->optional_2 ?? '' }}" name="{{ $item->value }}" content="{{ $item->optional ?? '' }}">
     @endforeach
 
+    <meta name="google-site-verification" content="HWzsr_y9rGmKvzuWoYQSlqKZVU_AonpFBQLIdP9-ev4" />
+
     <!--Başlık-->
     <title>{{ $data['index_title']->value }}</title>
 
@@ -66,7 +68,7 @@
 </head>
 
 <body>
-    
+
 
     @include('index.themes.animex.layouts.topbar')
 
