@@ -69,6 +69,7 @@ class IndexController extends Controller
         $listItems = $listItemsSetting ? $listItemsSetting->setting_value : 20;
         $skip = max(0, ($currentPage - 1) * $listItems);
         $allCategory = Category::where('deleted', 0)->get();
+        $pageCountTest = 0;
 
         $adult = 0;
         if ($request->adult && $request->adult == "on")
@@ -102,6 +103,16 @@ class IndexController extends Controller
 
             if ($selectedCategory !== "all") {
                 $query->where('main_category', $selectedCategory);
+                $pageCountTest = Anime::where('deleted', 0)
+                    ->whereIn('showStatus', $this->sendShowStatus(0))
+                    ->where('plusEighteen', $adult)
+                    ->where('main_category', $selectedCategory)
+                    ->count();
+            } else {
+                $pageCountTest = Anime::where('deleted', 0)
+                    ->whereIn('showStatus', $this->sendShowStatus(0))
+                    ->where('plusEighteen', $adult)
+                    ->count();
             }
 
             $list = $query->get();
@@ -117,14 +128,22 @@ class IndexController extends Controller
 
             if ($selectedCategory !== "all") {
                 $query->where('main_category', $selectedCategory);
+                $pageCountTest = Webtoon::where('deleted', 0)
+                    ->whereIn('showStatus', $this->sendShowStatus(0))
+                    ->where('plusEighteen', $adult)
+                    ->where('main_category', $selectedCategory)
+                    ->count();
+            } else {
+                $pageCountTest = Webtoon::where('deleted', 0)
+                    ->whereIn('showStatus', $this->sendShowStatus(0))
+                    ->where('plusEighteen', $adult)
+                    ->count();
             }
 
             $list = $query->get();
         } else {
             abort(404);
         }
-
-        $pageCountTest = count($list);
 
         $pageCount = $pageCountTest % intval($listItems) == 0 ? $pageCountTest / $listItems : $pageCount = intval($pageCountTest / $listItems) + 1;
 
