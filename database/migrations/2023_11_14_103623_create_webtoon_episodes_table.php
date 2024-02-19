@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('webtoon_episodes', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('code');
-            $table->string('name');
+            $table->string('name')->nullable();
             $table->unsignedBigInteger('webtoon_code');
             $table->string('image')->nullable();
             $table->longText('description')->nullable();

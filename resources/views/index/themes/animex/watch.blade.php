@@ -8,7 +8,7 @@
 
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
         /* Roboto fontunu ekleyin veya
-                                                                                                                                                                                                                                                                                                                                                        kendi tercih ettiğiniz bir font kullanabilirsiniz */
+                                                                                                                                                                                                                                                                                                                                                            kendi tercih ettiğiniz bir font kullanabilirsiniz */
 
         .overlay-button {
             position: absolute !important;
@@ -142,21 +142,21 @@
                                             @if ($item->season_short == $episode->season_short && $item->episode_short == $episode->episode_short)
                                                 <a class="a_selected"
                                                     href="{{ url('anime/' . $anime->short_name . '/' . $i . '/' . $item->episode_short) }}">
-                                                    {{ $i }} - {{ $item->episode_short }}.Bölüm -
-                                                    {{ $item->name }}
+                                                    {{ $i }} - {{ $item->episode_short }}.Bölüm
+                                                    {{ $item->name ? '-' . $item->name : '' }}
                                                 </a>
                                             @else
                                                 @if (count($watched) > 0 && $watched->Where('anime_episode_code', $item->code)->first())
                                                     <a style="background-color: green;" class="a_selected"
                                                         href="{{ url('anime/' . $anime->short_name . '/' . $i . '/' . $item->episode_short) }}">
-                                                        {{ $i }} - {{ $item->episode_short }}.Bölüm -
-                                                        {{ $item->name }}
+                                                        {{ $i }} - {{ $item->episode_short }}.Bölüm
+                                                        {{ $item->name ? '-' . $item->name : '' }}
                                                     </a>
                                                 @else
                                                     <a class=""
                                                         href="{{ url('anime/' . $anime->short_name . '/' . $i . '/' . $item->episode_short) }}">
-                                                        {{ $i }} - {{ $item->episode_short }}.Bölüm -
-                                                        {{ $item->name }}
+                                                        {{ $i }} - {{ $item->episode_short }}.Bölüm
+                                                        {{ $item->name ? '-' . $item->name : '' }}
                                                     </a>
                                                 @endif
                                             @endif
@@ -652,7 +652,5 @@
                 window.open(url, type);
             }
         @endif
-
-       
     </script>
 @endsection

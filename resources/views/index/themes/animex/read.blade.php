@@ -164,21 +164,21 @@
                                             @if ($item->season_short == $episode->season_short && $item->episode_short == $episode->episode_short)
                                                 <a class="a_selected"
                                                     href="{{ url('webtoon/' . $webtoon->short_name . '/' . $i . '/' . $item->episode_short) }}">
-                                                    {{ $i }} - {{ $item->episode_short }}.Bölüm -
-                                                    {{ $item->name }}
+                                                    {{ $i }} - {{ $item->episode_short }}.Bölüm
+                                                    {{ $item->name ? '-' . $item->name : '' }}
                                                 </a>
                                             @else
                                                 @if (count($watched) > 0 && $watched->Where('anime_episode_code', $item->code)->first())
                                                     <a style="background-color: green;" class="a_selected"
                                                         href="{{ url('webtoon/' . $webtoon->short_name . '/' . $i . '/' . $item->episode_short) }}">
-                                                        {{ $i }} - {{ $item->episode_short }}.Bölüm -
-                                                        {{ $item->name }}
+                                                        {{ $i }} - {{ $item->episode_short }}.Bölüm
+                                                        {{ $item->name ? '-' . $item->name : '' }}
                                                     </a>
                                                 @else
                                                     <a class=""
                                                         href="{{ url('webtoon/' . $webtoon->short_name . '/' . $i . '/' . $item->episode_short) }}">
-                                                        {{ $i }} - {{ $item->episode_short }}.Bölüm -
-                                                        {{ $item->name }}
+                                                        {{ $i }} - {{ $item->episode_short }}.Bölüm
+                                                        {{ $item->name ? '-' . $item->name : '' }}
                                                     </a>
                                                 @endif
                                             @endif

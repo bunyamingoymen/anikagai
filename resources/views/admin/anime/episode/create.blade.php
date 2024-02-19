@@ -121,7 +121,7 @@
                 var intro_end_time_min = document.getElementById('intro_end_time_min').value;
                 var intro_end_time_sec = document.getElementById('intro_end_time_sec').value;
 
-                if (video == "" || name == "" || season_short == "" || episode_short == "" || publish_date == "" ||
+                if (video == "" || season_short == "" || episode_short == "" || publish_date == "" ||
                     intro_start_time_min == "" || intro_start_time_sec == "" || intro_end_time_min == "" ||
                     intro_end_time_sec == "") {
                     Swal.fire({

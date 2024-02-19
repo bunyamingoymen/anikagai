@@ -16,7 +16,7 @@
                                 <div class="col-md-6 mb-3">
                                     <label for="name">Bölüm Adı:</label>
                                     <input type="text" id="name" name="name" class="form-control"
-                                        value="{{ $anime_episode->name }}" required>
+                                        value="{{ $anime_episode->name }}">
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for="season_short">Bulunduğu Sezon:</label>
@@ -97,7 +97,7 @@
                 var intro_end_time_min = document.getElementById('intro_end_time_min').value;
                 var intro_end_time_sec = document.getElementById('intro_end_time_sec').value;
 
-                if (name == "" || season_short == "" || episode_short == "" || publish_date == "" ||
+                if (season_short == "" || episode_short == "" || publish_date == "" ||
                     intro_start_time_min == "" || intro_start_time_sec == "" || intro_end_time_min == "" ||
                     intro_end_time_sec == "") {
                     Swal.fire({

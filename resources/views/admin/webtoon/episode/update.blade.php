@@ -18,7 +18,7 @@
                                 <div class="col-md-6 mb-3">
                                     <label for="name">Bölüm Adı:</label>
                                     <input type="text" id="name" name="name" class="form-control"
-                                        value="{{ $webtoon_episode->name }}" required>
+                                        value="{{ $webtoon_episode->name }}">
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <label for="season_short">Bulunduğu Sezon:</label>
@@ -68,7 +68,7 @@
                 var episode_short = document.getElementById('episode_short').value;
                 var publish_date = document.getElementById('publish_date').value;
 
-                if (name == "" || season_short == "" || episode_short == "" || publish_date == "") {
+                if (season_short == "" || episode_short == "" || publish_date == "") {
                     Swal.fire({
                         icon: 'error',
                         title: 'Hata',

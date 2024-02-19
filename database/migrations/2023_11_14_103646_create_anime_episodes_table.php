@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('anime_episodes', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('code');
-            $table->string('name');
+            $table->string('name')->nullable();
             $table->unsignedBigInteger('anime_code');
             $table->string('image')->nullable();
             $table->string('video');

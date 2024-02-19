@@ -248,7 +248,7 @@
                 var episode_short = document.getElementById('episode_short').value;
                 var publish_date = document.getElementById('publish_date').value;
 
-                if (name == "" || season_short == "" || episode_short == "" || publish_date == "") {
+                if (season_short == "" || episode_short == "" || publish_date == "") {
                     Swal.fire({
                         icon: 'error',
                         title: 'Hata',

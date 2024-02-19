@@ -212,8 +212,8 @@
                                                 </label>
                                             </div>
                                             <div class="ml-4">
-                                                {{ $i }}.S - {{ $item->episode_short }}.B -
-                                                {{ $item->name }}
+                                                {{ $i }}.S - {{ $item->episode_short }}.B
+                                                {{ $item->name ? '-' . $item->name : '' }}
                                             </div>
                                         </a>
                                     @else
@@ -228,8 +228,8 @@
                                                 </label>
                                             </div>
                                             <div class="ml-4">
-                                                {{ $i }}.S - {{ $item->episode_short }}.B -
-                                                {{ $item->name }}
+                                                {{ $i }}.S - {{ $item->episode_short }}.B
+                                                {{ $item->name ? '-' . $item->name : '' }}
                                             </div>
                                         </a>
                                     @endif
