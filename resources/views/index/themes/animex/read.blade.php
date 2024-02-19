@@ -593,8 +593,6 @@
         @if (Auth::user())
             function deleteComment(code, index_user_code) {
 
-                alert('çalıştı');
-
                 var auth_code = "{{ Auth::user()->code }}";
                 if (auth_code === index_user_code) {
                     Swal.fire({

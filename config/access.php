@@ -118,6 +118,7 @@ return [
         'admin/indexUser/list/ajax' => 61,
         'admin/indexUser/create' => 60,
         'admin/indexUser/update' => 62,
+        'admin/indexUser/active' => 63,
         'admin/indexUser/delete' => 63,
 
         'admin/data/sliderVideo' => 64,

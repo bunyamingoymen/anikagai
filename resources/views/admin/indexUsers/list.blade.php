@@ -39,10 +39,6 @@
                                                     @if ($delete == 1)
                                                         <a class="dropdown-item" href="javascript:;"
                                                             onclick="deleteIndexUser({{ $item->code }})">Sil</a>
-                                                    @endif
-                                                    @if ($update == 1)
-                                                        <a class="dropdown-item"
-                                                            href="{{ route('admin_indexuser_update_screen') }}?code={{ $item->code }}">Güncelle</a>
                                                         @if ($item->is_active == 1)
                                                             <a class="dropdown-item"
                                                                 href="{{ route('admin_indexuser_change_active') }}?code={{ $item->code }}">Pasif
@@ -52,6 +48,10 @@
                                                                 href="{{ route('admin_indexuser_change_active') }}?code={{ $item->code }}">Aktif
                                                                 Hale Getir</a>
                                                         @endif
+                                                    @endif
+                                                    @if ($update == 1)
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('admin_indexuser_update_screen') }}?code={{ $item->code }}">Güncelle</a>
                                                     @endif
                                                 </div>
                                             </div>
@@ -156,10 +156,7 @@
                             @if ($delete == 1)
                                 code +=
                                     `<a class="dropdown-item" href="javascript:;" onclick="deleteIndexUser(${indexUsers_code})">Sil</a>`
-                            @endif
-                            @if ($update == 1)
-                                code +=
-                                    `<a class="dropdown-item" href="{{ route('admin_indexuser_update_screen') }}?code=${indexUsers_code}">Güncelle</a>`
+
                                 if (indexUsers_is_active == 1) {
                                     code +=
                                         `<a class="dropdown-item" href="{{ route('admin_indexuser_change_active') }}?code=${indexUsers_code}">Pasif Hale Getir</a>`;
@@ -167,6 +164,10 @@
                                     code +=
                                         `<a class="dropdown-item" href="{{ route('admin_indexuser_change_active') }}?code=${indexUsers_code}">Aktif Hale Getir</a>`;
                                 }
+                            @endif
+                            @if ($update == 1)
+                                code +=
+                                    `<a class="dropdown-item" href="{{ route('admin_indexuser_update_screen') }}?code=${indexUsers_code}">Güncelle</a>`
                             @endif
 
                             code += `</div>

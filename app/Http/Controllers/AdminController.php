@@ -112,6 +112,19 @@ class AdminController extends Controller
         return redirect()->back()->with('success', Config::get('success.success_codes.10190013'));
     }
 
+    public function adminCommentchangeActive(Request $request)
+    {
+        $comment = Comment::Where('code', $request->code)->first();
+
+        if (!$comment) return redirect()->back()->with('error', Config::get('error.error_codes.0190013'));
+
+        $comment->is_active == 1 ? $comment->is_active = 0 : $comment->is_active = 1;
+
+        $comment->save();
+
+        return redirect()->back()->with('success', Config::get('success.success_codes.10190013'));
+    }
+
     public function profile(Request $request)
     {
         $followed = 0;

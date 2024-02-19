@@ -193,6 +193,8 @@ Route::middleware(['auth'])->group(function () {
             Route::post("/admin/comment/delete", "commentDelete")->name('admin_comment_delete');
 
             Route::get("/admin/comment/pinned", "commentPinned")->name('admin_comment_pinned');
+
+            Route::get("/admin/comment/active", "adminCommentchangeActive")->name('admin_comment_change_active');
         });
 
         Route::controller(UserController::class)->group(function () {

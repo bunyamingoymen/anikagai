@@ -13,6 +13,7 @@
                                     <th scope="col">#</th>
                                     <th scope="col">Yorum</th>
                                     <th scope="col">Yorum Sırası</th>
+                                    <th scope="col">Durumu</th>
                                 </tr>
                             </thead>
                             <tbody id="commentTableTbody">
@@ -28,6 +29,15 @@
                                                     @if ($delete == 1)
                                                         <a class="dropdown-item" href="javascript:;"
                                                             onclick="deleteComment({{ $item->code }})">Sil</a>
+                                                        @if ($item->is_active == 1)
+                                                            <a class="dropdown-item"
+                                                                href="{{ route('admin_comment_change_active') }}?code={{ $item->code }}">Pasif
+                                                                Hale Getir</a>
+                                                        @else
+                                                            <a class="dropdown-item"
+                                                                href="{{ route('admin_comment_change_active') }}?code={{ $item->code }}">Aktif
+                                                                Hale Getir</a>
+                                                        @endif
                                                     @endif
                                                 </div>
                                             </div>
@@ -35,6 +45,13 @@
                                         <th scope="row">{{ $loop->index + 1 }}</th>
                                         <td>{{ $item->message }}</td>
                                         <td>{{ $item->comment_short }}</td>
+                                        <td>
+                                            @if ($item->is_active == 1)
+                                                <span class = "badge badge-pill badge-success"> Aktif </span>
+                                            @else
+                                                <span class = "badge badge-pill badge-danger"> Pasif </span>
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endforeach
 
@@ -103,6 +120,7 @@
                             var comments_code = sendData(comments[i].code);
                             var comments_message = sendData(comments[i].message);
                             var comments_comment_short = sendData(comments[i].comment_short);
+                            var comments_is_active = sendData(comments[i].is_active);
 
                             code += `<tr>
                             <td>
@@ -115,14 +133,28 @@
                             @if ($delete == 1)
                                 code += `<a class="dropdown-item" href="javascript:;" onclick="deleteComment(` +
                                     comments_code + `)">Sil</a>`
+                                if (indexUsers_is_active == 1) {
+                                    code +=
+                                        `<a class="dropdown-item" href="{{ route('admin_comment_change_active') }}?code=${indexUsers_code}">Pasif Hale Getir</a>`;
+                                } else {
+                                    code +=
+                                        `<a class="dropdown-item" href="{{ route('admin_comment_change_active') }}?code=${indexUsers_code}">Aktif Hale Getir</a>`;
+                                }
                             @endif
                             code += `</div>
                                 </div>
                             </td>
                             <th scope="row">` + id++ + `</th>
                             <td>` + comments_message + `</td>
-                            <td>` + comments_comment_short + `</td>
-                        </tr>`;
+                            <td>` + comments_comment_short + `</td>`
+                            code += ` <td>`;
+                            if (indexUsers_is_active == 1)
+                                code += `<span class = "badge badge-pill badge-success" > Aktif </span>`
+                            else
+                                code += `<span class = "badge badge-pill badge-success" > Pasif </span>`
+                            code += `</td>`;
+
+                            code += `</tr>`;
                             document.getElementById('commentTableTbody').innerHTML = code;
                         }
 
