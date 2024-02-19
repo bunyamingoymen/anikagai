@@ -120,5 +120,5 @@ return [
     */
 
     'password_timeout' => 10800,
-    'remember' => 1209600, // 2 hafta
+    'remember' => 63115200, //2 yıl //1209600, // 2 hafta
 ];

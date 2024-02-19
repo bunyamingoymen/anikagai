@@ -16,14 +16,13 @@ class WebtoonController extends Controller
 {
     public function webtoonList()
     {
-        $webtoons = Webtoon::Where('deleted', 0)->take($this->showCount)->get();
         $currentCount = 1;
         $pageCountTest = Webtoon::Where('deleted', 0)->count();
         if ($pageCountTest % $this->showCount == 0)
             $pageCount = $pageCountTest / $this->showCount;
         else
             $pageCount = intval($pageCountTest / $this->showCount) + 1;
-        return view("admin.webtoon.webtoon.list", ["webtoons" => $webtoons, 'pageCount' => $pageCount, 'currentCount' => $currentCount]);
+        return view("admin.webtoon.webtoon.list", ['pageCount' => $pageCount, 'currentCount' => $currentCount]);
     }
 
     public function webtoonCreateScreen()

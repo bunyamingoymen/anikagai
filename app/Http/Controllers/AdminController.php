@@ -8,6 +8,7 @@ use App\Models\FollowUser;
 use App\Models\IndexUser;
 use App\Models\User;
 use App\Models\WatchedAnime;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;

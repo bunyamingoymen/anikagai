@@ -625,6 +625,10 @@ class IndexController extends Controller
 
     public function addNewComment(Request $request)
     {
+        $comment_message = $request->message;
+
+        $is_insult = false;
+
         $comment = new Comment();
         $comment->code = Comment::max('code') + 1;
         $comment->content_code = $request->content_code;
@@ -636,23 +640,44 @@ class IndexController extends Controller
 
         $comment->comment_short = $before_comment ? $before_comment->comment_short + 1 : 1;
 
-        $comment->message = $request->message;
+        $comment->message = $comment_message;
 
         $comment->user_code = Auth::user()->code;
         $comment->date = Carbon::now();
 
         if ($request->is_spoiler) $comment->is_spoiler = 1;
 
+        $comment_split = explode(" ", $comment_message);
+        $comment_split_lowercase = array_map('strtolower', $comment_split);
+
+        $insultMatches = KeyValue::where('deleted', 0)
+            ->where('key', 'insult')
+            ->where(function ($query) use ($comment_split_lowercase) {
+                foreach ($comment_split_lowercase as $item) {
+                    $query->orWhere('value', 'LIKE', "%$item%");
+                }
+            })
+            ->exists();
+
+        if ($insultMatches) {
+            $comment->is_active = 0;
+            $is_insult = true;
+        }
+
         $comment->save();
 
-        if ($request->content_type == 0) {
-            $webtoon = Webtoon::Where('code', $request->webtoon_code)->first();
-            $webtoon->comment_count = $webtoon->comment_count + 1;
-            $webtoon->save();
-        } else if ($request->content_type == 1) {
-            $anime = Anime::Where('code', $request->anime_code)->first();
-            $anime->comment_count = $anime->comment_count + 1;
-            $anime->save();
+
+
+        if (!$is_insult) {
+            if ($request->content_type == 0) {
+                $webtoon = Webtoon::Where('code', $request->webtoon_code)->first();
+                $webtoon->comment_count = $webtoon->comment_count + 1;
+                $webtoon->save();
+            } else if ($request->content_type == 1) {
+                $anime = Anime::Where('code', $request->anime_code)->first();
+                $anime->comment_count = $anime->comment_count + 1;
+                $anime->save();
+            }
         }
 
         return redirect()->back();
@@ -702,8 +727,9 @@ class IndexController extends Controller
     public function logout()
     {
         // Remember token'ını geçersiz kıl ve sil
-        Auth::user()->setRememberToken(null);
-        Auth::user()->save();
+        $user = IndexUser::Where('code', Auth::user()->code)->first();
+        $user->setRememberToken(null);
+        $user->save();
 
         Auth::logout();
         return redirect()->route('index');

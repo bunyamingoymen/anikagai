@@ -1,6 +1,12 @@
 @extends('admin.layouts.main')
 @section('admin_content')
     @if ($list == 1)
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@31.0.3/styles/ag-grid.css" />
+
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@31.0.3/styles/ag-theme-quartz.css" />
+
+        <script src="https://cdn.jsdelivr.net/npm/ag-grid-community@31.0.3/dist/ag-grid-community.min.js"></script>
+
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
         <style>
             .select2-container .select2-selection--single {
@@ -46,84 +52,10 @@
                             </div>
                         </div>
 
-
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th scope="col">..</th>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Resim</th>
-                                    <th scope="col">Webtoon</th>
-                                    <th scope="col">Bölüm Adı</th>
-                                    <th scope="col">Sezon</th>
-                                    <th scope="col">Bölüm</th>
-                                </tr>
-                            </thead>
-                            <tbody id="webtoonTableTbody">
-                                @foreach ($webtoon_episodes as $item)
-                                    <tr>
-                                        <td>
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-danger dropdown-toggle"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    ...
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                    @if ($delete == 1)
-                                                        <a class="dropdown-item" href="javascript:;"
-                                                            onclick="deleteWebtoonEpisde({{ $item->code }})">Sil</a>
-                                                    @endif
-                                                    @if ($update == 1)
-                                                        <a class="dropdown-item"
-                                                            href="{{ route('admin_webtoon_episodes_update_screen') }}?code={{ $item->code }}">Güncelle</a>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <th scope="row">{{ $loop->index + 1 }}</th>
-                                        <td>
-                                            <img class="rounded-circle header-profile-user"
-                                                src="../../../{{ $item->webtoon_image ?? '' }}" alt="{{ $item->name }}">
-                                        </td>
-                                        <td>{{ $item->webtoon_name }}</td>
-                                        <td>{{ $item->name }}</td>
-                                        <td>{{ $item->season_short }}</td>
-                                        <td>{{ $item->episode_short }}</td>
-                                    </tr>
-                                @endforeach
-
-                            </tbody>
-                        </table>
+                        <div class="ag-theme-quartz mt-2 mb-2" style="height: 500px;" id="myGrid"></div>
 
                         <div class="float-right">
                             <ul class="pagination">
-                                <li class="page-item">
-                                    <a class="page-link" href="javascript:;" onclick="prevPage();" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                </li>
-                                @for ($i = 1; $i <= $pageCount; $i++)
-                                    @if ($i == 1)
-                                        <li class="page-item active" id="pagination1">
-                                            <a class="page-link" href="javascript:;" onclick="changePage(1)">
-                                                1
-                                            </a>
-                                        </li>
-                                    @else
-                                        <li class="page-item" id="pagination{{ $i }}">
-                                            <a class="page-link " href="javascript:;"
-                                                onclick="changePage({{ $i }})">
-                                                {{ $i }}
-                                            </a>
-                                        </li>
-                                    @endif
-                                @endfor
-
-                                <li class="page-item">
-                                    <a class="page-link" href="javascript:;" onclick="nextPage();" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                </li>
                             </ul>
                         </div>
                     </div>
@@ -166,47 +98,22 @@
                         console.log('webtoon_episode: ' + response.webtoon_episode.length);
                         var code = ``;
                         var id = page <= 1 ? 1 : (page - 1) * 10 + 1;
+                        rowData = [];
                         for (let i = 0; i < webtoon_episode.length; i++) {
-                            var episode_count = sendData(webtoon_episode[i].code);
-                            var episode_webtoon_image = sendData(webtoon_episode[i].webtoon_image);
-                            var episode_webtoon_name = sendData(webtoon_episode[i].webtoon_name);
-                            var episode_name = sendData(webtoon_episode[i].name);
-                            var episode_season_short = sendData(webtoon_episode[i].season_short);
-                            var episode_episode_short = sendData(webtoon_episode[i].episode_short);
+                            var rowItem = {
+                                id: id++,
+                                code: sendData(webtoon_episode[i].code),
+                                name: sendData(webtoon_episode[i].webtoon_name),
+                                image: sendData(webtoon_episode[i].webtoon_image),
+                                episode_name: sendData(webtoon_episode[i].name),
+                                season_short: sendData(webtoon_episode[i].season_short),
+                                episode_short: sendData(webtoon_episode[i].episode_short),
+                            };
 
-                            code += `<tr>
-                            <td>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                        ...
-                                    </button>
-                                    <div class="dropdown-menu">`
-                            @if ($delete == 1)
-                                code +=
-                                    `<a class="dropdown-item" href="javascript:;" onclick="deleteWebtoonEpisde(` +
-                                    episode_count + `)">Sil</a>`
-                            @endif
-                            @if ($update == 1)
-                                code += `<a class="dropdown-item"
-                                                href="{{ route('admin_webtoon_episodes_update_screen') }}?code=` +
-                                    episode_count + `">Güncelle</a>`
-                            @endif
-                            code += `</div>
-                                </div>
-                            </td>
-                            <th scope="row">` + id++ + `</th>
-                            <td>
-                                <img class="rounded-circle header-profile-user" src="../../../` +
-                                episode_webtoon_image + `" alt="` + episode_webtoon_name + `">
-                                </td>
-                            <td>` + episode_webtoon_name + `</td>
-                            <td>` + episode_name + `</td>
-                            <td>` + episode_season_short + `</td>
-                            <td>` + episode_episode_short + `</td>
-                        </tr>`;
+                            rowData.push(rowItem);
                         }
-                        document.getElementById('webtoonTableTbody').innerHTML = code;
+
+                        gridApi.setGridOption('rowData', rowData);
 
                         if (search == 0) {
                             pageCount = parseInt(response.pageCount);
@@ -214,20 +121,19 @@
                             pageCount = parseInt("{{ $pageCount }}");
                         }
 
-                        if (changePagination) {
-                            newPageCount(pageCount);
-                            if (search == 0) search = 1;
-
-                            changePagination = false;
-                        }
+                        newPageCount(pageCount, page);
 
 
                         if (pageCount > 0) {
                             currentPaginationId = 'pagination' + currentPage;
                             paginationId = 'pagination' + page;
 
-                            document.getElementById(currentPaginationId).classList.remove("active");
-                            document.getElementById(paginationId).classList.add("active");
+                            if (document.getElementById(currentPaginationId)) {
+                                document.getElementById(currentPaginationId).classList.remove("active");
+                            }
+                            if (document.getElementById(paginationId)) {
+                                document.getElementById(paginationId).classList.add("active");
+                            }
                         }
 
                         currentPage = page;
@@ -283,40 +189,88 @@
             }
 
             //Sayfalama kısmını yeniden düzenleyen fonksiyon
-            function newPageCount(new_page_count) {
+            function newPageCount(new_page_count, page) {
+                if (!page) {
+                    page = currentPage;
+                }
                 var pagination = document.getElementsByClassName('pagination')[0];
                 var html = `<li class="page-item">
                                     <a class="page-link" href="javascript:;" onclick="prevPage();" aria-label="Previous">
                                         <span aria-hidden="true">&laquo;</span>
                                     </a>
                                 </li>`;
-                for (let i = 1; i <= new_page_count; i++) {
-                    html += `<li class="page-item" id="pagination` + i + `">
-                                            <a class="page-link " href="javascript:;"
-                                                onclick="changePage(` + i + `)">
-                                                ` + i + `
+                if (new_page_count <= 10) {
+                    for (let i = 1; i <= new_page_count; i++) {
+                        html += `<li class="page-item" id="pagination${i}">
+                                            <a class="page-link " href="javascript:;" onclick="changePage(${i})">
+                                                ${i}
                                             </a>
                                         </li>`;
-                }
-
-                html += ` <li class="page-item">
-                                    <a class="page-link" href="javascript:;" onclick="nextPage();" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
+                    }
+                } else {
+                    html += `<li class="page-item" id="pagination1">
+                                    <a class="page-link " href="javascript:;" onclick="changePage(1)">
+                                        1
                                     </a>
                                 </li>`;
+                    if (page - 2 > 1) {
+                        html += `<li class="page-item">
+                                    <a class="page-link " href="javascript:;">
+                                        ...
+                                    </a>
+                                </li>`;
+                        for (let i = page - 2; i <= page + 2 && i < new_page_count; i++) {
+                            html += `<li class="page-item" id="pagination${i}">
+                                            <a class="page-link " href="javascript:;" onclick="changePage(${i})">
+                                                ${i}
+                                            </a>
+                                        </li>`;
+                        }
+                    } else {
+                        for (let i = 2; i <= page + 2 && i < new_page_count; i++) {
+                            html += `<li class="page-item" id="pagination${i}">
+                                            <a class="page-link " href="javascript:;" onclick="changePage(${i})">
+                                                ${i}
+                                            </a>
+                                        </li>`;
+                        }
+                    }
+
+
+
+                    if (page + 2 < new_page_count) {
+                        html += `<li class="page-item">
+                                    <a class="page-link " href="javascript:;">
+                                        ...
+                                    </a>
+                                </li>`;
+                    }
+
+                    html += `<li class="page-item" id="pagination${new_page_count}">
+                                    <a class="page-link " href="javascript:;" onclick="changePage(${new_page_count})">
+                                        ${new_page_count}
+                                    </a>
+                                </li>`
+                }
+
+
+                html += `<li class="page-item">
+                            <a class="page-link" href="javascript:;" onclick="nextPage();" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>`;
 
                 pagination.innerHTML = html;
-
             }
         </script>
 
         <!--Silme Komutları-->
         <script>
             @if ($delete == 1)
-                function deleteWebtoonEpisde(code) {
+                function deleteWebtoonEpisde(code, name) {
                     Swal.fire({
                         title: 'Emin Misin?',
-                        text: 'Bu Veriyi Silmek İstiyor musunuz(ID: ' + code + ')?',
+                        text: 'Bu Veriyi Silmek İstiyor musunuz(' + name + ')?',
                         icon: 'warning',
                         showDenyButton: true,
                         showCancelButton: false,
@@ -428,6 +382,88 @@
                     searchWebtoonButton();
                 }
             });
+        </script>
+
+        <!--Ag-gird Komutları-->
+        <script>
+            var rowData = [];
+
+            const gridOptions = {
+                // Row Data: The data to be displayed.
+                rowData: rowData,
+                // Column Definitions: Defines & controls grid columns.
+                columnDefs: [
+                    @if ($delete == 1 || $update == 1)
+                        {
+                            headerName: "İşlemler",
+                            field: "action",
+                            cellRenderer: function(params) {
+                                var html = `<div class="row" style="justify-content: center;">`
+                                @if ($update == 1)
+                                    html += `<div class="mr-2 ml-2">
+                                        <a class="btn btn-warning btn-sm" href="{{ route('admin_webtoon_episodes_update_screen') }}?code=${params.data.code}"><i class="fas fa-edit"></i></a>
+                                    </div>`
+                                @endif
+                                @if ($delete == 1)
+                                    html += `<div class="mr-2 ml-2">
+                                        <a class="btn btn-danger btn-sm" href="javascript:void(0);" onclick="deleteWebtoonEpisde(${params.data.code}, '${params.data.name}')"><i class="fas fa-trash-alt"></i></a>
+                                    </div>`
+                                @endif
+
+                                html += `</div>`;
+
+                                return html;
+                            },
+                            filter: false,
+                            cellEditorPopup: true,
+                            cellEditor: 'agSelectCellEditor',
+                            maxWidth: 125,
+                            minWidth: 125,
+                        },
+                    @endif {
+                        headerName: "#",
+                        field: "id",
+                        maxWidth: 75,
+                    },
+                    {
+                        headerName: "Resim",
+                        field: "image",
+                        maxWidth: 75,
+                        cellRenderer: function(params) {
+                            return `<img src="../../../${params.value}" alt="user" class="avatar-xs rounded-circle" />`;
+                        },
+                        filter: false,
+                    },
+                    {
+                        headerName: "Webtoon",
+                        field: "name",
+                    },
+                    {
+                        headerName: "Bölüm Adı",
+                        field: "episode_name",
+                    },
+                    {
+                        headerName: "Sezon",
+                        field: "season_short",
+                    },
+                    {
+                        headerName: "Bölüm",
+                        field: "episode_short",
+                    },
+                ],
+                defaultColDef: {
+                    //flex: 1, // Sütunların esnekliği
+                    resizable: true,
+                    animateRows: true,
+                    cellEditor: 'agSelectCellEditor',
+                },
+                animateRows: true
+            };
+
+            const myGridElement = document.querySelector('#myGrid');
+            var gridApi = agGrid.createGrid(myGridElement, gridOptions);
+            changePage(1);
+            newPageCount(`{{ $pageCount }}`, 1);
         </script>
     @endif
     <script>

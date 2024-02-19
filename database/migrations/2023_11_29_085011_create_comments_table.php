@@ -24,6 +24,7 @@ return new class extends Migration
             $table->date('date')->default('1970-01-01'); //yorumun yapıldığı tarih
             $table->tinyInteger('is_pinned')->default(0); //Yorumun yukarı sabitlenip sabitlenmediğini belritiyor.
             $table->tinyInteger('is_spoiler')->default(0); //spoiler olup olmadığını belirtir
+            $table->tinyInteger('is_active')->default(1); //Yorumda hakaret varsa 0 olur.
             $table->tinyInteger('deleted')->default(0);
             $table->timestamps();
         });
