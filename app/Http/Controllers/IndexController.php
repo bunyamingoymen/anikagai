@@ -713,7 +713,12 @@ class IndexController extends Controller
         //$credentials['username'] = $request->input('email');
         $remember = $request->remember_me ? true : false;
         if (Auth::attempt($credentials, $remember) || Auth::attempt($credentials2, $remember)) {
-            return redirect()->route('index');
+            if (Auth::user()->is_active == 1) {
+                return redirect()->route('index');
+            } else {
+                Auth::logout();
+                return redirect()->route('loginScreen')->with("error", "Hesabınız Aktif Değildir");
+            }
         }
 
         $errorScreen = "loginScreen";

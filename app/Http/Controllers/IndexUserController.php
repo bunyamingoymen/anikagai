@@ -11,14 +11,15 @@ class IndexUserController extends Controller
 {
     public function indexUserList()
     {
-        $indexUsers = IndexUser::Where('code', '!=', 0)->take($this->showCount)->get();
+        $indexUserList = IndexUser::Where('code', '!=', 0)->take($this->showCount)->get();
+
         $currentCount = 1;
         $pageCountTest = IndexUser::count();
         if ($pageCountTest % $this->showCount == 0)
             $pageCount = $pageCountTest / $this->showCount;
         else
             $pageCount = intval($pageCountTest / $this->showCount) + 1;
-        return view("admin.indexUsers.list", ["indexUsers" => $indexUsers, 'pageCount' => $pageCount, 'currentCount' => $currentCount]);
+        return view("admin.indexUsers.list", ["indexUserList" => $indexUserList, 'pageCount' => $pageCount, 'currentCount' => $currentCount]);
     }
 
     public function indexUserCreateScreen()
@@ -128,6 +129,25 @@ class IndexUserController extends Controller
         $indexUser->delete();
 
         return redirect()->route('admin_indexuser_list')->with("success", Config::get('success.success_codes.10010013'));
+    }
+
+    public function indexUserchangeActive(Request $request)
+    {
+        $user = IndexUser::Where('code', $request->code)->first();
+
+        if (!$user)
+            return redirect()->back()->with("error", Config::get('error.error_codes.0010012'));
+
+
+        if ($user->is_active == 1)
+            $user->is_active = 0;
+        else
+            $user->is_active = 1;
+
+        $user->save();
+
+
+        return redirect()->back()->with('success', Config::get('success.success_codes.10010012'));
     }
 
     public function indexUserGetData(Request $request)

@@ -24,36 +24,67 @@ use App\Http\Controllers\WebtoonController;
 use App\Http\Controllers\WebtoonEpisodeController;
 use Illuminate\Support\Facades\Route;
 
-Route::controller(IndexController::class)->group(function () {
-    Route::get('/', 'index')->name('index');
-    Route::get('/animeler', 'list')->name('anime_list');
-    Route::get('/webtoonlar', 'list')->name('webtoon_list');
-    Route::get('/calendar', 'calendar')->name('calendar');
-    Route::get('/animeCalendar', 'calendar')->name('anime_calendar');
-    Route::get('/webtoonCalendar', 'calendar')->name('anime_calendar');
+Route::group(['middleware' => 'is_active_index_user'], function () {
 
-    Route::get('/logout', 'logout')->name('logout');
+    Route::controller(IndexController::class)->group(function () {
+        Route::get('/', 'index')->name('index');
+        Route::get('/animeler', 'list')->name('anime_list');
+        Route::get('/webtoonlar', 'list')->name('webtoon_list');
+        Route::get('/calendar', 'calendar')->name('calendar');
+        Route::get('/animeCalendar', 'calendar')->name('anime_calendar');
+        Route::get('/webtoonCalendar', 'calendar')->name('anime_calendar');
 
 
-    Route::post("/control/username/ajax", 'controlUsername')->name('index_control_username');
-    Route::post("/control/email/ajax", 'controlEmail')->name('index_control_email');
+        Route::post("/control/username/ajax", 'controlUsername')->name('index_control_username');
+        Route::post("/control/email/ajax", 'controlEmail')->name('index_control_email');
 
-    Route::post("/control/watchedAnime/ajax", 'watchedAnime')->name('index_watched_anime');
+        Route::post("/control/watchedAnime/ajax", 'watchedAnime')->name('index_watched_anime');
 
-    Route::get('/contact', 'contactScreen')->name('contact_screen');
-    Route::post('/contact', 'contact')->name('contact');
+        Route::get('/contact', 'contactScreen')->name('contact_screen');
+        Route::post('/contact', 'contact')->name('contact');
 
-    Route::get('/p/{short_name}', 'showPage')->name('showPage');
+        Route::get('/p/{short_name}', 'showPage')->name('showPage');
 
-    Route::get('/search', 'search')->name('search');
+        Route::get('/search', 'search')->name('search');
 
-    Route::post('addNewComment', 'addNewComment')->name('addNewComment');
+        Route::post('addNewComment', 'addNewComment')->name('addNewComment');
 
-    Route::get('/fetchVideo', 'fetchVideo');
+        Route::get('/fetchVideo', 'fetchVideo');
 
-    Route::get('/profile', "profile")->name('profile');
+        Route::get('/forgotPassword', 'forgotPassword')->name('forgotPassword');
+    });
 
-    Route::get('/forgotPassword', 'forgotPassword')->name('forgotPassword');
+    Route::group(['middleware' => 'index_user'], function () {
+        //oturum kapalıyken girilmemesi gereken sayfalar
+        Route::controller(IndexController::class)->group(function () {
+
+            Route::get('/profile', "profile")->name('profile');
+            Route::get('/changeProfile', "changeProfileSettingsScreen")->name('change_profile_settings_screen');
+            Route::post('/changeProfile', "changeProfileSettings")->name('change_profile_settings');
+            Route::post('/changeProfileImage', "changeProfileImage")->name('change_profile_image');
+
+            Route::get('/changeProfilePassword',  "changeProfilePasswordScreen")->name('change_profile_password_screen');
+            Route::post('/changeProfilePassword', "changeProfilePassword")->name('change_profile_password');
+
+            Route::get('/logout', 'logout')->name('logout');
+        });
+
+        Route::controller(IndexDataController::class)->group(function () {
+            Route::post('/followAnime', 'followAnime')->name('followAnime');
+            Route::post('/followWebtoon', 'followWebtoon')->name('followWebtoon');
+            Route::post('/followUser', 'followUser')->name('followUser');
+            Route::post('/unfollowAnime', 'unfollowAnime')->name('unfollowAnime');
+            Route::post('/unfollowWebtoon', 'unfollowWebtoon')->name('unfollowWebtoon');
+            Route::post('/likeAnime', 'likeAnime')->name('likeAnime');
+            Route::post('/likeWebtoon', 'likeWebtoon')->name('likeWebtoon');
+            Route::post('/unlikeAnime', 'unlikeAnime')->name('unlikeAnime');
+            Route::post('/unlikeWebtoon', 'unlikeWebtoon')->name('unlikeWebtoon');
+            Route::post('/scoreUser', 'scoreUser')->name('scoreUser');
+
+            Route::post('/followUser', 'followIndexUser')->name('followIndexUser');
+            Route::post('/unfollowUser', 'unfollowIndexUser')->name('unfollowIndexUser');
+        });
+    });
 });
 
 Route::group(['middleware' => 'guest_index'], function () {
@@ -62,35 +93,6 @@ Route::group(['middleware' => 'guest_index'], function () {
         Route::get('/login', "loginScreen")->name('loginScreen');
         Route::post('/register', "register")->name('register');
         Route::post('/login', "login")->name('login');
-    });
-});
-
-Route::group(['middleware' => 'index_user'], function () {
-    //oturum kapalıyken girilmemesi gereken sayfalar
-    Route::controller(IndexController::class)->group(function () {
-
-        Route::get('/changeProfile', "changeProfileSettingsScreen")->name('change_profile_settings_screen');
-        Route::post('/changeProfile', "changeProfileSettings")->name('change_profile_settings');
-        Route::post('/changeProfileImage', "changeProfileImage")->name('change_profile_image');
-
-        Route::get('/changeProfilePassword',  "changeProfilePasswordScreen")->name('change_profile_password_screen');
-        Route::post('/changeProfilePassword', "changeProfilePassword")->name('change_profile_password');
-    });
-
-    Route::controller(IndexDataController::class)->group(function () {
-        Route::post('/followAnime', 'followAnime')->name('followAnime');
-        Route::post('/followWebtoon', 'followWebtoon')->name('followWebtoon');
-        Route::post('/followUser', 'followUser')->name('followUser');
-        Route::post('/unfollowAnime', 'unfollowAnime')->name('unfollowAnime');
-        Route::post('/unfollowWebtoon', 'unfollowWebtoon')->name('unfollowWebtoon');
-        Route::post('/likeAnime', 'likeAnime')->name('likeAnime');
-        Route::post('/likeWebtoon', 'likeWebtoon')->name('likeWebtoon');
-        Route::post('/unlikeAnime', 'unlikeAnime')->name('unlikeAnime');
-        Route::post('/unlikeWebtoon', 'unlikeWebtoon')->name('unlikeWebtoon');
-        Route::post('/scoreUser', 'scoreUser')->name('scoreUser');
-
-        Route::post('/followUser', 'followIndexUser')->name('followIndexUser');
-        Route::post('/unfollowUser', 'unfollowIndexUser')->name('unfollowIndexUser');
     });
 });
 
@@ -210,6 +212,8 @@ Route::middleware(['auth'])->group(function () {
 
             Route::get("/admin/indexUser/update", "indexUserUpdateScreen")->name('admin_indexuser_update_screen');
             Route::post("/admin/indexUser/update", "indexUserUpdate")->name('admin_indexuser_update');
+
+            Route::get("/admin/indexUser/active", "indexUserchangeActive")->name('admin_indexuser_change_active');
 
             Route::post("/admin/indexUser/delete", "indexUserDelete")->name('admin_indexuser_delete');
         });

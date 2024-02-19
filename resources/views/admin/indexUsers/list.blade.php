@@ -23,10 +23,11 @@
                                     <th scope="col">İsim</th>
                                     <th scope="col">Kullanıcı Adı</th>
                                     <th scope="col">E-mail</th>
+                                    <th scope="col">Durumu</th>
                                 </tr>
                             </thead>
                             <tbody id="indexUserTableTbody">
-                                @foreach ($indexUsers as $item)
+                                @foreach ($indexUserList as $item)
                                     <tr>
                                         <td>
                                             <div class="btn-group">
@@ -42,6 +43,15 @@
                                                     @if ($update == 1)
                                                         <a class="dropdown-item"
                                                             href="{{ route('admin_indexuser_update_screen') }}?code={{ $item->code }}">Güncelle</a>
+                                                        @if ($item->is_active == 1)
+                                                            <a class="dropdown-item"
+                                                                href="{{ route('admin_indexuser_change_active') }}?code={{ $item->code }}">Pasif
+                                                                Hale Getir</a>
+                                                        @else
+                                                            <a class="dropdown-item"
+                                                                href="{{ route('admin_indexuser_change_active') }}?code={{ $item->code }}">Aktif
+                                                                Hale Getir</a>
+                                                        @endif
                                                     @endif
                                                 </div>
                                             </div>
@@ -55,6 +65,13 @@
                                         <td>{{ $item->name }}</td>
                                         <td>{{ $item->username }}</td>
                                         <td>{{ $item->email }}</td>
+                                        <td>
+                                            @if ($item->is_active == 1)
+                                                <span class = "badge badge-pill badge-success"> Aktif </span>
+                                            @else
+                                                <span class = "badge badge-pill badge-danger"> Pasif </span>
+                                            @endif
+                                        </td>
                                     </tr>
                                 @endforeach
 
@@ -99,6 +116,7 @@
 
         <script src="../../../admin/assets/libs/jquery/jquery.min.js"></script>
         <!-- Sayfa Değiştirme Scripti-->
+
         <script>
             var currentPage = 1;
 
@@ -125,6 +143,7 @@
                             var indexUsers_name = sendData(indexUsers[i].name);
                             var indexUsers_username = sendData(indexUsers[i].username);
                             var indexUsers_email = sendData(indexUsers[i].email);
+                            var indexUsers_is_active = sendData(indexUsers[i].is_active);
 
                             code += `<tr>
                             <td>
@@ -135,13 +154,19 @@
                                     </button>
                                     <div class="dropdown-menu">`
                             @if ($delete == 1)
-                                code += `<a class="dropdown-item" href="javascript:;" onclick="deleteIndexUser(` +
-                                    indexUsers_code + `)">Sil</a>`
+                                code +=
+                                    `<a class="dropdown-item" href="javascript:;" onclick="deleteIndexUser(${indexUsers_code})">Sil</a>`
                             @endif
                             @if ($update == 1)
                                 code +=
-                                    `<a class="dropdown-item" href="{{ route('admin_indexuser_update_screen') }}?code=` +
-                                    indexUsers_code + `">Güncelle</a>`
+                                    `<a class="dropdown-item" href="{{ route('admin_indexuser_update_screen') }}?code=${indexUsers_code}">Güncelle</a>`
+                                if (indexUsers_is_active == 1) {
+                                    code +=
+                                        `<a class="dropdown-item" href="{{ route('admin_indexuser_change_active') }}?code=${indexUsers_code}">Pasif Hale Getir</a>`;
+                                } else {
+                                    code +=
+                                        `<a class="dropdown-item" href="{{ route('admin_indexuser_change_active') }}?code=${indexUsers_code}">Aktif Hale Getir</a>`;
+                                }
                             @endif
 
                             code += `</div>
@@ -161,8 +186,14 @@
                             code += `</td>`
                             code += `<td>` + indexUsers_name + `</td>
                             <td>` + indexUsers_username + `</td>
-                            <td>` + indexUsers_email + `</td>
-                        </tr>`;
+                            <td>` + indexUsers_email + `</td>`
+                            code += ` <td>`;
+                            if (indexUsers_is_active == 1)
+                                code += `<span class = "badge badge-pill badge-success" > Aktif </span>`
+                            else
+                                code += `<span class = "badge badge-pill badge-success" > Pasif </span>`
+                            code += `</td>`;
+                            code += `</tr>`;
                             document.getElementById('indexUserTableTbody').innerHTML = code;
                         }
 

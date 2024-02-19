@@ -18,6 +18,9 @@ class IndexUserMiddleware
     {
         if (!Auth::user()) {
             return redirect()->route('loginScreen');
+        } else if (Auth::user()->is_active == 0) {
+            Auth::logout();
+            return redirect()->route('loginScreen')->with("error", "Hesabınız Aktif Değildir");
         }
         return $next($request);
     }
