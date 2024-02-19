@@ -311,8 +311,9 @@ class IndexController extends Controller
             ->Where('comments.content_type', $content_type)
             ->Where('comments.comment_type', 0)
             ->Where('comments.comment_top_code', 0)
+            ->Where('comments.is_active', 1)
             ->join('index_users', 'index_users.code', '=', 'comments.user_code')
-            ->select('index_users.name as user_name', 'index_users.username as user_username', 'index_users.image as user_image', 'comments.*')
+            ->select('index_users.code as index_user_code', 'index_users.name as user_name', 'index_users.username as user_username', 'index_users.image as user_image', 'comments.*')
             ->orderBy('is_pinned', 'DESC')
             ->orderBy('comment_short', 'ASC')
             ->get();
@@ -323,8 +324,9 @@ class IndexController extends Controller
             ->Where('comments.content_type', $content_type)
             ->Where('comments.comment_type', 1)
             ->Where('comments.comment_top_code', "!=", 0)
+            ->Where('comments.is_active', 1)
             ->join('index_users', 'index_users.code', '=', 'comments.user_code')
-            ->select('index_users.name as user_name', 'index_users.username as user_username', 'index_users.image as user_image', 'comments.*')
+            ->select('index_users.code as index_user_code', 'index_users.name as user_name', 'index_users.username as user_username', 'index_users.image as user_image', 'comments.*')
             ->orderBy('comment_short', 'ASC')
             ->get();
         $next_episode_url = "none";
@@ -456,8 +458,9 @@ class IndexController extends Controller
             ->Where('comments.content_type', $content_type)
             ->Where('comments.comment_type', 0)
             ->Where('comments.comment_top_code', 0)
+            ->Where('comments.is_active', 1)
             ->join('index_users', 'index_users.code', '=', 'comments.user_code')
-            ->select('index_users.name as user_name', 'index_users.username as user_username', 'index_users.image as user_image', 'comments.*')
+            ->select('index_users.code as index_user_code', 'index_users.name as user_name', 'index_users.username as user_username', 'index_users.image as user_image', 'comments.*')
             ->orderBy('is_pinned', 'DESC')
             ->orderBy('comment_short', 'ASC')
             ->get();
@@ -470,8 +473,9 @@ class IndexController extends Controller
             ->Where('comments.content_type', $content_type)
             ->Where('comments.comment_type', 1)
             ->Where('comments.comment_top_code', "!=", 0)
+            ->Where('comments.is_active', 1)
             ->join('index_users', 'index_users.code', '=', 'comments.user_code')
-            ->select('index_users.name as user_name', 'index_users.username as user_username', 'index_users.image as user_image', 'comments.*')
+            ->select('index_users.code as index_user_code', 'index_users.name as user_name', 'index_users.username as user_username', 'index_users.image as user_image', 'comments.*')
             ->orderBy('comment_short', 'ASC')
             ->get();
 
@@ -679,6 +683,19 @@ class IndexController extends Controller
                 $anime->save();
             }
         }
+
+        return redirect()->back();
+    }
+
+    public function deleteComment(Request $request)
+    {
+        $comment = Comment::where('code', $request->code)->first();
+
+        if (!$comment)
+            return redirect()->back();
+
+        $comment->deleted = 1;
+        $comment->save();
 
         return redirect()->back();
     }

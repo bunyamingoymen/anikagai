@@ -47,8 +47,6 @@ Route::group(['middleware' => 'is_active_index_user'], function () {
 
         Route::get('/search', 'search')->name('search');
 
-        Route::post('addNewComment', 'addNewComment')->name('addNewComment');
-
         Route::get('/fetchVideo', 'fetchVideo');
 
         Route::get('/forgotPassword', 'forgotPassword')->name('forgotPassword');
@@ -65,6 +63,10 @@ Route::group(['middleware' => 'is_active_index_user'], function () {
 
             Route::get('/changeProfilePassword',  "changeProfilePasswordScreen")->name('change_profile_password_screen');
             Route::post('/changeProfilePassword', "changeProfilePassword")->name('change_profile_password');
+
+
+            Route::post('/addNewComment', 'addNewComment')->name('addNewComment');
+            Route::post('/deleteComment', 'deleteComment')->name('deleteComment');
 
             Route::get('/logout', 'logout')->name('logout');
         });

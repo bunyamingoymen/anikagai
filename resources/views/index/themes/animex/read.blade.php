@@ -253,6 +253,13 @@
                                                 </a>
                                             @endif
                                         @endif
+                                        @if (Auth::user() && Auth::user()->code == $main_comment->index_user_code)
+                                            <a class="mr-3 ml-3" href="javascript:;"
+                                                onclick="deleteComment('{{ $main_comment->code }}', '{{ $main_comment->index_user_code }}')"
+                                                style="color:white; float:right;">
+                                                <i class="fa fa-trash " aria-hidden="true"></i> Sil
+                                            </a>
+                                        @endif
                                     </div>
                                 </div>
                                 <div id="AnswerMain{{ $main_comment->code }}"></div>
@@ -284,6 +291,13 @@
                                                 <a href="javascript:;" style="color:white; float:right;"
                                                     onclick="ReplyComment('AnswerAltMain{{ $alt_comment->code }}','{{ $episode->code }}','0','1','{{ $main_comment->code }}')">
                                                     <i class="fa fa-reply" aria-hidden="true"></i> Cevapla
+                                                </a>
+                                            @endif
+                                            @if (Auth::user() && Auth::user()->code == $alt_comment->index_user_code)
+                                                <a class="mr-3 ml-3" href="javascript:;"
+                                                    onclick="deleteComment('{{ $alt_comment->code }}', '{{ $alt_comment->index_user_code }}')"
+                                                    style="color:white; float:right;">
+                                                    <i class="fa fa-trash " aria-hidden="true"></i> Sil
                                                 </a>
                                             @endif
                                         </div>
@@ -574,6 +588,38 @@
                 var url = `/admin/comment/pinned?code=` + code;
                 var type = "_self"
                 window.open(url, type);
+            }
+        @endif
+        @if (Auth::user())
+            function deleteComment(code, index_user_code) {
+
+                alert('çalıştı');
+
+                var auth_code = "{{ Auth::user()->code }}";
+                if (auth_code === index_user_code) {
+                    Swal.fire({
+                        title: 'Emin Misin?',
+                        text: 'Bu Yorumu silmek istediğine emin misin?',
+                        icon: 'warning',
+                        showDenyButton: true,
+                        showCancelButton: false,
+                        confirmButtonText: 'Onayla',
+                        denyButtonText: `Vazgeç`,
+                    }).then((result) => {
+                        /* Read more about isConfirmed, isDenied below */
+                        if (result.isConfirmed) {
+                            var html =
+                                `<form action='{{ route('deleteComment') }}' method="POST" id="deleteCommentForm"> @csrf`;
+                            html += `<input type="text" name="code" value='` + code + `'>`;
+                            html += `</form>`
+
+                            document.getElementById('hiddenDiv').innerHTML = html;
+
+                            document.getElementById('deleteCommentForm').submit();
+                        }
+                    })
+                }
+
             }
         @endif
     </script>

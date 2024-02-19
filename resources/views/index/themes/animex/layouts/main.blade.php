@@ -92,6 +92,10 @@
     </div>
     <!-- Search model end -->
 
+    <div id="hiddenDiv" hidden>
+
+    </div>
+
 
 </body>
 

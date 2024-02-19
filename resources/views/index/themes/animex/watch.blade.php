@@ -652,5 +652,7 @@
                 window.open(url, type);
             }
         @endif
+
+       
     </script>
 @endsection
