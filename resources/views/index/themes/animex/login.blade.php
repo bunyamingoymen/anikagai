@@ -22,7 +22,7 @@
                 <div class="col-lg-6">
                     <div class="login__form login__form2">
                         <h3>Giriş Yap</h3>
-                        <form action="{{ route('login') }}" method="POST">
+                        <form action="{{ route('login') }}" method="POST" id="loginFormID">
                             @csrf
                             <div class="input__item login_input">
                                 <input type="text" name="email" id="email"
@@ -37,7 +37,9 @@
                                 <input type="checkbox" name="remember_me" id="remember_me" checked>
                                 <label for="remember_me" style="color:white;">Beni Hatırla</label>
                             </div>
-                            <button type="submit" class="site-btn">Giriş Yap</button>
+                            <div class="g-recaptcha" data-callback="imNotARobotv2"
+                                data-sitekey="{{ config('services.recaptcha.site_key_v2') }}"></div>
+                            <button type="button" class="site-btn" onclick="loginFormButton()">Giriş Yap</button>
                         </form>
                         <a href="javascript:void(0);" onclick="forgotPassword();" class="forget_pass">Şifremi Unuttum?</a>
                     </div>
@@ -78,8 +80,9 @@
                                     placeholder="Şifre Tekrarı *">
                                 <span class="icon_lock"></span>
                             </div>
+                            <div class="g-recaptcha" data-callback="imNotARobot"
+                                data-sitekey="{{ config('services.recaptcha.site_key_v2') }}"></div>
                             <button class="site-btn" type="button" onclick="registerSubmitFormButton()">Kayıt Ol</button>
-                        </form>
                     </div>
                 </div>
             </div>
@@ -89,6 +92,22 @@
 
     <!-- Js Plugins -->
     <script src="../../../user/animex/js/jquery-3.3.1.min.js"></script>
+
+    <script src="https://www.google.com/recaptcha/api.js"></script>
+
+    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit" async defer></script>
+
+    <script type="text/javascript">
+        var notRobot = false;
+        var imNotARobot = function() {
+            notRobot = true;
+        };
+
+        var notRobotv2 = false;
+        var imNotARobotv2 = function() {
+            notRobotv2 = true;
+        };
+    </script>
 
     <!--Kayıt İşlemleri için fonksiyonlar-->
     <script>
@@ -274,43 +293,75 @@
         }
 
         function registerSubmitFormButton() {
-            var name = document.getElementById("registerName").value;
-            var username = document.getElementById("registerUsername").value;
-            var email = document.getElementById("registerEmail").value;
-            var password = document.getElementById("registerPassword").value;
-            var password_repeat = document.getElementById(
-                "registerPassword_repeat"
-            ).value;
-
-            if (
-                name.length == 0 ||
-                username.length == 0 ||
-                email.length == 0 ||
-                password.length == 0 ||
-                password_repeat.length == 0
-            ) {
-                Swal.fire({
-                    title: "Hata",
-                    text: "Lütfen gerekli alanları doldurunuz.",
-                    icon: "error"
-                });
-            } else if (controlIsUsername && controlIsEmail) {
-
-                if (password == password_repeat) {
-                    document.getElementById("registerSubmitForm").submit();
-                } else {
+            if (notRobot) {
+                var name = document.getElementById("registerName").value;
+                var username = document.getElementById("registerUsername").value;
+                var email = document.getElementById("registerEmail").value;
+                var password = document.getElementById("registerPassword").value;
+                var password_repeat = document.getElementById(
+                    "registerPassword_repeat"
+                ).value;
+                if (
+                    name.length == 0 ||
+                    username.length == 0 ||
+                    email.length == 0 ||
+                    password.length == 0 ||
+                    password_repeat.length == 0
+                ) {
                     Swal.fire({
                         title: "Hata",
-                        text: "Şifre İle Şifre Tekrarı",
+                        text: "Lütfen gerekli alanları doldurunuz.",
                         icon: "error"
                     });
+                } else if (controlIsUsername && controlIsEmail) {
+
+                    if (password == password_repeat) {
+                        document.getElementById("registerSubmitForm").submit();
+                    } else {
+                        Swal.fire({
+                            title: "Hata",
+                            text: "Şifre İle Şifre Tekrarı",
+                            icon: "error"
+                        });
+                    }
+                } else {
+                    if (!controlIsUsername) {
+                        controlUsernameRegister();
+                    } else {
+                        controlEmailRegister();
+                    }
                 }
             } else {
-                if (!controlIsUsername) {
-                    controlUsernameRegister();
+                Swal.fire({
+                    title: "Hata",
+                    text: "Lütfen robot olmadığınızı doğrulayınız.",
+                    icon: "error"
+                });
+            }
+        }
+    </script>
+
+    <!--Giriş yapma için fonskiyonlar-->
+    <script>
+        function loginFormButton() {
+            if (notRobotv2) {
+                var password = document.getElementById("password");
+                var email = document.getElementById("email");
+                if (password.length <= 0 || email.length <= 0) {
+                    Swal.fire({
+                        title: "Hata",
+                        text: "Lütfen gerekli yerleri doldurunuz.",
+                        icon: "error"
+                    });
                 } else {
-                    controlEmailRegister();
+                    document.getElementById("loginFormID").submit();
                 }
+            } else {
+                Swal.fire({
+                    title: "Hata",
+                    text: "Lütfen robot olmadığınızı doğrulayınız.",
+                    icon: "error"
+                });
             }
         }
     </script>
@@ -326,7 +377,7 @@
         @endif
     </script>
 
-    <!-- -->
+    <!--Şifremi Unuttum için fonksiyonlar-->
     <script>
         function forgotPassword() {
             Swal.fire({
