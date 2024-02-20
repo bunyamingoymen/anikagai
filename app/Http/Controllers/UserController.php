@@ -13,14 +13,7 @@ class UserController extends Controller
 {
     public function userList()
     {
-        $users = User::Where('deleted', 0)->Where('code', '!=', 0)->take($this->showCount)->get();
-        $currentCount = 1;
-        $pageCountTest = User::Where('deleted', 0)->count();
-        if ($pageCountTest % $this->showCount == 0)
-            $pageCount = $pageCountTest / $this->showCount;
-        else
-            $pageCount = intval($pageCountTest / $this->showCount) + 1;
-        return view("admin.users.list", ["users" => $users, 'pageCount' => $pageCount, 'currentCount' => $currentCount]);
+        return view("admin.users.list",);
     }
 
     public function userCreateScreen()
@@ -186,7 +179,10 @@ class UserController extends Controller
     public function userGetData(Request $request)
     {
         $skip = (($request->page - 1) * $this->showCount);
-        $users = User::Where('deleted', 0)->skip($skip)->take($this->showCount)->get();
-        return $users;
+        $users = User::Where('deleted', 0)->Where('user_type', '!=', '0')->skip($skip)->take($this->showCount)->get();
+        $pageCount = ceil(User::Where('deleted', 0)->Where('user_type', '!=', '0')->count() / $this->showCount);
+
+
+        return ['users' => $users, 'pageCount' => $pageCount];
     }
 }

@@ -396,7 +396,6 @@
             const myGridElement = document.querySelector('#myGrid');
             var gridApi = agGrid.createGrid(myGridElement, gridOptions);
             changePage(1);
-            newPageCount(`{{ $pageCount }}`, 1);
         </script>
     @endif
     <script>

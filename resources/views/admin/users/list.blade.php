@@ -5,7 +5,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <div class="" style="">
+                        <div class="col-lg-12" style="display: inline-block;">
                             @if ($create == 1)
                                 <a class="btn btn-primary mb-3" style="float: right;"
                                     href="{{ route('admin_user_create_screen') }}">+
@@ -13,91 +13,10 @@
                             @endif
                         </div>
 
-
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th scope="col">..</th>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Resim</th>
-                                    <th scope="col">İsim</th>
-                                    <th scope="col">Soyisim</th>
-                                    <th scope="col">E-mail</th>
-                                    <th scope="col">Kullanıcı Grubu</th>
-                                </tr>
-                            </thead>
-                            <tbody id="userTableTbody">
-                                @foreach ($users as $item)
-                                    <tr>
-                                        <td>
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-danger dropdown-toggle"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    ...
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                    @if ($delete == 1)
-                                                        <a class="dropdown-item" href="javascript:;"
-                                                            onclick="deleteUser({{ $item->code }})">Sil</a>
-                                                    @endif
-                                                    @if ($update == 1 || Auth::guard('admin')->user()->code == $item->code)
-                                                        <a class="dropdown-item"
-                                                            href="{{ route('admin_user_update_screen') }}?code={{ $item->code }}">Güncelle</a>
-                                                        <a class="dropdown-item" href="javascript:;"
-                                                            onclick="changePassword({{ $item->code }})">Şifreyi
-                                                            Değiştir</a>
-                                                    @endif
-                                                    <a class="dropdown-item"
-                                                        href="{{ route('admin_profile') }}?code={{ $item->code }}">Görüntüle</a>
-                                                    <a class="dropdown-item" href="Javascript:;"
-                                                        onclick="sendMessage('{{ $item->code }}',0);">Mesaj Gönder</a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <th scope="row">{{ $loop->index + 1 }}</th>
-                                        <td>
-                                            <img class="rounded-circle header-profile-user"
-                                                src="../../../{{ $item->image ?? '' }}" alt="{{ $item->name }}">
-                                        </td>
-                                        <td>{{ $item->name }}</td>
-                                        <td>{{ $item->surname }}</td>
-                                        <td>{{ $item->email }}</td>
-                                        <td>{{ $item->user_type }}</td>
-                                    </tr>
-                                @endforeach
-
-                            </tbody>
-                        </table>
+                        <div class="ag-theme-quartz mt-2 mb-2" style="height: 500px;" id="myGrid"></div>
 
                         <div class="float-right">
                             <ul class="pagination">
-                                <li class="page-item">
-                                    <a class="page-link" href="javascript:;" onclick="prevPage();" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                </li>
-                                @for ($i = 1; $i <= $pageCount; $i++)
-                                    @if ($i == 1)
-                                        <li class="page-item active" id="pagination1">
-                                            <a class="page-link" href="javascript:;" onclick="changePage(1)">
-                                                1
-                                            </a>
-                                        </li>
-                                    @else
-                                        <li class="page-item" id="pagination{{ $i }}">
-                                            <a class="page-link " href="javascript:;"
-                                                onclick="changePage({{ $i }})">
-                                                {{ $i }}
-                                            </a>
-                                        </li>
-                                    @endif
-                                @endfor
-
-                                <li class="page-item">
-                                    <a class="page-link" href="javascript:;" onclick="nextPage();" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                </li>
                             </ul>
                         </div>
                     </div>
@@ -109,6 +28,7 @@
         <!-- Sayfa Değiştirme Scripti-->
         <script>
             var currentPage = 1;
+            var pageCount = 1;
 
             function changePage(page) {
                 console.log(page);
@@ -123,52 +43,30 @@
                     data: {
                         page: page
                     },
-                    success: function(users) {
+                    success: function(response) {
                         var code = ``;
                         var id = page <= 1 ? 1 : (page - 1) * 10 + 1;
+                        var users = response.users;
+                        var page_count = response.pageCount;
+                        rowData = [];
                         for (let i = 0; i < users.length; i++) {
-                            var users_code = sendData(users[i].code);
-                            var users_name = sendData(users[i].name);
-                            var users_surname = sendData(users[i].surname);
-                            var users_email = sendData(users[i].email);
-                            var users_user_type = sendData(users[i].user_type);
+                            var rowItem = {
+                                id: id++,
+                                code: sendData(users[i].code),
+                                image: sendData(users[i].image),
+                                name: sendData(users[i].name),
+                                surname: sendData(users[i].surname),
+                                email: sendData(users[i].surname),
+                                user_type: sendData(users[i].user_type)
+                            }
 
-                            code += `<tr>
-                            <td>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                        ...
-                                    </button>
-                                    <div class="dropdown-menu">`
-                            @if ($delete == 1)
-                                code += `<a class="dropdown-item" href="javascript:;" onclick="deleteUser(` +
-                                    users_code + `)">Sil</a>`
-                            @endif
-                            @if ($update == 1 || Auth::guard('admin')->user()->code == $item->code)
-                                code +=
-                                    `<a class="dropdown-item" href="{{ route('admin_user_update_screen') }}?code=` +
-                                    users_code + `">Güncelle</a>
-                                            <a class="dropdown-item" href="javascript:;" onclick="changePassword(` +
-                                    users_code + `)">Şifreyi
-                                                Değiştir</a>`
-                            @endif
-                            code += `
-                                        <a class="dropdown-item" href="{{ route('admin_profile') }}?code=` +
-                                users_code + `">Görüntüle</a>
-                                        <a class="dropdown-item" href="javascript:;" onclick="sendMessage('` +
-                                users_code + `',0);">Mesaj At</a>
-                                    </div>
-                                </div>
-                            </td>
-                            <th scope="row">` + id++ + `</th>
-                            <td>` + users_name + `</td>
-                            <td>` + users_surname + `</td>
-                            <td>` + users_email + `</td>
-                            <td>` + users_user_type + `</td>
-                        </tr>`;
-                            document.getElementById('userTableTbody').innerHTML = code;
+                            rowData.push(rowItem);
                         }
+
+                        gridApi.setGridOption('rowData', rowData);
+
+                        newPageCount(page_count, page);
+                        pageCount = page_count;
 
                         currentPaginationId = 'pagination' + currentPage;
                         paginationId = 'pagination' + page;
@@ -189,10 +87,85 @@
             }
 
             function nextPage() {
-                if (currentPage < "{{ $pageCount }}") changePage(currentPage + 1)
+                if (currentPage < pageCount) changePage(currentPage + 1)
+            }
+
+            function newPageCount(new_page_count, page) {
+                if (!page) {
+                    page = currentPage;
+                }
+                var pagination = document.getElementsByClassName('pagination')[0];
+                var html = `<li class="page-item">
+                                    <a class="page-link" href="javascript:;" onclick="prevPage();" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>`;
+                if (new_page_count <= 10) {
+                    for (let i = 1; i <= new_page_count; i++) {
+                        html += `<li class="page-item" id="pagination${i}">
+                                            <a class="page-link " href="javascript:;" onclick="changePage(${i})">
+                                                ${i}
+                                            </a>
+                                        </li>`;
+                    }
+                } else {
+                    html += `<li class="page-item" id="pagination1">
+                                    <a class="page-link " href="javascript:;" onclick="changePage(1)">
+                                        1
+                                    </a>
+                                </li>`;
+                    if (page - 2 > 1) {
+                        html += `<li class="page-item">
+                                    <a class="page-link " href="javascript:;">
+                                        ...
+                                    </a>
+                                </li>`;
+                        for (let i = page - 2; i <= page + 2 && i < new_page_count; i++) {
+                            html += `<li class="page-item" id="pagination${i}">
+                                            <a class="page-link " href="javascript:;" onclick="changePage(${i})">
+                                                ${i}
+                                            </a>
+                                        </li>`;
+                        }
+                    } else {
+                        for (let i = 2; i <= page + 2 && i < new_page_count; i++) {
+                            html += `<li class="page-item" id="pagination${i}">
+                                            <a class="page-link " href="javascript:;" onclick="changePage(${i})">
+                                                ${i}
+                                            </a>
+                                        </li>`;
+                        }
+                    }
+
+
+
+                    if (page + 2 < new_page_count) {
+                        html += `<li class="page-item">
+                                    <a class="page-link " href="javascript:;">
+                                        ...
+                                    </a>
+                                </li>`;
+                    }
+
+                    html += `<li class="page-item" id="pagination${new_page_count}">
+                                    <a class="page-link " href="javascript:;" onclick="changePage(${new_page_count})">
+                                        ${new_page_count}
+                                    </a>
+                                </li>`
+                }
+
+
+                html += `<li class="page-item">
+                            <a class="page-link" href="javascript:;" onclick="nextPage();" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>`;
+
+                pagination.innerHTML = html;
             }
         </script>
 
+        <!--Diğer İşlemler-->
         <script>
             function deleteUser(code) {
                 @if ($delete == 1)
@@ -266,6 +239,95 @@
                     })
                 @endif
             }
+        </script>
+
+        <!--Ag-gird Komutları-->
+        <script>
+            var rowData = [];
+
+            const gridOptions = {
+                // Row Data: The data to be displayed.
+                rowData: rowData,
+                // Column Definitions: Defines & controls grid columns.
+                columnDefs: [{
+                        headerName: "İşlemler",
+                        field: "action",
+                        cellRenderer: function(params) {
+                            var html = `<div class="row" style="justify-content: center;">`
+                            @if ($update == 1 || Auth::guard('admin')->user()->code == $item->code)
+                                html += `<div class="mr-2 ml-2">
+                                        <a class="btn btn-warning btn-sm" href="{{ route('admin_user_update_screen') }}?code=${params.data.code}"><i class="fas fa-edit"></i></a>
+                                    </div>
+                                    <div class="mr-2 ml-2">
+                                        <a class="btn btn-success btn-sm" href="javascript:;" onclick="changePassword(${params.data.code})"><i class="fas fa-key"></i></a>
+                                    </div>`
+                            @endif
+                            @if ($delete == 1)
+                                html += `<div class="mr-2 ml-2">
+                                        <a class="btn btn-danger btn-sm" href="javascript:void(0);" onclick="deleteUser(${params.data.code}, '${params.data.name}')"><i class="fas fa-trash-alt"></i></a>
+                                    </div>`
+                            @endif
+
+                            html += `
+                            <div class="mr-2 ml-2">
+                                <a class="btn btn-info btn-sm" href="{{ route('admin_profile') }}?code=${params.data.code}"><i class="fas fa-eye"></i></a>
+                            </div>
+                            <div class="mr-2 ml-2">
+                                <a class="btn btn-secondary btn-sm" href="Javascript:;" onclick="sendMessage('${params.data.code}',0);"><i class="fas fa-envelope"></i></a>
+                            </div>`
+                            html += `</div>`;
+
+                            return html;
+                        },
+                        filter: false,
+                        cellEditorPopup: true,
+                        cellEditor: 'agSelectCellEditor',
+                        maxWidth: 200,
+                        minWidth: 200,
+                    },
+                    {
+                        headerName: "#",
+                        field: "id",
+                        maxWidth: 75,
+                    },
+                    {
+                        headerName: "Resim",
+                        field: "image",
+                        maxWidth: 75,
+                        cellRenderer: function(params) {
+                            return `<img src="../../../${params.value}" alt="user" class="avatar-xs rounded-circle" />`;
+                        },
+                        filter: false,
+                    },
+                    {
+                        headerName: "İsim",
+                        field: "name",
+                    },
+                    {
+                        headerName: "Soyisim",
+                        field: "surname",
+                    },
+                    {
+                        headerName: "E-mail",
+                        field: "email",
+                    },
+                    {
+                        headerName: "Kullanıcı Grubu",
+                        field: "user_type",
+                    },
+                ],
+                defaultColDef: {
+                    //flex: 1, // Sütunların esnekliği
+                    resizable: true,
+                    animateRows: true,
+                    cellEditor: 'agSelectCellEditor',
+                },
+                animateRows: true
+            };
+
+            const myGridElement = document.querySelector('#myGrid');
+            var gridApi = agGrid.createGrid(myGridElement, gridOptions);
+            changePage(1);
         </script>
     @endif
 
