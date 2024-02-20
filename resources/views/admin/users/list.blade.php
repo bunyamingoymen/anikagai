@@ -44,7 +44,6 @@
                         page: page
                     },
                     success: function(response) {
-                        var code = ``;
                         var id = page <= 1 ? 1 : (page - 1) * 10 + 1;
                         var users = response.users;
                         var page_count = response.pageCount;
@@ -56,7 +55,7 @@
                                 image: sendData(users[i].image),
                                 name: sendData(users[i].name),
                                 surname: sendData(users[i].surname),
-                                email: sendData(users[i].surname),
+                                email: sendData(users[i].email),
                                 user_type: sendData(users[i].user_type)
                             }
 

@@ -11,15 +11,7 @@ class IndexUserController extends Controller
 {
     public function indexUserList()
     {
-        $indexUserList = IndexUser::Where('code', '!=', 0)->take($this->showCount)->get();
-
-        $currentCount = 1;
-        $pageCountTest = IndexUser::count();
-        if ($pageCountTest % $this->showCount == 0)
-            $pageCount = $pageCountTest / $this->showCount;
-        else
-            $pageCount = intval($pageCountTest / $this->showCount) + 1;
-        return view("admin.indexUsers.list", ["indexUserList" => $indexUserList, 'pageCount' => $pageCount, 'currentCount' => $currentCount]);
+        return view("admin.indexUsers.list");
     }
 
     public function indexUserCreateScreen()
@@ -126,8 +118,10 @@ class IndexUserController extends Controller
         if (!$indexUser)
             return redirect()->back()->with("error", Config::get('error.error_codes.0010013'));
 
-        $indexUser->delete();
-
+        //$indexUser->delete();
+        $indexUser->deleted = 0;
+        $indexUser->is_active = 0;
+        $indexUser->save();
         return redirect()->route('admin_indexuser_list')->with("success", Config::get('success.success_codes.10010013'));
     }
 
@@ -153,7 +147,10 @@ class IndexUserController extends Controller
     public function indexUserGetData(Request $request)
     {
         $skip = (($request->page - 1) * $this->showCount);
-        $indexUsers = IndexUser::skip($skip)->take($this->showCount)->get();
-        return $indexUsers;
+        $indexUsers = IndexUser::Where('deleted', 0)->skip($skip)->take($this->showCount)->get();
+        $pageCount = ceil(IndexUser::Where('deleted', 0)->count() / $this->showCount);
+
+
+        return ['indexUsers' => $indexUsers, 'pageCount' => $pageCount];
     }
 }

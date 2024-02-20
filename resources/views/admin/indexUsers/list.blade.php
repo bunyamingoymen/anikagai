@@ -5,7 +5,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <div class="" style="">
+                        <div class="col-lg-12" style="display: inline-block;">
                             @if ($create == 1)
                                 <a class="btn btn-primary mb-3" style="float: right;"
                                     href="{{ route('admin_indexuser_create_screen') }}">+
@@ -13,100 +13,10 @@
                             @endif
                         </div>
 
-
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th scope="col">..</th>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Resim</th>
-                                    <th scope="col">İsim</th>
-                                    <th scope="col">Kullanıcı Adı</th>
-                                    <th scope="col">E-mail</th>
-                                    <th scope="col">Durumu</th>
-                                </tr>
-                            </thead>
-                            <tbody id="indexUserTableTbody">
-                                @foreach ($indexUserList as $item)
-                                    <tr>
-                                        <td>
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-danger dropdown-toggle"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    ...
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                    @if ($delete == 1)
-                                                        <a class="dropdown-item" href="javascript:;"
-                                                            onclick="deleteIndexUser({{ $item->code }})">Sil</a>
-                                                        @if ($item->is_active == 1)
-                                                            <a class="dropdown-item"
-                                                                href="{{ route('admin_indexuser_change_active') }}?code={{ $item->code }}">Pasif
-                                                                Hale Getir</a>
-                                                        @else
-                                                            <a class="dropdown-item"
-                                                                href="{{ route('admin_indexuser_change_active') }}?code={{ $item->code }}">Aktif
-                                                                Hale Getir</a>
-                                                        @endif
-                                                    @endif
-                                                    @if ($update == 1)
-                                                        <a class="dropdown-item"
-                                                            href="{{ route('admin_indexuser_update_screen') }}?code={{ $item->code }}">Güncelle</a>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <th scope="row">{{ $loop->index + 1 }}</th>
-                                        <td>
-                                            <img class="rounded-circle header-profile-user"
-                                                src="../../../{{ $item->image ?? 'user/img/profile/default.png' }}"
-                                                alt="{{ $item->name }}">
-                                        </td>
-                                        <td>{{ $item->name }}</td>
-                                        <td>{{ $item->username }}</td>
-                                        <td>{{ $item->email }}</td>
-                                        <td>
-                                            @if ($item->is_active == 1)
-                                                <span class = "badge badge-pill badge-success"> Aktif </span>
-                                            @else
-                                                <span class = "badge badge-pill badge-danger"> Pasif </span>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                @endforeach
-
-                            </tbody>
-                        </table>
+                        <div class="ag-theme-quartz mt-2 mb-2" style="height: 500px;" id="myGrid"></div>
 
                         <div class="float-right">
                             <ul class="pagination">
-                                <li class="page-item">
-                                    <a class="page-link" href="javascript:;" onclick="prevPage();" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                </li>
-                                @for ($i = 1; $i <= $pageCount; $i++)
-                                    @if ($i == 1)
-                                        <li class="page-item active" id="pagination1">
-                                            <a class="page-link" href="javascript:;" onclick="changePage(1)">
-                                                1
-                                            </a>
-                                        </li>
-                                    @else
-                                        <li class="page-item" id="pagination{{ $i }}">
-                                            <a class="page-link " href="javascript:;"
-                                                onclick="changePage({{ $i }})">
-                                                {{ $i }}
-                                            </a>
-                                        </li>
-                                    @endif
-                                @endfor
-
-                                <li class="page-item">
-                                    <a class="page-link" href="javascript:;" onclick="nextPage();" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                </li>
                             </ul>
                         </div>
                     </div>
@@ -119,6 +29,7 @@
 
         <script>
             var currentPage = 1;
+            var pageCount = 1;
 
             function changePage(page) {
                 console.log(page);
@@ -133,70 +44,30 @@
                     data: {
                         page: page
                     },
-                    success: function(indexUsers) {
-                        var code = ``;
+                    success: function(response) {
                         var id = page <= 1 ? 1 : (page - 1) * 10 + 1;
+                        var indexUsers = response.indexUsers;
+                        var page_count = response.pageCount;
+                        rowData = [];
                         for (let i = 0; i < indexUsers.length; i++) {
 
-                            var indexUsers_code = sendData(indexUsers[i].code);
-                            var indexUsers_image = sendData(indexUsers[i].image);
-                            var indexUsers_name = sendData(indexUsers[i].name);
-                            var indexUsers_username = sendData(indexUsers[i].username);
-                            var indexUsers_email = sendData(indexUsers[i].email);
-                            var indexUsers_is_active = sendData(indexUsers[i].is_active);
-
-                            code += `<tr>
-                            <td>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                        ...
-                                    </button>
-                                    <div class="dropdown-menu">`
-                            @if ($delete == 1)
-                                code +=
-                                    `<a class="dropdown-item" href="javascript:;" onclick="deleteIndexUser(${indexUsers_code})">Sil</a>`
-
-                                if (indexUsers_is_active == 1) {
-                                    code +=
-                                        `<a class="dropdown-item" href="{{ route('admin_indexuser_change_active') }}?code=${indexUsers_code}">Pasif Hale Getir</a>`;
-                                } else {
-                                    code +=
-                                        `<a class="dropdown-item" href="{{ route('admin_indexuser_change_active') }}?code=${indexUsers_code}">Aktif Hale Getir</a>`;
-                                }
-                            @endif
-                            @if ($update == 1)
-                                code +=
-                                    `<a class="dropdown-item" href="{{ route('admin_indexuser_update_screen') }}?code=${indexUsers_code}">Güncelle</a>`
-                            @endif
-
-                            code += `</div>
-                                </div>
-                            </td>
-                            <th scope="row">` + id++ + `</th>`
-                            code += `<td>`
-                            if (indexUsers_image.length > 0) {
-                                code += `<img class="rounded-circle header-profile-user"
-                                src="../../../` + indexUsers_image + `"
-                                alt="` + indexUsers_name + `">`
-                            } else {
-                                code += `<img class="rounded-circle header-profile-user"
-                                src="../../../user/img/profile/default.png"
-                                alt="` + indexUsers_name + `">`
+                            var rowItem = {
+                                id: id++,
+                                code: sendData(indexUsers[i].code),
+                                image: sendData(indexUsers[i].image),
+                                name: sendData(indexUsers[i].name),
+                                username: sendData(indexUsers[i].username),
+                                email: sendData(indexUsers[i].email),
+                                is_active: sendData(indexUsers[i].is_active)
                             }
-                            code += `</td>`
-                            code += `<td>` + indexUsers_name + `</td>
-                            <td>` + indexUsers_username + `</td>
-                            <td>` + indexUsers_email + `</td>`
-                            code += ` <td>`;
-                            if (indexUsers_is_active == 1)
-                                code += `<span class = "badge badge-pill badge-success" > Aktif </span>`
-                            else
-                                code += `<span class = "badge badge-pill badge-success" > Pasif </span>`
-                            code += `</td>`;
-                            code += `</tr>`;
-                            document.getElementById('indexUserTableTbody').innerHTML = code;
+
+                            rowData.push(rowItem);
                         }
+
+                        gridApi.setGridOption('rowData', rowData);
+
+                        newPageCount(page_count, page);
+                        pageCount = page_count;
 
                         currentPaginationId = 'pagination' + currentPage;
                         paginationId = 'pagination' + page;
@@ -217,16 +88,90 @@
             }
 
             function nextPage() {
-                if (currentPage < "{{ $pageCount }}") changePage(currentPage + 1)
+                if (currentPage < pageCount) changePage(currentPage + 1)
+            }
+
+            function newPageCount(new_page_count, page) {
+                if (!page) {
+                    page = currentPage;
+                }
+                var pagination = document.getElementsByClassName('pagination')[0];
+                var html = `<li class="page-item">
+                                    <a class="page-link" href="javascript:;" onclick="prevPage();" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>`;
+                if (new_page_count <= 10) {
+                    for (let i = 1; i <= new_page_count; i++) {
+                        html += `<li class="page-item" id="pagination${i}">
+                                            <a class="page-link " href="javascript:;" onclick="changePage(${i})">
+                                                ${i}
+                                            </a>
+                                        </li>`;
+                    }
+                } else {
+                    html += `<li class="page-item" id="pagination1">
+                                    <a class="page-link " href="javascript:;" onclick="changePage(1)">
+                                        1
+                                    </a>
+                                </li>`;
+                    if (page - 2 > 1) {
+                        html += `<li class="page-item">
+                                    <a class="page-link " href="javascript:;">
+                                        ...
+                                    </a>
+                                </li>`;
+                        for (let i = page - 2; i <= page + 2 && i < new_page_count; i++) {
+                            html += `<li class="page-item" id="pagination${i}">
+                                            <a class="page-link " href="javascript:;" onclick="changePage(${i})">
+                                                ${i}
+                                            </a>
+                                        </li>`;
+                        }
+                    } else {
+                        for (let i = 2; i <= page + 2 && i < new_page_count; i++) {
+                            html += `<li class="page-item" id="pagination${i}">
+                                            <a class="page-link " href="javascript:;" onclick="changePage(${i})">
+                                                ${i}
+                                            </a>
+                                        </li>`;
+                        }
+                    }
+
+
+
+                    if (page + 2 < new_page_count) {
+                        html += `<li class="page-item">
+                                    <a class="page-link " href="javascript:;">
+                                        ...
+                                    </a>
+                                </li>`;
+                    }
+
+                    html += `<li class="page-item" id="pagination${new_page_count}">
+                                    <a class="page-link " href="javascript:;" onclick="changePage(${new_page_count})">
+                                        ${new_page_count}
+                                    </a>
+                                </li>`
+                }
+
+
+                html += `<li class="page-item">
+                            <a class="page-link" href="javascript:;" onclick="nextPage();" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>`;
+
+                pagination.innerHTML = html;
             }
         </script>
 
         <script>
-            function deleteIndexUser(code) {
-                @if ($delete == 1)
+            @if ($delete == 1)
+                function deleteIndexUser(code, name) {
                     Swal.fire({
                         title: 'Emin Misin?',
-                        text: 'Bu Veriyi Silmek İstiyor musunuz(ID: ' + code + ')?',
+                        text: 'Bu Veriyi Silmek İstiyor musunuz(ID: ' + name + ')?',
                         icon: 'warning',
                         showDenyButton: true,
                         showCancelButton: false,
@@ -245,9 +190,102 @@
                             document.getElementById('deleteIndexUserForm').submit();
                         }
                     })
-                @endif
+                }
+            @endif
+        </script>
 
-            }
+        <script>
+            var rowData = [];
+
+            const gridOptions = {
+                // Row Data: The data to be displayed.
+                rowData: rowData,
+                // Column Definitions: Defines & controls grid columns.
+                columnDefs: [{
+                        headerName: "#",
+                        field: "id",
+                        maxWidth: 75,
+                    },
+                    {
+                        headerName: "Resim",
+                        field: "image",
+                        maxWidth: 75,
+                        cellRenderer: function(params) {
+                            return `<img src="../../../${params.value}" alt="user" class="avatar-xs rounded-circle" />`;
+                        },
+                        filter: false,
+                    },
+                    {
+                        headerName: "İsim",
+                        field: "name",
+                    },
+                    {
+                        headerName: "Kullanıcı Adı",
+                        field: "username",
+                    },
+                    {
+                        headerName: "E-mail",
+                        field: "email",
+                    },
+                    {
+                        headerName: "Durumu",
+                        field: "is_active",
+                        cellRenderer: function(params) {
+                            if (params.data.is_active === 1) {
+                                return `<span class = "badge badge-pill badge-success"> Aktif </span>`;
+                            } else {
+                                return `<span class = "badge badge-pill badge-danger"> Pasif </span>`;
+                            }
+                        },
+                    },
+                    {
+                        headerName: "İşlemler",
+                        field: "action",
+                        cellRenderer: function(params) {
+                            var html = `<div class="row" style="justify-content: center;">`
+                            @if ($update == 1)
+                                html += `<div class="mr-2 ml-2">
+                                        <a class="btn btn-warning btn-sm" href="{{ route('admin_indexuser_update_screen') }}?code=${params.data.code}" data-toggle="tooltip" data-placement="right" title="Güncelle"><i class="fas fa-edit"></i></a>
+                                    </div>`
+                            @endif
+                            @if ($delete == 1)
+                                html += `<div class="mr-2 ml-2">
+                                        <a class="btn btn-danger btn-sm" href="javascript:void(0);" onclick="deleteIndexUser(${params.data.code}, '${params.data.name}')" data-toggle="tooltip" data-placement="right" title="Sil"><i class="fas fa-trash-alt"></i></a>
+                                    </div>`
+
+                                if (params.data.is_active === 1) {
+                                    html += `<div class="mr-2 ml-2">
+                                        <a class="btn btn-danger btn-sm" href="{{ route('admin_indexuser_change_active') }}?code=${params.data.code}" data-toggle="tooltip" data-placement="right" title="Banla"><i class="fas fa-times-circle" ></i></a>
+                                        </div>`;
+                                } else {
+                                    html +=
+                                        `<div class="mr-2 ml-2">
+                                                <a class="btn btn-success btn-sm" href="{{ route('admin_indexuser_change_active') }}?code=${params.data.code}" data-toggle="tooltip" data-placement="right" title="Banı Kaldır"><i class="fas fa-check-circle" ></i></a></div>`;
+                                }
+                            @endif
+                            html += `</div>`;
+
+                            return html;
+                        },
+                        filter: false,
+                        cellEditorPopup: true,
+                        cellEditor: 'agSelectCellEditor',
+                        maxWidth: 250,
+                        minWidth: 250,
+                    },
+                ],
+                defaultColDef: {
+                    //flex: 1, // Sütunların esnekliği
+                    resizable: true,
+                    animateRows: true,
+                    cellEditor: 'agSelectCellEditor',
+                },
+                animateRows: true
+            };
+
+            const myGridElement = document.querySelector('#myGrid');
+            var gridApi = agGrid.createGrid(myGridElement, gridOptions);
+            changePage(1);
         </script>
     @endif
 

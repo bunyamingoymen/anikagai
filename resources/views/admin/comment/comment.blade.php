@@ -6,87 +6,10 @@
                 <div class="card">
                     <div class="card-body">
 
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th scope="col">..</th>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Yorum</th>
-                                    <th scope="col">Yorum Sırası</th>
-                                    <th scope="col">Durumu</th>
-                                </tr>
-                            </thead>
-                            <tbody id="commentTableTbody">
-                                @foreach ($comments as $item)
-                                    <tr>
-                                        <td>
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-danger dropdown-toggle"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    ...
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                    @if ($delete == 1)
-                                                        <a class="dropdown-item" href="javascript:;"
-                                                            onclick="deleteComment({{ $item->code }})">Sil</a>
-                                                        @if ($item->is_active == 1)
-                                                            <a class="dropdown-item"
-                                                                href="{{ route('admin_comment_change_active') }}?code={{ $item->code }}">Pasif
-                                                                Hale Getir</a>
-                                                        @else
-                                                            <a class="dropdown-item"
-                                                                href="{{ route('admin_comment_change_active') }}?code={{ $item->code }}">Aktif
-                                                                Hale Getir</a>
-                                                        @endif
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <th scope="row">{{ $loop->index + 1 }}</th>
-                                        <td>{{ $item->message }}</td>
-                                        <td>{{ $item->comment_short }}</td>
-                                        <td>
-                                            @if ($item->is_active == 1)
-                                                <span class = "badge badge-pill badge-success"> Aktif </span>
-                                            @else
-                                                <span class = "badge badge-pill badge-danger"> Pasif </span>
-                                            @endif
-                                        </td>
-                                    </tr>
-                                @endforeach
-
-                            </tbody>
-                        </table>
+                        <div class="ag-theme-quartz mt-2 mb-2" style="height: 500px;" id="myGrid"></div>
 
                         <div class="float-right">
                             <ul class="pagination">
-                                <li class="page-item">
-                                    <a class="page-link" href="javascript:;" onclick="prevPage();" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                </li>
-                                @for ($i = 1; $i <= $pageCount; $i++)
-                                    @if ($i == 1)
-                                        <li class="page-item active" id="pagination1">
-                                            <a class="page-link" href="javascript:;" onclick="changePage(1)">
-                                                1
-                                            </a>
-                                        </li>
-                                    @else
-                                        <li class="page-item" id="pagination{{ $i }}">
-                                            <a class="page-link " href="javascript:;"
-                                                onclick="changePage({{ $i }})">
-                                                {{ $i }}
-                                            </a>
-                                        </li>
-                                    @endif
-                                @endfor
-
-                                <li class="page-item">
-                                    <a class="page-link" href="javascript:;" onclick="nextPage();" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                </li>
                             </ul>
                         </div>
                     </div>
@@ -98,6 +21,7 @@
         <!-- Sayfa Değiştirme Scripti-->
         <script>
             var currentPage = 1;
+            var pageCount = 1;
 
             function changePage(page) {
                 console.log(page);
@@ -112,51 +36,28 @@
                     data: {
                         page: page
                     },
-                    success: function(comments) {
-                        var code = ``;
+                    success: function(response) {
                         var id = page <= 1 ? 1 : (page - 1) * 10 + 1;
+                        var comments = response.comments;
+                        var page_count = response.pageCount;
+                        rowData = [];
                         for (let i = 0; i < comments.length; i++) {
 
-                            var comments_code = sendData(comments[i].code);
-                            var comments_message = sendData(comments[i].message);
-                            var comments_comment_short = sendData(comments[i].comment_short);
-                            var comments_is_active = sendData(comments[i].is_active);
+                            var rowItem = {
+                                id: id++,
+                                code: sendData(comments[i].code),
+                                message: sendData(comments[i].message),
+                                comment_short: sendData(comments[i].comment_short),
+                                is_active: sendData(comments[i].is_active),
+                            }
 
-                            code += `<tr>
-                            <td>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                        ...
-                                    </button>
-                                    <div class="dropdown-menu">`
-                            @if ($delete == 1)
-                                code += `<a class="dropdown-item" href="javascript:;" onclick="deleteComment(` +
-                                    comments_code + `)">Sil</a>`
-                                if (indexUsers_is_active == 1) {
-                                    code +=
-                                        `<a class="dropdown-item" href="{{ route('admin_comment_change_active') }}?code=${indexUsers_code}">Pasif Hale Getir</a>`;
-                                } else {
-                                    code +=
-                                        `<a class="dropdown-item" href="{{ route('admin_comment_change_active') }}?code=${indexUsers_code}">Aktif Hale Getir</a>`;
-                                }
-                            @endif
-                            code += `</div>
-                                </div>
-                            </td>
-                            <th scope="row">` + id++ + `</th>
-                            <td>` + comments_message + `</td>
-                            <td>` + comments_comment_short + `</td>`
-                            code += ` <td>`;
-                            if (indexUsers_is_active == 1)
-                                code += `<span class = "badge badge-pill badge-success" > Aktif </span>`
-                            else
-                                code += `<span class = "badge badge-pill badge-success" > Pasif </span>`
-                            code += `</td>`;
-
-                            code += `</tr>`;
-                            document.getElementById('commentTableTbody').innerHTML = code;
+                            rowData.push(rowItem);
                         }
+
+                        gridApi.setGridOption('rowData', rowData);
+
+                        newPageCount(page_count, page);
+                        pageCount = page_count;
 
                         currentPaginationId = 'pagination' + currentPage;
                         paginationId = 'pagination' + page;
@@ -179,14 +80,88 @@
             function nextPage() {
                 if (currentPage < "{{ $pageCount }}") changePage(currentPage + 1)
             }
+
+            function newPageCount(new_page_count, page) {
+                if (!page) {
+                    page = currentPage;
+                }
+                var pagination = document.getElementsByClassName('pagination')[0];
+                var html = `<li class="page-item">
+                                    <a class="page-link" href="javascript:;" onclick="prevPage();" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>`;
+                if (new_page_count <= 10) {
+                    for (let i = 1; i <= new_page_count; i++) {
+                        html += `<li class="page-item" id="pagination${i}">
+                                            <a class="page-link " href="javascript:;" onclick="changePage(${i})">
+                                                ${i}
+                                            </a>
+                                        </li>`;
+                    }
+                } else {
+                    html += `<li class="page-item" id="pagination1">
+                                    <a class="page-link " href="javascript:;" onclick="changePage(1)">
+                                        1
+                                    </a>
+                                </li>`;
+                    if (page - 2 > 1) {
+                        html += `<li class="page-item">
+                                    <a class="page-link " href="javascript:;">
+                                        ...
+                                    </a>
+                                </li>`;
+                        for (let i = page - 2; i <= page + 2 && i < new_page_count; i++) {
+                            html += `<li class="page-item" id="pagination${i}">
+                                            <a class="page-link " href="javascript:;" onclick="changePage(${i})">
+                                                ${i}
+                                            </a>
+                                        </li>`;
+                        }
+                    } else {
+                        for (let i = 2; i <= page + 2 && i < new_page_count; i++) {
+                            html += `<li class="page-item" id="pagination${i}">
+                                            <a class="page-link " href="javascript:;" onclick="changePage(${i})">
+                                                ${i}
+                                            </a>
+                                        </li>`;
+                        }
+                    }
+
+
+
+                    if (page + 2 < new_page_count) {
+                        html += `<li class="page-item">
+                                    <a class="page-link " href="javascript:;">
+                                        ...
+                                    </a>
+                                </li>`;
+                    }
+
+                    html += `<li class="page-item" id="pagination${new_page_count}">
+                                    <a class="page-link " href="javascript:;" onclick="changePage(${new_page_count})">
+                                        ${new_page_count}
+                                    </a>
+                                </li>`
+                }
+
+
+                html += `<li class="page-item">
+                            <a class="page-link" href="javascript:;" onclick="nextPage();" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>`;
+
+                pagination.innerHTML = html;
+            }
         </script>
 
         <script>
             @if ($delete == 1)
-                function deleteComment(code) {
+                function deleteComment(code, name) {
                     Swal.fire({
                         title: 'Emin Misin?',
-                        text: 'Bu Veriyi Silmek İstiyor musunuz(ID: ' + code + ')?',
+                        text: 'Bu Veriyi Silmek İstiyor musunuz(' + name + ')?',
                         icon: 'warning',
                         showDenyButton: true,
                         showCancelButton: false,
@@ -208,6 +183,82 @@
                 }
             @endif
         </script>
+
+        <script>
+            var rowData = [];
+
+            const gridOptions = {
+                // Row Data: The data to be displayed.
+                rowData: rowData,
+                // Column Definitions: Defines & controls grid columns.
+                columnDefs: [{
+                        headerName: "#",
+                        field: "id",
+                        maxWidth: 75,
+                    },
+                    {
+                        headerName: "Yorum",
+                        field: "message",
+                    },
+                    {
+                        headerName: "Yorum Sırası",
+                        field: "comment_short",
+                    },
+                    {
+                        headerName: "Durumu",
+                        field: "is_active",
+                        cellRenderer: function(params) {
+                            if (params.data.is_active === 1) {
+                                return `<span class = "badge badge-pill badge-success"> Aktif </span>`;
+                            } else {
+                                return `<span class = "badge badge-pill badge-danger"> Pasif </span>`;
+                            }
+                        },
+                    },
+                    {
+                        headerName: "İşlemler",
+                        field: "action",
+                        cellRenderer: function(params) {
+                            var html = `<div class="row" style="justify-content: center;">`
+                            @if ($delete == 1)
+                                html += `<div class="mr-2 ml-2">
+                                        <a class="btn btn-danger btn-sm" href="javascript:void(0);" onclick="deleteComment(${params.data.code}, '${params.data.id}')" data-toggle="tooltip" data-placement="right" title="Sil"><i class="fas fa-trash-alt"></i></a>
+                                    </div>`
+
+                                if (params.data.is_active === 1) {
+                                    html += `<div class="mr-2 ml-2">
+                                        <a class="btn btn-danger btn-sm" href="{{ route('admin_comment_change_active') }}?code=${params.data.code}" data-toggle="tooltip" data-placement="right" title="Pasif Hale Getir"><i class="fas fa-times-circle" ></i></a>
+                                        </div>`;
+                                } else {
+                                    html +=
+                                        `<div class="mr-2 ml-2">
+                                                <a class="btn btn-success btn-sm" href="{{ route('admin_comment_change_active') }}?code=${params.data.code}" data-toggle="tooltip" data-placement="right" title="Aktif Hale Getir"><i class="fas fa-check-circle" ></i></a></div>`;
+                                }
+                            @endif
+                            html += `</div>`;
+
+                            return html;
+                        },
+                        filter: false,
+                        cellEditorPopup: true,
+                        cellEditor: 'agSelectCellEditor',
+                        maxWidth: 250,
+                        minWidth: 250,
+                    },
+                ],
+                defaultColDef: {
+                    //flex: 1, // Sütunların esnekliği
+                    resizable: true,
+                    animateRows: true,
+                    cellEditor: 'agSelectCellEditor',
+                },
+                animateRows: true
+            };
+
+            const myGridElement = document.querySelector('#myGrid');
+            var gridApi = agGrid.createGrid(myGridElement, gridOptions);
+            changePage(1);
+        </script>
     @endif
     <script>
         // Sayfa yüklenmeden önce bu JavaScript kodu çalışacak
@@ -219,5 +270,4 @@
             @endif
         });
     </script>
-
 @endsection

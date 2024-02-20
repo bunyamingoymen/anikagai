@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->longText('description')->nullable();
             $table->tinyInteger('is_active')->default(1);
+            $table->tinyInteger('deleted')->default(0);
             $table->rememberToken();
             $table->timestamps();
         });

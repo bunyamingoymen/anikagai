@@ -194,7 +194,9 @@ class AdminController extends Controller
     {
         $skip = (($request->page - 1) * $this->showCount);
         $comments = Comment::Where('deleted', 0)->skip($skip)->take($this->showCount)->get();
-        return $comments;
+        $pageCount = ceil(IndexUser::Where('deleted', 0)->count() / $this->showCount);
+
+        return ['comments' => $comments, 'pageCount' => $pageCount];
     }
 
     public function commentPinned(Request $request)
