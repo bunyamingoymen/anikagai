@@ -202,14 +202,12 @@
                             var html = `<div class="row" style="justify-content: center;">`
 
                             html += `<div class="mr-2 ml-2">
-                                        <a class="btn btn-warning btn-sm" href="{{ route('admin_keyvalue_update_screen') }}?code=${params.data.code}"><i class="fas fa-edit"></i></a>
+                                        <a class="btn btn-warning btn-sm" href="{{ route('admin_keyvalue_update_screen') }}?code=${params.data.code}" data-toggle="tooltip" data-placement="right" title="Güncelle"><i class="fas fa-edit"></i></a>
                                     </div>`
-
 
                             html += `<div class="mr-2 ml-2">
-                                        <a class="btn btn-danger btn-sm" href="javascript:void(0);" onclick="deleteKeyValue(${params.data.code}, '${params.data.name}')"><i class="fas fa-trash-alt"></i></a>
+                                        <a class="btn btn-danger btn-sm" href="javascript:void(0);" onclick="deleteKeyValue(${params.data.code}, '${params.data.name}')" data-toggle="tooltip" data-placement="right" title="Sil"><i class="fas fa-trash-alt"></i></a>
                                     </div>`
-
 
                             html += `</div>`;
 

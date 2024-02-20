@@ -250,42 +250,6 @@
                 rowData: rowData,
                 // Column Definitions: Defines & controls grid columns.
                 columnDefs: [{
-                        headerName: "İşlemler",
-                        field: "action",
-                        cellRenderer: function(params) {
-                            var html = `<div class="row" style="justify-content: center;">`
-                            @if ($update == 1 || Auth::guard('admin')->user()->code == $item->code)
-                                html += `<div class="mr-2 ml-2">
-                                        <a class="btn btn-warning btn-sm" href="{{ route('admin_user_update_screen') }}?code=${params.data.code}"><i class="fas fa-edit"></i></a>
-                                    </div>
-                                    <div class="mr-2 ml-2">
-                                        <a class="btn btn-success btn-sm" href="javascript:;" onclick="changePassword(${params.data.code})"><i class="fas fa-key"></i></a>
-                                    </div>`
-                            @endif
-                            @if ($delete == 1)
-                                html += `<div class="mr-2 ml-2">
-                                        <a class="btn btn-danger btn-sm" href="javascript:void(0);" onclick="deleteUser(${params.data.code}, '${params.data.name}')"><i class="fas fa-trash-alt"></i></a>
-                                    </div>`
-                            @endif
-
-                            html += `
-                            <div class="mr-2 ml-2">
-                                <a class="btn btn-info btn-sm" href="{{ route('admin_profile') }}?code=${params.data.code}"><i class="fas fa-eye"></i></a>
-                            </div>
-                            <div class="mr-2 ml-2">
-                                <a class="btn btn-secondary btn-sm" href="Javascript:;" onclick="sendMessage('${params.data.code}',0);"><i class="fas fa-envelope"></i></a>
-                            </div>`
-                            html += `</div>`;
-
-                            return html;
-                        },
-                        filter: false,
-                        cellEditorPopup: true,
-                        cellEditor: 'agSelectCellEditor',
-                        maxWidth: 200,
-                        minWidth: 200,
-                    },
-                    {
                         headerName: "#",
                         field: "id",
                         maxWidth: 75,
@@ -314,6 +278,42 @@
                     {
                         headerName: "Kullanıcı Grubu",
                         field: "user_type",
+                    },
+                    {
+                        headerName: "İşlemler",
+                        field: "action",
+                        cellRenderer: function(params) {
+                            var html = `<div class="row" style="justify-content: center;">`
+                            @if ($update == 1 || Auth::guard('admin')->user()->code == $item->code)
+                                html += `<div class="mr-2 ml-2">
+                                        <a class="btn btn-warning btn-sm" href="{{ route('admin_user_update_screen') }}?code=${params.data.code}" data-toggle="tooltip" data-placement="right" title="Güncelle"><i class="fas fa-edit"></i></a>
+                                    </div>
+                                    <div class="mr-2 ml-2">
+                                        <a class="btn btn-success btn-sm" href="javascript:;" onclick="changePassword(${params.data.code})" data-toggle="tooltip" data-placement="right" title="Şifre Değiştir"><i class="fas fa-key"></i></a>
+                                    </div>`
+                            @endif
+                            @if ($delete == 1)
+                                html += `<div class="mr-2 ml-2">
+                                        <a class="btn btn-danger btn-sm" href="javascript:void(0);" onclick="deleteUser(${params.data.code}, '${params.data.name}')" data-toggle="tooltip" data-placement="right" title="Sil"><i class="fas fa-trash-alt"></i></a>
+                                    </div>`
+                            @endif
+
+                            html += `
+                            <div class="mr-2 ml-2">
+                                <a class="btn btn-info btn-sm" href="{{ route('admin_profile') }}?code=${params.data.code}"><i class="fas fa-eye" data-toggle="tooltip" data-placement="right" title="Görüntüle"></i></a>
+                            </div>
+                            <div class="mr-2 ml-2">
+                                <a class="btn btn-secondary btn-sm" href="Javascript:;" onclick="sendMessage('${params.data.code}',0);" data-toggle="tooltip" data-placement="right" title="Mesaj Gönder"><i class="fas fa-envelope"></i></a>
+                            </div>`
+                            html += `</div>`;
+
+                            return html;
+                        },
+                        filter: false,
+                        cellEditorPopup: true,
+                        cellEditor: 'agSelectCellEditor',
+                        maxWidth: 250,
+                        minWidth: 250,
                     },
                 ],
                 defaultColDef: {

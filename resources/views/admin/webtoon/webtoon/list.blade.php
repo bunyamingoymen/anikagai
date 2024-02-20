@@ -302,35 +302,7 @@
                 // Row Data: The data to be displayed.
                 rowData: rowData,
                 // Column Definitions: Defines & controls grid columns.
-                columnDefs: [
-                    @if ($delete == 1 || $update == 1)
-                        {
-                            headerName: "İşlemler",
-                            field: "action",
-                            cellRenderer: function(params) {
-                                var html = `<div class="row" style="justify-content: center;">`
-                                @if ($update == 1)
-                                    html += `<div class="mr-2 ml-2">
-                                        <a class="btn btn-warning btn-sm" href="{{ route('admin_webtoon_update_screen') }}?code=${params.data.code}"><i class="fas fa-edit"></i></a>
-                                    </div>`
-                                @endif
-                                @if ($delete == 1)
-                                    html += `<div class="mr-2 ml-2">
-                                        <a class="btn btn-danger btn-sm" href="javascript:void(0);" onclick="deleteWebtoon(${params.data.code}, '${params.data.name}')"><i class="fas fa-trash-alt"></i></a>
-                                    </div>`
-                                @endif
-
-                                html += `</div>`;
-
-                                return html;
-                            },
-                            filter: false,
-                            cellEditorPopup: true,
-                            cellEditor: 'agSelectCellEditor',
-                            maxWidth: 125,
-                            minWidth: 125,
-                        },
-                    @endif {
+                columnDefs: [{
                         headerName: "#",
                         field: "id",
                         maxWidth: 75,
@@ -383,6 +355,35 @@
                         headerName: "Tıklanma Sayısı",
                         field: "click_count",
                     },
+
+                    @if ($delete == 1 || $update == 1)
+                        {
+                            headerName: "İşlemler",
+                            field: "action",
+                            cellRenderer: function(params) {
+                                var html = `<div class="row" style="justify-content: center;">`
+                                @if ($update == 1)
+                                    html += `<div class="mr-2 ml-2">
+                                        <a class="btn btn-warning btn-sm" href="{{ route('admin_webtoon_update_screen') }}?code=${params.data.code}" data-toggle="tooltip" data-placement="right" title="Güncelle"><i class="fas fa-edit"></i></a>
+                                    </div>`
+                                @endif
+                                @if ($delete == 1)
+                                    html += `<div class="mr-2 ml-2">
+                                        <a class="btn btn-danger btn-sm" href="javascript:void(0);" onclick="deleteWebtoon(${params.data.code}, '${params.data.name}')" data-toggle="tooltip" data-placement="right" title="Sil"><i class="fas fa-trash-alt"></i></a>
+                                    </div>`
+                                @endif
+
+                                html += `</div>`;
+
+                                return html;
+                            },
+                            filter: false,
+                            cellEditorPopup: true,
+                            cellEditor: 'agSelectCellEditor',
+                            maxWidth: 125,
+                            minWidth: 125,
+                        },
+                    @endif
                 ],
                 defaultColDef: {
                     //flex: 1, // Sütunların esnekliği
