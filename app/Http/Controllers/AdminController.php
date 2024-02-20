@@ -187,7 +187,9 @@ class AdminController extends Controller
     {
         $skip = (($request->page - 1) * $this->showCount);
         $contacts = Contact::Where('deleted', 0)->skip($skip)->take($this->showCount)->get();
-        return $contacts;
+        $pageCount = ceil(Contact::Where('deleted', 0)->count() / $this->showCount);
+
+        return ['contacts' => $contacts, 'pageCount' => $pageCount];
     }
 
     public function commentGetData(Request $request)

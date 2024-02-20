@@ -239,9 +239,8 @@
                     @endif
                 ],
                 defaultColDef: {
-                    //flex: 1, // Sütunların esnekliği
+                    flex: 1, // Sütunların esnekliği
                     resizable: true,
-                    animateRows: true,
                     cellEditor: 'agSelectCellEditor',
                 },
                 animateRows: true

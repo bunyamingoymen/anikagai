@@ -11,14 +11,7 @@ class AuthClauseController extends Controller
 {
     public function AuthClauseList()
     {
-        $clauses = AuthorizationClause::Where('deleted', 0)->take($this->showCount)->get();
-        $currentCount = 1;
-        $pageCountTest = AuthorizationClause::Where('deleted', 0)->count();
-        if ($pageCountTest % $this->showCount == 0)
-            $pageCount = $pageCountTest / $this->showCount;
-        else
-            $pageCount = intval($pageCountTest / $this->showCount) + 1;
-        return view("admin.auth.clauses.list", ["clauses" => $clauses, 'pageCount' => $pageCount, 'currentCount' => $currentCount]);
+        return view("admin.auth.clauses.list");
     }
 
     public function AuthClauseCreateScreen()
@@ -89,6 +82,7 @@ class AuthClauseController extends Controller
     {
         $skip = (($request->page - 1) * $this->showCount);
         $clauses = AuthorizationClause::Where('deleted', 0)->skip($skip)->take($this->showCount)->get();
-        return $clauses;
+        $page_count = ceil(AuthorizationClause::Where('deleted', 0)->count() / $this->showCount);
+        return ['clauses' => $clauses, "page_count" => $page_count];
     }
 }

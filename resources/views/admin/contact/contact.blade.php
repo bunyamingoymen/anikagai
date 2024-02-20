@@ -6,6 +6,8 @@
                 <div class="card">
                     <div class="card-body">
 
+                        <div class="ag-theme-quartz mt-2 mb-2" style="height: 500px;" id="myGrid"></div>
+
                         <table class="table table-hover">
                             <thead>
                                 <tr>
@@ -66,33 +68,6 @@
 
                         <div class="float-right">
                             <ul class="pagination">
-                                <li class="page-item">
-                                    <a class="page-link" href="javascript:;" onclick="prevPage();" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                </li>
-                                @for ($i = 1; $i <= $pageCount; $i++)
-                                    @if ($i == 1)
-                                        <li class="page-item active" id="pagination1">
-                                            <a class="page-link" href="javascript:;" onclick="changePage(1)">
-                                                1
-                                            </a>
-                                        </li>
-                                    @else
-                                        <li class="page-item" id="pagination{{ $i }}">
-                                            <a class="page-link " href="javascript:;"
-                                                onclick="changePage({{ $i }})">
-                                                {{ $i }}
-                                            </a>
-                                        </li>
-                                    @endif
-                                @endfor
-
-                                <li class="page-item">
-                                    <a class="page-link" href="javascript:;" onclick="nextPage();" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                </li>
                             </ul>
                         </div>
                     </div>
@@ -130,7 +105,7 @@
                             </div>
                             <hr>
                             <p>&nbsp;&emsp;
-                                <span id="showContactMessage">
+                                <span id="showContactMessage" style="word-wrap: break-word;">
 
                                 </span>
                             </p>
@@ -149,9 +124,9 @@
         <!-- Sayfa Değiştirme Scripti-->
         <script>
             var currentPage = 1;
+            var pageCount = 1;
 
             function changePage(page) {
-                console.log(page);
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
@@ -163,57 +138,30 @@
                     data: {
                         page: page
                     },
-                    success: function(contacts) {
-                        var code = ``;
+                    success: function(response) {
                         var id = page <= 1 ? 1 : (page - 1) * 10 + 1;
+                        var contacts = response.contacts;
+                        var page_count = response.pageCount;
+                        rowData = [];
                         for (let i = 0; i < contacts.length; i++) {
 
-                            var contacts_code = sendData(contacts[i].code);
-                            var contacts_answered = sendData(contacts[i].answered);
-                            var contacts_name = sendData(contacts[i].name);
-                            var contacts_email = sendData(contacts[i].email);
-                            var contacts_subject = sendData(contacts[i].subject);
-
-                            code += `<tr>
-                            <td>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                        ...
-                                    </button>
-                                    <div class="dropdown-menu">`
-                            @if ($delete == 1)
-                                code += `<a class="dropdown-item" href="javascript:;" onclick="deleteContact(` +
-                                    contacts_code + `)">Sil</a>`
-                            @endif
-                            @if ($answer == 1)
-                                if (contacts_answered == 1) {
-                                    code +=
-                                        `<a class="dropdown-item" href="javascript:;" onclick="notAnswerContact(` +
-                                        contacts_code + `)">Cevaplanmadı Olarak
-                                                    İşaretle</a>`
-                                } else {
-                                    code += `<a class="dropdown-item" href="javascript:;" onclick="answerContact(` +
-                                        contacts_code + `)">Cevaplandı Olarak İşaretle</a>`
-                                }
-                            @endif
-                            code += `</div>
-                                </div>
-                            </td>
-                            <th scope="row">` + id++ + `</th>
-                            <td>` + contacts_name + `</td>
-                            <td>` + contacts_email + `</td>
-                            <td>` + contacts_subject + `</td>
-                            <td>`
-                            if (contacts_answered == 1) {
-                                code += `<span class="badge badge-pill badge-success">Cevaplandı</span>`
-                            } else {
-                                code += `<span class="badge badge-pill badge-danger">Cevaplanmadı</span>`
+                            var rowItem = {
+                                id: id++,
+                                code: sendData(contacts[i].code),
+                                answered: sendData(contacts[i].answered),
+                                name: sendData(contacts[i].name),
+                                email: sendData(contacts[i].email),
+                                subject: sendData(contacts[i].subject),
+                                message: sendData(contacts[i].message)
                             }
-                            `</td>
-                        </tr>`;
-                            document.getElementById('contactTableTbody').innerHTML = code;
+
+                            rowData.push(rowItem);
                         }
+
+                        gridApi.setGridOption('rowData', rowData);
+
+                        newPageCount(page_count, page);
+                        pageCount = page_count;
 
                         currentPaginationId = 'pagination' + currentPage;
                         paginationId = 'pagination' + page;
@@ -234,16 +182,90 @@
             }
 
             function nextPage() {
-                if (currentPage < "{{ $pageCount }}") changePage(currentPage + 1)
+                if (currentPage < pageCount) changePage(currentPage + 1)
+            }
+
+            function newPageCount(new_page_count, page) {
+                if (!page) {
+                    page = currentPage;
+                }
+                var pagination = document.getElementsByClassName('pagination')[0];
+                var html = `<li class="page-item">
+                                    <a class="page-link" href="javascript:;" onclick="prevPage();" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>`;
+                if (new_page_count <= 10) {
+                    for (let i = 1; i <= new_page_count; i++) {
+                        html += `<li class="page-item" id="pagination${i}">
+                                            <a class="page-link " href="javascript:;" onclick="changePage(${i})">
+                                                ${i}
+                                            </a>
+                                        </li>`;
+                    }
+                } else {
+                    html += `<li class="page-item" id="pagination1">
+                                    <a class="page-link " href="javascript:;" onclick="changePage(1)">
+                                        1
+                                    </a>
+                                </li>`;
+                    if (page - 2 > 1) {
+                        html += `<li class="page-item">
+                                    <a class="page-link " href="javascript:;">
+                                        ...
+                                    </a>
+                                </li>`;
+                        for (let i = page - 2; i <= page + 2 && i < new_page_count; i++) {
+                            html += `<li class="page-item" id="pagination${i}">
+                                            <a class="page-link " href="javascript:;" onclick="changePage(${i})">
+                                                ${i}
+                                            </a>
+                                        </li>`;
+                        }
+                    } else {
+                        for (let i = 2; i <= page + 2 && i < new_page_count; i++) {
+                            html += `<li class="page-item" id="pagination${i}">
+                                            <a class="page-link " href="javascript:;" onclick="changePage(${i})">
+                                                ${i}
+                                            </a>
+                                        </li>`;
+                        }
+                    }
+
+
+
+                    if (page + 2 < new_page_count) {
+                        html += `<li class="page-item">
+                                    <a class="page-link " href="javascript:;">
+                                        ...
+                                    </a>
+                                </li>`;
+                    }
+
+                    html += `<li class="page-item" id="pagination${new_page_count}">
+                                    <a class="page-link " href="javascript:;" onclick="changePage(${new_page_count})">
+                                        ${new_page_count}
+                                    </a>
+                                </li>`
+                }
+
+
+                html += `<li class="page-item">
+                            <a class="page-link" href="javascript:;" onclick="nextPage();" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>`;
+
+                pagination.innerHTML = html;
             }
         </script>
 
         <script>
             @if ($delete == 1)
-                function deleteContact(code) {
+                function deleteContact(code, name) {
                     Swal.fire({
                         title: 'Emin Misin?',
-                        text: 'Bu Veriyi Silmek İstiyor musunuz(ID: ' + code + ')?',
+                        text: 'Bu Veriyi Silmek İstiyor musunuz(' + name + ')?',
                         icon: 'warning',
                         showDenyButton: true,
                         showCancelButton: false,
@@ -325,6 +347,96 @@
                 document.getElementById('showContactButton').click();
 
             }
+        </script>
+
+        <script>
+            var rowData = [];
+
+            const gridOptions = {
+                // Row Data: The data to be displayed.
+                rowData: rowData,
+                // Column Definitions: Defines & controls grid columns.
+                columnDefs: [{
+                        headerName: "#",
+                        field: "id",
+                        maxWidth: 75,
+                    },
+                    {
+                        headerName: "İsim",
+                        field: "name",
+                    },
+                    {
+                        headerName: "E-mail",
+                        field: "email",
+                    },
+                    {
+                        headerName: "Konu",
+                        field: "subject",
+                    },
+                    {
+                        headerName: "Durumu",
+                        field: "answered",
+                        cellRenderer: function(params) {
+                            if (params.data.answered === 1) {
+                                return `<span class = "badge badge-pill badge-success"> Cevaplandı </span>`;
+                            } else {
+                                return `<span class = "badge badge-pill badge-danger"> Cevaplanmadı </span>`;
+                            }
+                        },
+                    },
+                    @if ($answer == 1 || $delete == 1)
+                        {
+                            headerName: "İşlemler",
+                            field: "action",
+                            cellRenderer: function(params) {
+                                var html = `<div class="row" style="justify-content: center;">`
+                                @if ($answer == 1)
+                                    if (params.data.answered === 1) {
+                                        html += `<div class="mr-2 ml-2">
+                                        <a class="btn btn-danger btn-sm" href="javascript:;"
+                                                onclick="notAnswerContact(${params.data.code})"
+                                                data-toggle="tooltip" data-placement="right" title="Cevaplanmadı olarak işaretle"><i class="fas fa-times-circle" ></i></a>
+                                        </div>`;
+                                    } else {
+                                        html +=
+                                            `<div class="mr-2 ml-2">
+                                                <a class="btn btn-success btn-sm"href="javascript:;"
+                                                onclick="answerContact(${params.data.code})"
+                                                data-toggle="tooltip" data-placement="right" title="Cevaplandı Olarak İşaretle"><i class="fas fa-check-circle" ></i></a></div>`;
+                                    }
+                                @endif
+                                @if ($delete == 1)
+                                    html += `<div class="mr-2 ml-2">
+                                        <a class="btn btn-danger btn-sm" href="javascript:void(0);" onclick="deleteContact(${params.data.code}, '${params.data.name}')" data-toggle="tooltip" data-placement="right" title="Sil"><i class="fas fa-trash-alt"></i></a>
+                                    </div>`
+                                @endif
+                                html += `<div class="mr-2 ml-2">
+                                            <a class="btn btn-info btn-sm" href="javascript:;"
+                                            onclick="showContact('${params.data.name}','${params.data.email}','${params.data.subject}',\`${params.data.message}\`)" data-toggle="tooltip" data-placement="right" title="Görüntüle"><i class="fas fa-eye"></i></a>
+                                    </div>`
+                                html += `</div>`;
+
+                                return html;
+                            },
+                            filter: false,
+                            cellEditorPopup: true,
+                            cellEditor: 'agSelectCellEditor',
+                            maxWidth: 250,
+                            minWidth: 250,
+                        },
+                    @endif
+                ],
+                defaultColDef: {
+                    flex: 1, // Sütunların esnekliği
+                    resizable: true,
+                    cellEditor: 'agSelectCellEditor',
+                },
+                animateRows: true
+            };
+
+            const myGridElement = document.querySelector('#myGrid');
+            var gridApi = agGrid.createGrid(myGridElement, gridOptions);
+            changePage(1);
         </script>
     @endif
     <script>

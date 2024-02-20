@@ -193,8 +193,27 @@
                 // Row Data: The data to be displayed.
                 rowData: rowData,
                 // Column Definitions: Defines & controls grid columns.
-                columnDefs: [
-
+                columnDefs: [{
+                        headerName: "#",
+                        field: "id",
+                        maxWidth: 75,
+                    },
+                    {
+                        headerName: "Key",
+                        field: "key",
+                    },
+                    {
+                        headerName: "Value",
+                        field: "value",
+                    },
+                    {
+                        headerName: "İsteğe Bağlı",
+                        field: "optional",
+                    },
+                    {
+                        headerName: "İsteğe Bağlı 2",
+                        field: "optional_2",
+                    },
                     {
                         headerName: "İşlemler",
                         field: "action",
@@ -219,32 +238,10 @@
                         maxWidth: 125,
                         minWidth: 125,
                     },
-                    {
-                        headerName: "#",
-                        field: "id",
-                        maxWidth: 75,
-                    },
-                    {
-                        headerName: "Key",
-                        field: "key",
-                    },
-                    {
-                        headerName: "Value",
-                        field: "value",
-                    },
-                    {
-                        headerName: "İsteğe Bağlı",
-                        field: "optional",
-                    },
-                    {
-                        headerName: "İsteğe Bağlı 2",
-                        field: "optional_2",
-                    },
                 ],
                 defaultColDef: {
-                    //flex: 1, // Sütunların esnekliği
+                    flex: 1, // Sütunların esnekliği
                     resizable: true,
-                    animateRows: true,
                     cellEditor: 'agSelectCellEditor',
                 },
                 animateRows: true

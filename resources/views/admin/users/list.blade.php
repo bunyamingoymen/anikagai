@@ -299,7 +299,7 @@
 
                             html += `
                             <div class="mr-2 ml-2">
-                                <a class="btn btn-info btn-sm" href="{{ route('admin_profile') }}?code=${params.data.code}"><i class="fas fa-eye" data-toggle="tooltip" data-placement="right" title="Görüntüle"></i></a>
+                                <a class="btn btn-info btn-sm" href="{{ route('admin_profile') }}?code=${params.data.code}" data-toggle="tooltip" data-placement="right" title="Görüntüle"><i class="fas fa-eye"></i></a>
                             </div>
                             <div class="mr-2 ml-2">
                                 <a class="btn btn-secondary btn-sm" href="Javascript:;" onclick="sendMessage('${params.data.code}',0);" data-toggle="tooltip" data-placement="right" title="Mesaj Gönder"><i class="fas fa-envelope"></i></a>
@@ -316,9 +316,8 @@
                     },
                 ],
                 defaultColDef: {
-                    //flex: 1, // Sütunların esnekliği
+                    flex: 1, // Sütunların esnekliği
                     resizable: true,
-                    animateRows: true,
                     cellEditor: 'agSelectCellEditor',
                 },
                 animateRows: true

@@ -11,14 +11,7 @@ class AuthGroupController extends Controller
 {
     public function AuthGroupList()
     {
-        $groups = AuthorizationGroup::Where('deleted', 0)->take($this->showCount)->get();
-        $currentCount = 1;
-        $pageCountTest = AuthorizationGroup::Where('deleted', 0)->count();
-        if ($pageCountTest % $this->showCount == 0)
-            $pageCount = $pageCountTest / $this->showCount;
-        else
-            $pageCount = intval($pageCountTest / $this->showCount) + 1;
-        return view("admin.auth.groups.list", ["groups" => $groups, 'pageCount' => $pageCount, 'currentCount' => $currentCount]);
+        return view("admin.auth.groups.list");
     }
 
     public function AuthGroupCreateScreen()
@@ -89,6 +82,7 @@ class AuthGroupController extends Controller
     {
         $skip = (($request->page - 1) * $this->showCount);
         $groups = AuthorizationGroup::Where('deleted', 0)->skip($skip)->take($this->showCount)->get();
-        return $groups;
+        $page_count = ceil(AuthorizationGroup::Where('deleted', 0)->count() / $this->showCount);
+        return ['groups' => $groups, "page_count" => $page_count];
     }
 }

@@ -224,7 +224,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::controller(AuthGroupController::class)->group(function () {
             Route::get("/admin/authGroup/list", "AuthGroupList")->name('admin_authgroup_list');
-            Route::post("/admin/authGroup/list/ajax", "AuthGroupGetData")->name('admin_authgroup_get_data');
+            Route::post("/admin/authGroup/list/ajax", "AuthGroupGetData")->name('admin_authgroup_get_all_data');
 
             Route::get("/admin/authGroup/create", "AuthGroupCreateScreen")->name('admin_authgroup_create_screen');
             Route::post("/admin/authGroup/create", "AuthGroupCreate")->name('admin_authgroup_create');
