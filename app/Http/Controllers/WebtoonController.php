@@ -55,7 +55,7 @@ class WebtoonController extends Controller
             $thumbName = $webtoon->code . "_thumbnail." . $file->getClientOriginalExtension();
 
             GlideImage::create($path . '/' . $name)
-                ->modify(['w' => 230, 'h' => 325, 'fit' => 'crop'])
+                ->modify(['w' => 345, 'h' => 487, 'fit' => 'crop'])
                 ->save($thumbPath . '/' . $thumbName);
 
             $webtoon->thumb_image = "files/webtoons/webtoonImages/thumbnails/" . $thumbName;

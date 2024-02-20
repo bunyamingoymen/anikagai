@@ -32,9 +32,9 @@
         }
 
         .webtoon-image {
-            width: 80%;
+            width: 65%;
             position: relative;
-            left: 10%;
+            left: 17%;
         }
 
         .next-prev-button {
