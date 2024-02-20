@@ -14,6 +14,7 @@ class AnimeEpisodecontroller extends Controller
     public function episodeList()
     {
         //$anime_episodes = AnimeEpisode::Where('deleted', 0)->take(10)->get();
+        /*
         $anime_episodes = DB::table('anime_episodes')
             ->Where('anime_episodes.deleted', 0)
             ->join('animes', 'animes.code', '=', 'anime_episodes.anime_code')
@@ -26,7 +27,8 @@ class AnimeEpisodecontroller extends Controller
             $pageCount = $pageCountTest / $this->showCount;
         else
             $pageCount = intval($pageCountTest / $this->showCount) + 1;
-        return view("admin.anime.episode.list", ["anime_episodes" => $anime_episodes, 'pageCount' => $pageCount, 'currentCount' => $currentCount]);
+        */
+        return view("admin.anime.episode.list");
     }
 
     public function episodeCreateScreen()
@@ -159,6 +161,13 @@ class AnimeEpisodecontroller extends Controller
             ->skip($skip)->take($this->showCount)
             ->get();
 
-        return $anime_episode;
+        $page_count = ceil(DB::table('anime_episodes')
+            ->Where('anime_episodes.deleted', 0)
+            ->join('animes', 'animes.code', '=', 'anime_episodes.anime_code')
+            ->select('anime_episodes.*', 'animes.name as anime_name', 'animes.image as anime_image')
+            ->count() / $this->showCount);
+
+
+        return ['anime_episode' => $anime_episode, 'page_count' => $page_count];
     }
 }

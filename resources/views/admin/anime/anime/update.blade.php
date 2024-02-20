@@ -16,7 +16,7 @@
                             @csrf
                             <div class="row">
                                 <div hidden>
-                                    <input type="text" name="code" value="{{ $anime->code }}">
+                                    <input type="text" name="code" id="code" value="{{ $anime->code }}">
                                     <input type="text" id="short_name" name="short_name" value="{{ $anime->short_name }}"
                                         hidden>
                                 </div>
@@ -61,8 +61,8 @@
                             <div class="row">
                                 <div class="col-md-8 mb-3">
                                     <label for="main_catogery">Ana Kategori:</label>
-                                    <select class="form-control js-seelct-multiple" name="main_category" id="main_category">
-                                        <option value="0">Seçiniz</option>
+                                    <select class="form-control js-seelct-multiple" name="main_category[]"
+                                        id="main_category"multiple>
                                         @foreach ($categories as $category)
                                             @if (count($selectedCategories->where('is_main', 1)) > 0 &&
                                                     $selectedCategories->Where('category_code', $category->code)->where('is_main', 1)->first())

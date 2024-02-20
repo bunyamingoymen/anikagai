@@ -5,90 +5,15 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <div class="" style="">
+                        <div class="col-lg-12" style="display: inline-block;">
                             <a class="btn btn-primary mb-3" style="float: right;"
                                 href="{{ route('admin_anime_episodes_create_screen') }}">+ Yeni</a>
                         </div>
 
-
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th scope="col">..</th>
-                                    <th scope="col">#</th>
-                                    <th scope="col">Resim</th>
-                                    <th scope="col">Anime</th>
-                                    <th scope="col">Bölüm Adı</th>
-                                    <th scope="col">Sezon</th>
-                                    <th scope="col">Bölüm</th>
-                                </tr>
-                            </thead>
-                            <tbody id="animeTableTbody">
-                                @foreach ($anime_episodes as $item)
-                                    <tr>
-                                        <td>
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-danger dropdown-toggle"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    ...
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                    @if ($delete == 1)
-                                                        <a class="dropdown-item" href="javascript:;"
-                                                            onclick="deleteAnimeEpisde({{ $item->code }})">Sil</a>
-                                                    @endif
-                                                    @if ($update == 1)
-                                                        <a class="dropdown-item"
-                                                            href="{{ route('admin_anime_episodes_update_screen') }}?code={{ $item->code }}">Güncelle</a>
-                                                    @endif
-
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <th scope="row">{{ $loop->index + 1 }}</th>
-                                        <td>
-                                            <img class="rounded-circle header-profile-user"
-                                                src="../../../{{ $item->anime_image ?? '' }}" alt="{{ $item->name }}">
-                                        </td>
-                                        <td>{{ $item->anime_name }}</td>
-                                        <td>{{ $item->name }}</td>
-                                        <td>{{ $item->season_short }}</td>
-                                        <td>{{ $item->episode_short }}</td>
-                                    </tr>
-                                @endforeach
-
-                            </tbody>
-                        </table>
+                        <div class="ag-theme-quartz mt-2 mb-2" style="height: 500px;" id="myGrid"></div>
 
                         <div class="float-right">
                             <ul class="pagination">
-                                <li class="page-item">
-                                    <a class="page-link" href="javascript:;" onclick="prevPage();" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                </li>
-                                @for ($i = 1; $i <= $pageCount; $i++)
-                                    @if ($i == 1)
-                                        <li class="page-item active" id="pagination1">
-                                            <a class="page-link" href="javascript:;" onclick="changePage(1)">
-                                                1
-                                            </a>
-                                        </li>
-                                    @else
-                                        <li class="page-item" id="pagination{{ $i }}">
-                                            <a class="page-link " href="javascript:;"
-                                                onclick="changePage({{ $i }})">
-                                                {{ $i }}
-                                            </a>
-                                        </li>
-                                    @endif
-                                @endfor
-
-                                <li class="page-item">
-                                    <a class="page-link" href="javascript:;" onclick="nextPage();" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                </li>
                             </ul>
                         </div>
                     </div>
@@ -100,6 +25,7 @@
         <!-- Sayfa Değiştirme Scripti-->
         <script>
             var currentPage = 1;
+            var pageCount = 1;
 
             function changePage(page) {
                 $.ajaxSetup({
@@ -113,50 +39,30 @@
                     data: {
                         page: page
                     },
-                    success: function(anime_episode) {
-                        var code = ``;
+                    success: function(response) {
                         var id = page <= 1 ? 1 : (page - 1) * 10 + 1;
+                        var anime_episode = response.anime_episode;
+                        var page_count = response.page_count;
+                        rowData = [];
                         for (let i = 0; i < anime_episode.length; i++) {
 
-                            var episode_count = sendData(anime_episode[i].code);
-                            var episode_anime_image = sendData(anime_episode[i].anime_image);
-                            var episode_anime_name = sendData(anime_episode[i].anime_name);
-                            var episode_name = sendData(anime_episode[i].name);
-                            var episode_season_short = sendData(anime_episode[i].season_short);
-                            var episode_episode_short = sendData(anime_episode[i].episode_short);
+                            var rowItem = {
+                                id: id++,
+                                code: sendData(anime_episode[i].code),
+                                image: sendData(anime_episode[i].anime_image),
+                                anime_name: sendData(anime_episode[i].anime_name),
+                                name: sendData(anime_episode[i].name),
+                                season_short: sendData(anime_episode[i].season_short),
+                                episode_short: sendData(anime_episode[i].episode_short)
+                            }
+                            rowData.push(rowItem);
 
-                            code += `<tr>
-                            <td>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                        ...
-                                    </button>
-                                    <div class="dropdown-menu">`
-                            @if ($delete == 1)
-                                code += `<a class="dropdown-item" href="javascript:;" onclick="deleteAnimeEpisde(` +
-                                    episode_count + `)">Sil</a>`
-                            @endif
-                            @if ($update == 1)
-                                code +=
-                                    `<a class="dropdown-item" href="{{ route('admin_anime_episodes_update_screen') }}?code=` +
-                                    episode_count + `">Güncelle</a>`
-                            @endif
-                            code += `</div>
-                                </div>
-                            </td>
-                            <th scope="row">` + id++ + `</th>
-                            <td>
-                                <img class="rounded-circle header-profile-user" src="../../../` + episode_anime_image +
-                                `" alt="` + episode_anime_name + `">
-                                </td>
-                            <td>` + episode_anime_name + `</td>
-                            <td>` + episode_name + `</td>
-                            <td>` + episode_season_short + `</td>
-                            <td>` + episode_episode_short + `</td>
-                        </tr>`;
-                            document.getElementById('animeTableTbody').innerHTML = code;
                         }
+
+                        gridApi.setGridOption('rowData', rowData);
+
+                        newPageCount(page_count, page);
+                        pageCount = page_count;
 
                         currentPaginationId = 'pagination' + currentPage;
                         paginationId = 'pagination' + page;
@@ -176,16 +82,90 @@
             }
 
             function nextPage() {
-                if (currentPage < "{{ $pageCount }}") changePage(currentPage + 1)
+                if (currentPage < pageCount) changePage(currentPage + 1)
+            }
+
+            function newPageCount(new_page_count, page) {
+                if (!page) {
+                    page = currentPage;
+                }
+                var pagination = document.getElementsByClassName('pagination')[0];
+                var html = `<li class="page-item">
+                                    <a class="page-link" href="javascript:;" onclick="prevPage();" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>`;
+                if (new_page_count <= 10) {
+                    for (let i = 1; i <= new_page_count; i++) {
+                        html += `<li class="page-item" id="pagination${i}">
+                                            <a class="page-link " href="javascript:;" onclick="changePage(${i})">
+                                                ${i}
+                                            </a>
+                                        </li>`;
+                    }
+                } else {
+                    html += `<li class="page-item" id="pagination1">
+                                    <a class="page-link " href="javascript:;" onclick="changePage(1)">
+                                        1
+                                    </a>
+                                </li>`;
+                    if (page - 2 > 1) {
+                        html += `<li class="page-item">
+                                    <a class="page-link " href="javascript:;">
+                                        ...
+                                    </a>
+                                </li>`;
+                        for (let i = page - 2; i <= page + 2 && i < new_page_count; i++) {
+                            html += `<li class="page-item" id="pagination${i}">
+                                            <a class="page-link " href="javascript:;" onclick="changePage(${i})">
+                                                ${i}
+                                            </a>
+                                        </li>`;
+                        }
+                    } else {
+                        for (let i = 2; i <= page + 2 && i < new_page_count; i++) {
+                            html += `<li class="page-item" id="pagination${i}">
+                                            <a class="page-link " href="javascript:;" onclick="changePage(${i})">
+                                                ${i}
+                                            </a>
+                                        </li>`;
+                        }
+                    }
+
+
+
+                    if (page + 2 < new_page_count) {
+                        html += `<li class="page-item">
+                                    <a class="page-link " href="javascript:;">
+                                        ...
+                                    </a>
+                                </li>`;
+                    }
+
+                    html += `<li class="page-item" id="pagination${new_page_count}">
+                                    <a class="page-link " href="javascript:;" onclick="changePage(${new_page_count})">
+                                        ${new_page_count}
+                                    </a>
+                                </li>`
+                }
+
+
+                html += `<li class="page-item">
+                            <a class="page-link" href="javascript:;" onclick="nextPage();" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>`;
+
+                pagination.innerHTML = html;
             }
         </script>
 
         <script>
             @if ($delete == 1)
-                function deleteAnimeEpisde(code) {
+                function deleteAnimeEpisde(code, name) {
                     Swal.fire({
                         title: 'Emin Misin?',
-                        text: 'Bu Veriyi Silmek İstiyor musunuz(ID: ' + code + ')?',
+                        text: 'Bu Veriyi Silmek İstiyor musunuz(' + name + ')?',
                         icon: 'warning',
                         showDenyButton: true,
                         showCancelButton: false,
@@ -206,6 +186,84 @@
                     })
                 }
             @endif
+        </script>
+
+        <!--Ag-gird Komutları-->
+        <script>
+            var rowData = [];
+
+            const gridOptions = {
+                // Row Data: The data to be displayed.
+                rowData: rowData,
+                // Column Definitions: Defines & controls grid columns.
+                columnDefs: [{
+                        headerName: "#",
+                        field: "id",
+                        maxWidth: 75,
+                    },
+                    {
+                        headerName: "Resim",
+                        field: "image",
+                        maxWidth: 75,
+                        cellRenderer: function(params) {
+                            return `<img src="../../../${params.value}" alt="user" class="avatar-xs rounded-circle" />`;
+                        },
+                        filter: false,
+                    },
+                    {
+                        headerName: "Anime",
+                        field: "anime_name",
+                    },
+                    {
+                        headerName: "Bölüm Adı",
+                        field: "name",
+                    },
+                    {
+                        headerName: "Sezon",
+                        field: "season_short",
+                    },
+                    {
+                        headerName: "Bölüm",
+                        field: "episode_short",
+                    },
+                    {
+                        headerName: "İşlemler",
+                        field: "action",
+                        cellRenderer: function(params) {
+                            var html = `<div class="row" style="justify-content: center;">`
+                            @if ($update == 1)
+                                html += `<div class="mr-2 ml-2">
+                                        <a class="btn btn-warning btn-sm" href="{{ route('admin_anime_episodes_update_screen') }}?code=${params.data.code}" data-toggle="tooltip" data-placement="right" title="Güncelle"><i class="fas fa-edit"></i></a>
+                                    </div>`
+                            @endif
+                            @if ($delete == 1)
+                                html += `<div class="mr-2 ml-2">
+                                        <a class="btn btn-danger btn-sm" href="javascript:void(0);" onclick="deleteAnimeEpisde(${params.data.code}, '${params.data.anime_name}')" data-toggle="tooltip" data-placement="right" title="Sil"><i class="fas fa-trash-alt"></i></a>
+                                    </div>`
+                            @endif
+
+                            html += `</div>`;
+
+                            return html;
+                        },
+                        filter: false,
+                        cellEditorPopup: true,
+                        cellEditor: 'agSelectCellEditor',
+                        maxWidth: 125,
+                        minWidth: 125,
+                    },
+                ],
+                defaultColDef: {
+                    flex: 1, // Sütunların esnekliği
+                    resizable: true,
+                    cellEditor: 'agSelectCellEditor',
+                },
+                animateRows: true
+            };
+
+            const myGridElement = document.querySelector('#myGrid');
+            var gridApi = agGrid.createGrid(myGridElement, gridOptions);
+            changePage(1);
         </script>
     @endif
     <script>

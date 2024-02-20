@@ -17,14 +17,7 @@ class AnimeController extends Controller
 {
     public function animeList()
     {
-        $animes = Anime::Where('deleted', 0)->take(10)->get();
-        $currentCount = 1;
-        $pageCountTest = Anime::Where('deleted', 0)->count();
-        if ($pageCountTest % $this->showCount == 0)
-            $pageCount = $pageCountTest / $this->showCount;
-        else
-            $pageCount = intval($pageCountTest / $this->showCount) + 1;
-        return view("admin.anime.anime.list", ["animes" => $animes, 'pageCount' => $pageCount, 'currentCount' => $currentCount]);
+        return view("admin.anime.anime.list");
     }
 
     public function animeCreateScreen()
@@ -230,7 +223,10 @@ class AnimeController extends Controller
     {
         $skip = (($request->page - 1) * $this->showCount);
         $animes = Anime::Where('deleted', 0)->skip($skip)->take($this->showCount)->get();
-        return $animes;
+        $page_count = ceil(Anime::Where('deleted', 0)->count() / $this->showCount);
+
+
+        return ['animes' => $animes, 'page_count' => $page_count];
     }
 
     public function animeGetSeason(Request $request)
