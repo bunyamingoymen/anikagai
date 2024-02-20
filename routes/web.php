@@ -391,7 +391,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::controller(TagController::class)->group(function () {
             Route::get("/admin/tag/list", "tagList")->name('admin_tag_list');
-            Route::post("/admin/tag/list/ajax", "tagCreateScreen")->name('admin_tag_get_data');
+            Route::post("/admin/tag/list/ajax", "tagGetData")->name('admin_tag_get_data');
 
             Route::get("/admin/tag/create",  "tagCreateScreen")->name('admin_tag_create_screen');
             Route::post("/admin/tag/create", "tagCreate")->name('admin_tag_create');

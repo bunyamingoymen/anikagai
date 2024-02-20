@@ -5,7 +5,7 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <div class="" style="">
+                        <div class="col-lg-12" style="display: inline-block;">
                             @if ($create == 1)
                                 <a class="btn btn-primary mb-3" style="float: right;"
                                     href="{{ route('admin_tag_create_screen') }}">+
@@ -13,75 +13,11 @@
                             @endif
                         </div>
 
-
-                        <table class="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th scope="col">..</th>
-                                    <th scope="col">#</th>
-                                    <th scope="col">İsim</th>
-                                    <th scope="col">Açıklama</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tagTableTbody">
-                                @foreach ($tags as $item)
-                                    <tr>
-                                        <td>
-                                            <div class="btn-group">
-                                                <button type="button" class="btn btn-danger dropdown-toggle"
-                                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                    ...
-                                                </button>
-                                                <div class="dropdown-menu">
-                                                    @if ($delete == 1)
-                                                        <a class="dropdown-item" href="javascript:;"
-                                                            onclick="deleteTag({{ $item->code }})">Sil</a>
-                                                    @endif
-                                                    @if ($update == 1)
-                                                        <a class="dropdown-item"
-                                                            href="{{ route('admin_tag_update_screen') }}?code={{ $item->code }}">Güncelle</a>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <th scope="row">{{ $loop->index + 1 }}</th>
-                                        <td>{{ $item->name }}</td>
-                                        <td>{{ $item->description }}</td>
-                                    </tr>
-                                @endforeach
-
-                            </tbody>
-                        </table>
+                        <div class="ag-theme-quartz mt-2 mb-2" style="height: 500px;" id="myGrid"></div>
 
                         <div class="float-right">
                             <ul class="pagination">
-                                <li class="page-item">
-                                    <a class="page-link" href="javascript:;" onclick="prevPage();" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                </li>
-                                @for ($i = 1; $i <= $pageCount; $i++)
-                                    @if ($i == 1)
-                                        <li class="page-item active" id="pagination1">
-                                            <a class="page-link" href="javascript:;" onclick="changePage(1)">
-                                                1
-                                            </a>
-                                        </li>
-                                    @else
-                                        <li class="page-item" id="pagination{{ $i }}">
-                                            <a class="page-link " href="javascript:;"
-                                                onclick="changePage({{ $i }})">
-                                                {{ $i }}
-                                            </a>
-                                        </li>
-                                    @endif
-                                @endfor
 
-                                <li class="page-item">
-                                    <a class="page-link" href="javascript:;" onclick="nextPage();" aria-label="Next">
-                                        <span aria-hidden="true">&raquo;</span>
-                                    </a>
-                                </li>
                             </ul>
                         </div>
                     </div>
@@ -93,9 +29,9 @@
         <!-- Sayfa Değiştirme Scripti-->
         <script>
             var currentPage = 1;
+            var pageCount = 1;
 
             function changePage(page) {
-                console.log(page);
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
@@ -107,41 +43,27 @@
                     data: {
                         page: page
                     },
-                    success: function(tags) {
-                        var code = ``;
+                    success: function(response) {
                         var id = page <= 1 ? 1 : (page - 1) * 10 + 1;
+                        rowData = [];
+                        tags = response.tags;
+                        page_count = response.page_count;
+
                         for (let i = 0; i < tags.length; i++) {
-                            var tags_code = sendData(tags[i].code);
-                            var tags_name = sendData(tags[i].name);
-                            var tags_description = sendData(tags[i].description);
+                            var rowItem = {
+                                id: id++,
+                                code: sendData(tags[i].code),
+                                name: sendData(tags[i].name),
+                                description: sendData(tags[i].description),
+                            }
 
-                            code += `<tr>
-                            <td>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown"
-                                        aria-haspopup="true" aria-expanded="false">
-                                        ...
-                                    </button>
-                                    <div class="dropdown-menu">`
-                            @if ($delete == 1)
-                                code += `<a class="dropdown-item" href="javascript:;" onclick="deleteTag(` +
-                                    tags_code + `)">Sil</a>`
-                            @endif
-                            @if ($update == 1)
-                                code +=
-                                    `<a class="dropdown-item" href="{{ route('admin_tag_update_screen') }}?code=` +
-                                    tags_code + `">Güncelle</a>`
-                            @endif
-
-                            code += `</div>
-                                </div>
-                            </td>
-                            <th scope="row">` + id++ + `</th>
-                            <td>` + tags_name + `</td>
-                            <td>` + tags_description + `</td>
-                        </tr>`;
-                            document.getElementById('tagTableTbody').innerHTML = code;
+                            rowData.push(rowItem);
                         }
+
+                        gridApi.setGridOption('rowData', rowData);
+
+                        newPageCount(page_count, page);
+                        pageCount = page_count;
 
                         currentPaginationId = 'pagination' + currentPage;
                         paginationId = 'pagination' + page;
@@ -162,16 +84,90 @@
             }
 
             function nextPage() {
-                if (currentPage < "{{ $pageCount }}") changePage(currentPage + 1)
+                if (currentPage < "pageCount") changePage(currentPage + 1)
+            }
+
+            function newPageCount(new_page_count, page) {
+                if (!page) {
+                    page = currentPage;
+                }
+                var pagination = document.getElementsByClassName('pagination')[0];
+                var html = `<li class="page-item">
+                                    <a class="page-link" href="javascript:;" onclick="prevPage();" aria-label="Previous">
+                                        <span aria-hidden="true">&laquo;</span>
+                                    </a>
+                                </li>`;
+                if (new_page_count <= 10) {
+                    for (let i = 1; i <= new_page_count; i++) {
+                        html += `<li class="page-item" id="pagination${i}">
+                                            <a class="page-link " href="javascript:;" onclick="changePage(${i})">
+                                                ${i}
+                                            </a>
+                                        </li>`;
+                    }
+                } else {
+                    html += `<li class="page-item" id="pagination1">
+                                    <a class="page-link " href="javascript:;" onclick="changePage(1)">
+                                        1
+                                    </a>
+                                </li>`;
+                    if (page - 2 > 1) {
+                        html += `<li class="page-item">
+                                    <a class="page-link " href="javascript:;">
+                                        ...
+                                    </a>
+                                </li>`;
+                        for (let i = page - 2; i <= page + 2 && i < new_page_count; i++) {
+                            html += `<li class="page-item" id="pagination${i}">
+                                            <a class="page-link " href="javascript:;" onclick="changePage(${i})">
+                                                ${i}
+                                            </a>
+                                        </li>`;
+                        }
+                    } else {
+                        for (let i = 2; i <= page + 2 && i < new_page_count; i++) {
+                            html += `<li class="page-item" id="pagination${i}">
+                                            <a class="page-link " href="javascript:;" onclick="changePage(${i})">
+                                                ${i}
+                                            </a>
+                                        </li>`;
+                        }
+                    }
+
+
+
+                    if (page + 2 < new_page_count) {
+                        html += `<li class="page-item">
+                                    <a class="page-link " href="javascript:;">
+                                        ...
+                                    </a>
+                                </li>`;
+                    }
+
+                    html += `<li class="page-item" id="pagination${new_page_count}">
+                                    <a class="page-link " href="javascript:;" onclick="changePage(${new_page_count})">
+                                        ${new_page_count}
+                                    </a>
+                                </li>`
+                }
+
+
+                html += `<li class="page-item">
+                            <a class="page-link" href="javascript:;" onclick="nextPage();" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>`;
+
+                pagination.innerHTML = html;
             }
         </script>
 
         <script>
             @if ($delete == 1)
-                function deleteTag(code) {
+                function deleteTag(code, name) {
                     Swal.fire({
                         title: 'Emin Misin?',
-                        text: 'Bu Veriyi Silmek İstiyor musunuz(ID: ' + code + ')?',
+                        text: 'Bu Veriyi Silmek İstiyor musunuz(' + name + ')?',
                         icon: 'warning',
                         showDenyButton: true,
                         showCancelButton: false,
@@ -192,6 +188,70 @@
                     })
                 }
             @endif
+        </script>
+
+        <!--Ag-gird Komutları-->
+        <script>
+            var rowData = [];
+
+            const gridOptions = {
+                // Row Data: The data to be displayed.
+                rowData: rowData,
+                // Column Definitions: Defines & controls grid columns.
+                columnDefs: [
+                    @if ($update == 1 || $delete == 1)
+                        {
+                            headerName: "İşlemler",
+                            field: "action",
+                            cellRenderer: function(params) {
+                                var html = `<div class="row" style="justify-content: center;">`
+                                @if ($update == 1)
+                                    html += `<div class="mr-2 ml-2">
+                                        <a class="btn btn-warning btn-sm" href="{{ route('admin_tag_update_screen') }}?code=${params.data.code}"><i class="fas fa-edit"></i></a>
+                                    </div>`
+                                @endif
+                                @if ($delete == 1)
+                                    html += `<div class="mr-2 ml-2">
+                                        <a class="btn btn-danger btn-sm" href="javascript:void(0);" onclick="deleteTag(${params.data.code}, '${params.data.name}')"><i class="fas fa-trash-alt"></i></a>
+                                    </div>`
+                                @endif
+
+                                html += `</div>`;
+
+                                return html;
+                            },
+                            filter: false,
+                            cellEditorPopup: true,
+                            cellEditor: 'agSelectCellEditor',
+                            maxWidth: 125,
+                            minWidth: 125,
+                        },
+                    @endif {
+                        headerName: "#",
+                        field: "id",
+                        maxWidth: 75,
+                    },
+                    {
+                        headerName: "İsim",
+                        field: "name",
+                    },
+                    {
+                        headerName: "Açıklama",
+                        field: "description",
+                    },
+                ],
+                defaultColDef: {
+                    //flex: 1, // Sütunların esnekliği
+                    resizable: true,
+                    animateRows: true,
+                    cellEditor: 'agSelectCellEditor',
+                },
+                animateRows: true
+            };
+
+            const myGridElement = document.querySelector('#myGrid');
+            var gridApi = agGrid.createGrid(myGridElement, gridOptions);
+            changePage(1);
         </script>
     @endif
     <script>

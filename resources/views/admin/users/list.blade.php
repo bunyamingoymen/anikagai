@@ -167,11 +167,11 @@
 
         <!--Diğer İşlemler-->
         <script>
-            function deleteUser(code) {
+            function deleteUser(code, name) {
                 @if ($delete == 1)
                     Swal.fire({
                         title: 'Emin Misin?',
-                        text: 'Bu Veriyi Silmek İstiyor musunuz(ID: ' + code + ')?',
+                        text: 'Bu Veriyi Silmek İstiyor musunuz(' + name + ')?',
                         icon: 'warning',
                         showDenyButton: true,
                         showCancelButton: false,

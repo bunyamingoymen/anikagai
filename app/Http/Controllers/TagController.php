@@ -11,14 +11,7 @@ class TagController extends Controller
 {
     public function tagList()
     {
-        $tags = Tag::Where('deleted', 0)->take($this->showCount)->get();
-        $currentCount = 1;
-        $pageCountTest = Tag::Where('deleted', 0)->count();
-        if ($pageCountTest % $this->showCount == 0)
-            $pageCount = $pageCountTest / $this->showCount;
-        else
-            $pageCount = intval($pageCountTest / $this->showCount) + 1;
-        return view("admin.tag.list", ["tags" => $tags, 'pageCount' => $pageCount, 'currentCount' => $currentCount]);
+        return view("admin.tag.list");
     }
 
     public function tagCreateScreen()
@@ -87,7 +80,8 @@ class TagController extends Controller
     public function tagGetData(Request $request)
     {
         $skip = (($request->page - 1) * $this->showCount);
-        $tag = Tag::Where('deleted', 0)->skip($skip)->take($this->showCount)->get();
-        return $tag;
+        $tags = Tag::Where('deleted', 0)->skip($skip)->take($this->showCount)->get();
+        $page_count = ceil(Tag::Where('deleted', 0)->count() / $this->showCount);
+        return ['tags' => $tags, "page_count" => $page_count];
     }
 }

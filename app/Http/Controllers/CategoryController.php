@@ -11,14 +11,7 @@ class CategoryController extends Controller
 {
     public function categoryList()
     {
-        $categories = Category::Where('deleted', 0)->take($this->showCount)->get();
-        $currentCount = 1;
-        $pageCountTest = Category::Where('deleted', 0)->count();
-        if ($pageCountTest % $this->showCount == 0)
-            $pageCount = $pageCountTest / $this->showCount;
-        else
-            $pageCount = intval($pageCountTest / $this->showCount) + 1;
-        return view("admin.category.list", ["categories" => $categories, 'pageCount' => $pageCount, 'currentCount' => $currentCount]);
+        return view("admin.category.list");
     }
 
     public function categoryCreateScreen()
@@ -93,7 +86,8 @@ class CategoryController extends Controller
     public function categoryGetData(Request $request)
     {
         $skip = (($request->page - 1) * $this->showCount);
-        $category = Category::Where('deleted', 0)->skip($skip)->take($this->showCount)->get();
-        return $category;
+        $categories = Category::Where('deleted', 0)->skip($skip)->take($this->showCount)->get();
+        $page_count = ceil(Category::Where('deleted', 0)->count() / $this->showCount);
+        return ['categories' => $categories, "page_count" => $page_count];;
     }
 }
