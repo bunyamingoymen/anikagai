@@ -92,6 +92,7 @@ class KeyValueController extends Controller
     {
         $skip = (($request->page - 1) * $this->showCount);
         $keyValues = KeyValue::Where('deleted', 0)->skip($skip)->take($this->showCount)->get();
-        return $keyValues;
+        $page_count = ceil(KeyValue::Where('deleted', 0)->count() / $this->showCount);
+        return ['keyValues' => $keyValues, "page_count" => $page_count];
     }
 }

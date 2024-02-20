@@ -11,14 +11,7 @@ class PageController extends Controller
 {
     public function pageList()
     {
-        $pages = Page::Where('deleted', 0)->take($this->showCount)->get();
-        $currentCount = 1;
-        $pageCountTest = Page::Where('deleted', 0)->count();
-        if ($pageCountTest % $this->showCount == 0)
-            $pageCount = $pageCountTest / $this->showCount;
-        else
-            $pageCount = intval($pageCountTest / $this->showCount) + 1;
-        return view("admin.pages.list", ["pages" => $pages, 'pageCount' => $pageCount, 'currentCount' => $currentCount]);
+        return view("admin.pages.list");
     }
 
     public function pageCreateScreen()
@@ -115,6 +108,7 @@ class PageController extends Controller
     {
         $skip = (($request->page - 1) * $this->showCount);
         $pages = Page::Where('deleted', 0)->skip($skip)->take($this->showCount)->get();
-        return $pages;
+        $page_count = ceil(Page::Where('deleted', 0)->count() / $this->showCount);
+        return ['pages' => $pages, "page_count" => $page_count];
     }
 }

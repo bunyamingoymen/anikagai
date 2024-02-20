@@ -46,8 +46,8 @@
                     success: function(response) {
                         var id = page <= 1 ? 1 : (page - 1) * 10 + 1;
                         rowData = [];
-                        tags = response.tags;
-                        page_count = response.page_count;
+                        var tags = response.tags;
+                        var page_count = response.page_count;
 
                         for (let i = 0; i < tags.length; i++) {
                             var rowItem = {
