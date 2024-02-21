@@ -133,20 +133,6 @@
             alertify.warning("{{ session('warning') }}");
         @endif
     </script>
-
-    <!--Tabloda listelenen veriyi döndürüyor.-->
-    <script>
-        function sendData(data) {
-            var result = data == null ? '' : data;
-            if (typeof data === 'string')
-                result = data != null ? JSON.stringify(data).replaceAll('"', '').replaceAll("'", '') : "";
-
-            return result;
-        }
-    </script>
-
-
-
 </body>
 
 </html>

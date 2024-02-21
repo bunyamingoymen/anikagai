@@ -230,7 +230,7 @@ class WebtoonController extends Controller
         $search = $request->search; // -1: arama yok, 0: ilk defa arama, 1: aramanın devamı, -99: Sayfalama iptal bütün veriyi getir.
         $searchData = $request->searchData ? $request->searchData : "0";
         $skip = (($request->page - 1) * $this->showCount);
-        $pageCount = -1;
+        $page_count = -1;
         if ($search == "-1") {
             $webtoons = Webtoon::Where('deleted', 0)->skip($skip)->take($this->showCount)->get();
         } else if ($search == "-99") {
@@ -275,15 +275,15 @@ class WebtoonController extends Controller
                             ->orWhere('main_category_name', 'LIKE', '%' . $searchData . '%');
                     })->count();
                 if ($pageCountTest % $this->showCount == 0)
-                    $pageCount = $pageCountTest / $this->showCount;
+                    $page_count = $pageCountTest / $this->showCount;
                 else
-                    $pageCount = intval($pageCountTest / $this->showCount) + 1;
+                    $page_count = intval($pageCountTest / $this->showCount) + 1;
             }
         }
 
         return [
             'webtoons' => $webtoons,
-            'pageCount' => $pageCount
+            'page_count' => $page_count
         ];
     }
 

@@ -48,13 +48,13 @@
 
         <script src="../../../admin/assets/libs/jquery/jquery.min.js"></script>
 
+        <script src="../../../admin/assets/js/pageTable.js"></script>
+
         <!-- Sayfa Değiştirme Scripti-->
         <script>
-            var currentPage = 1;
             var search = -1; // -1: arama değil, 0: aramaya başlandı, 1: sonuçlar getirildi
             var searchData = "";
             var changePagination = false;
-            var pageCount = parseInt("{{ $pageCount }}");
 
             function changePage(page) {
                 if (search != -1 && searchData != "") {
@@ -81,6 +81,7 @@
                     data: pageData,
                     success: function(response) {
                         var webtoons = response.webtoons;
+                        var page_count = response.page_count;
                         rowData = [];
                         var code = ``;
                         var id = page <= 1 ? 1 : (page - 1) * 10 + 1;
@@ -109,45 +110,24 @@
 
                         gridApi.setGridOption('rowData', rowData);
 
-                        if (search == 0) {
-                            pageCount = parseInt(response.pageCount);
-                        } else {
-                            pageCount = parseInt("{{ $pageCount }}");
+                        newPageCount(page_count, page);
+                        pageCount = page_count;
+
+                        currentPaginationId = 'pagination' + currentPage;
+                        paginationId = 'pagination' + page;
+
+                        if (document.getElementById(currentPaginationId)) {
+                            document.getElementById(currentPaginationId).classList.remove("active");
+                        }
+                        if (document.getElementById(paginationId)) {
+                            document.getElementById(paginationId).classList.add("active");
                         }
 
-                        /*if (changePagination) {
-
-                            if (search == 0) search = 1;
-
-                            changePagination = false;
-                        }*/
-
-                        newPageCount(pageCount, page);
-                        if (pageCount > 0) {
-                            currentPaginationId = 'pagination' + currentPage;
-                            paginationId = 'pagination' + page;
-
-                            if (document.getElementById(currentPaginationId)) {
-                                document.getElementById(currentPaginationId).classList.remove("active");
-                            }
-                            if (document.getElementById(paginationId)) {
-                                document.getElementById(paginationId).classList.add("active");
-                            }
-                        }
                         currentPage = page;
 
                     }
                 });
 
-            }
-
-            function prevPage() {
-                if (currentPage > 1)
-                    changePage(currentPage + -1)
-            }
-
-            function nextPage() {
-                if (currentPage < pageCount) changePage(currentPage + 1)
             }
 
             function searchWebtoonButton() {
@@ -166,80 +146,6 @@
                 changePagination = true;
                 document.getElementById('searchWebtoonAllButton').disabled = true;
                 changePage(1);
-            }
-
-            function newPageCount(new_page_count, page) {
-                if (!page) {
-                    page = currentPage;
-                }
-                var pagination = document.getElementsByClassName('pagination')[0];
-                var html = `<li class="page-item">
-                                    <a class="page-link" href="javascript:;" onclick="prevPage();" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                </li>`;
-                if (new_page_count <= 10) {
-                    for (let i = 1; i <= new_page_count; i++) {
-                        html += `<li class="page-item" id="pagination${i}">
-                                            <a class="page-link " href="javascript:;" onclick="changePage(${i})">
-                                                ${i}
-                                            </a>
-                                        </li>`;
-                    }
-                } else {
-                    html += `<li class="page-item" id="pagination1">
-                                    <a class="page-link " href="javascript:;" onclick="changePage(1)">
-                                        1
-                                    </a>
-                                </li>`;
-                    if (page - 2 > 1) {
-                        html += `<li class="page-item">
-                                    <a class="page-link " href="javascript:;">
-                                        ...
-                                    </a>
-                                </li>`;
-                        for (let i = page - 2; i <= page + 2 && i < new_page_count; i++) {
-                            html += `<li class="page-item" id="pagination${i}">
-                                            <a class="page-link " href="javascript:;" onclick="changePage(${i})">
-                                                ${i}
-                                            </a>
-                                        </li>`;
-                        }
-                    } else {
-                        for (let i = 2; i <= page + 2 && i < new_page_count; i++) {
-                            html += `<li class="page-item" id="pagination${i}">
-                                            <a class="page-link " href="javascript:;" onclick="changePage(${i})">
-                                                ${i}
-                                            </a>
-                                        </li>`;
-                        }
-                    }
-
-
-
-                    if (page + 2 < new_page_count) {
-                        html += `<li class="page-item">
-                                    <a class="page-link " href="javascript:;">
-                                        ...
-                                    </a>
-                                </li>`;
-                    }
-
-                    html += `<li class="page-item" id="pagination${new_page_count}">
-                                    <a class="page-link " href="javascript:;" onclick="changePage(${new_page_count})">
-                                        ${new_page_count}
-                                    </a>
-                                </li>`
-                }
-
-
-                html += `<li class="page-item">
-                            <a class="page-link" href="javascript:;" onclick="nextPage();" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>`;
-
-                pagination.innerHTML = html;
             }
         </script>
 
@@ -296,8 +202,6 @@
 
         <!--Ag-gird Komutları-->
         <script>
-            var rowData = [];
-
             const gridOptions = {
                 // Row Data: The data to be displayed.
                 rowData: rowData,
@@ -385,11 +289,7 @@
                         },
                     @endif
                 ],
-                defaultColDef: {
-                    flex: 1, // Sütunların esnekliği
-                    resizable: true,
-                    cellEditor: 'agSelectCellEditor',
-                },
+                defaultColDef: defaultColDefAgGrid,
                 animateRows: true
             };
 

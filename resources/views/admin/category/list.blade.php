@@ -24,6 +24,8 @@
         </div>
 
         <script src="../../../admin/assets/libs/jquery/jquery.min.js"></script>
+
+        <script src="../../../admin/assets/js/pageTable.js"></script>
         <!-- Sayfa Değiştirme Scripti-->
         <script>
             var currentPage = 1;
@@ -190,8 +192,6 @@
 
         <!--Ag-gird Komutları-->
         <script>
-            var rowData = [];
-
             const gridOptions = {
                 // Row Data: The data to be displayed.
                 rowData: rowData,
@@ -238,11 +238,7 @@
                         },
                     @endif
                 ],
-                defaultColDef: {
-                    flex: 1, // Sütunların esnekliği
-                    resizable: true,
-                    cellEditor: 'agSelectCellEditor',
-                },
+                defaultColDef: defaultColDefAgGrid,
                 animateRows: true
             };
 

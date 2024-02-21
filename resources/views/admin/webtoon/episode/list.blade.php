@@ -1,12 +1,6 @@
 @extends('admin.layouts.main')
 @section('admin_content')
     @if ($list == 1)
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@31.0.3/styles/ag-grid.css" />
-
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@31.0.3/styles/ag-theme-quartz.css" />
-
-        <script src="https://cdn.jsdelivr.net/npm/ag-grid-community@31.0.3/dist/ag-grid-community.min.js"></script>
-
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
         <style>
             .select2-container .select2-selection--single {
@@ -67,15 +61,16 @@
 
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+        <script src="../../../admin/assets/js/pageTable.js"></script>
+
+
         <!-- Sayfa Değiştirme ve Arama Komutları-->
         <script>
-            var currentPage = 1;
             var is_select_webtoon = false;
             var selectedWebtoonCode = 0;
             var search = -1;
             var searchData = "";
             var changePagination = false;
-            var pageCount = parseInt("{{ $pageCount }}");
 
             function changePage(page) {
                 $.ajaxSetup({
@@ -146,15 +141,6 @@
 
             }
 
-            function prevPage() {
-                if (currentPage > 1)
-                    changePage(currentPage + -1)
-            }
-
-            function nextPage() {
-                if (currentPage < pageCount) changePage(currentPage + 1)
-            }
-
             //Webtoon arandığında otomatik getiren fonksiyon
             $('#selectWebtoon').on("select2:select", function(e) {
                 var data = e.params.data;
@@ -186,81 +172,6 @@
                 $('#selectWebtoon').val(null).trigger('change');
                 document.getElementById('searchWebtoonAllButton').disabled = true;
                 changePage(1);
-            }
-
-            //Sayfalama kısmını yeniden düzenleyen fonksiyon
-            function newPageCount(new_page_count, page) {
-                if (!page) {
-                    page = currentPage;
-                }
-                var pagination = document.getElementsByClassName('pagination')[0];
-                var html = `<li class="page-item">
-                                    <a class="page-link" href="javascript:;" onclick="prevPage();" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                </li>`;
-                if (new_page_count <= 10) {
-                    for (let i = 1; i <= new_page_count; i++) {
-                        html += `<li class="page-item" id="pagination${i}">
-                                            <a class="page-link " href="javascript:;" onclick="changePage(${i})">
-                                                ${i}
-                                            </a>
-                                        </li>`;
-                    }
-                } else {
-                    html += `<li class="page-item" id="pagination1">
-                                    <a class="page-link " href="javascript:;" onclick="changePage(1)">
-                                        1
-                                    </a>
-                                </li>`;
-                    if (page - 2 > 1) {
-                        html += `<li class="page-item">
-                                    <a class="page-link " href="javascript:;">
-                                        ...
-                                    </a>
-                                </li>`;
-                        for (let i = page - 2; i <= page + 2 && i < new_page_count; i++) {
-                            html += `<li class="page-item" id="pagination${i}">
-                                            <a class="page-link " href="javascript:;" onclick="changePage(${i})">
-                                                ${i}
-                                            </a>
-                                        </li>`;
-                        }
-                    } else {
-                        for (let i = 2; i <= page + 2 && i < new_page_count; i++) {
-                            html += `<li class="page-item" id="pagination${i}">
-                                            <a class="page-link " href="javascript:;" onclick="changePage(${i})">
-                                                ${i}
-                                            </a>
-                                        </li>`;
-                        }
-                    }
-
-
-
-                    if (page + 2 < new_page_count) {
-                        html += `<li class="page-item">
-                                    <a class="page-link " href="javascript:;">
-                                        ...
-                                    </a>
-                                </li>`;
-                    }
-
-                    html += `<li class="page-item" id="pagination${new_page_count}">
-                                    <a class="page-link " href="javascript:;" onclick="changePage(${new_page_count})">
-                                        ${new_page_count}
-                                    </a>
-                                </li>`
-                }
-
-
-                html += `<li class="page-item">
-                            <a class="page-link" href="javascript:;" onclick="nextPage();" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>`;
-
-                pagination.innerHTML = html;
             }
         </script>
 
@@ -386,8 +297,6 @@
 
         <!--Ag-gird Komutları-->
         <script>
-            var rowData = [];
-
             const gridOptions = {
                 // Row Data: The data to be displayed.
                 rowData: rowData,
@@ -452,11 +361,7 @@
                         },
                     @endif
                 ],
-                defaultColDef: {
-                    flex: 1, // Sütunların esnekliği
-                    resizable: true,
-                    cellEditor: 'agSelectCellEditor',
-                },
+                defaultColDef: defaultColDefAgGrid,
                 animateRows: true
             };
 
