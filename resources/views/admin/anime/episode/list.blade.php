@@ -22,11 +22,10 @@
         </div>
 
         <script src="../../../admin/assets/libs/jquery/jquery.min.js"></script>
+
+        <script src="../../../admin/assets/js/pageTable.js"></script>
         <!-- Sayfa Değiştirme Scripti-->
         <script>
-            var currentPage = 1;
-            var pageCount = 1;
-
             function changePage(page) {
                 $.ajaxSetup({
                     headers: {
@@ -75,89 +74,6 @@
                     }
                 });
             }
-
-            function prevPage() {
-                if (currentPage > 1)
-                    changePage(currentPage + -1)
-            }
-
-            function nextPage() {
-                if (currentPage < pageCount) changePage(currentPage + 1)
-            }
-
-            function newPageCount(new_page_count, page) {
-                if (!page) {
-                    page = currentPage;
-                }
-                var pagination = document.getElementsByClassName('pagination')[0];
-                var html = `<li class="page-item">
-                                    <a class="page-link" href="javascript:;" onclick="prevPage();" aria-label="Previous">
-                                        <span aria-hidden="true">&laquo;</span>
-                                    </a>
-                                </li>`;
-                if (new_page_count <= 10) {
-                    for (let i = 1; i <= new_page_count; i++) {
-                        html += `<li class="page-item" id="pagination${i}">
-                                            <a class="page-link " href="javascript:;" onclick="changePage(${i})">
-                                                ${i}
-                                            </a>
-                                        </li>`;
-                    }
-                } else {
-                    html += `<li class="page-item" id="pagination1">
-                                    <a class="page-link " href="javascript:;" onclick="changePage(1)">
-                                        1
-                                    </a>
-                                </li>`;
-                    if (page - 2 > 1) {
-                        html += `<li class="page-item">
-                                    <a class="page-link " href="javascript:;">
-                                        ...
-                                    </a>
-                                </li>`;
-                        for (let i = page - 2; i <= page + 2 && i < new_page_count; i++) {
-                            html += `<li class="page-item" id="pagination${i}">
-                                            <a class="page-link " href="javascript:;" onclick="changePage(${i})">
-                                                ${i}
-                                            </a>
-                                        </li>`;
-                        }
-                    } else {
-                        for (let i = 2; i <= page + 2 && i < new_page_count; i++) {
-                            html += `<li class="page-item" id="pagination${i}">
-                                            <a class="page-link " href="javascript:;" onclick="changePage(${i})">
-                                                ${i}
-                                            </a>
-                                        </li>`;
-                        }
-                    }
-
-
-
-                    if (page + 2 < new_page_count) {
-                        html += `<li class="page-item">
-                                    <a class="page-link " href="javascript:;">
-                                        ...
-                                    </a>
-                                </li>`;
-                    }
-
-                    html += `<li class="page-item" id="pagination${new_page_count}">
-                                    <a class="page-link " href="javascript:;" onclick="changePage(${new_page_count})">
-                                        ${new_page_count}
-                                    </a>
-                                </li>`
-                }
-
-
-                html += `<li class="page-item">
-                            <a class="page-link" href="javascript:;" onclick="nextPage();" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                            </a>
-                        </li>`;
-
-                pagination.innerHTML = html;
-            }
         </script>
 
         <script>
@@ -190,79 +106,64 @@
 
         <!--Ag-gird Komutları-->
         <script>
-            var rowData = [];
-
-            const gridOptions = {
-                // Row Data: The data to be displayed.
-                rowData: rowData,
-                // Column Definitions: Defines & controls grid columns.
-                columnDefs: [{
-                        headerName: "#",
-                        field: "id",
-                        maxWidth: 75,
+            var columnDefs = [{
+                    headerName: "#",
+                    field: "id",
+                    maxWidth: 75,
+                },
+                {
+                    headerName: "Resim",
+                    field: "image",
+                    maxWidth: 75,
+                    cellRenderer: function(params) {
+                        return `<img src="../../../${params.value}" alt="user" class="avatar-xs rounded-circle" />`;
                     },
-                    {
-                        headerName: "Resim",
-                        field: "image",
-                        maxWidth: 75,
-                        cellRenderer: function(params) {
-                            return `<img src="../../../${params.value}" alt="user" class="avatar-xs rounded-circle" />`;
-                        },
-                        filter: false,
-                    },
-                    {
-                        headerName: "Anime",
-                        field: "anime_name",
-                    },
-                    {
-                        headerName: "Bölüm Adı",
-                        field: "name",
-                    },
-                    {
-                        headerName: "Sezon",
-                        field: "season_short",
-                    },
-                    {
-                        headerName: "Bölüm",
-                        field: "episode_short",
-                    },
-                    {
-                        headerName: "İşlemler",
-                        field: "action",
-                        cellRenderer: function(params) {
-                            var html = `<div class="row" style="justify-content: center;">`
-                            @if ($update == 1)
-                                html += `<div class="mr-2 ml-2">
+                    filter: false,
+                },
+                {
+                    headerName: "Anime",
+                    field: "anime_name",
+                },
+                {
+                    headerName: "Bölüm Adı",
+                    field: "name",
+                },
+                {
+                    headerName: "Sezon",
+                    field: "season_short",
+                },
+                {
+                    headerName: "Bölüm",
+                    field: "episode_short",
+                },
+                {
+                    headerName: "İşlemler",
+                    field: "action",
+                    cellRenderer: function(params) {
+                        var html = `<div class="row" style="justify-content: center;">`
+                        @if ($update == 1)
+                            html += `<div class="mr-2 ml-2">
                                         <a class="btn btn-warning btn-sm" href="{{ route('admin_anime_episodes_update_screen') }}?code=${params.data.code}" data-toggle="tooltip" data-placement="right" title="Güncelle"><i class="fas fa-edit"></i></a>
                                     </div>`
-                            @endif
-                            @if ($delete == 1)
-                                html += `<div class="mr-2 ml-2">
+                        @endif
+                        @if ($delete == 1)
+                            html += `<div class="mr-2 ml-2">
                                         <a class="btn btn-danger btn-sm" href="javascript:void(0);" onclick="deleteAnimeEpisde(${params.data.code}, '${params.data.anime_name}')" data-toggle="tooltip" data-placement="right" title="Sil"><i class="fas fa-trash-alt"></i></a>
                                     </div>`
-                            @endif
+                        @endif
 
-                            html += `</div>`;
+                        html += `</div>`;
 
-                            return html;
-                        },
-                        filter: false,
-                        cellEditorPopup: true,
-                        cellEditor: 'agSelectCellEditor',
-                        maxWidth: 125,
-                        minWidth: 125,
+                        return html;
                     },
-                ],
-                defaultColDef: {
-                    flex: 1, // Sütunların esnekliği
-                    resizable: true,
+                    filter: false,
+                    cellEditorPopup: true,
                     cellEditor: 'agSelectCellEditor',
+                    maxWidth: 125,
+                    minWidth: 125,
                 },
-                animateRows: true
-            };
-
-            const myGridElement = document.querySelector('#myGrid');
-            var gridApi = agGrid.createGrid(myGridElement, gridOptions);
+            ];
+            gridOptionsData(columnDefs);
             changePage(1);
         </script>
     @endif

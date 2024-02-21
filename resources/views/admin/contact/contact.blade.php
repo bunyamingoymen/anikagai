@@ -208,86 +208,77 @@
         </script>
 
         <script>
-            const gridOptions = {
-                // Row Data: The data to be displayed.
-                rowData: rowData,
-                // Column Definitions: Defines & controls grid columns.
-                columnDefs: [{
-                        headerName: "#",
-                        field: "id",
-                        maxWidth: 75,
+            var columnDefs = [{
+                    headerName: "#",
+                    field: "id",
+                    maxWidth: 75,
+                },
+                {
+                    headerName: "İsim",
+                    field: "name",
+                },
+                {
+                    headerName: "E-mail",
+                    field: "email",
+                },
+                {
+                    headerName: "Konu",
+                    field: "subject",
+                },
+                {
+                    headerName: "Durumu",
+                    field: "answered",
+                    cellRenderer: function(params) {
+                        if (params.data.answered === 1) {
+                            return `<span class = "badge badge-pill badge-success"> Cevaplandı </span>`;
+                        } else {
+                            return `<span class = "badge badge-pill badge-danger"> Cevaplanmadı </span>`;
+                        }
                     },
+                },
+                @if ($answer == 1 || $delete == 1)
                     {
-                        headerName: "İsim",
-                        field: "name",
-                    },
-                    {
-                        headerName: "E-mail",
-                        field: "email",
-                    },
-                    {
-                        headerName: "Konu",
-                        field: "subject",
-                    },
-                    {
-                        headerName: "Durumu",
-                        field: "answered",
+                        headerName: "İşlemler",
+                        field: "action",
                         cellRenderer: function(params) {
-                            if (params.data.answered === 1) {
-                                return `<span class = "badge badge-pill badge-success"> Cevaplandı </span>`;
-                            } else {
-                                return `<span class = "badge badge-pill badge-danger"> Cevaplanmadı </span>`;
-                            }
-                        },
-                    },
-                    @if ($answer == 1 || $delete == 1)
-                        {
-                            headerName: "İşlemler",
-                            field: "action",
-                            cellRenderer: function(params) {
-                                var html = `<div class="row" style="justify-content: center;">`
-                                @if ($answer == 1)
-                                    if (params.data.answered === 1) {
-                                        html += `<div class="mr-2 ml-2">
+                            var html = `<div class="row" style="justify-content: center;">`
+                            @if ($answer == 1)
+                                if (params.data.answered === 1) {
+                                    html += `<div class="mr-2 ml-2">
                                         <a class="btn btn-danger btn-sm" href="javascript:;"
                                                 onclick="notAnswerContact(${params.data.code})"
                                                 data-toggle="tooltip" data-placement="right" title="Cevaplanmadı olarak işaretle"><i class="fas fa-times-circle" ></i></a>
                                         </div>`;
-                                    } else {
-                                        html +=
-                                            `<div class="mr-2 ml-2">
+                                } else {
+                                    html +=
+                                        `<div class="mr-2 ml-2">
                                                 <a class="btn btn-success btn-sm"href="javascript:;"
                                                 onclick="answerContact(${params.data.code})"
                                                 data-toggle="tooltip" data-placement="right" title="Cevaplandı Olarak İşaretle"><i class="fas fa-check-circle" ></i></a></div>`;
-                                    }
-                                @endif
-                                @if ($delete == 1)
-                                    html += `<div class="mr-2 ml-2">
+                                }
+                            @endif
+                            @if ($delete == 1)
+                                html += `<div class="mr-2 ml-2">
                                         <a class="btn btn-danger btn-sm" href="javascript:void(0);" onclick="deleteContact(${params.data.code}, '${params.data.name}')" data-toggle="tooltip" data-placement="right" title="Sil"><i class="fas fa-trash-alt"></i></a>
                                     </div>`
-                                @endif
-                                html += `<div class="mr-2 ml-2">
+                            @endif
+                            html += `<div class="mr-2 ml-2">
                                             <a class="btn btn-info btn-sm" href="javascript:;"
                                             onclick="showContact('${params.data.name}','${params.data.email}','${params.data.subject}',\`${params.data.message}\`)" data-toggle="tooltip" data-placement="right" title="Görüntüle"><i class="fas fa-eye"></i></a>
                                     </div>`
-                                html += `</div>`;
+                            html += `</div>`;
 
-                                return html;
-                            },
-                            filter: false,
-                            cellEditorPopup: true,
-                            cellEditor: 'agSelectCellEditor',
-                            maxWidth: 250,
-                            minWidth: 250,
+                            return html;
                         },
-                    @endif
-                ],
-                defaultColDef: defaultColDefAgGrid,
-                animateRows: true
-            };
-
-            const myGridElement = document.querySelector('#myGrid');
-            var gridApi = agGrid.createGrid(myGridElement, gridOptions);
+                        filter: false,
+                        cellEditorPopup: true,
+                        cellEditor: 'agSelectCellEditor',
+                        maxWidth: 250,
+                        minWidth: 250,
+                    },
+                @endif
+            ]
+            gridOptionsData(columnDefs);
             changePage(1);
         </script>
     @endif

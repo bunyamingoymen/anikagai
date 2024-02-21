@@ -111,89 +111,80 @@
         </script>
 
         <script>
-            const gridOptions = {
-                // Row Data: The data to be displayed.
-                rowData: rowData,
-                // Column Definitions: Defines & controls grid columns.
-                columnDefs: [{
-                        headerName: "#",
-                        field: "id",
-                        maxWidth: 75,
+            var columnDefs = [{
+                    headerName: "#",
+                    field: "id",
+                    maxWidth: 75,
+                },
+                {
+                    headerName: "Resim",
+                    field: "image",
+                    maxWidth: 75,
+                    cellRenderer: function(params) {
+                        return `<img src="../../../${params.value}" alt="user" class="avatar-xs rounded-circle" />`;
                     },
-                    {
-                        headerName: "Resim",
-                        field: "image",
-                        maxWidth: 75,
-                        cellRenderer: function(params) {
-                            return `<img src="../../../${params.value}" alt="user" class="avatar-xs rounded-circle" />`;
-                        },
-                        filter: false,
+                    filter: false,
+                },
+                {
+                    headerName: "İsim",
+                    field: "name",
+                },
+                {
+                    headerName: "Kullanıcı Adı",
+                    field: "username",
+                },
+                {
+                    headerName: "E-mail",
+                    field: "email",
+                },
+                {
+                    headerName: "Durumu",
+                    field: "is_active",
+                    cellRenderer: function(params) {
+                        if (params.data.is_active === 1) {
+                            return `<span class = "badge badge-pill badge-success"> Aktif </span>`;
+                        } else {
+                            return `<span class = "badge badge-pill badge-danger"> Pasif </span>`;
+                        }
                     },
-                    {
-                        headerName: "İsim",
-                        field: "name",
-                    },
-                    {
-                        headerName: "Kullanıcı Adı",
-                        field: "username",
-                    },
-                    {
-                        headerName: "E-mail",
-                        field: "email",
-                    },
-                    {
-                        headerName: "Durumu",
-                        field: "is_active",
-                        cellRenderer: function(params) {
-                            if (params.data.is_active === 1) {
-                                return `<span class = "badge badge-pill badge-success"> Aktif </span>`;
-                            } else {
-                                return `<span class = "badge badge-pill badge-danger"> Pasif </span>`;
-                            }
-                        },
-                    },
-                    {
-                        headerName: "İşlemler",
-                        field: "action",
-                        cellRenderer: function(params) {
-                            var html = `<div class="row" style="justify-content: center;">`
-                            @if ($update == 1)
-                                html += `<div class="mr-2 ml-2">
+                },
+                {
+                    headerName: "İşlemler",
+                    field: "action",
+                    cellRenderer: function(params) {
+                        var html = `<div class="row" style="justify-content: center;">`
+                        @if ($update == 1)
+                            html += `<div class="mr-2 ml-2">
                                         <a class="btn btn-warning btn-sm" href="{{ route('admin_indexuser_update_screen') }}?code=${params.data.code}" data-toggle="tooltip" data-placement="right" title="Güncelle"><i class="fas fa-edit"></i></a>
                                     </div>`
-                            @endif
-                            @if ($delete == 1)
-                                html += `<div class="mr-2 ml-2">
+                        @endif
+                        @if ($delete == 1)
+                            html += `<div class="mr-2 ml-2">
                                         <a class="btn btn-danger btn-sm" href="javascript:void(0);" onclick="deleteIndexUser(${params.data.code}, '${params.data.name}')" data-toggle="tooltip" data-placement="right" title="Sil"><i class="fas fa-trash-alt"></i></a>
                                     </div>`
 
-                                if (params.data.is_active === 1) {
-                                    html += `<div class="mr-2 ml-2">
+                            if (params.data.is_active === 1) {
+                                html += `<div class="mr-2 ml-2">
                                         <a class="btn btn-danger btn-sm" href="{{ route('admin_indexuser_change_active') }}?code=${params.data.code}" data-toggle="tooltip" data-placement="right" title="Banla"><i class="fas fa-times-circle" ></i></a>
                                         </div>`;
-                                } else {
-                                    html +=
-                                        `<div class="mr-2 ml-2">
+                            } else {
+                                html +=
+                                    `<div class="mr-2 ml-2">
                                                 <a class="btn btn-success btn-sm" href="{{ route('admin_indexuser_change_active') }}?code=${params.data.code}" data-toggle="tooltip" data-placement="right" title="Banı Kaldır"><i class="fas fa-check-circle" ></i></a></div>`;
-                                }
-                            @endif
-                            html += `</div>`;
+                            }
+                        @endif
+                        html += `</div>`;
 
-                            return html;
-                        },
-                        filter: false,
-                        cellEditorPopup: true,
-                        cellEditor: 'agSelectCellEditor',
-                        maxWidth: 250,
-                        minWidth: 250,
+                        return html;
                     },
-                ],
-                defaultColDef: defaultColDefAgGrid,
-                animateRows: true
-            };
-
-            const myGridElement = document.querySelector('#myGrid');
-            var gridApi = agGrid.createGrid(myGridElement, gridOptions);
+                    filter: false,
+                    cellEditorPopup: true,
+                    cellEditor: 'agSelectCellEditor',
+                    maxWidth: 250,
+                    minWidth: 250,
+                },
+            ]
+            gridOptionsData(columnDefs);
             changePage(1);
         </script>
     @endif

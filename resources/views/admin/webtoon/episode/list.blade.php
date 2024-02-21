@@ -294,78 +294,68 @@
 
         <!--Ag-gird Komutları-->
         <script>
-            const gridOptions = {
-                // Row Data: The data to be displayed.
-                rowData: rowData,
-                // Column Definitions: Defines & controls grid columns.
-                columnDefs: [{
-                        headerName: "#",
-                        field: "id",
-                        maxWidth: 75,
+            var columnDefs = [{
+                    headerName: "#",
+                    field: "id",
+                    maxWidth: 75,
+                },
+                {
+                    headerName: "Resim",
+                    field: "image",
+                    maxWidth: 75,
+                    cellRenderer: function(params) {
+                        return `<img src="../../../${params.value}" alt="user" class="avatar-xs rounded-circle" />`;
                     },
-                    {
-                        headerName: "Resim",
-                        field: "image",
-                        maxWidth: 75,
-                        cellRenderer: function(params) {
-                            return `<img src="../../../${params.value}" alt="user" class="avatar-xs rounded-circle" />`;
-                        },
-                        filter: false,
-                    },
-                    {
-                        headerName: "Webtoon",
-                        field: "name",
-                    },
-                    {
-                        headerName: "Bölüm Adı",
-                        field: "episode_name",
-                    },
-                    {
-                        headerName: "Sezon",
-                        field: "season_short",
-                    },
-                    {
-                        headerName: "Bölüm",
-                        field: "episode_short",
-                    },
+                    filter: false,
+                },
+                {
+                    headerName: "Webtoon",
+                    field: "name",
+                },
+                {
+                    headerName: "Bölüm Adı",
+                    field: "episode_name",
+                },
+                {
+                    headerName: "Sezon",
+                    field: "season_short",
+                },
+                {
+                    headerName: "Bölüm",
+                    field: "episode_short",
+                },
 
-                    @if ($delete == 1 || $update == 1)
-                        {
-                            headerName: "İşlemler",
-                            field: "action",
-                            cellRenderer: function(params) {
-                                var html = `<div class="row" style="justify-content: center;">`
-                                @if ($update == 1)
-                                    html += `<div class="mr-2 ml-2">
+                @if ($delete == 1 || $update == 1)
+                    {
+                        headerName: "İşlemler",
+                        field: "action",
+                        cellRenderer: function(params) {
+                            var html = `<div class="row" style="justify-content: center;">`
+                            @if ($update == 1)
+                                html += `<div class="mr-2 ml-2">
                                         <a class="btn btn-warning btn-sm" href="{{ route('admin_webtoon_episodes_update_screen') }}?code=${params.data.code}" data-toggle="tooltip" data-placement="right" title="Güncelle"><i class="fas fa-edit"></i></a>
                                     </div>`
-                                @endif
-                                @if ($delete == 1)
-                                    html += `<div class="mr-2 ml-2">
+                            @endif
+                            @if ($delete == 1)
+                                html += `<div class="mr-2 ml-2">
                                         <a class="btn btn-danger btn-sm" href="javascript:void(0);" onclick="deleteWebtoonEpisde(${params.data.code}, '${params.data.name}')" data-toggle="tooltip" data-placement="Sil" title="Güncelle"><i class="fas fa-trash-alt"></i></a>
                                     </div>`
-                                @endif
+                            @endif
 
-                                html += `</div>`;
+                            html += `</div>`;
 
-                                return html;
-                            },
-                            filter: false,
-                            cellEditorPopup: true,
-                            cellEditor: 'agSelectCellEditor',
-                            maxWidth: 125,
-                            minWidth: 125,
+                            return html;
                         },
-                    @endif
-                ],
-                defaultColDef: defaultColDefAgGrid,
-                animateRows: true
-            };
-
-            const myGridElement = document.querySelector('#myGrid');
-            var gridApi = agGrid.createGrid(myGridElement, gridOptions);
+                        filter: false,
+                        cellEditorPopup: true,
+                        cellEditor: 'agSelectCellEditor',
+                        maxWidth: 125,
+                        minWidth: 125,
+                    },
+                @endif
+            ];
+            gridOptionsData(columnDefs);
             changePage(1);
-            newPageCount(`{{ $pageCount }}`, 1);
         </script>
     @endif
     <script>

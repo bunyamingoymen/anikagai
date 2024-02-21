@@ -101,56 +101,45 @@
 
         <!--Ag-gird Komutları-->
         <script>
-            const gridOptions = {
-                // Row Data: The data to be displayed.
-                rowData: rowData,
+            var columnDefs = [{
+                    headerName: "#",
+                    field: "id",
+                    maxWidth: 75,
+                },
+                {
+                    headerName: "Yazı",
+                    field: "text",
+                },
+                {
+                    headerName: "Açıklama",
+                    field: "description",
+                },
+                {
+                    headerName: "İşlemler",
+                    field: "action",
+                    cellRenderer: function(params) {
+                        var html = `<div class="row" style="justify-content: center;">`
 
-                // Column Definitions: Defines & controls grid columns.
-                columnDefs: [{
-                        headerName: "#",
-                        field: "id",
-                        maxWidth: 75,
-                    },
-                    {
-                        headerName: "Yazı",
-                        field: "text",
-                    },
-                    {
-                        headerName: "Açıklama",
-                        field: "description",
-                    },
-                    {
-                        headerName: "İşlemler",
-                        field: "action",
-                        cellRenderer: function(params) {
-                            var html = `<div class="row" style="justify-content: center;">`
-
-                            html += `<div class="mr-2 ml-2">
+                        html += `<div class="mr-2 ml-2">
                                         <a class="btn btn-warning btn-sm" href="{{ route('admin_authclause_update_screen') }}?code=${params.data.code}" data-toggle="tooltip" data-placement="right" title="Güncelle"><i class="fas fa-edit"></i></a>
                                     </div>`
 
-                            html += `<div class="mr-2 ml-2">
+                        html += `<div class="mr-2 ml-2">
                                         <a class="btn btn-danger btn-sm" href="javascript:void(0);" onclick="deleteAuthClause(${params.data.code}, '${params.data.text}')" data-toggle="tooltip" data-placement="right" title="Sil"><i class="fas fa-trash-alt"></i></a>
                                     </div>`
 
-                            html += `</div>`;
+                        html += `</div>`;
 
-                            return html;
-                        },
-                        filter: false,
-                        cellEditorPopup: true,
-                        cellEditor: 'agSelectCellEditor',
-                        maxWidth: 125,
-                        minWidth: 125,
+                        return html;
                     },
-                ],
-
-                defaultColDef: defaultColDefAgGrid,
-                animateRows: true,
-            };
-
-            const myGridElement = document.querySelector('#myGrid');
-            var gridApi = agGrid.createGrid(myGridElement, gridOptions);
+                    filter: false,
+                    cellEditorPopup: true,
+                    cellEditor: 'agSelectCellEditor',
+                    maxWidth: 125,
+                    minWidth: 125,
+                },
+            ];
+            gridOptionsData(columnDefs);
             changePage(1);
         </script>
     @endif

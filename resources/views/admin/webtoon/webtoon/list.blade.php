@@ -197,99 +197,91 @@
 
         <!--Ag-gird Komutları-->
         <script>
-            const gridOptions = {
-                // Row Data: The data to be displayed.
-                rowData: rowData,
-                // Column Definitions: Defines & controls grid columns.
-                columnDefs: [{
-                        headerName: "#",
-                        field: "id",
-                        maxWidth: 75,
+            var columnDefs = [{
+                    headerName: "#",
+                    field: "id",
+                    maxWidth: 75,
+                },
+                {
+                    headerName: "Resim",
+                    field: "image",
+                    maxWidth: 75,
+                    cellRenderer: function(params) {
+                        return `<img src="../../../${params.value}" alt="user" class="avatar-xs rounded-circle" />`;
                     },
-                    {
-                        headerName: "Resim",
-                        field: "image",
-                        maxWidth: 75,
-                        cellRenderer: function(params) {
-                            return `<img src="../../../${params.value}" alt="user" class="avatar-xs rounded-circle" />`;
-                        },
-                        filter: false,
-                    },
-                    {
-                        headerName: "İsim",
-                        field: "name",
-                    },
-                    {
-                        headerName: "Durum",
-                        field: "showStatus",
-                        cellRenderer: function(params) {
-                            var code = ``;
-                            if (params.data.plusEighteen == 1) {
-                                code += `<span class="badge badge-pill badge-dark">+18</span>`;
-                            }
-                            if (params.value == 0) {
-                                code += `<span class="badge badge-pill badge-success">Görünür</span>`;
-
-                            } else if (params.value == 1) {
-                                code += `<span class="badge badge-pill badge-warning">Üyelere Özel</span>`;
-                            } else if (params.value == 2) {
-                                code += `<span class="badge badge-pill badge-secondary">Sansürlü</span>`;
-                            } else if (params.value == 3) {
-                                code += `<span class="badge badge-pill badge-primary">Liste Dışı</span>`;
-                            } else if (params.value == 4) {
-                                code += `<span class="badge badge-pill badge-danger">Gizli</span>`;
-                            } else {
-                                code +=
-                                    `<span class="badge badge-pill badge-light"><span style="color:red;">HATA</span></span>`;
-                            }
-
-                            return code;
+                    filter: false,
+                },
+                {
+                    headerName: "İsim",
+                    field: "name",
+                },
+                {
+                    headerName: "Durum",
+                    field: "showStatus",
+                    cellRenderer: function(params) {
+                        var code = ``;
+                        if (params.data.plusEighteen == 1) {
+                            code += `<span class="badge badge-pill badge-dark">+18</span>`;
                         }
-                    },
-                    {
-                        headerName: "Bölüm Sayısı",
-                        field: "episode_count",
-                    },
-                    {
-                        headerName: "Tıklanma Sayısı",
-                        field: "click_count",
-                    },
+                        if (params.value == 0) {
+                            code += `<span class="badge badge-pill badge-success">Görünür</span>`;
 
-                    @if ($delete == 1 || $update == 1)
-                        {
-                            headerName: "İşlemler",
-                            field: "action",
-                            cellRenderer: function(params) {
-                                var html = `<div class="row" style="justify-content: center;">`
-                                @if ($update == 1)
-                                    html += `<div class="mr-2 ml-2">
+                        } else if (params.value == 1) {
+                            code += `<span class="badge badge-pill badge-warning">Üyelere Özel</span>`;
+                        } else if (params.value == 2) {
+                            code += `<span class="badge badge-pill badge-secondary">Sansürlü</span>`;
+                        } else if (params.value == 3) {
+                            code += `<span class="badge badge-pill badge-primary">Liste Dışı</span>`;
+                        } else if (params.value == 4) {
+                            code += `<span class="badge badge-pill badge-danger">Gizli</span>`;
+                        } else {
+                            code +=
+                                `<span class="badge badge-pill badge-light"><span style="color:red;">HATA</span></span>`;
+                        }
+
+                        return code;
+                    }
+                },
+                {
+                    headerName: "Bölüm Sayısı",
+                    field: "episode_count",
+                },
+                {
+                    headerName: "Tıklanma Sayısı",
+                    field: "click_count",
+                },
+
+                @if ($delete == 1 || $update == 1)
+                    {
+                        headerName: "İşlemler",
+                        field: "action",
+                        cellRenderer: function(params) {
+                            var html = `<div class="row" style="justify-content: center;">`
+                            @if ($update == 1)
+                                html += `<div class="mr-2 ml-2">
                                         <a class="btn btn-warning btn-sm" href="{{ route('admin_webtoon_update_screen') }}?code=${params.data.code}" data-toggle="tooltip" data-placement="right" title="Güncelle"><i class="fas fa-edit"></i></a>
                                     </div>`
-                                @endif
-                                @if ($delete == 1)
-                                    html += `<div class="mr-2 ml-2">
+                            @endif
+                            @if ($delete == 1)
+                                html += `<div class="mr-2 ml-2">
                                         <a class="btn btn-danger btn-sm" href="javascript:void(0);" onclick="deleteWebtoon(${params.data.code}, '${params.data.name}')" data-toggle="tooltip" data-placement="right" title="Sil"><i class="fas fa-trash-alt"></i></a>
                                     </div>`
-                                @endif
+                            @endif
 
-                                html += `</div>`;
+                            html += `</div>`;
 
-                                return html;
-                            },
-                            filter: false,
-                            cellEditorPopup: true,
-                            cellEditor: 'agSelectCellEditor',
-                            maxWidth: 125,
-                            minWidth: 125,
+                            return html;
                         },
-                    @endif
-                ],
-                defaultColDef: defaultColDefAgGrid,
-                animateRows: true
-            };
+                        filter: false,
+                        cellEditorPopup: true,
+                        cellEditor: 'agSelectCellEditor',
+                        maxWidth: 125,
+                        minWidth: 125,
+                    },
+                @endif
+            ];
 
-            const myGridElement = document.querySelector('#myGrid');
-            var gridApi = agGrid.createGrid(myGridElement, gridOptions);
+            gridOptionsData(columnDefs);
             changePage(1);
         </script>
     @endif

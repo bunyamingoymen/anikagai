@@ -101,54 +101,49 @@
         </script>
 
         <script>
-            const gridOptions = {
-                // Row Data: The data to be displayed.
-                rowData: rowData,
-                // Column Definitions: Defines & controls grid columns.
-                columnDefs: [{
-                        headerName: "#",
-                        field: "id",
-                        maxWidth: 75,
+            var columnDefs = [{
+                    headerName: "#",
+                    field: "id",
+                    maxWidth: 75,
+                },
+                {
+                    headerName: "Yorum",
+                    field: "message",
+                },
+                {
+                    headerName: "Yorum Sırası",
+                    field: "comment_short",
+                },
+                {
+                    headerName: "Durumu",
+                    field: "is_active",
+                    cellRenderer: function(params) {
+                        if (params.data.is_active === 1) {
+                            return `<span class = "badge badge-pill badge-success"> Aktif </span>`;
+                        } else {
+                            return `<span class = "badge badge-pill badge-danger"> Pasif </span>`;
+                        }
                     },
-                    {
-                        headerName: "Yorum",
-                        field: "message",
-                    },
-                    {
-                        headerName: "Yorum Sırası",
-                        field: "comment_short",
-                    },
-                    {
-                        headerName: "Durumu",
-                        field: "is_active",
-                        cellRenderer: function(params) {
-                            if (params.data.is_active === 1) {
-                                return `<span class = "badge badge-pill badge-success"> Aktif </span>`;
-                            } else {
-                                return `<span class = "badge badge-pill badge-danger"> Pasif </span>`;
-                            }
-                        },
-                    },
+                },
+                @if ($delete == 1)
                     {
                         headerName: "İşlemler",
                         field: "action",
                         cellRenderer: function(params) {
                             var html = `<div class="row" style="justify-content: center;">`
-                            @if ($delete == 1)
-                                html += `<div class="mr-2 ml-2">
+                            html += `<div class="mr-2 ml-2">
                                         <a class="btn btn-danger btn-sm" href="javascript:void(0);" onclick="deleteComment(${params.data.code}, '${params.data.id}')" data-toggle="tooltip" data-placement="right" title="Sil"><i class="fas fa-trash-alt"></i></a>
                                     </div>`
 
-                                if (params.data.is_active === 1) {
-                                    html += `<div class="mr-2 ml-2">
+                            if (params.data.is_active === 1) {
+                                html += `<div class="mr-2 ml-2">
                                         <a class="btn btn-danger btn-sm" href="{{ route('admin_comment_change_active') }}?code=${params.data.code}" data-toggle="tooltip" data-placement="right" title="Pasif Hale Getir"><i class="fas fa-times-circle" ></i></a>
                                         </div>`;
-                                } else {
-                                    html +=
-                                        `<div class="mr-2 ml-2">
+                            } else {
+                                html +=
+                                    `<div class="mr-2 ml-2">
                                                 <a class="btn btn-success btn-sm" href="{{ route('admin_comment_change_active') }}?code=${params.data.code}" data-toggle="tooltip" data-placement="right" title="Aktif Hale Getir"><i class="fas fa-check-circle" ></i></a></div>`;
-                                }
-                            @endif
+                            }
                             html += `</div>`;
 
                             return html;
@@ -159,13 +154,9 @@
                         maxWidth: 250,
                         minWidth: 250,
                     },
-                ],
-                defaultColDef: defaultColDefAgGrid,
-                animateRows: true
-            };
-
-            const myGridElement = document.querySelector('#myGrid');
-            var gridApi = agGrid.createGrid(myGridElement, gridOptions);
+                @endif
+            ]
+            gridOptionsData(columnDefs);
             changePage(1);
         </script>
     @endif
