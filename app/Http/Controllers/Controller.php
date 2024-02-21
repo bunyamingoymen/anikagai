@@ -14,7 +14,7 @@ class Controller extends BaseController
 
     public function adultOn()
     {
-        Cache::put('adult4', 1, 5);
+        Cache::put('adult4', 1, 2629743);
         return redirect()->back();
     }
 }

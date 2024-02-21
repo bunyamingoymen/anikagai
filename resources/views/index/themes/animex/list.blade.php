@@ -34,10 +34,17 @@
                                         <p>Kategoriler:</p>
                                         <select class="" id="categorySelected" onchange="changeCategory()">
                                             <option value="all">Hepsi</option>
-                                            <option value="genel">Genel</option>
-                                            <option value="plusEighteen">+18</option>
+                                            <option value="genel"
+                                                {{ request('category', 'all') == 'genel' ? 'selected' : '' }}>
+                                                Genel
+                                            </option>
+                                            <option value="plusEighteen"
+                                                {{ request('adult', 'off') == 'on' ? 'selected' : '' }}>
+                                                +18</option>
                                             @foreach ($allCategory->skip(1) as $category)
-                                                <option value="{{ $category->short_name }}">{{ $category->name }}</option>
+                                                <option value="{{ $category->short_name }}"
+                                                    {{ request('category', 'all') == $category->short_name ? 'selected' : '' }}>
+                                                    {{ $category->name }}</option>
                                             @endforeach
                                         </select>
                                     </div>
@@ -263,8 +270,9 @@
         }
 
         function changeCategory() {
-
+            page = 1;
             if (document.getElementById("categorySelected").value == 'plusEighteen') {
+                category = "all"
                 changeAdult();
             } else {
                 category = document.getElementById("categorySelected").value;
