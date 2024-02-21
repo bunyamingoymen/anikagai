@@ -154,20 +154,31 @@ class AnimeEpisodecontroller extends Controller
     public function episodeGetData(Request $request)
     {
         $skip = (($request->page - 1) * $this->showCount);
-        $anime_episode = DB::table('anime_episodes')
-            ->Where('anime_episodes.deleted', 0)
+        $searchData = $request->searchData;
+        $selectedAnimeCode = $request->selectedAnimeCode;
+
+        $episodeQuery = DB::table('anime_episodes')
+            ->where("anime_episodes.deleted", 0)
+            ->where("animes.deleted", 0)
+            ->when($request->selectedAnimeCode, function ($query, $selectedAnimeCode) {
+                return $query->where('animes.code', $selectedAnimeCode);
+            })
+            ->when($request->searchData, function ($query, $searchData) {
+                return $query->where(function ($query) use ($searchData) {
+                    $query->where('anime_episodes.name', 'LIKE', '%' . $searchData . '%')
+                        ->orWhere('anime_episodes.description', 'LIKE', '%' . $searchData . '%')
+                        ->orWhere('anime_episodes.minute', 'LIKE', '%' . $searchData . '%');
+                });
+            })
             ->join('animes', 'animes.code', '=', 'anime_episodes.anime_code')
-            ->select('anime_episodes.*', 'animes.name as anime_name', 'animes.image as anime_image')
-            ->skip($skip)->take($this->showCount)
-            ->get();
+            ->select('anime_episodes.*', 'animes.name as anime_name', 'animes.image as anime_image');
 
-        $page_count = ceil(DB::table('anime_episodes')
-            ->Where('anime_episodes.deleted', 0)
-            ->join('animes', 'animes.code', '=', 'anime_episodes.anime_code')
-            ->select('anime_episodes.*', 'animes.name as anime_name', 'animes.image as anime_image')
-            ->count() / $this->showCount);
+        $anime_episode = $episodeQuery->skip($skip)->take($this->showCount)->get();
+        $page_count = ceil($episodeQuery->count() / $this->showCount);
 
-
-        return ['anime_episode' => $anime_episode, 'page_count' => $page_count];
+        return [
+            'anime_episode' => $anime_episode,
+            'page_count' => $page_count,
+        ];
     }
 }

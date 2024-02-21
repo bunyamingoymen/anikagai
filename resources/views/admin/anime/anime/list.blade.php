@@ -5,11 +5,28 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <div class="col-lg-12" style="display: inline-block;">
+                        <div>
                             @if ($create == 1)
                                 <a class="btn btn-primary mb-3" style="float: right;"
                                     href="{{ route('admin_anime_create_screen') }}">+ Yeni</a>
                             @endif
+                        </div>
+                        <div class="col-lg-10" style="">
+                            <div class="row">
+                                <div class="ml-2 mr-2">
+                                    <input type="text" placeholder="Anime Ara...." name="animeSearch" id="animeSearch"
+                                        class="form-control" oninput="checkInput()">
+                                </div>
+                                <div class="ml-2 mr-2">
+                                    <button class="btn btn-success" id="animeSearchButton" onclick="searchAnimeButton()"
+                                        disabled><i class="fas fa-search"></i> Ara</button>
+                                </div>
+                                <div class="ml-2 mr-2">
+                                    <button class="btn btn-danger" id="searchAnimeAllButton"
+                                        onclick="searchAnimeAllButton()" disabled> <i class="fas fa-align-center"></i>
+                                        Tümünü Göster</button>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="ag-theme-quartz mt-2 mb-2" style="height: 500px;" id="myGrid"></div>
@@ -28,7 +45,16 @@
         <script src="../../../admin/assets/js/pageTable.js"></script>
         <!-- Sayfa Değiştirme Scripti-->
         <script>
+            var searchData = "";
+
             function changePage(page) {
+                var pageData = {
+                    page: page,
+                }
+
+                if (searchData != "")
+                    pageData.searchData = searchData;
+
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
@@ -37,9 +63,7 @@
                 $.ajax({
                     type: 'POST',
                     url: '{{ route('admin_anime_get_data') }}',
-                    data: {
-                        page: page
-                    },
+                    data: pageData,
                     success: function(response) {
                         var id = page <= 1 ? 1 : (page - 1) * 10 + 1;
                         var animes = response.animes;
@@ -106,6 +130,46 @@
                     })
                 }
             @endif
+        </script>
+
+        <!--Arama İşlemi-->
+        <script>
+            function searchAnimeButton() {
+                searchData = document.getElementById('animeSearch').value;
+                document.getElementById('animeSearchButton').disabled = true;
+                document.getElementById('searchAnimeAllButton').disabled = false;
+                changePage(1);
+            }
+
+            function searchAnimeAllButton() {
+                searchData = "";
+                document.getElementById('animeSearch').value = "";
+                document.getElementById('animeSearchButton').disabled = true;
+                document.getElementById('searchAnimeAllButton').disabled = true;
+                changePage(1);
+            }
+
+            function checkInput() {
+                var inputField = document.getElementById('animeSearch');
+                var submitButton = document.getElementById('animeSearchButton');
+
+                // Input alanının değeri varsa, butonu aktif hale getir
+                if (inputField.value.trim() !== '' && inputField.value !== searchData) {
+                    submitButton.disabled = false;
+                } else {
+                    submitButton.disabled = true;
+                }
+            }
+
+            // Enter tuşuna basılınca formu gönder
+            document.getElementById('animeSearch').addEventListener('keyup', function(event) {
+                if (event.key === 'Enter') {
+                    searchAnimeButton();
+                    if (searchData.length <= 0) {
+                        document.getElementById('searchAnimeAllButton').disabled = true;
+                    }
+                }
+            });
         </script>
 
         <!--Ag-gird Komutları-->

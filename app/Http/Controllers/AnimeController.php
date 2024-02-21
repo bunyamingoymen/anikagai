@@ -222,11 +222,34 @@ class AnimeController extends Controller
     public function animeGetData(Request $request)
     {
         $skip = (($request->page - 1) * $this->showCount);
-        $animes = Anime::Where('deleted', 0)->skip($skip)->take($this->showCount)->get();
-        $page_count = ceil(Anime::Where('deleted', 0)->count() / $this->showCount);
+
+        $animesQuery = Anime::where('deleted', 0)
+            ->when($request->searchData, function ($query, $searchData) {
+                // Arama terimi için özel karakter dönüşümü
+                $shortName = preg_replace_callback('/[ğĞüÜşŞıİöÖçÇ\s]/u', function ($match) {
+                    return strtolower(preg_replace('/[\p{Mn}]/u', '', iconv('UTF-8', 'ASCII//TRANSLIT', $match[0])));
+                }, $searchData);
+
+                $searchQueryData = '%' . $searchData . '%';
+                $shortNameData = '%' . $shortName . '%';
+
+                return $query->where(function ($query) use ($searchQueryData, $shortNameData) {
+                    $query->where('name', 'LIKE', $searchQueryData)
+                        ->orWhere('description', 'LIKE', $searchQueryData)
+                        ->orWhere('main_category_name', 'LIKE', $searchQueryData)
+                        ->orWhere('short_name', 'LIKE', $shortNameData);
+                });
+            });
+
+        $animes = $animesQuery->skip($skip)->take($this->showCount)->get();
+
+        $page_count = ceil($animesQuery->count() / $this->showCount);
 
 
-        return ['animes' => $animes, 'page_count' => $page_count];
+        return [
+            'animes' => $animes,
+            'page_count' => $page_count
+        ];
     }
 
     public function animeGetSeason(Request $request)

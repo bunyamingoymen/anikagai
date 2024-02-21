@@ -241,7 +241,7 @@ class WebtoonEpisodeController extends Controller
             ->where("webtoon_episodes.deleted", 0)
             ->where("webtoons.deleted", 0)
             ->when($request->selectedWebtoonCode, function ($query, $selectedWebtoonCode) {
-                return $query->where('webtoons.code', 'LIKE', $selectedWebtoonCode);
+                return $query->where('webtoons.code', $selectedWebtoonCode);
             })
             ->when($request->searchData, function ($query, $searchData) {
                 return $query->where(function ($query) use ($searchData) {

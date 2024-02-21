@@ -66,11 +66,8 @@
 
         <!-- Sayfa Değiştirme ve Arama Komutları-->
         <script>
-            var is_select_webtoon = false;
             var selectedWebtoonCode = 0;
-            var search = -1;
             var searchData = "";
-            var changePagination = false;
 
             function changePage(page) {
                 var pageData = {
@@ -141,30 +138,23 @@
             //Webtoon arandığında otomatik getiren fonksiyon
             $('#selectWebtoon').on("select2:select", function(e) {
                 var data = e.params.data;
-                is_select_webtoon = true;
                 selectedWebtoonCode = parseInt(data.id)
                 document.getElementById('searchWebtoonAllButton').disabled = false;
-                changePagination = true;
                 search = 0;
                 changePage(1);
             });
 
             //arama yaptında çalışmasını sağlayan fonksiyon
             function searchWebtoonEpisodeButton() {
-                search = 0;
                 searchData = document.getElementById('webtoonSearch').value;
-                changePagination = true;
                 document.getElementById('webtoonSearchButton').disabled = true;
                 document.getElementById('searchWebtoonAllButton').disabled = false;
                 changePage(1);
             }
 
             function searchWebtoonEpisodeAllButton() {
-                search = -1;
                 searchData = "";
-                is_select_webtoon = false;
                 selectedWebtoonCode = 0;
-                changePagination = true;
                 document.getElementById('webtoonSearch').value = "";
                 $('#selectWebtoon').val(null).trigger('change');
                 document.getElementById('searchWebtoonAllButton').disabled = true;
@@ -216,7 +206,6 @@
                             return {
                                 searchData: params.term,
                                 page: 1,
-                                search: -99,
                                 // Diğer parametreleri burada ekleyebilirsiniz
                             };
                         },
@@ -287,7 +276,10 @@
             // Enter tuşuna basılınca formu gönder
             document.getElementById('webtoonSearch').addEventListener('keyup', function(event) {
                 if (event.key === 'Enter') {
-                    searchWebtoonButton();
+                    searchWebtoonEpisodeButton();
+                    if (searchData.length <= 0 && selectedWebtoonCode == 0) {
+                        document.getElementById('searchWebtoonAllButton').disabled = true;
+                    }
                 }
             });
         </script>

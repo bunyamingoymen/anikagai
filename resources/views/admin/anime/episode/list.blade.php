@@ -1,15 +1,50 @@
 @extends('admin.layouts.main')
 @section('admin_content')
     @if ($list == 1)
+        <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+        <style>
+            .select2-container .select2-selection--single {
+                height: 40px !important;
+            }
+
+            .select2-container--default .select2-selection--single .select2-selection__rendered {
+                line-height: 40px !important;
+            }
+        </style>
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <div class="col-lg-12" style="display: inline-block;">
-                            <a class="btn btn-primary mb-3" style="float: right;"
-                                href="{{ route('admin_anime_episodes_create_screen') }}">+ Yeni</a>
-                        </div>
 
+                        <div>
+                            @if ($create == 1)
+                                <a class="btn btn-primary mb-3" style="float: right;"
+                                    href="{{ route('admin_anime_episodes_create_screen') }}">+ Yeni</a>
+                            @endif
+                        </div>
+                        <div class="col-lg-10" style="">
+                            <div class="row">
+                                <div class="ml-2 mr-2">
+                                    <select name="selectAnime" id="selectAnime" style="width: 250px;">
+                                    </select>
+                                </div>
+                                <div class="ml-2 mr-2">
+                                    <input type="text" placeholder="Bölüm İsmi Ara...." name="animeSearch"
+                                        id="animeSearch" class="form-control" oninput="checkInput()">
+                                </div>
+                                <div class="ml-2 mr-2">
+                                    <button class="btn btn-success" id="animeSearchButton"
+                                        onclick="searchAnimeEpisodeButton()" disabled><i class="fas fa-search"></i>
+                                        Ara</button>
+                                </div>
+                                <div class="ml-2 mr-2">
+                                    <button class="btn btn-danger" id="searchAnimeAllButton"
+                                        onclick="searchAnimeEpisodeAllButton()" disabled> <i
+                                            class="fas fa-align-center"></i>
+                                        Tümünü Göster</button>
+                                </div>
+                            </div>
+                        </div>
                         <div class="ag-theme-quartz mt-2 mb-2" style="height: 500px;" id="myGrid"></div>
 
                         <div class="float-right">
@@ -23,10 +58,23 @@
 
         <script src="../../../admin/assets/libs/jquery/jquery.min.js"></script>
 
+        <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
         <script src="../../../admin/assets/js/pageTable.js"></script>
         <!-- Sayfa Değiştirme Scripti-->
         <script>
+            var selectedAnimeCode = 0;
+            var searchData = "";
+
             function changePage(page) {
+                var pageData = {
+                    page: page,
+                }
+                if (selectedAnimeCode != 0)
+                    pageData.selectedAnimeCode = selectedAnimeCode
+
+                if (searchData != "")
+                    pageData.searchData = searchData;
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
@@ -35,9 +83,7 @@
                 $.ajax({
                     type: 'POST',
                     url: '{{ route('admin_anime_episodes_get_data') }}',
-                    data: {
-                        page: page
-                    },
+                    data: pageData,
                     success: function(response) {
                         var id = page <= 1 ? 1 : (page - 1) * 10 + 1;
                         var anime_episode = response.anime_episode;
@@ -102,6 +148,125 @@
                     })
                 }
             @endif
+        </script>
+
+        <!--Select2 komutları-->
+        <script>
+            $(document).ready(function() {
+                $('#selectAnime').select2({
+                    ajax: {
+                        url: '{{ route('admin_anime_get_data') }}', // Laravel controller endpoint'iniz
+                        dataType: 'json',
+                        type: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': "{{ csrf_token() }}" // CSRF token'ı ekle
+                        },
+                        data: function(params) {
+                            return {
+                                searchData: params.term,
+                                page: 1,
+                                // Diğer parametreleri burada ekleyebilirsiniz
+                            };
+                        },
+                        processResults: function(data) {
+                            return {
+                                results: $.map(data.animes, function(anime) {
+                                    return {
+                                        id: anime.code,
+                                        text: anime.name,
+                                        image: anime.image
+                                        // Diğer alanları burada ekleyebilirsiniz
+                                    };
+                                }),
+                                pagination: {
+                                    more: data.pageCount > 1 // Eğer daha fazla sayfa varsa true döndürün
+                                }
+                            };
+                        },
+                        cache: true
+                    },
+                    placeholder: 'Anime Ara...',
+                    minimumInputLength: 3, // Minimum giriş uzunluğu
+                    escapeMarkup: function(markup) {
+                        return markup;
+                    }, // Markdown işlemlerini önlemek için
+                    templateResult: formatResult, // Sonuçları özelleştirmek için
+                    templateSelection: formatResult, // Seçili öğeyi özelleştirmek için
+                })
+
+                function formatResult(anime) {
+                    if (!anime.id) {
+                        return anime.text;
+                    }
+                    // Resmi sonuçlarda göster
+                    // Yan yana resim ve metni göster
+                    var imageMarkup =
+                        '<img class="rounded-circle header-profile-user" src="../../../../' +
+                        anime
+                        .image +
+                        '" alt="anime_image" />';
+                    var textMarkup = '<div class="select2-result-anime__title">' +
+                        anime.text + '</div>';
+
+                    var markup = '<div class="row">' +
+                        '<div class="ml-2 select2-result-anime__image-container">' + imageMarkup + '</div>' +
+                        '<div class="select2-result-anime__text-container">' + textMarkup + '</div>' +
+                        '</div>';
+
+                    return markup;
+                }
+            });
+        </script>
+
+        <!--Arama İşlemi-->
+        <script>
+            function checkInput() {
+                var inputField = document.getElementById('animeSearch');
+                var submitButton = document.getElementById('animeSearchButton');
+
+                // Input alanının değeri varsa, butonu aktif hale getir
+                if (inputField.value.trim() !== '' && inputField.value !== searchData) {
+                    submitButton.disabled = false;
+                } else {
+                    submitButton.disabled = true;
+                }
+            }
+
+            // Enter tuşuna basılınca formu gönder
+            document.getElementById('animeSearch').addEventListener('keyup', function(event) {
+                if (event.key === 'Enter') {
+                    searchAnimeEpisodeButton();
+                    if (searchData.length <= 0 && selectedAnimeCode == 0) {
+                        document.getElementById('searchAnimeAllButton').disabled = true;
+                    }
+                }
+            });
+
+            //Webtoon arandığında otomatik getiren fonksiyon
+            $('#selectAnime').on("select2:select", function(e) {
+                var data = e.params.data;
+                selectedAnimeCode = parseInt(data.id)
+                document.getElementById('searchAnimeAllButton').disabled = false;
+                changePage(1);
+            });
+
+            //arama yaptında çalışmasını sağlayan fonksiyon
+            function searchAnimeEpisodeButton() {
+                searchData = document.getElementById('animeSearch').value;
+                //selectedAnimeCode = document.getElementById('selectAnime').value;
+                document.getElementById('animeSearchButton').disabled = true;
+                document.getElementById('searchAnimeAllButton').disabled = false;
+                changePage(1);
+            }
+
+            function searchAnimeEpisodeAllButton() {
+                searchData = "";
+                selectedAnimeCode = 0;
+                document.getElementById('animeSearch').value = "";
+                $('#selectAnime').val(null).trigger('change');
+                document.getElementById('searchAnimeAllButton').disabled = true;
+                changePage(1);
+            }
         </script>
 
         <!--Ag-gird Komutları-->

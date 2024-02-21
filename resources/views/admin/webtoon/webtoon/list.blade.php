@@ -52,9 +52,7 @@
 
         <!-- Sayfa Değiştirme Scripti-->
         <script>
-            var search = -1; // -1: arama değil, 0: aramaya başlandı, 1: sonuçlar getirildi
             var searchData = "";
-            var changePagination = false;
 
             function changePage(page) {
                 var pageData = {
@@ -76,7 +74,6 @@
                     success: function(response) {
                         var webtoons = response.webtoons;
                         var page_count = response.page_count;
-                        console.log(JSON.stringify(response));
                         rowData = [];
                         var code = ``;
                         var id = page <= 1 ? 1 : (page - 1) * 10 + 1;
@@ -126,19 +123,16 @@
             }
 
             function searchWebtoonButton() {
-                search = 0;
                 searchData = document.getElementById('webtoonSearch').value;
-                changePagination = true;
                 document.getElementById('webtoonSearchButton').disabled = true;
                 document.getElementById('searchWebtoonAllButton').disabled = false;
                 changePage(1);
             }
 
             function searchWebtoonAllButton() {
-                search = -1;
                 searchData = "";
                 document.getElementById('webtoonSearch').value = "";
-                changePagination = true;
+                document.getElementById('webtoonSearchButton').disabled = true;
                 document.getElementById('searchWebtoonAllButton').disabled = true;
                 changePage(1);
             }
@@ -191,6 +185,9 @@
             document.getElementById('webtoonSearch').addEventListener('keyup', function(event) {
                 if (event.key === 'Enter') {
                     searchWebtoonButton();
+                    if (searchData.length <= 0) {
+                        document.getElementById('searchWebtoonAllButton').disabled = true;
+                    }
                 }
             });
         </script>
