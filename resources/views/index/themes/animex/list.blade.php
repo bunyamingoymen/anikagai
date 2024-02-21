@@ -35,6 +35,7 @@
                                         <select class="" id="categorySelected" onchange="changeCategory()">
                                             <option value="all">Hepsi</option>
                                             <option value="genel">Genel</option>
+                                            <option value="plusEighteen">+18</option>
                                             @foreach ($allCategory->skip(1) as $category)
                                                 <option value="{{ $category->short_name }}">{{ $category->name }}</option>
                                             @endforeach
@@ -63,7 +64,7 @@
                                 @foreach ($list as $item)
                                     <div class="col-lg-3 col-md-6 col-sm-6">
                                         @if ($item->plusEighteen == 1 && Auth::user())
-                                            @if (Cache::has('adult'))
+                                            @if (Cache::has('adult4') && Cache::get('adult4') == 1)
                                                 <div class="product__item">
                                                     @if ($path == 'animeler')
                                                         <a href="{{ url('anime/' . $item->short_name) }}">
@@ -130,7 +131,9 @@
                                                     </div>
                                                 </div>
                                             @endif
-                                        @elseif ($item->showStatus == 0 || (Auth::user() && ($item->showStatus == 1 || $item->showStatus == 2)))
+                                        @elseif (
+                                            ($item->showStatus == 0 || (Auth::user() && ($item->showStatus == 1 || $item->showStatus == 2))) &&
+                                                $item->plusEighteen == 0)
                                             <div class="product__item">
                                                 @if ($path == 'animeler')
                                                     <a href="{{ url('anime/' . $item->short_name) }}">
@@ -265,6 +268,7 @@
                 changeAdult();
             } else {
                 category = document.getElementById("categorySelected").value;
+                adult = "off";
                 changeURL();
             }
 
@@ -311,26 +315,5 @@
         }
     </script>
 
-    <script>
-        function adultOkay() {
-            Swal.fire({
-                title: "Uyarı",
-                text: "+18 İçerikleri Görmek İsityor Musunuz?",
-                color: "#fff",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: 'Onayla',
-                cancelButtonText: `Vazgeç`,
-            }).then((result) => {
-                if (result.value) {
-                    @php
-                        Cache::put('adult', 1, 7889231);
-                    @endphp
-                    setTimeout(() => {
-                        window.location.reload()
-                    }, 50);
-                }
-            });
-        }
-    </script>
+
 @endsection

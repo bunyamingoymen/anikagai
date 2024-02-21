@@ -8,6 +8,7 @@ use App\Http\Controllers\AuthClauseController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AuthGroupController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\Controller;
 use App\Http\Controllers\DataController;
 use App\Http\Controllers\FollowUserController;
 use App\Http\Controllers\IndexController;
@@ -405,3 +406,4 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::get('/feed', [RssController::class, "getRSS"])->name('getRSS');
+Route::get('/adultOn', [Controller::class, "adultOn"])->name('adultOn');

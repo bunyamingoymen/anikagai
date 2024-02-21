@@ -65,6 +65,24 @@
         @endif
     </script>
 
+    <script>
+        function adultOkay() {
+            Swal.fire({
+                title: "Uyarı",
+                text: "+18 İçerikleri Görmek İsityor Musunuz?",
+                color: "#fff",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: 'Onayla',
+                cancelButtonText: `Vazgeç`,
+            }).then((result) => {
+                if (result.value) {
+                    window.location.href = `{{ route('adultOn') }}`;
+                }
+            });
+        }
+    </script>
+
 </head>
 
 <body>
