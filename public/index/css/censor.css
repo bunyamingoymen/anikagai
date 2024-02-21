@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap");
 .censor {
     filter: blur(7px);
     text-align: center;
@@ -13,7 +13,7 @@
 }
 
 .censor:hover {
-    opacity: 0.8
+    opacity: 0.8;
 }
 
 .overlay-button {
@@ -29,9 +29,29 @@
     box-shadow: 0 2px 10px #0b0c2a;
     padding: 5px;
     /* Gölge efekti */
-    font-family: 'Roboto', sans-serif;
+    font-family: "Roboto", sans-serif;
+}
+
+.overlay-button-pink {
+    background-color: #e53637;
+    /* Yarı şeffaf siyah arkaplan */
+    color: white;
+    border-radius: 8px;
+    border: 2px solid rgba(255, 0, 0, 0);
+    /* Beyaz yarı şeffaf sınır (border) */
+    display: block;
+    transition: opacity 0.5s ease, transform 0.1s ease, border 0.1s ease;
+    /* Border için de animasyon eklendi */
+    box-shadow: 0 2px 10px #e53637;
+    padding: 5px;
+    /* Gölge efekti */
+    font-family: "Roboto", sans-serif;
 }
 
 .overlay-button:hover {
     border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.overlay-button-pink:hover {
+    border: 2px solid rgba(157, 0, 0, 0.5);
 }

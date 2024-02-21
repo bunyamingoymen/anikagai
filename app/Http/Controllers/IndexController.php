@@ -96,7 +96,7 @@ class IndexController extends Controller
 
             $query = Anime::where('deleted', 0)
                 ->whereIn('showStatus', $this->sendShowStatus(0))
-                ->where('plusEighteen', $adult)
+                //->where('plusEighteen', $adult)
                 ->orderBy($orderByType, $orderByList)
                 ->skip($skip)
                 ->take($listItems);
@@ -105,13 +105,13 @@ class IndexController extends Controller
                 $query->where('main_category', $selectedCategory);
                 $pageCountTest = Anime::where('deleted', 0)
                     ->whereIn('showStatus', $this->sendShowStatus(0))
-                    ->where('plusEighteen', $adult)
+                    //->where('plusEighteen', $adult)
                     ->where('main_category', $selectedCategory)
                     ->count();
             } else {
                 $pageCountTest = Anime::where('deleted', 0)
                     ->whereIn('showStatus', $this->sendShowStatus(0))
-                    ->where('plusEighteen', $adult)
+                    //->where('plusEighteen', $adult)
                     ->count();
             }
 
@@ -121,7 +121,7 @@ class IndexController extends Controller
 
             $query = Webtoon::where('deleted', 0)
                 ->whereIn('showStatus', $this->sendShowStatus(0))
-                ->where('plusEighteen', $adult)
+                //->where('plusEighteen', $adult)
                 ->orderBy($orderByType, $orderByList)
                 ->skip($skip)
                 ->take($listItems);
@@ -130,13 +130,13 @@ class IndexController extends Controller
                 $query->where('main_category', $selectedCategory);
                 $pageCountTest = Webtoon::where('deleted', 0)
                     ->whereIn('showStatus', $this->sendShowStatus(0))
-                    ->where('plusEighteen', $adult)
+                    //->where('plusEighteen', $adult)
                     ->where('main_category', $selectedCategory)
                     ->count();
             } else {
                 $pageCountTest = Webtoon::where('deleted', 0)
                     ->whereIn('showStatus', $this->sendShowStatus(0))
-                    ->where('plusEighteen', $adult)
+                    //->where('plusEighteen', $adult)
                     ->count();
             }
 
