@@ -227,63 +227,33 @@ class WebtoonController extends Controller
 
     public function webtoonGetData(Request $request)
     {
-        $search = $request->search; // -1: arama yok, 0: ilk defa arama, 1: aramanın devamı, -99: Sayfalama iptal bütün veriyi getir.
-        $searchData = $request->searchData ? $request->searchData : "0";
         $skip = (($request->page - 1) * $this->showCount);
-        $page_count = -1;
-        if ($search == "-1") {
-            $webtoons = Webtoon::Where('deleted', 0)->skip($skip)->take($this->showCount)->get();
-        } else if ($search == "-99") {
-            $shortName = preg_replace_callback('/[ğĞüÜşŞıİöÖçÇ\s]/u', function ($match) {
-                $normalizedChar = $match[0] === ' ' ? '-' : preg_replace('/[\p{Mn}]/u', '', iconv('UTF-8', 'ASCII//TRANSLIT', $match[0]));
-                return strtolower($normalizedChar);
-            }, $searchData);
 
-            $shortName = strtolower($shortName);
+        $webtoonsQuery = Webtoon::where('deleted', 0)
+            ->when($request->searchData, function ($query, $searchData) {
+                // Arama terimi için özel karakter dönüşümü
+                $shortName = preg_replace_callback('/[ğĞüÜşŞıİöÖçÇ\s]/u', function ($match) {
+                    return strtolower(preg_replace('/[\p{Mn}]/u', '', iconv('UTF-8', 'ASCII//TRANSLIT', $match[0])));
+                }, $searchData);
 
-            $webtoons = Webtoon::Where('deleted', 0)
-                ->where(function ($queryBuilder) use ($searchData, $shortName) {
-                    $queryBuilder->where('name', 'LIKE', '%' . $searchData . '%')
-                        ->where('short_name', 'LIKE', '%' . $shortName . '%')
-                        ->orWhere('description', 'LIKE', '%' . $searchData . '%')
-                        ->orWhere('main_category_name', 'LIKE', '%' . $searchData . '%');
-                })->get();
-        } else {
+                $searchQueryData = '%' . $searchData . '%';
+                $shortNameData = '%' . $shortName . '%';
 
-            $shortName = preg_replace_callback('/[ğĞüÜşŞıİöÖçÇ\s]/u', function ($match) {
-                $normalizedChar = $match[0] === ' ' ? '-' : preg_replace('/[\p{Mn}]/u', '', iconv('UTF-8', 'ASCII//TRANSLIT', $match[0]));
-                return strtolower($normalizedChar);
-            }, $searchData);
+                return $query->where(function ($query) use ($searchQueryData, $shortNameData) {
+                    $query->where('name', 'LIKE', $searchQueryData)
+                        ->orWhere('description', 'LIKE', $searchQueryData)
+                        ->orWhere('main_category_name', 'LIKE', $searchQueryData)
+                        ->orWhere('short_name', 'LIKE', $shortNameData);
+                });
+            });
 
-            $shortName = strtolower($shortName);
+        $webtoons = $webtoonsQuery->skip($skip)->take($this->showCount)->get();
 
-            $webtoons = Webtoon::Where('deleted', 0)
-                ->where(function ($queryBuilder) use ($searchData, $shortName) {
-                    $queryBuilder->where('name', 'LIKE', '%' . $searchData . '%')
-                        ->where('short_name', 'LIKE', '%' . $shortName . '%')
-                        ->orWhere('description', 'LIKE', '%' . $searchData . '%')
-                        ->orWhere('main_category_name', 'LIKE', '%' . $searchData . '%');
-                })
-                ->skip($skip)->take($this->showCount)->get();
-            if ($search == "0") {
-                $pageCountTest =
-                    Webtoon::Where('deleted', 0)
-                    ->where(function ($queryBuilder) use ($searchData, $shortName) {
-                        $queryBuilder->where('name', 'LIKE', '%' . $searchData . '%')
-                            ->where('short_name', 'LIKE', '%' . $shortName . '%')
-                            ->orWhere('description', 'LIKE', '%' . $searchData . '%')
-                            ->orWhere('main_category_name', 'LIKE', '%' . $searchData . '%');
-                    })->count();
-                if ($pageCountTest % $this->showCount == 0)
-                    $page_count = $pageCountTest / $this->showCount;
-                else
-                    $page_count = intval($pageCountTest / $this->showCount) + 1;
-            }
-        }
+        $page_count = ceil($webtoonsQuery->count() / $this->showCount);
 
         return [
             'webtoons' => $webtoons,
-            'page_count' => $page_count
+            'page_count' => $page_count,
         ];
     }
 

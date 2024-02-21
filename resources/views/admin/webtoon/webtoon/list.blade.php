@@ -57,19 +57,13 @@
             var changePagination = false;
 
             function changePage(page) {
-                if (search != -1 && searchData != "") {
-                    var pageData = {
-                        page: page,
-                        search: search,
-                        searchData: searchData,
-                    }
-                } else {
-                    search = -1
-                    var pageData = {
-                        page: page,
-                        search: search,
-                    }
+                var pageData = {
+                    page: page,
                 }
+                if (searchData != "") {
+                    pageData.searchData = searchData
+                }
+                console.log("PageData: " + JSON.stringify(pageData));
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
@@ -82,6 +76,7 @@
                     success: function(response) {
                         var webtoons = response.webtoons;
                         var page_count = response.page_count;
+                        console.log(JSON.stringify(response));
                         rowData = [];
                         var code = ``;
                         var id = page <= 1 ? 1 : (page - 1) * 10 + 1;
