@@ -73,6 +73,16 @@
             var changePagination = false;
 
             function changePage(page) {
+                var pageData = {
+                    page: page,
+                }
+                if (selectedWebtoonCode != 0)
+                    pageData.selectedWebtoonCode = selectedWebtoonCode
+
+                if (searchData != "")
+                    pageData.searchData = searchData;
+
+
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
@@ -81,17 +91,10 @@
                 $.ajax({
                     type: 'POST',
                     url: '{{ route('admin_webtoon_episodes_get_data') }}',
-                    data: {
-                        page: page,
-                        is_select_webtoon: is_select_webtoon,
-                        selectedWebtoonCode: selectedWebtoonCode,
-                        search: search,
-                        searchData: searchData
-                    },
+                    data: pageData,
                     success: function(response) {
-                        var webtoon_episode = response.webtoon_episode
-                        console.log('webtoon_episode: ' + response.webtoon_episode.length);
-                        var code = ``;
+                        var webtoon_episode = response.webtoon_episode;
+                        var page_count = response.page_count;
                         var id = page <= 1 ? 1 : (page - 1) * 10 + 1;
                         rowData = [];
                         for (let i = 0; i < webtoon_episode.length; i++) {
@@ -110,14 +113,8 @@
 
                         gridApi.setGridOption('rowData', rowData);
 
-                        if (search == 0) {
-                            pageCount = parseInt(response.pageCount);
-                        } else {
-                            pageCount = parseInt("{{ $pageCount }}");
-                        }
-
-                        newPageCount(pageCount, page);
-
+                        newPageCount(page_count, page);
+                        pageCount = page_count;
 
                         if (pageCount > 0) {
                             currentPaginationId = 'pagination' + currentPage;

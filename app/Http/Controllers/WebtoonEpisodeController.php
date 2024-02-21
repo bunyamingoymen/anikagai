@@ -233,38 +233,34 @@ class WebtoonEpisodeController extends Controller
 
     public function episodeGetData(Request $request)
     {
-        $search = $request->search; // -1: arama yok, 0: ilk defa arama, 1: aramanın devamı, -99: Sayfalama iptal bütün veriyi getir.
         $skip = (($request->page - 1) * $this->showCount);
         $searchData = $request->searchData;
-        $matchGroup = [];
-        if ($request->is_select_webtoon && $request->selectedWebtoonCode)
-            array_push($matchGroup, ["webtoons.code", $request->selectedWebtoonCode]);
+        $selectedWebtoonCode = $request->selectedWebtoonCode;
 
-        array_push($matchGroup, ["webtoon_episodes.deleted", 0]);
-        array_push($matchGroup, ["webtoons.deleted", 0]);
-
-        $allWebtoonEpisodes = $this->buildQuery($matchGroup, $searchData)->get();
-        $pageCount = ceil($this->buildQuery($matchGroup, $searchData)->count() / $this->showCount);
-
-        $webtoon_episode = $this->buildQuery($matchGroup, $searchData)->skip($skip)->take($this->showCount)->get();
-        //return $webtoon_episode;
-        return [
-            'webtoon_episode' => $webtoon_episode,
-            'pageCount' => $pageCount,
-        ];
-    }
-
-    private function buildQuery($matchGroup, $searchData = null)
-    {
-        return DB::table('webtoon_episodes')
-            ->where($matchGroup)
-            ->where(function ($queryBuilder) use ($searchData) {
-                $queryBuilder->where('webtoon_episodes.name', 'LIKE', '%' . $searchData . '%')
-                    ->orWhere('webtoon_episodes.description', 'LIKE', '%' . $searchData . '%')
-                    ->orWhere('webtoon_episodes.minute', 'LIKE', '%' . $searchData . '%');
+        $episodeQuery = DB::table('webtoon_episodes')
+            ->where("webtoon_episodes.deleted", 0)
+            ->where("webtoons.deleted", 0)
+            ->when($request->selectedWebtoonCode, function ($query, $selectedWebtoonCode) {
+                return $query->where('webtoons.code', 'LIKE', $selectedWebtoonCode);
+            })
+            ->when($request->searchData, function ($query, $searchData) {
+                return $query->where(function ($query) use ($searchData) {
+                    $query->where('webtoon_episodes.name', 'LIKE', '%' . $searchData . '%')
+                        ->orWhere('webtoon_episodes.description', 'LIKE', '%' . $searchData . '%')
+                        ->orWhere('webtoon_episodes.minute', 'LIKE', '%' . $searchData . '%');
+                });
             })
             ->join('webtoons', 'webtoons.code', '=', 'webtoon_episodes.webtoon_code')
             ->select('webtoon_episodes.*', 'webtoons.name as webtoon_name', 'webtoons.thumb_image as webtoon_image');
+
+        $webtoon_episode = $episodeQuery->skip($skip)->take($this->showCount)->get();
+        $page_count = ceil($episodeQuery->count() / $this->showCount);
+
+        //return $webtoon_episode;
+        return [
+            'webtoon_episode' => $webtoon_episode,
+            'page_count' => $page_count,
+        ];
     }
 
     function isFileNameNumeric($filename)
