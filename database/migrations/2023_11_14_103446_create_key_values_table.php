@@ -16,8 +16,8 @@ return new class extends Migration
             $table->unsignedBigInteger('code');
             $table->string('key');
             $table->longText('value');
-            $table->string('optional')->nullable();
-            $table->string('optional_2')->nullable();
+            $table->longText('optional')->nullable();
+            $table->longText('optional_2')->nullable();
             $table->unsignedBigInteger('create_user_code')->default(1);
             $table->unsignedBigInteger('update_user_code')->nullable();
             $table->tinyInteger('deleted')->default(0); // 0: silinmemiş, aktif, görünür. 1: silinmiş, pasif, görünmez

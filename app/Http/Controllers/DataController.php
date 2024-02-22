@@ -20,11 +20,12 @@ class DataController extends Controller
         $webtoonActive = KeyValue::Where('key', 'webtoon_active')->first();
 
         $slider_images = KeyValue::Where('deleted', 0)->Where('key', 'slider_image')->get();
+        $slider_images_alt = KeyValue::Where('deleted', 0)->Where('key', 'slider_image_alt')->get();
 
         $listCount = ThemeSetting::Where('theme_code', $selected_theme->value)->Where('setting_name', 'listCount')->first();
         $sliderShow = ThemeSetting::Where('theme_code', $selected_theme->value)->Where('setting_name', 'showSlider')->first();
 
-        return view('admin.data.home', ['selected_theme' => $selected_theme, 'themes' => $themes, 'animeActive' => $animeActive, 'webtoonActive' => $webtoonActive, 'listCount' => $listCount, 'sliderShow' => $sliderShow, 'slider_images' => $slider_images]);
+        return view('admin.data.home', ['selected_theme' => $selected_theme, 'themes' => $themes, 'animeActive' => $animeActive, 'webtoonActive' => $webtoonActive, 'listCount' => $listCount, 'sliderShow' => $sliderShow, 'slider_images' => $slider_images, 'slider_images_alt' => $slider_images_alt]);
     }
 
     public function homeChange(Request $request)
@@ -100,12 +101,25 @@ class DataController extends Controller
 
     public function changeSliderImages(Request $request)
     {
-        $slider = KeyValue::Where('key', 'slider_image',)->Where('code', $request->code)->first();
+        $slider = KeyValue::Where('key', 'slider_image')->Where('code', $request->code)->first();
 
         $slider->value = $request->value;
         $slider->optional_2 = $request->optional_2;
         $slider->update_user_code = Auth::guard('admin')->user()->code;
         $slider->save();
+
+        $slider_alt = KeyValue::Where('key', 'slider_image_alt')->Where('value', $slider->code)->first();
+
+        if (!$slider_alt) {
+            $slider_alt = new KeyValue();
+            $slider_alt->code = KeyValue::max('code') + 1;
+            $slider_alt->key = 'slider_image_alt';
+            $slider_alt->value = $slider->code;
+        }
+
+        $slider_alt->optional = $request->optional_3;
+        $slider_alt->optional_2 = $request->optional_4;
+        $slider_alt->save();
 
         return redirect()->route('admin_data_home_list')->with("success", Config::get('success.success_codes.10120512'));
     }
@@ -116,6 +130,13 @@ class DataController extends Controller
         $slider->deleted = 1;
         $slider->update_user_code = Auth::guard('admin')->user()->code;
         $slider->save();
+
+        $slider_alt = KeyValue::Where('key', 'slider_image_alt')->Where('value', $slider->code)->first();
+        if ($slider_alt) {
+            $slider_alt->deleted = 1;
+            $slider_alt->update_user_code = Auth::guard('admin')->user()->code;
+            $slider_alt->save();
+        }
 
         return redirect()->route('admin_data_home_list')->with("success", Config::get('success.success_codes.10120512'));
     }
@@ -140,6 +161,15 @@ class DataController extends Controller
         $slider->optional_2 = $request->optional_2;
         $slider->create_user_code = Auth::guard('admin')->user()->code;
         $slider->save();
+
+        $slider_alt = new KeyValue();
+        $slider_alt->code = KeyValue::max('code') + 1;
+        $slider_alt->key = 'slider_image_alt';
+        $slider_alt->value = $slider->code;
+
+        $slider_alt->optional = $request->optional_3;
+        $slider_alt->optional_2 = $request->optional_4;
+        $slider_alt->save();
 
         return redirect()->route('admin_data_home_list')->with("success", Config::get('success.success_codes.10120512'));
     }

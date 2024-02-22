@@ -132,20 +132,39 @@
                                                         <img src="../../../{{ $item->optional }}" alt=""
                                                             style="max-height: 155px;">
                                                     </div>
-                                                    <div class="col-lg-3">
-                                                        <label for="">Yazı:</label>
-                                                        <input type="text" class="form-control" name="value"
-                                                            id="value" value="{{ $item->value }}">
+                                                    <div class="col-lg-8 ">
+                                                        <div class="row col-lg-12">
+                                                            <div class="col-lg-6">
+                                                                <label for="">Yazı:</label>
+                                                                <input type="text" class="form-control" name="value"
+                                                                    id="value" value="{{ $item->value }}">
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <label for="">Link:</label>
+                                                                <input type="text" class="form-control"
+                                                                    name="optional_2" id="optional_2"
+                                                                    value="{{ $item->optional_2 }}">
+                                                            </div>
+                                                        </div>
+                                                        <div class="row col-lg-12 mt-2">
+                                                            <div class="col-lg-6">
+                                                                <label for="">Etiket:</label>
+                                                                <input type="text" class="form-control"
+                                                                    name="optional_3" id="optional_3"
+                                                                    value="{{ $slider_images_alt->Where('value', $item->code)->first()->optional ?? '' }}">
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <label for="">Açıklama:</label>
+                                                                <textarea name="optional_4" id="optional_4" class="form-control" cols="10" rows="3">{{ $slider_images_alt->Where('value', $item->code)->first()->optional_2 ?? '' }}</textarea>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-lg-3">
-                                                        <label for="">Link:</label>
-                                                        <input type="text" class="form-control" name="optional_2"
-                                                            id="optional_2" value="{{ $item->optional_2 }}">
-                                                    </div>
-                                                    <div class="col-lg-2 mt-3">
-                                                        <button class="btn btn-primary" type="submit">Değiştir</button>
-                                                        <button class="btn btn-danger" type="button"
+                                                    <div class="col-lg-12 mt-3">
+                                                        <button class="btn btn-danger float-right ml-2 mr-2"
+                                                            type="button"
                                                             onclick="deleteSlider('{{ $item->code }}')">Sil</button>
+                                                        <button class="btn btn-primary float-right ml-2 mr-2"
+                                                            type="submit">Değiştir</button>
                                                     </div>
                                                 </div>
                                             </form>
@@ -191,27 +210,45 @@
 
             function addSlider() {
                 count++;
-                var html = `<div class="mt-5" id="newSlider` + count + `">
-            <form action="{{ route('admin_data_add_slider_images') }}" id="adminDataAddSliderImagesForm` + count + `" method="POST" enctype="multipart/form-data">
+                var html = `<div class="mt-5" id="newSlider${count}">
+            <form action="{{ route('admin_data_add_slider_images') }}" id="adminDataAddSliderImagesForm${count}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="">
-                        <p>` + count + ` - </p>
+                        <p>${count} - </p>
                     </div>
                     <div class="col-lg-3">
-                        <input type="file" name="slider_image" id="add_slider_slider_image` + count + `" class="form-control">
+                        <input type="file" name="slider_image" id="add_slider_slider_image${count}" class="form-control">
                     </div>
-                    <div class="col-lg-3">
-                        <label for="">Yazı:</label>
-                        <input type="text" class="form-control" name="value" id="add_slider_value` + count + `" value="">
+                    <div class="col-lg-8 ">
+                        <div class="row col-lg-12">
+                            <div class="col-lg-6">
+                                <label for="">Yazı:</label>
+                                <input type="text" class="form-control" name="value" id="add_slider_value${count}" value="">
+                            </div>
+                            <div class="col-lg-6">
+                                <label for="">Link:</label>
+                                <input type="text" class="form-control" name="optional_2" id="add_slider_optional_2${count}" value="" >
+                            </div>
+                        </div>
+                        <div class="row col-lg-12 mt-2">
+                            <div class="col-lg-6">
+                                <label for="">Etiket:</label>
+                                <input type="text" class="form-control"
+                                    name="optional_3" id="add_slider_optional_3${count}"
+                                    value="">
+                            </div>
+                            <div class="col-lg-6">
+                                <label for="">Açıklama:</label>
+                                <textarea name="optional_4" id="add_slider_optional_4${count}" class="form-control" cols="10" rows="3"></textarea>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-lg-3">
-                        <label for="">Link:</label>
-                        <input type="text" class="form-control" name="optional_2" id="add_slider_optional_2` + count + `" value="" >
-                    </div>
-                    <div class="col-lg-2 mt-3">
-                        <button class="btn btn-primary" type="button" onclick="addSliderFormSubmit(` + count + `)">Kaydet</button>
-                        <button class="btn btn-danger" type="button" onclick="deleteHTML('newSlider` + count + `')">Sil</button>
+                    <div class="col-lg-12 mt-3">
+                        <button class="btn btn-danger float-right ml-2 mr-2"
+                            type="button" onclick="deleteHTML('newSlider${count}')">Sil</button>
+                        <button class="btn btn-primary float-right ml-2 mr-2"
+                            type="button" onclick="addSliderFormSubmit(${count})">Kaydet</button>
                     </div>
                 </div>
             </form>

@@ -31,7 +31,17 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="hero__text">
+                                        @if ($slider_image_alt->Where('value', $item->code)->first())
+                                            <div class="label">
+                                                {{ $slider_image_alt->Where('value', $item->code)->first()->optional }}
+                                            </div>
+                                        @endif
                                         <h2>{{ $item->value }}</h2>
+                                        @if ($slider_image_alt->Where('value', $item->code)->first())
+                                            <p>
+                                                {{ $slider_image_alt->Where('value', $item->code)->first()->optional_2 }}
+                                            </p>
+                                        @endif
                                         <a href="{{ $item->optional_2 ?? '' }}"><span>Seriye Git</span> <i
                                                 class="fa fa-angle-right"></i></a>
                                     </div>

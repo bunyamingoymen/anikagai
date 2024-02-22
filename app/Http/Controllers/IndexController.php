@@ -43,6 +43,7 @@ class IndexController extends Controller
             'animes' => $this->getContent(Anime::class, $this->sendShowStatus(0), $indexShowContent, 'created_at', 'DESC'),
             'webtoons' => $this->getContent(Webtoon::class, $this->sendShowStatus(0), $indexShowContent, 'created_at', 'DESC'),
             'slider_image' => KeyValue::where('key', 'slider_image')->where('deleted', 0)->get(),
+            'slider_image_alt' => KeyValue::where('key', 'slider_image_alt')->where('deleted', 0)->get(),
             'slider_show' => ThemeSetting::where('theme_code', KeyValue::Where('key', 'selected_theme')->first()->value)->where('setting_name', 'showSlider')->first()->setting_value,
         ];
 
