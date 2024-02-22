@@ -28,20 +28,10 @@
                                             <input type="text" name="key" id="key" hidden
                                                 value="{{ $item->key }}">
                                             <div class="row m-3">
-                                                <div class="col-lg-3">
-                                                    <label for="menu">Name: </label>
+                                                <div class="col-lg-8">
+                                                    <label for="menu">Meta: </label>
                                                     <input type="text" class="form-control" name="name" id="name"
                                                         value="{{ $item->value }}">
-                                                </div>
-                                                <div class="col-lg-3">
-                                                    <label for="url">Http-equiv: </label>
-                                                    <input type="text" class="form-control" name="equiv" id="equiv"
-                                                        value="{{ $item->optional_2 }}">
-                                                </div>
-                                                <div class="col-lg-3">
-                                                    <label for="url">Content: </label>
-                                                    <input type="text" class="form-control" name="content" id="content"
-                                                        value="{{ $item->optional }}">
                                                 </div>
                                                 <div class="mt-3">
                                                     <button class="btn btn-primary" type="submit">Değiştir</button>
@@ -79,17 +69,9 @@
                 @csrf
                 <input type="text" name="key" id="key" hidden value="` + meta_key + `">
                 <div class="row m-3">
-                    <div class="col-lg-3">
-                        <label for="menu">Name: </label>
+                    <div class="col-lg-8">
+                        <label for="menu">Meta: </label>
                         <input type="text" class="form-control" name="name" id="name">
-                    </div>
-                    <div class="col-lg-3">
-                        <label for="url">Http-equiv: </label>
-                        <input type="text" class="form-control" name="equiv" id="equiv">
-                    </div>
-                    <div class="col-lg-3">
-                        <label for="url">Content: </label>
-                        <input type="text" class="form-control" name="content" id="content">
                     </div>
                     <div class="mt-3">
                         <button class="btn btn-primary" type="submit">Değişikliği Kaydet</button>

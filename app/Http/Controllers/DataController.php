@@ -328,8 +328,6 @@ class DataController extends Controller
 
         $meta->key = $request->key;
         $meta->value = $request->name ? $request->name : " ";
-        $meta->optional = $request->content;
-        $meta->optional_2 = $request->equiv;
 
         $meta->save();
 
@@ -348,8 +346,6 @@ class DataController extends Controller
             return redirect()->back()->with("error", Config::get('error.error_codes.0120112'));
 
         $meta->value = $request->name ? $request->name : " ";
-        $meta->optional = $request->content;
-        $meta->optional_2 = $request->equiv;
         $meta->save();
 
         if ($meta->key == "admin_meta") {

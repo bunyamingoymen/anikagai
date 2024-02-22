@@ -3,17 +3,12 @@
 
 <head>
     <!--Meta Etiketleri-->
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @foreach ($data['admin_meta'] as $item)
-        <meta http-equiv="{{ $item->optional_2 ?? '' }}" name="{{ $item->value }}" content="{{ $item->optional ?? '' }}">
+        {!! $item->value !!}
     @endforeach
     @foreach ($data['meta'] as $item)
-        <meta http-equiv="{{ $item->optional_2 ?? '' }}" name="{{ $item->value }}" content="{{ $item->optional ?? '' }}">
+        {!! $item->value !!}
     @endforeach
-
-    <meta name="google-site-verification" content="HWzsr_y9rGmKvzuWoYQSlqKZVU_AonpFBQLIdP9-ev4" />
-
     <!--Başlık-->
     <title>{{ $data['index_title']->value }}</title>
 
