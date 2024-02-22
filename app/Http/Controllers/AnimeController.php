@@ -266,10 +266,10 @@ class AnimeController extends Controller
                         ->orWhere('short_name', 'LIKE', $shortNameData);
                 });
             });
-
+        $page_count = ceil($animesQuery->count() / $this->showCount);
         $animes = $animesQuery->skip($skip)->take($this->showCount)->get();
 
-        $page_count = ceil($animesQuery->count() / $this->showCount);
+
 
 
         return [

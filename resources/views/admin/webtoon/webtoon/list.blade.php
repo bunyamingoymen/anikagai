@@ -61,7 +61,6 @@
                 if (searchData != "") {
                     pageData.searchData = searchData
                 }
-                console.log("PageData: " + JSON.stringify(pageData));
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
@@ -74,6 +73,7 @@
                     success: function(response) {
                         var webtoons = response.webtoons;
                         var page_count = response.page_count;
+                        console.log(JSON.stringify(response.count));
                         rowData = [];
                         var code = ``;
                         var id = page <= 1 ? 1 : (page - 1) * 10 + 1;

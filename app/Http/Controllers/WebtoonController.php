@@ -266,14 +266,15 @@ class WebtoonController extends Controller
                         ->orWhere('short_name', 'LIKE', $shortNameData);
                 });
             });
-
+        $page_count = ceil($webtoonsQuery->count() / $this->showCount);
         $webtoons = $webtoonsQuery->skip($skip)->take($this->showCount)->get();
 
-        $page_count = ceil($webtoonsQuery->count() / $this->showCount);
+
 
         return [
             'webtoons' => $webtoons,
             'page_count' => $page_count,
+            'count' => $webtoonsQuery
         ];
     }
 

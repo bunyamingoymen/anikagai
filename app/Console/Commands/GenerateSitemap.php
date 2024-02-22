@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Anime;
+use App\Models\KeyValue;
 use Illuminate\Console\Command;
 use Spatie\Sitemap\Sitemap;
 use Spatie\Sitemap\Tags\Url;
@@ -46,5 +47,17 @@ class GenerateSitemap extends Command
         }
 
         $sitemap->writeToFile(public_path('sitemap.xml'));
+
+        $keyValue = KeyValue::Where('key', 'test_sitemap')->first();
+        if (!$keyValue) {
+            $keyValue = new KeyValue();
+            $keyValue->code = KeyValue::max('code') + 1;
+            $keyValue->key = "test_sitemap";
+            $keyValue->value = 1;
+            $keyValue->save();
+        } else {
+            $keyValue->value = $keyValue->value + 1;
+            $keyValue->save();
+        }
     }
 }

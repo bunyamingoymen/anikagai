@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
 use ZipArchive;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\File;
 
 class WebtoonEpisodeController extends Controller
 {
@@ -126,7 +127,7 @@ class WebtoonEpisodeController extends Controller
                         if ($extension != "zip") {
                             if (!$this->isFileNameNumeric($filename)) {
                                 // Dosya adı sadece sayılardan oluşmuyorsa, klasörü temizle ve hata döndür
-                                Storage::deleteDirectory($publicPath);
+                                File::deleteDirectory(public_path('files/webtoons/webtoonsEpisodes/' . $request->webtoon_code . '/' . $webtoon_episode->season_short . '/' . $webtoon_episode->episode_short));
                                 WebtoonFile::Where('webtoon_episode_code', $webtoon_episode->code)->delete();
                                 $webtoon_episode->delete();
 
