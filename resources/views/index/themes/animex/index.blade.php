@@ -18,6 +18,8 @@
         }
     </style>
 
+    @include('index.themes.animex.layouts.preloader')
+
     <!-- Hero Section Begin -->
     @if ($sliderShow->setting_value == '1')
         <section class="hero">
@@ -31,13 +33,17 @@
                             <div class="row">
                                 <div class="col-lg-6">
                                     <div class="hero__text">
-                                        @if ($slider_image_alt->Where('value', $item->code)->first())
+                                        @if (
+                                            $slider_image_alt->Where('value', $item->code)->first() &&
+                                                $slider_image_alt->Where('value', $item->code)->first()->optional != '')
                                             <div class="label">
                                                 {{ $slider_image_alt->Where('value', $item->code)->first()->optional }}
                                             </div>
                                         @endif
                                         <h2>{{ $item->value }}</h2>
-                                        @if ($slider_image_alt->Where('value', $item->code)->first())
+                                        @if (
+                                            $slider_image_alt->Where('value', $item->code)->first() &&
+                                                $slider_image_alt->Where('value', $item->code)->first()->optional_2 != '')
                                             <p>
                                                 {{ $slider_image_alt->Where('value', $item->code)->first()->optional_2 }}
                                             </p>

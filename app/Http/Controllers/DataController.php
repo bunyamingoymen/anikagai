@@ -8,6 +8,7 @@ use App\Models\ThemeSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
+use Spatie\Glide\GlideImage;
 
 class DataController extends Controller
 {
@@ -151,10 +152,18 @@ class DataController extends Controller
         if ($request->hasFile('slider_image')) {
             $image = $request->file('slider_image');
             $path = 'files/sliders/images/';
-            $name = "gallery_0" . count(KeyValue::Where('key', 'slider_image')->get()) . "." . $image->getClientOriginalExtension();
+            $name = "gallery_" . $slider->code . "." . $image->getClientOriginalExtension();
             $image->move(public_path($path), $name);
 
-            $slider->optional = $path . $name;
+            // Thumb oluştur
+            $thumbPath = public_path('files/sliders/images/');
+            $thumbName = "gallery_" . $slider->code . "_thumbnail." . $image->getClientOriginalExtension();
+
+            GlideImage::create($path . '/' . $name)
+                ->modify(['w' => 1172, 'h' => 564, 'fit' => 'crop'])
+                ->save($thumbPath . '/' . $thumbName);
+
+            $slider->optional = "files/sliders/images/" . $thumbName;
         }
 
         $slider->value = $request->value;

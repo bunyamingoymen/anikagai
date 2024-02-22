@@ -130,7 +130,7 @@
                                                     </div>
                                                     <div class="col-lg-3">
                                                         <img src="../../../{{ $item->optional }}" alt=""
-                                                            style="max-height: 155px;">
+                                                            style="max-height: 125px;">
                                                     </div>
                                                     <div class="col-lg-8 ">
                                                         <div class="row col-lg-12">
