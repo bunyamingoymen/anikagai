@@ -59,6 +59,14 @@ class WebtoonController extends Controller
                 ->save($thumbPath . '/' . $thumbName);
 
             $webtoon->thumb_image = "files/webtoons/webtoonImages/thumbnails/" . $thumbName;
+
+            $thumbName2 = $webtoon->code . "_thumbnail_2." . $file->getClientOriginalExtension();
+
+            GlideImage::create($path . '/' . $name)
+                ->modify(['w' => 135, 'h' => 195, 'fit' => 'crop'])
+                ->save($thumbPath . '/' . $thumbName2);
+
+            $webtoon->thumb_image_2 = "files/webtoons/webtoonImages/thumbnails/" . $thumbName2;
         } else {
             $webtoon->image = "";
             $webtoon->thumb_image = "";

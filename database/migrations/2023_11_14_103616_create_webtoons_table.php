@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('short_name');
             $table->string('image');
             $table->string('thumb_image')->nullable();
+            $table->string('thumb_image_2')->nullable();
             $table->longText('description')->nullable();
             $table->integer('episode_count')->default(0);
             $table->integer('season_count')->default(0);
