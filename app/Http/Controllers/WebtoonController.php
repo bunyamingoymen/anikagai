@@ -16,13 +16,7 @@ class WebtoonController extends Controller
 {
     public function webtoonList()
     {
-        $currentCount = 1;
-        $pageCountTest = Webtoon::Where('deleted', 0)->count();
-        if ($pageCountTest % $this->showCount == 0)
-            $pageCount = $pageCountTest / $this->showCount;
-        else
-            $pageCount = intval($pageCountTest / $this->showCount) + 1;
-        return view("admin.webtoon.webtoon.list", ['pageCount' => $pageCount, 'currentCount' => $currentCount]);
+        return view("admin.webtoon.webtoon.list");
     }
 
     public function webtoonCreateScreen()
@@ -162,6 +156,24 @@ class WebtoonController extends Controller
             $name = $webtoon->code . "" . $file->getClientOriginalExtension();
             $file->move($path, $name);
             $webtoon->image = "files/webtoons/webtoonImages/" . $name;
+
+            // Thumb oluştur
+            $thumbPath = public_path('files/webtoons/webtoonImages/thumbnails');
+            $thumbName = $webtoon->code . "_thumbnail." . $file->getClientOriginalExtension();
+
+            GlideImage::create($path . '/' . $name)
+                ->modify(['w' => 345, 'h' => 487, 'fit' => 'crop'])
+                ->save($thumbPath . '/' . $thumbName);
+
+            $webtoon->thumb_image = "files/webtoons/webtoonImages/thumbnails/" . $thumbName;
+
+            $thumbName2 = $webtoon->code . "_thumbnail_2." . $file->getClientOriginalExtension();
+
+            GlideImage::create($path . '/' . $name)
+                ->modify(['w' => 135, 'h' => 195, 'fit' => 'crop'])
+                ->save($thumbPath . '/' . $thumbName2);
+
+            $webtoon->thumb_image_2 = "files/webtoons/webtoonImages/thumbnails/" . $thumbName2;
         }
 
         $webtoon->description = $request->description;

@@ -171,7 +171,7 @@ class AnimeEpisodecontroller extends Controller
                 });
             })
             ->join('animes', 'animes.code', '=', 'anime_episodes.anime_code')
-            ->select('anime_episodes.*', 'animes.name as anime_name', 'animes.image as anime_image');
+            ->select('anime_episodes.*', 'animes.name as anime_name', 'animes.thumb_image_2 as anime_image');
 
         $anime_episode = $episodeQuery->skip($skip)->take($this->showCount)->get();
         $page_count = ceil($episodeQuery->count() / $this->showCount);

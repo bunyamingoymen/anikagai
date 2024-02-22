@@ -16,18 +16,7 @@ class WebtoonEpisodeController extends Controller
 {
     public function episodeList()
     {
-        $currentCount = 1;
-        $pageCountTest =
-            DB::table('webtoon_episodes')
-            ->Where('webtoon_episodes.deleted', 0)
-            ->where('webtoons.deleted', 0)
-            ->join('webtoons', 'webtoons.code', '=', 'webtoon_episodes.webtoon_code')
-            ->count();
-        if ($pageCountTest % $this->showCount == 0)
-            $pageCount = $pageCountTest / $this->showCount;
-        else
-            $pageCount = intval($pageCountTest / $this->showCount) + 1;
-        return view("admin.webtoon.episode.list", ['pageCount' => $pageCount, 'currentCount' => $currentCount]);
+        return view("admin.webtoon.episode.list");
     }
 
     public function episodeCreateScreen()
@@ -251,7 +240,7 @@ class WebtoonEpisodeController extends Controller
                 });
             })
             ->join('webtoons', 'webtoons.code', '=', 'webtoon_episodes.webtoon_code')
-            ->select('webtoon_episodes.*', 'webtoons.name as webtoon_name', 'webtoons.thumb_image as webtoon_image');
+            ->select('webtoon_episodes.*', 'webtoons.name as webtoon_name', 'webtoons.thumb_image_2 as webtoon_image');
 
         $webtoon_episode = $episodeQuery->skip($skip)->take($this->showCount)->get();
         $page_count = ceil($episodeQuery->count() / $this->showCount);

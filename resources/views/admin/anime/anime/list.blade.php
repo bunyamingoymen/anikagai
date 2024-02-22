@@ -74,7 +74,7 @@
                             var rowItem = {
                                 id: id++,
                                 code: sendData(animes[i].code),
-                                image: sendData(animes[i].image),
+                                image: sendData(animes[i].thumb_image_2),
                                 name: sendData(animes[i].name),
                                 plusEighteen: sendData(animes[i].plusEighteen),
                                 showStatus: sendData(animes[i].showStatus),

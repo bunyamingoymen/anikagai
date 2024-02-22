@@ -154,6 +154,24 @@ class AnimeController extends Controller
             $name = $anime->code . "" . $file->getClientOriginalExtension();
             $file->move($path, $name);
             $anime->image = "files/animes/animesImages/" . $name;
+
+            // Thumb oluştur
+            $thumbPath = public_path('files/animes/animesImages/thumbnails');
+            $thumbName = $anime->code . "_thumbnail." . $file->getClientOriginalExtension();
+
+            GlideImage::create($path . '/' . $name)
+                ->modify(['w' => 345, 'h' => 487, 'fit' => 'crop'])
+                ->save($thumbPath . '/' . $thumbName);
+
+            $anime->thumb_image = "files/animes/animesImages/thumbnails/" . $thumbName;
+
+            $thumbName2 = $anime->code . "_thumbnail_2." . $file->getClientOriginalExtension();
+
+            GlideImage::create($path . '/' . $name)
+                ->modify(['w' => 135, 'h' => 195, 'fit' => 'crop'])
+                ->save($thumbPath . '/' . $thumbName2);
+
+            $anime->thumb_image_2 = "files/animes/animesImages/thumbnails/" . $thumbName2;
         }
 
         $anime->description = $request->description;

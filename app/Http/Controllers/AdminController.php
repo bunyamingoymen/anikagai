@@ -57,14 +57,7 @@ class AdminController extends Controller
 
     public function contactScreen()
     {
-        $contacts = Contact::Where('deleted', 0)->take(10)->get();
-        $currentCount = 1;
-        $pageCountTest = Contact::Where('deleted', 0)->count();
-        if ($pageCountTest % $this->showCount == 0)
-            $pageCount = $pageCountTest / $this->showCount;
-        else
-            $pageCount = intval($pageCountTest / $this->showCount) + 1;
-        return view("admin.contact.contact", ["contacts" => $contacts, 'pageCount' => $pageCount, 'currentCount' => $currentCount]);
+        return view("admin.contact.contact");
     }
 
     public function contactAnswer(Request $request)
@@ -91,14 +84,7 @@ class AdminController extends Controller
 
     public function commentScreen()
     {
-        $comments = Comment::Where('deleted', 0)->take(10)->get();
-        $currentCount = 1;
-        $pageCountTest = Comment::Where('deleted', 0)->count();
-        if ($pageCountTest % $this->showCount == 0)
-            $pageCount = $pageCountTest / $this->showCount;
-        else
-            $pageCount = intval($pageCountTest / $this->showCount) + 1;
-        return view("admin.comment.comment", ["comments" => $comments, 'pageCount' => $pageCount, 'currentCount' => $currentCount]);
+        return view("admin.comment.comment");
     }
 
     public function commentDelete(Request $request)

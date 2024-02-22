@@ -215,7 +215,7 @@
                                     return {
                                         id: webtoon.code,
                                         text: webtoon.name,
-                                        image: webtoon.image
+                                        image: webtoon.thumb_image_2
                                         // Diğer alanları burada ekleyebilirsiniz
                                     };
                                 }),

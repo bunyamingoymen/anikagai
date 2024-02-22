@@ -279,14 +279,11 @@ class KeyValueSeeder extends Seeder
 
         //Meta Etiketleri--------------------------------------------------------
 
-        //Description
         DB::table('key_values')->insert([
             [
                 'code' => KeyValue::max('code') + 1,
                 'key'  => 'meta',
-                'value'  => 'description', //name
-                'optional'  => 'Webtoon okuyabilir ve Anime izleyebilirsiniz', //content
-                'optional_2'  => '', //http-equiv
+                'value'  => '<meta charset="UTF-8">', //meta
                 'create_user_code' => 1,
                 'deleted' => 0,
             ]
@@ -297,9 +294,7 @@ class KeyValueSeeder extends Seeder
             [
                 'code' => KeyValue::max('code') + 1,
                 'key'  => 'meta',
-                'value'  => ' ',
-                'optional'  => 'tr',
-                'optional_2'  => 'language',
+                'value'  => '<meta name="viewport" content="width=device-width, initial-scale=1.0">',
                 'create_user_code' => 1,
                 'deleted' => 0,
             ]
@@ -310,22 +305,49 @@ class KeyValueSeeder extends Seeder
             [
                 'code' => KeyValue::max('code') + 1,
                 'key'  => 'meta',
-                'value'  => ' ',
-                'optional'  => 'ie=edge',
-                'optional_2'  => 'x-ua-compatible',
+                'value'  => '<meta name="description" content="Webtoon okuyabilir ve Anime izleyebilirsiniz">',
                 'create_user_code' => 1,
                 'deleted' => 0,
             ]
         ]);
+
+        DB::table('key_values')->insert([
+            [
+                'code' => KeyValue::max('code') + 1,
+                'key'  => 'meta',
+                'value'  => '<meta http-equiv="language"  content="tr">',
+                'create_user_code' => 1,
+                'deleted' => 0,
+            ]
+        ]);
+
+        DB::table('key_values')->insert([
+            [
+                'code' => KeyValue::max('code') + 1,
+                'key'  => 'meta',
+                'value'  => '<meta http-equiv="x-ua-compatible" content="ie=edge">',
+                'create_user_code' => 1,
+                'deleted' => 0,
+            ]
+        ]);
+
+        DB::table('key_values')->insert([
+            [
+                'code' => KeyValue::max('code') + 1,
+                'key'  => 'meta',
+                'value'  => '<meta name="google-site-verification" content="HWzsr_y9rGmKvzuWoYQSlqKZVU_AonpFBQLIdP9-ev4">',
+                'create_user_code' => 1,
+                'deleted' => 0,
+            ]
+        ]);
+
 
         //author
         DB::table('key_values')->insert([
             [
                 'code' => KeyValue::max('code') + 1,
                 'key'  => 'admin_meta',
-                'value'  => 'author', //name
-                'optional'  => 'Bünyamin Göymen', //content
-                'optional_2'  => '', //http-equiv
+                'value'  => '<meta name="author" content="Bünyamin Göymen">', //name
                 'create_user_code' => 1,
                 'deleted' => 0,
             ]
@@ -336,9 +358,7 @@ class KeyValueSeeder extends Seeder
             [
                 'code' => KeyValue::max('code') + 1,
                 'key'  => 'admin_meta',
-                'value'  => 'author2', //name
-                'optional'  => 'bgoymen', //content
-                'optional_2'  => '', //http-equiv
+                'value'  => '<meta name="author2" content="bgoymen">', //name
                 'create_user_code' => 1,
                 'deleted' => 0,
             ]
@@ -349,9 +369,7 @@ class KeyValueSeeder extends Seeder
             [
                 'code' => KeyValue::max('code') + 1,
                 'key'  => 'admin_meta',
-                'value'  => 'Copyright', //name
-                'optional'  => "Bu sitenin hakları Bünyamin Göymen ve Anikagai'ye aittir", //content
-                'optional_2'  => '', //http-equiv
+                'value'  => "<meta name='Copyright' content='Bu sitenin hakları Bünyamin Göymen ve Anikagaiye aittir'>", //name
                 'create_user_code' => 1,
                 'deleted' => 0,
             ]

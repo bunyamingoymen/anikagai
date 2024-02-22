@@ -80,7 +80,7 @@
                         for (let i = 0; i < webtoons.length; i++) {
                             var webtoons_code = sendData(webtoons[i].code);
                             var webtoons_name = sendData(webtoons[i].name);
-                            var webtoons_image = sendData(webtoons[i].thumb_image);
+                            var webtoons_image = sendData(webtoons[i].thumb_image_2);
                             var webtoons_plusEighteen = sendData(webtoons[i].plusEighteen);
                             var webtoons_showStatus = sendData(webtoons[i].showStatus);
                             var webtoons_episode_count = sendData(webtoons[i].episode_count);

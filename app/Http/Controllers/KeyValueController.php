@@ -11,14 +11,7 @@ class KeyValueController extends Controller
 {
     public function keyValueList()
     {
-        $keyValues = KeyValue::Where('deleted', 0)->take($this->showCount)->get();
-        $currentCount = 1;
-        $pageCountTest = KeyValue::Where('deleted', 0)->count();
-        if ($pageCountTest % $this->showCount == 0)
-            $pageCount = $pageCountTest / $this->showCount;
-        else
-            $pageCount = intval($pageCountTest / $this->showCount) + 1;
-        return view("admin.keyvalue.list", ["keyValues" => $keyValues, 'pageCount' => $pageCount, 'currentCount' => $currentCount]);
+        return view("admin.keyvalue.list");
     }
 
     public function keyValueCreateScreen()

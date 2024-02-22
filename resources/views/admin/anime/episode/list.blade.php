@@ -174,7 +174,7 @@
                                     return {
                                         id: anime.code,
                                         text: anime.name,
-                                        image: anime.image
+                                        image: anime.thumb_image_2
                                         // Diğer alanları burada ekleyebilirsiniz
                                     };
                                 }),
