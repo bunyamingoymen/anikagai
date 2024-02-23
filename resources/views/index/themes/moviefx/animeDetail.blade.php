@@ -77,7 +77,7 @@
                     <div class="ui items">
                         <div class="item" id="series-profile-wrapper">
                             <a class="ui image" id="series-profile-image-wrapper">
-                                <img class="series-profile-thumb" src="../../../{{ $anime->image }}"
+                                <img class="series-profile-thumb" src="{{ url($anime->image) }}"
                                     alt="{{ $anime->name }}" />
                             </a>
                             <div class="content" id="series-profile-content-wrapper">
@@ -231,7 +231,7 @@
                     </div>
                 </div>
             </div>
-            <div class="bg-cover-bg"><img src="../../../{{ $anime->image }}" />
+            <div class="bg-cover-bg"><img src="{{ url($anime->image) }}" />
             </div>
         </div>
         <div class="dark-segment">
@@ -241,8 +241,8 @@
                     <li class="segment-poster-sm">
                         <div class="poster poster-xs">
                             <a href="{{ url('anime/' . $item->short_name) }}" title="{{ $item->name }}">
-                                <img class="lazy-wide" src="../../../{{ $item->image }}" alt="{{ $item->name }}"
-                                    data-src="../../../{{ $item->image }}">
+                                <img class="lazy-wide" src="{{ url($item->image) }}" alt="{{ $item->name }}"
+                                    data-src="{{ url($item->image) }}">
                             </a>
                         </div>
                     </li>

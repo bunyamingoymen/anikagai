@@ -5,7 +5,7 @@
             <div class="col-lg-1">
                 <div class="header__logo">
                     <a href="{{ route('index') }}">
-                        <img src="../../../{{ $data['index_logo']->value }}" alt=""
+                        <img src="{{ url($data['index_logo']->value) }}" alt=""
                             style="max-width: 93px; max-height: 23px;">
                     </a>
                 </div>

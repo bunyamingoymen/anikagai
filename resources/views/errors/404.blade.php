@@ -23,7 +23,7 @@
     <!-- Retina iPad Touch Icon-->
 
     <!-- ============== Resources style ============== -->
-    <link rel="stylesheet" type="text/css" href="../../../error/404/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="{{ url('error/404/css/style.css') }}" />
 </head>
 
 <body>
@@ -33,7 +33,7 @@
     <!-- Your logo on the top left -->
     <a href="{{ route('index') }}" class="logo-link" title="back home">
 
-        <img src="../../../{{ $logo->value }}" class="logo" alt="Company's logo" />
+        <img src="{{ url($logo->value) }}" class="logo" alt=">Anikagai logo" />
 
     </a>
 
@@ -93,11 +93,11 @@
     <!-- \\\\\\\\\\\\\\\\\\\/////////////////// -->
 
     <!-- * Libraries jQuery and Bootstrap - Be careful to not remove them * -->
-    <script src="../../../error/404/js/jquery.min.js"></script>
-    <script src="../../../error/404/js/bootstrap.min.js"></script>
+    <script src="{{ url('error/404/js/jquery.min.js') }}"></script>
+    <script src="{{ url('error/404/js/bootstrap.min.js') }}"></script>
 
     <!-- Mozaic plugin -->
-    <script src="../../../error/404/js/mozaic.js"></script>
+    <script src="{{ url('error/404/js/mozaic.js') }}"></script>
 
 </body>
 

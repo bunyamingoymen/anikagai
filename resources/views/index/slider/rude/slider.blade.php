@@ -1,8 +1,8 @@
 @if ($sliderShow->setting_value == '1')
     <!--CSS Dosyaları-->
-    <link rel="stylesheet" href="../../../slider/rude/css/base.css">
+    <link rel="stylesheet" href="{{ url('slider/rude/css/base.css') }}">
 
-    <link rel="stylesheet" href="../../../slider/rude/css/jquery.heroCarousel.css">
+    <link rel="stylesheet" href="{{ url('slider/rude/css/jquery.heroCarousel.css') }}">
 
     <style>
         .slider-rude-button-container {
@@ -32,7 +32,7 @@
         <div class="hero-carousel">
             @foreach ($slider_image as $index => $item)
                 <article id="heroSlider{{ $index + 1 }}">
-                    <img class="slider-image" src="../../../{{ $item->optional ?? '' }}" alt="slide 1" />
+                    <img class="slider-image" src="{{ url($item->optional ?? '') }}" alt="slide 1" />
                     <div class="contents">
                         <h4 class="color-text">{{ $item->value }}</h4>
                         <p onclick="sliderButtonOnclick('{{ url($item->optional_2 ?? '') }}')"><span
@@ -46,9 +46,9 @@
         </div>
     </section>
 
-    <script src="../../../index/js/jquery_1.8.1.min.js"></script>
-    <script src="../../../slider/rude/js/jquery.easing-1.3.js"></script>
-    <script src="../../../slider/rude/js/hero/jquery.heroCarousel-1.3.js"></script>
+    <script src="{{ url('index/js/jquery_1.8.1.min.js') }}"></script>
+    <script src="{{ url('slider/rude/js/jquery.easing-1.3.js') }}"></script>
+    <script src="{{ url('slider/rude/js/hero/jquery.heroCarousel-1.3.js') }}"></script>
     <script>
         $(function() {
             if ($('.hero-carousel').length > 0) {

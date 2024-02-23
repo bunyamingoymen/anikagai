@@ -113,7 +113,7 @@
             <div class="anime__details__content">
                 <div class="row">
                     <div class="col-lg-3">
-                        <div class="anime__details__pic set-bg" data-setbg="../../../{{ $webtoon->image }}">
+                        <div class="anime__details__pic set-bg" data-setbg="{{ url($webtoon->image) }}">
                             <div class="comment"><i class="fa fa-comments"></i> {{ $webtoon->comment_count }}</div>
                             <div class="view"><i class="fa fa-eye"></i> {{ $webtoon->click_Count }}</div>
                         </div>
@@ -252,8 +252,7 @@
                             <div class="col-lg-8 col-md-12 col-sm-12">
                                 <div class="product__item">
                                     <a href="{{ url('webtoon/' . $item->short_name) }}">
-                                        <div class="product__item__pic set-bg"
-                                            data-setbg="../../../{{ $item->thumb_image }}">
+                                        <div class="product__item__pic set-bg" data-setbg="{{ url($item->thumb_image) }}">
                                             <div class="ep">{{ $item->score }} / 5</div>
                                             <div class="comment"><i class="fa fa-comments"></i>
                                                 {{ $item->comment_count }}</div>

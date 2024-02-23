@@ -31,7 +31,7 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-4 mb-3">
-                                        <img src="../../../{{ $item->optional }}" alt="" style="max-height: 150px;">
+                                        <img src="{{ url($item->optional) }}" alt="" style="max-height: 150px;">
                                     </div>
                                     <div class="col-md-4 mb-3">
                                         <label for="">Bölüm(Video):</label>

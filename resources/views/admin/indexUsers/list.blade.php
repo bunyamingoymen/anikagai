@@ -24,9 +24,9 @@
             </div>
         </div>
 
-        <script src="../../../admin/assets/libs/jquery/jquery.min.js"></script>
+        <script src="{{ url('admin/assets/libs/jquery/jquery.min.js') }}"></script>
 
-        <script src="../../../admin/assets/js/pageTable.js"></script>
+        <script src="{{ url('admin/assets/js/pageTable.js') }}"></script>
         <!-- Sayfa Değiştirme Scripti-->
 
         <script>

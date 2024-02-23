@@ -80,7 +80,7 @@
 
     <link rel="stylesheet" href="https://unpkg.com/viewerjs@1.10.0/dist/viewer.min.css">
     <script src="https://unpkg.com/viewerjs@1.10.0/dist/viewer.min.js"></script>
-    <script src="../../../user/animex/js/jquery-3.3.1.min.js"></script>
+    <script src="{{ url('user/animex/js/jquery-3.3.1.min.js') }}"></script>
 
     <section class="anime-details spad">
         <div class="container">
@@ -117,13 +117,13 @@
                             @foreach ($files as $index => $item)
                                 @if ($item->file_type == 'pdf')
                                     <div class="pdf-viewer">
-                                        <iframe id="pdfViewer" src = "../../../{{ $item->file }}"
+                                        <iframe id="pdfViewer" src = "{{ url($item->file) }}"
                                             style="max-width: 100%; min-width: 100%; height:800px;" allowfullscreen
                                             webkitallowfullscreen></iframe>
                                     </div>
                                     <button onclick="toggleFullScreen()" class="overlay-button">Tam Ekran</button>
                                 @else
-                                    <img id="image_{{ $item->code }}" data-src="../../../{{ $item->file }}"
+                                    <img id="image_{{ $item->code }}" data-src="{{ url($item->file) }}"
                                         class="webtoon-image lazy-load" alt="Resim {{ $item->code }}{{ $index + 1 }}">
                                 @endif
                             @endforeach
@@ -205,7 +205,7 @@
                             @foreach ($comments_main as $main_comment)
                                 <div class="anime__review__item">
                                     <div class="anime__review__item__pic">
-                                        <img src="../../../{{ $main_comment->user_image ?? 'user/img/profile/default.png' }}"
+                                        <img src="{{ url($main_comment->user_image ?? 'user/img/profile/default.png') }}"
                                             alt="">
                                     </div>
                                     <div class="anime__review__item__text">
@@ -266,7 +266,7 @@
                                 @foreach ($comments_alt->Where('comment_top_code', $main_comment->code) as $alt_comment)
                                     <div class="blog__details__comment__item blog__details__comment__item--reply">
                                         <div class="anime__review__item__pic">
-                                            <img src="../../../{{ $alt_comment->user_image ?? 'user/img/profile/default.png' }}"
+                                            <img src="{{ url($alt_comment->user_image ?? 'user/img/profile/default.png') }}"
                                                 alt="">
                                         </div>
                                         <div class="anime__review__item__text">
@@ -350,7 +350,7 @@
                                 <div class="product__item">
                                     <a href="{{ url('webtoon/' . $item->short_name) }}">
                                         <div class="product__item__pic set-bg"
-                                            data-setbg="../../../{{ $item->thumb_image }}">
+                                            data-setbg="{{ url($item->thumb_image) }}">
                                             <div class="ep">{{ $item->score }} / 5</div>
                                             <div class="comment"><i class="fa fa-comments"></i>
                                                 {{ $item->comment_count }}

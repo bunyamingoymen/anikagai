@@ -8,18 +8,18 @@
     <meta content="Anikagai admin login" name="description" />
     <meta content="Bünyamin Göymen" name="author" />
     <!-- App favicon -->
-    <link rel="shortcut icon" href="../../../admin/assets/images/favicon.ico">
+    <link rel="shortcut icon" href="{{ url('admin/assets/images/favicon.ico') }}">
 
     <!-- Bootstrap Css -->
-    <link href="../../../admin/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="{{ url('admin/assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
-    <link href="../../../admin/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="{{ url('admin/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- App Css-->
-    <link href="../../../admin/assets/css/app.min.css" rel="stylesheet" type="text/css" />
+    <link href="{{ url('admin/assets/css/app.min.css') }}" rel="stylesheet" type="text/css" />
 
 
     <!-- Sweet Alert-->
-    <link href="../../../admin/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+    <link href="{{ url('admin/assets/libs/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
 
 </head>
 
@@ -34,7 +34,7 @@
                 <div class="col-lg-12">
                     <div class="text-center mb-5">
                         <a href="{{ route('admin_index') }}" class="logo"><img
-                                src="../../../admin/assets/images/logo-dark.png" height="55" alt="logo"></a>
+                                src="{{ url('admin/assets/images/logo-dark.png') }}" height="55" alt="logo"></a>
                     </div>
                 </div>
             </div>
@@ -78,16 +78,16 @@
     <!-- end Account pages -->
 
     <!-- JAVASCRIPT -->
-    <script src="../../../admin/assets/libs/jquery/jquery.min.js"></script>
-    <script src="../../../admin/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="../../../admin/assets/libs/metismenu/metisMenu.min.js"></script>
-    <script src="../../../admin/assets/libs/simplebar/simplebar.min.js"></script>
-    <script src="../../../admin/assets/libs/node-waves/waves.min.js"></script>
+    <script src="{{ url('admin/assets/libs/jquery/jquery.min.js') }}"></script>
+    <script src="{{ url('admin/assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url('admin/assets/libs/metismenu/metisMenu.min.js') }}"></script>
+    <script src="{{ url('admin/assets/libs/simplebar/simplebar.min.js') }}"></script>
+    <script src="{{ url('admin/assets/libs/node-waves/waves.min.js') }}"></script>
 
     <!-- Sweet Alerts js -->
-    <script src="../../../admin/assets/libs/sweetalert2/sweetalert2.min.js"></script>
+    <script src="{{ url('admin/assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
 
-    <script src="../../../admin/assets/js/app.js"></script>
+    <script src="{{ url('admin/assets/js/app.js') }}"></script>
 
     <script>
         @if (session('error'))

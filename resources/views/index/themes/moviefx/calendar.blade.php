@@ -52,7 +52,7 @@
                                                                 </p>
                                                             </div>
                                                             <img class="" alt="{{ $item->anime_name }}"
-                                                                src="../../../{{ $item->anime_image }}">
+                                                                src="{{ url($item->anime_image) }}">
                                                         </a>
                                                     </div>
                                                 </li>
@@ -67,7 +67,7 @@
                                                                 </p>
                                                             </div>
                                                             <img class="unknown_content" alt="Bilinmiyor"
-                                                                src="../../../{{ $item->anime_image }}">
+                                                                src="{{ url($item->anime_image) }}">
                                                         </a>
                                                     </div>
                                                 </li>
@@ -108,7 +108,7 @@
                                                                 </p>
                                                             </div>
                                                             <img alt="{{ $item->webtoon_name }}"
-                                                                src="../../../{{ $item->webtoon_image }}">
+                                                                src="{{ url($item->webtoon_image) }}">
                                                         </a>
                                                     </div>
                                                 </li>
@@ -123,7 +123,7 @@
                                                                 </p>
                                                             </div>
                                                             <img class="unknown_content" alt="Bilinmiyor"
-                                                                src="../../../{{ $item->anime_image }}">
+                                                                src="{{ url($item->anime_image) }}">
                                                         </a>
                                                     </div>
                                                 </li>

@@ -102,7 +102,7 @@
                         <div class="ui bottom attached tab segment" id="profile-profile-picture">
                             <div class="dark-segment">
                                 <div class="alert alert-danger" role="alert">
-                                    <img src="../../../{{ $user->image ?? 'user/img/profile/default.png' }}" alt=""
+                                    <img src="{{ url($user->image ?? 'user/img/profile/default.png') }}" alt=""
                                         style="max-height: 200px; min-height: 200px;">
                                     <form action="{{ route('change_profile_image') }}" id="changeProfileImageForm"
                                         method="POST" enctype="multipart/form-data">

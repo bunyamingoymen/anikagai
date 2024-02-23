@@ -246,7 +246,7 @@
                             <div class="custom-col-" style="max-height: 50%; min-height: 50%;">
                                 <div class="movie-item movie-item-two">
                                     <div class="movie-poster">
-                                        <img src="../../../{{ $item->image }}" alt="">
+                                        <img src="{{ url($item->image) }}" alt="">
                                         <ul class="overlay-btn">
                                             <li><a href="{{ url('webtoon/' . $item->short_name) }}"
                                                     class="btn">Detay</a></li>

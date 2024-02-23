@@ -11,7 +11,7 @@
                             <h4>Logo: </h4>
                             <div class="row">
                                 <div style="background-color: black;">
-                                    <img src="../../../{{ $logo->value }}" alt="logo" style="max-height: 155px;">
+                                    <img src="{{ url($logo->value) }}" alt="logo" style="max-height: 155px;">
                                 </div>
                                 <div class="ml-5">
                                     <button class="btn btn-primary" onclick="logoChangeButton()">Değiştir</button>
@@ -30,7 +30,7 @@
                             <h4>Logo Footer: </h4>
                             <div class="row">
                                 <div style="background-color: black;">
-                                    <img src="../../../{{ $logo_footer->value }}" alt="logo" style="max-height: 155px;">
+                                    <img src="{{ url($logo_footer->value) }}" alt="logo" style="max-height: 155px;">
                                 </div>
                                 <div class="ml-5">
                                     <button class="btn btn-primary" onclick="logoFooterChangeButton()">Değiştir</button>
@@ -50,7 +50,7 @@
                             <h4>İkon: </h4>
                             <div class="row">
                                 <div>
-                                    <img src="../../../{{ $icon->value }}" alt="logo" style="max-height: 155px;">
+                                    <img src="{{ url($icon->value) }}" alt="logo" style="max-height: 155px;">
                                 </div>
                                 <div class="ml-5">
                                     <button class="btn btn-primary" onclick="iconChangeButton()">Değiştir</button>

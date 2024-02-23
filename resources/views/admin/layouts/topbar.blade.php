@@ -5,19 +5,19 @@
             <div class="navbar-brand-box">
                 <a href="{{ route('admin_index') }}" class="logo logo-dark">
                     <span class="logo-sm">
-                        <img src="../../../admin/assets/images/logo-dark.png" alt="" height="22">
+                        <img src="{{ url('admin/assets/images/logo-dark.png') }}" alt="" height="22">
                     </span>
                     <span class="logo-lg">
-                        <img src="../../../admin/assets/images/logo-dark.png" alt="" height="22">
+                        <img src="{{ url('admin/assets/images/logo-dark.png') }}" alt="" height="22">
                     </span>
                 </a>
 
                 <a href="{{ route('admin_index') }}" class="logo logo-light">
                     <span class="logo-sm">
-                        <img src="../../../admin/assets/images/logo-sm-light.png" alt="" height="22">
+                        <img src="{{ url('admin/assets/images/logo-sm-light.png') }}" alt="" height="22">
                     </span>
                     <span class="logo-lg">
-                        <img src="../../../admin/assets/images/logo-light.png" alt="" height="35">
+                        <img src="{{ url('admin/assets/images/logo-light.png') }}" alt="" height="35">
                     </span>
                 </a>
             </div>
@@ -118,7 +118,7 @@
                 <button type="button" class="btn header-item waves-effect" id="page-header-user-dropdown"
                     data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img class="rounded-circle header-profile-user"
-                        src="../../../{{ Auth::guard('admin')->user()->image }}" alt="Header Avatar">
+                        src="{{ url(Auth::guard('admin')->user()->image) }}" alt="Header Avatar">
                     <span class="d-none d-sm-inline-block ml-1">{{ Auth::guard('admin')->user()->name }}
                         {{ Auth::guard('admin')->user()->surname }}</span>
                     <i class="mdi mdi-chevron-down d-none d-sm-inline-block"></i>

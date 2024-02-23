@@ -6,8 +6,8 @@
         <div class="row">
             <div class="col-lg-3">
                 <div class="footer__logo">
-                    <a href="{{ route('index') }}"><img src="../../../{{ $data['index_logo_footer']->value }}"
-                            alt="" style="max-width: 155px;"></a>
+                    <a href="{{ route('index') }}"><img src="{{ url($data['index_logo_footer']->value) }}" alt=""
+                            style="max-width: 155px;"></a>
                 </div>
             </div>
             <div class="col-lg-6  ">

@@ -1,17 +1,17 @@
 @extends('index.themes.mox.layouts.main')
 @section('index_content')
-    <link rel="stylesheet" href="../../../user/mox/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../../user/mox/css/animate.min.css">
-    <link rel="stylesheet" href="../../../user/mox/css/magnific-popup.css">
-    <link rel="stylesheet" href="../../../user/mox/css/fontawesome-all.min.css">
-    <link rel="stylesheet" href="../../../user/mox/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="../../../user/mox/css/flaticon.css">
-    <link rel="stylesheet" href="../../../user/mox/css/odometer.css">
-    <link rel="stylesheet" href="../../../user/mox/css/aos.css">
-    <link rel="stylesheet" href="../../../user/mox/css/slick.css">
-    <link rel="stylesheet" href="../../../user/mox/css/default.css">
-    <link rel="stylesheet" href="../../../user/mox/css/style.css">
-    <link rel="stylesheet" href="../../../user/mox/css/responsive.css">
+    <link rel="stylesheet" href="{{ url('user/mox/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url('user/mox/css/animate.min.css') }}">
+    <link rel="stylesheet" href="{{ url('user/mox/css/magnific-popup.css') }}">
+    <link rel="stylesheet" href="{{ url('user/mox/css/fontawesome-all.min.css') }}">
+    <link rel="stylesheet" href="{{ url('user/mox/css/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{ url('user/mox/css/flaticon.css') }}">
+    <link rel="stylesheet" href="{{ url('user/mox/css/odometer.css') }}">
+    <link rel="stylesheet" href="{{ url('user/mox/css/aos.css') }}">
+    <link rel="stylesheet" href="{{ url('user/mox/css/slick.css') }}">
+    <link rel="stylesheet" href="{{ url('user/mox/css/default.css') }}">
+    <link rel="stylesheet" href="{{ url('user/mox/css/style.css') }}">
+    <link rel="stylesheet" href="{{ url('user/mox/css/responsive.css') }}">
     <!-- main-area -->
 
     <style>
@@ -107,12 +107,12 @@
     <main>
 
         <!-- movie-details-area -->
-        <section class="movie-details-area" data-background="../../../user/mox/img/bg/movie_details_bg.jpg">
+        <section class="movie-details-area" data-background="{{ url('user/mox/img/bg/movie_details_bg.jpg') }}">
             <div class="container">
                 <div class="row align-items-center position-relative">
                     <div class="col-xl-3 col-lg-4">
-                        <div class="../../../user/mox/movie-details-img">
-                            <img src="../../../{{ $anime->image }}" alt=""
+                        <div class="{{ url('user/mox/movie-details-img') }}">
+                            <img src="{{ url($anime->image) }}" alt=""
                                 style="min-width: 303px; min-height: 430px; max-width: 303px; max-height: 430px;">
                         </div>
                     </div>
@@ -187,7 +187,7 @@
                     <div class="movie-details-btn">
                         @if (false)
                             <a href="img/poster/movie_details_img.jpg" class="download-btn" download="">İndir <img
-                                    src="../../../user/mox/fonts/download.svg" alt=""></a>
+                                    src="{{ url('user/mox/fonts/download.svg') }}" alt=""></a>
                         @endif
 
                     </div>
@@ -197,7 +197,7 @@
         <!-- movie-details-area-end -->
 
         <!-- episode-area -->
-        <section class="episode-area episode-bg" data-background="../../../user/mox/img/bg/episode_bg.jpg">
+        <section class="episode-area episode-bg" data-background="{{ url('user/mox/img/bg/episode_bg.jpg') }}">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-8">
@@ -289,7 +289,7 @@
                 </div>
                 <div class="col-lg-4">
                     <div class="episode-img">
-                        <img src="../../../{{ $anime->image }}" alt=""
+                        <img src="{{ url($anime->image) }}" alt=""
                             style="min-width: 413px; min-height: 526px; max-width: 413px; max-height: 526px;">
                     </div>
                 </div>
@@ -309,7 +309,7 @@
         <!-- episode-area-end -->
 
         <!-- tv-series-area -->
-        <section class="tv-series-area tv-series-bg" data-background="../../../user/mox/img/bg/tv_series_bg02.jpg">
+        <section class="tv-series-area tv-series-bg" data-background="{{ url('user/mox/img/bg/tv_series_bg02.jpg') }}">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-lg-8">
@@ -324,14 +324,15 @@
                         <div class="col-xl-3 col-lg-4 col-sm-6">
                             <div class="movie-item mb-50">
                                 <div class="movie-poster">
-                                    <a href="{{ url('anime/' . $item->short_name) }}"><img
-                                            src="../../../{{ $item->image }}" alt=""
+                                    <a href="{{ url('anime/' . $item->short_name) }}"><img src="{{ url($item->image) }}"
+                                            alt=""
                                             style="min-width: 303px; min-height: 430px; max-width: 303px; max-height: 430px;"></a>
                                 </div>
                                 <div class="movie-content">
                                     <div class="top">
                                         <h5 class="title"><a
-                                                href="{{ url('anime/' . $item->short_name) }}">{{ $item->name }}</a></h5>
+                                                href="{{ url('anime/' . $item->short_name) }}">{{ $item->name }}</a>
+                                        </h5>
                                         <span class="date">{{ $item->date }}</span>
                                     </div>
                                     <div class="bottom">

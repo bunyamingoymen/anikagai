@@ -4,7 +4,7 @@
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
         <!-- JAVASCRIPT -->
-        <script src="../../../admin/assets/libs/jquery/jquery.min.js"></script>
+        <script src="{{ url('admin/assets/libs/jquery/jquery.min.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
         <div class="row">
@@ -54,7 +54,7 @@
                                         <label for="">Şu an yüklü resim:</label>
                                     </div>
                                     <div>
-                                        <img src="../../../{{ $webtoon->image }}" alt="{{ $webtoon->name }}"
+                                        <img src="{{ url($webtoon->image) }}" alt="{{ $webtoon->name }}"
                                             style="max-height:300px; max-width:300px; height:auto; width:auto;">
                                     </div>
                                 </div>

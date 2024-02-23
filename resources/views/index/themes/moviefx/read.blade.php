@@ -130,13 +130,12 @@
                         <div class="justify-content-center" style="position: relative;">
                             @foreach ($files as $item)
                                 @if ($item->file_type == 'pdf')
-                                    <iframe id="myIframe" src="../../../{{ $item->file }}"
+                                    <iframe id="myIframe" src="{{ url($item->file) }}"
                                         style="max-width: 100%; min-width: 100%; height:800px;" frameborder="0"
                                         allowfullscreen></iframe>
                                     <button onclick="toggleFullScreen()" class="overlay-button">Tam Ekran</button>
                                 @else
-                                    <img src="../../../{{ $item->file }}" alt="{{ $item->code }}"
-                                        class="webtoon-image">
+                                    <img src="{{ url($item->file) }}" alt="{{ $item->code }}" class="webtoon-image">
                                 @endif
                             @endforeach
                         </div>
@@ -183,14 +182,14 @@
             @endif
         </div>
     </div>
-    <div class="bg-cover-bg"><img src="../../../{{ $webtoon->image }}" /></div>
+    <div class="bg-cover-bg"><img src="{{ url($webtoon->image) }}" /></div>
     <div class="common-lists">
         <div class="new-content">
             <h4 class="sidebar-heading">Genel Bakış</h4>
             <section class="episode-controls">
                 <div class="show-info">
                     <div>
-                        <img src="../../../{{ $webtoon->image }}" alt="{{ $webtoon->name }}">
+                        <img src="{{ url($webtoon->image) }}" alt="{{ $webtoon->name }}">
                         <div class="series-name">
                             <a href="../../after-the-party.html" title="{{ $webtoon->name }} izle">
                                 <h2>{{ $webtoon->name }}</h2>
@@ -252,7 +251,7 @@
                     @foreach ($comments_main as $main_comment)
                         <div class="item comment-item">
                             <img class="ui avatar image" alt="{{ $main_comment->user_username }}"
-                                src="../../../{{ $main_comment->user_image ?? 'user/img/profile/default.png' }}" />
+                                src="{{ url($main_comment->user_image ?? 'user/img/profile/default.png') }}" />
                             <div class="content">
                                 <h6><a href="{{ url('profile?username=' . $main_comment->user_username) }}"
                                         class="review-author"
@@ -277,7 +276,7 @@
                                         <div class="ui list sub-reviews">
                                             <div class="item comment-item">
                                                 <img class="ui avatar image lazy-wide" referrerpolicy="no-referrer"
-                                                    src="../../../{{ $alt_comment->user_image ?? 'user/img/profile/default.png' }}"
+                                                    src="{{ url($alt_comment->user_image ?? 'user/img/profile/default.png') }}"
                                                     alt="{{ $alt_comment->user_username }}" />
                                                 <div class="content">
                                                     <h6><a href="{{ url('profile?username=' . $alt_comment->user_username) }}"

@@ -1,22 +1,22 @@
 @extends('index.themes.mox.layouts.main')
 @section('index_content')
-    <link rel="stylesheet" href="../../../user/mox/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../../user/mox/css/animate.min.css">
-    <link rel="stylesheet" href="../../../user/mox/css/magnific-popup.css">
-    <link rel="stylesheet" href="../../../user/mox/css/fontawesome-all.min.css">
-    <link rel="stylesheet" href="../../../user/mox/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="../../../user/mox/css/flaticon.css">
-    <link rel="stylesheet" href="../../../user/mox/css/odometer.css">
-    <link rel="stylesheet" href="../../../user/mox/css/aos.css">
-    <link rel="stylesheet" href="../../../user/mox/css/slick.css">
-    <link rel="stylesheet" href="../../../user/mox/css/default.css">
-    <link rel="stylesheet" href="../../../user/mox/css/style.css">
-    <link rel="stylesheet" href="../../../user/mox/css/responsive.css">
+    <link rel="stylesheet" href="{{ url('user/mox/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url('user/mox/css/animate.min.css') }}">
+    <link rel="stylesheet" href="{{ url('user/mox/css/magnific-popup.css') }}">
+    <link rel="stylesheet" href="{{ url('user/mox/css/fontawesome-all.min.css') }}">
+    <link rel="stylesheet" href="{{ url('user/mox/css/owl.carousel.min.css') }}">
+    <link rel="stylesheet" href="{{ url('user/mox/css/flaticon.css') }}">
+    <link rel="stylesheet" href="{{ url('user/mox/css/odometer.css') }}">
+    <link rel="stylesheet" href="{{ url('user/mox/css/aos.css') }}">
+    <link rel="stylesheet" href="{{ url('user/mox/css/slick.css') }}">
+    <link rel="stylesheet" href="{{ url('user/mox/css/default.css') }}">
+    <link rel="stylesheet" href="{{ url('user/mox/css/style.css') }}">
+    <link rel="stylesheet" href="{{ url('user/mox/css/responsive.css') }}">
     <!-- main-area -->
     <main>
 
         <!-- breadcrumb-area -->
-        <section class="breadcrumb-area breadcrumb-bg" data-background="../../../user/mox/img/bg/breadcrumb_bg.jpg">
+        <section class="breadcrumb-area breadcrumb-bg" data-background="{{ url('user/mox/img/bg/breadcrumb_bg.jpg') }}">
             <div class="container">
                 <div class="row">
                     <div class="col-12">
@@ -38,7 +38,7 @@
         <!-- breadcrumb-area-end -->
 
         <!-- movie-area -->
-        <section class="movie-area movie-bg" data-background="../../../user/mox/img/bg/movie_bg.jpg">
+        <section class="movie-area movie-bg" data-background="{{ url('user/mox/img/bg/movie_bg.jpg') }}">
             <div class="container">
                 <!--Başlık Ve Kategoriler-->
                 <div class="row align-items-end mb-60">
@@ -83,7 +83,7 @@
                             <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer cat-two">
                                 <div class="movie-item movie-item-three mb-50">
                                     <div class="movie-poster">
-                                        <img src="../../../{{ $item->image }}" alt=""
+                                        <img src="{{ url($item->image) }}" alt=""
                                             style="min-width: 303px; min-height: 430px; max-width: 303px; max-height: 430px;">
                                         <ul class="overlay-btn">
                                             <li><a href="{{ $path == 'animeler' ? url('anime/' . $item->short_name) : url('webtoon/' . $item->short_name) }}"
@@ -117,7 +117,7 @@
                                 <div class="movie-item movie-item-three mb-50">
                                     <div class="movie-poster">
                                         <div class="movie-poster" style="filter: blur(7px);">
-                                            <img src=" ../../../{{ $item->image }}" alt=""
+                                            <img src=" {{ url($item->image) }}" alt=""
                                                 style=" min-width: 303px; min-height: 430px; max-width:
                                                                 303px; max-height: 430px;">
                                         </div>
@@ -190,7 +190,7 @@
     <!-- main-area-end -->
 
     <!-- JS here -->
-    <script src="../../../user/mox/js/vendor/jquery-3.6.0.min.js"></script>
+    <script src="{{ url('user/mox/js/vendor/jquery-3.6.0.min.js') }}"></script>
 
     <script>
         var page = "{{ request('p', 1) }}";

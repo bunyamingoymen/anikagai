@@ -93,7 +93,7 @@
                                 <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer tab-favorite-anime">
                                     <div class="movie-item movie-item-three mb-50">
                                         <div class="movie-poster">
-                                            <img src="../../../{{ $item->image }}" alt=""
+                                            <img src="{{ url($item->image) }}" alt=""
                                                 style="min-width: 303px; min-height: 430px; max-width: 303px; max-height: 430px;">
                                             <ul class="overlay-btn">
                                                 <li><a href="{{ url('anime/' . $item->short_name) }}" class="btn">Detay</a>
@@ -127,7 +127,7 @@
                                     <div class="movie-item movie-item-three mb-50">
                                         <div class="movie-poster">
                                             <div class="movie-poster" style="filter: blur(7px);">
-                                                <img src=" ../../../{{ $item->image }}" alt=""
+                                                <img src=" {{ url($item->image) }}" alt=""
                                                     style=" min-width: 303px; min-height: 430px; max-width:
                                                                                 303px; max-height: 430px;">
                                             </div>
@@ -167,7 +167,7 @@
                                 <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer tab-favorite-webtoon">
                                     <div class="movie-item movie-item-three mb-50">
                                         <div class="movie-poster">
-                                            <img src="../../../{{ $item->image }}" alt=""
+                                            <img src="{{ url($item->image) }}" alt=""
                                                 style="min-width: 303px; min-height: 430px; max-width: 303px; max-height: 430px;">
                                             <ul class="overlay-btn">
                                                 <li><a href="{{ url('webtoon/' . $item->short_name) }}"
@@ -201,7 +201,7 @@
                                     <div class="movie-item movie-item-three mb-50">
                                         <div class="movie-poster">
                                             <div class="movie-poster" style="filter: blur(7px);">
-                                                <img src=" ../../../{{ $item->image }}" alt=""
+                                                <img src=" {{ url($item->image) }}" alt=""
                                                     style=" min-width: 303px; min-height: 430px; max-width:
                                                                                                                 303px; max-height: 430px;">
                                             </div>
@@ -270,7 +270,7 @@
                                 <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer tab-follow_animes">
                                     <div class="movie-item movie-item-three mb-50">
                                         <div class="movie-poster">
-                                            <img src="../../../{{ $item->image }}" alt=""
+                                            <img src="{{ url($item->image) }}" alt=""
                                                 style="min-width: 303px; min-height: 430px; max-width: 303px; max-height: 430px;">
                                             <ul class="overlay-btn">
                                                 <li><a href="{{ url('anime/' . $item->short_name) }}"
@@ -304,7 +304,7 @@
                                     <div class="movie-item movie-item-three mb-50">
                                         <div class="movie-poster">
                                             <div class="movie-poster" style="filter: blur(7px);">
-                                                <img src=" ../../../{{ $item->image }}" alt=""
+                                                <img src=" {{ url($item->image) }}" alt=""
                                                     style=" min-width: 303px; min-height: 430px; max-width:
                                                                                                                                             303px; max-height: 430px;">
                                             </div>
@@ -343,7 +343,7 @@
                                 <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer tab-follow_webtoons">
                                     <div class="movie-item movie-item-three mb-50">
                                         <div class="movie-poster">
-                                            <img src="../../../{{ $item->image }}" alt=""
+                                            <img src="{{ url($item->image) }}" alt=""
                                                 style="min-width: 303px; min-height: 430px; max-width: 303px; max-height: 430px;">
                                             <ul class="overlay-btn">
                                                 <li><a href="{{ url('webtoon/' . $item->short_name) }}"
@@ -377,7 +377,7 @@
                                     <div class="movie-item movie-item-three mb-50">
                                         <div class="movie-poster">
                                             <div class="movie-poster" style="filter: blur(7px);">
-                                                <img src=" ../../../{{ $item->image }}" alt=""
+                                                <img src=" {{ url($item->image) }}" alt=""
                                                     style=" min-width: 303px; min-height: 430px; max-width:
                                                                                                                             303px; max-height: 430px;">
                                             </div>
@@ -446,7 +446,7 @@
                                 <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer tab-watched_animes">
                                     <div class="movie-item movie-item-three mb-50">
                                         <div class="movie-poster">
-                                            <img src="../../../{{ $item->image }}" alt=""
+                                            <img src="{{ url($item->image) }}" alt=""
                                                 style="min-width: 303px; min-height: 430px; max-width: 303px; max-height: 430px;">
                                             <ul class="overlay-btn">
                                                 <li><a href="{{ url('webtoon/' . $item->short_name) }}"
@@ -480,7 +480,7 @@
                                     <div class="movie-item movie-item-three mb-50">
                                         <div class="movie-poster">
                                             <div class="movie-poster" style="filter: blur(7px);">
-                                                <img src=" ../../../{{ $item->image }}" alt=""
+                                                <img src=" {{ url($item->image) }}" alt=""
                                                     style=" min-width: 303px; min-height: 430px; max-width:
                                                                                                                                 303px; max-height: 430px;">
                                             </div>
@@ -519,7 +519,7 @@
                                 <div class="col-xl-3 col-lg-4 col-sm-6 grid-item grid-sizer tab-readed_webtoons">
                                     <div class="movie-item movie-item-three mb-50">
                                         <div class="movie-poster">
-                                            <img src="../../../{{ $item->image }}" alt=""
+                                            <img src="{{ url($item->image) }}" alt=""
                                                 style="min-width: 303px; min-height: 430px; max-width: 303px; max-height: 430px;">
                                             <ul class="overlay-btn">
                                                 <li><a href="{{ url('webtoon/' . $item->short_name) }}"
@@ -553,7 +553,7 @@
                                     <div class="movie-item movie-item-three mb-50">
                                         <div class="movie-poster">
                                             <div class="movie-poster" style="filter: blur(7px);">
-                                                <img src=" ../../../{{ $item->image }}" alt=""
+                                                <img src=" {{ url($item->image) }}" alt=""
                                                     style=" min-width: 303px; min-height: 430px; max-width:
                                                                                                                                                 303px; max-height: 430px;">
                                             </div>

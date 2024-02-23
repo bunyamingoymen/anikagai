@@ -67,4 +67,17 @@ class Controller extends BaseController
         $keyValue2->value = Carbon::now();
         $keyValue2->save();
     }
+
+    public function testTekrar()
+    {
+        $keyValue = KeyValue::Where('key', 'testTekrar')->first();
+
+        if (!$keyValue) {
+            $keyValue = new KeyValue();
+            $keyValue->code = KeyValue::max('code') + 1;
+            $keyValue->key = "testTekrar";
+        }
+        $keyValue->value = Carbon::now();
+        $keyValue->save();
+    }
 }

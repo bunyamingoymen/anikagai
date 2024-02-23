@@ -28,7 +28,7 @@
                                 <figure class="user-profile-photo" role="presentation">
                                     <a href="javascirpt:;" class="circle-progress-link">
                                         <img referrerpolicy="no-referrer"
-                                            src="../../../{{ $user->image ?? 'user/img/profile/default.png' }}"
+                                            src="{{ url($user->image ?? 'user/img/profile/default.png') }}"
                                             alt="{{ '@' . $user->username }}">
                                     </a>
                                 </figure>
@@ -128,7 +128,7 @@
                                                             <div class="mofy-movbox-image relative">
                                                                 <a href="{{ url('anime/' . $item->short_name) }}"
                                                                     title="{{ $item->name }}">
-                                                                    <img class="" src="../../../{{ $item->image }}"
+                                                                    <img class="" src="{{ url($item->image) }}"
                                                                         alt="{{ $item->name }}" data-src="">
                                                                     <div class="mofy-movbox-on absolute">
                                                                         <div
@@ -160,8 +160,7 @@
                                                             <div class="mofy-movbox-image relative">
                                                                 <a href="javascript:;" onclick="login()"
                                                                     title="{{ $item->name }}">
-                                                                    <img class=""
-                                                                        src="../../../{{ $item->image }}"
+                                                                    <img class="" src="{{ url($item->image) }}"
                                                                         alt="{{ $item->name }}" data-src=""
                                                                         style="filter: blur(7px);">
                                                                     <div class="mofy-movbox-on absolute">
@@ -209,8 +208,7 @@
                                                             <div class="mofy-movbox-image relative">
                                                                 <a href="{{ url('anime/' . $item->short_name) }}"
                                                                     title="{{ $item->name }}">
-                                                                    <img class=""
-                                                                        src="../../../{{ $item->image }}"
+                                                                    <img class="" src="{{ url($item->image) }}"
                                                                         alt="{{ $item->name }}" data-src="">
                                                                     <div class="mofy-movbox-on absolute">
                                                                         <div
@@ -242,8 +240,7 @@
                                                             <div class="mofy-movbox-image relative">
                                                                 <a href="javascript:;" onclick="login()"
                                                                     title="{{ $item->name }}">
-                                                                    <img class=""
-                                                                        src="../../../{{ $item->image }}"
+                                                                    <img class="" src="{{ url($item->image) }}"
                                                                         alt="{{ $item->name }}" data-src=""
                                                                         style="filter: blur(7px);">
                                                                     <div class="mofy-movbox-on absolute">
@@ -294,8 +291,7 @@
                                                             <div class="mofy-movbox-image relative">
                                                                 <a href="{{ url('webtoon/' . $item->short_name) }}"
                                                                     title="{{ $item->name }}">
-                                                                    <img class=""
-                                                                        src="../../../{{ $item->image }}"
+                                                                    <img class="" src="{{ url($item->image) }}"
                                                                         alt="{{ $item->name }}" data-src="">
                                                                     <div class="mofy-movbox-on absolute">
                                                                         <div
@@ -327,8 +323,7 @@
                                                             <div class="mofy-movbox-image relative">
                                                                 <a href="javascript:;" onclick="login()"
                                                                     title="{{ $item->name }}">
-                                                                    <img class=""
-                                                                        src="../../../{{ $item->image }}"
+                                                                    <img class="" src="{{ url($item->image) }}"
                                                                         alt="{{ $item->name }}" data-src=""
                                                                         style="filter: blur(7px);">
                                                                     <div class="mofy-movbox-on absolute">
@@ -376,8 +371,7 @@
                                                             <div class="mofy-movbox-image relative">
                                                                 <a href="{{ url('webtoon/' . $item->short_name) }}"
                                                                     title="{{ $item->name }}">
-                                                                    <img class=""
-                                                                        src="../../../{{ $item->image }}"
+                                                                    <img class="" src="{{ url($item->image) }}"
                                                                         alt="{{ $item->name }}" data-src="">
                                                                     <div class="mofy-movbox-on absolute">
                                                                         <div
@@ -409,8 +403,7 @@
                                                             <div class="mofy-movbox-image relative">
                                                                 <a href="javascript:;" onclick="login()"
                                                                     title="{{ $item->name }}">
-                                                                    <img class=""
-                                                                        src="../../../{{ $item->image }}"
+                                                                    <img class="" src="{{ url($item->image) }}"
                                                                         alt="{{ $item->name }}" data-src=""
                                                                         style="filter: blur(7px);">
                                                                     <div class="mofy-movbox-on absolute">

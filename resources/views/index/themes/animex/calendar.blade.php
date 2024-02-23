@@ -217,7 +217,7 @@
                                                                     @if ($item->anime_show_status == 0 || (Auth::user() && ($item->anime_show_status == 1 || $item->anime_show_status == 2)))
                                                                         <div class="product__item__text row">
                                                                             <div class="divimg">
-                                                                                <img src="../../../{{ $item->anime_image }}"
+                                                                                <img src="{{ url($item->anime_image) }}"
                                                                                     alt="" style="">
                                                                             </div>
                                                                             <div class="divtext">
@@ -236,7 +236,7 @@
                                                                             <div class="divimg">
                                                                                 <div class="unknown_content set-bg"
                                                                                     style="width: 25px; height: 25px;"
-                                                                                    data-setbg="../../../{{ $item->anime_image }}">
+                                                                                    data-setbg="{{ url($item->anime_image) }}">
 
                                                                                 </div>
                                                                             </div>
@@ -280,7 +280,7 @@
                                                                             (Auth::user() && ($item->webtoon_show_status == 1 || $item->webtoon_show_status == 2)))
                                                                         <div class="product__item__text row">
                                                                             <div class="divimg">
-                                                                                <img src="../../../{{ $item->webtoon_image }}"
+                                                                                <img src="{{ url($item->webtoon_image) }}"
                                                                                     alt="">
                                                                             </div>
                                                                             <div class="divtext">
@@ -299,7 +299,7 @@
                                                                             <div class="divimg">
                                                                                 <div class="unknown_content set-bg"
                                                                                     style="width: 25px; height: 25px;"
-                                                                                    data-setbg="../../../{{ $item->webtoon_image }}">
+                                                                                    data-setbg="{{ url($item->webtoon_image) }}">
 
                                                                                 </div>
                                                                             </div>

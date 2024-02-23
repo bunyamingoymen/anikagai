@@ -18,6 +18,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')->hourly();
         $schedule->command('sitemap:generate')->everyFiveMinutes();
+        $schedule->command('App\Http\Controllers\Controller@testTekrar')->everyTwentySeconds();
     }
 
     /**

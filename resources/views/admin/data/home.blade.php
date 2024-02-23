@@ -24,7 +24,7 @@
                                             @endif
 
                                             <label class="form-check-label" for="flexRadioDefault{{ $loop->index }}">
-                                                <img src="../../../{{ $item->images }}" alt=""
+                                                <img src="{{ url($item->images) }}" alt=""
                                                     style="max-height: 150px;">
                                                 <h4 class="text-center">{{ $item->themeName }}</h4>
                                             </label>
@@ -129,7 +129,7 @@
                                                             value="{{ $item->code }}">
                                                     </div>
                                                     <div class="col-lg-3">
-                                                        <img src="../../../{{ $item->optional }}" alt=""
+                                                        <img src="{{ url($item->optional) }}" alt=""
                                                             style="max-height: 125px;">
                                                     </div>
                                                     <div class="col-lg-8 ">

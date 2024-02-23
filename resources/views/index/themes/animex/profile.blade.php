@@ -22,7 +22,7 @@
             <div class="anime__details__content">
                 <div class="row">
                     <div class="col-lg-3">
-                        <img src="../../../{{ $user->image ?? 'user/img/profile/default.png' }}" alt=""
+                        <img src="{{ url($user->image ?? 'user/img/profile/default.png') }}" alt=""
                             style="max-height: 200px; min-height: 200px; border-radius: 50%;">
                     </div>
                     <div class="col-lg-9">
@@ -136,7 +136,7 @@
                                                                     <div class="product__item">
                                                                         <a href="{{ url('anime/' . $item->short_name) }}">
                                                                             <div class="product__item__pic set-bg"
-                                                                                data-setbg="../../../{{ $item->thumb_image }}">
+                                                                                data-setbg="{{ url($item->thumb_image) }}">
                                                                                 <div class="ep">{{ $item->score }} / 5
                                                                                 </div>
                                                                                 <div class="comment"><i
@@ -166,11 +166,11 @@
                                                                     <div class="product__item">
                                                                         <a href="{{ route('loginScreen') }}">
                                                                             <div class="product__item__pic"
-                                                                                data-setbg="../../../{{ $item->thumb_image }}">
+                                                                                data-setbg="{{ url($item->thumb_image) }}">
                                                                                 <div
                                                                                     style="width: 100%; height: 100%; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center;">
                                                                                     <div class="censor set-bg"
-                                                                                        data-setbg="../../../{{ $item->thumb_image }}">
+                                                                                        data-setbg="{{ url($item->thumb_image) }}">
                                                                                     </div>
                                                                                     <div
                                                                                         style="margin-top: 20px; z-index: 2;">
@@ -214,7 +214,7 @@
                                                                         <a
                                                                             href="{{ url('webtoon/' . $item->short_name) }}">
                                                                             <div class="product__item__pic set-bg"
-                                                                                data-setbg="../../../{{ $item->thumb_image }}">
+                                                                                data-setbg="{{ url($item->thumb_image) }}">
                                                                                 <div class="ep">{{ $item->score }} /
                                                                                     5</div>
                                                                                 <div class="comment"><i
@@ -244,11 +244,11 @@
                                                                     <div class="product__item">
                                                                         <a href="{{ route('loginScreen') }}">
                                                                             <div class="product__item__pic"
-                                                                                data-setbg="../../../{{ $item->thumb_image }}">
+                                                                                data-setbg="{{ url($item->thumb_image) }}">
                                                                                 <div
                                                                                     style="width: 100%; height: 100%; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center;">
                                                                                     <div class="censor set-bg"
-                                                                                        data-setbg="../../../{{ $item->thumb_image }}">
+                                                                                        data-setbg="{{ url($item->thumb_image) }}">
                                                                                     </div>
                                                                                     <div
                                                                                         style="margin-top: 20px; z-index: 2;">
@@ -290,7 +290,7 @@
                                                                     <div class="product__item">
                                                                         <a href="{{ url('anime/' . $item->short_name) }}">
                                                                             <div class="product__item__pic set-bg"
-                                                                                data-setbg="../../../{{ $item->thumb_image }}">
+                                                                                data-setbg="{{ url($item->thumb_image) }}">
                                                                                 <div class="ep">{{ $item->score }} /
                                                                                     5</div>
                                                                                 <div class="comment"><i
@@ -320,11 +320,11 @@
                                                                     <div class="product__item">
                                                                         <a href="{{ route('loginScreen') }}">
                                                                             <div class="product__item__pic"
-                                                                                data-setbg="../../../{{ $item->thumb_image }}">
+                                                                                data-setbg="{{ url($item->thumb_image) }}">
                                                                                 <div
                                                                                     style="width: 100%; height: 100%; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center;">
                                                                                     <div class="censor set-bg"
-                                                                                        data-setbg="../../../{{ $item->thumb_image }}">
+                                                                                        data-setbg="{{ url($item->thumb_image) }}">
                                                                                     </div>
                                                                                     <div
                                                                                         style="margin-top: 20px; z-index: 2;">
@@ -367,7 +367,7 @@
                                                                         <a
                                                                             href="{{ url('webtoon/' . $item->short_name) }}">
                                                                             <div class="product__item__pic set-bg"
-                                                                                data-setbg="../../../{{ $item->thumb_image }}">
+                                                                                data-setbg="{{ url($item->thumb_image) }}">
                                                                                 <div class="ep">{{ $item->score }} /
                                                                                     5</div>
                                                                                 <div class="comment"><i
@@ -397,11 +397,11 @@
                                                                     <div class="product__item">
                                                                         <a href="{{ route('loginScreen') }}">
                                                                             <div class="product__item__pic"
-                                                                                data-setbg="../../../{{ $item->thumb_image }}">
+                                                                                data-setbg="{{ url($item->thumb_image) }}">
                                                                                 <div
                                                                                     style="width: 100%; height: 100%; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center;">
                                                                                     <div class="censor set-bg"
-                                                                                        data-setbg="../../../{{ $item->thumb_image }}">
+                                                                                        data-setbg="{{ url($item->thumb_image) }}">
                                                                                     </div>
                                                                                     <div
                                                                                         style="margin-top: 20px; z-index: 2;">

@@ -7,7 +7,7 @@
                 <div class="col-lg-4">
                     <div class="login__form login__form">
                         <h3>Resim:</h3>
-                        <img src="../../../{{ $user->image ?? 'user/img/profile/default.png' }}" alt=""
+                        <img src="{{ url($user->image ?? 'user/img/profile/default.png') }}" alt=""
                             style="max-height: 200px; min-height: 200px; border-radius: 50%;">
                         <form action="{{ route('change_profile_image') }}" id="changeProfileImageForm" method="POST"
                             enctype="multipart/form-data">
@@ -56,7 +56,7 @@
     <!-- Login Section End -->
 
     <!-- Js Plugins -->
-    <script src="../../../user/animex/js/jquery-3.3.1.min.js"></script>
+    <script src="{{ url('user/animex/js/jquery-3.3.1.min.js') }}"></script>
 
     <script>
         var controlIsUsername = true;

@@ -9,11 +9,11 @@
     <link rel="shortcut icon" href="assets/images/favicon.ico">
 
     <!-- Bootstrap Css -->
-    <link href="{{ url('../../../admin/assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ url('admin/assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
-    <link href="{{ url('../../../assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ url('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- App Css-->
-    <link href="{{ url('../../../assets/css/app.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ url('assets/css/app.min.css') }}" rel="stylesheet" type="text/css" />
 
 </head>
 
@@ -28,7 +28,7 @@
                 <div class="col-lg-7">
                     <div class="text-center mb-5">
                         <div class="mb-5">
-                            <img src="../../../admin/assets/images/logo-dark.png" height="50" alt="logo">
+                            <img src="{{ url('admin/assets/images/logo-dark.png') }}" height="50" alt="logo">
                         </div>
                         <h4 class="mt-4">Sitemiz Bakım Aşamasında</h4>
                         <p>Size Daha iyi hizmet verebilmek için sitemizi güncelliyoruz.</p>
@@ -39,7 +39,7 @@
             <div class="row pt-4 align-items-center justify-content-center">
                 <div class="col-sm-10">
                     <div class="">
-                        <img src="{{ url('../../../admin/assets/images/maintenance.png') }}" alt="lrdöşerlfrlşsdöç"
+                        <img src="{{ url('admin/assets/images/maintenance.png') }}" alt="lrdöşerlfrlşsdöç"
                             class="img-fluid mx-auto d-block">
                     </div>
                 </div>
@@ -49,11 +49,11 @@
     <!-- end Account pages -->
 
     <!-- JAVASCRIPT -->
-    <script src="../../../admin/assets/libs/jquery/jquery.min.js"></script>
-    <script src="../../../admin/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="../../../admin/assets/libs/metismenu/metisMenu.min.js"></script>
-    <script src="../../../admin/assets/libs/simplebar/simplebar.min.js"></script>
-    <script src="../../../admin/assets/libs/node-waves/waves.min.js"></script>
+    <script src="{{ url('admin/assets/libs/jquery/jquery.min.js') }}"></script>
+    <script src="{{ url('admin/assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url('admin/assets/libs/metismenu/metisMenu.min.js') }}"></script>
+    <script src="{{ url('admin/assets/libs/simplebar/simplebar.min.js') }}"></script>
+    <script src="{{ url('admin/assets/libs/node-waves/waves.min.js') }}"></script>
 
     <script src="assets/js/app.js"></script>
 

@@ -8,7 +8,7 @@
 
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
         /* Roboto fontunu ekleyin veya
-                                                                                                                                                                                                                                                                                                                                                            kendi tercih ettiğiniz bir font kullanabilirsiniz */
+                                                                                                                                                                                                                                                                                                                                                                            kendi tercih ettiğiniz bir font kullanabilirsiniz */
 
         .overlay-button {
             position: absolute !important;
@@ -94,8 +94,8 @@
                     </div>
                     <div class="anime__video__player justify-content-center">
                         <video id="anime-video-player-url" class="plyr video_size_class" controls crossorigin playsinline
-                            poster="../../../{{ $anime->image }}">
-                            <source src="../../../{{ $episode->video }}" type="video/mp4" size="720" />
+                            poster="{{ url($anime->image) }}">
+                            <source src="{{ url($episode->video) }}" type="video/mp4" size="720" />
                             <!-- Diğer çözünürlükleri buraya ekleyebilirsiniz -->
                             Your browser does not support the video tag.
                         </video>
@@ -185,7 +185,7 @@
                             @foreach ($comments_main as $main_comment)
                                 <div class="anime__review__item">
                                     <div class="anime__review__item__pic">
-                                        <img src="../../../{{ $main_comment->user_image ?? 'user/img/profile/default.png' }}"
+                                        <img src="{{ url($main_comment->user_image ?? 'user/img/profile/default.png') }}"
                                             alt="">
                                     </div>
                                     <div class="anime__review__item__text">
@@ -238,7 +238,7 @@
                     @foreach ($comments_alt->Where('comment_top_code', $main_comment->code) as $alt_comment)
                         <div class="blog__details__comment__item blog__details__comment__item--reply">
                             <div class="anime__review__item__pic">
-                                <img src="../../../{{ $alt_comment->user_image ?? 'user/img/profile/default.png' }}"
+                                <img src="{{ url($alt_comment->user_image ?? 'user/img/profile/default.png') }}"
                                     alt="">
                             </div>
                             <div class="anime__review__item__text">
@@ -314,8 +314,7 @@
                         <div class="col-lg-8 col-md-12 col-sm-12">
                             <div class="product__item">
                                 <a href="anime/{{ $item->short_name }}">
-                                    <div class="product__item__pic set-bg"
-                                        data-setbg="../../../{{ $item->thumb_image }}">
+                                    <div class="product__item__pic set-bg" data-setbg="{{ url($item->thumb_image) }}">
                                         <div class="ep">{{ $item->score }} / 5</div>
                                         <div class="comment"><i class="fa fa-comments"></i>
                                             {{ $item->comment_count }}

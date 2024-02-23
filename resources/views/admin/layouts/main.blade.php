@@ -8,31 +8,32 @@
     <meta content="Anikagai admin created by bunyamingoymen" name="description" />
     <meta content="Bünyamin Göymen" name="author" />
     <!-- App favicon -->
-    <link rel="shortcut icon" href="../../../admin/assets/images/favicon.ico">
+    <link rel="shortcut icon" href="{{ url('admin/assets/images/favicon.ico') }}">
 
     <!-- Bootstrap Css -->
-    <link href="../../../admin/assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="{{ url('admin/assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- Icons Css -->
-    <link href="../../../admin/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
+    <link href="{{ url('admin/assets/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
     <!-- App Css-->
-    <link href="../../../admin/assets/css/app.min.css" rel="stylesheet" type="text/css" />
+    <link href="{{ url('admin/assets/css/app.min.css') }}" rel="stylesheet" type="text/css" />
 
     <!-- Sweet Alert-->
-    <link href="../../../admin/assets/libs/sweetalert2/sweetalert2.min.css" rel="stylesheet" type="text/css" />
+    <link href="{{ url('admin/assets/libs/sweetalert2/sweetalert2.min.css') }}" rel="stylesheet" type="text/css" />
 
     <!-- alertifyjs Css -->
-    <link href="../../../admin/assets/libs/alertifyjs/build/css/alertify.min.css" rel="stylesheet" type="text/css" />
+    <link href="{{ url('admin/assets/libs/alertifyjs/build/css/alertify.min.css') }}" rel="stylesheet"
+        type="text/css" />
 
     <!-- alertifyjs default themes  Css -->
-    <link href="../../../admin/assets/libs/alertifyjs/build/css/themes/default.min.css" rel="stylesheet"
+    <link href="{{ url('admin/assets/libs/alertifyjs/build/css/themes/default.min.css') }}" rel="stylesheet"
         type="text/css" />
 
     <!-- slick css -->
-    <link href="../../../admin/assets/libs/slick-slider/slick/slick.css" rel="stylesheet" type="text/css" />
-    <link href="../../../admin/assets/libs/slick-slider/slick/slick-theme.css" rel="stylesheet" type="text/css" />
+    <link href="{{ url('admin/assets/libs/slick-slider/slick/slick.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ url('admin/assets/libs/slick-slider/slick/slick-theme.css') }}" rel="stylesheet" type="text/css" />
 
     <!-- JAVASCRIPT -->
-    <script src="../../../admin/assets/libs/jquery/jquery.min.js"></script>
+    <script src="{{ url('admin/assets/libs/jquery/jquery.min.js') }}"></script>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ag-grid-community@31.0.3/styles/ag-grid.css" />
 
@@ -105,19 +106,19 @@
 
     </div>
 
-    <script src="../../../admin/assets/libs/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="../../../admin/assets/libs/metismenu/metisMenu.min.js"></script>
-    <script src="../../../admin/assets/libs/simplebar/simplebar.min.js"></script>
-    <script src="../../../admin/assets/libs/node-waves/waves.min.js"></script>
+    <script src="{{ url('admin/assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+    <script src="{{ url('admin/assets/libs/metismenu/metisMenu.min.js') }}"></script>
+    <script src="{{ url('admin/assets/libs/simplebar/simplebar.min.js') }}"></script>
+    <script src="{{ url('admin/assets/libs/node-waves/waves.min.js') }}"></script>
 
     <!-- alertifyjs js -->
-    <script src="../../../admin/assets/libs/alertifyjs/build/alertify.min.js"></script>
+    <script src="{{ url('admin/assets/libs/alertifyjs/build/alertify.min.js') }}"></script>
 
 
     <!-- Sweet Alerts js -->
-    <script src="../../../admin/assets/libs/sweetalert2/sweetalert2.min.js"></script>
+    <script src="{{ url('admin/assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
 
-    <script src="../../../admin/assets/js/app.js"></script>
+    <script src="{{ url('admin/assets/js/app.js') }}"></script>
 
     <!--Uyarı Mesajları-->
     <script>

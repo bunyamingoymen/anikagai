@@ -2,7 +2,7 @@
 @section('admin_content')
     @if ($create == 1)
         <!-- Summernote css -->
-        <link href="../../../admin/assets/libs/summernote/summernote-bs4.min.css" rel="stylesheet" type="text/css" />
+        <link href="{{ url('admin/assets/libs/summernote/summernote-bs4.min.css') }}" rel="stylesheet" type="text/css" />
 
         <div class="row">
             <div class="col-lg-12">
@@ -50,11 +50,11 @@
         </div>
 
         <!-- JAVASCRIPT -->
-        <script src="../../../admin/assets/libs/jquery/jquery.min.js"></script>
-        <script src="../../../admin/assets/libs/summernote/summernote-bs4.min.js"></script>
+        <script src="{{ url('admin/assets/libs/jquery/jquery.min.js') }}"></script>
+        <script src="{{ url('admin/assets/libs/summernote/summernote-bs4.min.js') }}"></script>
 
         <script>
-            $.getScript('../../../admin/assets/libs/summernote/summernote-bs4.min.js', function() {
+            $.getScript("{{ url('admin/assets/libs/summernote/summernote-bs4.min.js') }}", function() {
                 $(document).ready(function() {
                     $("#summernote").summernote({
                             height: 300,

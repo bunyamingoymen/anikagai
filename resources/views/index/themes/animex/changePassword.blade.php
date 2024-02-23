@@ -35,7 +35,7 @@
     <!-- Login Section End -->
 
     <!-- Js Plugins -->
-    <script src="../../../user/animex/js/jquery-3.3.1.min.js"></script>
+    <script src="{{ url('user/animex/js/jquery-3.3.1.min.js') }}"></script>
 
     <script>
         @if (session('error'))

@@ -192,7 +192,7 @@
             </div><!-- /.modal -->
         @endif
 
-        <script src="../../../admin/assets/libs/jquery/jquery.min.js"></script>
+        <script src="{{ url('admin/assets/libs/jquery/jquery.min.js') }}"></script>
 
         <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.9/index.global.min.js'></script>
         <!--CRUD İşlemleri-->

@@ -20,7 +20,7 @@
     <meta property="og:title" content="{{ $data['index_title']->value }} ">
     <meta property="og:site_name" content="{{ $data['index_title']->value }}">
     <meta property="og:url" content="{{ route('index') }}">
-    <meta property="og:image" content="../../../{{ $data['index_icon']->value }}">
+    <meta property="og:image" content="{{ url($data['index_icon']->value) }}">
 
     <title>{{ $data['index_title']->value }}</title>
 
@@ -38,23 +38,23 @@
 
     <!--  CSS Dosyaları  -->
     <!-- İmages -->
-    <link rel="icon" href="../../../{{ $data['index_icon']->value }}" type="image/x-icon">
+    <link rel="icon" href="{{ url($data['index_icon']->value) }}" type="image/x-icon">
 
     <!--Swipper-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
 
-    <link rel="preload" href="../../../user/moviefx/assets/css/main.css" as="style">
-    <link rel="stylesheet" href="../../../user/moviefx/assets/css/swiper.css">
-    <link rel="stylesheet" href="../../../user/moviefx/assets/css/main.css">
-    <link rel="stylesheet" href="../../../user/moviefx/assets/css/msfx.min.css">
-    <link rel="stylesheet" href="../../../user/moviefx/assets/css/msfx-theme.min.css">
+    <link rel="preload" href="{{ url('user/moviefx/assets/css/main.css') }}" as="style">
+    <link rel="stylesheet" href="{{ url('user/moviefx/assets/css/swiper.css') }}">
+    <link rel="stylesheet" href="{{ url('user/moviefx/assets/css/main.css') }}">
+    <link rel="stylesheet" href="{{ url('user/moviefx/assets/css/msfx.min.css') }}">
+    <link rel="stylesheet" href="{{ url('user/moviefx/assets/css/msfx-theme.min.css') }}">
     <!--Sweet Alert-->
-    <link rel="stylesheet" href="../../../user/css/sweetalert.min.css" />
-    <link href="../../../user/css/sweetalert_dark.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url('user/css/sweetalert.min.css') }}" />
+    <link href="{{ url('user/css/sweetalert_dark.min.css" rel="stylesheet') }}">
     <!--Özel-->
-    <link rel="stylesheet" href="../../../index/css/censor.css" type="text/css">
+    <link rel="stylesheet" href="{{ url('index/css/censor.css" type="text/css') }}">
     <!--Font Awesome-->
-    <link rel="stylesheet" href="../../../user/css/fontawesome_all.min.css" />
+    <link rel="stylesheet" href="{{ url('user/css/fontawesome_all.min.css') }}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/brands.min.css"
         integrity="sha512-W/zrbCncQnky/EzL+/AYwTtosvrM+YG/V6piQLSe2HuKS6cmbw89kjYkp3tWFn1dkWV7L1ruvJyKbLz73Vlgfg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -66,7 +66,7 @@
         integrity="sha512-WW8/jxkELe2CAiE4LvQfwm1rajOS8PHasCCx+knHG0gBHt8EXxS6T6tJRTGuDQVnluuAvMxWF4j8SNFDKceLFg=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    <link rel="stylesheet" href="../../../user/animex/css/plyr.css" type="text/css">
+    <link rel="stylesheet" href="{{ url('user/animex/css/plyr.css') }}" type="text/css">
 
     <style>
         .login-form-input {
@@ -75,16 +75,16 @@
     </style>
 
     <!--JS Dosyaları-->
-    <script src="../../../user/moviefx/assets/js/jquery-3.3.1.min.js"></script>
-    <script src="../../../user/moviefx/assets/js/jquery-ui.min.js"></script>
-    <script src="../../../user/moviefx/assets/js/semantic.min.js"></script>
-    <script src="../../../user/moviefx/assets/js/navigo.min.js"></script>
-    <script src="../../../user/moviefx/assets/js/jquery.scrollbar.min.js?v=1"></script>
-    <script src="../../../user/moviefx/assets/js/lazyload.min.js"></script>
-    <script src="../../../user/moviefx/assets/js/sweetalert2.min.js"></script>
-    <script src="../../../user/moviefx/assets/js/humane.min.js?v=2"></script>
-    <script src="../../../user/moviefx/assets/js/main.min.js"></script>
-    <script src="../../../user/animex/js/player.js"></script>
+    <script src="{{ url('user/moviefx/assets/js/jquery-3.3.1.min.js') }}"></script>
+    <script src="{{ url('user/moviefx/assets/js/jquery-ui.min.js') }}"></script>
+    <script src="{{ url('user/moviefx/assets/js/semantic.min.js') }}"></script>
+    <script src="{{ url('user/moviefx/assets/js/navigo.min.js') }}"></script>
+    <script src="{{ url('user/moviefx/assets/js/jquery.scrollbar.min.js?v=1') }}"></script>
+    <script src="{{ url('user/moviefx/assets/js/lazyload.min.js') }}"></script>
+    <script src="{{ url('user/moviefx/assets/js/sweetalert2.min.js') }}"></script>
+    <script src="{{ url('user/moviefx/assets/js/humane.min.js?v=2') }}"></script>
+    <script src="{{ url('user/moviefx/assets/js/main.min.js') }}"></script>
+    <script src="{{ url('user/animex/js/player.js') }}"></script>
 
     <!-- Swipper -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
@@ -104,7 +104,7 @@
 
             function login() {
                 Swal.fire({
-                    title: `<img src="../../../{{ $data['index_logo']->value }}" src="site logo" style="height: 32px; margin-top:50px;"> </img>`,
+                    title: `<img src="{{ url($data['index_logo']->value) }}" src="site logo" style="height: 32px; margin-top:50px;"> </img>`,
                     html: `
                 <form action="{{ route('login') }}" method="POST">
                     @csrf
@@ -130,7 +130,7 @@
 
             function register() {
                 Swal.fire({
-                    title: `<img src="../../../{{ $data['index_logo']->value }}" src="site logo" style="height: 32px; margin-top:50px;">
+                    title: `<img src="{{ url($data['index_logo']->value) }}" src="site logo" style="height: 32px; margin-top:50px;">
                 </img>`,
                     html: `
                 <form action="{{ route('register') }}" method="POST" id="registerSubmitForm">

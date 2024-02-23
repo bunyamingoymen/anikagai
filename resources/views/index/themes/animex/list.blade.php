@@ -1,6 +1,6 @@
 @extends('index.themes.animex.layouts.main')
 @section('index_content')
-    <link rel="stylesheet" href="../../../user/animex/css/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="{{ url('user/animex/css/nice-select.css') }}" type="text/css">
     <!-- Breadcrumb Begin -->
     <div class="breadcrumb-option">
         <div class="container">
@@ -79,7 +79,7 @@
                                                             <a href="{{ url('webtoon/' . $item->short_name) }}">
                                                     @endif
                                                     <div class="product__item__pic set-bg"
-                                                        data-setbg="../../../{{ $item->thumb_image }}">
+                                                        data-setbg="{{ url($item->thumb_image) }}">
                                                         <div class="ep">{{ $item->score }} / 5</div>
                                                         <div class="comment"><i class="fa fa-comments"></i>
                                                             {{ $item->comment_count }}
@@ -116,7 +116,7 @@
                                                             <div
                                                                 style="width: 100%; height: 100%; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center;">
                                                                 <div class="censor set-bg"
-                                                                    data-setbg="../../../{{ $item->thumb_image }}">
+                                                                    data-setbg="{{ url($item->thumb_image) }}">
                                                                 </div>
                                                                 <div style="margin-top: 20px; z-index: 2;">
                                                                     <a class="overlay-button-pink" href="javascript:void(0)"
@@ -148,7 +148,7 @@
                                                         <a href="{{ url('webtoon/' . $item->short_name) }}">
                                                 @endif
                                                 <div class="product__item__pic set-bg"
-                                                    data-setbg="../../../{{ $item->thumb_image }}">
+                                                    data-setbg="{{ url($item->thumb_image) }}">
                                                     <div class="ep">{{ $item->score }} / 5</div>
                                                     <div class="comment"><i class="fa fa-comments"></i>
                                                         {{ $item->comment_count }}
@@ -180,7 +180,7 @@
                                                         <div
                                                             style="width: 100%; height: 100%; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center;">
                                                             <div class="censor set-bg"
-                                                                data-setbg="../../../{{ $item->thumb_image }}">
+                                                                data-setbg="{{ url($item->thumb_image) }}">
                                                             </div>
                                                             <div style="margin-top: 20px; z-index: 2;">
                                                                 <a class="overlay-button"
@@ -233,7 +233,7 @@
     <!-- Product Section End -->
 
 
-    <script src="../../../user/animex/js/jquery-3.3.1.min.js"></script>
+    <script src="{{ url('user/animex/js/jquery-3.3.1.min.js') }}"></script>
 
 
     <script>

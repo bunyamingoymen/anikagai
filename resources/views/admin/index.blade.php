@@ -1,9 +1,9 @@
 @extends('admin.layouts.main')
 @section('admin_content')
     <!-- JAVASCRIPT -->
-    <script src="../../../admin/assets/libs/jquery/jquery.min.js"></script>
+    <script src="{{ url('admin/assets/libs/jquery/jquery.min.js') }}"></script>
 
-    <script src="../../../admin/assets/libs/slick-slider/slick/slick.min.js"></script>
+    <script src="{{ url('admin/assets/libs/slick-slider/slick/slick.min.js') }}"></script>
 
     <!--Üst kısım Toplam Sayılar-->
     <div class="row">
@@ -175,7 +175,7 @@
                                     <tr>
                                         <td>{{ $loop->index + 1 }}</td>
                                         <td>
-                                            <img src="../../../{{ $item->user_image }}" alt="user"
+                                            <img src="{{ url($item->user_image) }}" alt="user"
                                                 class="avatar-xs rounded-circle" />
                                         </td>
                                         <td>
@@ -287,7 +287,7 @@
     </script>
 
     <!-- apexcharts -->
-    <script src="../../../admin/assets/libs/apexcharts/apexcharts.min.js"></script>
+    <script src="{{ url('admin/assets/libs/apexcharts/apexcharts.min.js') }}"></script>
 
-    <script src="../../../admin/assets/js/pages/dashboard.init.js"></script>
+    <script src="{{ url('admin/assets/js/pages/dashboard.init.js') }}"></script>
 @endsection

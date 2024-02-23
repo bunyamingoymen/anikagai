@@ -1,7 +1,7 @@
 @extends('index.themes.animex.layouts.main')
 @section('index_content')
     <!-- Normal Breadcrumb Begin -->
-    <section class="normal-breadcrumb set-bg" data-setbg="../../../user/animex/img/normal-breadcrumb.jpg">
+    <section class="normal-breadcrumb set-bg" data-setbg="{{ url('user/animex/img/normal-breadcrumb.jpg') }}">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12 text-center">
@@ -91,7 +91,7 @@
     <!-- Login Section End -->
 
     <!-- Js Plugins -->
-    <script src="../../../user/animex/js/jquery-3.3.1.min.js"></script>
+    <script src="{{ url('user/animex/js/jquery-3.3.1.min.js') }}"></script>
 
     <script src="https://www.google.com/recaptcha/api.js"></script>
 

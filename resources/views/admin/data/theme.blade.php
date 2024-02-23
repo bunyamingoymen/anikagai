@@ -53,7 +53,7 @@
         </div>
 
         <!-- JAVASCRIPT -->
-        <script src="../../../admin/assets/libs/jquery/jquery.min.js"></script>
+        <script src="{{ url('admin/assets/libs/jquery/jquery.min.js') }}"></script>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-colorpicker/3.4.0/js/bootstrap-colorpicker.min.js"
             integrity="sha512-94dgCw8xWrVcgkmOc2fwKjO4dqy/X3q7IjFru6MHJKeaAzCvhkVtOS6S+co+RbcZvvPBngLzuVMApmxkuWZGwQ=="

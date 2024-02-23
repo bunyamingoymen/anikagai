@@ -27,7 +27,7 @@
                 <div class="hero__slider owl-carousel">
                     @foreach ($slider_image as $index => $item)
                         <div id="heroSlider{{ $index + 1 }}" class="hero__items set-bg"
-                            data-setbg="../../../{{ $item->optional ?? '' }}"
+                            data-setbg="{{ url($item->optional ?? '') }}"
                             onmouseover="showVideo({{ $index }},{{ $item->code }})"
                             onmouseout="hideVideo({{ $index }})">
                             <div class="row">
@@ -93,7 +93,7 @@
                                             <div class="product__item">
                                                 <a href="{{ url('anime/' . $item->short_name) }}">
                                                     <div class="product__item__pic set-bg"
-                                                        data-setbg="../../../{{ $item->thumb_image }}">
+                                                        data-setbg="{{ url($item->thumb_image) }}">
                                                         <div class="ep">{{ $item->score }} / 5</div>
                                                         <div class="comment"><i class="fa fa-comments"></i>
                                                             {{ $item->comment_count }}
@@ -120,7 +120,7 @@
                                                         <div
                                                             style="width: 100%; height: 100%; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center;">
                                                             <div class="censor set-bg"
-                                                                data-setbg="../../../{{ $item->thumb_image }}">
+                                                                data-setbg="{{ url($item->thumb_image) }}">
                                                             </div>
                                                             <div style="margin-top: 20px; z-index: 2;">
                                                                 <a class="overlay-button"
@@ -165,7 +165,7 @@
                                             <div class="product__item">
                                                 <a href="{{ url('webtoon/' . $item->short_name) }}">
                                                     <div class="product__item__pic set-bg"
-                                                        data-setbg="../../../{{ $item->thumb_image }}">
+                                                        data-setbg="{{ url($item->thumb_image) }}">
                                                         <div class="ep">{{ $item->score }} / 5</div>
                                                         <div class="comment"><i class="fa fa-comments"></i>
                                                             {{ $item->comment_count }}
@@ -192,7 +192,7 @@
                                                         <div
                                                             style="width: 100%; height: 100%; position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center;">
                                                             <div class="censor set-bg"
-                                                                data-setbg="../../../{{ $item->thumb_image }}">
+                                                                data-setbg="{{ url($item->thumb_image) }}">
                                                             </div>
                                                             <div style="margin-top: 20px; z-index: 2;">
                                                                 <a class="overlay-button"
@@ -226,7 +226,7 @@
                                 @foreach ($trend_animes as $item)
                                     <div class="product__sidebar__comment__item">
                                         <div class="product__sidebar__comment__item__pic">
-                                            <img src="../../../{{ $item->thumb_image_2 }}" alt=""
+                                            <img src="{{ url($item->thumb_image_2) }}" alt=""
                                                 style="min-width: 90px !important; min-height: 130px !important; max-width: 90px !important; max-height: 130px
                                 !important;">
                                         </div>
@@ -250,7 +250,7 @@
                                 @foreach ($trend_webtoons as $item)
                                     <div class="product__sidebar__comment__item">
                                         <div class="product__sidebar__comment__item__pic">
-                                            <img src="../../../{{ $item->thumb_image_2 }}" alt=""
+                                            <img src="{{ url($item->thumb_image_2) }}" alt=""
                                                 style="min-width: 90px !important; min-height: 130px !important; max-width: 90px !important; max-height: 130px
                                 !important;">
                                         </div>
@@ -273,7 +273,7 @@
         </div>
     </section>
     <!-- Js Plugins -->
-    <script src="../../../user/animex/js/owl.carousel.min.js"></script>
+    <script src="{{ url('user/animex/js/owl.carousel.min.js') }}"></script>
     <script>
         // Tüm video elementlerini seç ve varsayılan olarak gizle
         // Önceden çekilen videoların bilgilerini saklamak için bir nesne oluştur

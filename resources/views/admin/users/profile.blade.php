@@ -8,7 +8,7 @@
                         <div class="text-center card-box shadow-none border border-secoundary">
                             <div class="member-card">
                                 <div class="avatar-xl member-thumb mb-3 mx-auto d-block">
-                                    <img src="../../../{{ $user->image }}" class="rounded-circle img-thumbnail"
+                                    <img src="{{ url($user->image) }}" class="rounded-circle img-thumbnail"
                                         alt="profile-image">
                                     @if ($user->deleted == 0)
                                         <i class="mdi mdi-star-circle member-star text-success" title="verified user"></i>
@@ -168,7 +168,7 @@
                                         <div>
                                             <div class="media mb-3">
                                                 <img class="d-flex mr-3 avatar-md rounded-circle"
-                                                    src="../../../{{ $item->user_image }}" alt="" height="64">
+                                                    src="{{ url($item->user_image) }}" alt="" height="64">
                                                 <div class="media-body">
                                                     <p style="text-align: left;">
                                                         {{ $item->user_name . ' ' . $item->user_surname }}
@@ -261,7 +261,7 @@
 
         function unfollowUser() {
             var html =
-            `<form action='{{ route('admin_unfollow_user') }}' method="POST" id="unfollowUserChangeForm"> @csrf`;
+                `<form action='{{ route('admin_unfollow_user') }}' method="POST" id="unfollowUserChangeForm"> @csrf`;
             html += `<input type="text" name="followed_user_code" value='{{ $user->code ?? '' }}'>`;
             html += `</form>`
 
