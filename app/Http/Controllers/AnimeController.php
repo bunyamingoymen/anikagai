@@ -114,7 +114,7 @@ class AnimeController extends Controller
                 $content->save();
             }
         }
-
+        $this->sitemapGenerator();
         return redirect()->route('admin_anime_list')->with("success", Config::get('success.success_codes.10060010'));
     }
 
@@ -228,7 +228,7 @@ class AnimeController extends Controller
             }
         }
 
-
+        $this->sitemapGenerator();
         return redirect()->route('admin_anime_list')->with("success", Config::get('success.success_codes.10060012'));
     }
 
@@ -242,6 +242,9 @@ class AnimeController extends Controller
         $anime->deleted = 1;
         $anime->update_user_code = Auth::guard('admin')->user()->code;
         $anime->save();
+
+        $this->sitemapGenerator();
+
         return redirect()->route('admin_anime_list')->with("success", Config::get('success.success_codes.10060013'));
     }
 

@@ -9,7 +9,7 @@ class Kernel extends ConsoleKernel
 {
 
     protected $commands = [
-        'App\Console\Commands\GenerateSitemap',
+        \App\Console\Commands\GenerateSitemap::class,
     ];
     /**
      * Define the application's command schedule.

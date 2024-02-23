@@ -155,6 +155,8 @@ class WebtoonEpisodeController extends Controller
         $webtoon->season_count = $request->season_short > $webtoon->season_count ?  $request->season_short : $webtoon->season_count;
         $webtoon->save();
 
+        $this->sitemapGenerator();
+
         return response()->json(['success' => true]);
     }
 
@@ -216,7 +218,7 @@ class WebtoonEpisodeController extends Controller
         }
         $webtoon->update_user_code = Auth::guard('admin')->user()->code;
         $webtoon->save();
-
+        $this->sitemapGenerator();
 
         return redirect()->route('admin_webtoon_episodes_list')->with("success", Config::get('success.success_codes.10110013'));
     }

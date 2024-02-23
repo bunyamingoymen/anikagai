@@ -1,92 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
     <url>
-        <loc>http://127.0.0.1:8000/webtoon/i-am-the-c.e.o</loc>
-            <changefreq>daily</changefreq>
-        <priority>0.8</priority>
-            </url>
-    <url>
-        <loc>http://127.0.0.1:8000/webtoon/i-am-the-c.e.o/1/1</loc>
-            <changefreq>daily</changefreq>
-        <priority>0.8</priority>
-            </url>
-    <url>
-        <loc>http://127.0.0.1:8000/webtoon/The-S-Classes-That-I-Raised</loc>
-            <changefreq>daily</changefreq>
-        <priority>0.8</priority>
-            </url>
-    <url>
-        <loc>http://127.0.0.1:8000/webtoon/Legend-Of-The-Northern-Blade</loc>
-            <changefreq>daily</changefreq>
-        <priority>0.8</priority>
-            </url>
-    <url>
-        <loc>http://127.0.0.1:8000/webtoon/Rooftop-Sword-Master</loc>
-            <changefreq>daily</changefreq>
-        <priority>0.8</priority>
-            </url>
-    <url>
-        <loc>http://127.0.0.1:8000/webtoon/Demonic-Evolution</loc>
-            <changefreq>daily</changefreq>
-        <priority>0.8</priority>
-            </url>
-    <url>
-        <loc>http://127.0.0.1:8000/webtoon/Boss-Returns</loc>
-            <changefreq>daily</changefreq>
-        <priority>0.8</priority>
-            </url>
-    <url>
-        <loc>http://127.0.0.1:8000/webtoon/Moby-Dick</loc>
-            <changefreq>daily</changefreq>
-        <priority>0.8</priority>
-            </url>
-    <url>
-        <loc>http://127.0.0.1:8000/webtoon/Rental-Hero</loc>
-            <changefreq>daily</changefreq>
-        <priority>0.8</priority>
-            </url>
-    <url>
-        <loc>http://127.0.0.1:8000/webtoon/The-Boxer</loc>
-            <changefreq>daily</changefreq>
-        <priority>0.8</priority>
-            </url>
-    <url>
-        <loc>http://127.0.0.1:8000/webtoon/The-Hole-Is-Open</loc>
-            <changefreq>daily</changefreq>
-        <priority>0.8</priority>
-            </url>
-    <url>
-        <loc>http://127.0.0.1:8000/webtoon/Killer-Pedro</loc>
-            <changefreq>daily</changefreq>
-        <priority>0.8</priority>
-            </url>
-    <url>
-        <loc>http://127.0.0.1:8000/webtoon/i-am-the-strongest-boss</loc>
-            <changefreq>daily</changefreq>
-        <priority>0.8</priority>
-            </url>
-    <url>
-        <loc>http://127.0.0.1:8000/webtoon/stepmother%60s-friends</loc>
-            <changefreq>daily</changefreq>
-        <priority>0.8</priority>
-            </url>
-    <url>
-        <loc>http://127.0.0.1:8000/webtoon/Hell-Fists</loc>
-            <changefreq>daily</changefreq>
-        <priority>0.8</priority>
-            </url>
-    <url>
-        <loc>http://127.0.0.1:8000/webtoon/solo-leveling</loc>
-            <changefreq>daily</changefreq>
-        <priority>0.8</priority>
-            </url>
-    <url>
         <loc>http://127.0.0.1:8000/webtoon/an-animal-hospital-in-the-border-area</loc>
-            <changefreq>daily</changefreq>
-        <priority>0.8</priority>
-            </url>
-    <url>
-        <loc>http://127.0.0.1:8000/webtoon/Brother,-Am-I-Cute?</loc>
             <changefreq>daily</changefreq>
         <priority>0.8</priority>
             </url>
@@ -106,7 +21,12 @@
         <priority>0.8</priority>
             </url>
     <url>
-        <loc>http://127.0.0.1:8000/webtoon/i%E2%80%99ll-be-the-matriarch-in-this-life</loc>
+        <loc>http://127.0.0.1:8000/webtoon/hast%C4%B1r-oradan-</loc>
+            <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/anime/tokyo-ghoul</loc>
             <changefreq>daily</changefreq>
         <priority>0.8</priority>
             </url>

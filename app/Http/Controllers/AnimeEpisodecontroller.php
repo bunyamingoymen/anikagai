@@ -81,6 +81,8 @@ class AnimeEpisodecontroller extends Controller
 
         $anime_episode->save();
 
+        $this->sitemapGenerator();
+
         return response()->json(['success' => true]);
     }
 
@@ -147,6 +149,8 @@ class AnimeEpisodecontroller extends Controller
         }
         $anime->update_user_code = Auth::guard('admin')->user()->code;
         $anime->save();
+
+        $this->sitemapGenerator();
 
         return redirect()->route('admin_anime_episodes_list')->with("success", Config::get('success.success_codes.10080013'));
     }

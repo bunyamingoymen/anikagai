@@ -118,6 +118,8 @@ class WebtoonController extends Controller
             }
         }
 
+        $this->sitemapGenerator();
+
         return redirect()->route('admin_webtoon_list')->with("success", Config::get('success.success_codes.10090010'));
     }
 
@@ -229,6 +231,8 @@ class WebtoonController extends Controller
             }
         }
 
+        $this->sitemapGenerator();
+
         return redirect()->route('admin_webtoon_list')->with("success", Config::get('success.success_codes.10090012'));
     }
 
@@ -242,6 +246,9 @@ class WebtoonController extends Controller
         $webtoon->deleted = 1;
         $webtoon->update_user_code = Auth::guard('admin')->user()->code;
         $webtoon->save();
+
+        $this->sitemapGenerator();
+
         return redirect()->route('admin_webtoon_list')->with("success", Config::get('success.success_codes.10090013'));
     }
 
