@@ -12,12 +12,18 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Config;
 use Spatie\Sitemap\Sitemap;
 
 class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
-    public $showCount = 10;
+    public $showCount;
+
+    public function __construct()
+    {
+        $this->showCount = Config::get('app.showCount');
+    }
 
     public function adultOn()
     {

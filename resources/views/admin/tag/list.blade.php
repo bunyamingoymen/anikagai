@@ -43,7 +43,7 @@
                         page: page
                     },
                     success: function(response) {
-                        var id = page <= 1 ? 1 : (page - 1) * 10 + 1;
+                        var id = page <= 1 ? 1 : (page - 1) * parseInt("{{ Config::get('app.showCount') }}") + 1;
                         rowData = [];
                         var tags = response.tags;
                         var page_count = response.page_count;

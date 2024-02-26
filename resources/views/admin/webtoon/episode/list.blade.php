@@ -91,7 +91,7 @@
                     success: function(response) {
                         var webtoon_episode = response.webtoon_episode;
                         var page_count = response.page_count;
-                        var id = page <= 1 ? 1 : (page - 1) * 10 + 1;
+                        var id = page <= 1 ? 1 : (page - 1) * parseInt("{{ Config::get('app.showCount') }}") + 1;
                         rowData = [];
                         for (let i = 0; i < webtoon_episode.length; i++) {
                             var rowItem = {

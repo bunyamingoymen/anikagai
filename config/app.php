@@ -16,6 +16,7 @@ return [
     |
     */
 
+    'showCount' => 15,
     'name' => env('APP_NAME', 'Laravel'),
 
     /*
