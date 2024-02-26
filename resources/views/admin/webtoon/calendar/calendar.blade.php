@@ -341,10 +341,6 @@
             }
 
             function GetWeek(start_date, finish_date, changeWeek) {
-                console.log('Hafta Sayımı Başladı');
-                console.log('start_date: ' + start_date);
-                console.log('finish_date: ' + finish_date);
-                console.log('changeWeek: ' + changeWeek);
                 while (start_date < finish_date) {
                     const formatted_date = start_date.getFullYear() + '-' +
                         ('0' + (start_date.getMonth() + 1)).slice(-2) + '-' +
@@ -395,7 +391,6 @@
                 options = [];
                 var start_date = new Date(first_date);
                 var finish_date = new Date(end_date);
-                console.log('cycle_type hesaplaması yapılıyor')
                 if (cycle_type == 0) {
                     const formatted_date = start_date.getFullYear() + '-' +
                         ('0' + (start_date.getMonth() + 1)).slice(-2) + '-' +
@@ -415,11 +410,6 @@
                 } else {
                     console.log('HATA');
                 }
-
-                console.log('cycle_type hesaplaması bitti');
-
-                console.log('options değeri: ' + options.length);
-
                 setTimeout(() => {
                     if (options.length > 0) {
                         for (var i = 0; i < options.length; i++) {

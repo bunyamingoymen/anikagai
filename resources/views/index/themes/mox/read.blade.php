@@ -238,8 +238,6 @@
     <script>
         const autoread = 5000;
         const scrool_cookie = "read_{{ $episode->code }}"
-        console.log('sayfa başlatıldı')
-        console.log(getSavedScrollPosition(scrool_cookie));
         setInterval(() => {
             saveScrollPosition();
         }, autoread);

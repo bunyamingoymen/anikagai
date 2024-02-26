@@ -386,7 +386,7 @@
 
             function sendDate(selectBoxID, cycle_type, special_type, special_count, first_date, end_date, formID) {
                 //0: tekrarlama, 1:günlük, 2:haftalık, 3:aylık, 4:yıllık, 5: özel
-                console.log(cycle_type);
+                //console.log(cycle_type);
                 options = [];
                 var start_date = new Date(first_date);
                 var finish_date = new Date(end_date);

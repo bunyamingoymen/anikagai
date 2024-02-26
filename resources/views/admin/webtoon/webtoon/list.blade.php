@@ -73,7 +73,6 @@
                     success: function(response) {
                         var webtoons = response.webtoons;
                         var page_count = response.page_count;
-                        console.log(JSON.stringify(response.count));
                         rowData = [];
                         var code = ``;
                         var id = page <= 1 ? 1 : (page - 1) * 10 + 1;

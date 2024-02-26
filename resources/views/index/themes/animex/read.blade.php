@@ -540,7 +540,6 @@
         }
 
         function watchAnime(anime_episode_code) {
-            console.log('işaretleme fonksiyonu çalıştı');
             var anime_code = `{{ $webtoon->code }}`;
             @if (Auth::user())
 

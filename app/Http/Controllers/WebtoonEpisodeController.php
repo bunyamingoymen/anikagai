@@ -246,7 +246,21 @@ class WebtoonEpisodeController extends Controller
             ->select('webtoon_episodes.*', 'webtoons.name as webtoon_name', 'webtoons.thumb_image_2 as webtoon_image');
 
         $webtoon_episode = $episodeQuery->skip($skip)->take($this->showCount)->get();
-        $page_count = ceil($episodeQuery->count() / $this->showCount);
+        $page_count = ceil(DB::table('webtoon_episodes')
+            ->where("webtoon_episodes.deleted", 0)
+            ->where("webtoons.deleted", 0)
+            ->when($request->selectedWebtoonCode, function ($query, $selectedWebtoonCode) {
+                return $query->where('webtoons.code', $selectedWebtoonCode);
+            })
+            ->when($request->searchData, function ($query, $searchData) {
+                return $query->where(function ($query) use ($searchData) {
+                    $query->where('webtoon_episodes.name', 'LIKE', '%' . $searchData . '%')
+                        ->orWhere('webtoon_episodes.description', 'LIKE', '%' . $searchData . '%')
+                        ->orWhere('webtoon_episodes.minute', 'LIKE', '%' . $searchData . '%');
+                });
+            })
+            ->join('webtoons', 'webtoons.code', '=', 'webtoon_episodes.webtoon_code')
+            ->select('webtoon_episodes.*', 'webtoons.name as webtoon_name', 'webtoons.thumb_image_2 as webtoon_image')->count() / $this->showCount);
 
         //return $webtoon_episode;
         return [

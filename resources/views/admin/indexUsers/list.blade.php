@@ -31,7 +31,6 @@
 
         <script>
             function changePage(page) {
-                console.log(page);
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'

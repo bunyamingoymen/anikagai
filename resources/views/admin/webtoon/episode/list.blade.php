@@ -79,7 +79,6 @@
                 if (searchData != "")
                     pageData.searchData = searchData;
 
-
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'

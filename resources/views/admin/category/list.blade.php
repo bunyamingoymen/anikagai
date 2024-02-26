@@ -32,7 +32,6 @@
             var pageCount = 1;
 
             function changePage(page) {
-                console.log(page);
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'

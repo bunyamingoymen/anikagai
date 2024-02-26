@@ -200,7 +200,6 @@
                 document.getElementById("imageInputHR" + input_code).remove();
                 if (input_code != totalFile) {
                     for (let i = parseInt(input_code) + 1; i <= parseInt(totalFile); i++) {
-                        console.log(i + " ------------------------------------------------------- " + i);
                         var newOrder = i - 1;
                         //Ana div değişikliği yapılıyor
                         document.getElementById("imageInput" + i + "Div").id = "imageInput" + newOrder + "Div";

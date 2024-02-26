@@ -191,7 +191,6 @@
         }
 
         function getDay(day) {
-            console.log("day: " + day);
             if (day == 0) return "Pazar";
             else if (day == 1) return "Pazartesi";
             else if (day == 2) return "Salı";
