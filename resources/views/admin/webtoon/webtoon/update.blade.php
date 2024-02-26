@@ -168,9 +168,7 @@
                     })
                 } else {
 
-                    var short_name = name.replace(/[ğĞüÜşŞıİöÖçÇ\s]/g, function(match) {
-                        return match === ' ' ? '-' : match.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-                    });
+                    var short_name = makeShortName(name);
 
                     document.getElementById('code').value = "{{ $webtoon->code }}";
                     document.getElementById('short_name').value = short_name;

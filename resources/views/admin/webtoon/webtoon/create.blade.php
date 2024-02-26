@@ -129,11 +129,7 @@
                     })
                 } else {
 
-                    var short_name = name.replace(/[ğĞüÜşŞıİöÖçÇ\s]/g, function(match) {
-                        return match === ' ' ? '-' : match.normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-                    });
-
-                    var short_name = short_name.toLowerCase();
+                    var short_name = makeShortName(name);
 
                     document.getElementById('short_name').value = short_name;
                     document.getElementById('webtoonCreateForm').submit();

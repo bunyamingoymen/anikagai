@@ -80,4 +80,26 @@ class Controller extends BaseController
         $keyValue->value = Carbon::now();
         $keyValue->save();
     }
+
+    public function makeShortName($name)
+    {
+        $alphabet = [
+            'q', 'w', 'e', 'r', 't', 'y', 'u', 'ı', 'o', 'p', 'ğ', 'ü',
+            'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'ş', 'i',
+            'z', 'x', 'c', 'v', 'b', 'n', 'm', 'ö', 'ç'
+        ];
+
+        $name = $name;
+        $shortName = '';
+
+        // Gelen ismi karakter karakter parçalayarak kontrol ediyoruz
+        for ($i = 0; $i < mb_strlen($name); $i++) {
+            $character = mb_strtolower(mb_substr($name, $i, 1)); // Harfi küçük harfe dönüştürüyoruz
+            if (in_array($character, $alphabet)) {
+                $shortName .= $character;
+            } else $shortName .= "-";
+        }
+
+        return $shortName;
+    }
 }

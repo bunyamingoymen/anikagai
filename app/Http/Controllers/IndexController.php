@@ -176,13 +176,7 @@ class IndexController extends Controller
         $listItemsSetting = ThemeSetting::where('theme_code', $selected_theme->value)->where('setting_name', 'listCount')->first();
         $listItems = $listItemsSetting ? $listItemsSetting->setting_value : 20;
 
-        $shortName = preg_replace_callback('/[ğĞüÜşŞıİöÖçÇ\s]/u', function ($match) {
-            $normalizedChar = $match[0] === ' ' ? '-' : preg_replace('/[\p{Mn}]/u', '', iconv('UTF-8', 'ASCII//TRANSLIT', $match[0]));
-            return strtolower($normalizedChar);
-        }, $query);
-
-        $shortName = strtolower($shortName);
-
+        $shortName = $this->makeShortName($query);
 
         $path = "/search?query={$query}";
 

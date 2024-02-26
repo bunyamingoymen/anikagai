@@ -134,7 +134,24 @@
             alertify.warning("{{ session('warning') }}");
         @endif
     </script>
+    <script>
+        var alphabet = [
+            'q', 'w', 'e', 'r', 't', 'y', 'u', 'ı', 'o', 'p', 'ğ', 'ü',
+            'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'ş', 'i',
+            'z', 'x', 'c', 'v', 'b', 'n', 'm', 'ö', 'ç'
+        ];
 
+        function makeShortName(name) {
+            var shortName = '';
+            for (var i = 0; i < name.length; i++) {
+                var character = name[i].toLowerCase();
+                if (alphabet.includes(character)) {
+                    shortName += character;
+                } else shortName += "-";
+            }
+            return shortName;
+        }
+    </script>
 </body>
 
 </html>

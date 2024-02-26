@@ -260,9 +260,7 @@ class WebtoonController extends Controller
         $webtoonsQuery = Webtoon::where('deleted', 0)
             ->when($request->searchData, function ($query, $searchData) {
                 // Arama terimi için özel karakter dönüşümü
-                $shortName = preg_replace_callback('/[ğĞüÜşŞıİöÖçÇ\s]/u', function ($match) {
-                    return strtolower(preg_replace('/[\p{Mn}]/u', '', iconv('UTF-8', 'ASCII//TRANSLIT', $match[0])));
-                }, $searchData);
+                $shortName =  $this->makeShortName($searchData);
 
                 $searchQueryData = '%' . $searchData . '%';
                 $shortNameData = '%' . $shortName . '%';
@@ -282,7 +280,7 @@ class WebtoonController extends Controller
         return [
             'webtoons' => $webtoons,
             'page_count' => $page_count,
-            'count' => $webtoonsQuery
+            'count' => $webtoonsQuery,
         ];
     }
 
