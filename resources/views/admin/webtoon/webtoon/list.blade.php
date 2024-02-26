@@ -92,22 +92,7 @@
                             rowData.push(rowItem);
                         }
 
-                        gridApi.setGridOption('rowData', rowData);
-
-                        newPageCount(page_count, page);
-                        pageCount = page_count;
-
-                        currentPaginationId = 'pagination' + currentPage;
-                        paginationId = 'pagination' + page;
-
-                        if (document.getElementById(currentPaginationId)) {
-                            document.getElementById(currentPaginationId).classList.remove("active");
-                        }
-                        if (document.getElementById(paginationId)) {
-                            document.getElementById(paginationId).classList.add("active");
-                        }
-
-                        currentPage = page;
+                        getOtherData(page_count, page);
 
                     }
                 });

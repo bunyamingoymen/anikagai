@@ -54,18 +54,7 @@
                             rowData.push(rowItem);
                         }
 
-                        gridApi.setGridOption('rowData', rowData);
-
-                        newPageCount(page_count, page);
-                        pageCount = page_count;
-
-                        currentPaginationId = 'pagination' + currentPage;
-                        paginationId = 'pagination' + page;
-
-                        document.getElementById(currentPaginationId).classList.remove("active");
-                        document.getElementById(paginationId).classList.add("active");
-
-                        currentPage = page;
+                        getOtherData(page_count, page);
 
                     }
                 });
