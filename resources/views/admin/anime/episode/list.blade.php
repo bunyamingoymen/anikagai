@@ -47,10 +47,7 @@
                         </div>
                         <div class="ag-theme-quartz mt-2 mb-2" style="height: 500px;" id="myGrid"></div>
 
-                        <div class="float-right">
-                            <ul class="pagination">
-                            </ul>
-                        </div>
+                        <div id="paginate"></div>
                     </div>
                 </div>
             </div>
