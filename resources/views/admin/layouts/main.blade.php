@@ -134,6 +134,7 @@
             alertify.warning("{{ session('warning') }}");
         @endif
     </script>
+
 </body>
 
 </html>

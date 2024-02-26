@@ -72,6 +72,11 @@
 
                 if (searchData != "")
                     pageData.searchData = searchData;
+
+                if (showingCount && showingCount != 10) {
+                    pageData.showingCount = showingCount;
+                }
+
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'

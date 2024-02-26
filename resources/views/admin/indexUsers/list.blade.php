@@ -28,6 +28,12 @@
 
         <script>
             function changePage(page) {
+                var pageData = {
+                    page: page,
+                }
+                if (showingCount && showingCount != 10) {
+                    pageData.showingCount = showingCount;
+                }
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
@@ -36,9 +42,7 @@
                 $.ajax({
                     type: 'POST',
                     url: '{{ route('admin_indexuser_get_data') }}',
-                    data: {
-                        page: page
-                    },
+                    data: pageData,
                     success: function(response) {
                         var id = page <= 1 ? 1 : (page - 1) * parseInt("{{ Config::get('app.showCount') }}") + 1;
                         var indexUsers = response.indexUsers;

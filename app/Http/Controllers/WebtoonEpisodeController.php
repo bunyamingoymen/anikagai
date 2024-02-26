@@ -225,7 +225,8 @@ class WebtoonEpisodeController extends Controller
 
     public function episodeGetData(Request $request)
     {
-        $skip = (($request->page - 1) * $this->showCount);
+        $take  = $request->showingCount ? $request->showingCount : Config::get('app.showCount');
+        $skip = (($request->page - 1) * $take);
         $searchData = $request->searchData;
         $selectedWebtoonCode = $request->selectedWebtoonCode;
 
@@ -245,7 +246,7 @@ class WebtoonEpisodeController extends Controller
             ->join('webtoons', 'webtoons.code', '=', 'webtoon_episodes.webtoon_code')
             ->select('webtoon_episodes.*', 'webtoons.name as webtoon_name', 'webtoons.thumb_image_2 as webtoon_image');
 
-        $webtoon_episode = $episodeQuery->skip($skip)->take($this->showCount)->get();
+        $webtoon_episode = $episodeQuery->skip($skip)->take($take)->get();
         $page_count = ceil(DB::table('webtoon_episodes')
             ->where("webtoon_episodes.deleted", 0)
             ->where("webtoons.deleted", 0)
@@ -260,7 +261,7 @@ class WebtoonEpisodeController extends Controller
                 });
             })
             ->join('webtoons', 'webtoons.code', '=', 'webtoon_episodes.webtoon_code')
-            ->select('webtoon_episodes.*', 'webtoons.name as webtoon_name', 'webtoons.thumb_image_2 as webtoon_image')->count() / $this->showCount);
+            ->select('webtoon_episodes.*', 'webtoons.name as webtoon_name', 'webtoons.thumb_image_2 as webtoon_image')->count() / $take);
 
         //return $webtoon_episode;
         return [
