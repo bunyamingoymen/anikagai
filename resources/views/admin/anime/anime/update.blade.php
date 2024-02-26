@@ -53,7 +53,7 @@
                                         <label for="">Şu an yüklü resim:</label>
                                     </div>
                                     <div>
-                                        <img src="{{ url($anime->image) }}" alt="{{ $anime->name }}"
+                                        <img src="{{ url($anime->thumb_image) }}" alt="{{ $anime->name }}"
                                             style="max-height:300px; max-width:300px; height:auto; width:auto;">
                                     </div>
                                 </div>

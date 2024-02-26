@@ -54,7 +54,7 @@
                                         <label for="">Şu an yüklü resim:</label>
                                     </div>
                                     <div>
-                                        <img src="{{ url($webtoon->image) }}" alt="{{ $webtoon->name }}"
+                                        <img src="{{ url($webtoon->thumb_image) }}" alt="{{ $webtoon->name }}"
                                             style="max-height:300px; max-width:300px; height:auto; width:auto;">
                                     </div>
                                 </div>

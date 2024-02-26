@@ -15,7 +15,7 @@ class OtherSeeder extends Seeder
      */
     public function run(): void
     {
-
+        /*
         DB::table('categories')->truncate();
 
         DB::table('categories')->insert([
@@ -212,5 +212,6 @@ class OtherSeeder extends Seeder
                 'updated_at' => Carbon::now(),
             ],
         ]);
+        */
     }
 }

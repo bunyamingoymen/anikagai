@@ -16,7 +16,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         DB::table('users')->truncate();
-        
+
         DB::table('users')->insert([
             [
                 'id' => 1,
@@ -33,6 +33,7 @@ class UserSeeder extends Seeder
                 'update_user_code' => 0,
                 'deleted' => 0,
             ],
+            /*
             [
                 'id' => 2,
                 'code' => 1,
@@ -48,6 +49,7 @@ class UserSeeder extends Seeder
                 'update_user_code' => 0,
                 'deleted' => 0,
             ],
+            */
         ]);
     }
 }

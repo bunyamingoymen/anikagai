@@ -160,7 +160,7 @@ class DataController extends Controller
             $thumbName = "gallery_" . $slider->code . "_thumbnail." . $image->getClientOriginalExtension();
 
             GlideImage::create($path . '/' . $name)
-                ->modify(['w' => 1172, 'h' => 564, 'fit' => 'crop'])
+                ->modify(['w' => 2637, 'h' => 1269, 'fit' => 'contain'])
                 ->save($thumbPath . '/' . $thumbName);
 
             $slider->optional = "files/sliders/images/" . $thumbName;
