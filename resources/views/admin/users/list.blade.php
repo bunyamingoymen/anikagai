@@ -43,7 +43,7 @@
                     url: '{{ route('admin_user_get_data') }}',
                     data: pageData,
                     success: function(response) {
-                        var id = page <= 1 ? 1 : (page - 1) * parseInt("{{ Config::get('app.showCount') }}") + 1;
+                        var id = page <= 1 ? 1 : (page - 1) * showingCount + 1;
                         var users = response.users;
                         var page_count = response.pageCount;
                         rowData = [];
