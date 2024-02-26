@@ -171,18 +171,20 @@ class AdminController extends Controller
 
     public function contactGetData(Request $request)
     {
-        $skip = (($request->page - 1) * $this->showCount);
-        $contacts = Contact::Where('deleted', 0)->skip($skip)->take($this->showCount)->get();
-        $pageCount = ceil(Contact::Where('deleted', 0)->count() / $this->showCount);
+        $take  = $request->showingCount ? $request->showingCount : Config::get('app.showCount');
+        $skip = (($request->page - 1) * $take);
+        $contacts = Contact::Where('deleted', 0)->skip($skip)->take($take)->get();
+        $pageCount = ceil(Contact::Where('deleted', 0)->count() / $take);
 
         return ['contacts' => $contacts, 'pageCount' => $pageCount];
     }
 
     public function commentGetData(Request $request)
     {
-        $skip = (($request->page - 1) * $this->showCount);
-        $comments = Comment::Where('deleted', 0)->skip($skip)->take($this->showCount)->get();
-        $pageCount = ceil(IndexUser::Where('deleted', 0)->count() / $this->showCount);
+        $take  = $request->showingCount ? $request->showingCount : Config::get('app.showCount');
+        $skip = (($request->page - 1) * $take);
+        $comments = Comment::Where('deleted', 0)->skip($skip)->take($take)->get();
+        $pageCount = ceil(IndexUser::Where('deleted', 0)->count() / $take);
 
         return ['comments' => $comments, 'pageCount' => $pageCount];
     }

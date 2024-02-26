@@ -178,9 +178,10 @@ class UserController extends Controller
 
     public function userGetData(Request $request)
     {
-        $skip = (($request->page - 1) * $this->showCount);
-        $users = User::Where('deleted', 0)->Where('user_type', '!=', '0')->skip($skip)->take($this->showCount)->get();
-        $pageCount = ceil(User::Where('deleted', 0)->Where('user_type', '!=', '0')->count() / $this->showCount);
+        $take  = $request->showingCount ? $request->showingCount : Config::get('app.showCount');
+        $skip = (($request->page - 1) * $take);
+        $users = User::Where('deleted', 0)->Where('user_type', '!=', '0')->skip($skip)->take($take)->get();
+        $pageCount = ceil(User::Where('deleted', 0)->Where('user_type', '!=', '0')->count() / $take);
 
 
         return ['users' => $users, 'pageCount' => $pageCount];

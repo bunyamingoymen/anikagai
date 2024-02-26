@@ -254,7 +254,8 @@ class WebtoonController extends Controller
 
     public function webtoonGetData(Request $request)
     {
-        $skip = (($request->page - 1) * $this->showCount);
+        $take  = $request->showingCount ? $request->showingCount : Config::get('app.showCount');
+        $skip = (($request->page - 1) * $take);
 
         $webtoonsQuery = Webtoon::where('deleted', 0)
             ->when($request->searchData, function ($query, $searchData) {
@@ -273,8 +274,8 @@ class WebtoonController extends Controller
                         ->orWhere('short_name', 'LIKE', $shortNameData);
                 });
             });
-        $page_count = ceil($webtoonsQuery->count() / $this->showCount);
-        $webtoons = $webtoonsQuery->skip($skip)->take($this->showCount)->get();
+        $page_count = ceil($webtoonsQuery->count() / $take);
+        $webtoons = $webtoonsQuery->skip($skip)->take($take)->get();
 
 
 

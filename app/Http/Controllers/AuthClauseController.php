@@ -80,9 +80,10 @@ class AuthClauseController extends Controller
 
     public function AuthClauseGetData(Request $request)
     {
-        $skip = (($request->page - 1) * $this->showCount);
-        $clauses = AuthorizationClause::Where('deleted', 0)->skip($skip)->take($this->showCount)->get();
-        $page_count = ceil(AuthorizationClause::Where('deleted', 0)->count() / $this->showCount);
+        $take  = $request->showingCount ? $request->showingCount : Config::get('app.showCount');
+        $skip = (($request->page - 1) * $take);
+        $clauses = AuthorizationClause::Where('deleted', 0)->skip($skip)->take($take)->get();
+        $page_count = ceil(AuthorizationClause::Where('deleted', 0)->count() / $take);
         return ['clauses' => $clauses, "page_count" => $page_count];
     }
 }

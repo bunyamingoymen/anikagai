@@ -13,21 +13,6 @@ class AnimeEpisodecontroller extends Controller
 {
     public function episodeList()
     {
-        //$anime_episodes = AnimeEpisode::Where('deleted', 0)->take(10)->get();
-        /*
-        $anime_episodes = DB::table('anime_episodes')
-            ->Where('anime_episodes.deleted', 0)
-            ->join('animes', 'animes.code', '=', 'anime_episodes.anime_code')
-            ->select('anime_episodes.*', 'animes.name as anime_name', 'animes.image as anime_image')
-            ->take($this->showCount)
-            ->get();
-        $currentCount = 1;
-        $pageCountTest = AnimeEpisode::Where('deleted', 0)->count();
-        if ($pageCountTest % $this->showCount == 0)
-            $pageCount = $pageCountTest / $this->showCount;
-        else
-            $pageCount = intval($pageCountTest / $this->showCount) + 1;
-        */
         return view("admin.anime.episode.list");
     }
 
@@ -157,7 +142,9 @@ class AnimeEpisodecontroller extends Controller
 
     public function episodeGetData(Request $request)
     {
-        $skip = (($request->page - 1) * $this->showCount);
+        $take  = $request->showingCount ? $request->showingCount : Config::get('app.showCount');
+        $skip = (($request->page - 1) * $take);
+
         $searchData = $request->searchData;
         $selectedAnimeCode = $request->selectedAnimeCode;
 
@@ -177,7 +164,7 @@ class AnimeEpisodecontroller extends Controller
             ->join('animes', 'animes.code', '=', 'anime_episodes.anime_code')
             ->select('anime_episodes.*', 'animes.name as anime_name', 'animes.thumb_image_2 as anime_image');
 
-        $anime_episode = $episodeQuery->skip($skip)->take($this->showCount)->get();
+        $anime_episode = $episodeQuery->skip($skip)->take($take)->get();
         $page_count = ceil($episodeQuery = DB::table('anime_episodes')
             ->where("anime_episodes.deleted", 0)
             ->where("animes.deleted", 0)
@@ -192,7 +179,7 @@ class AnimeEpisodecontroller extends Controller
                 });
             })
             ->join('animes', 'animes.code', '=', 'anime_episodes.anime_code')
-            ->select('anime_episodes.*', 'animes.name as anime_name', 'animes.thumb_image_2 as anime_image')->count() / $this->showCount);
+            ->select('anime_episodes.*', 'animes.name as anime_name', 'animes.thumb_image_2 as anime_image')->count() / $take);
 
         return [
             'anime_episode' => $anime_episode,

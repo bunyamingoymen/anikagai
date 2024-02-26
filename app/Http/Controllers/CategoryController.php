@@ -85,9 +85,10 @@ class CategoryController extends Controller
 
     public function categoryGetData(Request $request)
     {
-        $skip = (($request->page - 1) * $this->showCount);
-        $categories = Category::Where('deleted', 0)->skip($skip)->take($this->showCount)->get();
-        $page_count = ceil(Category::Where('deleted', 0)->count() / $this->showCount);
+        $take  = $request->showingCount ? $request->showingCount : Config::get('app.showCount');
+        $skip = (($request->page - 1) * $take);
+        $categories = Category::Where('deleted', 0)->skip($skip)->take($take)->get();
+        $page_count = ceil(Category::Where('deleted', 0)->count() / $take);
         return ['categories' => $categories, "page_count" => $page_count];;
     }
 }

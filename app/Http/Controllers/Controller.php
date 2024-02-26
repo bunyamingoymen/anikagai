@@ -18,12 +18,6 @@ use Spatie\Sitemap\Sitemap;
 class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
-    public $showCount;
-
-    public function __construct()
-    {
-        $this->showCount = Config::get('app.showCount');
-    }
 
     public function adultOn()
     {

@@ -79,9 +79,10 @@ class TagController extends Controller
 
     public function tagGetData(Request $request)
     {
-        $skip = (($request->page - 1) * $this->showCount);
-        $tags = Tag::Where('deleted', 0)->skip($skip)->take($this->showCount)->get();
-        $page_count = ceil(Tag::Where('deleted', 0)->count() / $this->showCount);
+        $take  = $request->showingCount ? $request->showingCount : Config::get('app.showCount');
+        $skip = (($request->page - 1) * $take);
+        $tags = Tag::Where('deleted', 0)->skip($skip)->take($take)->get();
+        $page_count = ceil(Tag::Where('deleted', 0)->count() / $take);
         return ['tags' => $tags, "page_count" => $page_count];
     }
 }

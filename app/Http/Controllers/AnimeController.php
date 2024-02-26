@@ -250,7 +250,8 @@ class AnimeController extends Controller
 
     public function animeGetData(Request $request)
     {
-        $skip = (($request->page - 1) * $this->showCount);
+        $take  = $request->showingCount ? $request->showingCount : Config::get('app.showCount');
+        $skip = (($request->page - 1) * $take);
 
         $animesQuery = Anime::where('deleted', 0)
             ->when($request->searchData, function ($query, $searchData) {
@@ -269,8 +270,8 @@ class AnimeController extends Controller
                         ->orWhere('short_name', 'LIKE', $shortNameData);
                 });
             });
-        $page_count = ceil($animesQuery->count() / $this->showCount);
-        $animes = $animesQuery->skip($skip)->take($this->showCount)->get();
+        $page_count = ceil($animesQuery->count() / $take);
+        $animes = $animesQuery->skip($skip)->take($take)->get();
 
 
 

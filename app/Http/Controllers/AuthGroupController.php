@@ -80,9 +80,10 @@ class AuthGroupController extends Controller
 
     public function AuthGroupGetData(Request $request)
     {
-        $skip = (($request->page - 1) * $this->showCount);
-        $groups = AuthorizationGroup::Where('deleted', 0)->skip($skip)->take($this->showCount)->get();
-        $page_count = ceil(AuthorizationGroup::Where('deleted', 0)->count() / $this->showCount);
+        $take  = $request->showingCount ? $request->showingCount : Config::get('app.showCount');
+        $skip = (($request->page - 1) * $take);
+        $groups = AuthorizationGroup::Where('deleted', 0)->skip($skip)->take($take)->get();
+        $page_count = ceil(AuthorizationGroup::Where('deleted', 0)->count() / $take);
         return ['groups' => $groups, "page_count" => $page_count];
     }
 }

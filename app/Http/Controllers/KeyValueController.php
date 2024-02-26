@@ -83,9 +83,10 @@ class KeyValueController extends Controller
 
     public function keyValueGetData(Request $request)
     {
-        $skip = (($request->page - 1) * $this->showCount);
-        $keyValues = KeyValue::Where('deleted', 0)->skip($skip)->take($this->showCount)->get();
-        $page_count = ceil(KeyValue::Where('deleted', 0)->count() / $this->showCount);
+        $take  = $request->showingCount ? $request->showingCount : Config::get('app.showCount');
+        $skip = (($request->page - 1) * $take);
+        $keyValues = KeyValue::Where('deleted', 0)->skip($skip)->take($take)->get();
+        $page_count = ceil(KeyValue::Where('deleted', 0)->count() / $take);
         return ['keyValues' => $keyValues, "page_count" => $page_count];
     }
 }

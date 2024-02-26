@@ -106,9 +106,10 @@ class PageController extends Controller
 
     public function pageGetData(Request $request)
     {
-        $skip = (($request->page - 1) * $this->showCount);
-        $pages = Page::Where('deleted', 0)->skip($skip)->take($this->showCount)->get();
-        $page_count = ceil(Page::Where('deleted', 0)->count() / $this->showCount);
+        $take  = $request->showingCount ? $request->showingCount : Config::get('app.showCount');
+        $skip = (($request->page - 1) * $take);
+        $pages = Page::Where('deleted', 0)->skip($skip)->take($take)->get();
+        $page_count = ceil(Page::Where('deleted', 0)->count() / $take);
         return ['pages' => $pages, "page_count" => $page_count];
     }
 }

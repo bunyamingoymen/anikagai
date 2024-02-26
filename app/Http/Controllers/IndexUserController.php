@@ -146,9 +146,10 @@ class IndexUserController extends Controller
 
     public function indexUserGetData(Request $request)
     {
-        $skip = (($request->page - 1) * $this->showCount);
-        $indexUsers = IndexUser::Where('deleted', 0)->skip($skip)->take($this->showCount)->get();
-        $pageCount = ceil(IndexUser::Where('deleted', 0)->count() / $this->showCount);
+        $take  = $request->showingCount ? $request->showingCount : Config::get('app.showCount');
+        $skip = (($request->page - 1) * $take);
+        $indexUsers = IndexUser::Where('deleted', 0)->skip($skip)->take($take)->get();
+        $pageCount = ceil(IndexUser::Where('deleted', 0)->count() / $take);
 
 
         return ['indexUsers' => $indexUsers, 'pageCount' => $pageCount];
