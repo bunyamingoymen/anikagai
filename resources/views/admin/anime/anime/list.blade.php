@@ -40,9 +40,9 @@
             </div>
         </div>
 
-        <script src="{{url('admin/assets/libs/jquery/jquery.min.js')}}"></script>
+        <script src="{{ url('admin/assets/libs/jquery/jquery.min.js') }}"></script>
 
-        <script src="{{url('admin/assets/js/pageTable.js')}}"></script>
+        <script src="{{ url('admin/assets/js/pageTable.js') }}"></script>
         <!-- Sayfa Değiştirme Scripti-->
         <script>
             var searchData = "";
@@ -70,7 +70,6 @@
                         var page_count = response.page_count;
                         rowData = [];
                         for (let i = 0; i < animes.length; i++) {
-
                             var rowItem = {
                                 id: id++,
                                 code: sendData(animes[i].code),
@@ -79,6 +78,7 @@
                                 plusEighteen: sendData(animes[i].plusEighteen),
                                 showStatus: sendData(animes[i].showStatus),
                                 episode_count: sendData(animes[i].episode_count),
+                                season_count: sendData(animes[i].season_count),
                                 click_count: sendData(animes[i].click_count)
                             }
                             rowData.push(rowItem);
@@ -223,6 +223,10 @@
                 {
                     headerName: "Bölüm Sayısı",
                     field: "episode_count",
+                },
+                {
+                    headerName: "Sezon Sayısı",
+                    field: "season_count",
                 },
                 {
                     headerName: "Tıklama Sayısı",

@@ -178,7 +178,21 @@ class AnimeEpisodecontroller extends Controller
             ->select('anime_episodes.*', 'animes.name as anime_name', 'animes.thumb_image_2 as anime_image');
 
         $anime_episode = $episodeQuery->skip($skip)->take($this->showCount)->get();
-        $page_count = ceil($episodeQuery->count() / $this->showCount);
+        $page_count = ceil($episodeQuery = DB::table('anime_episodes')
+            ->where("anime_episodes.deleted", 0)
+            ->where("animes.deleted", 0)
+            ->when($request->selectedAnimeCode, function ($query, $selectedAnimeCode) {
+                return $query->where('animes.code', $selectedAnimeCode);
+            })
+            ->when($request->searchData, function ($query, $searchData) {
+                return $query->where(function ($query) use ($searchData) {
+                    $query->where('anime_episodes.name', 'LIKE', '%' . $searchData . '%')
+                        ->orWhere('anime_episodes.description', 'LIKE', '%' . $searchData . '%')
+                        ->orWhere('anime_episodes.minute', 'LIKE', '%' . $searchData . '%');
+                });
+            })
+            ->join('animes', 'animes.code', '=', 'anime_episodes.anime_code')
+            ->select('anime_episodes.*', 'animes.name as anime_name', 'animes.thumb_image_2 as anime_image')->count() / $this->showCount);
 
         return [
             'anime_episode' => $anime_episode,
