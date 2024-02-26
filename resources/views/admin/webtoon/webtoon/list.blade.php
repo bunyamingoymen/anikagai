@@ -77,23 +77,16 @@
                         var code = ``;
                         var id = page <= 1 ? 1 : (page - 1) * 10 + 1;
                         for (let i = 0; i < webtoons.length; i++) {
-                            var webtoons_code = sendData(webtoons[i].code);
-                            var webtoons_name = sendData(webtoons[i].name);
-                            var webtoons_image = sendData(webtoons[i].thumb_image_2);
-                            var webtoons_plusEighteen = sendData(webtoons[i].plusEighteen);
-                            var webtoons_showStatus = sendData(webtoons[i].showStatus);
-                            var webtoons_episode_count = sendData(webtoons[i].episode_count);
-                            var webtoons_click_count = sendData(webtoons[i].episode_count);
-
                             var rowItem = {
                                 id: id++,
-                                code: webtoons_code,
-                                name: webtoons_name,
-                                image: webtoons_image,
-                                plusEighteen: webtoons_plusEighteen,
-                                showStatus: webtoons_showStatus,
-                                episode_count: webtoons_episode_count,
-                                click_count: webtoons_click_count,
+                                code: sendData(webtoons[i].code),
+                                name: sendData(webtoons[i].name),
+                                image: sendData(webtoons[i].thumb_image_2),
+                                plusEighteen: sendData(webtoons[i].plusEighteen),
+                                showStatus: sendData(webtoons[i].showStatus),
+                                episode_count: sendData(webtoons[i].episode_count),
+                                season_count: sendData(webtoons[i].season_count),
+                                click_count: sendData(webtoons[i].click_count),
                             };
 
                             rowData.push(rowItem);
@@ -241,6 +234,10 @@
                 {
                     headerName: "Bölüm Sayısı",
                     field: "episode_count",
+                },
+                {
+                    headerName: "Sezon Sayısı",
+                    field: "season_count",
                 },
                 {
                     headerName: "Tıklanma Sayısı",
