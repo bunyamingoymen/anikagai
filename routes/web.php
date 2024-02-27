@@ -406,7 +406,8 @@ Route::middleware(['auth'])->group(function () {
 
         Route::controller(NotificationController::class)->group(function () {
             Route::get("/admin/notification/list", "showNotifications")->name('admin_show_notifications');
-            Route::get("/admin/notification/create", "addNotifications")->name('admin_add_notifications');
+            Route::get("/admin/notification/create", "addNotificationsScreen")->name('admin_add_notifications_screen');
+            Route::post("/admin/notification/create", "addNotifications")->name('admin_add_notifications');
         });
     });
 });

@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('notification_title');
             $table->longText('notification_text');
             $table->longText('notification_url')->nullable();
-            $table->unsignedBigInteger('from_user_code')->nullable(); //0 ise sistem tarafından gönderilmiştir.
-            $table->unsignedBigInteger('to_user_code');
-            $table->date('notification_date')->default("1970-01-01");
+            $table->unsignedBigInteger('from_user_code')->nullable(); //0 ise sistem tarafından gönderilmiştir
+            $table->unsignedBigInteger('to_user_code'); //0 ise tüm kullanıcılar, 0 dan farklı lise spesifik kullanıcılar
+            $table->date('notification_date')->default("1970-01-02");
             $table->date('notification_end_date')->default("1970-01-01")->nullable();
             $table->tinyInteger('readed')->default(0); // 0: okunmamış, 1: okunmuş
             $table->unsignedBigInteger('create_user_code')->default(1);

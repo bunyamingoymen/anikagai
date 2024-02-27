@@ -195,7 +195,7 @@
         var html = ``;
 
         @if ($authArray['showNotifications'] == 1)
-            html = `<a href="{{ route('admin_add_notifications') }}">Yeni Bildirim Gönder</a>`;
+            html = `<a href="{{ route('admin_add_notifications_screen') }}">Yeni Bildirim Gönder</a>`;
             document.getElementById('sidebarAddNotification').innerHTML = html;
         @endif
 

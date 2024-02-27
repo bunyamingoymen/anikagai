@@ -119,17 +119,17 @@
                                         {{ $notificaton->read == 1 ? 'notification-item-read' : 'notification-item-unread' }}">
                                             <div class="media">
                                                 <div class="avatar-xs m-3">
-                                                    <img src="{{ url($notification->notification_image) }}"
+                                                    <img src="{{ url($notificaton->notification_image) }}"
                                                         alt="profile_pic" style="width: 50px">
                                                 </div>
                                                 <div class="media-body m-3">
                                                     <div class="row">
                                                         <div>
                                                             <h6 class="mt-0 mb-1">
-                                                                {{ $notification->notification_title }}</h6>
+                                                                {{ $notificaton->notification_title }}</h6>
                                                             <div class="font-size-12 text-muted">
                                                                 <p class="mb-1">
-                                                                    {{ $notification->notification_text }}
+                                                                    {{ $notificaton->notification_text }}
                                                                 </p>
                                                             </div>
                                                         </div>

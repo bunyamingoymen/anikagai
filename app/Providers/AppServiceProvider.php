@@ -347,10 +347,16 @@ class AppServiceProvider extends ServiceProvider
                 $menus = KeyValue::where('key', 'menu')->where('optional', 1)->where('deleted', 0)->get();
                 $menu_alts = KeyValue::where('key', 'menu_alt')->where('optional', 1)->where('deleted', 0)->get();
                 $active_menu = KeyValue::where('key', 'menu')->where('optional_2', Request::path())->first();
-                $notificatons = "";
-                if (Auth::user()) {
-                    $notificatons = NotificationUser::Where('deleted', 0)->where('to_user_code', Auth::user()->code)->where('notification_end_date', '<=', Carbon::now())->get();
-                }
+                $notificatons = [];
+                //dd(Carbon::today());
+                if (Auth::user())
+                    $notificatons = NotificationUser::where('deleted', 0)
+                        ->Where('notification_end_date', '>=', Carbon::today())
+                        ->where('notification_date', '<=', Carbon::today())
+                        ->where('to_user_code', Auth::user()->code)
+                        ->orWhere('to_user_code', 0)
+                        ->get();
+
                 $sliderShow = ThemeSetting::Where('theme_code', KeyValue::Where('key', 'selected_theme')->first()->value)->Where('setting_name', 'showSlider')->first();
 
                 $colors_code = ThemeSetting::where('theme_code', KeyValue::where('key', 'selected_theme')->first()->value)

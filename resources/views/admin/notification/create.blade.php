@@ -4,7 +4,8 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <form action="">
+                    <form action="{{ route('admin_add_notifications') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
                         <div>
                             <label for="notification_image">Resim:</label>
                             <input type="file" id="notification_image" name="notification_image" class="form-control">
@@ -13,12 +14,13 @@
 
                         <div class="mt-2">
                             <label for="notification_title">Başlık:</label>
-                            <input type="text" id="notification_title" name="notification_title" class="form-control">
+                            <input type="text" id="notification_title" name="notification_title" class="form-control"
+                                required>
                         </div>
 
                         <div class="mt-2">
                             <label for="notification_text">Bildirim:</label>
-                            <textarea id="notification_text" name="notification_text" class="form-control" cols="30" rows="5"></textarea>
+                            <textarea id="notification_text" name="notification_text" class="form-control" cols="30" rows="5" required></textarea>
                         </div>
 
                         <div class="mt-2">
