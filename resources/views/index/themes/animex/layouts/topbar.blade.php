@@ -1,4 +1,21 @@
 <!-- Header Section Begin -->
+<style>
+    .notification-container {
+        position: relative;
+    }
+
+    .notification-container i {
+        top: 0;
+        right: 0;
+    }
+
+    .notification-container span {
+        position: absolute;
+        top: -5px;
+        right: -8px;
+        font-size: 8px;
+    }
+</style>
 <header class="header">
     <div class="container">
         <div class="row">
@@ -34,6 +51,10 @@
                     @if (!Auth::user())
                         <a href="{{ route('loginScreen') }}"><span class="icon_profile"></span></a>
                     @else
+                        <a href="#" class="notification-container">
+                            <i class="fa-solid fa-bell"></i>
+                            <span class="badge badge-danger badge-pill">3</span>
+                        </a>
                         <a href="{{ route('profile') }}"><span class="icon_profile"></span></a>
                         <a href="{{ route('logout') }}"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
                     @endif

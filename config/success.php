@@ -127,7 +127,7 @@ return [
         '10180012' => 'İletişim' . $success . $update,
         '10180013' => 'İletişim' . $success . $delete,
 
-        '10190013' => 'Yorum' . $success . $delete,
+        '10190013' => 'Yorum' . $success . $update,
 
 
     ],

@@ -110,7 +110,11 @@
                     field: "image",
                     maxWidth: 75,
                     cellRenderer: function(params) {
-                        return `<img src="../../../${params.value}" alt="user" class="avatar-xs rounded-circle" />`;
+                        if (params.value.length > 0)
+                            return `<img src="../../../${params.value}" alt="user" class="avatar-xs rounded-circle" />`;
+                        else
+                            return `<img src="../../../user/img/profile/default.png" alt="user" class="avatar-xs rounded-circle" />`;
+
                     },
                     filter: false,
                 },
@@ -130,7 +134,7 @@
                     headerName: "Durumu",
                     field: "is_active",
                     cellRenderer: function(params) {
-                        if (params.data.is_active === 1) {
+                        if (params.data.is_active == 1) {
                             return `<span class = "badge badge-pill badge-success"> Aktif </span>`;
                         } else {
                             return `<span class = "badge badge-pill badge-danger"> Pasif </span>`;
@@ -152,7 +156,7 @@
                                         <a class="btn btn-danger btn-sm" href="javascript:void(0);" onclick="deleteIndexUser(${params.data.code}, '${params.data.name}')" data-toggle="tooltip" data-placement="right" title="Sil"><i class="fas fa-trash-alt"></i></a>
                                     </div>`
 
-                            if (params.data.is_active === 1) {
+                            if (params.data.is_active == 1) {
                                 html += `<div class="mr-2 ml-2">
                                         <a class="btn btn-danger btn-sm" href="{{ route('admin_indexuser_change_active') }}?code=${params.data.code}" data-toggle="tooltip" data-placement="right" title="Banla"><i class="fas fa-times-circle" ></i></a>
                                         </div>`;

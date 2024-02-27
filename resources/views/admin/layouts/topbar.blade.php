@@ -63,6 +63,7 @@
                     id="page-header-notifications-dropdown" data-toggle="dropdown" aria-haspopup="true"
                     aria-expanded="false">
                     <i class="mdi mdi-bell-outline"></i>
+                    <span class="badge badge-danger badge-pill">3</span>
                     @if ($notificationAdminCount > 0)
                         <span class="badge badge-danger badge-pill">{{ $notificationAdminCount }}</span>
                     @endif

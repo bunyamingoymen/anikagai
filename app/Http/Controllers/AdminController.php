@@ -104,7 +104,8 @@ class AdminController extends Controller
 
         if (!$comment) return redirect()->back()->with('error', Config::get('error.error_codes.0190013'));
 
-        $comment->is_active == 1 ? $comment->is_active = 0 : $comment->is_active = 1;
+        if ($comment->is_active == 1) $comment->is_active = 0;
+        else $comment->is_active = 1;
 
         $comment->save();
 
@@ -184,7 +185,7 @@ class AdminController extends Controller
         $take  = $request->showingCount ? $request->showingCount : Config::get('app.showCount');
         $skip = (($request->page - 1) * $take);
         $comments = Comment::Where('deleted', 0)->skip($skip)->take($take)->get();
-        $pageCount = ceil(IndexUser::Where('deleted', 0)->count() / $take);
+        $pageCount = ceil(Comment::Where('deleted', 0)->count() / $take);
 
         return ['comments' => $comments, 'pageCount' => $pageCount];
     }

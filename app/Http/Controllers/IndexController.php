@@ -665,7 +665,7 @@ class IndexController extends Controller
             ->where('key', 'insult')
             ->where(function ($query) use ($comment_split_lowercase) {
                 foreach ($comment_split_lowercase as $item) {
-                    $query->orWhere('value', 'LIKE', "%$item%");
+                    $query->orWhere('value', '=', $item);
                 }
             })
             ->exists();
