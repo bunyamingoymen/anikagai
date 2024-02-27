@@ -348,8 +348,11 @@ class AppServiceProvider extends ServiceProvider
                 $menu_alts = KeyValue::where('key', 'menu_alt')->where('optional', 1)->where('deleted', 0)->get();
                 $active_menu = KeyValue::where('key', 'menu')->where('optional_2', Request::path())->first();
                 $notificatons = [];
+                $notificaton_count = 0;
                 //dd(Carbon::today());
-                if (Auth::user())
+                if (Auth::user()) {
+
+
                     $notificatons = NotificationUser::where('deleted', 0)
                         ->Where('notification_end_date', '>=', Carbon::today())
                         ->where('notification_date', '<=', Carbon::today())
@@ -359,6 +362,14 @@ class AppServiceProvider extends ServiceProvider
                         ->take(3)
                         ->get();
 
+                    $notificaton_count = NotificationUser::where('deleted', 0)
+                        ->Where('notification_end_date', '>=', Carbon::today())
+                        ->where('notification_date', '<=', Carbon::today())
+                        ->Where('readed', 0)
+                        ->where('to_user_code', Auth::user()->code)
+                        ->orWhere('to_user_code', 0)
+                        ->count();
+                }
                 $sliderShow = ThemeSetting::Where('theme_code', KeyValue::Where('key', 'selected_theme')->first()->value)->Where('setting_name', 'showSlider')->first();
 
                 $colors_code = ThemeSetting::where('theme_code', KeyValue::where('key', 'selected_theme')->first()->value)
@@ -371,7 +382,8 @@ class AppServiceProvider extends ServiceProvider
                     ->with('active_menu', $active_menu)
                     ->with('sliderShow', $sliderShow)
                     ->with('colors_code', $colors_code)
-                    ->with('notificatons', $notificatons);
+                    ->with('notificatons', $notificatons)
+                    ->with('notificaton_count', $notificaton_count);
             });
 
             View::composer($themeThree, function ($view) {

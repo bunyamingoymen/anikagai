@@ -95,8 +95,7 @@
                             <a href="#" class="dropdown notification-container " data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
                                 <i class="fa-solid fa-bell"></i>
-                                <span
-                                    class="badge badge-danger badge-pill">{{ $notificatons->where('read', 0)->count() }}</span>
+                                <span class="badge badge-danger badge-pill">{{ $notificaton_count }}</span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-0 notification-items"
                                 style="width: 300px; background-color:var(--menu-footer-color)"
@@ -108,7 +107,7 @@
                                         </div>
                                         <div class="col-auto">
                                             <span class="badge badge-pill badge-danger">Okunmamış
-                                                {{ $notificatons->where('read', 0)->count() }}</span>
+                                                {{ $notificaton_count }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -120,7 +119,7 @@
                                             <div class="media">
                                                 <div class="avatar-xs m-3">
                                                     <img src="{{ url($notificaton->notification_image) }}"
-                                                        alt="profile_pic" style="width: 50px; border-radius: 50%;">
+                                                        alt="profile_pic" style="width: 35px; border-radius: 15%;">
                                                 </div>
                                                 <div class="media-body m-3">
                                                     <div class="row">
