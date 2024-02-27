@@ -298,5 +298,17 @@ return [
         'admin/data/theme' => "Tema Ayarları",
         '/admin/data/theme' => ["Admin", "Tema Ayarları"],
         '//admin/data/theme' => ["admin_index", "#"],
+
+
+
+
+
+        'admin/notification/list' => "Bildirimler",
+        '/admin/notification/list' => ["Admin", "Bildirimler"],
+        '//admin/notification/list' => ["admin_index", "#"],
+
+        'admin/notification/create' => "Yeni Bildirim Gönder",
+        '/admin/notification/create' => ["Admin", "Bildirimler", "Yeni Bildirim Gönder"],
+        '//admin/notification/create' => ["admin_index", "admin_show_notifications", "#"],
     ],
 ];

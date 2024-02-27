@@ -17,7 +17,8 @@ return new class extends Migration
             $table->string('notification_image')->default('index/img/default/notification.jpg')->nullable();
             $table->string('notification_title');
             $table->longText('notification_text');
-            $table->unsignedBigInteger('from_user_code')->nullable();
+            $table->longText('notification_url')->nullable();
+            $table->unsignedBigInteger('from_user_code')->nullable(); //0 ise sistem tarafından gönderilmiştir.
             $table->unsignedBigInteger('to_user_code');
             $table->date('notification_date')->default("1970-01-01");
             $table->date('notification_end_date')->default("1970-01-01")->nullable();
