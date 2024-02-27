@@ -112,7 +112,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div data-simplebar style="max-height: 280px;">
+                                <div data-simplebar style="">
                                     @foreach ($notificatons as $notificaton)
                                         <a href="Javascript:;" onclick=""
                                             class="text-reset notification-item
@@ -120,7 +120,7 @@
                                             <div class="media">
                                                 <div class="avatar-xs m-3">
                                                     <img src="{{ url($notificaton->notification_image) }}"
-                                                        alt="profile_pic" style="width: 50px">
+                                                        alt="profile_pic" style="width: 50px; border-radius: 50%;">
                                                 </div>
                                                 <div class="media-body m-3">
                                                     <div class="row">

@@ -355,6 +355,8 @@ class AppServiceProvider extends ServiceProvider
                         ->where('notification_date', '<=', Carbon::today())
                         ->where('to_user_code', Auth::user()->code)
                         ->orWhere('to_user_code', 0)
+                        ->orderBy('created_at', 'DESC')
+                        ->take(3)
                         ->get();
 
                 $sliderShow = ThemeSetting::Where('theme_code', KeyValue::Where('key', 'selected_theme')->first()->value)->Where('setting_name', 'showSlider')->first();
