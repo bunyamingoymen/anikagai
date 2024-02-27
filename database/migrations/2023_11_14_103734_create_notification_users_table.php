@@ -14,11 +14,13 @@ return new class extends Migration
         Schema::create('notification_users', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('code');
+            $table->string('notification_image')->default('index/img/default/notification.jpg')->nullable();
             $table->string('notification_title');
             $table->longText('notification_text');
-            $table->unsignedBigInteger('from_user_code');
+            $table->unsignedBigInteger('from_user_code')->nullable();
             $table->unsignedBigInteger('to_user_code');
             $table->date('notification_date')->default("1970-01-01");
+            $table->date('notification_end_date')->default("1970-01-01")->nullable();
             $table->tinyInteger('readed')->default(0); // 0: okunmamış, 1: okunmuş
             $table->unsignedBigInteger('create_user_code')->default(1);
             $table->unsignedBigInteger('update_user_code')->nullable();

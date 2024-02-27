@@ -38,6 +38,7 @@
     <link rel="stylesheet" href="{{ url('user/animex/css/slicknav.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ url('user/animex/css/style.css') }}" type="text/css">
     <script src="{{ url('user/animex/js/jquery-3.3.1.min.js') }}"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js" integrity="sha512-ubuT8Z88WxezgSqf3RLuNi5lmjstiJcyezx34yIU2gAHonIi27Na7atqzUZCOoY4CExaoFumzOsFQ2Ch+I/HCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- Sweet Alerts js -->
     <script src="{{ url('admin/assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
 
@@ -117,6 +118,7 @@
 <script src="https://kit.fontawesome.com/b49f043adc.js" crossorigin="anonymous"></script>
 
 <!-- Js Plugins -->
+
 <script src="{{ url('user/animex/js/bootstrap.min.js') }}"></script>
 <script src="{{ url('user/animex/js/player.js') }}"></script>
 <script src="{{ url('user/animex/js/jquery.nice-select.min.js') }}"></script>

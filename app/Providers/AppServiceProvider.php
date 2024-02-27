@@ -16,7 +16,9 @@ use Illuminate\Support\Facades\View;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Schema;
 use App\Models\Anime;
+use App\Models\NotificationUser;
 use App\Models\Webtoon;
+use Carbon\Carbon;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -43,7 +45,7 @@ class AppServiceProvider extends ServiceProvider
             $selected_theme = KeyValue::Where('key', 'selected_theme')->first();
             $themePath = Theme::Where('code', $selected_theme->value)->first();
 
-            $indexPages = ['index.' . $themePath->themePath . '.layouts.main', 'index.' . $themePath->themePath . '.index', 'index.' . $themePath->themePath . '.profile', 'index.' . $themePath->themePath . '.calendar'];
+            $indexPages = ['index.' . $themePath->themePath . '.layouts.main', 'index.' . $themePath->themePath . '.index', 'index.' . $themePath->themePath . '.profile', 'index.' . $themePath->themePath . '.calendar', 'index.'];
             $watchPages = ['index.' . $themePath->themePath . '.watch', 'index.' . $themePath->themePath . '.read'];
             $themeThree = ['index.themes.moviefx.layouts.main', 'index.themes.moviefx.layouts.sidebar', 'index.themes.moviefx.layouts.topbar', 'index.themes.moviefx.layouts.footer', 'index.themes.moviefx.profile'];
 
@@ -340,7 +342,10 @@ class AppServiceProvider extends ServiceProvider
                 $menus = KeyValue::where('key', 'menu')->where('optional', 1)->where('deleted', 0)->get();
                 $menu_alts = KeyValue::where('key', 'menu_alt')->where('optional', 1)->where('deleted', 0)->get();
                 $active_menu = KeyValue::where('key', 'menu')->where('optional_2', Request::path())->first();
-
+                $notificatons = "";
+                if (Auth::user()) {
+                    $notificatons = NotificationUser::Where('deleted', 0)->where('to_user_code', Auth::user()->code)->where('notification_end_date', '<=', Carbon::now())->get();
+                }
                 $sliderShow = ThemeSetting::Where('theme_code', KeyValue::Where('key', 'selected_theme')->first()->value)->Where('setting_name', 'showSlider')->first();
 
                 $colors_code = ThemeSetting::where('theme_code', KeyValue::where('key', 'selected_theme')->first()->value)
@@ -352,7 +357,8 @@ class AppServiceProvider extends ServiceProvider
                     ->with('menu_alts', $menu_alts)
                     ->with('active_menu', $active_menu)
                     ->with('sliderShow', $sliderShow)
-                    ->with('colors_code', $colors_code);
+                    ->with('colors_code', $colors_code)
+                    ->with('notificatons', $notificatons);
             });
 
             View::composer($themeThree, function ($view) {

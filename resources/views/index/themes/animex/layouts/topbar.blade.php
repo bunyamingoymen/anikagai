@@ -15,7 +15,39 @@
         right: -8px;
         font-size: 8px;
     }
+
+    .notification-item {
+        width: 100%;
+        background-color: #0b0c2a;
+        transition: opacity 0.3s ease;
+        border-radius: 3px 3px 3px 3px;
+    }
+
+    .notification-item:hover {
+        opacity: 0.6;
+    }
+
+    .notification-item h6,
+    .notification-item p,
+    .notification-top h6 {
+        color: #fff;
+    }
+
+    .notification-items {
+        border-radius: 20px 20px 10px 10px;
+    }
+
+    .notification-more a {
+        font-size: 13px;
+        text-decoration: none;
+    }
+
+    .notification-more a:hover {
+        color: var(--second-color);
+        text-decoration: none;
+    }
 </style>
+
 <header class="header">
     <div class="container">
         <div class="row">
@@ -51,10 +83,82 @@
                     @if (!Auth::user())
                         <a href="{{ route('loginScreen') }}"><span class="icon_profile"></span></a>
                     @else
-                        <a href="#" class="notification-container">
-                            <i class="fa-solid fa-bell"></i>
-                            <span class="badge badge-danger badge-pill">3</span>
-                        </a>
+                        <div class="dropdown d-inline-block notifications">
+                            <a href="#" class="dropdown notification-container " data-toggle="dropdown"
+                                aria-haspopup="true" aria-expanded="false">
+                                <i class="fa-solid fa-bell"></i>
+                                <span class="badge badge-danger badge-pill">3</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-0 notification-items"
+                                style="width: 300px; background-color:var(--menu-footer-color)"
+                                aria-labelledby="page-header-notifications-dropdown">
+                                <div class="p-3">
+                                    <div class="row align-items-center notification-top">
+                                        <div class="col">
+                                            <h6 class="m-0 font-weight-medium text-uppercase"> Bildirimler </h6>
+                                        </div>
+                                        <div class="col-auto">
+                                            <span class="badge badge-pill badge-danger">Okunmamış
+                                                3</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div data-simplebar style="max-height: 280px;">
+                                    <a href="Javascript:;" onclick="" class="text-reset notification-item">
+                                        <div class="media">
+                                            <div class="avatar-xs m-3">
+                                                <img src="{{ url('index/img/default/notification.jpg') }}"
+                                                    alt="profile_pic" style="width: 50px">
+                                            </div>
+                                            <div class="media-body m-3">
+                                                <div class="row">
+                                                    <div>
+                                                        <h6 class="mt-0 mb-1">
+                                                            Deneme</h6>
+                                                        <div class="font-size-12 text-muted">
+                                                            <p class="mb-1">
+                                                                Bu bir denemedir
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    @foreach ($notificatons as $notificaton)
+                                        <a href="Javascript:;" onclick="" class="text-reset notification-item">
+                                            <div class="media">
+                                                <div class="avatar-xs m-3">
+                                                    <img src="{{ url($notification->notification_image) }}"
+                                                        alt="profile_pic" style="width: 50px">
+                                                </div>
+                                                <div class="media-body m-3">
+                                                    <div class="row">
+                                                        <div>
+                                                            <h6 class="mt-0 mb-1">
+                                                                {{ $notification->notification_title }}</h6>
+                                                            <div class="font-size-12 text-muted">
+                                                                <p class="mb-1">
+                                                                    {{ $notification->notification_text }}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    @endforeach
+
+                                </div>
+                                <div class="p-1 border-top notification-more">
+                                    <a class="btn-link btn btn-block text-center" href="javascript:void(0)">
+                                        Daha Fazla..
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+
                         <a href="{{ route('profile') }}"><span class="icon_profile"></span></a>
                         <a href="{{ route('logout') }}"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
                     @endif
