@@ -16,6 +16,7 @@ use App\Http\Controllers\IndexDataController;
 use App\Http\Controllers\IndexUserController;
 use App\Http\Controllers\KeyValueController;
 use App\Http\Controllers\NotificationAdminController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\RssController;
 use App\Http\Controllers\TagController;
@@ -403,7 +404,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post("/admin/tag/delete", "tagDelete")->name('admin_tag_delete');
         });
 
-        Route::controller(TagController::class)->group(function () {
+        Route::controller(NotificationController::class)->group(function () {
             Route::get("/admin/notification/list", "showNotifications")->name('admin_show_notifications');
             Route::get("/admin/notification/create", "addNotifications")->name('admin_add_notifications');
         });

@@ -8,11 +8,11 @@ class NotificationController extends Controller
 {
     public function showNotifications()
     {
-        dd("showNotifications");
+        return view('admin.notification.list');
     }
 
     public function addNotifications()
     {
-        dd("addNotifications");
+        return view('admin.notification.create');
     }
 }

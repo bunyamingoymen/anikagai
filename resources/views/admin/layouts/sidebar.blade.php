@@ -195,12 +195,12 @@
         var html = ``;
 
         @if ($authArray['showNotifications'] == 1)
-            html = `<a href="{{ route('admin_page_list') }}">Yeni Bildirim Gönder</a>`;
+            html = `<a href="{{ route('admin_add_notifications') }}">Yeni Bildirim Gönder</a>`;
             document.getElementById('sidebarAddNotification').innerHTML = html;
         @endif
 
         @if ($authArray['showNotifications'] == 1)
-            html = `<a href="{{ route('admin_page_list') }}">Gönderilmiş Bildirimler</a>`;
+            html = `<a href="{{ route('admin_show_notifications') }}">Gönderilmiş Bildirimler</a>`;
             document.getElementById('sidebarNotifications').innerHTML = html;
         @endif
     @endif
