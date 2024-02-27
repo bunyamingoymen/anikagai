@@ -39,6 +39,17 @@
                     </ul>
                 </li>
 
+                <li id="sidebarNotificationSection" hidden>
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="fas fa-bell"></i>
+                        <span>Bildirimler</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li id="sidebarAddNotification"></li>
+                        <li id="sidebarNotifications"></li>
+                    </ul>
+                </li>
+
                 <li id="sidebarOtherSection" hidden>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="mdi mdi-cogs"></i>
@@ -175,6 +186,22 @@
         @if ($authArray['webtoonCalendarRead'] == 1)
             html = `<a href="{{ route('admin_webtooncalendar_index') }}">Takvim</a>`;
             document.getElementById('sidebarWebtoonCalendar').innerHTML = html;
+        @endif
+    @endif
+
+    @if ($authArray['showNotifications'] == 1 || $authArray['showNotifications'] == 1)
+        document.getElementById('sidebarNotificationSection').hidden = false;
+
+        var html = ``;
+
+        @if ($authArray['showNotifications'] == 1)
+            html = `<a href="{{ route('admin_page_list') }}">Yeni Bildirim Gönder</a>`;
+            document.getElementById('sidebarAddNotification').innerHTML = html;
+        @endif
+
+        @if ($authArray['showNotifications'] == 1)
+            html = `<a href="{{ route('admin_page_list') }}">Gönderilmiş Bildirimler</a>`;
+            document.getElementById('sidebarNotifications').innerHTML = html;
         @endif
     @endif
 

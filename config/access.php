@@ -126,5 +126,8 @@ return [
 
         'admin/data/theme' => 65,
         'admin/data/changeThemeColor' => 65,
+
+        'admin/notification/list' => 67,
+        'admin/notification/create' => 68,
     ],
 ];

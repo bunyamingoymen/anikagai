@@ -18,9 +18,17 @@
 
     .notification-item {
         width: 100%;
-        background-color: #0b0c2a;
+
         transition: opacity 0.3s ease;
         border-radius: 3px 3px 3px 3px;
+    }
+
+    .notification-item-read {
+        background-color: var(--background-color);
+    }
+
+    .notification-item-unread {
+        background-color: #0b0c2a;
     }
 
     .notification-item:hover {
@@ -87,7 +95,8 @@
                             <a href="#" class="dropdown notification-container " data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
                                 <i class="fa-solid fa-bell"></i>
-                                <span class="badge badge-danger badge-pill">3</span>
+                                <span
+                                    class="badge badge-danger badge-pill">{{ $notificatons->where('read', 0)->count() }}</span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-0 notification-items"
                                 style="width: 300px; background-color:var(--menu-footer-color)"
@@ -99,34 +108,15 @@
                                         </div>
                                         <div class="col-auto">
                                             <span class="badge badge-pill badge-danger">Okunmamış
-                                                3</span>
+                                                {{ $notificatons->where('read', 0)->count() }}</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div data-simplebar style="max-height: 280px;">
-                                    <a href="Javascript:;" onclick="" class="text-reset notification-item">
-                                        <div class="media">
-                                            <div class="avatar-xs m-3">
-                                                <img src="{{ url('index/img/default/notification.jpg') }}"
-                                                    alt="profile_pic" style="width: 50px">
-                                            </div>
-                                            <div class="media-body m-3">
-                                                <div class="row">
-                                                    <div>
-                                                        <h6 class="mt-0 mb-1">
-                                                            Deneme</h6>
-                                                        <div class="font-size-12 text-muted">
-                                                            <p class="mb-1">
-                                                                Bu bir denemedir
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </a>
                                     @foreach ($notificatons as $notificaton)
-                                        <a href="Javascript:;" onclick="" class="text-reset notification-item">
+                                        <a href="Javascript:;" onclick=""
+                                            class="text-reset notification-item
+                                        {{ $notificaton->read == 1 ? 'notification-item-read' : 'notification-item-unread' }}">
                                             <div class="media">
                                                 <div class="avatar-xs m-3">
                                                     <img src="{{ url($notification->notification_image) }}"
@@ -152,7 +142,7 @@
                                 </div>
                                 <div class="p-1 border-top notification-more">
                                     <a class="btn-link btn btn-block text-center" href="javascript:void(0)">
-                                        Daha Fazla..
+                                        Bütün bildirimleri gör..
                                     </a>
                                 </div>
                             </div>

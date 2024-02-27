@@ -402,6 +402,11 @@ Route::middleware(['auth'])->group(function () {
 
             Route::post("/admin/tag/delete", "tagDelete")->name('admin_tag_delete');
         });
+
+        Route::controller(TagController::class)->group(function () {
+            Route::get("/admin/notification/list", "showNotifications")->name('admin_show_notifications');
+            Route::get("/admin/notification/create", "addNotifications")->name('admin_add_notifications');
+        });
     });
 });
 

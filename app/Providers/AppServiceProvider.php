@@ -136,6 +136,10 @@ class AppServiceProvider extends ServiceProvider
 
                     $changeThemeSettings = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/data/theme') ? 1 : 0;
 
+                    $showNotifications = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/notification/list') ? 1 : 0;
+
+                    $addNotifications = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/notification/create') ? 1 : 0;
+
                     $authArray = [
                         'userRead' => $userRead, 'userGroupRead' => $userGroupRead, 'groupAuthRead' => $groupAuthRead,
                         'changeHome' => $changeHome, 'changeLogo' => $changeLogo, 'changeMeta' => $changeMeta,
@@ -146,6 +150,7 @@ class AppServiceProvider extends ServiceProvider
                         'pageRead' => $pageRead, 'categoryRead' => $categoryRead, 'tagRead' => $tagRead,
                         'commentRead' => $commentRead, 'contactRead' => $contactRead, 'indexUserRead' => $indexUserRead,
                         'changeSliderVideo' => $changeSliderVideo, 'changeThemeSettings' => $changeThemeSettings,
+                        'showNotifications' => $showNotifications, 'addNotifications' => $addNotifications
                     ];
                     //----------------------------------------------------------------
 
