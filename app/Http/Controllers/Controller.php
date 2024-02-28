@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\Anime;
 use App\Models\AnimeEpisode;
 use App\Models\KeyValue;
+use App\Models\NotificationUser;
 use App\Models\Webtoon;
 use App\Models\WebtoonEpisode;
 use Carbon\Carbon;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Config;
 use Spatie\Sitemap\Sitemap;
@@ -101,5 +103,38 @@ class Controller extends BaseController
         }
 
         return $shortName;
+    }
+
+    public function sendNotificationIndexUser($imageType = 0, $image_url = null, $notification_image = null, $notification_title, $notification_text, $notification_url = null, $to_user_code, $notification_date, $notification_end_date)
+    {
+        $notification = new NotificationUser();
+        $notification->code = NotificationUser::max('code') + 1;
+
+        if ($imageType == 1) {
+            $file = $notification_image;
+            $path = "files/notifications/" . $notification->code;
+            $public_path = public_path($path);
+            $name = $notification->code . "_notification" . $file->getClientOriginalExtension();
+            $file->move($public_path, $name);
+            $notification->notification_image = $path . "/" . $name;
+        } else if ($imageType == 0) {
+            $notification->notification_image = $image_url;
+        }
+
+        $notification->notification_title = $notification_title;
+        $notification->notification_text = $notification_text;
+        $notification->notification_url = $notification_url;
+
+        $notification->from_user_code = 0;
+        $notification->to_user_code = $to_user_code;
+
+        $notification->notification_date = $notification_date;
+        $notification->notification_end_date = $notification_end_date;
+
+        $notification->create_user_code = Auth::guard('admin')->user()->code;
+
+        $notification->save();
+
+        return true;
     }
 }
