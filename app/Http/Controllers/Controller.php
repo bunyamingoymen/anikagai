@@ -111,12 +111,14 @@ class Controller extends BaseController
         $notification->code = NotificationUser::max('code') + 1;
 
         if ($imageType == 1) {
-            $file = $notification_image;
-            $path = "files/notifications/" . $notification->code;
-            $public_path = public_path($path);
-            $name = $notification->code . "_notification" . $file->getClientOriginalExtension();
-            $file->move($public_path, $name);
-            $notification->notification_image = $path . "/" . $name;
+            if ($notification_image) {
+                $file = $notification_image;
+                $path = "files/notifications/" . $notification->code;
+                $public_path = public_path($path);
+                $name = $notification->code . "_notification" . $file->getClientOriginalExtension();
+                $file->move($public_path, $name);
+                $notification->notification_image = $path . "/" . $name;
+            }
         } else if ($imageType == 0) {
             $notification->notification_image = $image_url;
         }

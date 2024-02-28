@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\FavoriteWebtoon;
+use App\Models\FollowWebtoon;
 use App\Models\Webtoon;
 use App\Models\WebtoonEpisode;
 use App\Models\WebtoonFile;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -156,6 +159,20 @@ class WebtoonEpisodeController extends Controller
         $webtoon->save();
 
         $this->sitemapGenerator();
+
+        $favorite_webtoons_user = FavoriteWebtoon::Where('webtoon_code', $webtoon->code)->get();
+        $follow_webtoons_user = FollowWebtoon::Where('webtoon_code', $webtoon->code)->get();
+
+        $publishDate = $webtoon_episode->publish_date;
+        $EndDate = Carbon::parse($publishDate)->addMonths(1)->format('Y-m-d');
+
+        foreach ($favorite_webtoons_user as $item) {
+            $this->sendNotificationIndexUser(0, $webtoon->thumb_image_2, null, $webtoon->name, "Yeni Bölüm Yüklendi!!", url('webtoon/' . $webtoon->short_name . '/' . $webtoon_episode->season_short . '/' . $webtoon_episode->episode_short), $item->user_code, $publishDate, $EndDate);
+        }
+
+        foreach ($follow_webtoons_user as $item) {
+            $this->sendNotificationIndexUser(0, $webtoon->thumb_image_2, null, $webtoon->name, "Yeni Bölüm Yüklendi!!", url('webtoon/' . $webtoon->short_name . '/' . $webtoon_episode->season_short . '/' . $webtoon_episode->episode_short), $item->user_code, $publishDate, $EndDate);
+        }
 
         return response()->json(['success' => true]);
     }

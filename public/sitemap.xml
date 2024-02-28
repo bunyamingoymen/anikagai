@@ -6,7 +6,22 @@
         <priority>0.8</priority>
             </url>
     <url>
+        <loc>http://127.0.0.1:8000/webtoon/deneme/1/1</loc>
+            <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+            </url>
+    <url>
         <loc>http://127.0.0.1:8000/webtoon/deneme--</loc>
+            <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/webtoon/deneme--/1/1</loc>
+            <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/webtoon/deneme--/1/2</loc>
             <changefreq>daily</changefreq>
         <priority>0.8</priority>
             </url>
@@ -16,7 +31,17 @@
         <priority>0.8</priority>
             </url>
     <url>
+        <loc>http://127.0.0.1:8000/webtoon/tokyo-ghoul/1/1</loc>
+            <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+            </url>
+    <url>
         <loc>http://127.0.0.1:8000/anime/attack-on-titan</loc>
+            <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/webtoon/attack-on-titan/1/1</loc>
             <changefreq>daily</changefreq>
         <priority>0.8</priority>
             </url>

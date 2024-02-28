@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Anime;
 use App\Models\AnimeEpisode;
+use App\Models\FavoriteAnime;
+use App\Models\FollowAnime;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -67,6 +70,22 @@ class AnimeEpisodecontroller extends Controller
         $anime_episode->save();
 
         $this->sitemapGenerator();
+
+        $publishDate = $anime_episode->publish_date;
+        $EndDate = Carbon::parse($publishDate)->addMonths(1)->format('Y-m-d');
+
+        $favorite_animes_user = FavoriteAnime::Where('anime_code', $anime->code)->get();
+        $follow_animes_user = FollowAnime::Where('anime_code', $anime->code)->get();
+
+        foreach ($favorite_animes_user as $item) {
+            $this->sendNotificationIndexUser(0, $anime->thumb_image_2, null, $anime->name, "Yeni Bölüm Yüklendi!!", url('anime/' . $anime->short_name . '/' . $anime_episode->season_short . '/' . $anime_episode->episode_short), $item->user_code, $publishDate, $EndDate);
+        }
+
+        foreach ($follow_animes_user as $item) {
+            $this->sendNotificationIndexUser(0, $anime->thumb_image_2, null, $anime->name, "Yeni Bölüm Yüklendi!!", url('anime/' . $anime->short_name . '/' . $anime_episode->season_short . '/' . $anime_episode->episode_short), $item->user_code, $publishDate, $EndDate);
+        }
+
+
 
         return response()->json(['success' => true]);
     }
