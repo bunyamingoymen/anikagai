@@ -38,10 +38,13 @@
     <link rel="stylesheet" href="{{ url('user/animex/css/slicknav.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ url('user/animex/css/style.css') }}" type="text/css">
     <script src="{{ url('user/animex/js/jquery-3.3.1.min.js') }}"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js" integrity="sha512-ubuT8Z88WxezgSqf3RLuNi5lmjstiJcyezx34yIU2gAHonIi27Na7atqzUZCOoY4CExaoFumzOsFQ2Ch+I/HCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.1/umd/popper.min.js"
+        integrity="sha512-ubuT8Z88WxezgSqf3RLuNi5lmjstiJcyezx34yIU2gAHonIi27Na7atqzUZCOoY4CExaoFumzOsFQ2Ch+I/HCw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- Sweet Alerts js -->
     <script src="{{ url('admin/assets/libs/sweetalert2/sweetalert2.min.js') }}"></script>
 
+    <!--Hata Mesajları-->
     <script>
         @if (session('error'))
             Swal.fire({
@@ -61,6 +64,7 @@
         @endif
     </script>
 
+    <!-- +18 Komutları -->
     <script>
         function adultOkay() {
             Swal.fire({
@@ -76,6 +80,31 @@
                     window.location.href = `{{ route('adultOn') }}`;
                 }
             });
+        }
+    </script>
+
+    <!-- Bildirim Ayarları-->
+    <script>
+        function clickNotifications(code, image, title, text, url) {
+            if (url) {
+                alert("url null değil: " + url);
+            } else {
+                Swal.fire({
+                    title: title,
+                    text: text,
+                    color: "#fff",
+                    iconHtml: `<img src="` + image + `" style="border-radius: 15%;">`,
+                    customClass: {
+                        icon: 'no-border'
+                    }
+                });
+            }
+
+
+        }
+
+        function allReadNotifications() {
+
         }
     </script>
 
