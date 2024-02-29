@@ -87,7 +87,7 @@
     <script>
         function clickNotifications(code, image, title, text, url) {
             if (url) {
-                alert("url null değil: " + url);
+                readNotification(code, 1, url)
             } else {
                 Swal.fire({
                     title: title,
@@ -98,9 +98,69 @@
                         icon: 'no-border'
                     }
                 });
+                readNotification(code, 0, url)
             }
 
 
+        }
+
+        function readNotification(code, is_url, url) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                }
+            });
+            $.ajax({
+                type: 'GET',
+                url: "{{ route('read_notification') }}",
+                data: {
+                    code: code,
+                },
+                success: function(response) {
+                    if (response.result != 2) {
+                        console.log("hata: " + response.result);
+                        console.log('req: ' + JSON.stringify(response.req));
+                        Swal.fire({
+                            title: "Hata",
+                            text: "Bildirim Okundu olarak işaretlenirken bir hata meydana geldi",
+                            color: "#fff",
+                            icon: `error`,
+                        }).then((result) => {
+                            if (is_url == 1) window.open(url);
+                            else {
+                                var notification_item_code = document.getElementById(
+                                    'notification-item-code' + code);
+                                notification_item_code.classList.remove("notification-item-unread")
+                                notification_item_code.classList.add("notification-item-read")
+                                document.getElementById('unreadedCountOut').innerText = parseInt(
+                                    document.getElementById('unreadedCountOut').innerText) - 1;
+
+                                document.getElementById('unreadedCountIn').innerText = parseInt(document
+                                    .getElementById('unreadedCountIn').innerText) - 1;
+                            }
+                        });
+                    } else {
+                        if (is_url == 1) window.open(url);
+                        else {
+                            var notification_item_code = document.getElementById(
+                                'notification-item-code' + code);
+                            notification_item_code.classList.remove("notification-item-unread")
+                            notification_item_code.classList.add("notification-item-read")
+                        }
+                    }
+                },
+                error: function(error) {
+                    console.log("hata2");
+                    console.log(error);
+                    if (is_url == 1) window.open(url);
+                    else {
+                        var notification_item_code = document.getElementById(
+                            'notification-item-code' + code);
+                        notification_item_code.classList.remove("notification-item-unread")
+                        notification_item_code.classList.add("notification-item-read")
+                    }
+                }
+            });
         }
 
         function allReadNotifications() {

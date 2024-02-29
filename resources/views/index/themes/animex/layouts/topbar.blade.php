@@ -54,6 +54,16 @@
         color: var(--second-color);
         text-decoration: none;
     }
+
+    .notification-all-read {
+        text-align-last: center;
+    }
+
+    .notification-all-read a {
+        font-size: 13px;
+        text-decoration: none;
+        text-align-last: center;
+    }
 </style>
 
 <header class="header">
@@ -95,7 +105,9 @@
                             <a href="#" class="dropdown notification-container " data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
                                 <i class="fa-solid fa-bell"></i>
-                                <span class="badge badge-danger badge-pill">{{ $notificaton_count }}</span>
+                                <span class="badge badge-danger badge-pill"
+                                    id="unreadedCountOut">{{ $notificaton_count }}
+                                </span>
                             </a>
                             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-0 notification-items"
                                 style="width: 300px; background-color:var(--menu-footer-color)"
@@ -106,17 +118,24 @@
                                             <h6 class="m-0 font-weight-medium text-uppercase"> Bildirimler </h6>
                                         </div>
                                         <div class="col-auto">
-                                            <span class="badge badge-pill badge-danger">Okunmamış
-                                                {{ $notificaton_count }}</span>
+                                            <span class="badge badge-pill badge-danger">Okunmamış<span
+                                                    id="unreadedCountIn">
+                                                    {{ $notificaton_count }}</span></span>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="p-1 border-bottom notification-all-read">
+                                    <a class="col-lg-10 btn btn-success btn-block text-center"
+                                        href="javascript:void(0)">
+                                        Hepsini okundu olarak işaretle
+                                    </a>
+                                </div>
                                 <div data-simplebar style="">
                                     @foreach ($notificatons as $notificaton)
-                                        <a href="Javascript:;"
+                                        <a href="Javascript:;" id="notification-item-code{{ $notificaton->code }}"
                                             onclick="clickNotifications({{ $notificaton->code }}, '{{ $notificaton->notification_image }}', '{{ $notificaton->notification_title }}', '{{ $notificaton->notification_text }}', '{{ $notificaton->notification_url }}')"
                                             class="text-reset notification-item
-                                        {{ $notificaton->read == 1 ? 'notification-item-read' : 'notification-item-unread' }}">
+                                        {{ $notificaton->readed == 1 ? 'notification-item-read' : 'notification-item-unread' }}">
                                             <div class="media">
                                                 <div class="avatar-xs m-3">
                                                     <img src="{{ url($notificaton->notification_image) }}"

@@ -24,7 +24,6 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\WebtoonCalendarController;
 use App\Http\Controllers\WebtoonController;
 use App\Http\Controllers\WebtoonEpisodeController;
-use App\Models\NotificationUser;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'is_active_index_user'], function () {
@@ -90,7 +89,7 @@ Route::group(['middleware' => 'is_active_index_user'], function () {
             Route::post('/unfollowUser', 'unfollowIndexUser')->name('unfollowIndexUser');
         });
 
-        Route::controller(NotificationUser::class)->group(function () {
+        Route::controller(NotificationController::class)->group(function () {
             Route::get('/readNotification', 'readNotification')->name('read_notification');
             Route::get('/allReadNotification', 'allReadNotification')->name('all_read_notification');
         });

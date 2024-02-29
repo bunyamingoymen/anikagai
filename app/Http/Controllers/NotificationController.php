@@ -34,4 +34,24 @@ class NotificationController extends Controller
 
         return redirect()->route('admin_show_notifications')->with('success', 'Başarılı bir şekilde bildirim gönderildi');
     }
+
+    public function readNotification(Request $request)
+    {
+        $user = IndexUser::Where('code', Auth::user()->code)->first();
+        if (!$user) return ['result' => 0];
+
+
+        $notification = NotificationUser::Where('code', $request->code)->where('to_user_code', $user->code)->first();
+
+        if (!$notification) return ['result' => 1];
+
+        $notification->readed = 1;
+        $notification->save();
+
+        return ['result' => 2];
+    }
+
+    public function allReadNotification()
+    {
+    }
 }
