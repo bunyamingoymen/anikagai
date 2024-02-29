@@ -53,5 +53,10 @@ class NotificationController extends Controller
 
     public function allReadNotification()
     {
+        $user = IndexUser::where('code', Auth::user()->code)->first();
+
+        NotificationUser::Where('to_user_code', $user->code)->update(['readed' => 1]);
+
+        return true;
     }
 }

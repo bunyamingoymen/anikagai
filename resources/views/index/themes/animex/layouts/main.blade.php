@@ -105,11 +105,6 @@
         }
 
         function readNotification(code, is_url, url) {
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                }
-            });
             $.ajax({
                 type: 'GET',
                 url: "{{ route('read_notification') }}",
@@ -118,53 +113,52 @@
                 },
                 success: function(response) {
                     if (response.result != 2) {
-                        console.log("hata: " + response.result);
-                        console.log('req: ' + JSON.stringify(response.req));
                         Swal.fire({
                             title: "Hata",
                             text: "Bildirim Okundu olarak işaretlenirken bir hata meydana geldi",
                             color: "#fff",
                             icon: `error`,
                         }).then((result) => {
-                            if (is_url == 1) window.open(url);
-                            else {
-                                var notification_item_code = document.getElementById(
-                                    'notification-item-code' + code);
-                                notification_item_code.classList.remove("notification-item-unread")
-                                notification_item_code.classList.add("notification-item-read")
-                                document.getElementById('unreadedCountOut').innerText = parseInt(
-                                    document.getElementById('unreadedCountOut').innerText) - 1;
-
-                                document.getElementById('unreadedCountIn').innerText = parseInt(document
-                                    .getElementById('unreadedCountIn').innerText) - 1;
-                            }
+                            if (is_url == 1) window.open(url, "_self");
                         });
                     } else {
-                        if (is_url == 1) window.open(url);
-                        else {
-                            var notification_item_code = document.getElementById(
-                                'notification-item-code' + code);
-                            notification_item_code.classList.remove("notification-item-unread")
-                            notification_item_code.classList.add("notification-item-read")
-                        }
+                        if (is_url == 1) window.open(url, "_self");
                     }
                 },
                 error: function(error) {
-                    console.log("hata2");
-                    console.log(error);
-                    if (is_url == 1) window.open(url);
-                    else {
-                        var notification_item_code = document.getElementById(
-                            'notification-item-code' + code);
-                        notification_item_code.classList.remove("notification-item-unread")
-                        notification_item_code.classList.add("notification-item-read")
-                    }
+                    if (is_url == 1) window.open(url, "_self");
                 }
             });
+
+            var notification_item_code = document.getElementById(
+                'notification-item-code' + code);
+            notification_item_code.classList.remove("notification-item-unread")
+            notification_item_code.classList.add("notification-item-read")
+            document.getElementById('unreadedCountOut').innerText = parseInt(
+                document.getElementById('unreadedCountOut').innerText) - 1;
+
+            document.getElementById('unreadedCountIn').innerText = parseInt(document
+                .getElementById('unreadedCountIn').innerText) - 1;
         }
 
         function allReadNotifications() {
+            $.ajax({
+                type: 'GET',
+                url: "{{ route('all_read_notification') }}",
+                success: function(response) {},
+                error: function(error) {}
+            });
 
+            var notification_item_unread = document.getElementsByClassName('notification-item');
+            for (let index = 0; index < notification_item_unread.length; index++) {
+                notification_item_unread[index].classList.add("notification-item-read");
+                notification_item_unread[index].classList.remove("notification-item-unread");
+                console.log('index: ' + index);
+            }
+
+            document.getElementById('unreadedCountOut').innerText = 0;
+
+            document.getElementById('unreadedCountIn').innerText = 0;
         }
     </script>
 

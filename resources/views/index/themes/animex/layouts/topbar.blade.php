@@ -125,8 +125,8 @@
                                     </div>
                                 </div>
                                 <div class="p-1 border-bottom notification-all-read">
-                                    <a class="col-lg-10 btn btn-success btn-block text-center"
-                                        href="javascript:void(0)">
+                                    <a class="col-lg-10 btn btn-success btn-block text-center" href="javascript:void(0)"
+                                        onclick="allReadNotifications()">
                                         Hepsini okundu olarak işaretle
                                     </a>
                                 </div>
@@ -134,8 +134,7 @@
                                     @foreach ($notificatons as $notificaton)
                                         <a href="Javascript:;" id="notification-item-code{{ $notificaton->code }}"
                                             onclick="clickNotifications({{ $notificaton->code }}, '{{ $notificaton->notification_image }}', '{{ $notificaton->notification_title }}', '{{ $notificaton->notification_text }}', '{{ $notificaton->notification_url }}')"
-                                            class="text-reset notification-item
-                                        {{ $notificaton->readed == 1 ? 'notification-item-read' : 'notification-item-unread' }}">
+                                            class="text-reset notification-item {{ $notificaton->readed == 1 ? 'notification-item-read' : 'notification-item-unread' }}">
                                             <div class="media">
                                                 <div class="avatar-xs m-3">
                                                     <img src="{{ url($notificaton->notification_image) }}"
