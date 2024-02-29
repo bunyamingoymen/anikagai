@@ -133,7 +133,7 @@
                                 <div data-simplebar style="">
                                     @foreach ($notificatons as $notificaton)
                                         <a href="Javascript:;" id="notification-item-code{{ $notificaton->code }}"
-                                            onclick="clickNotifications({{ $notificaton->code }}, '{{ $notificaton->notification_image }}', '{{ $notificaton->notification_title }}', '{{ $notificaton->notification_text }}', '{{ $notificaton->notification_url }}')"
+                                            onclick="clickNotifications({{ $notificaton->code }}, '{{ $notificaton->notification_image }}', '{{ $notificaton->notification_title }}', '{{ $notificaton->notification_text }}', '{{ $notificaton->notification_url }}, {{ $notificaton->readed }}')"
                                             class="text-reset notification-item {{ $notificaton->readed == 1 ? 'notification-item-read' : 'notification-item-unread' }}">
                                             <div class="media">
                                                 <div class="avatar-xs m-3">

@@ -15,6 +15,7 @@ use App\Models\FollowIndexUser;
 use App\Models\FollowWebtoon;
 use App\Models\IndexUser;
 use App\Models\KeyValue;
+use App\Models\NotificationUser;
 use App\Models\Page;
 use App\Models\Theme;
 use App\Models\ThemeSetting;
@@ -1005,7 +1006,15 @@ class IndexController extends Controller
 
     public function showNotifications()
     {
-        return $this->loadThemeView('notifications');
+        $notificatonsAll = NotificationUser::where('deleted', 0)
+            ->Where('notification_end_date', '>=', Carbon::today())
+            ->where('notification_date', '<=', Carbon::today())
+            ->where('to_user_code', Auth::user()->code)
+            ->orWhere('to_user_code', 0)
+            ->orderBy('created_at', 'DESC')
+            ->get();
+        $additionalData = ['notificatonsAll' => $notificatonsAll];
+        return $this->loadThemeView('notifications', $additionalData);
     }
 
 

@@ -85,9 +85,13 @@
 
     <!-- Bildirim Ayarları-->
     <script>
-        function clickNotifications(code, image, title, text, url) {
+        function clickNotifications(code, image, title, text, url, readed) {
             if (url) {
-                readNotification(code, 1, url)
+                if (readed == 1)
+                    window.open(url, "_self");
+                else
+                    readNotification(code, 1, url)
+
             } else {
                 Swal.fire({
                     title: title,
@@ -98,7 +102,12 @@
                         icon: 'no-border'
                     }
                 });
-                readNotification(code, 0, url)
+
+                if (readed == 0) {
+                    readNotification(code, 0, url)
+                }
+
+
             }
 
 
@@ -132,8 +141,19 @@
 
             var notification_item_code = document.getElementById(
                 'notification-item-code' + code);
-            notification_item_code.classList.remove("notification-item-unread")
-            notification_item_code.classList.add("notification-item-read")
+            if (notification_item_code) {
+                notification_item_code.classList.remove("notification-item-unread")
+                notification_item_code.classList.add("notification-item-read")
+            }
+
+            var notification_item_code_main = document.getElementById(
+                'notification-item-code-main' + code);
+
+            if (notification_item_code_main) {
+                notification_item_code_main.classList.remove("notification-item-unread")
+                notification_item_code_main.classList.add("notification-item-read")
+            }
+
             document.getElementById('unreadedCountOut').innerText = parseInt(
                 document.getElementById('unreadedCountOut').innerText) - 1;
 
