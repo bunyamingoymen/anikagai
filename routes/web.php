@@ -70,6 +70,8 @@ Route::group(['middleware' => 'is_active_index_user'], function () {
             Route::post('/addNewComment', 'addNewComment')->name('addNewComment');
             Route::post('/deleteComment', 'deleteComment')->name('deleteComment');
 
+            Route::get('/allNotifications',  "showNotifications")->name('all_notifications');
+
             Route::get('/logout', 'logout')->name('logout');
         });
 

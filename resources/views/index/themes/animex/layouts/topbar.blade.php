@@ -159,7 +159,8 @@
 
                                 </div>
                                 <div class="p-1 border-top notification-more">
-                                    <a class="btn-link btn btn-block text-center" href="javascript:void(0)">
+                                    <a class="btn-link btn btn-block text-center"
+                                        href="{{ route('all_notifications') }}">
                                         Bütün bildirimleri gör..
                                     </a>
                                 </div>

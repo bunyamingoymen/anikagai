@@ -1003,6 +1003,11 @@ class IndexController extends Controller
         return true;
     }
 
+    public function showNotifications()
+    {
+        return $this->loadThemeView('notifications');
+    }
+
 
     // Yardımcı Fonksiyonlar
 
