@@ -82,10 +82,7 @@
                         <div class="row mt-2">
                             <div class="col-lg-3">
                                 <label for="searchUser">Kullanıcı: </label>
-                                <select id="searchUser" class="form-control">
-                                    <option value="0">Tümü</option>
-                                    <option value="1">Spoiler İçermeyen</option>
-                                    <option value="2">Spoiler İçeren</option>
+                                <select name="searchUser" id="searchUser" style="width: 250px;">
                                 </select>
                             </div>
 
@@ -249,6 +246,7 @@
 
                 $("#selectWebtoon").empty().trigger('change');
                 $("#selectAnime").empty().trigger('change');
+                $("#searchUser").empty().trigger('change');
                 document.getElementById('searchStatus').value = 0;
                 document.getElementById('searchSpoiler').value = 0;
                 document.getElementById('searchUser').value = 0;
@@ -415,6 +413,67 @@
                         '<div class="ml-2 select2-result-anime__image-container">' + imageMarkup + '</div>' +
                         '<div class="select2-result-anime__text-container">' + textMarkup + '</div>' +
                         '</div>';
+
+                    return markup;
+                }
+
+                $('#searchUser').select2({
+                    ajax: {
+                        url: '{{ route('admin_indexuser_get_data') }}', // Laravel controller endpoint'iniz
+                        dataType: 'json',
+                        type: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': "{{ csrf_token() }}" // CSRF token'ı ekle
+                        },
+                        data: function(params) {
+                            return {
+                                searchData: params.term,
+                                page: 1,
+                                // Diğer parametreleri burada ekleyebilirsiniz
+                            };
+                        },
+                        processResults: function(data) {
+                            return {
+                                results: $.map(data.indexUsers, function(indexUsers) {
+                                    return {
+                                        id: indexUsers.code,
+                                        name: indexUsers.name,
+                                        username: indexUsers.username,
+                                        image: indexUsers.image ? indexUsers.image :
+                                            'user/img/profile/default.png'
+                                        // Diğer alanları burada ekleyebilirsiniz
+                                    };
+                                }),
+                                pagination: {
+                                    more: data.pageCount > 1 // Eğer daha fazla sayfa varsa true döndürün
+                                }
+                            };
+                        },
+                        cache: true
+                    },
+                    placeholder: 'Üye Ara...',
+                    minimumInputLength: 3, // Minimum giriş uzunluğu
+                    escapeMarkup: function(markup) {
+                        return markup;
+                    }, // Markdown işlemlerini önlemek için
+                    templateResult: formatUserResult, // Sonuçları özelleştirmek için
+                    templateSelection: formatUserResult, // Seçili öğeyi özelleştirmek için
+                })
+
+                function formatUserResult(indexUsers) {
+                    if (!indexUsers.id) {
+                        return indexUsers.name;
+                    }
+                    // Resmi sonuçlarda göster
+                    // Yan yana resim ve metni göster
+                    var imageMarkup =
+                        `<img class="rounded-circle header-profile-user" src="../../../../${indexUsers.image}" alt="anime_image" />`;
+                    var textMarkup = `<div class="select2-result-anime__title">${indexUsers.username}</div>`;
+
+                    var markup = `<div class="row">
+                                    <div class="ml-2 select2-result-anime__image-container">${imageMarkup}</div>
+                                    <div class="select2-result-anime__text-container">${textMarkup}</div>
+                                </div>`;
 
                     return markup;
                 }
