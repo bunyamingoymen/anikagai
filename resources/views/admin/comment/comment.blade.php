@@ -136,8 +136,7 @@
                 var pageData = {
                     page: page,
                 }
-                if (showingCount && showingCount != 10)
-                    pageData.showingCount = showingCount;
+                if (showingCount && showingCount != 10) pageData.showingCount = showingCount;
 
                 if (webtoon_code != 0) pageData.webtoon_code = webtoon_code;
                 if (anime_code != 0) pageData.anime_code = anime_code;
@@ -177,9 +176,7 @@
                         getOtherData(page_count, page);
 
                     },
-                    error: function(error) {
-                        console.log(error)
-                    }
+                    error: function(error) {}
                 });
 
             }

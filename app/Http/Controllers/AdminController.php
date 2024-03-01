@@ -184,31 +184,42 @@ class AdminController extends Controller
     {
         $take  = $request->showingCount ? $request->showingCount : Config::get('app.showCount');
         $skip = (($request->page - 1) * $take);
+
         $matchGorup = [];
-        array_push(['deleted', 0]);
+        array_push($matchGorup, ['deleted', 0]);
 
-        if ($request->status) array_push(['is_active', $request->status == 1 ? 0  : 1]);
-
-
-        if ($request->spoiler) array_push(['is_spoiler', $request->spoiler == 1 ? 0  : 1]);
+        if ($request->status) array_push($matchGorup, ['is_active', $request->status == 1 ? 0  : 1]);
 
 
-        if ($request->user_code) array_push(['user_code', $request->user_code]);
+        if ($request->spoiler) array_push($matchGorup, ['is_spoiler', $request->spoiler == 1 ? 0  : 1]);
 
 
-        if ($request->comment_count) array_push(['comment_type', $request->comment_count == 1 ? 0  : 1]);
+        if ($request->user_code) array_push($matchGorup, ['user_code', $request->user_code]);
+
+
+        if ($request->comment_count) array_push($matchGorup, ['comment_type', $request->comment_count == 1 ? 0  : 1]);
 
 
         $commentQuery = Comment::where($matchGorup)
             ->when($request->searchData, function ($query, $searchData) {
-                // Arama terimi için özel karakter dönüşümü
-
                 $searchQueryData = '%' . $searchData . '%';
-
-                return $query->where(function ($query) use ($searchQueryData) {
-                    $query->where('message', 'LIKE', $searchQueryData);
-                });
+                return $query->where('message', 'LIKE', $searchQueryData);
+            })
+            ->where(function ($query) use ($request) {
+                $query->where(function ($q) use ($request) {
+                    if ($request->webtoon_code) {
+                        $q->where('content_type', 0)
+                            ->where('content_code', $request->webtoon_code);
+                    }
+                })
+                    ->orWhere(function ($q) use ($request) {
+                        if ($request->anime_code) {
+                            $q->where('content_type', 1)
+                                ->where('content_code', $request->anime_code);
+                        }
+                    });
             });
+
         $pageCount = ceil($commentQuery->count() / $take);
         $comments = $commentQuery->skip($skip)->take($take)->get();
 
