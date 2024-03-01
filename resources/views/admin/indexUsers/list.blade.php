@@ -27,13 +27,21 @@
         <!-- Sayfa Değiştirme Scripti-->
 
         <script>
+            var is_status = 0; // 0: göstermez, 1: pasif, 2 : aktif
+            var searchData = "";
+
             function changePage(page) {
                 var pageData = {
                     page: page,
                 }
-                if (showingCount && showingCount != 10) {
-                    pageData.showingCount = showingCount;
-                }
+
+                if (showingCount && showingCount != 10) pageData.showingCount = showingCount;
+
+                if (is_status != 0) {
+                    pageData.status = is_status
+                };
+                if (searchData.length > 0) pageData.searchData = searchData
+                console.log("pageData: " + JSON.stringify(pageData));
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
@@ -65,6 +73,9 @@
 
                         getOtherData(page_count, page);
 
+                    },
+                    error: function(error) {
+                        console.log(error);
                     }
                 });
 

@@ -119,7 +119,7 @@ class IndexUserController extends Controller
             return redirect()->back()->with("error", Config::get('error.error_codes.0010013'));
 
         //$indexUser->delete();
-        $indexUser->deleted = 0;
+        $indexUser->deleted = 1;
         $indexUser->is_active = 0;
         $indexUser->save();
         return redirect()->route('admin_indexuser_list')->with("success", Config::get('success.success_codes.10010013'));
@@ -148,9 +148,25 @@ class IndexUserController extends Controller
     {
         $take  = $request->showingCount ? $request->showingCount : Config::get('app.showCount');
         $skip = (($request->page - 1) * $take);
-        $indexUsers = IndexUser::Where('deleted', 0)->skip($skip)->take($take)->get();
-        $pageCount = ceil(IndexUser::Where('deleted', 0)->count() / $take);
+        $matchGroup = [];
+        array_push($matchGroup, ['deleted', 0]);
+        if ($request->status) {
+            array_push($matchGroup, ['is_active', $request->status == 1 ? 0 : 1]);
+        }
+        $indexUsersQuery = IndexUser::where($matchGroup)
+            ->when($request->searchData, function ($query, $searchData) {
+                $searchQueryData = '%' . $searchData . '%';
 
+                return $query->where(function ($query) use ($searchQueryData) {
+                    $query->where('name', 'LIKE', $searchQueryData)
+                        ->orWhere('username', 'LIKE', $searchQueryData)
+                        ->orWhere('email', 'LIKE', $searchQueryData)
+                        ->orWhere('description', 'LIKE', $searchQueryData);
+                });
+            });
+
+        $pageCount = ceil($indexUsersQuery->count() / $take);
+        $indexUsers =  $indexUsersQuery->skip($skip)->take($take)->get();
 
         return ['indexUsers' => $indexUsers, 'pageCount' => $pageCount];
     }
