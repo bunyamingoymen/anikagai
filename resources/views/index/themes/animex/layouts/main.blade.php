@@ -86,7 +86,7 @@
     <!-- Bildirim Ayarları-->
     <script>
         function clickNotifications(code, image, title, text, url, readed) {
-            if (url) {
+            if (url && url.length > 0) {
                 if (readed == 1)
                     window.open(url, "_self");
                 else
@@ -153,12 +153,16 @@
                 notification_item_code_main.classList.remove("notification-item-unread")
                 notification_item_code_main.classList.add("notification-item-read")
             }
+            if (parseInt(document.getElementById('unreadedCountOut').innerText) > 0) {
+                document.getElementById('unreadedCountOut').innerText = parseInt(
+                    document.getElementById('unreadedCountOut').innerText) - 1;
+            }
+            if (parseInt(document.getElementById('unreadedCountIn').innerText) > 0) {
+                document.getElementById('unreadedCountIn').innerText = parseInt(document
+                    .getElementById('unreadedCountIn').innerText) - 1;
+            }
 
-            document.getElementById('unreadedCountOut').innerText = parseInt(
-                document.getElementById('unreadedCountOut').innerText) - 1;
 
-            document.getElementById('unreadedCountIn').innerText = parseInt(document
-                .getElementById('unreadedCountIn').innerText) - 1;
         }
 
         function allReadNotifications() {
