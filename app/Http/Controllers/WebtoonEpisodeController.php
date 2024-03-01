@@ -167,11 +167,11 @@ class WebtoonEpisodeController extends Controller
         $EndDate = Carbon::parse($publishDate)->addMonths(1)->format('Y-m-d');
 
         foreach ($favorite_webtoons_user as $item) {
-            $this->sendNotificationIndexUser(0, $webtoon->thumb_image_2, null, $webtoon->name, "Yeni Bölüm Yüklendi!!", url('webtoon/' . $webtoon->short_name . '/' . $webtoon_episode->season_short . '/' . $webtoon_episode->episode_short), $item->user_code, $publishDate, $EndDate);
+            $this->sendNotificationIndexUser($webtoon->thumb_image_2, $webtoon->name, "Yeni Bölüm Yüklendi!!", url('webtoon/' . $webtoon->short_name . '/' . $webtoon_episode->season_short . '/' . $webtoon_episode->episode_short), $item->user_code, $publishDate, $EndDate);
         }
 
         foreach ($follow_webtoons_user as $item) {
-            $this->sendNotificationIndexUser(0, $webtoon->thumb_image_2, null, $webtoon->name, "Yeni Bölüm Yüklendi!!", url('webtoon/' . $webtoon->short_name . '/' . $webtoon_episode->season_short . '/' . $webtoon_episode->episode_short), $item->user_code, $publishDate, $EndDate);
+            $this->sendNotificationIndexUser($webtoon->thumb_image_2, $webtoon->name, "Yeni Bölüm Yüklendi!!", url('webtoon/' . $webtoon->short_name . '/' . $webtoon_episode->season_short . '/' . $webtoon_episode->episode_short), $item->user_code, $publishDate, $EndDate);
         }
 
         return response()->json(['success' => true]);

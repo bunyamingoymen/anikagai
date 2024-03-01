@@ -76,7 +76,7 @@
                                     <h4 class="lg_font_size mb-3">
                                         {{ $notificaton->notification_title }}
                                     </h4>
-                                    <p>{{ $notificaton->notification_text }}</p>
+                                    <p style="word-wrap: break-word;">{{ $notificaton->notification_text }}</p>
                                 </div>
                             </div>
                         </a>

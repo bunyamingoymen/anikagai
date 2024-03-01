@@ -105,23 +105,11 @@ class Controller extends BaseController
         return $shortName;
     }
 
-    public function sendNotificationIndexUser($imageType = 0, $image_url = null, $notification_image = null, $notification_title, $notification_text, $notification_url = null, $to_user_code, $notification_date, $notification_end_date)
+    public function sendNotificationIndexUser($image_url = null, $notification_title, $notification_text, $notification_url = null, $to_user_code, $notification_date, $notification_end_date)
     {
         $notification = new NotificationUser();
         $notification->code = NotificationUser::max('code') + 1;
-
-        if ($imageType == 1) {
-            if ($notification_image) {
-                $file = $notification_image;
-                $path = "files/notifications/" . $notification->code;
-                $public_path = public_path($path);
-                $name = $notification->code . "_notification" . $file->getClientOriginalExtension();
-                $file->move($public_path, $name);
-                $notification->notification_image = $path . "/" . $name;
-            }
-        } else if ($imageType == 0) {
-            $notification->notification_image = $image_url;
-        }
+        $notification->notification_image = $image_url;
 
         $notification->notification_title = $notification_title;
         $notification->notification_text = $notification_text;

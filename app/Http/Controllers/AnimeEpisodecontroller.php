@@ -78,11 +78,11 @@ class AnimeEpisodecontroller extends Controller
         $follow_animes_user = FollowAnime::Where('anime_code', $anime->code)->get();
 
         foreach ($favorite_animes_user as $item) {
-            $this->sendNotificationIndexUser(0, $anime->thumb_image_2, null, $anime->name, "Yeni Bölüm Yüklendi!!", url('anime/' . $anime->short_name . '/' . $anime_episode->season_short . '/' . $anime_episode->episode_short), $item->user_code, $publishDate, $EndDate);
+            $this->sendNotificationIndexUser($anime->thumb_image_2, $anime->name, "Yeni Bölüm Yüklendi!!", url('anime/' . $anime->short_name . '/' . $anime_episode->season_short . '/' . $anime_episode->episode_short), $item->user_code, $publishDate, $EndDate);
         }
 
         foreach ($follow_animes_user as $item) {
-            $this->sendNotificationIndexUser(0, $anime->thumb_image_2, null, $anime->name, "Yeni Bölüm Yüklendi!!", url('anime/' . $anime->short_name . '/' . $anime_episode->season_short . '/' . $anime_episode->episode_short), $item->user_code, $publishDate, $EndDate);
+            $this->sendNotificationIndexUser($anime->thumb_image_2, $anime->name, "Yeni Bölüm Yüklendi!!", url('anime/' . $anime->short_name . '/' . $anime_episode->season_short . '/' . $anime_episode->episode_short), $item->user_code, $publishDate, $EndDate);
         }
 
 
