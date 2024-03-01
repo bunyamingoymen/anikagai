@@ -25,8 +25,8 @@
                                     </button>
                                 </div>
                                 <div class="ml-2 mr-2">
-                                    <button class="btn btn-danger" id="searchCommentAllButton"
-                                        onclick="searchCommentAllButton()" disabled> <i class="fas fa-align-center"></i>
+                                    <button class="btn btn-danger" id="clearSearchButton" onclick="clearSearch()" disabled>
+                                        <i class="fas fa-align-center"></i>
                                         Tümünü Göster</button>
                                 </div>
                             </div>
@@ -104,7 +104,7 @@
                         </div>
 
                         <div class="col-lg-12 mt-2">
-                            <button class="btn btn-success float-right ml-2 mr-2">
+                            <button type="button" class="btn btn-success float-right ml-2 mr-2" onclick="search()">
                                 <i class="fas fa-search"></i>
                                 Ara
                             </button>
@@ -231,6 +231,8 @@
 
                 if (is_change) {
                     changePage(1);
+                    $('.comment-search-modal').modal('hide');
+                    document.getElementById('clearSearchButton').disabled = false;
                 }
 
 
@@ -244,7 +246,18 @@
                 user_code = 0;
                 comment_count = 0;
                 searchData = "";
+
+                $("#selectWebtoon").empty().trigger('change');
+                $("#selectAnime").empty().trigger('change');
+                document.getElementById('searchStatus').value = 0;
+                document.getElementById('searchSpoiler').value = 0;
+                document.getElementById('searchUser').value = 0;
+                document.getElementById('searchCommentCount').value = 0;
+                document.getElementById('searchComment').value = "";
+
                 changePage(1);
+                $('.comment-search-modal').modal('hide');
+                document.getElementById('clearSearchButton').disabled = true;
             }
         </script>
 
@@ -342,70 +355,70 @@
 
                     return markup;
                 }
-            });
 
-            $('#selectAnime').select2({
-                ajax: {
-                    url: '{{ route('admin_anime_get_data') }}', // Laravel controller endpoint'iniz
-                    dataType: 'json',
-                    type: 'POST',
-                    headers: {
-                        'X-CSRF-TOKEN': "{{ csrf_token() }}" // CSRF token'ı ekle
+                $('#selectAnime').select2({
+                    ajax: {
+                        url: '{{ route('admin_anime_get_data') }}', // Laravel controller endpoint'iniz
+                        dataType: 'json',
+                        type: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': "{{ csrf_token() }}" // CSRF token'ı ekle
+                        },
+                        data: function(params) {
+                            return {
+                                searchData: params.term,
+                                page: 1,
+                                // Diğer parametreleri burada ekleyebilirsiniz
+                            };
+                        },
+                        processResults: function(data) {
+                            return {
+                                results: $.map(data.animes, function(anime) {
+                                    return {
+                                        id: anime.code,
+                                        text: anime.name,
+                                        image: anime.thumb_image_2
+                                        // Diğer alanları burada ekleyebilirsiniz
+                                    };
+                                }),
+                                pagination: {
+                                    more: data.pageCount > 1 // Eğer daha fazla sayfa varsa true döndürün
+                                }
+                            };
+                        },
+                        cache: true
                     },
-                    data: function(params) {
-                        return {
-                            searchData: params.term,
-                            page: 1,
-                            // Diğer parametreleri burada ekleyebilirsiniz
-                        };
-                    },
-                    processResults: function(data) {
-                        return {
-                            results: $.map(data.animes, function(anime) {
-                                return {
-                                    id: anime.code,
-                                    text: anime.name,
-                                    image: anime.thumb_image_2
-                                    // Diğer alanları burada ekleyebilirsiniz
-                                };
-                            }),
-                            pagination: {
-                                more: data.pageCount > 1 // Eğer daha fazla sayfa varsa true döndürün
-                            }
-                        };
-                    },
-                    cache: true
-                },
-                placeholder: 'Anime Ara...',
-                minimumInputLength: 3, // Minimum giriş uzunluğu
-                escapeMarkup: function(markup) {
+                    placeholder: 'Anime Ara...',
+                    minimumInputLength: 3, // Minimum giriş uzunluğu
+                    escapeMarkup: function(markup) {
+                        return markup;
+                    }, // Markdown işlemlerini önlemek için
+                    templateResult: formatAnimeResult, // Sonuçları özelleştirmek için
+                    templateSelection: formatAnimeResult, // Seçili öğeyi özelleştirmek için
+                })
+
+                function formatAnimeResult(anime) {
+                    if (!anime.id) {
+                        return anime.text;
+                    }
+                    // Resmi sonuçlarda göster
+                    // Yan yana resim ve metni göster
+                    var imageMarkup =
+                        '<img class="rounded-circle header-profile-user" src="../../../../' +
+                        anime
+                        .image +
+                        '" alt="anime_image" />';
+                    var textMarkup = '<div class="select2-result-anime__title">' +
+                        anime.text + '</div>';
+
+                    var markup = '<div class="row">' +
+                        '<div class="ml-2 select2-result-anime__image-container">' + imageMarkup + '</div>' +
+                        '<div class="select2-result-anime__text-container">' + textMarkup + '</div>' +
+                        '</div>';
+
                     return markup;
-                }, // Markdown işlemlerini önlemek için
-                templateResult: formatAnimeResult, // Sonuçları özelleştirmek için
-                templateSelection: formatAnimeResult, // Seçili öğeyi özelleştirmek için
-            })
-
-            function formatAnimeResult(anime) {
-                if (!anime.id) {
-                    return anime.text;
                 }
-                // Resmi sonuçlarda göster
-                // Yan yana resim ve metni göster
-                var imageMarkup =
-                    '<img class="rounded-circle header-profile-user" src="../../../../' +
-                    anime
-                    .image +
-                    '" alt="anime_image" />';
-                var textMarkup = '<div class="select2-result-anime__title">' +
-                    anime.text + '</div>';
-
-                var markup = '<div class="row">' +
-                    '<div class="ml-2 select2-result-anime__image-container">' + imageMarkup + '</div>' +
-                    '<div class="select2-result-anime__text-container">' + textMarkup + '</div>' +
-                    '</div>';
-
-                return markup;
-            }
+            });
         </script>
 
         <!--Ag grid-->
