@@ -5,12 +5,37 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-                        <div class="col-lg-12" style="display: inline-block;">
+                        <div class="" style="">
                             @if ($create == 1)
                                 <a class="btn btn-primary mb-3" style="float: right;"
                                     href="{{ route('admin_indexuser_create_screen') }}">+
                                     Yeni</a>
                             @endif
+                        </div>
+                        <div class="col-lg-10" style="">
+                            <div class="row">
+                                <div class="ml-2 mr-2">
+                                    <select name="userStatusSearch" id="userStatusSearch" class="form-control"
+                                        onchange="searchStatus()">
+                                        <option value="0">Tümü</option>
+                                        <option value="1">Pasif</option>
+                                        <option value="2">Aktif</option>
+                                    </select>
+                                </div>
+                                <div class="ml-2 mr-2">
+                                    <input type="text" placeholder="Üye Ara...." name="userSearch" id="userSearch"
+                                        class="form-control" oninput="checkInput()">
+                                </div>
+                                <div class="ml-2 mr-2">
+                                    <button class="btn btn-success" id="userSearchButton" onclick="searchUserButton()"
+                                        disabled><i class="fas fa-search"></i> Ara</button>
+                                </div>
+                                <div class="ml-2 mr-2">
+                                    <button class="btn btn-danger" id="searchUserAllButton" onclick="searchUserAllButton()"
+                                        disabled> <i class="fas fa-align-center"></i>
+                                        Tümünü Göster</button>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="ag-theme-quartz mt-2 mb-2" style="height: 500px;" id="myGrid"></div>
@@ -41,7 +66,6 @@
                     pageData.status = is_status
                 };
                 if (searchData.length > 0) pageData.searchData = searchData
-                console.log("pageData: " + JSON.stringify(pageData));
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
@@ -74,12 +98,60 @@
                         getOtherData(page_count, page);
 
                     },
-                    error: function(error) {
-                        console.log(error);
-                    }
+                    error: function(error) {}
                 });
 
             }
+
+            function searchStatus() {
+                var val = document.getElementById('userStatusSearch').value;
+                if (parseInt(val) != is_status) {
+                    is_status = parseInt(val);
+                    changePage(1);
+                    if (is_status != 0) document.getElementById('searchUserAllButton').disabled = false;
+                }
+            }
+
+            function searchUserButton() {
+                searchData = document.getElementById('userSearch').value;
+                document.getElementById('userSearchButton').disabled = true;
+                document.getElementById('searchUserAllButton').disabled = false;
+                changePage(1);
+            }
+
+            function searchUserAllButton() {
+                searchData = "";
+                is_status = 0;
+                document.getElementById('userStatusSearch').value = 0;
+                document.getElementById('userSearchButton').disabled = true;
+                document.getElementById('searchUserAllButton').disabled = true;
+                changePage(1);
+            }
+        </script>
+
+        <!--Arama İşlemi-->
+        <script>
+            function checkInput() {
+                var inputField = document.getElementById('userSearch');
+                var submitButton = document.getElementById('userSearchButton');
+
+                // Input alanının değeri varsa, butonu aktif hale getir
+                if (inputField.value.trim() !== '' && inputField.value !== searchData) {
+                    submitButton.disabled = false;
+                } else {
+                    submitButton.disabled = true;
+                }
+            }
+
+            // Enter tuşuna basılınca formu gönder
+            document.getElementById('userSearch').addEventListener('keyup', function(event) {
+                if (event.key === 'Enter') {
+                    searchUserButton();
+                    if (searchData.length <= 0) {
+                        document.getElementById('searchUserAllButton').disabled = true;
+                    }
+                }
+            });
         </script>
 
         <script>
