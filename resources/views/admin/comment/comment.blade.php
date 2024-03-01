@@ -64,15 +64,15 @@
                             </div>
                             <div class="col-lg-3">
                                 <label for="searchStatus">Durumu: </label>
-                                <select name="" id="searchStatus" class="form-control">
+                                <select id="searchStatus" class="form-control">
                                     <option value="0">Tümü</option>
                                     <option value="1">Pasif</option>
                                     <option value="2">Aktif</option>
                                 </select>
                             </div>
                             <div class="col-lg-3">
-                                <label for="searchStatus">Spoiler: </label>
-                                <select name="" id="searchStatus" class="form-control">
+                                <label for="searchSpoiler">Spoiler: </label>
+                                <select id="searchSpoiler" class="form-control">
                                     <option value="0">Tümü</option>
                                     <option value="1">Spoiler İçermeyen</option>
                                     <option value="2">Spoiler İçeren</option>
@@ -81,8 +81,8 @@
                         </div>
                         <div class="row mt-2">
                             <div class="col-lg-3">
-                                <label for="searchStatus">Kullanıcı: </label>
-                                <select name="" id="searchStatus" class="form-control">
+                                <label for="searchUser">Kullanıcı: </label>
+                                <select id="searchUser" class="form-control">
                                     <option value="0">Tümü</option>
                                     <option value="1">Spoiler İçermeyen</option>
                                     <option value="2">Spoiler İçeren</option>
@@ -90,24 +90,26 @@
                             </div>
 
                             <div class="col-lg-3">
-                                <label for="searchStatus">Yorum Sırası: </label>
-                                <select name="" id="searchStatus" class="form-control">
+                                <label for="searchCommentCount">Yorum Sırası: </label>
+                                <select name="" id="searchCommentCount" class="form-control">
                                     <option value="0">Tümü</option>
-                                    <option value="1">İlk Yorum</option>
+                                    <option value="1">Ana Yorumlar</option>
                                     <option value="2">Yorum Cevapları</option>
                                 </select>
                             </div>
                             <div class="col-lg-6">
-                                <label for="searchStatus">Yorum: </label>
-                                <input type="text" id="" class="form-control">
+                                <label for="searchComment">Yorum: </label>
+                                <input type="text" id="searchComment" class="form-control">
                             </div>
                         </div>
 
                         <div class="col-lg-12 mt-2">
-                            <button class="btn btn-info float-right">
+                            <button class="btn btn-success float-right ml-2 mr-2">
                                 <i class="fas fa-search"></i>
                                 Ara
                             </button>
+                            <button class="btn btn-danger float-right ml-2 mr-2" type="button"
+                                onclick="clearSearch()">Sıfırla</button>
                         </div>
                     </div>
                 </div><!-- /.modal-content -->
@@ -122,13 +124,30 @@
         <script src="{{ url('admin/assets/js/pageTable.js') }}"></script>
         <!-- Sayfa Değiştirme Scripti-->
         <script>
+            var webtoon_code = 0,
+                anime_code = 0,
+                status = 0,
+                spoiler = 0,
+                user_code = 0,
+                comment_count = 0,
+                searchData = "";
+
             function changePage(page) {
                 var pageData = {
                     page: page,
                 }
-                if (showingCount && showingCount != 10) {
+                if (showingCount && showingCount != 10)
                     pageData.showingCount = showingCount;
-                }
+
+                if (webtoon_code != 0) pageData.webtoon_code = webtoon_code;
+                if (anime_code != 0) pageData.anime_code = anime_code;
+                if (status != 0) pageData.status = status;
+                if (spoiler != 0) pageData.spoiler = spoiler;
+                if (user_code != 0) pageData.user_code = user_code;
+                if (comment_count != 0) pageData.comment_count = comment_count;
+                if (searchData != "") pageData.searchData = searchData;
+
+
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
@@ -144,7 +163,6 @@
                         var page_count = response.pageCount;
                         rowData = [];
                         for (let i = 0; i < comments.length; i++) {
-
                             var rowItem = {
                                 id: id++,
                                 code: sendData(comments[i].code),
@@ -158,9 +176,78 @@
 
                         getOtherData(page_count, page);
 
+                    },
+                    error: function(error) {
+                        console.log(error)
                     }
                 });
 
+            }
+        </script>
+
+        <!--Arama Komutları-->
+        <script>
+            function search() {
+                var is_change = false;
+                var new_webtoon_code = document.getElementById('selectWebtoon').value,
+                    new_anime_code = document.getElementById('selectAnime').value,
+                    new_status = document.getElementById('searchStatus').value,
+                    new_spoiler = document.getElementById('searchSpoiler').value,
+                    new_user_code = document.getElementById('searchUser').value,
+                    new_comment_count = document.getElementById('searchCommentCount').value,
+                    new_searchData = document.getElementById('searchComment').value;
+
+                if (webtoon_code != new_webtoon_code) {
+                    is_change = true;
+                    webtoon_code = new_webtoon_code
+                }
+
+                if (anime_code != new_anime_code) {
+                    is_change = true;
+                    anime_code = new_anime_code
+                }
+
+                if (status != new_status) {
+                    is_change = true;
+                    status = new_status
+                }
+
+                if (spoiler != new_spoiler) {
+                    is_change = true;
+                    spoiler = new_spoiler
+                }
+
+                if (user_code != new_user_code) {
+                    is_change = true;
+                    user_code = new_user_code
+                }
+
+                if (comment_count != new_comment_count) {
+                    is_change = true;
+                    comment_count = new_comment_count
+                }
+
+                if (searchData != new_searchData) {
+                    is_change = true;
+                    searchData = new_searchData
+                }
+
+                if (is_change) {
+                    changePage(1);
+                }
+
+
+            }
+
+            function clearSearch() {
+                webtoon_code = 0;
+                anime_code = 0;
+                status = 0;
+                spoiler = 0;
+                user_code = 0;
+                comment_count = 0;
+                searchData = "";
+                changePage(1);
             }
         </script>
 

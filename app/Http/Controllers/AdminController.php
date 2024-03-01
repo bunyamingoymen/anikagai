@@ -184,8 +184,34 @@ class AdminController extends Controller
     {
         $take  = $request->showingCount ? $request->showingCount : Config::get('app.showCount');
         $skip = (($request->page - 1) * $take);
-        $comments = Comment::Where('deleted', 0)->skip($skip)->take($take)->get();
-        $pageCount = ceil(Comment::Where('deleted', 0)->count() / $take);
+        $matchGorup = [];
+        array_push(['deleted', 0]);
+
+        if ($request->status) array_push(['is_active', $request->status == 1 ? 0  : 1]);
+
+
+        if ($request->spoiler) array_push(['is_spoiler', $request->spoiler == 1 ? 0  : 1]);
+
+
+        if ($request->user_code) array_push(['user_code', $request->user_code]);
+
+
+        if ($request->comment_count) array_push(['comment_type', $request->comment_count == 1 ? 0  : 1]);
+
+
+        $commentQuery = Comment::where($matchGorup)
+            ->when($request->searchData, function ($query, $searchData) {
+                // Arama terimi için özel karakter dönüşümü
+
+                $searchQueryData = '%' . $searchData . '%';
+
+                return $query->where(function ($query) use ($searchQueryData) {
+                    $query->where('message', 'LIKE', $searchQueryData);
+                });
+            });
+        $pageCount = ceil($commentQuery->count() / $take);
+        $comments = $commentQuery->skip($skip)->take($take)->get();
+
 
         return ['comments' => $comments, 'pageCount' => $pageCount];
     }
