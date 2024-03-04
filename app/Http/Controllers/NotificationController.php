@@ -36,10 +36,10 @@ class NotificationController extends Controller
 
             $image_url = $path . "/" . $name;
         }
-
-        $this->sendNotificationIndexUser($image_url, $request->notification_title, $request->notification_text, $request->notification_url, 0, $request->notification_date, $request->notification_end_date);
+        $notification_code = NotificationUser::max('notification_code') + 1;
+        $this->sendNotificationIndexUser($image_url, $request->notification_title, $request->notification_text, $request->notification_url, 0, $request->notification_date, $request->notification_end_date, $notification_code);
         foreach ($indexUsers as $key => $value) {
-            $this->sendNotificationIndexUser($image_url, $request->notification_title, $request->notification_text, $request->notification_url, $value->code, $request->notification_date, $request->notification_end_date);
+            $this->sendNotificationIndexUser($image_url, $request->notification_title, $request->notification_text, $request->notification_url, $value->code, $request->notification_date, $request->notification_end_date, $notification_code);
         }
 
         return redirect()->route('admin_show_notifications')->with('success', 'Başarılı bir şekilde bildirim gönderildi');
