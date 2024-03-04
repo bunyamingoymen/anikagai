@@ -129,5 +129,6 @@ return [
 
         'admin/notification/list' => 67,
         'admin/notification/create' => 68,
+        'admin/notification/delete' => 69,
     ],
 ];

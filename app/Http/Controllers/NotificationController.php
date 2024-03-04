@@ -6,6 +6,7 @@ use App\Models\IndexUser;
 use App\Models\NotificationUser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Str;
 
 class NotificationController extends Controller
@@ -45,6 +46,11 @@ class NotificationController extends Controller
         return redirect()->route('admin_show_notifications')->with('success', 'Başarılı bir şekilde bildirim gönderildi');
     }
 
+    public function deleteNotification()
+    {
+        dd('deleteNotification');
+    }
+
     public function readNotification(Request $request)
     {
         $user = IndexUser::Where('code', Auth::user()->code)->first();
@@ -68,5 +74,14 @@ class NotificationController extends Controller
         NotificationUser::Where('to_user_code', $user->code)->update(['readed' => 1]);
 
         return true;
+    }
+
+    public function notificationGetData(Request $request)
+    {
+        $take  = $request->showingCount ? $request->showingCount : Config::get('app.showCount');
+        $skip = (($request->page - 1) * $take);
+        $notifications = NotificationUser::Where('deleted', 0)->where('to_user_code', 0)->orderBy('created_at', 'DESC')->skip($skip)->take($take)->get();
+        $page_count = ceil(NotificationUser::Where('deleted', 0)->where('to_user_code', 0)->count() / $take);
+        return ['notifications' => $notifications, "page_count" => $page_count];;
     }
 }

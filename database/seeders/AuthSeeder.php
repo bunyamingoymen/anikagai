@@ -357,6 +357,21 @@ class AuthSeeder extends Seeder
                 'text'  => 'Yorum Pinleyebilme',
                 'description'  => 'Yorum Pinleyebilme',
             ],
+            [
+                'code' => intval(Config::get('access.path_access_codes.admin/notification/list')),
+                'text'  => 'Bildirim Listeleyebilme',
+                'description'  => 'Bildirim Listeleyebilme',
+            ],
+            [
+                'code' => intval(Config::get('access.path_access_codes.admin/notification/create')),
+                'text'  => 'Bildirim Gönderebilme',
+                'description'  => 'Bildirim Gönderebilme',
+            ],
+            [
+                'code' => intval(Config::get('access.path_access_codes.admin/notification/delete')),
+                'text'  => 'Bildirim Silebilme',
+                'description'  => 'Bildirim Silebilme',
+            ],
         ]);
     }
 }

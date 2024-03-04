@@ -64,6 +64,7 @@ class AppServiceProvider extends ServiceProvider
             $pagePages = ['admin.pages.create', 'admin.pages.list', 'admin.pages.update', 'admin.pages.show'];
             $categoryPages = ['admin.category.create', 'admin.category.list', 'admin.category.update'];
             $tagPages = ['admin.tag.create', 'admin.tag.list', 'admin.tag.update'];
+            $notificationPages = ['admin.notification.create', 'admin.notification.list'];
             $indexUserPages = ['admin.indexUsers.create', 'admin.indexUsers.list', 'admin.indexUsers.update'];
 
             $commentPages = ['admin.comment.comment'];
@@ -315,6 +316,14 @@ class AppServiceProvider extends ServiceProvider
                     $delete = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/indexUser/delete') ? 1 : 0;
 
                     $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
+                });
+
+                View::composer($notificationPages, function ($view) {
+                    $create = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/notification/create') ? 1 : 0;
+                    $list = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/notification/list') ? 1 : 0;
+                    $delete = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/notification/delete') ? 1 : 0;
+
+                    $view->with(["create" => $create, "list" => $list, "delete" => $delete]);
                 });
             }
             //----------------------------------------------------
