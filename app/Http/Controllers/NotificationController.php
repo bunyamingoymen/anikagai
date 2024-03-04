@@ -36,6 +36,8 @@ class NotificationController extends Controller
 
             $image_url = $path . "/" . $name;
         }
+
+        $this->sendNotificationIndexUser($image_url, $request->notification_title, $request->notification_text, $request->notification_url, 0, $request->notification_date, $request->notification_end_date);
         foreach ($indexUsers as $key => $value) {
             $this->sendNotificationIndexUser($image_url, $request->notification_title, $request->notification_text, $request->notification_url, $value->code, $request->notification_date, $request->notification_end_date);
         }

@@ -1010,7 +1010,6 @@ class IndexController extends Controller
             ->Where('notification_end_date', '>=', Carbon::today())
             ->where('notification_date', '<=', Carbon::today())
             ->where('to_user_code', Auth::user()->code)
-            ->orWhere('to_user_code', 0)
             ->orderBy('created_at', 'DESC')
             ->get();
         $additionalData = ['notificatonsAll' => $notificatonsAll];
