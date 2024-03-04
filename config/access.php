@@ -128,6 +128,7 @@ return [
         'admin/data/changeThemeColor' => 65,
 
         'admin/notification/list' => 67,
+        'admin/notification/list/ajax' => 67,
         'admin/notification/create' => 68,
         'admin/notification/delete' => 69,
     ],

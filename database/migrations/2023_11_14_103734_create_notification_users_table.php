@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('notification_users', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('code');
+            $table->unsignedBigInteger('notification_code');
             $table->string('notification_image')->default('index/img/default/notification.jpg')->nullable();
             $table->string('notification_title');
             $table->longText('notification_text');

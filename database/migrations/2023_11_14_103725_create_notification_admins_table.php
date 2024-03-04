@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('notification_admins', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('code');
-            $table->unsignedBigInteger('notification_code');
             $table->string('notification_title');
             $table->longText('notification_text');
             $table->unsignedBigInteger('from_user_code');
