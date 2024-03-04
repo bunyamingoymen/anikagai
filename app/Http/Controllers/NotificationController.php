@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\IndexUser;
 use App\Models\NotificationUser;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class NotificationController extends Controller
@@ -46,9 +49,18 @@ class NotificationController extends Controller
         return redirect()->route('admin_show_notifications')->with('success', 'Başarılı bir şekilde bildirim gönderildi');
     }
 
-    public function deleteNotification()
+    public function deleteNotification(Request $request)
     {
-        dd('deleteNotification');
+        $noti = NotificationUser::Where('code', $request->code)->first();
+        if (!$noti) {
+            return redirect()->back()->with('error', "Bildirim silinirken bir hata meydana geldi");
+        }
+        NotificationUser::where('notification_code', $noti->notification_code)
+            ->update([
+                'deleted' => 1,
+            ]);
+
+        return redirect()->back()->with('success', 'Bildirim başarılı bir şekilde silindi');
     }
 
     public function readNotification(Request $request)
@@ -80,8 +92,15 @@ class NotificationController extends Controller
     {
         $take  = $request->showingCount ? $request->showingCount : Config::get('app.showCount');
         $skip = (($request->page - 1) * $take);
-        $notifications = NotificationUser::Where('deleted', 0)->where('to_user_code', 0)->orderBy('created_at', 'DESC')->skip($skip)->take($take)->get();
-        $page_count = ceil(NotificationUser::Where('deleted', 0)->where('to_user_code', 0)->count() / $take);
+        $notifications = NotificationUser::Where('deleted', 0)->where('to_user_code', 0)
+            ->Where('notification_end_date', '>=', Carbon::today())
+            ->where('notification_date', '<=', Carbon::today())
+            ->orderBy('created_at', 'DESC')->skip($skip)->take($take)->get();
+
+        $page_count = ceil(NotificationUser::Where('deleted', 0)->where('to_user_code', 0)
+            ->Where('notification_end_date', '>=', Carbon::today())
+            ->where('notification_date', '<=', Carbon::today())
+            ->count() / $take);
         return ['notifications' => $notifications, "page_count" => $page_count];;
     }
 }
