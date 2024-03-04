@@ -105,7 +105,7 @@ class Controller extends BaseController
         return $shortName;
     }
 
-    public function sendNotificationIndexUser($image_url = null, $notification_title, $notification_text, $notification_url = null, $to_user_code, $notification_date, $notification_end_date, $notification_code)
+    public function sendNotificationIndexUser($image_url = 'index/img/default/notification.jpg', $notification_title, $notification_text, $notification_url = null, $to_user_code, $notification_date, $notification_end_date, $notification_code)
     {
         $notification = new NotificationUser();
         $notification->code = NotificationUser::max('code') + 1;

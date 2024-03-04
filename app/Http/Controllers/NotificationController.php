@@ -24,7 +24,7 @@ class NotificationController extends Controller
     public function addNotifications(Request $request)
     {
         $indexUsers = IndexUser::where('deleted', 0)->get();
-        $image_url = "null";
+        $image_url = "index/img/default/notification.jpg";
         if ($request->hasFile('notification_image')) {
 
             $randomString = Str::random(5);
