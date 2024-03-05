@@ -173,7 +173,7 @@
             var controlIsUsername = false;
             var controlIsEmail = false;
 
-            function controlCharacterUsername() {
+            function controlCharacterUsername(name) {
                 var alphabet = [
                     'q', 'w', 'e', 'r', 't', 'y', 'u', 'ı', 'o', 'p', 'ğ', 'ü',
                     'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'ş', 'i',

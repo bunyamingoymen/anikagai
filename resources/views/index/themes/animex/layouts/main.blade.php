@@ -185,14 +185,15 @@
             document.getElementById('unreadedCountIn').innerText = 0;
         }
 
-        function controlCharacterUsername() {
+        function controlCharacterUsername(name) {
             var alphabet = [
                 'q', 'w', 'e', 'r', 't', 'y', 'u', 'ı', 'o', 'p', 'ğ', 'ü',
                 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'ş', 'i',
-                'z', 'x', 'c', 'v', 'b', 'n', 'm', 'ö', 'ç'
+                'z', 'x', 'c', 'v', 'b', 'n', 'm', 'ö', 'ç',
+                '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
             ];
 
-            var is_control = false;
+            var is_control = true;
 
             for (var i = 0; i < name.length; i++) {
                 var character = name[i].toLowerCase();
