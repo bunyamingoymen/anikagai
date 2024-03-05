@@ -65,13 +65,12 @@
         function controlUsername() {
             var username = document.getElementById("registerUsername").value;
             var code = "{{ $user->code }}";
-            var regex = /^[a-zA-Z0-9]+$/;
             if (username.length < 3) {
                 document.getElementById("controlUsernameText").innerText =
                     "Kullanılamaz";
                 document.getElementById("controlUsernameText").style.color = "red";
                 controlIsUsername = false;
-            } else if (!regex.test(username)) {
+            } else if (!controlCharacterUsername(username)) {
                 document.getElementById("controlUsernameText").innerText =
                     "Kullanılamaz";
                 document.getElementById("controlUsernameText").style.color = "red";

@@ -116,13 +116,12 @@
 
         function controlUsername() {
             var username = document.getElementById("registerUsername").value;
-            var regex = /^[a-zA-Z0-9]+$/;
             if (username.length < 3) {
                 document.getElementById("controlUsernameText").innerText =
                     "Kullanılamaz";
                 document.getElementById("controlUsernameText").style.color = "red";
                 controlIsUsername = false;
-            } else if (!regex.test(username)) {
+            } else if (!controlCharacterUsername(username)) {
                 document.getElementById("controlUsernameText").innerText =
                     "Kullanılamaz";
                 document.getElementById("controlUsernameText").style.color = "red";
@@ -198,7 +197,6 @@
 
         function controlUsernameRegister() {
             var username = document.getElementById("registerUsername").value;
-            var regex = /^[a-zA-Z0-9]+$/;
             if (username.length < 3) {
                 Swal.fire({
                     title: "Hata",
@@ -206,7 +204,7 @@
                     icon: "error"
                 });
                 controlIsUsername = false;
-            } else if (!regex.test(username)) {
+            } else if (!controlCharacterUsername(username)) {
                 Swal.fire({
                     title: "Hata",
                     text: "Bu Kullanıcı adı alınamaz",

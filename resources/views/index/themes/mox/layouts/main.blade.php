@@ -99,7 +99,29 @@
     <!--plyr-->
     <script src="{{ url('user/animex/js/player.js') }}"></script>
 
+    <script>
+        function controlCharacterUsername() {
+            var alphabet = [
+                'q', 'w', 'e', 'r', 't', 'y', 'u', 'ı', 'o', 'p', 'ğ', 'ü',
+                'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'ş', 'i',
+                'z', 'x', 'c', 'v', 'b', 'n', 'm', 'ö', 'ç'
+            ];
 
+            var is_control = false;
+
+            for (var i = 0; i < name.length; i++) {
+                var character = name[i].toLowerCase();
+                if (alphabet.includes(character)) {
+                    is_control = true;
+                } else {
+                    is_control = false;
+                    break;
+                }
+            }
+
+            return is_control;
+        }
+    </script>
 </body>
 
 
