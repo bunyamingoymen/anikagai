@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Anikagai | Admin </title>
+    <title> {{ end($pathName) }} | {{ env('APP_NAME') }} | Admin </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta content="Anikagai admin created by bunyamingoymen" name="description" />
     <meta content="Bünyamin Göymen" name="author" />
