@@ -89,6 +89,6 @@ class CategoryController extends Controller
         $skip = (($request->page - 1) * $take);
         $categories = Category::Where('deleted', 0)->skip($skip)->take($take)->get();
         $page_count = ceil(Category::Where('deleted', 0)->count() / $take);
-        return ['categories' => $categories, "page_count" => $page_count];;
+        return ['categories' => $categories, "page_count" => $page_count];
     }
 }

@@ -10,7 +10,7 @@
         {!! $item->value !!}
     @endforeach
     <!--Başlık-->
-    <title>{{ $data['index_title']->value }}</title>
+    <title>{{ $title ?? $data['index_title']->value }}</title>
 
     <!--CSS Dosyaları-->
 

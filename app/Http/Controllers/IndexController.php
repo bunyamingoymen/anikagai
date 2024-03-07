@@ -165,6 +165,7 @@ class IndexController extends Controller
         if ((($currentPage > $pageCount) || ($currentPage < 1)) && !(count($list) == 0 && $currentPage == 1))
             abort(404);
 
+        $title .= ' - ' . env('APP_NAME');
         //dd($list->toArray());
         return $this->loadThemeView('list', compact('path', 'title', 'list', 'pageCount', 'currentPage', 'allCategory'));
     }
@@ -286,9 +287,19 @@ class IndexController extends Controller
         if (Auth::user())
             $watched = WatchedAnime::Where('anime_code', $anime->code)->Where('user_code', Auth::user()->code)->Where('content_type', 1)->get();
 
+        $title = $request->title ? $request->title : null;
 
-
-        return $this->loadThemeView('animeDetail', compact('anime', 'trend_animes', 'anime_episodes', 'categories', 'followed', 'liked', 'firstEpisodeUrl', 'watched'));
+        return $this->loadThemeView('animeDetail', compact(
+            'anime',
+            'trend_animes',
+            'anime_episodes',
+            'categories',
+            'followed',
+            'liked',
+            'firstEpisodeUrl',
+            'watched',
+            'title',
+        ));
     }
 
     public function watch(Request $request)
@@ -364,7 +375,20 @@ class IndexController extends Controller
         if (Auth::user())
             $watched = WatchedAnime::Where('anime_code', $anime->code)->Where('user_code', Auth::user()->code)->Where('content_type', 1)->get();
 
-        return $this->loadThemeView('watch', compact('anime', 'episode', 'anime_episodes', 'trend_animes', 'comments_main', 'comments_alt', 'next_episode_url', 'prev_episode_url', 'watched'));
+        $title = $request->title ? $request->title : null;
+
+        return $this->loadThemeView('watch', compact(
+            'anime',
+            'episode',
+            'anime_episodes',
+            'trend_animes',
+            'comments_main',
+            'comments_alt',
+            'next_episode_url',
+            'prev_episode_url',
+            'watched',
+            'title'
+        ));
     }
 
     public function webtoonDetail(Request $request)
@@ -422,6 +446,8 @@ class IndexController extends Controller
         if (Auth::user())
             $watched = WatchedAnime::Where('anime_code', $webtoon->code)->Where('user_code', Auth::user()->code)->Where('content_type', 0)->get();
 
+        $title = $request->title ? $request->title : null;
+
         $additionalData = [
             'webtoon' => $webtoon,
             'trend_webtoons' => $trend_webtoons,
@@ -431,6 +457,7 @@ class IndexController extends Controller
             'liked' => $liked,
             'firstEpisodeUrl' => $firstEpisodeUrl,
             'watched' => $watched,
+            'title' => $title,
         ];
 
         return $this->loadThemeView('webtoonDetail', $additionalData);
@@ -513,7 +540,21 @@ class IndexController extends Controller
 
         $files = WebtoonFile::Where('deleted', 0)->Where('webtoon_episode_code', $episode->code)->orderBy('file_order', 'ASC')->get();
 
-        return $this->loadThemeView('read', compact('webtoon', 'episode', 'webtoon_episodes', 'trend_webtoons', 'comments_main', 'comments_alt', 'next_episode_url', 'prev_episode_url', 'watched', 'files'));
+        $title = $request->title ? $request->title : null;
+
+        return $this->loadThemeView('read', compact(
+            'webtoon',
+            'episode',
+            'webtoon_episodes',
+            'trend_webtoons',
+            'comments_main',
+            'comments_alt',
+            'next_episode_url',
+            'prev_episode_url',
+            'watched',
+            'files',
+            'title',
+        ));
     }
 
     public function calendar(Request $request)
@@ -598,7 +639,11 @@ class IndexController extends Controller
             $groupedWebtoonCalendarLists = $webtoonn_calendar_lists->groupBy('webtoon_calendar_list_date');
         }
 
-        return $this->loadThemeView('calendar', compact('anime_calendar_lists', 'groupedAnimeCalendarLists', 'showAnime', 'webtoonn_calendar_lists', 'groupedWebtoonCalendarLists', 'showWebtoon'));
+        $title = "Takvim" . " - " . env('APP_NAME');
+        if ($path == 'webtoonCalendar') $title = "Webtoon Takvimi" . " - " . env('APP_NAME');
+        if ($path == 'animeCalendar') $title = "Anime Takvimi" . " - " . env('APP_NAME');
+
+        return $this->loadThemeView('calendar', compact('anime_calendar_lists', 'groupedAnimeCalendarLists', 'showAnime', 'webtoonn_calendar_lists', 'groupedWebtoonCalendarLists', 'showWebtoon', 'title'));
     }
 
     public function showPage(Request $request)
@@ -613,12 +658,15 @@ class IndexController extends Controller
             abort(404); // Sayfa bulunamazsa 404 hatası gönder
         }
 
-        return $this->loadThemeView('page', compact('page'));
+        $title = $page->name . ' - ' . env('APP_NAME');
+
+        return $this->loadThemeView('page', compact('page', 'title'));
     }
 
     public function contactScreen()
     {
-        return $this->loadThemeView('contact');
+        $title = 'İletişim' . ' - ' . env('APP_NAME');
+        return $this->loadThemeView('contact', compact('title'));
     }
 
     public function contact(Request $request)
@@ -710,7 +758,8 @@ class IndexController extends Controller
 
     public function loginScreen()
     {
-        return $this->loadThemeView('login');
+        $title = 'Giriş Yap' . ' - ' . env('APP_NAME');
+        return $this->loadThemeView('login', compact('title'));
     }
 
     public function register(Request $request)
@@ -828,15 +877,16 @@ class IndexController extends Controller
         $watched_anime_count = WatchedAnime::Where('user_code', $user->code)->Where('content_type', 1)->count();
         $readed_webtoon_count = WatchedAnime::Where('user_code', $user->code)->Where('content_type', 0)->count();
 
-        return $this->loadThemeView('profile', compact('user', 'favorite_animes', 'follow_animes', 'watched_animes', 'favorite_webtoons', 'follow_webtoons', 'readed_webtoons', 'followed_user', 'following_user_count', 'followed_user_count', 'watched_anime_count', 'readed_webtoon_count'));
+        $title = 'Profil' . ' - ' . env('APP_NAME');
+        return $this->loadThemeView('profile', compact('user', 'favorite_animes', 'follow_animes', 'watched_animes', 'favorite_webtoons', 'follow_webtoons', 'readed_webtoons', 'followed_user', 'following_user_count', 'followed_user_count', 'watched_anime_count', 'readed_webtoon_count', 'title'));
     }
 
     public function changeProfileSettingsScreen()
     {
         if (Auth::user()) {
             $user = Auth::user();
-
-            return $this->loadThemeView('changeProfile', compact('user'));
+            $title = 'Profil' . ' - ' . env('APP_NAME');
+            return $this->loadThemeView('changeProfile', compact('user', 'title'));
         }
         return redirect()->back()->with('error', "İlk Önce giriş yapmanız gerekmektedir.");
     }
@@ -888,7 +938,8 @@ class IndexController extends Controller
     public function changeProfilePasswordScreen()
     {
         if (Auth::user()) {
-            return $this->loadThemeView('changePassword');
+            $title = 'Şifre Güncelle' . ' - ' . env('APP_NAME');
+            return $this->loadThemeView('changePassword', 'title');
         }
         return redirect()->back()->with('error', "İlk Önce giriş yapmanız gerekmektedir.");
     }

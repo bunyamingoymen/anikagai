@@ -168,7 +168,7 @@ class WebtoonEpisodeController extends Controller
         $EndDate = Carbon::parse($publishDate)->addMonths(1)->format('Y-m-d');
 
         $notification_code = NotificationUser::max('notification_code') + 1;
-        $this->sendNotificationIndexUser($webtoon->thumb_image_2, $request->notification_title, $request->notification_text, $request->notification_url, 0, $request->notification_date, $request->notification_end_date, $notification_code);
+        $this->sendNotificationIndexUser($webtoon->thumb_image_2, $webtoon->name, "Yeni Bölüm Yüklendi!!", url('webtoon/' . $webtoon->short_name . '/' . $webtoon_episode->season_short . '/' . $webtoon_episode->episode_short), 0, $publishDate, $EndDate, $notification_code);
         foreach ($favorite_webtoons_user as $item) {
             $this->sendNotificationIndexUser($webtoon->thumb_image_2, $webtoon->name, "Yeni Bölüm Yüklendi!!", url('webtoon/' . $webtoon->short_name . '/' . $webtoon_episode->season_short . '/' . $webtoon_episode->episode_short), $item->user_code, $publishDate, $EndDate, $notification_code);
         }

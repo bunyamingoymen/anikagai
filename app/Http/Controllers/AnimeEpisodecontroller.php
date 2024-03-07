@@ -79,7 +79,7 @@ class AnimeEpisodecontroller extends Controller
         $follow_animes_user = FollowAnime::Where('anime_code', $anime->code)->get();
 
         $notification_code = NotificationUser::max('notification_code') + 1;
-        $this->sendNotificationIndexUser($anime->thumb_image_2, $request->notification_title, $request->notification_text, $request->notification_url, 0, $request->notification_date, $request->notification_end_date, $notification_code);
+        $this->sendNotificationIndexUser($anime->thumb_image_2, $anime->name, "Yeni Bölüm Yüklendi!!", url('anime/' . $anime->short_name . '/' . $anime_episode->season_short . '/' . $anime_episode->episode_short), 0, $publishDate, $EndDate, $notification_code);
 
         foreach ($favorite_animes_user as $item) {
             $this->sendNotificationIndexUser($anime->thumb_image_2, $anime->name, "Yeni Bölüm Yüklendi!!", url('anime/' . $anime->short_name . '/' . $anime_episode->season_short . '/' . $anime_episode->episode_short), $item->user_code, $publishDate, $EndDate, $notification_code);

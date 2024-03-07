@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\Anime;
+use App\Models\AnimeEpisode;
 use App\Models\Webtoon;
 use Closure;
 use Illuminate\Http\Request;
@@ -24,6 +25,22 @@ class ClickCountMiddleware
 
         $ipAddress = $request->ip();
         $key = "click_count:{$short_name}:{$route_name}:{$ipAddress}";
+        $title = "";
+        if ($route_name  == 'animeDetail' || $route_name == 'watch') {
+            $animeDetail = Anime::Where('short_name', $short_name)->first();
+            if ($route_name  == 'animeDetail') {
+                $title = $animeDetail->name . " - " . env('APP_NAME');
+            } else if ($route_name == 'watch') {
+                $title = $animeDetail->name . " - " . $request->season . ".Sezon " . " - " . $request->episode . ".Bölüm" . " - " . env('APP_NAME');
+            }
+        } else if ($route_name  == 'webtoonDetail' || $route_name == 'read') {
+            $webtoonDetail = Webtoon::Where('short_name', $short_name)->first();
+            if ($route_name  == 'webtoonDetail') {
+                $title = $webtoonDetail->name . " - " . env('APP_NAME');
+            } else if ($route_name  == 'read') {
+                $title = $webtoonDetail->name . " - " . $request->season . ".Sezon " . " - " . $request->episode . ".Bölüm" . " - " . env('APP_NAME');
+            }
+        }
 
 
         if (!Cache::has($key)) {
@@ -44,6 +61,9 @@ class ClickCountMiddleware
             }
             // Örneğin: YourModel::where('ip_address', $ipAddress)->increment('click_count');
         }
+
+        $request->merge(['title' => $title]);
+
         return $next($request);
     }
 }

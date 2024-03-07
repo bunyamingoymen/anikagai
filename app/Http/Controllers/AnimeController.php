@@ -8,7 +8,6 @@ use App\Models\ContentCategory;
 use App\Models\ContentTag;
 use App\Models\Tag;
 use Illuminate\Http\Request;
-use Illuminate\Mail\Mailables\Content;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Spatie\Glide\GlideImage;
