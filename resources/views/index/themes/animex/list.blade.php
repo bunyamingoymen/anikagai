@@ -71,7 +71,7 @@
                                 @foreach ($list as $item)
                                     <div class="col-lg-3 col-md-6 col-sm-6">
                                         @if ($item->plusEighteen == 1 && Auth::user())
-                                            @if (Cache::has('adult4') && Cache::get('adult4') == 1)
+                                            @if (Cache::has('adult5') && Cache::get('adult5') == 1)
                                                 <div class="product__item">
                                                     @if ($path == 'animeler')
                                                         <a href="{{ url('anime/' . $item->short_name) }}">

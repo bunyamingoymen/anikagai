@@ -22,7 +22,11 @@
                 <div class="footer__nav ">
                     <ul>
                         @foreach ($menu_alts as $item)
-                            <li><a href="{{ $item->optional_2 ?? '#' }}">{{ $item->value }}</a></li>
+                            <li>
+                                <a href="{{ $item->optional_2 ? url($item->optional_2) : '#' }}">
+                                    {{ $item->value }}
+                                </a>
+                            </li>
                         @endforeach
                     </ul>
                 </div>
