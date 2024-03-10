@@ -115,22 +115,21 @@
         var controlIsEmail = false;
 
         function controlUsername() {
-            alert('girdi: controlUsername');
             var username = document.getElementById("registerUsername").value;
             if (username.length < 3) {
-                alert('if');
+
                 document.getElementById("controlUsernameText").innerText =
                     "Kullanılamaz";
                 document.getElementById("controlUsernameText").style.color = "red";
                 controlIsUsername = false;
             } else if (!controlCharacterUsername(username)) {
-                alert('else if');
+
                 document.getElementById("controlUsernameText").innerText =
                     "Kullanılamaz";
                 document.getElementById("controlUsernameText").style.color = "red";
                 controlIsUsername = false;
             } else {
-                alert('else');
+
                 $.ajaxSetup({
                     headers: {
                         "X-CSRF-TOKEN": "{{ csrf_token() }}",
