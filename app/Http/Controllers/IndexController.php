@@ -728,6 +728,34 @@ class IndexController extends Controller
             }
         }
 
+        if ($comment->comment_top_code != 0) {
+            $short_name = "";
+            $season_short = "";
+            $episode_short = "";
+
+            if ($comment->content_type == 0) {
+                $webtoon_episode = WebtoonEpisode::Where('code', $comment->content_code)->first();
+                $season_short = $webtoon_episode ? $webtoon_episode->season_short : "0";
+                $episode_short = $webtoon_episode ? $webtoon_episode->episode_short : "0";
+
+                $short_name = $webtoon_episode ? (Webtoon::Where('code', $webtoon_episode->webtoon_code)->first() ? Webtoon::Where('code', $webtoon_episode->webtoon_code)->first()->short_name : "0") : "0";
+            } else {
+                $anime_episode = AnimeEpisode::Where('code', $comment->content_code)->first();
+                $season_short = $anime_episode ? $anime_episode->season_short : "0";
+                $episode_short = $anime_episode ? $anime_episode->episode_short : "0";
+
+                $short_name = $anime_episode ? (Anime::Where('code', $anime_episode->anime_code)->first() ? Anime::Where('code', $anime_episode->anime_code)->first()->short_name : "0") : "0";
+            }
+
+            $comment_url = ($comment->content_type == 0 ? 'webtoon/' : 'anime/') . $short_name . '/' . $season_short . '/' . $episode_short;
+            $user_comment = Comment::Where('code', $comment->comment_top_code)->first() ? Comment::Where('code', $comment->comment_top_code)->first()->user_code : 0;
+            $publishDate = Carbon::now()->format('Y-m-d');
+            $EndDate = Carbon::parse($publishDate)->addMonths(1)->format('Y-m-d');
+            $notification_code = NotificationUser::max('notification_code') + 1;
+
+            $this->sendNotificationIndexUser("index/img/default/notification.jpg", "Yorumunuza cevap geldi", "Yeni bir cevap geldi: " . $comment->message, url($comment_url), $user_comment, $publishDate, $EndDate, $notification_code);
+        }
+
         return redirect()->back();
     }
 
