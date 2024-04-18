@@ -65,21 +65,22 @@
                 }
                 meta_count += 1;
                 html = `<div id='meta_count` + meta_count + `' class="mt-2" style="border: solid 1px #555956a7; border-radius: 10px;">
-            <form action="{{ route('admin_data_meta_add') }}" method="POST">
-                @csrf
-                <input type="text" name="key" id="key" hidden value="` + meta_key + `">
-                <div class="row m-3">
-                    <div class="col-lg-8">
-                        <label for="menu">Meta: </label>
-                        <input type="text" class="form-control" name="name" id="name">
-                    </div>
-                    <div class="mt-3">
-                        <button class="btn btn-primary" type="submit">Değişikliği Kaydet</button>
-                        <button class="btn btn-danger" type="button" onclick="deleteHTML('meta_count` + meta_count + `')">Sil</button>
-                    </div>
-                </div>
-            </form>
-        </div>`
+                            <form action="{{ route('admin_data_meta_add') }}" method="POST">
+                                @csrf
+                                <input type="text" name="key" id="key" hidden value="` + meta_key + `">
+                                <div class="row m-3">
+                                    <div class="col-lg-8">
+                                        <label for="menu">Meta: </label>
+                                        <input type="text" class="form-control" name="name" id="name">
+                                    </div>
+                                    <div class="mt-3">
+                                        <button class="btn btn-primary" type="submit">Değişikliği Kaydet</button>
+                                        <button class="btn btn-danger" type="button" onclick="deleteHTML('meta_count` +
+                    meta_count + `')">Sil</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>`
                 $("#metaDiv").append(html);
             }
 
@@ -89,25 +90,24 @@
 
             function deleteMeta(code) {
                 var form = `<form action="{{ route('admin_data_meta_delete') }}" method="POST" id="metaDeleteForm">
-            @csrf
-            <input type="text" name="code" value="` + code + `">
-        </form>`
+                                @csrf
+                                <input type="text" name="code" value="` + code + `">
+                            </form>`
 
                 $("#hiddenDiv").append(form);
 
                 document.getElementById('metaDeleteForm').submit();
             }
         </script>
-
-        <script>
-            // Sayfa yüklenmeden önce bu JavaScript kodu çalışacak
-            window.addEventListener('DOMContentLoaded', (event) => {
-                // Değişkenin değerini kontrol et
-                @if ($metaData == 0)
-                    // Değişken doğru ise yönlendirme yap
-                    window.location.href = '{{ route('admin_index') }}';
-                @endif
-            });
-        </script>
     @endif
+    <script>
+        // Sayfa yüklenmeden önce bu JavaScript kodu çalışacak
+        window.addEventListener('DOMContentLoaded', (event) => {
+            // Değişkenin değerini kontrol et
+            @if ($metaData == 0)
+                // Değişken doğru ise yönlendirme yap
+                window.location.href = '{{ route('admin_index') }}';
+            @endif
+        });
+    </script>
 @endsection
