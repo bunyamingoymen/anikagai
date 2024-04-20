@@ -8,7 +8,7 @@
 
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
         /* Roboto fontunu ekleyin veya
-                                                                                                                                                                                                                                                                                                                                                                            kendi tercih ettiğiniz bir font kullanabilirsiniz */
+                                                                                                                                                                                                                                                                                                                                                                                            kendi tercih ettiğiniz bir font kullanabilirsiniz */
 
         .overlay-button {
             position: absolute !important;
@@ -199,6 +199,38 @@
                                                 href={{ url('profile?username=' . $main_comment->user_username) }}>
                                                 {{ $main_comment->user_name ?? ' not_found' }} </a>
                                             - <span>{{ $main_comment->date }}</span>
+
+                                            <div style="float:right;">
+                                                @php
+                                                    $liked = $like_comments
+                                                        ->where('comment_code', $main_comment->code)
+                                                        ->first()
+                                                        ? $like_comments
+                                                            ->where('comment_code', $main_comment->code)
+                                                            ->first()->like_type
+                                                        : -1;
+
+                                                @endphp
+                                                <span class="mr-1 ml-1">
+                                                    <span>{{ $main_comment->like_count }}</span>
+                                                    <span class="mr-1 ml-1"
+                                                        onclick="{{ $liked == 1 ? 'likeRecallComment(' . $main_comment->code . ')' : 'likeComment(1,' . $main_comment->code . ')' }}"
+                                                        style="cursor: pointer;">
+                                                        <i class="fa fa-thumbs-up" aria-hidden="true"
+                                                            style="{{ $liked == 1 ? 'color:green;' : '' }}"></i>
+                                                    </span>
+                                                </span>
+                                                <span class="mr-1 ml-1">
+                                                    <span>{{ $main_comment->unlike_count }}</span>
+                                                    <span class="mr-1 ml-1"
+                                                        onclick="{{ $liked == 0 ? 'likeRecallComment(' . $main_comment->code . ')' : 'likeComment(0,' . $main_comment->code . ')' }}"
+                                                        style="cursor: pointer;">
+                                                        <i class="fa fa-thumbs-down " aria-hidden="true"
+                                                            style="{{ $liked == 0 ? 'color:red;' : '' }}"></i>
+                                                    </span>
+                                                </span>
+
+                                            </div>
                                         </h6>
                                         @if ($main_comment->is_spoiler == 1)
                                             <p hidden id="spoiler_comment{{ $main_comment->code }}">
@@ -247,6 +279,35 @@
                                         href={{ url('profile?username=' . $alt_comment->user_username) }}>
                                         {{ $alt_comment->user_name ?? ' not_found' }} </a>
                                     - <span>{{ $alt_comment->date }}</span>
+
+                                    <div style="float:right;">
+                                        @php
+                                            $liked = $like_comments->where('comment_code', $alt_comment->code)->first()
+                                                ? $like_comments->where('comment_code', $alt_comment->code)->first()
+                                                    ->like_type
+                                                : -1;
+
+                                        @endphp
+                                        <span class="mr-1 ml-1">
+                                            <span>{{ $alt_comment->like_count }}</span>
+                                            <span class="mr-1 ml-1"
+                                                onclick="{{ $liked == 1 ? 'likeRecallComment(' . $alt_comment->code . ')' : 'likeComment(1,' . $alt_comment->code . ')' }}"
+                                                style="cursor: pointer;">
+                                                <i class="fa fa-thumbs-up" aria-hidden="true"
+                                                    style="{{ $liked == 1 ? 'color:green;' : '' }}"></i>
+                                            </span>
+                                        </span>
+                                        <span class="mr-1 ml-1">
+                                            <span>{{ $alt_comment->unlike_count }}</span>
+                                            <span class="mr-1 ml-1"
+                                                onclick="{{ $liked == 0 ? 'likeRecallComment(' . $alt_comment->code . ')' : 'likeComment(0,' . $alt_comment->code . ')' }}"
+                                                style="cursor: pointer;">
+                                                <i class="fa fa-thumbs-down " aria-hidden="true"
+                                                    style="{{ $liked == 0 ? 'color:red;' : '' }}"></i>
+                                            </span>
+                                        </span>
+
+                                    </div>
                                 </h6>
                                 @if ($alt_comment->is_spoiler == 1)
                                     <p hidden id="spoiler_comment{{ $alt_comment->code }}">
@@ -638,6 +699,48 @@
                 } else {
                     commentDiv.innerHTML = "";
                 }
+            @endif
+        }
+    </script>
+
+    <!--Yorum Beğenme Ayarları-->
+    <script>
+        function likeComment(like_type, comment_code) {
+            @if (Auth::user())
+                var html =
+                    `<form action='{{ route('likeComment') }}' method="POST" id="likeCommentForm">
+                        @csrf
+                        <input type="text" name="content_code" value='{{ $webtoon->code }}'>
+                        <input type="text" name="content_episode_code" value='{{ $episode->code }}'>
+                        <input type="text" name="content_type" value='1'>
+                        <input type="text" name="comment_code" value='${comment_code}'>
+                        <input type="text" name="like_type" value='${like_type}'>
+                    </form>`;
+
+                document.getElementById('hiddenDiv').innerHTML = html;
+
+                document.getElementById('likeCommentForm').submit();
+            @else
+                notAuth();
+            @endif
+        }
+
+        function likeRecallComment(comment_code) {
+            @if (Auth::user())
+                var html =
+                    `<form action='{{ route('likeRecallComment') }}' method="POST" id="likeRecallCommentForum">
+                        @csrf
+                        <input type="text" name="content_code" value='{{ $webtoon->code }}'>
+                        <input type="text" name="content_episode_code" value='{{ $episode->code }}'>
+                        <input type="text" name="content_type" value='1'>
+                        <input type="text" name="comment_code" value='${comment_code}'>
+                    </form>`;
+
+                document.getElementById('hiddenDiv').innerHTML = html;
+
+                document.getElementById('likeRecallCommentForum').submit();
+            @else
+                notAuth();
             @endif
         }
     </script>
