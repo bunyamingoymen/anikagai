@@ -8,6 +8,7 @@ use App\Models\FollowAnime;
 use App\Models\FollowIndexUser;
 use App\Models\FollowUser;
 use App\Models\FollowWebtoon;
+use App\Models\LikeContentUser;
 use App\Models\ScoredContent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -157,6 +158,51 @@ class IndexDataController extends Controller
         FollowIndexUser::where('followed_user_code', $request->followed_user_code)
             ->where('user_code', Auth::user()->code)
             ->delete();
+
+        return redirect()->back();
+    }
+
+    public function likeComment(Request $request)
+    {
+        if (!Auth::user())
+            return redirect()->back()->with('error', 'Lütfen İlk Önce Giriş Yapınız');
+
+        $like = LikeContentUser::Where('content_code', $request->content_code)
+            ->Where('content_episode_code', $request->content_episode_code)
+            ->Where('content_type', $request->content_type)
+            ->Where('comment_code', $request->comment_code)
+            ->Where('user_code', Auth::user()->code)
+            ->first();
+
+        if (!$like) {
+            $like = new LikeContentUser();
+            $like->content_code = $request->content_code;
+            $like->content_episode_code = $request->content_code;
+            $like->content_type = $request->content_code;
+            $like->comment_code = $request->content_code;
+            $like->user_code = Auth::user()->code;
+        }
+        $like->like_type = $request->like_type;
+        $like->save();
+
+        return redirect()->back();
+    }
+
+    public function likeRecallComment(Request $request)
+    {
+        if (!Auth::user())
+            return redirect()->back()->with('error', 'Lütfen İlk Önce Giriş Yapınız');
+
+        $like = LikeContentUser::Where('content_code', $request->content_code)
+            ->Where('content_episode_code', $request->content_episode_code)
+            ->Where('content_type', $request->content_type)
+            ->Where('comment_code', $request->comment_code)
+            ->Where('user_code', Auth::user()->code)
+            ->first();
+
+        if (!$like) {
+            return redirect()->back()->with('error', 'Bir Hata Meydana Geldi');
+        }
 
         return redirect()->back();
     }

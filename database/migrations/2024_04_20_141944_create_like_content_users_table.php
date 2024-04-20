@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('like_content_users', function (Blueprint $table) {
             $table->id();
-            $table->string('content_code');
-            $table->string('content_episode_code');
-            $table->string('comment_code');
-            $table->string('content_type'); //0:webtoon,1:anime;
+            $table->unsignedBigInteger('content_code');
+            $table->unsignedBigInteger('content_episode_code');
+            $table->unsignedBigInteger('comment_code');
+            $table->tinyInteger('content_type'); //0:webtoon,1:anime;
             $table->tinyInteger('like_type'); //0: unlike, 1:like
-            $table->string('user_code');
+            $table->unsignedBigInteger('user_code');
             $table->timestamps();
         });
     }

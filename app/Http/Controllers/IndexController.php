@@ -15,6 +15,7 @@ use App\Models\FollowIndexUser;
 use App\Models\FollowWebtoon;
 use App\Models\IndexUser;
 use App\Models\KeyValue;
+use App\Models\LikeContentUser;
 use App\Models\NotificationUser;
 use App\Models\Page;
 use App\Models\Theme;
@@ -530,6 +531,12 @@ class IndexController extends Controller
 
         $title = $request->title ? $request->title : null;
 
+        $like_comments = LikeContentUser::Where('content_code', $webtoon->code)
+            ->Where('content_episode_code', $episode->code)
+            ->Where('content_type', 0)
+            ->Where('user_code', Auth::user()->code)
+            ->get();
+
         return $this->loadThemeView('read', compact(
             'webtoon',
             'episode',
@@ -542,6 +549,7 @@ class IndexController extends Controller
             'watched',
             'files',
             'title',
+            'like_comments',
         ));
     }
 
