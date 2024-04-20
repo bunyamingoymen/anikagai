@@ -209,6 +209,18 @@
         }
     </script>
 
+    <!--Diğer SweetAlert Komutları-->
+    <script>
+        function notAuth() {
+            Swal.fire({
+                title: "Hata",
+                text: "İlk Önce Giriş Yapmanız Gerekmektedir",
+                color: "#fff",
+                icon: "error"
+            });
+        }
+    </script>
+
 </head>
 
 <body>

@@ -219,6 +219,15 @@
                                                 href={{ url('profile?username=' . $main_comment->user_username) }}>
                                                 {{ $main_comment->user_name ?? ' not_found' }} </a>
                                             - <span>{{ $main_comment->date }}</span>
+
+                                            <div style="float:right;">
+                                                <span class="mr-1 ml-1" style="cursor: pointer;">
+                                                    <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                                                </span>
+                                                <span class="mr-1 ml-1" style="cursor: pointer;">
+                                                    <i class="fa fa-thumbs-down " aria-hidden="true"></i>
+                                                </span>
+                                            </div>
                                         </h6>
 
                                         @if ($main_comment->is_spoiler == 1)
@@ -583,6 +592,7 @@
     <!--Diğer Ayarlar-->
     <script>
         @if (Auth::guard('admin')->user() && $commentPinned == 1)
+            //Eğer admin girişi yapıldıysa ve yetkisi varsa yorum pinleme
             function commentPinned(code) {
                 var url = `/admin/comment/pinned?code=` + code;
                 var type = "_self"
@@ -590,6 +600,7 @@
             }
         @endif
         @if (Auth::user())
+            //Kullanıcı giriş yaptıysa İşlem Yapabilme
             function deleteComment(code, index_user_code) {
 
                 var auth_code = "{{ Auth::user()->code }}";
@@ -619,5 +630,34 @@
 
             }
         @endif
+
+        //Yorum
+        function likeComment() {
+            @if (Auth::user())
+            @else
+                notAuth();
+            @endif
+        }
+
+        function likeRecallComment() {
+            @if (Auth::user())
+            @else
+                notAuth();
+            @endif
+        }
+
+        function unlikeComment() {
+            @if (Auth::user())
+            @else
+                notAuth();
+            @endif
+        }
+
+        function unlikeRecallComment() {
+            @if (Auth::user())
+            @else
+                notAuth();
+            @endif
+        }
     </script>
 @endsection
