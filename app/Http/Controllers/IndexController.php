@@ -531,10 +531,11 @@ class IndexController extends Controller
 
         $title = $request->title ? $request->title : null;
 
+        $user_code = Auth::user() ? Auth::user()->code : -1;
         $like_comments = LikeContentUser::Where('content_code', $webtoon->code)
             ->Where('content_episode_code', $episode->code)
             ->Where('content_type', 0)
-            ->Where('user_code', Auth::user()->code)
+            ->Where('user_code', $user_code)
             ->get();
 
         return $this->loadThemeView('read', compact(

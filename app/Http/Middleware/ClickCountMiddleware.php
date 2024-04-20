@@ -28,6 +28,9 @@ class ClickCountMiddleware
         $title = "";
         if ($route_name  == 'animeDetail' || $route_name == 'watch') {
             $animeDetail = Anime::Where('short_name', $short_name)->first();
+            if (!$animeDetail) {
+                abort(404);
+            }
             if ($route_name  == 'animeDetail') {
                 $title = $animeDetail->name . " - " . env('APP_NAME');
             } else if ($route_name == 'watch') {
@@ -35,6 +38,9 @@ class ClickCountMiddleware
             }
         } else if ($route_name  == 'webtoonDetail' || $route_name == 'read') {
             $webtoonDetail = Webtoon::Where('short_name', $short_name)->first();
+            if (!$webtoonDetail) {
+                abort(404);
+            }
             if ($route_name  == 'webtoonDetail') {
                 $title = $webtoonDetail->name . " - " . env('APP_NAME');
             } else if ($route_name  == 'read') {

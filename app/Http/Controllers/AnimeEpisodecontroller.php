@@ -25,6 +25,10 @@ class AnimeEpisodecontroller extends Controller
 
         $animes = Anime::Where('deleted', 0)->get();
 
+        if (count($animes) <= 0) {
+            return redirect()->route('admin_anime_episodes_list')->with('error', 'Herhangi bir anime mevcut değil. İlk önce anime ekleyiniz');
+        }
+
         return view("admin.anime.episode.create", ['animes' => $animes]);
     }
 

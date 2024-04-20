@@ -29,6 +29,10 @@ class WebtoonEpisodeController extends Controller
 
         $webtoons = Webtoon::Where('deleted', 0)->get();
 
+        if (count($webtoons) <= 0) {
+            return redirect()->route('admin_webtoon_episodes_list')->with('error', 'Herhangi bir webtoon mevcut değil. İlk önce webtoon ekleyiniz');
+        }
+
         return view("admin.webtoon.episode.create", ['webtoons' => $webtoons]);
     }
 
