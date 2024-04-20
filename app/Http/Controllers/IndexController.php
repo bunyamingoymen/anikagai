@@ -725,18 +725,18 @@ class IndexController extends Controller
 
         $comment->save();
 
+        if ($request->content_type == 0) {
+            $webtoon = Webtoon::Where('code', $request->webtoon_code)->first();
+            $webtoon->comment_count = Comment::Where('content_code', $webtoon->code)->Where('content_type', 0)->Where('is_active', 1)->Where('deleted', 0)->count();
+            $webtoon->save();
+        } else if ($request->content_type == 1) {
+            $anime = Anime::Where('code', $request->anime_code)->first();
+            $anime->comment_count = Comment::Where('content_code', $anime->code)->Where('content_type', 1)->Where('is_active', 1)->Where('deleted', 0)->count();
+            $anime->save();
+        }
 
 
         if (!$is_insult) {
-            if ($request->content_type == 0) {
-                $webtoon = Webtoon::Where('code', $request->webtoon_code)->first();
-                $webtoon->comment_count = $webtoon->comment_count + 1;
-                $webtoon->save();
-            } else if ($request->content_type == 1) {
-                $anime = Anime::Where('code', $request->anime_code)->first();
-                $anime->comment_count = $anime->comment_count + 1;
-                $anime->save();
-            }
 
 
             if ($comment->comment_top_code != 0) {
@@ -781,6 +781,16 @@ class IndexController extends Controller
 
         $comment->deleted = 1;
         $comment->save();
+
+        if ($comment->content_type == 0) {
+            $webtoon = Webtoon::Where('code', $comment->content_code)->first();
+            $webtoon->comment_count = Comment::Where('content_code', $webtoon->code)->Where('content_type', 0)->Where('is_active', 1)->Where('deleted', 0)->count();
+            $webtoon->save();
+        } else if ($comment->content_type == 1) {
+            $anime = Anime::Where('code', $comment->content_code)->first();
+            $anime->comment_count = Comment::Where('content_code', $anime->code)->Where('content_type', 1)->Where('is_active', 1)->Where('deleted', 0)->count();
+            $anime->save();
+        }
 
         return redirect()->back();
     }
