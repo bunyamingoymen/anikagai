@@ -8,7 +8,7 @@
 
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
         /* Roboto fontunu ekleyin veya
-                                                                                                                                                                                                                                                                                                                                                                                            kendi tercih ettiğiniz bir font kullanabilirsiniz */
+                                                                                                                                                                                                                                                                                                                                                                                                                                        kendi tercih ettiğiniz bir font kullanabilirsiniz */
 
         .overlay-button {
             position: absolute !important;
@@ -232,6 +232,7 @@
 
                                             </div>
                                         </h6>
+
                                         @if ($main_comment->is_spoiler == 1)
                                             <p hidden id="spoiler_comment{{ $main_comment->code }}">
                                                 {{ $main_comment->message }}</p>
@@ -244,8 +245,9 @@
                                             <p> {{ $main_comment->message }}</p>
                                         @endif
 
+
                                         @if (Auth::user())
-                                            <a href="javascript:;" style="color:white; float:right;"
+                                            <a class="mr-3 ml-3" href="javascript:;" style="color:white; float:right;"
                                                 onclick="ReplyComment('AnswerMain{{ $main_comment->code }}','{{ $episode->code }}','1','1','{{ $main_comment->code }}')">
                                                 <i class="fa fa-reply" aria-hidden="true"></i> Cevapla
                                             </a>
@@ -263,177 +265,200 @@
                                                 </a>
                                             @endif
                                         @endif
+                                        @if (Auth::user() && Auth::user()->code == $main_comment->index_user_code)
+                                            <a class="mr-3 ml-3" href="javascript:;"
+                                                onclick="deleteComment('{{ $main_comment->code }}', '{{ $main_comment->index_user_code }}')"
+                                                style="color:white; float:right;">
+                                                <i class="fa fa-trash " aria-hidden="true"></i> Sil
+                                            </a>
+                                        @endif
                                     </div>
                                 </div>
-                    </div>
-                    <div id="AnswerMain{{ $main_comment->code }}"></div>
-                    @foreach ($comments_alt->Where('comment_top_code', $main_comment->code) as $alt_comment)
-                        <div class="blog__details__comment__item blog__details__comment__item--reply">
-                            <div class="anime__review__item__pic">
-                                <img src="{{ url($alt_comment->user_image ?? 'user/img/profile/default.png') }}"
-                                    alt="">
-                            </div>
-                            <div class="anime__review__item__text">
-                                <h6>
-                                    <a style="color:#fff;"
-                                        href={{ url('profile?username=' . $alt_comment->user_username) }}>
-                                        {{ $alt_comment->user_name ?? ' not_found' }} </a>
-                                    - <span>{{ $alt_comment->date }}</span>
-
-                                    <div style="float:right;">
-                                        @php
-                                            $liked = $like_comments->where('comment_code', $alt_comment->code)->first()
-                                                ? $like_comments->where('comment_code', $alt_comment->code)->first()
-                                                    ->like_type
-                                                : -1;
-
-                                        @endphp
-                                        <span class="mr-1 ml-1">
-                                            <span>{{ $alt_comment->like_count }}</span>
-                                            <span class="mr-1 ml-1"
-                                                onclick="{{ $liked == 1 ? 'likeRecallComment(' . $alt_comment->code . ')' : 'likeComment(1,' . $alt_comment->code . ')' }}"
-                                                style="cursor: pointer;">
-                                                <i class="fa fa-thumbs-up" aria-hidden="true"
-                                                    style="{{ $liked == 1 ? 'color:green;' : '' }}"></i>
-                                            </span>
-                                        </span>
-                                        <span class="mr-1 ml-1">
-                                            <span>{{ $alt_comment->unlike_count }}</span>
-                                            <span class="mr-1 ml-1"
-                                                onclick="{{ $liked == 0 ? 'likeRecallComment(' . $alt_comment->code . ')' : 'likeComment(0,' . $alt_comment->code . ')' }}"
-                                                style="cursor: pointer;">
-                                                <i class="fa fa-thumbs-down " aria-hidden="true"
-                                                    style="{{ $liked == 0 ? 'color:red;' : '' }}"></i>
-                                            </span>
-                                        </span>
-
-                                    </div>
-                                </h6>
-                                @if ($alt_comment->is_spoiler == 1)
-                                    <p hidden id="spoiler_comment{{ $alt_comment->code }}">
-                                        {{ $alt_comment->message }}</p>
-                                    <p><a href="javascript:void();" id="spoiler_comment_button{{ $alt_comment->code }}"
-                                            onclick="showSpoiler('spoiler_comment{{ $alt_comment->code }}', 'spoiler_comment_button{{ $alt_comment->code }}')">!!
-                                            Spoiler görmek için tıklayınız !!</a></p>
-                                @else
-                                    <p> {{ $alt_comment->message }}</p>
-                                @endif
-
-                                @if (Auth::user())
-                                    <a href="javascript:;" style="color:white; float:right;"
-                                        onclick="ReplyComment('AnswerAltMain{{ $alt_comment->code }}','{{ $episode->code }}','1','1','{{ $main_comment->code }}')">
-                                        <i class="fa fa-reply" aria-hidden="true"></i> Cevapla
-                                    </a>
-                                @endif
-                            </div>
-                        </div>
-                        <div id="AnswerAltMain{{ $alt_comment->code }}"></div>
-                    @endforeach
-                    @endforeach
-                @else
-                    <p style="color: white;">İlk yorum atan siz olun!</p>
-                    @endif
-
-                </div>
-                @if (Auth::user())
-                    <div class="anime__details__form">
-                        <div class="section-title">
-                            <h5>Yorum Yaz</h5>
-                        </div>
-                        <form action="{{ route('addNewComment') }}" method="POST">
-                            @csrf
-                            <div hidden>
-                                <input type="text" name="anime_code" value="{{ $anime->code }}">
-                                <input type="text" name="content_code" value="{{ $episode->code }}">
-                                <input type="text" name="content_type" value="1">
-                                <input type="text" name="comment_type" value="0">
-                                <input type="text" name="comment_top_code" value="0">
-                            </div>
-                            <textarea name="message" placeholder="Yorumunuz"></textarea>
-                            <div>
-                                <input type="checkbox" id="is_spoiler" name="is_spoiler">
-                                <label for="is_spoiler" style="color: #fff">Spoiler</label>
-                            </div>
-                            <button type="submit"><i class="fa fa-location-arrow"></i> Gönder</button>
-                        </form>
-                    </div>
-                @else
-                    <div class="anime__details__form">
-                        <div class="section-title">
-                            <h5>Yorum Yapabilmeniz İçin Giriş Yapmalısınız.</h5>
-                        </div>
-                    </div>
-                @endif
-            </div>
-            <!--Benzer içerikler-->
-            <div class="col-lg-4 col-md-4 justify-content-end">
-                <div class="anime__details__sidebar">
-                    <div class="section-title">
-                        <h5>Benzer İçerikler</h5>
-                    </div>
-                    @foreach ($trend_animes as $item)
-                        <div class="col-lg-8 col-md-12 col-sm-12">
-                            <div class="product__item">
-                                <a href="anime/{{ $item->short_name }}">
-                                    <div class="product__item__pic set-bg" data-setbg="{{ url($item->thumb_image) }}">
-                                        <div class="ep">{{ $item->score }} / 5</div>
-                                        <div class="comment"><i class="fa fa-comments"></i>
-                                            {{ $item->comment_count }}
+                                <div id="AnswerMain{{ $main_comment->code }}"></div>
+                                @foreach ($comments_alt->Where('comment_top_code', $main_comment->code) as $alt_comment)
+                                    <div class="blog__details__comment__item blog__details__comment__item--reply">
+                                        <div class="anime__review__item__pic">
+                                            <img src="{{ url($alt_comment->user_image ?? 'user/img/profile/default.png') }}"
+                                                alt="">
                                         </div>
-                                        <div class="view"><i class="fa fa-eye"></i> {{ $item->click_count }} </div>
+                                        <div class="anime__review__item__text">
+                                            <h6>
+                                                <a style="color:#fff;"
+                                                    href={{ url('profile?username=' . $alt_comment->user_username) }}>
+                                                    {{ $alt_comment->user_name ?? ' not_found' }} </a>
+                                                - <span>{{ $alt_comment->date }}</span>
+
+                                                <div style="float:right;">
+                                                    @php
+                                                        $liked = $like_comments
+                                                            ->where('comment_code', $alt_comment->code)
+                                                            ->first()
+                                                            ? $like_comments
+                                                                ->where('comment_code', $alt_comment->code)
+                                                                ->first()->like_type
+                                                            : -1;
+
+                                                    @endphp
+                                                    <span class="mr-1 ml-1">
+                                                        <span>{{ $alt_comment->like_count }}</span>
+                                                        <span class="mr-1 ml-1"
+                                                            onclick="{{ $liked == 1 ? 'likeRecallComment(' . $alt_comment->code . ')' : 'likeComment(1,' . $alt_comment->code . ')' }}"
+                                                            style="cursor: pointer;">
+                                                            <i class="fa fa-thumbs-up" aria-hidden="true"
+                                                                style="{{ $liked == 1 ? 'color:green;' : '' }}"></i>
+                                                        </span>
+                                                    </span>
+                                                    <span class="mr-1 ml-1">
+                                                        <span>{{ $alt_comment->unlike_count }}</span>
+                                                        <span class="mr-1 ml-1"
+                                                            onclick="{{ $liked == 0 ? 'likeRecallComment(' . $alt_comment->code . ')' : 'likeComment(0,' . $alt_comment->code . ')' }}"
+                                                            style="cursor: pointer;">
+                                                            <i class="fa fa-thumbs-down " aria-hidden="true"
+                                                                style="{{ $liked == 0 ? 'color:red;' : '' }}"></i>
+                                                        </span>
+                                                    </span>
+
+                                                </div>
+                                            </h6>
+                                            @if ($alt_comment->is_spoiler == 1)
+                                                <p hidden id="spoiler_comment{{ $alt_comment->code }}">
+                                                    {{ $alt_comment->message }}</p>
+                                                <p><a href="javascript:void();"
+                                                        id="spoiler_comment_button{{ $alt_comment->code }}"
+                                                        onclick="showSpoiler('spoiler_comment{{ $alt_comment->code }}', 'spoiler_comment_button{{ $alt_comment->code }}')">!!
+                                                        Spoiler görmek için tıklayınız !!</a></p>
+                                            @else
+                                                <p> {{ $alt_comment->message }}</p>
+                                            @endif
+
+                                            @if (Auth::user())
+                                                <a href="javascript:;" style="color:white; float:right;"
+                                                    onclick="ReplyComment('AnswerAltMain{{ $alt_comment->code }}','{{ $episode->code }}','1','1','{{ $main_comment->code }}')">
+                                                    <i class="fa fa-reply" aria-hidden="true"></i> Cevapla
+                                                </a>
+                                            @endif
+                                            @if (Auth::user() && Auth::user()->code == $alt_comment->index_user_code)
+                                                <a class="mr-3 ml-3" href="javascript:;"
+                                                    onclick="deleteComment('{{ $alt_comment->code }}', '{{ $alt_comment->index_user_code }}')"
+                                                    style="color:white; float:right;">
+                                                    <i class="fa fa-trash " aria-hidden="true"></i> Sil
+                                                </a>
+                                            @endif
+                                        </div>
                                     </div>
-                                </a>
-                                <div class="product__item__text">
-                                    <ul>
-                                        <li>{{ $item->main_category_name ?? 'Genel' }}</li>
-                                    </ul>
-                                    <h5><a href="{{ url('anime/' . $item->short_name) }}">{{ $item->name }}</a>
-                                    </h5>
+                                    <div id="AnswerAltMain{{ $alt_comment->code }}"></div>
+                                @endforeach
+                            @endforeach
+                        @else
+                            <p style="color: white;">İlk yorum atan siz olun!</p>
+                        @endif
+                    </div>
+                    @if (Auth::user())
+                        <div class="anime__details__form">
+                            <div class="section-title">
+                                <h5>Yorum Yaz</h5>
+                            </div>
+                            <form action="{{ route('addNewComment') }}" method="POST">
+                                @csrf
+                                <div hidden>
+                                    <input type="text" name="anime_code" value="{{ $anime->code }}">
+                                    <input type="text" name="content_code" value="{{ $episode->code }}">
+                                    <input type="text" name="content_type" value="1">
+                                    <input type="text" name="comment_type" value="0">
+                                    <input type="text" name="comment_top_code" value="0">
                                 </div>
+                                <textarea name="message" placeholder="Yorumunuz"></textarea>
+                                <div>
+                                    <input type="checkbox" id="is_spoiler" name="is_spoiler">
+                                    <label for="is_spoiler" style="color: #fff">Spoiler</label>
+                                </div>
+                                <button type="submit"><i class="fa fa-location-arrow"></i> Gönder</button>
+                            </form>
+                        </div>
+                    @else
+                        <div class="anime__details__form">
+                            <div class="section-title">
+                                <h5>Yorum Yapabilmeniz İçin Giriş Yapmalısınız.</h5>
                             </div>
                         </div>
-                    @endforeach
+                    @endif
+                </div>
+                <!--Benzer içerikler-->
+                <div class="col-lg-4 col-md-4 justify-content-end">
+                    <div class="anime__details__sidebar">
+                        <div class="section-title">
+                            <h5>Benzer İçerikler</h5>
+                        </div>
+                        @foreach ($trend_animes as $item)
+                            <div class="col-lg-8 col-md-12 col-sm-12">
+                                <div class="product__item">
+                                    <a href="anime/{{ $item->short_name }}">
+                                        <div class="product__item__pic set-bg"
+                                            data-setbg="{{ url($item->thumb_image) }}">
+                                            <div class="ep">{{ $item->score }} / 5</div>
+                                            <div class="comment"><i class="fa fa-comments"></i>
+                                                {{ $item->comment_count }}
+                                            </div>
+                                            <div class="view"><i class="fa fa-eye"></i> {{ $item->click_count }} </div>
+                                        </div>
+                                    </a>
+                                    <div class="product__item__text">
+                                        <ul>
+                                            <li>{{ $item->main_category_name ?? 'Genel' }}</li>
+                                        </ul>
+                                        <h5><a href="{{ url('anime/' . $item->short_name) }}">{{ $item->name }}</a>
+                                        </h5>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
             </div>
-        </div>
 
         </div>
     </section>
 
     <!-- İzleme ile ilgili fonksiyonlar -->
     <script>
+        var is_send = false;
+
         function watchAnime(anime_episode_code) {
             var anime_code = `{{ $anime->code }}`;
             @if (Auth::user())
-
-                $.ajaxSetup({
-                    headers: {
-                        "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                    },
-                });
-                $.ajax({
-                        type: "POST",
-                        url: '{{ route('index_watched_anime') }}',
-                        data: {
-                            anime_episode_code: anime_episode_code,
-                            anime_code: anime_code,
-                            content_type: 1
-                        }
-                    })
-                    .done(function(response) {
-                        if (response.response === 0) {
-                            console.log('İşlem İçin Giriş Yapılması Gerekmektedir.');
-                        } else if (response.response === 1) {
-                            console.log("Bölüm izlendi olarak işaretlendi");
-                        } else if (response.response === 2) {
-                            console.log("Bölüm izlenmedi olarak işaretlendi");
-                        } else {
-                            console.log('Bölüm izlendi olarak işaretlenirken beklenmedik bir hata meydana geldi');
-                        }
-                    })
-                    .fail(function(jqXHR, textStatus, errorThrown) {
-                        console.log('AJAX hatası: ' + textStatus + ' - ' + errorThrown + ' - ' + JSON.stringify(jqXHR));
+                if (!is_send) {
+                    $.ajaxSetup({
+                        headers: {
+                            "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                        },
                     });
+                    $.ajax({
+                            type: "POST",
+                            url: '{{ route('index_watched_anime') }}',
+                            data: {
+                                anime_episode_code: anime_episode_code,
+                                anime_code: anime_code,
+                                content_type: 1,
+                                just_watch: 1,
+                            }
+                        })
+                        .done(function(response) {
+                            is_send = true;
+                            if (response.response === 0) {
+                                console.log('İşlem İçin Giriş Yapılması Gerekmektedir.');
+                            } else if (response.response === 1) {
+                                console.log("Bölüm izlendi olarak işaretlendi");
+                            } else if (response.response === 2) {
+                                console.log("Bölüm izlenmedi olarak işaretlendi");
+                            } else {
+                                console.log('Bölüm izlendi olarak işaretlenirken beklenmedik bir hata meydana geldi');
+                            }
+                        })
+                        .fail(function(jqXHR, textStatus, errorThrown) {
+                            console.log('AJAX hatası: ' + textStatus + ' - ' + errorThrown + ' - ' + JSON.stringify(
+                                jqXHR));
+                        });
+                }
             @else
                 alert("İlk Önce Giriş yapmanız gerekmektedir.")
                 document.getElementById(id).checked = false;
@@ -710,7 +735,7 @@
                 var html =
                     `<form action='{{ route('likeComment') }}' method="POST" id="likeCommentForm">
                         @csrf
-                        <input type="text" name="content_code" value='{{ $webtoon->code }}'>
+                        <input type="text" name="content_code" value='{{ $anime->code }}'>
                         <input type="text" name="content_episode_code" value='{{ $episode->code }}'>
                         <input type="text" name="content_type" value='1'>
                         <input type="text" name="comment_code" value='${comment_code}'>
@@ -730,7 +755,7 @@
                 var html =
                     `<form action='{{ route('likeRecallComment') }}' method="POST" id="likeRecallCommentForum">
                         @csrf
-                        <input type="text" name="content_code" value='{{ $webtoon->code }}'>
+                        <input type="text" name="content_code" value='{{ $anime->code }}'>
                         <input type="text" name="content_episode_code" value='{{ $episode->code }}'>
                         <input type="text" name="content_type" value='1'>
                         <input type="text" name="comment_code" value='${comment_code}'>
@@ -752,6 +777,38 @@
                 var url = `/admin/comment/pinned?code=` + code;
                 var type = "_self"
                 window.open(url, type);
+            }
+        @endif
+
+        @if (Auth::user())
+            //Kullanıcı giriş yaptıysa İşlem Yapabilme
+            function deleteComment(code, index_user_code) {
+
+                var auth_code = "{{ Auth::user()->code }}";
+                if (auth_code === index_user_code) {
+                    Swal.fire({
+                        title: 'Emin Misin?',
+                        text: 'Bu Yorumu silmek istediğine emin misin?',
+                        icon: 'warning',
+                        showDenyButton: true,
+                        showCancelButton: false,
+                        confirmButtonText: 'Onayla',
+                        denyButtonText: `Vazgeç`,
+                    }).then((result) => {
+                        /* Read more about isConfirmed, isDenied below */
+                        if (result.isConfirmed) {
+                            var html =
+                                `<form action='{{ route('deleteComment') }}' method="POST" id="deleteCommentForm"> @csrf`;
+                            html += `<input type="text" name="code" value='` + code + `'>`;
+                            html += `</form>`
+
+                            document.getElementById('hiddenDiv').innerHTML = html;
+
+                            document.getElementById('deleteCommentForm').submit();
+                        }
+                    })
+                }
+
             }
         @endif
     </script>

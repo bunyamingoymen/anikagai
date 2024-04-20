@@ -196,7 +196,6 @@
             </div>
             <div class="row">
                 <div class="col-lg-8">
-
                     <div class="anime__details__review">
                         <div class="section-title">
                             <h5>Yorumlar</h5>
@@ -372,7 +371,6 @@
                         @else
                             <p style="color: white;">İlk yorum atan siz olun!</p>
                         @endif
-
                     </div>
                     @if (Auth::user())
                         <div class="anime__details__form">
@@ -696,6 +694,7 @@
                 window.open(url, type);
             }
         @endif
+
         @if (Auth::user())
             //Kullanıcı giriş yaptıysa İşlem Yapabilme
             function deleteComment(code, index_user_code) {

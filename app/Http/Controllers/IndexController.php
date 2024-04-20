@@ -366,6 +366,13 @@ class IndexController extends Controller
 
         $title = $request->title ? $request->title : null;
 
+        $user_code = Auth::user() ? Auth::user()->code : -1;
+        $like_comments = LikeContentUser::Where('content_code', $anime->code)
+            ->Where('content_episode_code', $episode->code)
+            ->Where('content_type', 0)
+            ->Where('user_code', $user_code)
+            ->get();
+
         return $this->loadThemeView('watch', compact(
             'anime',
             'episode',
@@ -376,7 +383,8 @@ class IndexController extends Controller
             'next_episode_url',
             'prev_episode_url',
             'watched',
-            'title'
+            'title',
+            'like_comments'
         ));
     }
 
@@ -1036,17 +1044,29 @@ class IndexController extends Controller
                     $response = 1;
                 } else $response = 3;
             } else {
-                if ($watched) {
-                    $watched->delete();
-                    $response = 2;
+                if ($request->just_watch && $request->just_watch == 1) {
+                    if (!$watched) {
+                        $watched = new WatchedAnime();
+                        $watched->anime_code = $request->anime_code;
+                        $watched->anime_episode_code = $request->anime_episode_code;
+                        $watched->content_type = $request->content_type;
+                        $watched->user_code = Auth::user()->code;
+                        $watched->save();
+                        $response = 1;
+                    }
                 } else {
-                    $watched = new WatchedAnime();
-                    $watched->anime_code = $request->anime_code;
-                    $watched->anime_episode_code = $request->anime_episode_code;
-                    $watched->content_type = $request->content_type;
-                    $watched->user_code = Auth::user()->code;
-                    $watched->save();
-                    $response = 1;
+                    if ($watched) {
+                        $watched->delete();
+                        $response = 2;
+                    } else {
+                        $watched = new WatchedAnime();
+                        $watched->anime_code = $request->anime_code;
+                        $watched->anime_episode_code = $request->anime_episode_code;
+                        $watched->content_type = $request->content_type;
+                        $watched->user_code = Auth::user()->code;
+                        $watched->save();
+                        $response = 1;
+                    }
                 }
             }
         }
