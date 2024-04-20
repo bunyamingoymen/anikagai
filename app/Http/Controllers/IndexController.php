@@ -763,8 +763,9 @@ class IndexController extends Controller
                 $publishDate = Carbon::now()->format('Y-m-d');
                 $EndDate = Carbon::parse($publishDate)->addMonths(1)->format('Y-m-d');
                 $notification_code = NotificationUser::max('notification_code') + 1;
-
-                $this->sendNotificationIndexUser("index/img/default/notification.jpg", "Yorumunuza cevap geldi", "Yeni bir cevap geldi: " . $comment->message, url($comment_url), $user_comment, $publishDate, $EndDate, $notification_code);
+                if ($user_comment != Auth::user()->code) {
+                    $this->sendNotificationIndexUser("index/img/default/notification.jpg", "Yorumunuza cevap geldi", "Yeni bir cevap geldi: " . $comment->message, url($comment_url), $user_comment, $publishDate, $EndDate, $notification_code);
+                }
             }
         }
 
