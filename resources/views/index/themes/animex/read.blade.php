@@ -307,6 +307,38 @@
                                                     href={{ url('profile?username=' . $alt_comment->user_username) }}>
                                                     {{ $alt_comment->user_name ?? ' not_found' }} </a>
                                                 - <span>{{ $alt_comment->date }}</span>
+
+                                                <div style="float:right;">
+                                                    @php
+                                                        $liked = $like_comments
+                                                            ->where('comment_code', $alt_comment->code)
+                                                            ->first()
+                                                            ? $like_comments
+                                                                ->where('comment_code', $alt_comment->code)
+                                                                ->first()->like_type
+                                                            : -1;
+
+                                                    @endphp
+                                                    <span class="mr-1 ml-1">
+                                                        <span>{{ $alt_comment->like_count }}</span>
+                                                        <span class="mr-1 ml-1"
+                                                            onclick="{{ $liked == 1 ? 'likeRecallComment(' . $alt_comment->code . ')' : 'likeComment(1,' . $alt_comment->code . ')' }}"
+                                                            style="cursor: pointer;">
+                                                            <i class="fa fa-thumbs-up" aria-hidden="true"
+                                                                style="{{ $liked == 1 ? 'color:green;' : '' }}"></i>
+                                                        </span>
+                                                    </span>
+                                                    <span class="mr-1 ml-1">
+                                                        <span>{{ $alt_comment->unlike_count }}</span>
+                                                        <span class="mr-1 ml-1"
+                                                            onclick="{{ $liked == 0 ? 'likeRecallComment(' . $alt_comment->code . ')' : 'likeComment(0,' . $alt_comment->code . ')' }}"
+                                                            style="cursor: pointer;">
+                                                            <i class="fa fa-thumbs-down " aria-hidden="true"
+                                                                style="{{ $liked == 0 ? 'color:red;' : '' }}"></i>
+                                                        </span>
+                                                    </span>
+
+                                                </div>
                                             </h6>
                                             @if ($alt_comment->is_spoiler == 1)
                                                 <p hidden id="spoiler_comment{{ $alt_comment->code }}">
