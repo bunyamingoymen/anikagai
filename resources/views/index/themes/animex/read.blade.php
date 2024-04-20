@@ -221,12 +221,27 @@
                                             - <span>{{ $main_comment->date }}</span>
 
                                             <div style="float:right;">
-                                                <span class="mr-1 ml-1" style="cursor: pointer;">
+                                                @php
+                                                    $liked = $like_comments
+                                                        ->where('comment_code', $main_comment->code)
+                                                        ->first()
+                                                        ? $like_comments
+                                                            ->where('comment_code', $main_comment->code)
+                                                            ->first()->like_type
+                                                        : -1;
+
+                                                @endphp
+                                                <span class="mr-1 ml-1"
+                                                    onclick="{{ $liked == 1 ? 'likeRecallComment(' . $main_comment->code . ')' : 'likeComment(1,' . $main_comment->code . ')' }}"
+                                                    style="cursor: pointer; {{ $liked == 1 ? 'color:green;' : '' }}">
                                                     <i class="fa fa-thumbs-up" aria-hidden="true"></i>
                                                 </span>
-                                                <span class="mr-1 ml-1" style="cursor: pointer;">
+                                                <span class="mr-1 ml-1"
+                                                    onclick="{{ $liked == 0 ? 'likeRecallComment(' . $main_comment->code . ')' : 'likeComment(0,' . $main_comment->code . ')' }}"
+                                                    style="cursor: pointer; {{ $liked == 0 ? 'color:red;' : '' }}">
                                                     <i class="fa fa-thumbs-down " aria-hidden="true"></i>
                                                 </span>
+
                                             </div>
                                         </h6>
 
@@ -589,6 +604,48 @@
         }
     </script>
 
+    <!--Yorum Beğenme Ayarları-->
+    <script>
+        function likeComment(like_type, comment_code) {
+            @if (Auth::user())
+                var html =
+                    `<form action='{{ route('likeComment') }}' method="POST" id="likeCommentForm">
+                        @csrf
+                        <input type="text" name="content_code" value='{{ $webtoon->code }}'>
+                        <input type="text" name="content_episode_code" value='{{ $episode->code }}'>
+                        <input type="text" name="content_type" value='0'>
+                        <input type="text" name="comment_code" value='${comment_code}'>
+                        <input type="text" name="like_type" value='${like_type}'>
+                    </form>`;
+
+                document.getElementById('hiddenDiv').innerHTML = html;
+
+                document.getElementById('likeCommentForm').submit();
+            @else
+                notAuth();
+            @endif
+        }
+
+        function likeRecallComment(comment_code) {
+            @if (Auth::user())
+                var html =
+                    `<form action='{{ route('likeRecallComment') }}' method="POST" id="likeRecallCommentForum">
+                        @csrf
+                        <input type="text" name="content_code" value='{{ $webtoon->code }}'>
+                        <input type="text" name="content_episode_code" value='{{ $episode->code }}'>
+                        <input type="text" name="content_type" value='0'>
+                        <input type="text" name="comment_code" value='${comment_code}'>
+                    </form>`;
+
+                document.getElementById('hiddenDiv').innerHTML = html;
+
+                document.getElementById('likeRecallCommentForum').submit();
+            @else
+                notAuth();
+            @endif
+        }
+    </script>
+
     <!--Diğer Ayarlar-->
     <script>
         @if (Auth::guard('admin')->user() && $commentPinned == 1)
@@ -630,34 +687,5 @@
 
             }
         @endif
-
-        //Yorum
-        function likeComment() {
-            @if (Auth::user())
-            @else
-                notAuth();
-            @endif
-        }
-
-        function likeRecallComment() {
-            @if (Auth::user())
-            @else
-                notAuth();
-            @endif
-        }
-
-        function unlikeComment() {
-            @if (Auth::user())
-            @else
-                notAuth();
-            @endif
-        }
-
-        function unlikeRecallComment() {
-            @if (Auth::user())
-            @else
-                notAuth();
-            @endif
-        }
     </script>
 @endsection

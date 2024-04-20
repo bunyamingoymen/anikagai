@@ -89,6 +89,9 @@ Route::group(['middleware' => 'is_active_index_user'], function () {
 
             Route::post('/followUser', 'followIndexUser')->name('followIndexUser');
             Route::post('/unfollowUser', 'unfollowIndexUser')->name('unfollowIndexUser');
+
+            Route::post('/likeComment', 'likeComment')->name('likeComment');
+            Route::post('/likeRecallComment', 'likeRecallComment')->name('likeRecallComment');
         });
 
         Route::controller(NotificationController::class)->group(function () {

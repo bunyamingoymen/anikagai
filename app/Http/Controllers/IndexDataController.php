@@ -178,7 +178,7 @@ class IndexDataController extends Controller
             $like = new LikeContentUser();
             $like->content_code = $request->content_code;
             $like->content_episode_code = $request->content_code;
-            $like->content_type = $request->content_code;
+            $like->content_type = $request->content_type;
             $like->comment_code = $request->content_code;
             $like->user_code = Auth::user()->code;
         }
@@ -203,6 +203,8 @@ class IndexDataController extends Controller
         if (!$like) {
             return redirect()->back()->with('error', 'Bir Hata Meydana Geldi');
         }
+
+        $like->delete();
 
         return redirect()->back();
     }
