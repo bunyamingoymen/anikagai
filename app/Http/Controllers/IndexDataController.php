@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\FavoriteAnime;
 use App\Models\FavoriteWebtoon;
 use App\Models\FollowAnime;
@@ -177,13 +178,22 @@ class IndexDataController extends Controller
         if (!$like) {
             $like = new LikeContentUser();
             $like->content_code = $request->content_code;
-            $like->content_episode_code = $request->content_code;
+            $like->content_episode_code = $request->content_episode_code;
             $like->content_type = $request->content_type;
-            $like->comment_code = $request->content_code;
+            $like->comment_code = $request->comment_code;
             $like->user_code = Auth::user()->code;
         }
         $like->like_type = $request->like_type;
         $like->save();
+
+        $comment = Comment::where('code', $request->comment_code)->first();
+        if ($comment) {
+            $comment->like_count = LikeContentUser::Where('comment_code', $comment->code)->Where('like_type', 1)->count();
+            $comment->unlike_count = LikeContentUser::Where('comment_code', $comment->code)->Where('like_type', 0)->count();
+            $comment->save();
+        } else {
+            dd('çalışmadı');
+        }
 
         return redirect()->back();
     }
@@ -205,6 +215,13 @@ class IndexDataController extends Controller
         }
 
         $like->delete();
+
+        $comment = Comment::where('code', $request->comment_code)->first();
+        if ($comment) {
+            $comment->like_count = LikeContentUser::Where('comment_code', $comment->code)->Where('like_type', 1)->count();
+            $comment->unlike_count = LikeContentUser::Where('comment_code', $comment->code)->Where('like_type', 0)->count();
+            $comment->save();
+        }
 
         return redirect()->back();
     }

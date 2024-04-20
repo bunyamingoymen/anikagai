@@ -231,15 +231,23 @@
                                                         : -1;
 
                                                 @endphp
-                                                <span class="mr-1 ml-1"
-                                                    onclick="{{ $liked == 1 ? 'likeRecallComment(' . $main_comment->code . ')' : 'likeComment(1,' . $main_comment->code . ')' }}"
-                                                    style="cursor: pointer; {{ $liked == 1 ? 'color:green;' : '' }}">
-                                                    <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                                                <span class="mr-1 ml-1">
+                                                    <span>{{ $main_comment->like_count }}</span>
+                                                    <span class="mr-1 ml-1"
+                                                        onclick="{{ $liked == 1 ? 'likeRecallComment(' . $main_comment->code . ')' : 'likeComment(1,' . $main_comment->code . ')' }}"
+                                                        style="cursor: pointer;">
+                                                        <i class="fa fa-thumbs-up" aria-hidden="true"
+                                                            style="{{ $liked == 1 ? 'color:green;' : '' }}"></i>
+                                                    </span>
                                                 </span>
-                                                <span class="mr-1 ml-1"
-                                                    onclick="{{ $liked == 0 ? 'likeRecallComment(' . $main_comment->code . ')' : 'likeComment(0,' . $main_comment->code . ')' }}"
-                                                    style="cursor: pointer; {{ $liked == 0 ? 'color:red;' : '' }}">
-                                                    <i class="fa fa-thumbs-down " aria-hidden="true"></i>
+                                                <span class="mr-1 ml-1">
+                                                    <span>{{ $main_comment->unlike_count }}</span>
+                                                    <span class="mr-1 ml-1"
+                                                        onclick="{{ $liked == 0 ? 'likeRecallComment(' . $main_comment->code . ')' : 'likeComment(0,' . $main_comment->code . ')' }}"
+                                                        style="cursor: pointer;">
+                                                        <i class="fa fa-thumbs-down " aria-hidden="true"
+                                                            style="{{ $liked == 0 ? 'color:red;' : '' }}"></i>
+                                                    </span>
                                                 </span>
 
                                             </div>
