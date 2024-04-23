@@ -122,7 +122,7 @@ class Controller extends BaseController
         $notification->notification_date = $notification_date;
         $notification->notification_end_date = $notification_end_date;
 
-        $notification->create_user_code = Auth::guard('admin')->user()->code;
+        $notification->create_user_code = Auth::guard('admin')->user() ? Auth::guard('admin')->user()->code : 0;
 
         $notification->save();
 
