@@ -14,7 +14,8 @@ return new class extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('code');
-            $table->unsignedBigInteger('content_code');
+            $table->unsignedBigInteger('content_code'); //webtoon ya da anime bölümü
+            $table->unsignedBigInteger('content_top_code')->nullable(); //webtoon ya da animenin kodu
             $table->tinyInteger('content_type'); //0:webtoon, 1 anime;
             $table->tinyInteger('comment_type'); //0: ana yorum 1: bir yoruma cevap
             $table->unsignedBigInteger('comment_top_code')->nullable(); //0: Herhangi bir yorumun altında değil, Diğer: Hangi yorumun altında olduğu

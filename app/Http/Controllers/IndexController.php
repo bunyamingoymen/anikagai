@@ -700,6 +700,7 @@ class IndexController extends Controller
         $comment->content_type = $request->content_type;
         $comment->comment_type = $request->comment_type;
         $comment->comment_top_code = $request->comment_top_code;
+        $comment->content_top_code = $request->content_type == 0 ? $request->webtoon_code : $request->anime_code;
 
         $before_comment = Comment::Where('content_code', $request->content_code)->Where('content_type', $request->content_type)->Where('comment_type', $request->comment_type)->Where('comment_top_code', $request->comment_top_code)->first();
 
@@ -735,11 +736,29 @@ class IndexController extends Controller
 
         if ($request->content_type == 0) {
             $webtoon = Webtoon::Where('code', $request->webtoon_code)->first();
-            $webtoon->comment_count = Comment::Where('content_code', $webtoon->code)->Where('content_type', 0)->Where('is_active', 1)->Where('deleted', 0)->count();
+            $webtoon->comment_count =
+                DB::table('comments')
+                ->join('webtoons', 'comments.content_top_code', '=', 'webtoons.code')
+                ->join('webtoon_episodes', 'comments.content_code', '=', 'webtoon_episodes.code')
+                ->where('webtoons.code', $webtoon->code)
+                ->where('webtoon_episodes.deleted', 0)
+                ->where('comments.deleted', 0)
+                ->where('comments.content_type', 0)
+                ->Where('comments.is_active', 1)
+                ->count();
             $webtoon->save();
         } else if ($request->content_type == 1) {
             $anime = Anime::Where('code', $request->anime_code)->first();
-            $anime->comment_count = Comment::Where('content_code', $anime->code)->Where('content_type', 1)->Where('is_active', 1)->Where('deleted', 0)->count();
+            $anime->comment_count =
+                DB::table('comments')
+                ->join('animes', 'comments.content_top_code', '=', 'animes.code')
+                ->join('anime_episodes', 'comments.content_code', '=', 'anime_episodes.code')
+                ->where('animes.code', $anime->code)
+                ->where('anime_episodes.deleted', 0)
+                ->where('comments.deleted', 0)
+                ->where('comments.content_type', 1)
+                ->Where('comments.is_active', 1)
+                ->count();
             $anime->save();
         }
 
@@ -793,12 +812,30 @@ class IndexController extends Controller
         if ($comment->content_type == 0) {
             $webtoon_episode = WebtoonEpisode::Where('code', $comment->content_code)->first();
             $webtoon = Webtoon::Where('code', $webtoon_episode->webtoon_code)->first();
-            $webtoon->comment_count = Comment::Where('content_code', $webtoon->code)->Where('content_type', 0)->Where('is_active', 1)->Where('deleted', 0)->count();
+            $webtoon->comment_count =
+                DB::table('comments')
+                ->join('webtoons', 'comments.content_top_code', '=', 'webtoons.code')
+                ->join('webtoon_episodes', 'comments.content_code', '=', 'webtoon_episodes.code')
+                ->where('webtoons.code', $webtoon->code)
+                ->where('webtoon_episodes.deleted', 0)
+                ->where('comments.deleted', 0)
+                ->where('comments.content_type', 0)
+                ->Where('comments.is_active', 1)
+                ->count();
             $webtoon->save();
         } else if ($comment->content_type == 1) {
             $anime_episode = AnimeEpisode::Where('code', $comment->content_code)->first();
             $anime = Anime::Where('code', $anime_episode->anime_code)->first();
-            $anime->comment_count = Comment::Where('content_code', $anime->code)->Where('content_type', 1)->Where('is_active', 1)->Where('deleted', 0)->count();
+            $anime->comment_count =
+                DB::table('comments')
+                ->join('animes', 'comments.content_top_code', '=', 'animes.code')
+                ->join('anime_episodes', 'comments.content_code', '=', 'anime_episodes.code')
+                ->where('animes.code', $anime->code)
+                ->where('anime_episodes.deleted', 0)
+                ->where('comments.deleted', 0)
+                ->where('comments.content_type', 1)
+                ->Where('comments.is_active', 1)
+                ->count();
             $anime->save();
         }
 

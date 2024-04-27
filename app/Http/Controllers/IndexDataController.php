@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Anime;
+use App\Models\AnimeEpisode;
 use App\Models\Comment;
 use App\Models\FavoriteAnime;
 use App\Models\FavoriteWebtoon;
@@ -10,7 +12,11 @@ use App\Models\FollowIndexUser;
 use App\Models\FollowUser;
 use App\Models\FollowWebtoon;
 use App\Models\LikeContentUser;
+use App\Models\NotificationUser;
 use App\Models\ScoredContent;
+use App\Models\Webtoon;
+use App\Models\WebtoonEpisode;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -191,8 +197,22 @@ class IndexDataController extends Controller
             $comment->like_count = LikeContentUser::Where('comment_code', $comment->code)->Where('like_type', 1)->count();
             $comment->unlike_count = LikeContentUser::Where('comment_code', $comment->code)->Where('like_type', 0)->count();
             $comment->save();
-        } else {
-            dd('çalışmadı');
+
+
+            $content = $comment->content_type == 0 ? Webtoon::Where('code', $comment->content_top_code)->first() : Anime::Where('code', $comment->content_top_code)->first();
+            $content_episode = $comment->content_type == 0 ? WebtoonEpisode::Where('code', $comment->content_code)->first() : AnimeEpisode::Where('code', $comment->content_code)->first();
+            $comment_url = ($comment->content_type == 0 ? 'webtoon/' : 'anime/') . $content->short_name . '/' . $content_episode->season_short . '/' . $content_episode->episode_short;
+            $user_comment = $comment->user_code;
+            $publishDate = Carbon::now()->format('Y-m-d');
+            $EndDate = Carbon::parse($publishDate)->addMonths(1)->format('Y-m-d');
+            $notification_code = NotificationUser::max('notification_code') + 1;
+            if ($user_comment != Auth::user()->code) {
+                if ($request->like_type == 1) {
+                    $this->sendNotificationIndexUser("index/img/default/notification_like.png", "Yorumunuza beğeni geldi", "Yorumunuz Beğenildi: " . $comment->message, url($comment_url), $user_comment, $publishDate, $EndDate, $notification_code);
+                } else {
+                    $this->sendNotificationIndexUser("index/img/default/notification_dislike.png", "Yorumunuz Beğenilmedi", "Yorumunuz Beğenilmedi: " . $comment->message, url($comment_url), $user_comment, $publishDate, $EndDate, $notification_code);
+                }
+            }
         }
 
         return redirect()->back();
