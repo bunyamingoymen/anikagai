@@ -113,7 +113,7 @@
             <div class="anime__details__content">
                 <div class="row">
                     <div class="col-lg-3">
-                        <div class="anime__details__pic set-bg" data-setbg="{{ url($anime->image) }}">
+                        <div class="anime__details__pic set-bg" data-setbg="{{ url($anime->thumb_image) }}">
                             <div class="comment"><i class="fa fa-comments"></i> {{ $anime->comment_count }}</div>
                             <div class="view"><i class="fa fa-eye"></i> {{ $anime->click_Count }}</div>
                         </div>
