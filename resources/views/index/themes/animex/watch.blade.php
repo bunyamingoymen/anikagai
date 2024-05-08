@@ -8,7 +8,7 @@
 
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
         /* Roboto fontunu ekleyin veya
-                                                                                                                                                                                                                                                                                                                                                                                                                                        kendi tercih ettiğiniz bir font kullanabilirsiniz */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    kendi tercih ettiğiniz bir font kullanabilirsiniz */
 
         .overlay-button {
             position: absolute !important;
@@ -94,7 +94,7 @@
                     </div>
                     <div class="anime__video__player justify-content-center">
                         <video id="anime-video-player-url" class="plyr video_size_class" controls crossorigin playsinline
-                            poster="{{ url($anime->image) }}">
+                            poster="{{ url($anime->thumb_image) }}">
                             <source src="{{ url($episode->video) }}" type="video/mp4" size="720" />
                             <!-- Diğer çözünürlükleri buraya ekleyebilirsiniz -->
                             Your browser does not support the video tag.
@@ -725,6 +725,11 @@
                     commentDiv.innerHTML = "";
                 }
             @endif
+        }
+
+        function showSpoiler(commentID, buttonID) {
+            document.getElementById(commentID).hidden = false;
+            document.getElementById(buttonID).hidden = true;
         }
     </script>
 

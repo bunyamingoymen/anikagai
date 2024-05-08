@@ -369,7 +369,7 @@ class IndexController extends Controller
         $user_code = Auth::user() ? Auth::user()->code : -1;
         $like_comments = LikeContentUser::Where('content_code', $anime->code)
             ->Where('content_episode_code', $episode->code)
-            ->Where('content_type', 0)
+            ->Where('content_type', 1)
             ->Where('user_code', $user_code)
             ->get();
 
