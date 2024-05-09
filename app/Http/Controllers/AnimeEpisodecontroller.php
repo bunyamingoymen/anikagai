@@ -65,24 +65,23 @@ class AnimeEpisodecontroller extends Controller
     public function epsiodeCreateUploadVideo(Request $request)
     {
         //return response()->json(['success' => false, 'request' => $request]);
-        if ($request->hasFile('chunk') && $request->episode_code) {
+        if ($request->hasFile('file') && $request->episode_code) {
             //return response()->json(['success' => false, 'request' => $request, 'message' => 'Dosya Var']);
             $anime_episode = AnimeEpisode::Where('code', $request->episode_code)->where('deleted', 0)->first();
             if (!$anime_episode) return response()->json(['success' => false, 'message' => 'Anime Bölümü Bulunamadı', 'episode_code' => $request->episode_code]);
 
-            $file = $request->file('chunk');
+            $file = $request->file('file');
             //return response()->json(['success' => false, 'chunk' => $file, 'message' => 'Dosya Var']);
             $realPath = 'files/tmp/animesEpisodes/' . $anime_episode->anime_code . '/' . $anime_episode->season_short . '/' . $anime_episode->episode_short . '/' . $anime_episode->code . '/';
             $path = public_path($realPath);
-            if (!file_exists($path)) {
-                mkdir($path, 0777, true);
-            }
 
-            $name = $request->order . "." . $file->getClientOriginalExtension();
+            $name = $request->order . ".mp4";
 
-            $file->move($path, $name);
+            //$file->move($path, $name);
+            $file->storeAs('public/' . $realPath, $name);
 
-            return response()->json(['success' => true, 'message' => 'Part ' . $request->order . ' yüklendi', 'episode_code' => $request->episode_code]);
+
+            return response()->json(['success' => true, 'message' => 'Part ' . $request->order . ' yüklendi', 'episode_code' => $request->episode_code, 'name' => $name, 'path' => $realPath]);
         } else {
             return response()->json(['success' => false, 'message' => 'Aşama İkide Bir Hata Meydana Geldi', 'episode_code' => $request->episode_code]);
         }

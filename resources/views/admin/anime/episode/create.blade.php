@@ -211,6 +211,7 @@
             }
 
             function animeEpsiodeCreateUploadVideo(episode_code) {
+
                 var fileInput = document.getElementById('video');
                 var file = fileInput.files[0];
                 var chunkSize = 10 * (1024 * 1024); // 10 MB
@@ -218,7 +219,9 @@
                 var start = 0;
                 var end = Math.min(chunkSize, file.size);
                 var total_piece = Math.ceil(file.size / chunkSize);
-                var percent_one_piece = parseInt(total_piece / 90);
+                console.log(total_piece);
+                var percent_one_piece = Math.ceil(90 / total_piece);
+                console.log(percent_one_piece);
                 var order = 1;
                 animeEpisdeCreateUploadVideoAjax(episode_code, file, chunkSize, start, end, total_piece, percent_one_piece,
                     order)
@@ -226,11 +229,11 @@
 
             function animeEpisdeCreateUploadVideoAjax(episode_code, file, chunkSize, start, end, total_piece, percent_one_piece,
                 order) {
+
                 var chunk = file.slice(start, end);
 
-                // AJAX ile sunucuya parçayı gönderme
                 var formData2 = new FormData();
-                formData2.append('chunk', chunk);
+                formData2.append('file', chunk);
                 formData2.append('episode_code', episode_code);
                 formData2.append('order', order);
                 $.ajaxSetup({
@@ -244,26 +247,6 @@
                     data: formData2,
                     processData: false,
                     contentType: false,
-                    xhr: function() {
-                        var xhr = new XMLHttpRequest();
-
-                        // İlerleme olayını dinle
-                        xhr.upload.addEventListener('progress', function(e) {
-                            if (e.lengthComputable) {
-                                percent_value += ((e.loaded / e.total) * 100) / (100 / percent_one_piece)
-                                var percent = percent_value;
-                                document.getElementById('percentValue').innerText = parseInt(percent) +
-                                    "%"
-                                document.getElementById('progress-bar-video').style.width = percent +
-                                    "%"
-
-                                document.getElementById('progress-bar-video').setAttribute(
-                                    "aria-valuenow", percent);
-                            }
-                        }, false);
-
-                        return xhr;
-                    },
                     success: function(response) {
                         // Yükleme tamamlandığında yapılacak işlemler
                         console.log(JSON.stringify(response));
@@ -272,9 +255,23 @@
                             start = end;
                             end = Math.min(start + chunkSize, file.size);
                             order++;
+                            percent_value = 5 + (order * percent_one_piece);
+                            if (percent_value >= 95) percent_value = 95;
+                            var percent = percent_value;
+
+                            document.getElementById('percentValue').innerText = parseInt(percent) +
+                                "%"
+                            document.getElementById('progress-bar-video').style.width = percent +
+                                "%"
+
+                            document.getElementById('progress-bar-video').setAttribute(
+                                "aria-valuenow", percent);
                             if (start < file.size) {
+                                console.log('Sonraki parçaya atlanıyor');
                                 animeEpisdeCreateUploadVideoAjax(episode_code, file, chunkSize, start, end,
                                     total_piece, percent_one_piece, order)
+                            } else {
+                                console.log('Bütün hepsi yüklendi');
                             }
 
                         } else {
@@ -302,9 +299,9 @@
                         getNormalButtons();
                     }
                 });
+
             }
 
-            
 
             function getNormalButtons() {
                 is_submitted = false;
