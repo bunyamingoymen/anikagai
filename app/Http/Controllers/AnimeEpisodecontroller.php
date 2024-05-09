@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class AnimeEpisodecontroller extends Controller
 {
@@ -88,8 +89,30 @@ class AnimeEpisodecontroller extends Controller
     }
 
     //Geçici klasöre yüklenen her videoyu birleştirir ve animeye onu ekler.
-    public function epsiodeCreateVideoMerge()
+    public function epsiodeCreateVideoMerge(Request $request)
     {
+        $anime_episode = AnimeEpisode::Where('code', $request->episode_code)->where('deleted', 0)->first();
+        if (!$anime_episode) return response()->json(['success' => false, 'message' => 'Anime Bölümü Bulunamadı', 'episode_code' => $request->episode_code]);
+
+        $totalParts = $request->total_parts;
+        $realPath = 'files/animes/animesEpisodes/' . $anime_episode->anime_code . "/" . $anime_episode->season_short . '/' . $anime_episode->episode_short;
+        $path = public_path($realPath);
+        $name = $anime_episode->code . "." . $request->file_extension;
+
+        $tmpPath = 'public/files/tmp/animesEpisodes/' . $anime_episode->anime_code . '/' . $anime_episode->season_short . '/' . $anime_episode->episode_short . '/' . $anime_episode->code . '/';
+
+        for ($i = 1; $i <= $totalParts; $i++) {
+            $filePartPath = $tmpPath . $i . '.' . $request->file_extension;
+            $fileParts[] = Storage::get($filePartPath);
+        }
+
+        $mergedContent = implode('', $fileParts);
+        $resultPath = $tmpPath . '/result' . '/' . $name;
+        // Birleştirilmiş içeriği oluşturulan dosyaya yaz
+        Storage::put($resultPath, $mergedContent);
+        Storage::move($resultPath, $path);
+
+        return response()->json(['success' => true, 'message' => 'Başarılı bir şekilde Anime Bölümü Ekleni']);
     }
 
     public function episodeCreate(Request $request)
