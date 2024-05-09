@@ -178,7 +178,18 @@
                     success: function(response) {
                         // Yükleme tamamlandığında yapılacak işlemler
                         console.log(JSON.stringify(response));
-                        animeEpsiodeCreateUploadVideo();
+                        if (response.success) {
+                            animeEpsiodeCreateUploadVideo(response.episode_code);
+                        } else {
+                            console.log("Aşama Bir de Hata");
+                            Swal.fire({
+                                title: "Error",
+                                text: "Video yüklenirken bir hata meydana geldi.",
+                                icon: "error"
+                            });
+                            getNormalButtons();
+                        }
+
                     },
                     error: function(error) {
                         // Hata durumunda yapılacak işlemler
@@ -193,12 +204,13 @@
 
                         document.getElementById('percentValue').innerText = "Hata"
                         console.log('hata: ' + JSON.stringify(error));
+                        getNormalButtons();
                     }
                 });
 
             }
 
-            function animeEpsiodeCreateUploadVideo() {
+            function animeEpsiodeCreateUploadVideo(episode_code) {
                 var fileInput = document.getElementById('video');
                 var file = fileInput.files[0];
                 var chunkSize = 10 * (1024 * 1024); // 10 MB
@@ -207,70 +219,96 @@
                 var end = Math.min(chunkSize, file.size);
                 var total_piece = Math.ceil(file.size / chunkSize);
                 var percent_one_piece = parseInt(total_piece / 90);
+                var order = 1;
+                animeEpisdeCreateUploadVideoAjax(episode_code, file, chunkSize, start, end, total_piece, percent_one_piece,
+                    order)
+            }
 
-                while (start < file.size) {
-                    var chunk = file.slice(start, end);
+            function animeEpisdeCreateUploadVideoAjax(episode_code, file, chunkSize, start, end, total_piece, percent_one_piece,
+                order) {
+                var chunk = file.slice(start, end);
 
-                    // AJAX ile sunucuya parçayı gönderme
-                    var formData = new FormData();
-                    formData.append('chunk', chunk);
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                        }
-                    });
-                    $.ajax({
-                        url: '{{ route('admin_anime_upload_video_create') }}', // Dosya yüklemeyi işleyen PHP dosyanızın yolunu belirtin.
-                        type: 'POST',
-                        data: formData,
-                        processData: false,
-                        contentType: false,
-                        xhr: function() {
-                            var xhr = new XMLHttpRequest();
+                // AJAX ile sunucuya parçayı gönderme
+                var formData2 = new FormData();
+                formData2.append('chunk', chunk);
+                formData2.append('episode_code', episode_code);
+                formData2.append('order', order);
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                });
+                $.ajax({
+                    url: '{{ route('admin_anime_upload_video_create') }}', // Dosya yüklemeyi işleyen PHP dosyanızın yolunu belirtin.
+                    type: 'POST',
+                    data: formData2,
+                    processData: false,
+                    contentType: false,
+                    xhr: function() {
+                        var xhr = new XMLHttpRequest();
 
-                            // İlerleme olayını dinle
-                            xhr.upload.addEventListener('progress', function(e) {
-                                if (e.lengthComputable) {
-                                    percent_value += ((e.loaded / e.total) * 100) / percent_one_piece
-                                    var percent = percent_value;
-                                    document.getElementById('percentValue').innerText = parseInt(percent) +
-                                        "%"
-                                    document.getElementById('progress-bar-video').style.width = percent +
-                                        "%"
+                        // İlerleme olayını dinle
+                        xhr.upload.addEventListener('progress', function(e) {
+                            if (e.lengthComputable) {
+                                percent_value += ((e.loaded / e.total) * 100) / (100 / percent_one_piece)
+                                var percent = percent_value;
+                                document.getElementById('percentValue').innerText = parseInt(percent) +
+                                    "%"
+                                document.getElementById('progress-bar-video').style.width = percent +
+                                    "%"
 
-                                    document.getElementById('progress-bar-video').setAttribute(
-                                        "aria-valuenow", percent);
-                                }
-                            }, false);
+                                document.getElementById('progress-bar-video').setAttribute(
+                                    "aria-valuenow", percent);
+                            }
+                        }, false);
 
-                            return xhr;
-                        },
-                        success: function(response) {
-                            // Yükleme tamamlandığında yapılacak işlemler
-                            console.log(JSON.stringify(response));
-                        },
-                        error: function(error) {
-                            // Hata durumunda yapılacak işlemler
-                            //console.log(error);
-                            is_submitted = false;
-                            document.getElementById("animeEpisodeCreateSubmitButton").disabled = false;
+                        return xhr;
+                    },
+                    success: function(response) {
+                        // Yükleme tamamlandığında yapılacak işlemler
+                        console.log(JSON.stringify(response));
+                        // Sonraki parçayı işle
+                        if (response.success) {
+                            start = end;
+                            end = Math.min(start + chunkSize, file.size);
+                            order++;
+                            if (start < file.size) {
+                                animeEpisdeCreateUploadVideoAjax(episode_code, file, chunkSize, start, end,
+                                    total_piece, percent_one_piece, order)
+                            }
+
+                        } else {
                             Swal.fire({
                                 title: "Error",
                                 text: "Video yüklenirken bir hata meydana geldi.",
                                 icon: "error"
                             });
-                            break;
-                            document.getElementById('percentValue').innerText = "Hata"
-                            console.log('hata: ' + JSON.stringify(error));
+                            getNormalButtons();
                         }
-                    });
 
-                    // Sonraki parçayı işle
-                    start = end;
-                    end = Math.min(start + chunkSize, file.size);
-                }
+                    },
+                    error: function(error) {
+                        // Hata durumunda yapılacak işlemler
+                        //console.log(error);
+                        is_submitted = false;
+                        document.getElementById("animeEpisodeCreateSubmitButton").disabled = false;
+                        Swal.fire({
+                            title: "Error",
+                            text: "Video yüklenirken bir hata meydana geldi.",
+                            icon: "error"
+                        });
+                        document.getElementById('percentValue').innerText = "Hata"
+                        console.log('hata: ' + JSON.stringify(error));
+                        getNormalButtons();
+                    }
+                });
+            }
 
+            
 
+            function getNormalButtons() {
+                is_submitted = false;
+                document.getElementById("animeEpisodeCreateSubmitButton").disabled = false;
             }
 
             function animeEpisodeCreateFormSubmit() {
