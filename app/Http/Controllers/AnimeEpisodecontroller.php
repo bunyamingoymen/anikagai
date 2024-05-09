@@ -75,7 +75,7 @@ class AnimeEpisodecontroller extends Controller
             $realPath = 'files/tmp/animesEpisodes/' . $anime_episode->anime_code . '/' . $anime_episode->season_short . '/' . $anime_episode->episode_short . '/' . $anime_episode->code . '/';
             $path = public_path($realPath);
 
-            $name = $request->order . ".mp4";
+            $name = $request->order . "." . $request->file_extension;
 
             //$file->move($path, $name);
             $file->storeAs('public/' . $realPath, $name);

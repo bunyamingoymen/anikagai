@@ -219,15 +219,16 @@
                 var start = 0;
                 var end = Math.min(chunkSize, file.size);
                 var total_piece = Math.ceil(file.size / chunkSize);
-                console.log(total_piece);
                 var percent_one_piece = Math.ceil(90 / total_piece);
-                console.log(percent_one_piece);
                 var order = 1;
-                animeEpisdeCreateUploadVideoAjax(episode_code, file, chunkSize, start, end, total_piece, percent_one_piece,
+                var fileExtension = file.name.split('.').pop();
+                animeEpisdeCreateUploadVideoAjax(episode_code, file, fileExtension, chunkSize, start, end, total_piece,
+                    percent_one_piece,
                     order)
             }
 
-            function animeEpisdeCreateUploadVideoAjax(episode_code, file, chunkSize, start, end, total_piece, percent_one_piece,
+            function animeEpisdeCreateUploadVideoAjax(episode_code, file, fileExtension, chunkSize, start, end, total_piece,
+                percent_one_piece,
                 order) {
 
                 var chunk = file.slice(start, end);
@@ -236,6 +237,7 @@
                 formData2.append('file', chunk);
                 formData2.append('episode_code', episode_code);
                 formData2.append('order', order);
+                formData2.append('file_extension', fileExtension);
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': '{{ csrf_token() }}'
@@ -268,7 +270,8 @@
                                 "aria-valuenow", percent);
                             if (start < file.size) {
                                 console.log('Sonraki parçaya atlanıyor');
-                                animeEpisdeCreateUploadVideoAjax(episode_code, file, chunkSize, start, end,
+                                animeEpisdeCreateUploadVideoAjax(episode_code, file, fileExtension, chunkSize,
+                                    start, end,
                                     total_piece, percent_one_piece, order)
                             } else {
                                 console.log('Bütün hepsi yüklendi');
@@ -427,6 +430,12 @@
                     }
                 });
             }
+        </script>
+
+        <script>
+            $(document).ready(function() {
+                getSeason();
+            });
         </script>
     @endif
     <script>
