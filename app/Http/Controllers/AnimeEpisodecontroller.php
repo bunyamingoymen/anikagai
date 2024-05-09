@@ -32,6 +32,45 @@ class AnimeEpisodecontroller extends Controller
         return view("admin.anime.episode.create", ['animes' => $animes]);
     }
 
+    //Sadece anime bölümünü oluşturur. Video dosyasını yüklemez
+    public function epsiodeCreateJustEpiosde(Request $request)
+    {
+
+        $anime_episode = new AnimeEpisode();
+        $anime_episode->code = AnimeEpisode::max('code') + 1;
+
+        $anime_episode->name = $request->name;
+
+        $anime_episode->anime_code = $request->anime_code;
+
+        $anime_episode->description = $request->description;
+        $anime_episode->season_short = $request->season_short;
+        $anime_episode->episode_short = $request->episode_short;
+        $anime_episode->publish_date = $request->publish_date;
+        $anime_episode->click_count = 0;
+        $anime_episode->video = "";
+        $anime_episode->intro_start_time_min = $request->intro_start_time_min;
+        $anime_episode->intro_start_time_sec = $request->intro_start_time_sec;
+        $anime_episode->intro_end_time_min = $request->intro_end_time_min;
+        $anime_episode->intro_end_time_sec = $request->intro_end_time_sec;
+
+        $anime_episode->create_user_code = Auth::guard('admin')->user()->code;
+
+        $anime_episode->save();
+
+        return response()->json(['success' => true, 'message' => 'Aşama Bir Tamamlandı', 'episode_code' => $anime_episode->code]);
+    }
+
+    //Gelen videoları temp klasörüne yükler
+    public function epsiodeCreateUploadVideo()
+    {
+    }
+
+    //Geçici klasöre yüklenen her videoyu birleştirir ve animeye onu ekler.
+    public function epsiodeCreateVideoMerge()
+    {
+    }
+
     public function episodeCreate(Request $request)
     {
         $anime_episode = new AnimeEpisode();
@@ -65,7 +104,7 @@ class AnimeEpisodecontroller extends Controller
         }
 
         $anime = Anime::Where('code', $request->anime_code)->first();
-        $anime->episode_count = $anime->episode_count + 1;
+        $anime->episode_count = $anime->episode_count ?  $anime->episode_count + 1 :  $anime->episode_count;
         $anime->season_count = $request->season_short > $anime->season_count ?  $request->season_short : $anime->season_count;
         $anime->save();
 
