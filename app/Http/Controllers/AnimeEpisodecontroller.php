@@ -95,7 +95,7 @@ class AnimeEpisodecontroller extends Controller
         if (!$anime_episode) return response()->json(['success' => false, 'message' => 'Anime Bölümü Bulunamadı', 'episode_code' => $request->episode_code]);
 
         $totalParts = $request->total_parts;
-        $realPath = 'public/files/animes/animesEpisodes/' . $anime_episode->anime_code . "/" . $anime_episode->season_short . '/' . $anime_episode->episode_short;
+        $realPath = 'files/animes/animesEpisodes/' . $anime_episode->anime_code . "/" . $anime_episode->season_short . '/' . $anime_episode->episode_short;
 
         $name = $anime_episode->code . "." . $request->file_extension;
 
@@ -107,11 +107,11 @@ class AnimeEpisodecontroller extends Controller
         }
 
         $mergedContent = implode('', $fileParts);
-        $resultPath = $realPath . '/' . $name;
+        $resultPath = 'public/' . $realPath . '/' . $name;
         // Birleştirilmiş içeriği oluşturulan dosyaya yaz
         Storage::put($resultPath, $mergedContent);
 
-        $anime_episode->video = $resultPath;
+        $anime_episode->video = $realPath . '/' . $name;
         $anime_episode->save();
 
         Storage::deleteDirectory('public/files/tmp');

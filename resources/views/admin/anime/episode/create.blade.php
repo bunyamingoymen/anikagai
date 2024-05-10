@@ -106,6 +106,7 @@
         </div>
 
         <script>
+            //Anime bölümü oluşturma komutları
             var is_submitted = false;
             var percent_value = 0;
 
@@ -161,15 +162,8 @@
                         // İlerleme olayını dinle
                         xhr.upload.addEventListener('progress', function(e) {
                             if (e.lengthComputable) {
-                                percent_value += ((e.loaded / e.total) * 100) / 20
-                                var percent = percent_value;
-                                document.getElementById('percentValue').innerText = parseInt(percent) +
-                                    "%"
-                                document.getElementById('progress-bar-video').style.width = percent +
-                                    "%"
-
-                                document.getElementById('progress-bar-video').setAttribute(
-                                    "aria-valuenow", percent);
+                                percent_value += ((e.loaded / e.total) * 100) / 20;
+                                animeEpisodeCreatePercent(percent_value, false);
                             }
                         }, false);
 
@@ -182,11 +176,7 @@
                             animeEpsiodeCreateUploadVideo(response.episode_code);
                         } else {
                             console.log("Aşama Bir de Hata");
-                            Swal.fire({
-                                title: "Error",
-                                text: "Video yüklenirken bir hata meydana geldi.",
-                                icon: "error"
-                            });
+                            animeEpisodeCreateError();
                             getNormalButtons();
                         }
 
@@ -194,16 +184,9 @@
                     error: function(error) {
                         // Hata durumunda yapılacak işlemler
                         //console.log(error);
-                        getNormalButtons();
-                        Swal.fire({
-                            title: "Error",
-                            text: "Video yüklenirken bir hata meydana geldi.",
-                            icon: "error"
-                        });
-
-                        document.getElementById('percentValue').innerText = "Hata"
+                        animeEpisodeCreateError();
+                        console.log('Aşama 1');
                         console.log('hata: ' + JSON.stringify(error));
-                        getNormalButtons();
                     }
                 });
 
@@ -257,15 +240,7 @@
                             end = Math.min(start + chunkSize, file.size);
                             percent_value = 5 + (order * percent_one_piece);
                             if (percent_value >= 95) percent_value = 95;
-                            var percent = percent_value;
-
-                            document.getElementById('percentValue').innerText = parseInt(percent) +
-                                "%"
-                            document.getElementById('progress-bar-video').style.width = percent +
-                                "%"
-
-                            document.getElementById('progress-bar-video').setAttribute(
-                                "aria-valuenow", percent);
+                            animeEpisodeCreatePercent(percent_value, false);
                             if (start < file.size) {
                                 console.log('Sonraki parçaya atlanıyor');
                                 order++;
@@ -278,28 +253,17 @@
                             }
 
                         } else {
-                            Swal.fire({
-                                title: "Error",
-                                text: "Video yüklenirken bir hata meydana geldi.",
-                                icon: "error"
-                            });
-                            getNormalButtons();
+                            console.log('Aşama ikide de hata');
+                            animeEpisodeCreateError();
                         }
 
                     },
                     error: function(error) {
                         // Hata durumunda yapılacak işlemler
                         //console.log(error);
-                        is_submitted = false;
-                        document.getElementById("animeEpisodeCreateSubmitButton").disabled = false;
-                        Swal.fire({
-                            title: "Error",
-                            text: "Video yüklenirken bir hata meydana geldi.",
-                            icon: "error"
-                        });
-                        document.getElementById('percentValue').innerText = "Hata"
+                        animeEpisodeCreateError();
+                        console.log('Aşama 2');
                         console.log('hata: ' + JSON.stringify(error));
-                        getNormalButtons();
                     }
                 });
 
@@ -329,14 +293,7 @@
                         xhr.upload.addEventListener('progress', function(e) {
                             if (e.lengthComputable) {
                                 percent_value += ((e.loaded / e.total) * 100) / 20
-                                var percent = percent_value;
-                                document.getElementById('percentValue').innerText = parseInt(percent) +
-                                    "%"
-                                document.getElementById('progress-bar-video').style.width = percent +
-                                    "%"
-
-                                document.getElementById('progress-bar-video').setAttribute(
-                                    "aria-valuenow", percent);
+                                animeEpisodeCreatePercent(percent_value, false);
                             }
                         }, false);
 
@@ -345,6 +302,7 @@
                     success: function(response) {
                         // Yükleme tamamlandığında yapılacak işlemler
                         console.log(JSON.stringify(response));
+                        animeEpisodeCreatePercent(100, true);
                         if (response.success) {
                             Swal.fire({
                                 title: "Başarılı",
@@ -352,33 +310,43 @@
                                 icon: "success"
                             });
                         } else {
-                            console.log("Aşama 3 Hata");
-                            Swal.fire({
-                                title: "Error",
-                                text: "Video yüklenirken bir hata meydana geldi.",
-                                icon: "error"
-                            });
-
+                            console.log("Aşama üç de Hata");
+                            animeEpisodeCreateError();
                         }
 
                         getNormalButtons();
 
                     },
                     error: function(error) {
-                        getNormalButtons();
-                        Swal.fire({
-                            title: "Error",
-                            text: "Video yüklenirken bir hata meydana geldi.",
-                            icon: "error"
-                        });
-
-                        document.getElementById('percentValue').innerText = "Hata"
+                        animeEpisodeCreateError();
+                        console.log('Aşama 3');
                         console.log('hata: ' + JSON.stringify(error));
-                        getNormalButtons();
                     }
                 });
 
             }
+
+            function animeEpisodeCreatePercent(percent, is_final) {
+                if (percent >= 100 && !is_final) percent = 99;
+                document.getElementById('percentValue').innerText = parseInt(percent) +
+                    "%"
+                document.getElementById('progress-bar-video').style.width = percent +
+                    "%"
+
+                document.getElementById('progress-bar-video').setAttribute(
+                    "aria-valuenow", percent);
+            }
+
+            function animeEpisodeCreateError() {
+                Swal.fire({
+                    title: "Error",
+                    text: "Video yüklenirken bir hata meydana geldi.",
+                    icon: "error"
+                });
+                document.getElementById('percentValue').innerText = "Hata"
+                getNormalButtons();
+            }
+
 
 
             function getNormalButtons() {
@@ -481,6 +449,7 @@
                 }
             }
 
+            //Sezon getirme komutu
             function getSeason() {
                 var anime_code = document.getElementById('anime_code').value;
                 $.ajaxSetup({
