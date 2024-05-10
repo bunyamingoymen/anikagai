@@ -8,7 +8,7 @@
 
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
         /* Roboto fontunu ekleyin veya
-                                                                                                                                                                                                                                                                                                                                                                                                                                                    kendi tercih ettiğiniz bir font kullanabilirsiniz */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                        kendi tercih ettiğiniz bir font kullanabilirsiniz */
 
         .overlay-button {
             position: absolute !important;
@@ -95,7 +95,7 @@
                     <div class="anime__video__player justify-content-center">
                         <video id="anime-video-player-url" class="plyr video_size_class" controls crossorigin playsinline
                             poster="{{ url($anime->thumb_image) }}">
-                            <source src="{{ url($episode->video) }}" type="video/mp4" size="720" />
+                            <source src="{{ asset('storage/' .$episode->video) }}" type="video/mp4" size="720" />
                             <!-- Diğer çözünürlükleri buraya ekleyebilirsiniz -->
                             Your browser does not support the video tag.
                         </video>

@@ -95,8 +95,8 @@ class AnimeEpisodecontroller extends Controller
         if (!$anime_episode) return response()->json(['success' => false, 'message' => 'Anime Bölümü Bulunamadı', 'episode_code' => $request->episode_code]);
 
         $totalParts = $request->total_parts;
-        $realPath = 'files/animes/animesEpisodes/' . $anime_episode->anime_code . "/" . $anime_episode->season_short . '/' . $anime_episode->episode_short;
-        $path = public_path($realPath);
+        $realPath = 'public/files/animes/animesEpisodes/' . $anime_episode->anime_code . "/" . $anime_episode->season_short . '/' . $anime_episode->episode_short;
+
         $name = $anime_episode->code . "." . $request->file_extension;
 
         $tmpPath = 'public/files/tmp/animesEpisodes/' . $anime_episode->anime_code . '/' . $anime_episode->season_short . '/' . $anime_episode->episode_short . '/' . $anime_episode->code . '/';
@@ -107,10 +107,46 @@ class AnimeEpisodecontroller extends Controller
         }
 
         $mergedContent = implode('', $fileParts);
-        $resultPath = $tmpPath . '/result' . '/' . $name;
+        $resultPath = $realPath . '/' . $name;
         // Birleştirilmiş içeriği oluşturulan dosyaya yaz
         Storage::put($resultPath, $mergedContent);
-        Storage::move($resultPath, $path);
+
+        $anime_episode->video = $resultPath;
+        $anime_episode->save();
+
+        Storage::deleteDirectory('public/files/tmp');
+
+        //Animenin bölüm ve sezon sayısını ayarlayan komut
+        if (true) {
+            $anime = Anime::Where('code', $anime_episode->anime_code)->first();
+            $anime->episode_count = $anime->episode_count ?  $anime->episode_count + 1 :  $anime->episode_count;
+            $anime->season_count = $anime_episode->season_short > $anime->season_count ?  $anime_episode->season_short : $anime->season_count;
+            $anime->save();
+        }
+
+        //sitemap güncelleme komutları
+        $this->sitemapGenerator();
+
+        //Beğenen ve takip eden kullanıcılara bildirim gönderme komutları
+        if (true) {
+            $publishDate = $anime_episode->publish_date;
+            $EndDate = Carbon::parse($publishDate)->addMonths(1)->format('Y-m-d');
+
+            $favorite_animes_user = FavoriteAnime::Where('anime_code', $anime->code)->get();
+            $follow_animes_user = FollowAnime::Where('anime_code', $anime->code)->get();
+
+            $notification_code = NotificationUser::max('notification_code') + 1;
+            $this->sendNotificationIndexUser($anime->thumb_image_2, $anime->name, "Yeni Bölüm Yüklendi!!", url('anime/' . $anime->short_name . '/' . $anime_episode->season_short . '/' . $anime_episode->episode_short), 0, $publishDate, $EndDate, $notification_code);
+
+            foreach ($favorite_animes_user as $item) {
+                $this->sendNotificationIndexUser($anime->thumb_image_2, $anime->name, "Yeni Bölüm Yüklendi!!", url('anime/' . $anime->short_name . '/' . $anime_episode->season_short . '/' . $anime_episode->episode_short), $item->user_code, $publishDate, $EndDate, $notification_code);
+            }
+
+            foreach ($follow_animes_user as $item) {
+                $this->sendNotificationIndexUser($anime->thumb_image_2, $anime->name, "Yeni Bölüm Yüklendi!!", url('anime/' . $anime->short_name . '/' . $anime_episode->season_short . '/' . $anime_episode->episode_short), $item->user_code, $publishDate, $EndDate, $notification_code);
+            }
+        }
+
 
         return response()->json(['success' => true, 'message' => 'Başarılı bir şekilde Anime Bölümü Ekleni']);
     }

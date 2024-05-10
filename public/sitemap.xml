@@ -5,4 +5,54 @@
             <changefreq>daily</changefreq>
         <priority>0.8</priority>
             </url>
+    <url>
+        <loc>http://127.0.0.1:8000/webtoon/tokyo-ghoul/1/1</loc>
+            <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/webtoon/tokyo-ghoul/1/2</loc>
+            <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/webtoon/tokyo-ghoul/1/3</loc>
+            <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/webtoon/tokyo-ghoul/1/4</loc>
+            <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/webtoon/tokyo-ghoul/1/5</loc>
+            <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/webtoon/tokyo-ghoul/1/6</loc>
+            <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/webtoon/tokyo-ghoul/1/7</loc>
+            <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/webtoon/tokyo-ghoul/1/10</loc>
+            <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/webtoon/tokyo-ghoul/1/11</loc>
+            <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+            </url>
+    <url>
+        <loc>http://127.0.0.1:8000/webtoon/tokyo-ghoul/1/15</loc>
+            <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+            </url>
 </urlset>
