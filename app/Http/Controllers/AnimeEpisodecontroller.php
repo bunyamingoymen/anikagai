@@ -67,6 +67,7 @@ class AnimeEpisodecontroller extends Controller
     {
         //return response()->json(['success' => false, 'request' => $request]);
         if ($request->hasFile('file') && $request->episode_code) {
+            /*
             //return response()->json(['success' => false, 'request' => $request, 'message' => 'Dosya Var']);
             $anime_episode = AnimeEpisode::Where('code', $request->episode_code)->where('deleted', 0)->first();
             if (!$anime_episode) return response()->json(['success' => false, 'message' => 'Anime Bölümü Bulunamadı', 'episode_code' => $request->episode_code]);
@@ -74,15 +75,32 @@ class AnimeEpisodecontroller extends Controller
             $file = $request->file('file');
             //return response()->json(['success' => false, 'chunk' => $file, 'message' => 'Dosya Var']);
             $realPath = 'files/tmp/animesEpisodes/' . $anime_episode->anime_code . '/' . $anime_episode->season_short . '/' . $anime_episode->episode_short . '/' . $anime_episode->code . '/';
-            $path = public_path($realPath);
 
-            $name = $request->order . "." . $request->file_extension;
+
+            $name2 = $request->order . "." . $request->file_extension;
 
             //$file->move($path, $name);
-            $file->storeAs('public/' . $realPath, $name);
 
+            $name = $request->episode_code . "." . $request->file_extension;
+            $filePath = 'public/' . $realPath . 'result/' . 'result_' . $name;
+            // Hedef dosyanın var olup olmadığını kontrol edin
 
-            return response()->json(['success' => true, 'message' => 'Part ' . $request->order . ' yüklendi', 'episode_code' => $request->episode_code, 'name' => $name, 'path' => $realPath]);
+            if (Storage::exists($filePath)) {
+                // Dosya varsa, FILE_APPEND ile içeriği ekleyin
+                $file->storeAs('public/' . $realPath . 'result/', $name2);
+                $fileParts[] = Storage::get($filePath);
+                $fileParts[] = Storage::get('public/' . $realPath . 'result/', $name2);
+                Storage::put('public/' . $realPath . '/' . 'result/' . 'result_' . $name, implode('', $fileParts));
+                //Storage::append($filePath, file_get_contents($file->getRealPath()), FILE_APPEND);
+            } else {
+                // Dosya yoksa, yeni dosyayı oluşturup içeriği ekleyin
+                //Storage::put($filePath, file_get_contents($file->getRealPath()));
+                $file->storeAs('public/' . $realPath . 'result/', 'result_' . $name);
+            }
+            $file->storeAs('public/' . $realPath, $name2);
+*/
+
+            //return response()->json(['success' => true, 'message' => 'Part ' . $request->order . ' yüklendi', 'episode_code' => $request->episode_code, 'name' => $name2, 'path' => $realPath]);
         } else {
             return response()->json(['success' => false, 'message' => 'Aşama İkide Bir Hata Meydana Geldi', 'episode_code' => $request->episode_code]);
         }
@@ -91,30 +109,35 @@ class AnimeEpisodecontroller extends Controller
     //Geçici klasöre yüklenen her videoyu birleştirir ve animeye onu ekler.
     public function epsiodeCreateVideoMerge(Request $request)
     {
-        $anime_episode = AnimeEpisode::Where('code', $request->episode_code)->where('deleted', 0)->first();
-        if (!$anime_episode) return response()->json(['success' => false, 'message' => 'Anime Bölümü Bulunamadı', 'episode_code' => $request->episode_code]);
+        /*
+        if (!AnimeEpisode::Where('code', $request->episode_code)->where('deleted', 0)->first()) return response()->json(['success' => false, 'message' => 'Anime Bölümü Bulunamadı', 'episode_code' => $request->episode_code]);
 
         $totalParts = $request->total_parts;
-        $realPath = 'files/animes/animesEpisodes/' . $anime_episode->anime_code . "/" . $anime_episode->season_short . '/' . $anime_episode->episode_short;
 
-        $name = $anime_episode->code . "." . $request->file_extension;
+        $name = AnimeEpisode::Where('code', $request->episode_code)->where('deleted', 0)->first()->code . "." . $request->file_extension;
 
-        $tmpPath = 'public/files/tmp/animesEpisodes/' . $anime_episode->anime_code . '/' . $anime_episode->season_short . '/' . $anime_episode->episode_short . '/' . $anime_episode->code . '/';
-
+        $realPath = 'files/animes/animesEpisodes/' . AnimeEpisode::Where('code', $request->episode_code)->where('deleted', 0)->first()->anime_code . "/" . AnimeEpisode::Where('code', $request->episode_code)->where('deleted', 0)->first()->season_short . '/' . AnimeEpisode::Where('code', $request->episode_code)->where('deleted', 0)->first()->episode_short . '/';
+        $tmpPath = 'public/files/tmp/animesEpisodes/' . AnimeEpisode::Where('code', $request->episode_code)->where('deleted', 0)->first()->anime_code . '/' . AnimeEpisode::Where('code', $request->episode_code)->where('deleted', 0)->first()->season_short . '/' . AnimeEpisode::Where('code', $request->episode_code)->where('deleted', 0)->first()->episode_short . '/' . AnimeEpisode::Where('code', $request->episode_code)->where('deleted', 0)->first()->code . '/';
         for ($i = 1; $i <= $totalParts; $i++) {
-            $filePartPath = $tmpPath . $i . '.' . $request->file_extension;
-            $fileParts[] = Storage::get($filePartPath);
+            $fileParts[] = Storage::get($tmpPath . $i . '.' . $request->file_extension);
+            //$partContent = Storage::get($tmpPath . $i . '.' . $request->file_extension);
+            //Storage::append('public/' . $realPath . '/' . $name, $partContent);
+            //Storage::put('public/' . $realPath, $partContent, FILE_APPEND);
+            //Storage::put('public/' . $realPath, $tmpPath . $i . '.' . $request->file_extension, FILE_APPEND);
         }
 
-        $mergedContent = implode('', $fileParts);
-        $resultPath = 'public/' . $realPath . '/' . $name;
-        // Birleştirilmiş içeriği oluşturulan dosyaya yaz
-        Storage::put($resultPath, $mergedContent);
 
+        // Birleştirilmiş içeriği oluşturulan dosyaya yaz
+
+        Storage::put('public/' . $realPath . '/' . $name, implode('', $fileParts));
+        //unset($fileParts);
+        //unset($tmpPath);
+        //Storage::deleteDirectory('public/files/tmp');
+
+        $anime_episode = AnimeEpisode::Where('code', $request->episode_code)->where('deleted', 0)->first();
         $anime_episode->video = $realPath . '/' . $name;
         $anime_episode->save();
 
-        Storage::deleteDirectory('public/files/tmp');
 
         //Animenin bölüm ve sezon sayısını ayarlayan komut
         if (true) {
@@ -146,6 +169,8 @@ class AnimeEpisodecontroller extends Controller
                 $this->sendNotificationIndexUser($anime->thumb_image_2, $anime->name, "Yeni Bölüm Yüklendi!!", url('anime/' . $anime->short_name . '/' . $anime_episode->season_short . '/' . $anime_episode->episode_short), $item->user_code, $publishDate, $EndDate, $notification_code);
             }
         }
+
+        */
 
 
         return response()->json(['success' => true, 'message' => 'Başarılı bir şekilde Anime Bölümü Ekleni']);

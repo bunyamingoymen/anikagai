@@ -21,18 +21,21 @@ class RssController extends Controller
             ->latest()
             ->get();
 
+        /*
         $anime_episodes = DB::table('anime_episodes')
             ->Where('anime_episodes.deleted', 0)
+            ->Where('anime_episodes.video', '!=', '')
             ->join('animes', 'animes.code', '=', 'anime_episodes.anime_code')
             ->select('anime_episodes.*', 'animes.short_name as anime_short_name', 'animes.name as anime_name', 'animes.image as anime_image')
             ->latest()
             ->get();
+            */
 
         $des = KeyValue::Where("key", 'meta')->Where('value', 'description')->first();
 
         return response()->view('index.rss', [
             'webtoon_episodes' => $webtoon_episodes,
-            'anime_episodes' => $anime_episodes,
+            //'anime_episodes' => $anime_episodes,
             'des' => $des
         ])->header('Content-Type', 'text/xml');
     }

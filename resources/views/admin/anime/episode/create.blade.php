@@ -109,6 +109,8 @@
             //Anime bölümü oluşturma komutları
             var is_submitted = false;
             var percent_value = 0;
+            var total_transaction = 0;
+            var complete_transaction = 0;
 
             function animeEpisodeCreate() {
                 var video = document.getElementById('video').value;
@@ -132,6 +134,7 @@
                     })
                 } else if (!is_submitted) {
                     animeEpsiodeCreateJustEpiosde();
+                    //animeEpsiodeCreateMergeVideo('9', 'mp4', '918');
                 }
             }
 
@@ -201,16 +204,15 @@
                 var start = 0;
                 var end = Math.min(chunkSize, file.size);
                 var total_piece = Math.ceil(file.size / chunkSize);
-                var percent_one_piece = Math.ceil(90 / total_piece);
+                total_transaction = total_piece + (2 * (total_piece * 5 / 100))
+                complete_transaction = (total_piece * 5 / 100);
                 var order = 1;
                 var fileExtension = file.name.split('.').pop();
                 animeEpisdeCreateUploadVideoAjax(episode_code, file, fileExtension, chunkSize, start, end, total_piece,
-                    percent_one_piece,
                     order)
             }
 
             function animeEpisdeCreateUploadVideoAjax(episode_code, file, fileExtension, chunkSize, start, end, total_piece,
-                percent_one_piece,
                 order) {
 
                 var chunk = file.slice(start, end);
@@ -238,15 +240,14 @@
                         if (response.success) {
                             start = end;
                             end = Math.min(start + chunkSize, file.size);
-                            percent_value = 5 + (order * percent_one_piece);
-                            if (percent_value >= 95) percent_value = 95;
-                            animeEpisodeCreatePercent(percent_value, false);
+                            complete_transaction += 1;
+                            animeEpisodeCreatePercent(-1, false);
                             if (start < file.size) {
                                 console.log('Sonraki parçaya atlanıyor');
                                 order++;
                                 animeEpisdeCreateUploadVideoAjax(episode_code, file, fileExtension, chunkSize,
                                     start, end,
-                                    total_piece, percent_one_piece, order)
+                                    total_piece, order)
                             } else {
                                 console.log('Bütün hepsi yüklendi');
                                 animeEpsiodeCreateMergeVideo(episode_code, fileExtension, order);
@@ -302,7 +303,8 @@
                     success: function(response) {
                         // Yükleme tamamlandığında yapılacak işlemler
                         console.log(JSON.stringify(response));
-                        animeEpisodeCreatePercent(100, true);
+                        complete_transaction = total_transaction;
+                        animeEpisodeCreatePercent(-1, true);
                         if (response.success) {
                             Swal.fire({
                                 title: "Başarılı",
@@ -327,8 +329,11 @@
             }
 
             function animeEpisodeCreatePercent(percent, is_final) {
+                if (percent == -1)
+                    percent = parseFloat(complete_transaction * 100 / total_transaction);
+
                 if (percent >= 100 && !is_final) percent = 99;
-                document.getElementById('percentValue').innerText = parseInt(percent) +
+                document.getElementById('percentValue').innerText = parseFloat(percent).toFixed(2) +
                     "%"
                 document.getElementById('progress-bar-video').style.width = percent +
                     "%"
