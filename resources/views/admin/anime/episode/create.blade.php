@@ -105,12 +105,51 @@
         </div>
         </div>
 
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/resumable.js/1.0.3/resumable.min.js"
+            integrity="sha512-OmtdY/NUD+0FF4ebU+B5sszC7gAomj26TfyUUq6191kbbtBZx0RJNqcpGg5mouTvUh7NI0cbU9PStfRl8uE/rw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
         <script>
             //Anime bölümü oluşturma komutları
             var is_submitted = false;
             var percent_value = 0;
             var total_transaction = 0;
             var complete_transaction = 0;
+
+            let browseFile = $('#video')
+
+            let resumable = new Resumable({
+                target: "{{ route('admin_anime_upload_video_create') }}",
+                query: {
+                    _token: '{{ csrf_token() }}'
+                },
+                headers: {
+                    'Accept': 'application/json',
+                },
+                testChunks: false,
+                throttleProgressCallbacks: 1,
+            })
+
+            resumable.assignBrowse(browseFile[0]);
+
+            resumable.on('fileAdded', function(file) {
+                console.log('Dosya seçildi, yükleme başlanıyor');
+                resumable.upload();
+            });
+
+            resumable.on('fileProgress', function(file) {
+                console.log(Math.floor(file.progress() * 100));
+            });
+
+            resumable.on('fileSuccess', function(file, response) {
+                console.log('başarılı');
+                console.log(JSON.stringify(response));
+            });
+
+            resumable.on('fileError', function(file, response) {
+                console.log('başarısız');
+                console.log(JSON.stringify(response));
+            });
 
             function animeEpisodeCreate() {
                 var video = document.getElementById('video').value;
