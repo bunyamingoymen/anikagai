@@ -118,15 +118,22 @@ class AnimeEpisodecontroller extends Controller
             $extension = $file->getClientOriginalExtension();
             //$fileName = str_replace('.' . $extension, '' . $file->getClientOriginalName());
             $fileName = '_' . md5(time() . '.' . $extension); //unique
+            //$fileName = '1' . '.' . $extension;
+            //$path = public_path('files/animes/animesEpisodes/');
+            //$name = '1' . "." . $file->getClientOriginalExtension();
+            //$file->move($path, $name);
+            //$destinationPath = 'videos/' . $fileName;
+            $disk = Storage::disk(config('filesystems.disks.public_chunks'));
+            $path = $disk->put('public/videos/', $file, Visibility::PUBLIC);
+            //rename('videos/' . $originalFileName, $destinationPath);
 
-            $disk = Storage::disk(config('filesystems.default'));
-            $path = $disk->put('videos', $file, Visibility::PUBLIC);
 
+            //Storage::move('videos/' . $file, public_path('files/animes/animesEpisodes/'));
 
             //delete chuks
             unlink($file->getPathname());
             return [
-                'path' => asset('storage/' . $path),
+                'path' => $path,
                 'filename' => $fileName,
             ];
         }
@@ -164,9 +171,12 @@ class AnimeEpisodecontroller extends Controller
         //unset($fileParts);
         //unset($tmpPath);
         //Storage::deleteDirectory('public/files/tmp');
-
+*/
         $anime_episode = AnimeEpisode::Where('code', $request->episode_code)->where('deleted', 0)->first();
-        $anime_episode->video = $realPath . '/' . $name;
+        if (!$anime_episode) {
+            response()->json(['success' => false, 'message' => 'Aşama 3 controller hata']);
+        }
+        $anime_episode->video = $request->path;
         $anime_episode->save();
 
 
@@ -201,7 +211,7 @@ class AnimeEpisodecontroller extends Controller
             }
         }
 
-        */
+
 
 
         return response()->json(['success' => true, 'message' => 'Başarılı bir şekilde Anime Bölümü Ekleni']);
@@ -209,68 +219,34 @@ class AnimeEpisodecontroller extends Controller
 
     public function episodeCreate(Request $request)
     {
-        $anime_episode = new AnimeEpisode();
-        $anime_episode->code = AnimeEpisode::max('code') + 1;
+        $receiver = new FileReceiver('file', $request, HandlerFactory::classFromRequest($request));
+        if (!$receiver->isUploaded()) {
+            //file not uploaded
+        }
+        $fileReceived = $receiver->receive();
 
-        $anime_episode->name = $request->name;
+        if ($fileReceived->isFinished()) {
+            $file = $fileReceived->getFile(); //getFile
+            $extension = $file->getClientOriginalExtension();
+            $fileName = '_' . md5(time() . '.' . $extension);
+            $disk = Storage::disk(config('filesystems.disks.public_chunks'));
+            $path = $disk->put('public/videos', $file, Visibility::PUBLIC);
 
-        $anime_episode->anime_code = $request->anime_code;
+            unlink($file->getPathname());
 
-        $anime_episode->description = $request->description;
-        $anime_episode->season_short = $request->season_short;
-        $anime_episode->episode_short = $request->episode_short;
-        $anime_episode->publish_date = $request->publish_date;
-        $anime_episode->click_count = 0;
-
-        $anime_episode->intro_start_time_min = $request->intro_start_time_min;
-        $anime_episode->intro_start_time_sec = $request->intro_start_time_sec;
-        $anime_episode->intro_end_time_min = $request->intro_end_time_min;
-        $anime_episode->intro_end_time_sec = $request->intro_end_time_sec;
-
-        if ($request->hasFile('video')) {
-            // Dosyayı al
-            $file = $request->file('video');
-
-            $path = public_path('files/animes/animesEpisodes/' . $request->anime_code . "/" . $anime_episode->season_short . '/' . $anime_episode->episode_short);
-            $name = $anime_episode->code . "." . $file->getClientOriginalExtension();
-            $file->move($path, $name);
-            $anime_episode->video = 'files/animes/animesEpisodes/' . $request->anime_code . "/" . $anime_episode->season_short . '/' . $anime_episode->episode_short . "/" . $name;
-        } else {
-            $anime_episode->video = "";
+            return [
+                'path' => $path,
+                'filename' => $fileName,
+                'request' => $request,
+            ];
         }
 
-        $anime = Anime::Where('code', $request->anime_code)->first();
-        $anime->episode_count = $anime->episode_count ?  $anime->episode_count + 1 :  $anime->episode_count;
-        $anime->season_count = $request->season_short > $anime->season_count ?  $request->season_short : $anime->season_count;
-        $anime->save();
-
-
-        $anime_episode->create_user_code = Auth::guard('admin')->user()->code;
-
-        $anime_episode->save();
-
-        $this->sitemapGenerator();
-
-        $publishDate = $anime_episode->publish_date;
-        $EndDate = Carbon::parse($publishDate)->addMonths(1)->format('Y-m-d');
-
-        $favorite_animes_user = FavoriteAnime::Where('anime_code', $anime->code)->get();
-        $follow_animes_user = FollowAnime::Where('anime_code', $anime->code)->get();
-
-        $notification_code = NotificationUser::max('notification_code') + 1;
-        $this->sendNotificationIndexUser($anime->thumb_image_2, $anime->name, "Yeni Bölüm Yüklendi!!", url('anime/' . $anime->short_name . '/' . $anime_episode->season_short . '/' . $anime_episode->episode_short), 0, $publishDate, $EndDate, $notification_code);
-
-        foreach ($favorite_animes_user as $item) {
-            $this->sendNotificationIndexUser($anime->thumb_image_2, $anime->name, "Yeni Bölüm Yüklendi!!", url('anime/' . $anime->short_name . '/' . $anime_episode->season_short . '/' . $anime_episode->episode_short), $item->user_code, $publishDate, $EndDate, $notification_code);
-        }
-
-        foreach ($follow_animes_user as $item) {
-            $this->sendNotificationIndexUser($anime->thumb_image_2, $anime->name, "Yeni Bölüm Yüklendi!!", url('anime/' . $anime->short_name . '/' . $anime_episode->season_short . '/' . $anime_episode->episode_short), $item->user_code, $publishDate, $EndDate, $notification_code);
-        }
-
-
-
-        return response()->json(['success' => true]);
+        $handler = $fileReceived->handler();
+        return [
+            'done' => $handler->getPercentageDone(),
+            'status => true',
+            'request' => $request,
+        ];
     }
 
     public function episodeUpdateScreen(Request $request)
