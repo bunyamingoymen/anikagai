@@ -146,19 +146,13 @@
 
                 resumable.on('fileSuccess', function(file, response) {
                     //Video yükleme bittiğinde ve başarılı olduğunda
-                    Swal.fire({
-                        title: "Başarılı",
-                        text: "Video Başarılı Bir Şekilde Yüklendi. Sayfayı Kapatabilirsiniz.",
-                        icon: "success"
-                    });
                     console.log(JSON.stringify(response));
-                    document.getElementById('percentValue').innerText = "Tamamlandı"
-                    getNormalButtons();
+
                     console.log(response);
                     console.log(response.split('path":')[1])
                     console.log('once fileName: ' + fileName);
                     fileName = response.split('path":')[1].split('",')[0].replaceAll('"', '').replaceAll('\\',
-                        '').replaceAll('');
+                        '').replaceAll('public/', '');
                     console.log('sonra fileName: ' + fileName);
                     animeEpsiodeCreateMergeVideo();
                 });
@@ -278,6 +272,8 @@
                                 text: "Video Başarılı Bir Şekilde Yüklendi. Sayfayı Kapatabilirsiniz.",
                                 icon: "success"
                             });
+                            document.getElementById('percentValue').innerText = "Tamamlandı"
+                            getNormalButtons();
                         } else {
                             console.log("Aşama üç de Hata");
                             animeEpisodeCreateError();
@@ -316,8 +312,6 @@
                 document.getElementById('percentValue').innerText = "Hata"
                 getNormalButtons();
             }
-
-
 
             function getNormalButtons() {
                 is_submitted = false;

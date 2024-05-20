@@ -65,113 +65,42 @@ class AnimeEpisodecontroller extends Controller
         return response()->json(['success' => true, 'message' => 'Aşama Bir Tamamlandı', 'episode_code' => $anime_episode->code]);
     }
 
-    //Gelen videoları temp klasörüne yükler
-    public function epsiodeCreateUploadVideo(Request $request)
+    //Video yükler
+    public function episodeCreate(Request $request)
     {
-        //return response()->json(['success' => false, 'request' => $request]);
-        /*
-            if ($request->hasFile('file') && $request->episode_code) {
-                //return response()->json(['success' => false, 'request' => $request, 'message' => 'Dosya Var']);
-                $anime_episode = AnimeEpisode::Where('code', $request->episode_code)->where('deleted', 0)->first();
-                if (!$anime_episode) return response()->json(['success' => false, 'message' => 'Anime Bölümü Bulunamadı', 'episode_code' => $request->episode_code]);
-
-                $file = $request->file('file');
-                //return response()->json(['success' => false, 'chunk' => $file, 'message' => 'Dosya Var']);
-                $realPath = 'files/tmp/animesEpisodes/' . $anime_episode->anime_code . '/' . $anime_episode->season_short . '/' . $anime_episode->episode_short . '/' . $anime_episode->code . '/';
-
-
-                $name2 = $request->order . "." . $request->file_extension;
-
-                //$file->move($path, $name);
-
-                $name = $request->episode_code . "." . $request->file_extension;
-                $filePath = 'public/' . $realPath . 'result/' . 'result_' . $name;
-                // Hedef dosyanın var olup olmadığını kontrol edin
-
-                if (Storage::exists($filePath)) {
-                    // Dosya varsa, FILE_APPEND ile içeriği ekleyin
-                    $file->storeAs('public/' . $realPath . 'result/', $name2);
-                    $fileParts[] = Storage::get($filePath);
-                    $fileParts[] = Storage::get('public/' . $realPath . 'result/', $name2);
-                    Storage::put('public/' . $realPath . '/' . 'result/' . 'result_' . $name, implode('', $fileParts));
-                    //Storage::append($filePath, file_get_contents($file->getRealPath()), FILE_APPEND);
-                } else {
-                    // Dosya yoksa, yeni dosyayı oluşturup içeriği ekleyin
-                    //Storage::put($filePath, file_get_contents($file->getRealPath()));
-                    $file->storeAs('public/' . $realPath . 'result/', 'result_' . $name);
-                }
-                $file->storeAs('public/' . $realPath, $name2);
-
-                //return response()->json(['success' => true, 'message' => 'Part ' . $request->order . ' yüklendi', 'episode_code' => $request->episode_code, 'name' => $name2, 'path' => $realPath]);
-            } else {
-                return response()->json(['success' => false, 'message' => 'Aşama İkide Bir Hata Meydana Geldi', 'episode_code' => $request->episode_code]);
-            }
-        */
-
         $receiver = new FileReceiver('file', $request, HandlerFactory::classFromRequest($request));
         if (!$receiver->isUploaded()) {
             //file not uploaded
         }
         $fileReceived = $receiver->receive();
-        if ($fileReceived->isFinished()) { //file uploaded successfully
+
+        if ($fileReceived->isFinished()) {
             $file = $fileReceived->getFile(); //getFile
             $extension = $file->getClientOriginalExtension();
-            //$fileName = str_replace('.' . $extension, '' . $file->getClientOriginalName());
-            $fileName = '_' . md5(time() . '.' . $extension); //unique
-            //$fileName = '1' . '.' . $extension;
-            //$path = public_path('files/animes/animesEpisodes/');
-            //$name = '1' . "." . $file->getClientOriginalExtension();
-            //$file->move($path, $name);
-            //$destinationPath = 'videos/' . $fileName;
+            $fileName = '_' . md5(time() . '.' . $extension);
             $disk = Storage::disk(config('filesystems.disks.public_chunks'));
-            $path = $disk->put('public/videos/', $file, Visibility::PUBLIC);
-            //rename('videos/' . $originalFileName, $destinationPath);
+            $path = $disk->put('public/videos/animeEpisodes', $file, Visibility::PUBLIC);
 
-
-            //Storage::move('videos/' . $file, public_path('files/animes/animesEpisodes/'));
-
-            //delete chuks
             unlink($file->getPathname());
+
             return [
                 'path' => $path,
                 'filename' => $fileName,
+                'request' => $request,
             ];
         }
+
         $handler = $fileReceived->handler();
         return [
             'done' => $handler->getPercentageDone(),
             'status => true',
+            'request' => $request,
         ];
     }
 
     //Geçici klasöre yüklenen her videoyu birleştirir ve animeye onu ekler.
     public function epsiodeCreateVideoMerge(Request $request)
     {
-        /*
-        if (!AnimeEpisode::Where('code', $request->episode_code)->where('deleted', 0)->first()) return response()->json(['success' => false, 'message' => 'Anime Bölümü Bulunamadı', 'episode_code' => $request->episode_code]);
-
-        $totalParts = $request->total_parts;
-
-        $name = AnimeEpisode::Where('code', $request->episode_code)->where('deleted', 0)->first()->code . "." . $request->file_extension;
-
-        $realPath = 'files/animes/animesEpisodes/' . AnimeEpisode::Where('code', $request->episode_code)->where('deleted', 0)->first()->anime_code . "/" . AnimeEpisode::Where('code', $request->episode_code)->where('deleted', 0)->first()->season_short . '/' . AnimeEpisode::Where('code', $request->episode_code)->where('deleted', 0)->first()->episode_short . '/';
-        $tmpPath = 'public/files/tmp/animesEpisodes/' . AnimeEpisode::Where('code', $request->episode_code)->where('deleted', 0)->first()->anime_code . '/' . AnimeEpisode::Where('code', $request->episode_code)->where('deleted', 0)->first()->season_short . '/' . AnimeEpisode::Where('code', $request->episode_code)->where('deleted', 0)->first()->episode_short . '/' . AnimeEpisode::Where('code', $request->episode_code)->where('deleted', 0)->first()->code . '/';
-        for ($i = 1; $i <= $totalParts; $i++) {
-            $fileParts[] = Storage::get($tmpPath . $i . '.' . $request->file_extension);
-            //$partContent = Storage::get($tmpPath . $i . '.' . $request->file_extension);
-            //Storage::append('public/' . $realPath . '/' . $name, $partContent);
-            //Storage::put('public/' . $realPath, $partContent, FILE_APPEND);
-            //Storage::put('public/' . $realPath, $tmpPath . $i . '.' . $request->file_extension, FILE_APPEND);
-        }
-
-
-        // Birleştirilmiş içeriği oluşturulan dosyaya yaz
-
-        Storage::put('public/' . $realPath . '/' . $name, implode('', $fileParts));
-        //unset($fileParts);
-        //unset($tmpPath);
-        //Storage::deleteDirectory('public/files/tmp');
-*/
         $anime_episode = AnimeEpisode::Where('code', $request->episode_code)->where('deleted', 0)->first();
         if (!$anime_episode) {
             response()->json(['success' => false, 'message' => 'Aşama 3 controller hata']);
@@ -215,38 +144,6 @@ class AnimeEpisodecontroller extends Controller
 
 
         return response()->json(['success' => true, 'message' => 'Başarılı bir şekilde Anime Bölümü Ekleni']);
-    }
-
-    public function episodeCreate(Request $request)
-    {
-        $receiver = new FileReceiver('file', $request, HandlerFactory::classFromRequest($request));
-        if (!$receiver->isUploaded()) {
-            //file not uploaded
-        }
-        $fileReceived = $receiver->receive();
-
-        if ($fileReceived->isFinished()) {
-            $file = $fileReceived->getFile(); //getFile
-            $extension = $file->getClientOriginalExtension();
-            $fileName = '_' . md5(time() . '.' . $extension);
-            $disk = Storage::disk(config('filesystems.disks.public_chunks'));
-            $path = $disk->put('public/videos', $file, Visibility::PUBLIC);
-
-            unlink($file->getPathname());
-
-            return [
-                'path' => $path,
-                'filename' => $fileName,
-                'request' => $request,
-            ];
-        }
-
-        $handler = $fileReceived->handler();
-        return [
-            'done' => $handler->getPercentageDone(),
-            'status => true',
-            'request' => $request,
-        ];
     }
 
     public function episodeUpdateScreen(Request $request)
