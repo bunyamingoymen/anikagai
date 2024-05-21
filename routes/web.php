@@ -24,6 +24,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\WebtoonCalendarController;
 use App\Http\Controllers\WebtoonController;
 use App\Http\Controllers\WebtoonEpisodeController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'is_active_index_user'], function () {
@@ -189,6 +190,19 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/admin/php/test', function () {
             dd(phpinfo());
+        });
+
+        Route::get('/admin/php_artisan/{command}', function ($command) {
+            if (app()->environment('production')) {
+                abort(403, 'Bu işlem üretim ortamında çalıştırılamaz.');
+            }
+
+            try {
+                Artisan::call($command);
+                return Artisan::output();
+            } catch (\Exception $e) {
+                return $e->getMessage();
+            }
         });
     });
 
