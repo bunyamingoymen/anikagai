@@ -1,6 +1,13 @@
 @extends('admin.layouts.main')
 @section('admin_content')
     @if ($create == 1)
+        <style>
+            .progress-bar {
+                width: 100%;
+                transition: width 0.5s, background-color 0.5s;
+                /* Geçişler için süre ayarlandı */
+            }
+        </style>
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
@@ -18,8 +25,7 @@
                                     </div>
                                     <div class="progress" style="height: 30px;">
                                         <div class="progress-bar progress-bar-striped bg-info progress-bar-animated"
-                                            role="progressbar" id="progress-bar-video" style="width: 100%;"
-                                            aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"> <span
+                                            role="progressbar" id="progress-bar-video" aria-valuemax="100"> <span
                                                 id="percentValue">Yüklenme
                                                 Başlamadı</span></div>
                                     </div>
@@ -261,18 +267,13 @@
                     contentType: false,
                     success: function(response) {
                         // Yükleme tamamlandığında yapılacak işlemler
-                        animeEpisodeCreatePercent(-1, true);
                         if (response.success) {
                             Swal.fire({
                                 title: "Başarılı",
                                 text: "Video Başarılı Bir Şekilde Yüklendi. Sayfayı Kapatabilirsiniz.",
                                 icon: "success"
                             });
-
-
-                            document.getElementById('progress-bar-video').classList.remove('bg-warning');
-                            document.getElementById('progress-bar-video').classList.remove('bg-danger');
-                            document.getElementById('progress-bar-video').classList.remove('bg-success');
+                            progressBar.classList.remove('bg-danger', 'bg-warning', 'bg-success', 'bg-info');
 
                             document.getElementById('progress-bar-video').classList.add('bg-info');
 
@@ -298,34 +299,22 @@
             function animeEpisodeCreatePercent(percent) {
                 if (percent > 100) percent = 100;
                 else if (percent < 0) percent = 0;
+                const progressBar = document.getElementById('progress-bar-video');
+                progressBar.classList.remove('bg-danger', 'bg-warning', 'bg-success', 'bg-info');
 
+                // Yeni sınıf ekleme
                 if (percent < 33) {
-                    document.getElementById('progress-bar-video').classList.remove('bg-info');
-                    document.getElementById('progress-bar-video').classList.remove('bg-success');
-                    document.getElementById('progress-bar-video').classList.remove('bg-warning');
-
-                    document.getElementById('progress-bar-video').classList.add('bg-danger');
-                } else if (percent >= 33 && percent < 50) {
-                    document.getElementById('progress-bar-video').classList.remove('bg-info');
-                    document.getElementById('progress-bar-video').classList.remove('bg-success');
-                    document.getElementById('progress-bar-video').classList.remove('bg-danger');
-
-                    document.getElementById('progress-bar-video').classList.add('bg-warning');
+                    progressBar.classList.add('bg-danger');
+                } else if (percent >= 33 && percent < 66) { // %50'den %66'ya ayarlandı
+                    progressBar.classList.add('bg-warning');
                 } else {
-                    document.getElementById('progress-bar-video').classList.remove('bg-info');
-                    document.getElementById('progress-bar-video').classList.remove('bg-warning');
-                    document.getElementById('progress-bar-video').classList.remove('bg-danger');
-
-                    document.getElementById('progress-bar-video').classList.add('bg-success');
+                    progressBar.classList.add('bg-success');
                 }
 
                 document.getElementById('percentValue').innerText = parseFloat(percent).toFixed(2) +
                     "%"
-                document.getElementById('progress-bar-video').style.width = percent +
-                    "%"
 
-                document.getElementById('progress-bar-video').setAttribute(
-                    "aria-valuenow", percent);
+                progressBar.style.width = percent + '%';
             }
 
             function animeEpisodeCreateError() {
@@ -336,9 +325,7 @@
                 });
                 document.getElementById('percentValue').innerText = "Hata"
 
-                document.getElementById('progress-bar-video').classList.remove('bg-warning');
-                document.getElementById('progress-bar-video').classList.remove('bg-info');
-                document.getElementById('progress-bar-video').classList.remove('bg-success');
+                progressBar.classList.remove('bg-danger', 'bg-warning', 'bg-success', 'bg-info');
 
                 document.getElementById('progress-bar-video').classList.add('bg-danger');
 
