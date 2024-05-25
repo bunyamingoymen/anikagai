@@ -1302,7 +1302,19 @@ ol {
 .anime__video__player .plyr__volume {
     position: absolute;
     width: auto;
-    left: 176px;
+    left: 246px;
+}
+
+.anime__video__player .plyr__controls__item[data-plyr="rewind"] {
+    position: absolute;
+    width: auto;
+    left: 180px;
+}
+
+.anime__video__player .plyr__controls__item[data-plyr="fast-forward"] {
+    position: absolute;
+    width: auto;
+    left: 210px;
 }
 
 .anime__video__player .plyr__time--current {
@@ -1671,7 +1683,7 @@ ol {
 }
 
 .blog__details__comment__item.blog__details__comment__item--reply {
-    padding-left: 112px ;
+    padding-left: 112px;
 }
 
 .blog__details__comment__item__pic {

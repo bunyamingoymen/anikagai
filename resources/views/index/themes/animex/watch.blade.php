@@ -8,7 +8,7 @@
 
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
         /* Roboto fontunu ekleyin veya
-                                                                                                                                                                                                                                                                                                                                                                                                                                                            kendi tercih ettiğiniz bir font kullanabilirsiniz */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            kendi tercih ettiğiniz bir font kullanabilirsiniz */
 
         .overlay-button {
             position: absolute !important;
@@ -419,6 +419,9 @@
         </div>
     </section>
 
+    <!-- hls.js -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
     <!-- İzleme ile ilgili fonksiyonlar -->
     <script>
         var is_send = false;
@@ -489,6 +492,8 @@
             'duration', // Toplam zaman
             'mute', // Ses kapatma
             'volume', // Ses kontrol
+            'rewind', // Rewind by the seek time (default 10 seconds)
+            'fast-forward', // Fast forward by the seek time (default 10 seconds)
             'settings', // Ayarler menüsü
             'fullscreen', // fullscreen tuşu
         ];
@@ -518,6 +523,7 @@
                     enabled: true,
                     key: 'plyr_{{ $episode->code }}'
                 },
+                seekTime: 10 // Sets the seek time to 10 seconds
             });
 
             //introButton oluşturuluyor
@@ -630,7 +636,15 @@
                 @endif
             });
 
-            //sayfa tamamen yüklendiğin
+            document.querySelector('.plyr__controls__item[data-plyr="rewind"]').innerHTML =
+                '<i class="fas fa-undo-alt"></i>';
+
+            document.querySelector('.plyr__controls__item[data-plyr="fast-forward"]').innerHTML =
+                '<i class="fas fa-undo-alt" style="-webkit-transform: scaleX(-1); transform: scaleX(-1);"></i>';
+
+
+
+                //sayfa tamamen yüklendiğin
             $(document).ready(function() {
                 // Butonlara tıklandığında
                 var introButton = document.getElementById('introButton');
