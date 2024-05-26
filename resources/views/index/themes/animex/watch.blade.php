@@ -8,7 +8,7 @@
 
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
         /* Roboto fontunu ekleyin veya
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            kendi tercih ettiğiniz bir font kullanabilirsiniz */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            kendi tercih ettiğiniz bir font kullanabilirsiniz */
 
         .overlay-button {
             position: absolute !important;
@@ -95,7 +95,8 @@
                     <div class="anime__video__player justify-content-center">
                         <video id="anime-video-player-url" class="plyr video_size_class" controls crossorigin playsinline
                             poster="{{ url($anime->thumb_image) }}">
-                            <source src="{{ asset('storage/' . $episode->video) }}" type="video/mp4" size="720" />
+                            <source src="{{ asset('storage/' . $episode->video) }}" type="video/mp4" size="1080" />
+                            <source src="{{ asset('storage/' . $episode->video) }}" type="video/mp4" size="480" />
                             <!-- Diğer çözünürlükleri buraya ekleyebilirsiniz -->
                             Your browser does not support the video tag.
                         </video>
@@ -523,7 +524,46 @@
                     enabled: true,
                     key: 'plyr_{{ $episode->code }}'
                 },
-                seekTime: 10 // Sets the seek time to 10 seconds
+                seekTime: 10, // Sets the seek time to 10 seconds
+                i18n: {
+                    restart: 'Yeniden başlat',
+                    rewind: 'Geri sar {seektime} saniye',
+                    play: 'Oynat',
+                    pause: 'Duraklat',
+                    fastForward: 'İleri sar {seektime} saniye',
+                    seek: 'Ara',
+                    seekLabel: '{currentTime} / {duration}',
+                    played: 'Oynatıldı',
+                    buffered: 'Tamponlandı',
+                    currentTime: 'Şu anki zaman',
+                    duration: 'Süre',
+                    volume: 'Ses',
+                    mute: 'Sessize al',
+                    unmute: 'Sesi aç',
+                    enableCaptions: 'Altyazıyı etkinleştir',
+                    disableCaptions: 'Altyazıyı devre dışı bırak',
+                    download: 'İndir',
+                    enterFullscreen: 'Tam ekran yap',
+                    exitFullscreen: 'Tam ekrandan çık',
+                    frameTitle: 'Player for {title}',
+                    captions: 'Altyazılar',
+                    settings: 'Ayarlar',
+                    menuBack: 'Geri',
+                    speed: 'Hız',
+                    normal: 'Normal',
+                    quality: 'Kalite',
+                    loop: 'Döngü',
+                    start: 'Başlangıç',
+                    end: 'Bitiş',
+                    all: 'Tümü',
+                    reset: 'Sıfırla',
+                    disabled: 'Devre dışı',
+                    advertisement: 'Reklam',
+                    qualityBadge: {
+                        1080: 'HD',
+                        480: 'SD',
+                    }
+                }
             });
 
             //introButton oluşturuluyor
@@ -644,7 +684,7 @@
 
 
 
-                //sayfa tamamen yüklendiğin
+            //sayfa tamamen yüklendiğin
             $(document).ready(function() {
                 // Butonlara tıklandığında
                 var introButton = document.getElementById('introButton');

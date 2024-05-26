@@ -1302,31 +1302,31 @@ ol {
 .anime__video__player .plyr__volume {
     position: absolute;
     width: auto;
-    left: 246px;
+    left: 146px; /* 246*/
 }
 
 .anime__video__player .plyr__controls__item[data-plyr="rewind"] {
     position: absolute;
     width: auto;
-    left: 180px;
+    left: 76px; /*180 */
 }
 
 .anime__video__player .plyr__controls__item[data-plyr="fast-forward"] {
     position: absolute;
     width: auto;
-    left: 210px;
+    left: 106px; /*210 */
 }
 
 .anime__video__player .plyr__time--current {
     position: absolute;
     width: auto;
-    left: 76px;
+    left: 270px; /*76 */
 }
 
 .anime__video__player .plyr__time--duration {
     position: absolute;
     width: auto;
-    left: 126px;
+    left: 320px; /*126 */
 }
 
 .anime__video__player .plyr__control--overlaid {

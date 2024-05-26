@@ -273,7 +273,7 @@
                                 text: "Video Başarılı Bir Şekilde Yüklendi. Sayfayı Kapatabilirsiniz.",
                                 icon: "success"
                             });
-                            progressBar.classList.remove('bg-danger', 'bg-warning', 'bg-success', 'bg-info');
+                            document.getElementById('progress-bar-video').classList.remove('bg-danger', 'bg-warning', 'bg-success', 'bg-info');
 
                             document.getElementById('progress-bar-video').classList.add('bg-info');
 
