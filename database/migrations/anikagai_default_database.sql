@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Anamakine: 127.0.0.1
--- Üretim Zamanı: 18 Ara 2023, 09:40:06
+-- Üretim Zamanı: 27 May 2024, 08:22:45
 -- Sunucu sürümü: 10.4.28-MariaDB
 -- PHP Sürümü: 8.2.4
 
@@ -33,6 +33,8 @@ CREATE TABLE `animes` (
   `name` varchar(255) NOT NULL,
   `short_name` varchar(255) NOT NULL,
   `image` varchar(255) NOT NULL,
+  `thumb_image` varchar(255) DEFAULT NULL,
+  `thumb_image_2` varchar(255) DEFAULT NULL,
   `description` longtext DEFAULT NULL,
   `episode_count` int(11) NOT NULL DEFAULT 0,
   `season_count` int(11) NOT NULL DEFAULT 0,
@@ -52,22 +54,6 @@ CREATE TABLE `animes` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Tablo döküm verisi `animes`
---
-
-INSERT INTO `animes` (`id`, `code`, `name`, `short_name`, `image`, `description`, `episode_count`, `season_count`, `average_min`, `date`, `main_category`, `main_category_name`, `click_count`, `comment_count`, `scoreUsers`, `score`, `showStatus`, `plusEighteen`, `create_user_code`, `update_user_code`, `deleted`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Tokyo Ghoul', 'tokyo-ghoul', 'files/animes/animesImages/1.jpg', 'gdsgdfhtrhtrhtrh', 0, 0, 35, '2014', 1, 'Genel', 0, 0, 0, 0.00, 0, 0, 0, NULL, 0, '2023-12-08 12:51:20', '2023-12-08 12:51:20'),
-(2, 2, 'Attack On Titan', 'attack-on-titan', 'files/animes/animesImages/2.jpg', 'ğkorfldög.rrg', 0, 0, 45, '2015', 1, 'Genel', 0, 0, 0, 0.00, 0, 0, 0, NULL, 0, '2023-12-08 12:57:12', '2023-12-08 12:57:12'),
-(3, 3, 'One Piece', 'one-piece', 'files/animes/animesImages/3.jpg', 'efsdolöişrfDSÇisdfdfgfd', 0, 0, 45, '2015', 1, 'Genel', 0, 0, 0, 0.00, 0, 0, 0, NULL, 0, '2023-12-08 12:57:36', '2023-12-08 12:57:36'),
-(4, 4, 'Naruto', 'naruto', 'files/animes/animesImages/4.jpg', 'rfvsfgdsfvsdfvdfvsfv', 0, 0, 15, '2010', 1, 'Genel', 0, 0, 0, 0.00, 2, 0, 0, 0, 0, '2023-12-08 12:57:58', '2023-12-08 13:00:58'),
-(5, 5, 'Fullmetal Alchemist: Brotherhood', 'fullmetal-alchemist:-brotherhood', 'files/animes/animesImages/5.jpg', 'dfsvsdgdsagsdg', 0, 0, 45, '2014', 1, 'Genel', 0, 0, 0, 0.00, 0, 0, 0, NULL, 0, '2023-12-08 13:15:37', '2023-12-08 13:15:37'),
-(6, 6, 'Avatar The Last Airbender', 'avatar-the-last-airbender', 'files/animes/animesImages/6.jpg', 'gfdsgsfgdsfgfdsg', 0, 0, 35, '2013', 1, 'Genel', 0, 0, 0, 0.00, 0, 0, 0, NULL, 0, '2023-12-08 13:16:28', '2023-12-08 13:16:28'),
-(7, 7, 'Sousou No Frieren', 'sousou-no-frieren', 'files/animes/animesImages/7.jpg', 'dsffsdfdsfdsf', 0, 0, 63, '2012', 1, 'Genel', 0, 0, 0, 0.00, 0, 1, 0, NULL, 0, '2023-12-08 13:17:04', '2023-12-08 13:17:04'),
-(8, 8, 'Oshi No Ko', 'oshi-no-ko', 'files/animes/animesImages/8.jpg', 'regdrsbresgreag', 0, 0, 40, '1999', 1, 'Genel', 0, 0, 0, 0.00, 2, 0, 0, NULL, 0, '2023-12-08 13:17:44', '2023-12-08 13:17:44'),
-(9, 9, 'Steins Gate', 'steins-gate', 'files/animes/animesImages/9.jpg', 'hsdfgdgesgesgdr', 0, 0, 52, '2018', 1, 'Genel', 0, 0, 0, 0.00, 3, 0, 0, NULL, 0, '2023-12-08 13:18:18', '2023-12-08 13:18:18'),
-(10, 10, 'Monster', 'monster', 'files/animes/animesImages/10.jpg', 'fsdafdsafdsafadaf', 3, 2, 15, '2019', 1, 'Genel', 5, 0, 0, 0.00, 0, 0, 0, NULL, 0, '2023-12-08 13:18:43', '2023-12-18 03:40:36');
 
 -- --------------------------------------------------------
 
@@ -93,19 +79,6 @@ CREATE TABLE `anime_calendars` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Tablo döküm verisi `anime_calendars`
---
-
-INSERT INTO `anime_calendars` (`id`, `code`, `anime_code`, `description`, `first_date`, `cycle_type`, `special_type`, `special_count`, `end_date`, `background_color`, `create_user_code`, `update_user_code`, `deleted`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, '1.sezon 1.Bölüm', '2023-12-18', 2, 1, NULL, '2024-04-01', '#007BFF', 0, 0, 0, '2023-12-17 03:14:43', '2023-12-17 03:15:16'),
-(2, 2, 2, '1.sezon 1.Bölüm', '2023-12-19', 0, 1, NULL, NULL, '#FF0500', 0, NULL, 0, '2023-12-17 03:16:47', '2023-12-17 03:16:47'),
-(3, 3, 3, '2.Sezon 1.Bölüm', '2023-12-18', 3, 1, NULL, '2024-05-18', '#DC3545', 0, 0, 0, '2023-12-17 03:18:29', '2023-12-17 03:18:57'),
-(4, 4, 4, 'Yeni Sezon', '2023-12-18', 2, 1, NULL, '2024-02-01', '#DC3545', 0, NULL, 0, '2023-12-17 03:28:07', '2023-12-17 03:28:07'),
-(5, 5, 5, 'Yeni Bölüm', '2023-12-18', 2, 1, NULL, '2024-04-01', '#6C757D', 0, NULL, 0, '2023-12-17 03:28:43', '2023-12-17 03:28:43'),
-(6, 6, 8, '1.Sezon 1.Bölüm', '2023-12-18', 0, 1, NULL, NULL, '#800080', 0, NULL, 0, '2023-12-17 03:29:16', '2023-12-17 03:29:16'),
-(7, 7, 1, NULL, '2023-12-01', 0, 1, NULL, NULL, '#6C757D', 0, NULL, 0, '2023-12-17 05:04:09', '2023-12-17 05:04:09');
-
 -- --------------------------------------------------------
 
 --
@@ -122,57 +95,6 @@ CREATE TABLE `anime_calendar_lists` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Tablo döküm verisi `anime_calendar_lists`
---
-
-INSERT INTO `anime_calendar_lists` (`id`, `code`, `anime_calendar_code`, `calendar_order`, `date`, `created_at`, `updated_at`) VALUES
-(16, 1, 1, 1, '2023-12-18', '2023-12-17 03:15:16', '2023-12-17 03:15:16'),
-(17, 2, 1, 2, '2023-12-25', '2023-12-17 03:15:16', '2023-12-17 03:15:16'),
-(18, 3, 1, 3, '2024-01-01', '2023-12-17 03:15:16', '2023-12-17 03:15:16'),
-(19, 4, 1, 4, '2024-01-08', '2023-12-17 03:15:16', '2023-12-17 03:15:16'),
-(20, 5, 1, 5, '2024-01-15', '2023-12-17 03:15:16', '2023-12-17 03:15:16'),
-(21, 6, 1, 6, '2024-01-22', '2023-12-17 03:15:16', '2023-12-17 03:15:16'),
-(22, 7, 1, 7, '2024-01-29', '2023-12-17 03:15:16', '2023-12-17 03:15:16'),
-(23, 8, 1, 8, '2024-02-05', '2023-12-17 03:15:16', '2023-12-17 03:15:16'),
-(24, 9, 1, 9, '2024-02-12', '2023-12-17 03:15:16', '2023-12-17 03:15:16'),
-(25, 10, 1, 10, '2024-02-19', '2023-12-17 03:15:16', '2023-12-17 03:15:16'),
-(26, 11, 1, 11, '2024-02-26', '2023-12-17 03:15:16', '2023-12-17 03:15:16'),
-(27, 12, 1, 12, '2024-03-04', '2023-12-17 03:15:16', '2023-12-17 03:15:16'),
-(28, 13, 1, 13, '2024-03-11', '2023-12-17 03:15:16', '2023-12-17 03:15:16'),
-(29, 14, 1, 14, '2024-03-18', '2023-12-17 03:15:16', '2023-12-17 03:15:16'),
-(30, 15, 1, 15, '2024-03-25', '2023-12-17 03:15:16', '2023-12-17 03:15:16'),
-(31, 16, 2, 1, '2023-12-19', '2023-12-17 03:16:47', '2023-12-17 03:16:47'),
-(37, 17, 3, 1, '2023-12-18', '2023-12-17 03:18:57', '2023-12-17 03:18:57'),
-(38, 18, 3, 2, '2024-01-18', '2023-12-17 03:18:57', '2023-12-17 03:18:57'),
-(39, 19, 3, 3, '2024-02-18', '2023-12-17 03:18:57', '2023-12-17 03:18:57'),
-(40, 20, 3, 4, '2024-03-18', '2023-12-17 03:18:57', '2023-12-17 03:18:57'),
-(41, 21, 3, 5, '2024-04-18', '2023-12-17 03:18:57', '2023-12-17 03:18:57'),
-(42, 22, 4, 1, '2023-12-18', '2023-12-17 03:28:07', '2023-12-17 03:28:07'),
-(43, 23, 4, 2, '2023-12-25', '2023-12-17 03:28:07', '2023-12-17 03:28:07'),
-(44, 24, 4, 3, '2024-01-01', '2023-12-17 03:28:07', '2023-12-17 03:28:07'),
-(45, 25, 4, 4, '2024-01-08', '2023-12-17 03:28:07', '2023-12-17 03:28:07'),
-(46, 26, 4, 5, '2024-01-15', '2023-12-17 03:28:07', '2023-12-17 03:28:07'),
-(47, 27, 4, 6, '2024-01-22', '2023-12-17 03:28:07', '2023-12-17 03:28:07'),
-(48, 28, 4, 7, '2024-01-29', '2023-12-17 03:28:07', '2023-12-17 03:28:07'),
-(49, 29, 5, 1, '2023-12-18', '2023-12-17 03:28:43', '2023-12-17 03:28:43'),
-(50, 30, 5, 2, '2023-12-25', '2023-12-17 03:28:43', '2023-12-17 03:28:43'),
-(51, 31, 5, 3, '2024-01-01', '2023-12-17 03:28:43', '2023-12-17 03:28:43'),
-(52, 32, 5, 4, '2024-01-08', '2023-12-17 03:28:43', '2023-12-17 03:28:43'),
-(53, 33, 5, 5, '2024-01-15', '2023-12-17 03:28:43', '2023-12-17 03:28:43'),
-(54, 34, 5, 6, '2024-01-22', '2023-12-17 03:28:43', '2023-12-17 03:28:43'),
-(55, 35, 5, 7, '2024-01-29', '2023-12-17 03:28:43', '2023-12-17 03:28:43'),
-(56, 36, 5, 8, '2024-02-05', '2023-12-17 03:28:43', '2023-12-17 03:28:43'),
-(57, 37, 5, 9, '2024-02-12', '2023-12-17 03:28:43', '2023-12-17 03:28:43'),
-(58, 38, 5, 10, '2024-02-19', '2023-12-17 03:28:43', '2023-12-17 03:28:43'),
-(59, 39, 5, 11, '2024-02-26', '2023-12-17 03:28:43', '2023-12-17 03:28:43'),
-(60, 40, 5, 12, '2024-03-04', '2023-12-17 03:28:43', '2023-12-17 03:28:43'),
-(61, 41, 5, 13, '2024-03-11', '2023-12-17 03:28:43', '2023-12-17 03:28:43'),
-(62, 42, 5, 14, '2024-03-18', '2023-12-17 03:28:43', '2023-12-17 03:28:43'),
-(63, 43, 5, 15, '2024-03-25', '2023-12-17 03:28:43', '2023-12-17 03:28:43'),
-(64, 44, 6, 1, '2023-12-18', '2023-12-17 03:29:16', '2023-12-17 03:29:16'),
-(65, 45, 7, 1, '2023-12-01', '2023-12-17 05:04:09', '2023-12-17 05:04:09');
-
 -- --------------------------------------------------------
 
 --
@@ -182,7 +104,7 @@ INSERT INTO `anime_calendar_lists` (`id`, `code`, `anime_calendar_code`, `calend
 CREATE TABLE `anime_episodes` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `code` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
   `anime_code` bigint(20) UNSIGNED NOT NULL,
   `image` varchar(255) DEFAULT NULL,
   `video` varchar(255) NOT NULL,
@@ -202,15 +124,6 @@ CREATE TABLE `anime_episodes` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Tablo döküm verisi `anime_episodes`
---
-
-INSERT INTO `anime_episodes` (`id`, `code`, `name`, `anime_code`, `image`, `video`, `description`, `season_short`, `episode_short`, `click_count`, `minute`, `intro_start_time_min`, `intro_start_time_sec`, `intro_end_time_min`, `intro_end_time_sec`, `publish_date`, `create_user_code`, `update_user_code`, `deleted`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Pilot', 10, NULL, 'files/animes/animesEpisodes/10/1/1/1.mp4', 'fdsdgdsfgfdsgdfsg', 1, 1, 0, 0, 0, 5, 0, 12, '2023-12-04', 0, NULL, 0, '2023-12-10 05:19:15', '2023-12-10 05:19:15'),
-(2, 2, 'Pilot 2', 10, NULL, 'files/animes/animesEpisodes/10/1/2/2.mp4', 'fdsdgdsfgfdsgdfsg', 1, 2, 0, 0, 0, 5, 0, 12, '2023-12-04', 0, NULL, 0, '2023-12-10 05:19:35', '2023-12-10 05:19:35'),
-(3, 3, 'Pliot 3', 10, NULL, 'files/animes/animesEpisodes/10/2/1/3.mp4', 'hhncgjfghjfjdgf', 2, 1, 0, 0, 0, 5, 0, 12, '2023-12-04', 0, NULL, 0, '2023-12-10 05:20:08', '2023-12-10 05:20:08');
 
 -- --------------------------------------------------------
 
@@ -245,7 +158,7 @@ INSERT INTO `authorization_clauses` (`id`, `code`, `text`, `description`, `creat
 (8, 8, 'Kullanıcı Grupları Silme', 'Kullanıcı Grupları Silebilme Yetkisi', 1, NULL, 0, NULL, NULL),
 (9, 0, 'Grup Yetkileri Ekleme', 'Grup Yetkileri Ekleme Yetkisi', 1, NULL, 0, NULL, NULL),
 (10, 10, 'Grup Yetkileri Listeleme', 'Grup Yetkileri Ekleme Yetkisi', 1, NULL, 0, NULL, NULL),
-(11, 0, 'Grup Yetkileri Güncelleme', 'Grup Yetkileri Güncelleyebilme Yetkisi', 1, NULL, 0, NULL, NULL),
+(11, 11, 'Grup Yetkileri Güncelleme', 'Grup Yetkileri Güncelleyebilme Yetkisi', 1, NULL, 0, NULL, NULL),
 (12, 0, 'Grup Yetkileri Silme', 'Grup Yetkileri Silebilme Yetkisi', 1, NULL, 0, NULL, NULL),
 (13, 13, 'Anasayfa Ayarlarını Değiştirebilme', 'Anasayfa Ayarlarını Değiştirebilme', 1, NULL, 0, NULL, NULL),
 (14, 14, 'Logoları Değiştirebilme', 'Logoları Değiştirebilme', 1, NULL, 0, NULL, NULL),
@@ -299,7 +212,11 @@ INSERT INTO `authorization_clauses` (`id`, `code`, `text`, `description`, `creat
 (62, 62, 'Üye Güncelleyebilme', 'Üye Güncelleyebilme', 1, NULL, 0, NULL, NULL),
 (63, 63, 'Üye Silebilme', 'Üye Silebilme', 1, NULL, 0, NULL, NULL),
 (64, 64, 'Slider videolarını listeleyip güncelleyebilme', 'Slider videolarını listeleyip güncelleyebilme', 1, NULL, 0, NULL, NULL),
-(65, 65, 'Tema ayarlarını güncelleyebilme', 'Tema ayarlarını güncelleyebilme', 1, NULL, 0, NULL, NULL);
+(65, 65, 'Tema ayarlarını güncelleyebilme', 'Tema ayarlarını güncelleyebilme', 1, NULL, 0, NULL, NULL),
+(66, 66, 'Yorum Pinleyebilme', 'Yorum Pinleyebilme', 1, NULL, 0, NULL, NULL),
+(67, 67, 'Bildirim Listeleyebilme', 'Bildirim Listeleyebilme', 1, NULL, 0, NULL, NULL),
+(68, 68, 'Bildirim Gönderebilme', 'Bildirim Gönderebilme', 1, NULL, 0, NULL, NULL),
+(69, 69, 'Bildirim Silebilme', 'Bildirim Silebilme', 1, NULL, 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -341,7 +258,7 @@ CREATE TABLE `authorization_groups` (
 --
 
 INSERT INTO `authorization_groups` (`id`, `code`, `text`, `description`, `create_user_code`, `update_user_code`, `deleted`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Admin', 'Site Yöneticisi', 1, NULL, 0, '2023-12-16 04:47:18', '2023-12-16 04:47:18');
+(1, 1, 'Admin', 'Site Yöneticisi', 1, NULL, 0, '2024-05-27 06:22:32', '2024-05-27 06:22:32');
 
 -- --------------------------------------------------------
 
@@ -362,13 +279,6 @@ CREATE TABLE `categories` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Tablo döküm verisi `categories`
---
-
-INSERT INTO `categories` (`id`, `code`, `name`, `short_name`, `description`, `create_user_code`, `update_user_code`, `deleted`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Genel', 'genel', 'Varsayılan', 1, NULL, 0, '2023-12-16 04:43:32', '2023-12-16 04:43:32');
-
 -- --------------------------------------------------------
 
 --
@@ -379,6 +289,7 @@ CREATE TABLE `comments` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `code` bigint(20) UNSIGNED NOT NULL,
   `content_code` bigint(20) UNSIGNED NOT NULL,
+  `content_top_code` bigint(20) UNSIGNED DEFAULT NULL,
   `content_type` tinyint(4) NOT NULL,
   `comment_type` tinyint(4) NOT NULL,
   `comment_top_code` bigint(20) UNSIGNED DEFAULT NULL,
@@ -386,6 +297,11 @@ CREATE TABLE `comments` (
   `message` longtext NOT NULL,
   `user_code` bigint(20) UNSIGNED NOT NULL,
   `date` date NOT NULL DEFAULT '1970-01-01',
+  `like_count` bigint(20) UNSIGNED NOT NULL DEFAULT 0,
+  `unlike_count` bigint(20) UNSIGNED NOT NULL DEFAULT 0,
+  `is_pinned` tinyint(4) NOT NULL DEFAULT 0,
+  `is_spoiler` tinyint(4) NOT NULL DEFAULT 0,
+  `is_active` tinyint(4) NOT NULL DEFAULT 1,
   `deleted` tinyint(4) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
@@ -421,6 +337,7 @@ CREATE TABLE `content_categories` (
   `category_code` bigint(20) UNSIGNED NOT NULL,
   `content_code` bigint(20) UNSIGNED NOT NULL,
   `content_type` tinyint(4) NOT NULL,
+  `is_main` tinyint(4) NOT NULL DEFAULT 0,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -540,6 +457,9 @@ CREATE TABLE `index_users` (
   `password` varchar(255) NOT NULL,
   `image` varchar(255) DEFAULT NULL,
   `description` longtext DEFAULT NULL,
+  `is_active` tinyint(4) NOT NULL DEFAULT 1,
+  `deleted` tinyint(4) NOT NULL DEFAULT 0,
+  `remember_token` varchar(100) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -555,8 +475,8 @@ CREATE TABLE `key_values` (
   `code` bigint(20) UNSIGNED NOT NULL,
   `key` varchar(255) NOT NULL,
   `value` longtext NOT NULL,
-  `optional` varchar(255) DEFAULT NULL,
-  `optional_2` varchar(255) DEFAULT NULL,
+  `optional` longtext DEFAULT NULL,
+  `optional_2` longtext DEFAULT NULL,
   `create_user_code` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
   `update_user_code` bigint(20) UNSIGNED DEFAULT NULL,
   `deleted` tinyint(4) NOT NULL DEFAULT 0,
@@ -582,29 +502,50 @@ INSERT INTO `key_values` (`id`, `code`, `key`, `value`, `optional`, `optional_2`
 (11, 11, 'menu', 'Anasayfa', '1', '/', 1, NULL, 0, NULL, NULL),
 (12, 12, 'menu', 'Animeler', '1', 'animeler', 1, NULL, 0, NULL, NULL),
 (13, 13, 'menu', 'Webtoonlar', '1', 'webtoonlar', 1, NULL, 0, NULL, NULL),
-(14, 14, 'menu', 'Takvim', '1', 'calendar', 1, NULL, 0, NULL, '2023-12-17 03:43:23'),
-(15, 15, 'menu', 'Anime Takvimi', '0', 'animeCalendar', 1, NULL, 0, NULL, '2023-12-17 03:43:19'),
-(16, 16, 'menu', 'Webtoon Takvimi', '0', 'webtoonCalendar', 1, NULL, 0, NULL, '2023-12-17 03:43:14'),
+(14, 14, 'menu', 'Takvim', '1', 'calendar', 1, NULL, 0, NULL, NULL),
+(15, 15, 'menu', 'Anime Takvimi', '2', 'animeCalendar', 1, NULL, 0, NULL, NULL),
+(16, 16, 'menu', 'Webtoon Takvimi', '2', 'webtoonCalendar', 1, NULL, 0, NULL, NULL),
 (17, 17, 'menu', 'İletişim', '1', 'contact', 1, NULL, 0, NULL, NULL),
 (18, 18, 'menu_alt', 'Hakkımızda', '1', 'p/about', 1, NULL, 0, NULL, NULL),
 (19, 19, 'menu_alt', 'Discord', '1', 'https://discord.com/', 1, NULL, 0, NULL, NULL),
-(20, 20, 'meta', 'description', 'Webtoon okuyabilir ve Anime izleyebilirsiniz', '', 1, NULL, 0, NULL, NULL),
-(21, 21, 'meta', ' ', 'tr', 'language', 1, NULL, 0, NULL, NULL),
-(22, 22, 'meta', ' ', 'ie=edge', 'x-ua-compatible', 1, NULL, 0, NULL, NULL),
-(23, 23, 'admin_meta', 'author', 'Bünyamin Göymen', '', 1, NULL, 0, NULL, NULL),
-(24, 24, 'admin_meta', 'author2', 'bgoymen', '', 1, NULL, 0, NULL, NULL),
-(25, 25, 'admin_meta', 'Copyright', 'Bu sitenin hakları Bünyamin Göymen ve Anikagai\'ye aittir', '', 1, NULL, 0, NULL, NULL),
-(26, 26, 'slider_image', 'Tokyo Ghoul', 'user/img/images/gallery_01.jpg', '/', 1, NULL, 0, NULL, NULL),
-(27, 27, 'slider_image', 'Attack On Titan', 'user/img/images/gallery_02.jpg', '/', 1, NULL, 0, NULL, NULL),
-(28, 28, 'slider_image', 'Bleach', 'user/img/images/gallery_03.jpg', '/', 1, NULL, 0, NULL, NULL),
-(29, 29, 'slider_image', 'One Piece', 'user/img/images/gallery_04.jpg', '/', 1, NULL, 0, NULL, NULL),
-(30, 30, 'selected_theme', '2', NULL, NULL, 1, NULL, 0, '2023-12-17 03:39:58', '2023-12-17 03:41:12'),
-(31, 31, 'slider_video', '25', 'user/animex/videos/1.mp4', NULL, 1, NULL, 0, '2023-12-17 03:39:58', NULL),
-(32, 32, 'slider_video', '26', 'user/animex/videos/2.mp4', NULL, 1, NULL, 0, '2023-12-17 03:39:58', NULL),
-(33, 33, 'slider_video', '27', 'user/animex/videos/3.mp4', NULL, 1, NULL, 0, '2023-12-17 03:39:58', NULL),
-(34, 34, 'slider_video', '28', 'user/animex/videos/4.mp4', NULL, 1, NULL, 0, '2023-12-17 03:39:58', NULL),
-(35, 35, 'anime_active', '1', NULL, NULL, 1, NULL, 0, NULL, NULL),
-(36, 36, 'webtoon_active', '1', NULL, NULL, 1, NULL, 0, NULL, NULL);
+(20, 20, 'meta', '<meta charset=\"UTF-8\">', NULL, NULL, 1, NULL, 0, NULL, NULL),
+(21, 21, 'meta', '<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">', NULL, NULL, 1, NULL, 0, NULL, NULL),
+(22, 22, 'meta', '<meta name=\"description\" content=\"Webtoon okuyabilir ve Anime izleyebilirsiniz\">', NULL, NULL, 1, NULL, 0, NULL, NULL),
+(23, 23, 'meta', '<meta http-equiv=\"language\"  content=\"tr\">', NULL, NULL, 1, NULL, 0, NULL, NULL),
+(24, 24, 'meta', '<meta http-equiv=\"x-ua-compatible\" content=\"ie=edge\">', NULL, NULL, 1, NULL, 0, NULL, NULL),
+(25, 25, 'meta', '<meta name=\"google-site-verification\" content=\"HWzsr_y9rGmKvzuWoYQSlqKZVU_AonpFBQLIdP9-ev4\">', NULL, NULL, 1, NULL, 0, NULL, NULL),
+(26, 26, 'admin_meta', '<meta name=\"author\" content=\"Bünyamin Göymen\">', NULL, NULL, 1, NULL, 0, NULL, NULL),
+(27, 27, 'admin_meta', '<meta name=\"author2\" content=\"bgoymen\">', NULL, NULL, 1, NULL, 0, NULL, NULL),
+(28, 28, 'admin_meta', '<meta name=\'Copyright\' content=\'Bu sitenin hakları Bünyamin Göymen ve Anikagaiye aittir\'>', NULL, NULL, 1, NULL, 0, NULL, NULL),
+(29, 29, 'slider_image', 'Tokyo Ghoul', 'user/img/images/gallery_01.jpg', '/', 1, NULL, 0, NULL, NULL),
+(30, 30, 'slider_image', 'Attack On Titan', 'user/img/images/gallery_02.jpg', '/', 1, NULL, 0, NULL, NULL),
+(31, 31, 'slider_image', 'Bleach', 'user/img/images/gallery_03.jpg', '/', 1, NULL, 0, NULL, NULL),
+(32, 32, 'slider_image', 'One Piece', 'user/img/images/gallery_04.jpg', '/', 1, NULL, 0, NULL, NULL),
+(33, 33, 'selected_theme', '2', NULL, NULL, 1, NULL, 0, '2024-05-27 06:22:32', NULL),
+(34, 34, 'slider_video', '25', 'user/animex/videos/1.mp4', NULL, 1, NULL, 0, '2024-05-27 06:22:32', NULL),
+(35, 35, 'slider_video', '26', 'user/animex/videos/2.mp4', NULL, 1, NULL, 0, '2024-05-27 06:22:32', NULL),
+(36, 36, 'slider_video', '27', 'user/animex/videos/3.mp4', NULL, 1, NULL, 0, '2024-05-27 06:22:32', NULL),
+(37, 37, 'slider_video', '28', 'user/animex/videos/4.mp4', NULL, 1, NULL, 0, '2024-05-27 06:22:32', NULL),
+(38, 38, 'anime_active', '1', NULL, NULL, 1, NULL, 0, NULL, NULL),
+(39, 39, 'webtoon_active', '1', NULL, NULL, 1, NULL, 0, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Tablo için tablo yapısı `like_content_users`
+--
+
+CREATE TABLE `like_content_users` (
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `content_code` bigint(20) UNSIGNED NOT NULL,
+  `content_episode_code` bigint(20) UNSIGNED NOT NULL,
+  `comment_code` bigint(20) UNSIGNED NOT NULL,
+  `content_type` tinyint(4) NOT NULL,
+  `like_type` tinyint(4) NOT NULL,
+  `user_code` bigint(20) UNSIGNED NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -658,7 +599,8 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (33, '2023_11_29_085011_create_comments_table', 1),
 (34, '2023_12_06_201443_create_webtoon_files_table', 1),
 (35, '2023_12_14_101404_create_anime_calendar_lists_table', 1),
-(36, '2023_12_15_220722_create_webtoon_calendar_lists_table', 1);
+(36, '2023_12_15_220722_create_webtoon_calendar_lists_table', 1),
+(37, '2024_04_20_141944_create_like_content_users_table', 1);
 
 -- --------------------------------------------------------
 
@@ -691,11 +633,15 @@ CREATE TABLE `notification_admins` (
 CREATE TABLE `notification_users` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `code` bigint(20) UNSIGNED NOT NULL,
+  `notification_code` bigint(20) UNSIGNED NOT NULL,
+  `notification_image` varchar(255) DEFAULT 'index/img/default/notification.jpg',
   `notification_title` varchar(255) NOT NULL,
   `notification_text` longtext NOT NULL,
-  `from_user_code` bigint(20) UNSIGNED NOT NULL,
+  `notification_url` longtext DEFAULT NULL,
+  `from_user_code` bigint(20) UNSIGNED DEFAULT NULL,
   `to_user_code` bigint(20) UNSIGNED NOT NULL,
-  `notification_date` date NOT NULL DEFAULT '1970-01-01',
+  `notification_date` date NOT NULL DEFAULT '1970-01-02',
+  `notification_end_date` date DEFAULT '1970-01-01',
   `readed` tinyint(4) NOT NULL DEFAULT 0,
   `create_user_code` bigint(20) UNSIGNED NOT NULL DEFAULT 1,
   `update_user_code` bigint(20) UNSIGNED DEFAULT NULL,
@@ -814,9 +760,9 @@ CREATE TABLE `themes` (
 --
 
 INSERT INTO `themes` (`id`, `code`, `themeName`, `themePath`, `description`, `images`, `deleted`, `created_at`, `updated_at`) VALUES
-(1, 1, 'mox', 'themes.mox', NULL, 'user/img/themes/theme_1.png', 0, '2023-12-16 04:43:32', NULL),
-(2, 2, 'Animex', 'themes.animex', NULL, 'user/img/themes/theme_2.png', 0, '2023-12-16 04:43:32', NULL),
-(3, 3, 'MovieFX', 'themes.moviefx', NULL, 'user/img/themes/theme_3.png', 0, '2023-12-16 04:43:32', NULL);
+(1, 1, 'mox', 'themes.mox', NULL, 'user/img/themes/theme_1.png', 0, '2024-05-27 06:22:32', NULL),
+(2, 2, 'Animex', 'themes.animex', NULL, 'user/img/themes/theme_2.png', 0, '2024-05-27 06:22:32', NULL),
+(3, 3, 'MovieFX', 'themes.moviefx', NULL, 'user/img/themes/theme_3.png', 0, '2024-05-27 06:22:32', NULL);
 
 -- --------------------------------------------------------
 
@@ -841,43 +787,43 @@ CREATE TABLE `theme_settings` (
 --
 
 INSERT INTO `theme_settings` (`id`, `code`, `theme_code`, `setting_name`, `setting_value`, `optional`, `deleted`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 'listCount', '8', NULL, 0, '2023-12-16 04:43:32', NULL),
-(2, 2, 1, 'showSlider', '1', NULL, 0, '2023-12-16 04:43:32', NULL),
-(3, 3, 1, 'indexShowContent', '20', NULL, 0, '2023-12-16 04:43:32', NULL),
-(4, 4, 1, 'colors_code', 'e4d804', NULL, 0, '2023-12-16 04:43:32', NULL),
-(5, 5, 1, 'colors_code', '252631', NULL, 0, '2023-12-16 04:43:32', NULL),
-(6, 6, 1, 'colors_code', '20212B', NULL, 0, '2023-12-16 04:43:32', NULL),
-(7, 7, 1, 'colors_code', '171B27', NULL, 0, '2023-12-16 04:43:32', NULL),
-(8, 8, 1, 'colors_code', '12151E', NULL, 0, '2023-12-16 04:43:32', NULL),
-(9, 9, 1, 'colors_code_default', 'e4d804', NULL, 0, '2023-12-16 04:43:32', NULL),
-(10, 10, 1, 'colors_code_default', '252631', NULL, 0, '2023-12-16 04:43:32', NULL),
-(11, 11, 1, 'colors_code_default', '20212B', NULL, 0, '2023-12-16 04:43:32', NULL),
-(12, 12, 1, 'colors_code_default', '171B27', NULL, 0, '2023-12-16 04:43:32', NULL),
-(13, 13, 1, 'colors_code_default', '12151E', NULL, 0, '2023-12-16 04:43:32', NULL),
-(14, 14, 2, 'listCount', '12', NULL, 0, '2023-12-16 04:43:32', NULL),
-(15, 15, 2, 'showSlider', '1', NULL, 0, '2023-12-16 04:43:32', NULL),
-(16, 16, 2, 'indexShowContent', '6', NULL, 0, '2023-12-16 04:43:32', NULL),
-(17, 17, 2, 'colors_code', '14161D', NULL, 0, '2023-12-16 04:43:32', '2023-12-17 03:57:47'),
-(18, 18, 2, 'colors_code', '111216', NULL, 0, '2023-12-16 04:43:32', '2023-12-17 03:57:47'),
-(19, 19, 2, 'colors_code', 'e53639', NULL, 0, '2023-12-16 04:43:32', '2023-12-17 03:58:11'),
-(20, 20, 2, 'colors_code_default', '14161D', NULL, 0, '2023-12-16 04:43:32', NULL),
-(21, 21, 2, 'colors_code_default', '111216', NULL, 0, '2023-12-16 04:43:32', NULL),
-(22, 22, 2, 'colors_code_default', 'e53639', NULL, 0, '2023-12-16 04:43:32', NULL),
-(23, 23, 3, 'listCount', '10', NULL, 0, '2023-12-16 04:43:32', NULL),
-(24, 24, 3, 'showSlider', '1', NULL, 0, '2023-12-16 04:43:32', NULL),
-(25, 25, 3, 'indexShowContent', '8', NULL, 0, '2023-12-16 04:43:32', NULL),
-(26, 26, 3, 'colors_code', 'FDFD96', NULL, 0, '2023-12-16 04:43:32', NULL),
-(27, 27, 3, 'colors_code', '14161D', NULL, 0, '2023-12-16 04:43:32', NULL),
-(28, 28, 3, 'colors_code', '111216', NULL, 0, '2023-12-16 04:43:32', NULL),
-(29, 29, 3, 'colors_code', 'FDFD96', NULL, 0, '2023-12-16 04:43:32', NULL),
-(30, 30, 3, 'colors_code', '1E2029', NULL, 0, '2023-12-16 04:43:32', NULL),
-(31, 31, 3, 'colors_code', '491f1f', NULL, 0, '2023-12-16 04:43:32', NULL),
-(32, 32, 3, 'colors_code_default', 'FDFD96', NULL, 0, '2023-12-16 04:43:32', NULL),
-(33, 33, 3, 'colors_code_default', '14161D', NULL, 0, '2023-12-16 04:43:32', NULL),
-(34, 34, 3, 'colors_code_default', '111216', NULL, 0, '2023-12-16 04:43:32', NULL),
-(35, 35, 3, 'colors_code_default', 'FDFD96', NULL, 0, '2023-12-16 04:43:32', NULL),
-(36, 36, 3, 'colors_code_default', '1E2029', NULL, 0, '2023-12-16 04:43:32', NULL),
-(37, 37, 3, 'colors_code_default', '491f1f', NULL, 0, '2023-12-16 04:43:32', NULL);
+(1, 1, 1, 'listCount', '8', NULL, 0, '2024-05-27 06:22:32', NULL),
+(2, 2, 1, 'showSlider', '1', NULL, 0, '2024-05-27 06:22:32', NULL),
+(3, 3, 1, 'indexShowContent', '20', NULL, 0, '2024-05-27 06:22:32', NULL),
+(4, 4, 1, 'colors_code', 'e4d804', NULL, 0, '2024-05-27 06:22:32', NULL),
+(5, 5, 1, 'colors_code', '252631', NULL, 0, '2024-05-27 06:22:32', NULL),
+(6, 6, 1, 'colors_code', '20212B', NULL, 0, '2024-05-27 06:22:32', NULL),
+(7, 7, 1, 'colors_code', '171B27', NULL, 0, '2024-05-27 06:22:32', NULL),
+(8, 8, 1, 'colors_code', '12151E', NULL, 0, '2024-05-27 06:22:32', NULL),
+(9, 9, 1, 'colors_code_default', 'e4d804', NULL, 0, '2024-05-27 06:22:32', NULL),
+(10, 10, 1, 'colors_code_default', '252631', NULL, 0, '2024-05-27 06:22:32', NULL),
+(11, 11, 1, 'colors_code_default', '20212B', NULL, 0, '2024-05-27 06:22:32', NULL),
+(12, 12, 1, 'colors_code_default', '171B27', NULL, 0, '2024-05-27 06:22:32', NULL),
+(13, 13, 1, 'colors_code_default', '12151E', NULL, 0, '2024-05-27 06:22:32', NULL),
+(14, 14, 2, 'listCount', '12', NULL, 0, '2024-05-27 06:22:32', NULL),
+(15, 15, 2, 'showSlider', '1', NULL, 0, '2024-05-27 06:22:32', NULL),
+(16, 16, 2, 'indexShowContent', '6', NULL, 0, '2024-05-27 06:22:32', NULL),
+(17, 17, 2, 'colors_code', '14161D', NULL, 0, '2024-05-27 06:22:32', NULL),
+(18, 18, 2, 'colors_code', '111216', NULL, 0, '2024-05-27 06:22:32', NULL),
+(19, 19, 2, 'colors_code', 'e53637', NULL, 0, '2024-05-27 06:22:32', NULL),
+(20, 20, 2, 'colors_code_default', '14161D', NULL, 0, '2024-05-27 06:22:32', NULL),
+(21, 21, 2, 'colors_code_default', '111216', NULL, 0, '2024-05-27 06:22:32', NULL),
+(22, 22, 2, 'colors_code_default', 'e53639', NULL, 0, '2024-05-27 06:22:32', NULL),
+(23, 23, 3, 'listCount', '10', NULL, 0, '2024-05-27 06:22:32', NULL),
+(24, 24, 3, 'showSlider', '1', NULL, 0, '2024-05-27 06:22:32', NULL),
+(25, 25, 3, 'indexShowContent', '8', NULL, 0, '2024-05-27 06:22:32', NULL),
+(26, 26, 3, 'colors_code', 'FDFD96', NULL, 0, '2024-05-27 06:22:32', NULL),
+(27, 27, 3, 'colors_code', '14161D', NULL, 0, '2024-05-27 06:22:32', NULL),
+(28, 28, 3, 'colors_code', '111216', NULL, 0, '2024-05-27 06:22:32', NULL),
+(29, 29, 3, 'colors_code', 'FDFD96', NULL, 0, '2024-05-27 06:22:32', NULL),
+(30, 30, 3, 'colors_code', '1E2029', NULL, 0, '2024-05-27 06:22:32', NULL),
+(31, 31, 3, 'colors_code', '491f1f', NULL, 0, '2024-05-27 06:22:32', NULL),
+(32, 32, 3, 'colors_code_default', 'FDFD96', NULL, 0, '2024-05-27 06:22:32', NULL),
+(33, 33, 3, 'colors_code_default', '14161D', NULL, 0, '2024-05-27 06:22:32', NULL),
+(34, 34, 3, 'colors_code_default', '111216', NULL, 0, '2024-05-27 06:22:32', NULL),
+(35, 35, 3, 'colors_code_default', 'FDFD96', NULL, 0, '2024-05-27 06:22:32', NULL),
+(36, 36, 3, 'colors_code_default', '1E2029', NULL, 0, '2024-05-27 06:22:32', NULL),
+(37, 37, 3, 'colors_code_default', '491f1f', NULL, 0, '2024-05-27 06:22:32', NULL);
 
 -- --------------------------------------------------------
 
@@ -912,8 +858,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `code`, `name`, `surname`, `email`, `password`, `image`, `description`, `facebook`, `instagram`, `twitter`, `discord`, `user_type`, `admin`, `create_user_code`, `update_user_code`, `deleted`, `created_at`, `updated_at`) VALUES
-(1, 0, 'Bünyamin', 'Göymen', 'bunyamingoymen@gmail.com', '$2y$10$UJA5mhL4Ehu.EZ.aGluEZ.WO5qmbWlpP049moGxgrH7r4KUs6Z4ti', 'admin/assets/images/users/avatar-1.jpg', 'Sitenin kurucusu', NULL, NULL, NULL, NULL, 0, 1, 0, 0, 0, NULL, NULL),
-(2, 1, 'Anikagai', 'Admin', 'anikagai@gmail.com', '$2y$10$RP4VA4R1PWqt8mG6nPE78ObAykBi7OFxqCMQwM9lfVfsl4cdvPaNG', 'admin/assets/images/users/avatar-1.jpg', 'Site Sahibi', NULL, NULL, NULL, NULL, 1, 1, 0, 0, 0, NULL, NULL);
+(1, 0, 'Bünyamin', 'Göymen', 'bunyamingoymen@gmail.com', '$2y$10$SNwMibZtUiOguHNJaiPlzeYAWJCH.6qOiYhAzcRirgf.7KJTc6My2', 'admin/assets/images/users/avatar-1.jpg', 'Sitenin kurucusu', NULL, NULL, NULL, NULL, 0, 1, 0, 0, 0, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -943,6 +888,8 @@ CREATE TABLE `webtoons` (
   `name` varchar(255) NOT NULL,
   `short_name` varchar(255) NOT NULL,
   `image` varchar(255) NOT NULL,
+  `thumb_image` varchar(255) DEFAULT NULL,
+  `thumb_image_2` varchar(255) DEFAULT NULL,
   `description` longtext DEFAULT NULL,
   `episode_count` int(11) NOT NULL DEFAULT 0,
   `season_count` int(11) NOT NULL DEFAULT 0,
@@ -962,22 +909,6 @@ CREATE TABLE `webtoons` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Tablo döküm verisi `webtoons`
---
-
-INSERT INTO `webtoons` (`id`, `code`, `name`, `short_name`, `image`, `description`, `episode_count`, `season_count`, `average_min`, `main_category`, `main_category_name`, `date`, `click_count`, `comment_count`, `scoreUsers`, `score`, `showStatus`, `plusEighteen`, `create_user_code`, `update_user_code`, `deleted`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Who is president', 'who-is-president', 'files/webtoons/webtoonImages/1.jpg', 'dfsgdfsgfdg', 6, 2, 45, 1, 'Genel', '2012', 2, 0, 0, 0.00, 0, 0, 0, NULL, 0, '2023-12-08 13:28:38', '2023-12-18 05:16:34'),
-(2, 2, 'Tower Of God', 'tower-of-god', 'files/webtoons/webtoonImages/2.jpg', 'dfsfdsfsdf', 0, 0, 32, 1, 'Genel', '2015', 0, 0, 0, 0.00, 2, 0, 0, NULL, 0, '2023-12-08 13:28:58', '2023-12-08 13:28:58'),
-(3, 3, 'Unordinary', 'unordinary', 'files/webtoons/webtoonImages/3.jpg', 'fsadfdsfdsfdsf', 0, 0, 56, 1, 'Genel', '2015', 1, 0, 0, 0.00, 0, 0, 0, NULL, 0, '2023-12-08 13:29:16', '2023-12-18 05:09:09'),
-(4, 4, 'Ben Regresör Değilim', 'Ben-Regresor-Degilim', 'files/webtoons/webtoonImages/4.jpg', 'fsdafdsfdsfsdfdsf', 0, 0, 56, 1, 'Genel', '2018', 0, 0, 0, 0.00, 1, 1, 0, 0, 0, '2023-12-08 13:29:34', '2023-12-08 13:31:54'),
-(5, 5, 'Killer Pedro', 'killer-pedro', 'files/webtoons/webtoonImages/5.jpg', 'fsdafdasfdasffd', 0, 0, 45, 1, 'Genel', '2016', 0, 0, 0, 0.00, 0, 0, 0, NULL, 0, '2023-12-08 13:29:56', '2023-12-08 13:29:56'),
-(6, 6, 'Suikastçının İnancı - Unutulmuş Tapınak', 'suikastcının-inancı---unutulmus-tapınak', 'files/webtoons/webtoonImages/6.jpg', 'gfgfdgfdsggffd', 0, 0, 89, 1, 'Genel', '2015', 0, 0, 0, 0.00, 0, 0, 0, NULL, 0, '2023-12-08 13:30:18', '2023-12-08 13:30:18'),
-(7, 7, 'To My First Love', 'to-my-first-love', 'files/webtoons/webtoonImages/7.jpg', 'dsafdsfadsfadsf', 0, 0, 56, 1, 'Genel', '2019', 0, 0, 0, 0.00, 2, 0, 0, NULL, 0, '2023-12-08 13:30:43', '2023-12-08 13:30:43'),
-(8, 8, 'The Redemption of Earl Nottingham', 'the-redemption-of-earl-nottingham', 'files/webtoons/webtoonImages/8.jpg', 'fdsaffdsfa', 0, 0, 52, 1, 'Genel', '2020', 0, 0, 0, 0.00, 0, 0, 0, NULL, 0, '2023-12-08 13:32:14', '2023-12-08 13:32:14'),
-(9, 9, 'Şarlot Ve 5 Havarisi', 'sarlot-ve-5-havarisi', 'files/webtoons/webtoonImages/9.jpg', 'dfdasfdasfadsfas', 0, 0, 12, 1, 'Genel', '2010', 2, 0, 0, 0.00, 0, 0, 0, NULL, 0, '2023-12-08 13:32:36', '2023-12-18 05:09:03'),
-(10, 10, 'Betrayal of Deignity', 'betrayal-of-deignity', 'files/webtoons/webtoonImages/10.jpg', 'dgrsfgfdsgfdsg', 0, 0, 32, 1, 'Genel', '2015', 0, 0, 0, 0.00, 0, 1, 0, NULL, 0, '2023-12-08 13:33:03', '2023-12-08 13:33:03');
 
 -- --------------------------------------------------------
 
@@ -1003,20 +934,6 @@ CREATE TABLE `webtoon_calendars` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Tablo döküm verisi `webtoon_calendars`
---
-
-INSERT INTO `webtoon_calendars` (`id`, `code`, `webtoon_code`, `description`, `first_date`, `cycle_type`, `special_type`, `special_count`, `end_date`, `background_color`, `create_user_code`, `update_user_code`, `deleted`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 'bnmööşi,şlkjbmnökçl.şişlkjhgcfgvhjkş.', '2023-12-01', 2, 1, NULL, '2024-04-01', '#FFC107', 0, NULL, 0, '2023-12-16 05:05:47', '2023-12-16 05:05:47'),
-(2, 2, 1, NULL, '2023-12-13', 2, 1, NULL, '2024-05-01', '#000', 0, NULL, 0, '2023-12-16 05:08:13', '2023-12-16 05:08:13'),
-(3, 3, 1, NULL, '2023-12-13', 2, 1, NULL, '2024-05-01', '#000', 0, NULL, 0, '2023-12-16 05:09:05', '2023-12-16 05:09:05'),
-(4, 4, 1, 'fbdsgfdgfdgdfg', '2023-12-01', 2, 1, NULL, '2024-06-01', '#28a745', 0, NULL, 0, '2023-12-16 05:09:27', '2023-12-16 05:09:27'),
-(5, 5, 1, 'vc cxxcvxcv', '2023-12-01', 2, 1, NULL, '2024-04-01', '#28a745', 0, NULL, 0, '2023-12-16 05:10:47', '2023-12-16 05:10:47'),
-(6, 6, 1, 'fgdgdfgfdgfdg', '2023-12-01', 1, 1, NULL, '2024-04-01', '#FF0500', 0, 0, 0, '2023-12-16 05:21:55', '2023-12-16 05:24:43'),
-(7, 7, 1, 'bnmö', '2023-12-01', 3, 1, NULL, '2024-04-01', '#FFC107', 0, 0, 1, '2023-12-16 05:29:27', '2023-12-16 05:33:48'),
-(8, 8, 1, 'Yeni Bölümler', '2023-12-01', 5, 2, 2, '2024-04-01', '#007BFF', 0, NULL, 0, '2023-12-17 03:36:51', '2023-12-17 03:36:51');
-
 -- --------------------------------------------------------
 
 --
@@ -1033,25 +950,6 @@ CREATE TABLE `webtoon_calendar_lists` (
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Tablo döküm verisi `webtoon_calendar_lists`
---
-
-INSERT INTO `webtoon_calendar_lists` (`id`, `code`, `webtoon_calendar_code`, `calendar_order`, `date`, `created_at`, `updated_at`) VALUES
-(159, 1, 7, 1, '2023-12-01', '2023-12-16 05:32:40', '2023-12-16 05:32:40'),
-(160, 2, 7, 2, '2024-01-01', '2023-12-16 05:32:40', '2023-12-16 05:32:40'),
-(161, 3, 7, 3, '2024-02-01', '2023-12-16 05:32:40', '2023-12-16 05:32:40'),
-(162, 4, 7, 4, '2024-03-01', '2023-12-16 05:32:40', '2023-12-16 05:32:40'),
-(163, 5, 8, 1, '2023-12-01', '2023-12-17 03:36:51', '2023-12-17 03:36:51'),
-(164, 6, 8, 2, '2023-12-15', '2023-12-17 03:36:51', '2023-12-17 03:36:51'),
-(165, 7, 8, 3, '2023-12-29', '2023-12-17 03:36:51', '2023-12-17 03:36:51'),
-(166, 8, 8, 4, '2024-01-12', '2023-12-17 03:36:51', '2023-12-17 03:36:51'),
-(167, 9, 8, 5, '2024-01-26', '2023-12-17 03:36:51', '2023-12-17 03:36:51'),
-(168, 10, 8, 6, '2024-02-09', '2023-12-17 03:36:51', '2023-12-17 03:36:51'),
-(169, 11, 8, 7, '2024-02-23', '2023-12-17 03:36:51', '2023-12-17 03:36:51'),
-(170, 12, 8, 8, '2024-03-08', '2023-12-17 03:36:51', '2023-12-17 03:36:51'),
-(171, 13, 8, 9, '2024-03-22', '2023-12-17 03:36:51', '2023-12-17 03:36:51');
-
 -- --------------------------------------------------------
 
 --
@@ -1061,7 +959,7 @@ INSERT INTO `webtoon_calendar_lists` (`id`, `code`, `webtoon_calendar_code`, `ca
 CREATE TABLE `webtoon_episodes` (
   `id` bigint(20) UNSIGNED NOT NULL,
   `code` bigint(20) UNSIGNED NOT NULL,
-  `name` varchar(255) NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
   `webtoon_code` bigint(20) UNSIGNED NOT NULL,
   `image` varchar(255) DEFAULT NULL,
   `description` longtext DEFAULT NULL,
@@ -1076,18 +974,6 @@ CREATE TABLE `webtoon_episodes` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Tablo döküm verisi `webtoon_episodes`
---
-
-INSERT INTO `webtoon_episodes` (`id`, `code`, `name`, `webtoon_code`, `image`, `description`, `season_short`, `episode_short`, `click_count`, `minute`, `publish_date`, `create_user_code`, `update_user_code`, `deleted`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Pilot', 1, NULL, 'dsadssad', 1, 1, 0, 0, '2023-12-01', 0, NULL, 0, '2023-12-18 05:10:21', '2023-12-18 05:10:21'),
-(2, 2, 'Pilot', 1, NULL, 'dsadssad', 1, 2, 0, 0, '2023-12-01', 0, NULL, 0, '2023-12-18 05:10:45', '2023-12-18 05:10:45'),
-(3, 3, 'Pilot 3', 1, NULL, 'DSADASDA', 2, 1, 0, 0, '2023-12-11', 0, NULL, 0, '2023-12-18 05:12:17', '2023-12-18 05:12:17'),
-(4, 4, 'Pilot 4', 1, NULL, 'DSADASDA', 1, 4, 0, 0, '2023-12-11', 0, NULL, 0, '2023-12-18 05:12:40', '2023-12-18 05:12:40'),
-(5, 5, 'Pilot 5', 1, NULL, 'DSADASDA', 1, 3, 0, 0, '2023-12-11', 0, NULL, 0, '2023-12-18 05:12:51', '2023-12-18 05:12:51'),
-(6, 6, 'Pilot 6', 1, NULL, 'DSADASDA', 1, 5, 0, 0, '2023-12-11', 0, NULL, 0, '2023-12-18 05:16:20', '2023-12-18 05:16:20');
 
 -- --------------------------------------------------------
 
@@ -1108,18 +994,6 @@ CREATE TABLE `webtoon_files` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Tablo döküm verisi `webtoon_files`
---
-
-INSERT INTO `webtoon_files` (`id`, `code`, `webtoon_episode_code`, `file_type`, `file`, `file_order`, `create_user_code`, `update_user_code`, `deleted`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 'pdf', 'files/webtoons/webtoonsEpisodes/1/1/1/1.pdf', 1, 0, NULL, 0, '2023-12-18 05:10:21', '2023-12-18 05:10:21'),
-(2, 2, 2, 'image', 'files/webtoons/webtoonsEpisodes/1/1/2/2_2.jpg', 1, 0, NULL, 0, '2023-12-18 05:10:45', '2023-12-18 05:10:45'),
-(3, 3, 3, 'image', 'files/webtoons/webtoonsEpisodes/1/2/1/3_3.jpg', 1, 0, NULL, 0, '2023-12-18 05:12:17', '2023-12-18 05:12:17'),
-(4, 4, 4, 'image', 'files/webtoons/webtoonsEpisodes/1/1/4/4_4.jpg', 1, 0, NULL, 0, '2023-12-18 05:12:40', '2023-12-18 05:12:40'),
-(5, 5, 5, 'image', 'files/webtoons/webtoonsEpisodes/1/1/3/5_5.jpg', 1, 0, NULL, 0, '2023-12-18 05:12:51', '2023-12-18 05:12:51'),
-(6, 6, 6, 'image', 'files/webtoons/webtoonsEpisodes/1/1/5/6_6.jpg', 1, 0, NULL, 0, '2023-12-18 05:16:20', '2023-12-18 05:16:20');
 
 --
 -- Dökümü yapılmış tablolar için indeksler
@@ -1246,6 +1120,12 @@ ALTER TABLE `key_values`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Tablo için indeksler `like_content_users`
+--
+ALTER TABLE `like_content_users`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Tablo için indeksler `migrations`
 --
 ALTER TABLE `migrations`
@@ -1358,31 +1238,31 @@ ALTER TABLE `webtoon_files`
 -- Tablo için AUTO_INCREMENT değeri `animes`
 --
 ALTER TABLE `animes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `anime_calendars`
 --
 ALTER TABLE `anime_calendars`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `anime_calendar_lists`
 --
 ALTER TABLE `anime_calendar_lists`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `anime_episodes`
 --
 ALTER TABLE `anime_episodes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `authorization_clauses`
 --
 ALTER TABLE `authorization_clauses`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `authorization_clause_groups`
@@ -1400,7 +1280,7 @@ ALTER TABLE `authorization_groups`
 -- Tablo için AUTO_INCREMENT değeri `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `comments`
@@ -1472,13 +1352,19 @@ ALTER TABLE `index_users`
 -- Tablo için AUTO_INCREMENT değeri `key_values`
 --
 ALTER TABLE `key_values`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=40;
+
+--
+-- Tablo için AUTO_INCREMENT değeri `like_content_users`
+--
+ALTER TABLE `like_content_users`
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=38;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `notification_admins`
@@ -1538,7 +1424,7 @@ ALTER TABLE `theme_settings`
 -- Tablo için AUTO_INCREMENT değeri `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `watched_animes`
@@ -1550,31 +1436,31 @@ ALTER TABLE `watched_animes`
 -- Tablo için AUTO_INCREMENT değeri `webtoons`
 --
 ALTER TABLE `webtoons`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `webtoon_calendars`
 --
 ALTER TABLE `webtoon_calendars`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `webtoon_calendar_lists`
 --
 ALTER TABLE `webtoon_calendar_lists`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=172;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `webtoon_episodes`
 --
 ALTER TABLE `webtoon_episodes`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 
 --
 -- Tablo için AUTO_INCREMENT değeri `webtoon_files`
 --
 ALTER TABLE `webtoon_files`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
