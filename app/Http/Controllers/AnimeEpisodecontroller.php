@@ -156,7 +156,7 @@ class AnimeEpisodecontroller extends Controller
         if (!$anime_episode)
             return redirect()->back()->with("error", Config::get('error.error_codes.0080002'));
 
-        $anime = Anime::Where('deleted', 0)->Where('code', $anime_episode->code)->first();
+        $anime = Anime::Where('deleted', 0)->Where('code', $anime_episode->anime_code)->first();
 
         return view("admin.anime.episode.update", ["anime_episode" => $anime_episode, "anime" => $anime]);
     }

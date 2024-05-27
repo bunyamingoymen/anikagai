@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('code');
             $table->string('name');
             $table->string('short_name');
+            $table->string('poster')->nullable();
             $table->string('image');
             $table->string('thumb_image')->nullable();
             $table->string('thumb_image_2')->nullable();

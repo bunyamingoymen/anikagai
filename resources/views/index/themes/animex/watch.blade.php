@@ -8,7 +8,7 @@
 
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
         /* Roboto fontunu ekleyin veya
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            kendi tercih ettiğiniz bir font kullanabilirsiniz */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    kendi tercih ettiğiniz bir font kullanabilirsiniz */
 
         .overlay-button {
             position: absolute !important;
@@ -92,19 +92,14 @@
                             <h5 style="color:#e53637">+18</h5>
                         </div>
                     </div>
-                    <div class="anime__video__player justify-content-center">
-                        <video id="anime-video-player-url" class="plyr video_size_class" controls crossorigin playsinline
-                            poster="{{ url($anime->thumb_image) }}">
+                    <div class="anime__video__player">
+                        <video id="anime-video-player-url" class="plyr" playsinline controls
+                            data-poster="{{ url($anime->thumb_image) }}">
                             <source src="{{ asset('storage/' . $episode->video) }}" type="video/mp4" size="1080" />
-                            <source src="{{ asset('storage/' . $episode->video) }}" type="video/mp4" size="480" />
-                            <!-- Diğer çözünürlükleri buraya ekleyebilirsiniz -->
-                            Your browser does not support the video tag.
                         </video>
-
                         @if ($next_episode_url != 'none')
-                            <button id="nextEpisodeButton" class="overlay-button" style="display:none;" hidden>Sonraki
-                                bölüme
-                                geç</button>
+                            <button id="nextEpisodeButton" class="overlay-button" style="display:none;" hidden>
+                                Sonraki bölüme geç</button>
                         @endif
                         @if ($prev_episode_url != 'none' || $next_episode_url != 'none')
                             <div class="row mt-2 next-prev-button">
