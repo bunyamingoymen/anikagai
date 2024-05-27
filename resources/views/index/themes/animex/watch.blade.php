@@ -8,7 +8,7 @@
 
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
         /* Roboto fontunu ekleyin veya
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    kendi tercih ettiğiniz bir font kullanabilirsiniz */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        kendi tercih ettiğiniz bir font kullanabilirsiniz */
 
         .overlay-button {
             position: absolute !important;
@@ -643,6 +643,7 @@
 
             });
 
+            /*
             //video tam ekran butonuna basıldığında
             player.on('fullscreenchange', (event) => {
                 if (isFullScreen) {
@@ -657,6 +658,8 @@
 
                 }
             });
+
+            */
 
             //video yeniden başlatıldğında
             player.on('restart', function() {
