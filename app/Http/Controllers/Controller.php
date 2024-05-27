@@ -39,23 +39,36 @@ class Controller extends BaseController
         $keyValue->value = Carbon::now();
         $keyValue->save();
 
+        $anime_active_key = KeyValue::Where('key', 'anime_active')->first();
+        $anima_active = $anime_active_key ? $anime_active_key->value : 0;
+
+        $webtoon_active_key = KeyValue::Where('key', 'webtoon_active')->first();
+        $webtoon_active = $webtoon_active_key ? $webtoon_active_key->value : 0;
+
         $sitemap = Sitemap::create();
 
-        $webtoons = Webtoon::where('deleted', 0)->get();
-        $animes = Anime::where('deleted', 0)->get();
-        foreach ($webtoons as $webtoon) {
-            $sitemap->add(route('webtoonDetail', ['short_name' => $webtoon->short_name]), $webtoon->created_at);
-            foreach (WebtoonEpisode::where('deleted', 0)->Where('webtoon_code', $webtoon->code)->get() as $episode) {
-                $sitemap->add(route('read', ['short_name' => $webtoon->short_name, 'season' => $episode->season_short, 'episode' => $episode->episode_short]), $episode->created_at);
+
+
+        if ($webtoon_active == 1) {
+            $webtoons = Webtoon::where('deleted', 0)->get();
+            foreach ($webtoons as $webtoon) {
+                $sitemap->add(route('webtoonDetail', ['short_name' => $webtoon->short_name]), $webtoon->created_at);
+                foreach (WebtoonEpisode::where('deleted', 0)->Where('webtoon_code', $webtoon->code)->get() as $episode) {
+                    $sitemap->add(route('read', ['short_name' => $webtoon->short_name, 'season' => $episode->season_short, 'episode' => $episode->episode_short]), $episode->created_at);
+                }
             }
         }
 
-        foreach ($animes as $anime) {
-            $sitemap->add(route('animeDetail', ['short_name' => $anime->short_name]), $anime->created_at);
-            foreach (AnimeEpisode::where('deleted', 0)->Where('anime_code', $anime->code)->get() as $episode) {
-                $sitemap->add(route('read', ['short_name' => $anime->short_name, 'season' => $episode->season_short, 'episode' => $episode->episode_short]), $episode->created_at);
+        if ($anima_active == 1) {
+            $animes = Anime::where('deleted', 0)->get();
+            foreach ($animes as $anime) {
+                $sitemap->add(route('animeDetail', ['short_name' => $anime->short_name]), $anime->created_at);
+                foreach (AnimeEpisode::where('deleted', 0)->Where('anime_code', $anime->code)->get() as $episode) {
+                    $sitemap->add(route('read', ['short_name' => $anime->short_name, 'season' => $episode->season_short, 'episode' => $episode->episode_short]), $episode->created_at);
+                }
             }
         }
+
 
         $sitemap->writeToFile(public_path('sitemap.xml'));
 

@@ -519,7 +519,7 @@ class KeyValueSeeder extends Seeder
             [
                 'code' => KeyValue::max('code') + 1,
                 'key'  => 'anime_active',
-                'value'  => '1', //1: Aktif,2: pasif
+                'value'  => '1', //1: Aktif,0: pasif
                 'create_user_code' => 1,
                 'deleted' => 0,
             ]
@@ -530,7 +530,7 @@ class KeyValueSeeder extends Seeder
             [
                 'code' => KeyValue::max('code') + 1,
                 'key'  => 'webtoon_active',
-                'value'  => '1', //1: Aktif,2: pasif
+                'value'  => '1', //1: Aktif,0: pasif
                 'create_user_code' => 1,
                 'deleted' => 0,
             ]
