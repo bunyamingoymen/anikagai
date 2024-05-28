@@ -55,8 +55,12 @@
                                         <select class="" id="orderBySelected" onchange="changeOrderBy()">
                                             <option value="created_AtDESC">Son Eklenenler</option>
                                             <option value="created_AtASC">İlk Eklenenler</option>
-                                            <option value="TrendsDESC">En çok izlenenler</option>
-                                            <option value="TrendsASC">En Az İzlenenler</option>
+                                            <option value="TrendsDESC">En Çok
+                                                {{ $path == 'webtoonlar' ? 'Okunanlar' : 'İzlenenler' }}
+                                            </option>
+                                            <option value="TrendsASC">En Az
+                                                {{ $path == 'webtoonlar' ? 'Okunanlar' : 'İzlenenler' }}
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
