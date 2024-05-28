@@ -388,7 +388,7 @@
                         @foreach ($trend_animes as $item)
                             <div class="col-lg-8 col-md-12 col-sm-12">
                                 <div class="product__item">
-                                    <a href="anime/{{ $item->short_name }}">
+                                    <a href="{{ url('anime/'.$item->short_name) }}">
                                         <div class="product__item__pic set-bg"
                                             data-setbg="{{ url($item->thumb_image) }}">
                                             <div class="ep">{{ $item->score }} / 5</div>

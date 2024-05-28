@@ -110,7 +110,7 @@
                     headerName: "Link",
                     field: "short_name",
                     cellRenderer: function(params) {
-                        return `<a href="{{ config('app.url') }}p/${params.data.short_name}" target="_blank">p/${params.data.short_name}`;
+                        return `<a href="{{ env('APP_URL') }}p/${params.data.short_name}" target="_blank">p/${params.data.short_name}`;
                     },
                     filter: false,
                 },
