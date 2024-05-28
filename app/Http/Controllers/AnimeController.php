@@ -164,6 +164,7 @@ class AnimeController extends Controller
 
         $anime->short_name = $request->short_name;
 
+
         if ($request->hasFile('image')) {
             // Dosyayı al
             $file = $request->file('image');
@@ -190,6 +191,23 @@ class AnimeController extends Controller
                 ->save($thumbPath . '/' . $thumbName2);
 
             $anime->thumb_image_2 = "files/animes/animesImages/thumbnails/" . $thumbName2;
+        }
+
+        if ($request->hasFile('poster')) {
+            $filePoster = $request->file('poster');
+            $pathPoster = public_path('files/animes/animesImages/poster');
+            $namePoster = $anime->code . '_poster' . "." . $filePoster->getClientOriginalExtension();
+            $filePoster->move($pathPoster, $namePoster);
+
+            $thumbPathPoster = public_path('files/animes/animesImages/poster/thumbnails');
+            $thumbNamePoster = $anime->code . '_poster' . "_thumbnail." . $filePoster->getClientOriginalExtension();
+
+            GlideImage::create($pathPoster . '/' . $namePoster)
+                ->modify(['w' => 1920, 'h' => 1080, 'fit' => 'crop'])
+                ->save($thumbPathPoster . '/' . $thumbNamePoster);
+
+            $anime->thumb_poster = "files/animes/animesImages/poster/thumbnails/" . $thumbNamePoster;
+            $anime->poster = "files/animes/animesImages/poster/" . $namePoster;
         }
 
         $anime->description = $request->description;
