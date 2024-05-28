@@ -66,6 +66,25 @@ class AnimeController extends Controller
             $anime->image = "";
         }
 
+        if ($request->hasFile('poster')) {
+            $filePoster = $request->file('poster');
+            $pathPoster = public_path('files/animes/animesImages/poster');
+            $namePoster = $anime->code . '_poster' . "." . $filePoster->getClientOriginalExtension();
+            $filePoster->move($pathPoster, $namePoster);
+
+            $thumbPathPoster = public_path('files/animes/animesImages/poster/thumbnails');
+            $thumbNamePoster = $anime->code . '_poster' . "_thumbnail." . $filePoster->getClientOriginalExtension();
+
+            GlideImage::create($pathPoster . '/' . $namePoster)
+                ->modify(['w' => 1920, 'h' => 1080, 'fit' => 'crop'])
+                ->save($thumbPathPoster . '/' . $thumbNamePoster);
+
+            $anime->thumb_poster = "files/animes/animesImages/poster/thumbnails/" . $thumbNamePoster;
+            $anime->poster = "files/animes/animesImages/poster/" . $namePoster;
+        }
+
+
+
         $anime->description = $request->description;
         $anime->average_min = $request->average_min;
         $anime->date = $request->date;

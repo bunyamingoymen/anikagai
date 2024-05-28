@@ -8,7 +8,7 @@
 
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
         /* Roboto fontunu ekleyin veya
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        kendi tercih ettiğiniz bir font kullanabilirsiniz */
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    kendi tercih ettiğiniz bir font kullanabilirsiniz */
 
         .overlay-button {
             position: absolute !important;
@@ -94,7 +94,7 @@
                     </div>
                     <div class="anime__video__player">
                         <video id="anime-video-player-url" class="plyr" playsinline controls
-                            data-poster="{{ url($anime->thumb_image) }}">
+                            data-poster="{{ url($anime->thumb_poster ?? $anime->thumb_image) }}">
                             <source src="{{ asset('storage/' . $episode->video) }}" type="video/mp4" size="1080" />
                         </video>
                         @if ($next_episode_url != 'none')
@@ -620,26 +620,33 @@
 
                 //bir sonraki bölüm varsa son saniyeler buton gözükür.
                 //Video son 10 saniyesinde ve daah önce sonraki bölüme geç butonu gösterilmediyse
-                if (showNextEpisodeButtonTime !== null && showNextEpisodeButtonTime <= currentTime && !
-                    is_show_next_episode_button) {
-                    showButton('nextEpisodeButton');
-                    //Eğer Kullanıcı girşi yapmışsa otomatik olarak izlendi olarak işaretleniyor
-                    @if (Auth::user() && count($watched->Where('anime_episode_code', $episode->code)) == 0)
-                        watchAnime("{{ $episode->code }}");
-                    @endif
+                @if ($next_episode_url != 'none')
+                    if (showNextEpisodeButtonTime !== null) {
+                        if (showNextEpisodeButtonTime <= currentTime && !is_show_next_episode_button) {
+                            showButton('nextEpisodeButton');
+                            //Eğer Kullanıcı girşi yapmışsa otomatik olarak izlendi olarak işaretleniyor
+                            @if (Auth::user() && count($watched->Where('anime_episode_code', $episode->code)) == 0)
+                                watchAnime("{{ $episode->code }}");
+                            @endif
 
-                    @if ($next_episode_url != 'none')
-                        is_show_next_episode_button = true;
-                        //Sonraki Bölüme Atla butonunun aktif olduğunu göstermek için control'ü gösteriyoruz. ve 3 saniye sonra gizliyoruz.
-                        document.getElementsByClassName('plyr--video')[0].classList.remove(
-                            'plyr--hide-controls');
-                        controlsTimeout = setTimeout(() => {
-                            document.getElementsByClassName('plyr--video')[0].classList.add(
+                            //Alttaki kontrol menüsü aktif ediyoruz ki sonrkai bölüm atla butonunun aktif olduğunu gösterelim
+
+                            is_show_next_episode_button = true;
+                            //Sonraki Bölüme Atla butonunun aktif olduğunu göstermek için control'ü gösteriyoruz. ve 3 saniye sonra gizliyoruz.
+                            document.getElementsByClassName('plyr--video')[0].classList.remove(
                                 'plyr--hide-controls');
-                        }, 3000); // 3000 milisaniye (3 saniye) sonra gizle
-                    @endif
-                }
+                            controlsTimeout = setTimeout(() => {
+                                document.getElementsByClassName('plyr--video')[0].classList.add(
+                                    'plyr--hide-controls');
+                            }, 3000); // 3000 milisaniye (3 saniye) sonra gizle
 
+                        } else if (showNextEpisodeButtonTime > currentTime && is_show_next_episode_button) {
+                            is_show_next_episode_button = false;
+                            hideButton('nextEpisodeButton');
+                        }
+
+                    }
+                @endif
 
             });
 
