@@ -14,7 +14,7 @@ class AuthController extends Controller
 {
     public function authList()
     {
-        $groups = AuthorizationGroup::Where('deleted', 0)->get();
+        $groups = AuthorizationGroup::Where('deleted', 0)->Where('code', '!=', 1)->get();
         $clauses = AuthorizationClause::Where('deleted', 0)->get();
 
         return view('admin.auth.auth.list', ['groups' => $groups, 'clauses' => $clauses]);

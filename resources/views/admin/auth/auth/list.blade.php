@@ -5,7 +5,15 @@
             <div class="col-lg-12">
                 <div class="card">
                     <div class="card-body">
-
+                        <div>
+                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">×</span>
+                                </button>
+                                <strong>Uyarı!</strong> Admin grubunun yetkileri değiştirilemez. Bu sebeple aşağıdaki
+                                listede mevcut değil.
+                            </div>
+                        </div>
                         <form class="needs-validation" id="AuthClauseCreateForm" action="{{ route('admin_auth_change') }}"
                             method="POST">
                             @csrf
