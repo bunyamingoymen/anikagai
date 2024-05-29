@@ -114,8 +114,8 @@ class AnimeEpisodecontroller extends Controller
         //Animenin bölüm ve sezon sayısını ayarlayan komut
         if (true) {
             $anime = Anime::Where('code', $anime_episode->anime_code)->first();
-            $anime->episode_count = $anime->episode_count ?  $anime->episode_count + 1 :  $anime->episode_count;
-            $anime->season_count = $anime_episode->season_short > $anime->season_count ?  $anime_episode->season_short : $anime->season_count;
+            $anime->episode_count = AnimeEpisode::Where('deleted', 0)->where('anime_code', $anime->code)->count();
+            $anime->season_count = AnimeEpisode::Where('deleted', 0)->where('anime_code', $anime->code)->max('season_short');
             $anime->save();
         }
 
@@ -141,9 +141,6 @@ class AnimeEpisodecontroller extends Controller
                 $this->sendNotificationIndexUser($anime->thumb_image_2, $anime->name, "Yeni Bölüm Yüklendi!!", url('anime/' . $anime->short_name . '/' . $anime_episode->season_short . '/' . $anime_episode->episode_short), $item->user_code, $publishDate, $EndDate, $notification_code);
             }
         }
-
-
-
 
         return response()->json(['success' => true, 'message' => 'Başarılı bir şekilde Anime Bölümü Ekleni']);
     }
@@ -185,7 +182,8 @@ class AnimeEpisodecontroller extends Controller
         $anime_episode->save();
 
         $anime = Anime::Where('code', $request->anime_code)->first();
-        $anime->season_count = $request->season_short > $anime->season_count ?  $request->season_short : $anime->season_count;
+        $anime->episode_count = AnimeEpisode::Where('deleted', 0)->where('anime_code', $anime->code)->count();
+        $anime->season_count = AnimeEpisode::Where('deleted', 0)->where('anime_code', $anime->code)->max('season_short');
         $anime->save();
 
         return redirect()->route('admin_anime_episodes_list')->with("success", Config::get('success.success_codes.10080012'));
@@ -204,7 +202,9 @@ class AnimeEpisodecontroller extends Controller
         $anime_episode->update_user_code = Auth::guard('admin')->user()->code;
         $anime_episode->save();
 
-        $anime->episode_count = $anime->episode_count - 1;
+        $anime->episode_count = AnimeEpisode::Where('deleted', 0)->where('anime_code', $anime->code)->count();
+
+        $anime->season_count = AnimeEpisode::Where('deleted', 0)->where('anime_code', $anime->code)->max('season_short');
 
         if (!AnimeEpisode::Where('anime_code', $anime->code)->Where('season_short', $anime->season_count)->Where('deleted', 0)->exists()) {
             $anime->season_count = $anime->season_count - 1;
