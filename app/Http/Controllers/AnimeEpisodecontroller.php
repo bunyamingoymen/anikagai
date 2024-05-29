@@ -16,8 +16,6 @@ use Illuminate\Support\Facades\Storage;
 use League\Flysystem\Visibility;
 use Pion\Laravel\ChunkUpload\Handler\HandlerFactory;
 use Pion\Laravel\ChunkUpload\Receiver\FileReceiver;
-use Pion\Laravel\ChunkUpload\Exceptions\UploadMissingFileException;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 class AnimeEpisodecontroller extends Controller
 {

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -180,8 +181,18 @@ class UserController extends Controller
     {
         $take  = $request->showingCount ? $request->showingCount : Config::get('app.showCount');
         $skip = (($request->page - 1) * $take);
-        $users = User::Where('deleted', 0)->Where('user_type', '!=', '0')->skip($skip)->take($take)->get();
-        $pageCount = ceil(User::Where('deleted', 0)->Where('user_type', '!=', '0')->count() / $take);
+        $users = DB::table('users')
+            ->where("users.deleted", 0)
+            ->Where('user_type', '!=', '0')
+            ->join('authorization_groups', 'authorization_groups.code', '=', 'users.user_type')
+            ->select('users.*', 'authorization_groups.text as group_name')
+            ->skip($skip)->take($take)->get();
+        //$users = User::Where('deleted', 0)->Where('user_type', '!=', '0')->skip($skip)->take($take)->get();
+        $pageCount = ceil(DB::table('users')
+            ->where("users.deleted", 0)
+            ->Where('user_type', '!=', '0')
+            ->join('authorization_groups', 'authorization_groups.code', '=', 'users.user_type')
+            ->select('users.*', 'authorization_groups.text as group_name')->count() / $take);
 
 
         return ['users' => $users, 'pageCount' => $pageCount];

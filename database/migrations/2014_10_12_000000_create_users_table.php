@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('instagram')->nullable();
             $table->string('twitter')->nullable();
             $table->string('discord')->nullable();
-            $table->tinyInteger('user_type')->default(2); //0:Superuser, 1:Admin, 2:Normal
+            $table->tinyInteger('user_type')->default(2); //0:Superuser, 1:Admin, 2 =<:Kullanıcının verdiği gruplardan bir tanesi
             $table->tinyInteger('admin')->default(0); //0:Admin sayfasına giremez, 1:Admin sayfasına girebilir
             $table->unsignedBigInteger('create_user_code')->default(1);
             $table->unsignedBigInteger('update_user_code')->nullable();

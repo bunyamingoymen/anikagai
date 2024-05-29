@@ -55,7 +55,8 @@
                                 name: sendData(users[i].name),
                                 surname: sendData(users[i].surname),
                                 email: sendData(users[i].email),
-                                user_type: sendData(users[i].user_type)
+                                user_type: sendData(users[i].user_type),
+                                group_name: sendData(users[i].group_name),
                             }
 
                             rowData.push(rowItem);
@@ -175,7 +176,7 @@
                 },
                 {
                     headerName: "Kullanıcı Grubu",
-                    field: "user_type",
+                    field: "group_name",
                 },
                 {
                     headerName: "İşlemler",
