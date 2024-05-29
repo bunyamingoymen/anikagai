@@ -117,6 +117,11 @@
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
         <script>
+            var season_counts = {};
+            @foreach ($animes as $item)
+                season_counts['{{ $item->code }}'] = {{ $item->season_count }};
+            @endforeach
+
             //Anime bölümü oluşturma komutları
             var is_submitted = false;
             var episode_code = 0;
@@ -273,7 +278,8 @@
                                 text: "Video Başarılı Bir Şekilde Yüklendi. Sayfayı Kapatabilirsiniz.",
                                 icon: "success"
                             });
-                            document.getElementById('progress-bar-video').classList.remove('bg-danger', 'bg-warning', 'bg-success', 'bg-info');
+                            document.getElementById('progress-bar-video').classList.remove('bg-danger',
+                                'bg-warning', 'bg-success', 'bg-info');
 
                             document.getElementById('progress-bar-video').classList.add('bg-info');
 
@@ -438,27 +444,11 @@
             //Sezon getirme komutu
             function getSeason() {
                 var anime_code = document.getElementById('anime_code').value;
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    }
-                });
-                $.ajax({
-                    type: 'POST',
-                    url: '{{ route('admin_anime_get_season') }}',
-                    data: {
-                        code: anime_code
-                    },
-                    success: function(season) {
-                        var code = ``;
-                        //console.log(JSON.stringify(season.season_count));
-                        for (let i = 1; i <= season.season_count + 1; i++) {
-                            code += `<option value="${i}">${i}.sezon</option>`;
-                        }
+                var code = ``;
+                for (let i = 1; i <= season_counts[anime_code] + 1; i++)
+                    code += `<option value="${i}">${i}.sezon</option>`;
 
-                        document.getElementById('season_short').innerHTML = code;
-                    }
-                });
+                document.getElementById('season_short').innerHTML = code;
             }
         </script>
 
