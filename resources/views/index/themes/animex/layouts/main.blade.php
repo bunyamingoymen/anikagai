@@ -209,6 +209,20 @@
         }
     </script>
 
+    <script>
+        $(document).ready(function() {
+            @if (!isset($active_menu))
+                var requestPath = '{{ $requestPath }}'
+                if (requestPath.split('anime').length > 1)
+                    document.getElementById('animeler_menu_item').classList.add('active');
+                else if (requestPath.split('webtoon').length > 1)
+                    document.getElementById('webtoonlar_menu_item').classList.add('active');
+            @else
+                document.getElementById('{{ $active_menu->optional_2 }}_menu_item').classList.add('active');
+            @endif
+        });
+    </script>
+
     <!--Diğer SweetAlert Komutları-->
     <script>
         function notAuth() {

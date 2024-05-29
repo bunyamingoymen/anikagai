@@ -352,14 +352,14 @@ class AppServiceProvider extends ServiceProvider
                     $item = KeyValue::where('key', $key)->where('deleted', 0)->get();
                     $data->put($key, $item);
                 }
-
+                $requestPath = Request::path();
                 // Özel durumlar
                 $menus = KeyValue::where('key', 'menu')->where('optional', 1)->where('deleted', 0)->get();
                 $menu_alts = KeyValue::where('key', 'menu_alt')->where('optional', 1)->where('deleted', 0)->get();
-                $active_menu = KeyValue::where('key', 'menu')->where('optional_2', Request::path())->first();
+                $active_menu = KeyValue::where('key', 'menu')->where('optional_2', $requestPath)->first();
                 $notificatons = [];
-                $notificaton_count = 0;
 
+                $notificaton_count = 0;
                 //dd(Carbon::today());
                 if (Auth::user()) {
 
@@ -389,6 +389,7 @@ class AppServiceProvider extends ServiceProvider
                     ->with('menus', $menus)
                     ->with('menu_alts', $menu_alts)
                     ->with('active_menu', $active_menu)
+                    ->with('requestPath', $requestPath)
                     ->with('sliderShow', $sliderShow)
                     ->with('colors_code', $colors_code)
                     ->with('notificatons', $notificatons)
