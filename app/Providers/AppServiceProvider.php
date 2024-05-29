@@ -19,6 +19,7 @@ use App\Models\Anime;
 use App\Models\NotificationUser;
 use App\Models\Webtoon;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Route;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -358,6 +359,7 @@ class AppServiceProvider extends ServiceProvider
                 $active_menu = KeyValue::where('key', 'menu')->where('optional_2', Request::path())->first();
                 $notificatons = [];
                 $notificaton_count = 0;
+
                 //dd(Carbon::today());
                 if (Auth::user()) {
 

@@ -52,6 +52,7 @@
                                 value: sendData(keyValues[i].value),
                                 optional: sendData(keyValues[i].optional),
                                 optional_2: sendData(keyValues[i].optional_2),
+                                optional_3: sendData(keyValues[i].optional_3),
                             }
 
                             rowData.push(rowItem);
@@ -113,6 +114,10 @@
                 {
                     headerName: "İsteğe Bağlı 2",
                     field: "optional_2",
+                },
+                {
+                    headerName: "İsteğe Bağlı 3",
+                    field: "optional_3",
                 },
                 {
                     headerName: "İşlemler",

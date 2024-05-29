@@ -29,6 +29,7 @@ class KeyValueController extends Controller
         $keyValue->value = $request->value;
         $keyValue->optional = $request->optional;
         $keyValue->optional_2 = $request->optional_2;
+        $keyValue->optional_3 = $request->optional_3;
 
         $keyValue->create_user_code = Auth::guard('admin')->user()->code;
 
@@ -60,6 +61,7 @@ class KeyValueController extends Controller
         $keyValue->value = $request->value;
         $keyValue->optional = $request->optional;
         $keyValue->optional_2 = $request->optional_2;
+        $keyValue->optional_3 = $request->optional_3;
 
         $keyValue->update_user_code = Auth::guard('admin')->user()->code;
 

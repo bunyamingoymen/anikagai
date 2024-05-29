@@ -29,14 +29,21 @@
                                 <div class="col-md-12 mb-3">
                                     <label for="optional">İsteğe Bağlı:</label>
                                     <input type="text" class="form-control" id="optional" name="optional"
-                                        placeholder="İsteğe Bağlı" value="{{ $keyValue->optional }}">
+                                        placeholder="İsteğe Bağlı" value="{{ $keyValue->optional ?? '' }}">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12 mb-3">
                                     <label for="optional_2">İsteğe Bağlı 2:</label>
                                     <input type="text" class="form-control" id="optional_2" name="optional_2"
-                                        placeholder="İsteğe Bağlı" value="{{ $keyValue->optional_2 }}">
+                                        placeholder="İsteğe Bağlı" value="{{ $keyValue->optional_2 ?? '' }}">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12 mb-3">
+                                    <label for="optional_2">İsteğe Bağlı 3:</label>
+                                    <input type="text" class="form-control" id="optional_3" name="optional_3"
+                                        placeholder="İsteğe Bağlı" value="{{ $keyValue->optional_3 ?? '' }}">
                                 </div>
                             </div>
                             <div style="float: right;">

@@ -37,6 +37,13 @@
                                         placeholder="İsteğe Bağlı">
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-md-12 mb-3">
+                                    <label for="validationCustom01">İsteğe Bağlı 3:</label>
+                                    <input type="text" class="form-control" id="optional_3" name="optional_3"
+                                        placeholder="İsteğe Bağlı">
+                                </div>
+                            </div>
                             <div style="float: right;">
                                 <button class="btn btn-primary" type="submit">Kaydet</button>
                             </div>
