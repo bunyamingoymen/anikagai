@@ -1288,6 +1288,9 @@ ol {
     position: absolute;
     width: auto;
     left: 76px; /*180 */
+    /*
+        left: calc(50% - 60px);
+    top: calc(100% - 280px);*/
 }
 
 .anime__video__player .plyr__controls__item[data-plyr="fast-forward"] {

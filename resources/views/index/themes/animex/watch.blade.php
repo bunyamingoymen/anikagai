@@ -7,35 +7,45 @@
         }
 
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
-        /* Roboto fontunu ekleyin veya
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    kendi tercih ettiğiniz bir font kullanabilirsiniz */
 
-        .overlay-button {
-            position: absolute !important;
-            bottom: 75px !important;
-            /* Alt kenardan biraz yukarıda */
-            right: 25px !important;
-            /* Sağ kenardan biraz sola */
-            padding: 4px 15px !important;
-            background-color: #0b0c2a;
-            /* Yarı şeffaf siyah arkaplan */
+        /* Roboto fontunu ekleyin veya
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            kendi tercih ettiğiniz bir font kullanabilirsiniz */
+        .custom-play-button-rewind {
+            position: absolute;
+            top: 49%;
+            left: 40%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            background-color: transparent;
             color: white;
-            border-radius: 8px;
-            border: 2px solid rgba(255, 255, 255, 0);
-            /* Beyaz yarı şeffaf sınır (border) */
-            opacity: 0;
-            transition: opacity 0.5s ease, transform 0.1s ease, border 0.1s ease;
-            /* Border için de animasyon eklendi */
-            box-shadow: 0 2px 10px #0b0c2a;
-            /* Gölge efekti */
-            font-family: 'Roboto', sans-serif !important;
-            /* Kullanılan fontu ayarlayın */
-            z-index: 99999999;
+            border: none;
+            border-radius: 50%;
+            width: 65px;
+            height: 65px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 24px;
         }
 
-        .overlay-button:hover {
-            opacity: 1;
-            border: 2px solid rgba(255, 255, 255, 0.5);
+        .custom-play-button-fast {
+            position: absolute;
+            top: 49%;
+            left: 60%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            background-color: transparent;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 65px;
+            height: 65px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            font-size: 24px;
         }
 
         .video_size_class {
@@ -57,21 +67,23 @@
         }
 
         .next-prev-button div a {
-            background-color: #0b0c2a;
+            background-color: var(--second-color);
+            opacity: 0.7;
             color: white;
             border-radius: 10px;
             padding: 4px 15px !important;
 
             border: 2px solid rgba(175, 175, 175, 0.3);
-            box-shadow: 0 2px 10px #0b0c2a;
-            transition: opacity 0.5s ease, transform 0.1s ease, border 0.5s ease;
+            box-shadow: 0 2px 10px var(--second-color);
+            ;
+            transition: opacity 0.3s ease, transform 0.1s ease, border 0.3s ease;
             font-family: 'Roboto', sans-serif !important;
             display: flex;
             align-items: center;
         }
 
         .next-prev-button div a:hover {
-            border: 2px solid rgba(255, 255, 255, 0.8);
+            opacity: 1;
         }
 
         @media only screen and (max-width: 479px) {
@@ -97,24 +109,24 @@
                             data-poster="{{ url($anime->thumb_poster ?? $anime->thumb_image) }}">
                             <source src="{{ asset('storage/' . $episode->video) }}" type="video/mp4" size="1080" />
                         </video>
-                        @if ($next_episode_url != 'none')
-                            <button id="nextEpisodeButton" class="overlay-button" style="display:none;" hidden>
-                                Sonraki bölüme geç</button>
-                        @endif
+                        <button id="rewind-button" class="custom-play-button-rewind"><img
+                                src="{{ url('index/img/icon/rewind.svg') }}" alt=""></button>
+                        <button id="fast-button" class="custom-play-button-fast"><img
+                                src="{{ url('index/img/icon/fast.svg') }}" alt=""></button>
                         @if ($prev_episode_url != 'none' || $next_episode_url != 'none')
                             <div class="row mt-2 next-prev-button">
                                 @if ($prev_episode_url != 'none')
                                     <div class="mr-4">
                                         <a href="{{ url($prev_episode_url) }}">
                                             <span class="arrow_left mr-2"></span>
-                                            Önceki Bölüme Geç
+                                            Önceki Bölüm
                                         </a>
                                     </div>
                                 @endif
                                 @if ($next_episode_url != 'none')
                                     <div>
                                         <a href="{{ url($next_episode_url) }}">
-                                            Sonraki Bölüme Geç
+                                            Sonraki Bölüm
                                             <span class="arrow_right ml-2"></span>
                                         </a>
                                     </div>
@@ -388,7 +400,7 @@
                         @foreach ($trend_animes as $item)
                             <div class="col-lg-8 col-md-12 col-sm-12">
                                 <div class="product__item">
-                                    <a href="{{ url('anime/'.$item->short_name) }}">
+                                    <a href="{{ url('anime/' . $item->short_name) }}">
                                         <div class="product__item__pic set-bg"
                                             data-setbg="{{ url($item->thumb_image) }}">
                                             <div class="ep">{{ $item->score }} / 5</div>
@@ -488,8 +500,6 @@
             'duration', // Toplam zaman
             'mute', // Ses kapatma
             'volume', // Ses kontrol
-            'rewind', // Rewind by the seek time (default 10 seconds)
-            'fast-forward', // Fast forward by the seek time (default 10 seconds)
             'settings', // Ayarler menüsü
             'fullscreen', // fullscreen tuşu
         ];
@@ -576,8 +586,9 @@
                 var nextButton = document.createElement('button');
                 nextButton.type = 'button';
                 nextButton.id = 'nextEpisodeButton';
-                nextButton.className = 'plyr__controls__item overlay-button'; // Plyr kontrol sınıfını ekleyin
-                nextButton.innerHTML = 'Sonraki Bölüme Geç';
+                nextButton.className =
+                    'plyr__controls__item overlay-button'; // Plyr kontrol sınıfını ekleyin
+                nextButton.innerHTML = ' <div> Sonraki Bölüm </div>';
                 nextButton.hidden = true;
                 nextButton.style.display = "none";
                 document.getElementsByClassName('plyr__controls')[0].appendChild(nextButton);
@@ -588,8 +599,16 @@
 
             // Video başlatıldığında / durdurulup-başlatıldığında
             player.on('play', function() {
-                showNextEpisodeButtonTime = player.duration - 60;
+                showNextEpisodeButtonTime = player.duration - 300;
+
             });
+
+            player.on('pause', function() {
+                //document.querySelector('.plyr__controls__item[data-plyr="rewind"]').hidden = false;
+            });
+
+            var customPlayButton = document.querySelector('#rewind-button');
+            customPlayButton.addEventListener('click', function() {});
 
             // Video oynatılırken
             player.on('timeupdate', function(event) {
@@ -668,6 +687,24 @@
 
             */
 
+            var controlsContainer = document.querySelector('.plyr__controls');
+            var observer = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    if (mutation.attributeName === 'class') {
+                        if (controlsContainer.classList.contains('plyr--hide-controls')) {
+                            console.log('controller_gizli');
+                            document.getElementById('rewind-button').hidden = true;
+                        } else {
+                            console.log('controller_gizli_değil');
+                            document.getElementById('rewind-button').hidden = false;
+                        }
+                    }
+                });
+            });
+            observer.observe(controlsContainer, {
+                attributes: true
+            });
+
             //video yeniden başlatıldğında
             player.on('restart', function() {
                 //Video yeniden başlatılırsa introyu atla ve sonraki bölüme atla değerleri sıfırlanması gerekmektedir.
@@ -680,14 +717,6 @@
                     hideButton('nextEpisodeButton');
                 @endif
             });
-
-            document.querySelector('.plyr__controls__item[data-plyr="rewind"]').innerHTML =
-                '<i class="fas fa-undo-alt"></i>';
-
-            document.querySelector('.plyr__controls__item[data-plyr="fast-forward"]').innerHTML =
-                '<i class="fas fa-undo-alt" style="-webkit-transform: scaleX(-1); transform: scaleX(-1);"></i>';
-
-
 
             //sayfa tamamen yüklendiğin
             $(document).ready(function() {
@@ -722,6 +751,7 @@
                     count = 0;
                     button.hidden = false;
                     button.style.display = "block";
+
                     var old_opacity = button.style.opacity;
                     if (old_opacity == 0) {
                         var animationInterval = setInterval(function() {
@@ -735,6 +765,7 @@
                             }
                         }, 10);
                     }
+
 
                 }
             }

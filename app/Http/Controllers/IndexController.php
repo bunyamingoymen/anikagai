@@ -33,6 +33,7 @@ use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class IndexController extends Controller
 {
@@ -164,7 +165,9 @@ class IndexController extends Controller
         $query = $request->input('query');
 
         $selected_theme = KeyValue::where('key', 'selected_theme')->first();
-        $listItemsSetting = ThemeSetting::where('theme_code', $selected_theme->value)->where('setting_name', 'listCount')->first();
+        $listItemsSetting = ThemeSetting::where('theme_code', $selected_theme->value)
+            ->where('setting_name', 'listCount')
+            ->first();
         $listItems = $listItemsSetting ? $listItemsSetting->setting_value : 20;
 
         $shortName = $this->makeShortName($query);
@@ -173,47 +176,58 @@ class IndexController extends Controller
 
         $currentPage = request()->input('p', 1); // Sayfa numarasını request'ten al, varsayılan olarak 1
 
-        $animesQuery = Anime::where('deleted', 0)
+        $animesResults = Anime::where('deleted', 0)
             ->where('plusEighteen', 0)
-            ->whereIn(
-                'showStatus',
-                $this->sendShowStatus(0)
-            )
+            ->whereIn('showStatus', $this->sendShowStatus(0))
             ->where(function ($queryBuilder) use ($query, $shortName) {
                 $queryBuilder->where('name', 'LIKE', '%' . $query . '%')
                     ->where('short_name', 'LIKE', '%' . $shortName . '%')
                     ->orWhere('description', 'LIKE', '%' . $query . '%')
                     ->orWhere('main_category_name', 'LIKE', '%' . $query . '%');
-            });
+            })
+            ->orderBy('created_at', 'desc')
+            ->get(); // Get all results
 
-        $webtoonsQuery = Webtoon::where('deleted', 0)
+        $webtoonsResults = Webtoon::where('deleted', 0)
             ->where('plusEighteen', 0)
-            ->whereIn(
-                'showStatus',
-                $this->sendShowStatus(0)
-            )
+            ->whereIn('showStatus', $this->sendShowStatus(0))
             ->where(function ($queryBuilder) use ($query, $shortName) {
                 $queryBuilder->where('name', 'LIKE', '%' . $query . '%')
                     ->where('short_name', 'LIKE', '%' . $shortName . '%')
                     ->orWhere('description', 'LIKE', '%' . $query . '%')
                     ->orWhere('main_category_name', 'LIKE', '%' . $query . '%');
-            });
+            })
+            ->orderBy('created_at', 'desc')
+            ->get(); // Get all results
 
+        // Sonuçları birleştir
+        $combinedResults = $animesResults->merge($webtoonsResults);
 
-        // Her iki modeli birleştirip sadece belirli sayfa için sonuçları alın
-        // Her iki modeli birleştirip sadece belirli sayfa için sonuçları alın
-        $combinedResults = $animesQuery->union($webtoonsQuery)->orderBy('created_at', 'desc')->paginate($listItems, ['*'], 'p', $currentPage);
+        // Sonuçları oluşturulma tarihine göre sıralayın
+        $sortedResults = $combinedResults->sortByDesc('created_at');
+
+        // Toplam sonuç sayısı
+        $totalResults = $sortedResults->count();
+
+        // Sayfalama işlemi için sonuçları dilimleyin
+        $resultsForCurrentPage = $sortedResults->slice(($currentPage - 1) * $listItems, $listItems)->all();
+
+        // LengthAwarePaginator kullanarak sayfalama oluşturun
+        $paginatedResults = new LengthAwarePaginator(
+            $resultsForCurrentPage,
+            $totalResults,
+            $listItems,
+            $currentPage,
+            ['path' => LengthAwarePaginator::resolveCurrentPath()]
+        );
 
         // Her bir sonuca ait 'type' özelliğini ayarlayın
-        $combinedResults->getCollection()->map(function ($result) {
+        $paginatedResults->getCollection()->map(function ($result) {
             $result->type = strpos($result->image, 'files/animes') === 0 ? 'anime' : 'webtoon';
-
             return $result;
         });
 
-        // Artık $combinedResults içinde 'type' özelliği ile her iki modelden gelen sonuçları birbirinden ayırt edebilirsiniz
-        $results = $combinedResults;
-
+        $results = $paginatedResults;
         $pageCount = $results->lastPage();
 
         if ($currentPage < 1 || $currentPage > $pageCount) {

@@ -17,19 +17,26 @@
 }
 
 .overlay-button {
-    background-color: #0b0c2a;
+    position: absolute !important;
+    bottom: 75px !important;
+    /* Alt kenardan biraz yukarıda */
+    right: 25px !important;
+    /* Sağ kenardan biraz sola */
+    padding: 4px 15px !important;
+    background: var(--second-color);
     /* Yarı şeffaf siyah arkaplan */
     color: white;
     border-radius: 8px;
     border: 2px solid rgba(255, 255, 255, 0);
     /* Beyaz yarı şeffaf sınır (border) */
-    display: block;
-    transition: opacity 0.5s ease, transform 0.1s ease, border 0.1s ease;
+    opacity: 0.6 !important;
+    transition: opacity 0.3s ease, transform 0.1s ease, border 0.1s ease;
     /* Border için de animasyon eklendi */
-    box-shadow: 0 2px 10px #0b0c2a;
-    padding: 5px;
+    box-shadow: 0 2px 10px var(--second-color);
     /* Gölge efekti */
-    font-family: "Roboto", sans-serif;
+    font-family: "Roboto", sans-serif !important;
+    /* Kullanılan fontu ayarlayın */
+    z-index: 99999999;
 }
 
 .overlay-button-pink {
@@ -49,7 +56,7 @@
 }
 
 .overlay-button:hover {
-    border: 2px solid rgba(255, 255, 255, 0.5);
+    opacity: 1 !important;
 }
 
 .overlay-button-pink:hover {
