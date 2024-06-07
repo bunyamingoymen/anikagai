@@ -2,68 +2,13 @@
 @section('index_content')
     <style>
         /* Video konteynerini pozisyonlandırma */
-        .video-container {
-            position: relative;
-        }
 
         @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap');
 
-        /* Roboto fontunu ekleyin veya
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            kendi tercih ettiğiniz bir font kullanabilirsiniz */
-        .custom-play-button-rewind {
-            position: absolute;
-            top: 49%;
-            left: 40%;
-            transform: translate(-50%, -50%);
-            z-index: 10;
-            background-color: transparent;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 65px;
-            height: 65px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            font-size: 24px;
-        }
-
-        .custom-play-button-fast {
-            position: absolute;
-            top: 49%;
-            left: 60%;
-            transform: translate(-50%, -50%);
-            z-index: 10;
-            background-color: transparent;
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 65px;
-            height: 65px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-            font-size: 24px;
-        }
-
-        .video_size_class {
-            max-width: 1280px !important;
-            max-height: 550px !important;
-        }
-
-
-        /* Butonun üzerine gelindiğinde göster */
-        .video-container:hover .overlay-button {
-            display: block;
-        }
-
         .next-prev-button {
-            position: absolute;
-            left: 30px;
             display: flex;
             justify-content: space-between;
+            align-items: center;
         }
 
         .next-prev-button div a {
@@ -91,7 +36,76 @@
                 font-size: 14px;
             }
         }
+
+        /*
+                                                                                                            .custom-play-button-rewind {
+                                                                                                                position: absolute;
+                                                                                                                top: 47%;
+                                                                                                                left: 40%;
+                                                                                                                transform: translate(-50%, -50%);
+                                                                                                                z-index: 10;
+                                                                                                                background-color: transparent;
+                                                                                                                color: white;
+                                                                                                                border: none;
+                                                                                                                border-radius: 50%;
+                                                                                                                width: 45px;
+                                                                                                                height: 45px;
+                                                                                                                display: flex;
+                                                                                                                justify-content: center;
+                                                                                                                align-items: center;
+                                                                                                                cursor: pointer;
+                                                                                                                font-size: 24px;
+                                                                                                            }
+
+                                                                                                            .custom-play-button-fast {
+                                                                                                                position: absolute;
+                                                                                                                top: 47%;
+                                                                                                                left: 60%;
+                                                                                                                transform: translate(-50%, -50%);
+                                                                                                                z-index: 10;
+                                                                                                                background-color: transparent;
+                                                                                                                color: white;
+                                                                                                                border: none;
+                                                                                                                border-radius: 50%;
+                                                                                                                width: 45px;
+                                                                                                                height: 45px;
+                                                                                                                display: flex;
+                                                                                                                justify-content: center;
+                                                                                                                align-items: center;
+                                                                                                                cursor: pointer;
+                                                                                                                font-size: 24px;
+                                                                                                            }
+
+                                                                                                            .control-button {
+                                                                                                                transition: opacity 0.5s ease-in-out;
+                                                                                                                opacity: 0;
+                                                                                                                visibility: hidden;
+                                                                                                            }
+
+                                                                                                            .control-button.show {
+                                                                                                                opacity: 1;
+                                                                                                                visibility: visible;
+                                                                                                            }
+                                                                                                                */
     </style>
+
+    <!-- Breadcrumb Begin -->
+    <div class="breadcrumb-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb__links">
+                        <a href="{{ route('index') }}"><i class="fa fa-home"></i> Anasayfa</a>
+                        <a href="{{ route('anime_list') }}">Animeler</a>
+                        <a href="{{ route('animeDetail', ['short_name' => $anime->short_name]) }}">{{ $anime->name }}</a>
+                        <span>{{ $episode->season_short . '.S ' . $episode->episode_short . '.B' }}
+                            {{ $episode->name ? ' - ' . $episode->name : '' }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breadcrumb End -->
 
 
     <section class="anime-details spad">
@@ -104,27 +118,32 @@
                             <h5 style="color:#e53637">+18</h5>
                         </div>
                     </div>
+
                     <div class="anime__video__player">
                         <video id="anime-video-player-url" class="plyr" playsinline controls
                             data-poster="{{ url($anime->thumb_poster ?? $anime->thumb_image) }}">
                             <source src="{{ asset('storage/' . $episode->video) }}" type="video/mp4" size="1080" />
                         </video>
-                        <button id="rewind-button" class="custom-play-button-rewind"><img
-                                src="{{ url('index/img/icon/rewind.svg') }}" alt=""></button>
-                        <button id="fast-button" class="custom-play-button-fast"><img
-                                src="{{ url('index/img/icon/fast.svg') }}" alt=""></button>
+
+                        <!--
+                                                                                                                                        <button id="rewind-button" class="custom-play-button-rewind control-button show"><img
+                                                                                                                                                src="{{ url('index/img/icon/rewind.svg') }}" alt=""></button>
+                                                                                                                                        <button id="fast-button" class="custom-play-button-fast control-button show"><img
+                                                                                                                                                src="{{ url('index/img/icon/fast.svg') }}" alt=""></button>-->
                         @if ($prev_episode_url != 'none' || $next_episode_url != 'none')
-                            <div class="row mt-2 next-prev-button">
+                            <div class="col-lg-12 row mt-2 next-prev-button">
                                 @if ($prev_episode_url != 'none')
-                                    <div class="mr-4">
+                                    <div class="float-left">
                                         <a href="{{ url($prev_episode_url) }}">
                                             <span class="arrow_left mr-2"></span>
                                             Önceki Bölüm
                                         </a>
                                     </div>
+                                @else
+                                    <div class="float-right"></div> <!-- Boş div ekle -->
                                 @endif
                                 @if ($next_episode_url != 'none')
-                                    <div>
+                                    <div class="float-right">
                                         <a href="{{ url($next_episode_url) }}">
                                             Sonraki Bölüm
                                             <span class="arrow_right ml-2"></span>
@@ -479,17 +498,15 @@
 
     <!-- Video Ayarları -->
     <script>
-        var intro_start_time_min = {{ $episode->intro_start_time_min ?? 0 }}; // intr başlama zamanı dakikası
-        var intro_start_time_sec = {{ $episode->intro_start_time_sec ?? 0 }}; // intro başlama saniyesi
-        var showIntroButtonTime = 60 * intro_start_time_min + intro_start_time_sec; // İntro Başlangıç zamanı
-        var intro_end_time_min = {{ $episode->intro_end_time_min ?? 0 }}; //intro bitiş zamanı dakikası
-        var intro_end_time_sec = {{ $episode->intro_end_time_sec ?? 1 }}; //intro bitiş zamanı saniyesi
-        var endIntroButtonTime = 60 * intro_end_time_min + intro_end_time_sec; // intro bitiş zamanı
+        var showIntroButtonTime = 60 * {{ $episode->intro_start_time_min ?? 0 }} +
+            {{ $episode->intro_start_time_sec ?? 0 }}; // İntro Başlangıç zamanı
 
-        var is_show_intro_button = false; //Daha önce intryo atla butonu gösterildi mi?
-        var is_hide_intro_button = false; //Daha önce introyu atla butonu gizlendi mi?
+        var endIntroButtonTime = 60 * {{ $episode->intro_end_time_min ?? 0 }} +
+            {{ $episode->intro_end_time_sec ?? 1 }}; // intro bitiş zamanı
 
-        var is_show_next_episode_button = false; //Daha önce bir sonraki bölüme atla butonu gösteirldi mi?
+        var showNextEpisodeButtonTime = 150;
+
+        var is_watch = false;
 
         //plyr de gösterilecek kontroller
         var controls = [
@@ -500,6 +517,8 @@
             'duration', // Toplam zaman
             'mute', // Ses kapatma
             'volume', // Ses kontrol
+            'rewind', // Rewind by the seek time (default 10 seconds)
+            'fast-forward', // Fast forward by the seek time (default 10 seconds)
             'settings', // Ayarler menüsü
             'fullscreen', // fullscreen tuşu
         ];
@@ -517,10 +536,50 @@
             seek: true
         };
 
+        var language = {
+            restart: 'Yeniden başlat',
+            rewind: 'Geri sar {seektime} saniye',
+            play: 'Oynat',
+            pause: 'Duraklat',
+            fastForward: 'İleri sar {seektime} saniye',
+            seek: 'Ara',
+            seekLabel: '{currentTime} / {duration}',
+            played: 'Oynatıldı',
+            buffered: 'Tamponlandı',
+            currentTime: 'Şu anki zaman',
+            duration: 'Süre',
+            volume: 'Ses',
+            mute: 'Sessize al',
+            unmute: 'Sesi aç',
+            enableCaptions: 'Altyazıyı etkinleştir',
+            disableCaptions: 'Altyazıyı devre dışı bırak',
+            download: 'İndir',
+            enterFullscreen: 'Tam ekran yap',
+            exitFullscreen: 'Tam ekrandan çık',
+            frameTitle: 'Player for {title}',
+            captions: 'Altyazılar',
+            settings: 'Ayarlar',
+            menuBack: 'Geri',
+            speed: 'Hız',
+            normal: 'Normal',
+            quality: 'Kalite',
+            loop: 'Döngü',
+            start: 'Başlangıç',
+            end: 'Bitiş',
+            all: 'Tümü',
+            reset: 'Sıfırla',
+            disabled: 'Devre dışı',
+            advertisement: 'Reklam',
+            qualityBadge: {
+                1080: 'HD',
+                480: 'SD',
+            }
+        }
+
         //plyr kütüphanesi elemanları
         document.addEventListener('DOMContentLoaded', function() {
 
-
+            //Player'ı tanımlamak
             var player = new Plyr('#anime-video-player-url', {
                 controls: controls,
                 settings: settings,
@@ -530,56 +589,29 @@
                     key: 'plyr_{{ $episode->code }}'
                 },
                 seekTime: 10, // Sets the seek time to 10 seconds
-                i18n: {
-                    restart: 'Yeniden başlat',
-                    rewind: 'Geri sar {seektime} saniye',
-                    play: 'Oynat',
-                    pause: 'Duraklat',
-                    fastForward: 'İleri sar {seektime} saniye',
-                    seek: 'Ara',
-                    seekLabel: '{currentTime} / {duration}',
-                    played: 'Oynatıldı',
-                    buffered: 'Tamponlandı',
-                    currentTime: 'Şu anki zaman',
-                    duration: 'Süre',
-                    volume: 'Ses',
-                    mute: 'Sessize al',
-                    unmute: 'Sesi aç',
-                    enableCaptions: 'Altyazıyı etkinleştir',
-                    disableCaptions: 'Altyazıyı devre dışı bırak',
-                    download: 'İndir',
-                    enterFullscreen: 'Tam ekran yap',
-                    exitFullscreen: 'Tam ekrandan çık',
-                    frameTitle: 'Player for {title}',
-                    captions: 'Altyazılar',
-                    settings: 'Ayarlar',
-                    menuBack: 'Geri',
-                    speed: 'Hız',
-                    normal: 'Normal',
-                    quality: 'Kalite',
-                    loop: 'Döngü',
-                    start: 'Başlangıç',
-                    end: 'Bitiş',
-                    all: 'Tümü',
-                    reset: 'Sıfırla',
-                    disabled: 'Devre dışı',
-                    advertisement: 'Reklam',
-                    qualityBadge: {
-                        1080: 'HD',
-                        480: 'SD',
-                    }
-                }
+                i18n: language,
             });
 
-            //introButton oluşturuluyor
-            var introButton = document.createElement('button');
-            introButton.type = 'button';
-            introButton.id = 'introButton';
-            introButton.className = 'plyr__controls__item overlay-button'; // Plyr kontrol sınıfını ekleyin
-            introButton.innerHTML = 'İntroyu Atla';
-            introButton.hidden = true;
-            introButton.style.display = "none";
-            document.getElementsByClassName('plyr__controls')[0].appendChild(introButton);
+            //İleri ve geri butonlarının görünümlerini ayarlar
+            if (true) {
+                document.querySelector('.plyr__controls__item[data-plyr="rewind"]').innerHTML =
+                    '<i class="fas fa-undo-alt"></i>';
+                document.querySelector('.plyr__controls__item[data-plyr="fast-forward"]').innerHTML =
+                    '<i class="fas fa-undo-alt" style="-webkit-transform: scaleX(-1); transform: scaleX(-1);"></i>';
+            }
+
+
+            //İntro zamanlarında sorun yoksa introButton oluşturuluyor
+            if (endIntroButtonTime > showIntroButtonTime) {
+                var introButton = document.createElement('button');
+                introButton.type = 'button';
+                introButton.id = 'introButton';
+                introButton.className = 'plyr__controls__item overlay-button'; // Plyr kontrol sınıfını ekleyin
+                introButton.innerHTML = 'İntroyu Atla';
+                introButton.hidden = true;
+                introButton.style.display = "none";
+                document.getElementsByClassName('plyr__controls')[0].appendChild(introButton);
+            }
 
             //bir sonraki bölüm varsa. Sonraki bölüme atla butonu oluşturuluyor.
             @if ($next_episode_url != 'none')
@@ -594,192 +626,175 @@
                 document.getElementsByClassName('plyr__controls')[0].appendChild(nextButton);
             @endif
 
-            var showNextEpisodeButtonTime = null; // Video süresinin son 10 saniyesi
-            var isFullScreen = false; //video tam ekranda mı?
-
-            // Video başlatıldığında / durdurulup-başlatıldığında
+            // Video başlatıldığında
             player.on('play', function() {
-                showNextEpisodeButtonTime = player.duration - 300;
-
+                showNextEpisodeButtonTime = player.duration - showNextEpisodeButtonTime;
             });
 
+            //Video Durdurulduğunda
             player.on('pause', function() {
                 //document.querySelector('.plyr__controls__item[data-plyr="rewind"]').hidden = false;
+
+                /*
+                document.getElementById('rewind-button').classList.add('show');
+                document.getElementById('fast-button').classList.add('show');
+                */
             });
 
-            var customPlayButton = document.querySelector('#rewind-button');
-            customPlayButton.addEventListener('click', function() {});
+            // Kontroller gizlendiğinde tetiklenir
+            player.on('controlshidden', () => {
+                /*
+                document.getElementById('rewind-button').classList.remove('show');
+                document.getElementById('fast-button').classList.remove('show');
+                */
+            });
+
+            // Kontroller gösterildiğinde tetiklenir
+            player.on('controlsshown', () => {
+                /*
+                document.getElementById('rewind-button').classList.add('show');
+                document.getElementById('fast-button').classList.add('show');
+                */
+            });
+
+            /*
+            document.querySelector('#rewind-button').addEventListener('click', function() {
+                player.currentTime -= 10;
+            });
+
+            document.querySelector('#fast-button').addEventListener('click', function() {
+                player.currentTime += 10;
+            });
+            */
 
             // Video oynatılırken
             player.on('timeupdate', function(event) {
                 var currentTime = event.detail.plyr.currentTime; // Geçerli video zamanını al
+                if (player.duration != currentTime) {
+                    // İntro başlangıç zamanı ile bitiş zamanı arassında ise ve daha önce intro butonu gözükmediyse
+                    if ((currentTime >= showIntroButtonTime && currentTime <= endIntroButtonTime && document
+                            .getElementById('introButton').style.display == "none")) {
 
-                // İntro başlangıç zamanı ile bitiş zamanı arassında ise ve daha önce intro butonu gözükmediyse
-                if ((currentTime >= showIntroButtonTime && currentTime <= endIntroButtonTime) && !
-                    is_show_intro_button) {
-                    // İntroyu atla butonunu göster
-                    showButton('introButton');
-                    is_show_intro_button = true;
+                        showButton('introButton');
 
-                    //intro Atla butonunun aktif olduğunu göstermek için control'ü gösteriyoruz. ve 3 saniye sonra gizliyoruz.
-                    document.getElementsByClassName('plyr--video')[0].classList.remove(
-                        'plyr--hide-controls');
-                    controlsTimeout = setTimeout(() => {
-                        document.getElementsByClassName('plyr--video')[0].classList.add(
-                            'plyr--hide-controls');
-                    }, 3000); // 3000 milisaniye (3 saniye) sonra gizle
-                }
+                        showControl();
 
-                //introyu atla butonu daha önce gizlenmediyse ve şu anki zaamn introyu atla zamanını geçtiyse butonu gizler
-                if (currentTime > endIntroButtonTime && !is_hide_intro_button) {
-                    // İntroyu atla butonunu gizle
-                    hideButton('introButton');
-                    is_hide_intro_button = true;
-                }
-
-                //bir sonraki bölüm varsa son saniyeler buton gözükür.
-                //Video son 10 saniyesinde ve daah önce sonraki bölüme geç butonu gösterilmediyse
-                @if ($next_episode_url != 'none')
-                    if (showNextEpisodeButtonTime !== null) {
-                        if (showNextEpisodeButtonTime <= currentTime && !is_show_next_episode_button) {
-                            showButton('nextEpisodeButton');
-                            //Eğer Kullanıcı girşi yapmışsa otomatik olarak izlendi olarak işaretleniyor
-                            @if (Auth::user() && count($watched->Where('anime_episode_code', $episode->code)) == 0)
-                                watchAnime("{{ $episode->code }}");
-                            @endif
-
-                            //Alttaki kontrol menüsü aktif ediyoruz ki sonrkai bölüm atla butonunun aktif olduğunu gösterelim
-
-                            is_show_next_episode_button = true;
-                            //Sonraki Bölüme Atla butonunun aktif olduğunu göstermek için control'ü gösteriyoruz. ve 3 saniye sonra gizliyoruz.
-                            document.getElementsByClassName('plyr--video')[0].classList.remove(
-                                'plyr--hide-controls');
-                            controlsTimeout = setTimeout(() => {
-                                document.getElementsByClassName('plyr--video')[0].classList.add(
-                                    'plyr--hide-controls');
-                            }, 3000); // 3000 milisaniye (3 saniye) sonra gizle
-
-                        } else if (showNextEpisodeButtonTime > currentTime && is_show_next_episode_button) {
-                            is_show_next_episode_button = false;
-                            hideButton('nextEpisodeButton');
-                        }
-
+                    } else if (currentTime > endIntroButtonTime && document.getElementById('introButton')
+                        .style.display != "none") {
+                        hideButton('introButton');
                     }
-                @endif
 
+                    //bir sonraki bölüm varsa son saniyeler buton gözükür.
+                    @if ($next_episode_url != 'none')
+                        if (showNextEpisodeButtonTime != 0) {
+                            if (showNextEpisodeButtonTime <= currentTime && document.getElementById(
+                                    'nextEpisodeButton').style.display == "none") {
+                                //Eğer Kullanıcı girşi yapmışsa otomatik olarak izlendi olarak işaretleniyor
+                                if (!is_watch) {
+                                    @if (Auth::user() && count($watched->Where('anime_episode_code', $episode->code)) == 0)
+                                        watchAnime("{{ $episode->code }}");
+                                    @endif
+                                    is_watch = true;
+                                }
+
+
+                                showButton('nextEpisodeButton');
+
+                                showControl();
+
+                            } else if (showNextEpisodeButtonTime > currentTime && document.getElementById(
+                                    'nextEpisodeButton').style.display != "none") {
+                                hideButton('nextEpisodeButton');
+                            }
+
+                        }
+                    @endif
+                }
             });
 
-            /*
             //video tam ekran butonuna basıldığında
-            player.on('fullscreenchange', (event) => {
-                if (isFullScreen) {
-                    //tam ekrandan çıkıyor
-                    isFullScreen = false;
-                    document.getElementById('anime-video-player-url').classList.add('video_size_class');
-
-                } else {
-                    //tam ekrana giriyor
-                    isFullScreen = true;
-                    document.getElementById('anime-video-player-url').classList.remove('video_size_class');
-
-                }
-            });
-
-            */
-
-            var controlsContainer = document.querySelector('.plyr__controls');
-            var observer = new MutationObserver(function(mutations) {
-                mutations.forEach(function(mutation) {
-                    if (mutation.attributeName === 'class') {
-                        if (controlsContainer.classList.contains('plyr--hide-controls')) {
-                            console.log('controller_gizli');
-                            document.getElementById('rewind-button').hidden = true;
-                        } else {
-                            console.log('controller_gizli_değil');
-                            document.getElementById('rewind-button').hidden = false;
-                        }
-                    }
-                });
-            });
-            observer.observe(controlsContainer, {
-                attributes: true
-            });
+            player.on('fullscreenchange', (event) => {});
 
             //video yeniden başlatıldğında
             player.on('restart', function() {
-                //Video yeniden başlatılırsa introyu atla ve sonraki bölüme atla değerleri sıfırlanması gerekmektedir.
-                var is_show_intro_button = false;
-                var is_hide_intro_button = false;
-                var is_show_next_episode_button = false;
-
                 hideButton('introButton');
                 @if ($next_episode_url != 'none')
                     hideButton('nextEpisodeButton');
                 @endif
             });
 
-            //sayfa tamamen yüklendiğin
-            $(document).ready(function() {
-                // Butonlara tıklandığında
-                var introButton = document.getElementById('introButton');
+            // Butonlara tıklandığında
+            var introButton = document.getElementById('introButton');
 
-                //introButton tuşu varsa ve ona basılırsa
-                if (introButton) {
-                    introButton.addEventListener('click', function() {
-                        player.currentTime = endIntroButtonTime;
+            //introButton tuşu varsa ve ona basılırsa
+            if (introButton) {
+                introButton.addEventListener('click', function() {
+                    player.currentTime = endIntroButtonTime;
+                });
+            }
+
+            //bir sonraki bölüm varsa ve ona basılırsa
+            @if ($next_episode_url != 'none')
+                var nextEpisodeButton = document.getElementById('nextEpisodeButton');
+                if (nextEpisodeButton) {
+                    nextEpisodeButton.addEventListener('click', function() {
+                        // Belirlediğiniz linke git
+                        window.location.href =
+                            '{{ url($next_episode_url) }}'; // bir sonraki bölüm url'i
                     });
                 }
-
-                //bir sonraki bölüm varsa ve ona basılırsa
-                @if ($next_episode_url != 'none')
-                    var nextEpisodeButton = document.getElementById('nextEpisodeButton');
-                    if (nextEpisodeButton) {
-                        nextEpisodeButton.addEventListener('click', function() {
-                            // Belirlediğiniz linke git
-                            window.location.href =
-                                '{{ url($next_episode_url) }}'; // bir sonraki bölüm url'i
-                        });
-                    }
-                @endif
-            })
-
-            // Butonu göster
-            function showButton(buttonId) {
-                var button = document.getElementById(buttonId);
-                if (button) {
-                    opacity = 0;
-                    count = 0;
-                    button.hidden = false;
-                    button.style.display = "block";
-
-                    var old_opacity = button.style.opacity;
-                    if (old_opacity == 0) {
-                        var animationInterval = setInterval(function() {
-                            if (count < 8) {
-                                count++;
-                                button.style.display = 'block';
-                                opacity += 0.1;
-                                button.style.opacity = opacity;
-                            } else {
-                                clearInterval(animationInterval);
-                            }
-                        }, 10);
-                    }
-
-
-                }
-            }
-
-            // Butonu gizle
-            function hideButton(buttonId) {
-                var button = document.getElementById(buttonId);
-                if (button) {
-                    button.hidden = true;
-                    button.style.display = "none";
-                    button.opacity = 0;
-                }
-            }
+            @endif
         });
+    </script>
+
+    <!--Video Ayarları Fonksiyonu-->
+    <script>
+        //Kontrolu 3 saniyeliğine gösterip gizle
+        function showControl() {
+            document.getElementsByClassName('plyr--video')[0].classList.remove(
+                'plyr--hide-controls');
+            controlsTimeout = setTimeout(() => {
+                document.getElementsByClassName('plyr--video')[0].classList.add(
+                    'plyr--hide-controls');
+            }, 3000);
+        }
+
+        // Butonu göster
+        function showButton(buttonId) {
+            var button = document.getElementById(buttonId);
+            if (button) {
+                opacity = 0;
+                count = 0;
+                button.hidden = false;
+                button.style.display = "block";
+
+                var old_opacity = button.style.opacity;
+                if (old_opacity == 0) {
+                    var animationInterval = setInterval(function() {
+                        if (count < 8) {
+                            count++;
+                            button.style.display = 'block';
+                            opacity += 0.1;
+                            button.style.opacity = opacity;
+                        } else {
+                            clearInterval(animationInterval);
+                        }
+                    }, 10);
+                }
+
+
+            }
+        }
+
+        // Butonu gizle
+        function hideButton(buttonId) {
+            var button = document.getElementById(buttonId);
+            if (button) {
+                button.hidden = true;
+                button.style.display = "none";
+                button.opacity = 0;
+            }
+        }
     </script>
 
     <!-- Yorum ayarları -->

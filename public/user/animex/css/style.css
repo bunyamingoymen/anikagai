@@ -1233,10 +1233,12 @@ ol {
     background: transparent;
 }
 
-.anime__video__player .plyr audio,
-.anime__video__player .plyr iframe,
-.anime__video__player .plyr video {
-    width: 102%;
+.anime__video__player audio,
+.anime__video__player iframe,
+.anime__video__playerlyr video,
+.anime__video__player img {
+    height: 95%;
+    width: 100% ;
 }
 
 .anime__video__player .plyr--full-ui.plyr--video .plyr__control--overlaid {
