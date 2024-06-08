@@ -176,6 +176,9 @@ class AnimeEpisodecontroller extends Controller
         $episode->is_url = 1;
         $episode->publish_date = $request->publish_date;
 
+        $episode->show_intro_button = $request->show_intro_button ? $request->show_intro_button : 0;
+        $episode->show_next_episode_button = $request->show_next_episode_button ? $request->show_next_episode_button : 0;
+
         $episode->create_user_code = Auth::guard('admin')->user()->code;
 
         $episode->save();

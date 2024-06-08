@@ -30,7 +30,9 @@ return new class extends Migration
             $table->integer('intro_end_time_sec')->default(5);
             $table->integer('next_episode_time_min')->default(0); //
             $table->integer('next_episode_time_sec')->default(0); //
-            $table->tinyInteger('is_url')->default(0); //
+            $table->tinyInteger('show_intro_button')->default(1); //
+            $table->tinyInteger('show_next_episode_button')->default(1); //
+            $table->tinyInteger('is_url')->default(0); //0: video yüklenmiştir, 1: url'dir, 2:embed'dir
             $table->date('publish_date')->default("1970-01-01");
             $table->unsignedBigInteger('create_user_code')->default(1);
             $table->unsignedBigInteger('update_user_code')->nullable();
