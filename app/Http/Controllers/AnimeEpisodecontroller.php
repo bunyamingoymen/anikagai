@@ -144,6 +144,17 @@ class AnimeEpisodecontroller extends Controller
         return response()->json(['success' => true, 'message' => 'Başarılı bir şekilde Anime Bölümü Ekleni']);
     }
 
+    public function episodeCreateURLScreen()
+    {
+        $animes = Anime::Where('deleted', 0)->get();
+
+        if (count($animes) <= 0) {
+            return redirect()->route('admin_anime_episodes_list')->with('error', 'Herhangi bir anime mevcut değil. İlk önce anime ekleyiniz');
+        }
+
+        return view('admin.anime.episode.create_url', ['animes' => $animes]);
+    }
+
     public function episodeCreateURL(Request $request)
     {
         $episode = new AnimeEpisode();

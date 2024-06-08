@@ -112,9 +112,13 @@ return [
         '/admin/animeEpisodes/list' => ["Admin", "Animeler", "Anime Bölümleri"],
         '//admin/animeEpisodes/list' => ["admin_index", "admin_anime_list", "#"],
 
-        'admin/animeEpisodes/create' => "Yeni Anime Bölümü Oluştur",
-        '/admin/animeEpisodes/create' => ["Admin", "Animeler", "Anime Bölümleri", "Yeni Anime Bölümü Oluştur"],
+        'admin/animeEpisodes/create' => "Yeni Anime Bölümü Oluştur (Video)",
+        '/admin/animeEpisodes/create' => ["Admin", "Animeler", "Anime Bölümleri", "Yeni Anime Bölümü Oluştur (Video)"],
         '//admin/animeEpisodes/create' => ["admin_index", "admin_anime_list", "admin_anime_episodes_list", "#"],
+
+        'admin/animeEpisodes/createURL' => "Yeni Anime Bölümü Oluştur (URL/Embed)",
+        '/admin/animeEpisodes/createURL' => ["Admin", "Animeler", "Anime Bölümleri", "Yeni Anime Bölümü Oluştur (URL/Embed)"],
+        '//admin/animeEpisodes/createURL' => ["admin_index", "admin_anime_list", "admin_anime_episodes_list", "#"],
 
         'admin/animeEpisodes/update' => "Anime Bölümü Güncelle",
         '/admin/animeEpisodes/update' => ["Admin", "Animeler", "Anime Bölümleri", "Anime Bölümü Güncelle"],

@@ -57,6 +57,7 @@ return [
         'admin/animeEpisodes/list' => 24,
         'admin/animeEpisodes/list/ajax' => 24,
         'admin/animeEpisodes/create' => 23,
+        'admin/animeEpisodes/createURL' => 23,
         'admin/animeEpisodes/update' => 25,
         'admin/animeEpisodes/delete' => 26,
 

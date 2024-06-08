@@ -57,7 +57,7 @@ class AppServiceProvider extends ServiceProvider
             $authPages = ['admin.auth.auth.list'];
             $dataPages = ['admin.data.home', 'admin.data.theme', 'admin.data.logo', 'admin.data.menu', 'admin.data.meta', 'admin.data.social', 'admin.data.title', 'admin.data.sliderVideo'];
             $animePages = ['admin.anime.anime.create', 'admin.anime.anime.list', 'admin.anime.anime.update'];
-            $animeEpisodePages = ['admin.anime.episode.create', 'admin.anime.episode.list', 'admin.anime.episode.update'];
+            $animeEpisodePages = ['admin.anime.episode.create', 'admin.anime.episode.create_url', 'admin.anime.episode.list', 'admin.anime.episode.update'];
             $animeCalendarPages = ['admin.anime.calendar.calendar'];
             $webtoonPages = ['admin.webtoon.webtoon.create', 'admin.webtoon.webtoon.list', 'admin.webtoon.webtoon.update'];
             $webtoonEpisodePages = ['admin.webtoon.episode.create', 'admin.webtoon.episode.list', 'admin.webtoon.episode.update'];

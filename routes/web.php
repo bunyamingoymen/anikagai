@@ -332,6 +332,9 @@ Route::middleware(['auth'])->group(function () {
             Route::post("/admin/animeEpisodes/epsiodeCreateVideoMerge", "epsiodeCreateVideoMerge")->name('admin_anime_merge_video_create');
             Route::post("/admin/animeEpisodes/create", "episodeCreate")->name('admin_anime_episodes_create'); //Ajax ile cretae yapıyor
 
+            Route::get("/admin/animeEpisodes/createURL", "episodeCreateURLScreen")->name('admin_anime_episodes_create_url_screen');
+            Route::post("/admin/animeEpisodes/createURL", "episodeCreateURL")->name('admin_anime_episodes_create_url');
+
             Route::get("/admin/animeEpisodes/update", "episodeUpdateScreen")->name('admin_anime_episodes_update_screen');
             Route::post("/admin/animeEpisodes/update", "epsiodeUpdate")->name('admin_anime_episodes_update');
 

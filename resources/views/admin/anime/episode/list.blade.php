@@ -19,10 +19,12 @@
                         <div>
                             @if ($create == 1)
                                 <a class="btn btn-primary mb-3" style="float: right;"
-                                    href="{{ route('admin_anime_episodes_create_screen') }}">+ Yeni</a>
+                                    href="{{ route('admin_anime_episodes_create_screen') }}">+ Video İle Yeni Bölüm</a>
+                                <a class="btn btn-warning mb-3 mr-3" style="float: right;"
+                                    href="{{ route('admin_anime_episodes_create_url_screen') }}">+ URL/Embed Yeni Bölüm</a>
                             @endif
                         </div>
-                        <div class="col-lg-10" style="">
+                        <div class="col-lg-8" style="">
                             <div class="row">
                                 <div class="ml-2 mr-2">
                                     <select name="selectAnime" id="selectAnime" style="width: 250px;">
@@ -45,7 +47,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="ag-theme-quartz mt-2 mb-2" style="height: 500px;" id="myGrid"></div>
+                        <div class="ag-theme-quartz mt-3 mb-2" style="height: 500px;" id="myGrid"></div>
 
                         <div id="paginate"></div>
                     </div>
