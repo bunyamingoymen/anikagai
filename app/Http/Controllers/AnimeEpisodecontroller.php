@@ -167,17 +167,18 @@ class AnimeEpisodecontroller extends Controller
         $episode->episode_short = $request->episode_short;
         $episode->video_minute = $request->video_minute;
         $episode->video_second = $request->video_second;
+        $episode->publish_date = $request->publish_date;
         $episode->intro_start_time_min = $request->intro_start_time_min;
         $episode->intro_start_time_sec = $request->intro_start_time_sec;
         $episode->intro_end_time_min = $request->intro_end_time_min;
         $episode->intro_end_time_sec = $request->intro_end_time_sec;
         $episode->next_episode_time_min = $request->next_episode_time_min;
         $episode->next_episode_time_sec = $request->next_episode_time_sec;
-        $episode->is_url = 1;
-        $episode->publish_date = $request->publish_date;
+        $episode->is_url = $request->is_url;
 
-        $episode->show_intro_button = $request->show_intro_button ? $request->show_intro_button : 0;
-        $episode->show_next_episode_button = $request->show_next_episode_button ? $request->show_next_episode_button : 0;
+
+        $episode->show_intro_button = $request->show_intro_button ? 1 : 0;
+        $episode->show_next_episode_button = $request->show_next_episode_button ? 1 : 0;
 
         $episode->create_user_code = Auth::guard('admin')->user()->code;
 

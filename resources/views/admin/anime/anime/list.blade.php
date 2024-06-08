@@ -29,7 +29,7 @@
                             </div>
                         </div>
 
-                        <div class="ag-theme-quartz mt-2 mb-2" style="height: 500px;" id="myGrid"></div>
+                        <div class="ag-theme-quartz mt-3 mb-2" style="height: 500px;" id="myGrid"></div>
 
                         <div id="paginate"></div>
                     </div>
