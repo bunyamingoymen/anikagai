@@ -38,55 +38,55 @@
         }
 
         /*
-                                                                                                            .custom-play-button-rewind {
-                                                                                                                position: absolute;
-                                                                                                                top: 47%;
-                                                                                                                left: 40%;
-                                                                                                                transform: translate(-50%, -50%);
-                                                                                                                z-index: 10;
-                                                                                                                background-color: transparent;
-                                                                                                                color: white;
-                                                                                                                border: none;
-                                                                                                                border-radius: 50%;
-                                                                                                                width: 45px;
-                                                                                                                height: 45px;
-                                                                                                                display: flex;
-                                                                                                                justify-content: center;
-                                                                                                                align-items: center;
-                                                                                                                cursor: pointer;
-                                                                                                                font-size: 24px;
-                                                                                                            }
+                                                                                                                        .custom-play-button-rewind {
+                                                                                                                            position: absolute;
+                                                                                                                            top: 47%;
+                                                                                                                            left: 40%;
+                                                                                                                            transform: translate(-50%, -50%);
+                                                                                                                            z-index: 10;
+                                                                                                                            background-color: transparent;
+                                                                                                                            color: white;
+                                                                                                                            border: none;
+                                                                                                                            border-radius: 50%;
+                                                                                                                            width: 45px;
+                                                                                                                            height: 45px;
+                                                                                                                            display: flex;
+                                                                                                                            justify-content: center;
+                                                                                                                            align-items: center;
+                                                                                                                            cursor: pointer;
+                                                                                                                            font-size: 24px;
+                                                                                                                        }
 
-                                                                                                            .custom-play-button-fast {
-                                                                                                                position: absolute;
-                                                                                                                top: 47%;
-                                                                                                                left: 60%;
-                                                                                                                transform: translate(-50%, -50%);
-                                                                                                                z-index: 10;
-                                                                                                                background-color: transparent;
-                                                                                                                color: white;
-                                                                                                                border: none;
-                                                                                                                border-radius: 50%;
-                                                                                                                width: 45px;
-                                                                                                                height: 45px;
-                                                                                                                display: flex;
-                                                                                                                justify-content: center;
-                                                                                                                align-items: center;
-                                                                                                                cursor: pointer;
-                                                                                                                font-size: 24px;
-                                                                                                            }
+                                                                                                                        .custom-play-button-fast {
+                                                                                                                            position: absolute;
+                                                                                                                            top: 47%;
+                                                                                                                            left: 60%;
+                                                                                                                            transform: translate(-50%, -50%);
+                                                                                                                            z-index: 10;
+                                                                                                                            background-color: transparent;
+                                                                                                                            color: white;
+                                                                                                                            border: none;
+                                                                                                                            border-radius: 50%;
+                                                                                                                            width: 45px;
+                                                                                                                            height: 45px;
+                                                                                                                            display: flex;
+                                                                                                                            justify-content: center;
+                                                                                                                            align-items: center;
+                                                                                                                            cursor: pointer;
+                                                                                                                            font-size: 24px;
+                                                                                                                        }
 
-                                                                                                            .control-button {
-                                                                                                                transition: opacity 0.5s ease-in-out;
-                                                                                                                opacity: 0;
-                                                                                                                visibility: hidden;
-                                                                                                            }
+                                                                                                                        .control-button {
+                                                                                                                            transition: opacity 0.5s ease-in-out;
+                                                                                                                            opacity: 0;
+                                                                                                                            visibility: hidden;
+                                                                                                                        }
 
-                                                                                                            .control-button.show {
-                                                                                                                opacity: 1;
-                                                                                                                visibility: visible;
-                                                                                                            }
-                                                                                                                */
+                                                                                                                        .control-button.show {
+                                                                                                                            opacity: 1;
+                                                                                                                            visibility: visible;
+                                                                                                                        }
+                                                                                                                            */
     </style>
 
     <!-- Breadcrumb Begin -->
@@ -125,11 +125,13 @@
                             <source src="{{ asset('storage/' . $episode->video) }}" type="video/mp4" size="1080" />
                         </video>
 
-                        <!--
-                                                                                                                                        <button id="rewind-button" class="custom-play-button-rewind control-button show"><img
-                                                                                                                                                src="{{ url('index/img/icon/rewind.svg') }}" alt=""></button>
-                                                                                                                                        <button id="fast-button" class="custom-play-button-fast control-button show"><img
-                                                                                                                                                src="{{ url('index/img/icon/fast.svg') }}" alt=""></button>-->
+
+                        <button id="rewind-button" class="custom-play-button-rewind control-button show"><img
+                                src="{{ url('index/img/icon/rewind.svg') }}" alt="" hidden></button>
+                        <button id="fast-button" class="custom-play-button-fast control-button show"><img
+                                src="{{ url('index/img/icon/fast.svg') }}" alt="" hidden></button>
+
+
                         @if ($prev_episode_url != 'none' || $next_episode_url != 'none')
                             <div class="col-lg-12 row mt-2 next-prev-button">
                                 @if ($prev_episode_url != 'none')
@@ -599,7 +601,6 @@
                 document.querySelector('.plyr__controls__item[data-plyr="fast-forward"]').innerHTML =
                     '<i class="fas fa-undo-alt" style="-webkit-transform: scaleX(-1); transform: scaleX(-1);"></i>';
             }
-
 
             //İntro zamanlarında sorun yoksa introButton oluşturuluyor
             if (endIntroButtonTime > showIntroButtonTime) {

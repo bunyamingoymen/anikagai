@@ -36,6 +36,7 @@ class AnimeEpisodecontroller extends Controller
         return view("admin.anime.episode.create", ['animes' => $animes]);
     }
 
+
     //Sadece anime bölümünü oluşturur. Video dosyasını yüklemez
     public function epsiodeCreateJustEpiosde(Request $request)
     {
@@ -141,6 +142,34 @@ class AnimeEpisodecontroller extends Controller
         }
 
         return response()->json(['success' => true, 'message' => 'Başarılı bir şekilde Anime Bölümü Ekleni']);
+    }
+
+    public function episodeCreateURL(Request $request)
+    {
+        $episode = new AnimeEpisode();
+        $episode->code = AnimeEpisode::max('code') + 1;
+        $episode->name = $request->name;
+        $episode->anime_code = $request->anime_code;
+        $episode->video = $request->video;
+        $episode->description = $request->description;
+        $episode->season_short = $request->season_short;
+        $episode->episode_short = $request->episode_short;
+        $episode->video_minute = $request->video_minute;
+        $episode->video_second = $request->video_second;
+        $episode->intro_start_time_min = $request->intro_start_time_min;
+        $episode->intro_start_time_sec = $request->intro_start_time_sec;
+        $episode->intro_end_time_min = $request->intro_end_time_min;
+        $episode->intro_end_time_sec = $request->intro_end_time_sec;
+        $episode->next_episode_time_min = $request->next_episode_time_min;
+        $episode->next_episode_time_sec = $request->next_episode_time_sec;
+        $episode->is_url = 1;
+        $episode->publish_date = $request->publish_date;
+
+        $episode->create_user_code = Auth::guard('admin')->user()->code;
+
+        $episode->save();
+
+        return redirect()->route('admin_anime_episodes_list')->with('success', 'Başarılı Bir Şekilde Anime Bölümü Eklendi');
     }
 
     public function episodeUpdateScreen(Request $request)
