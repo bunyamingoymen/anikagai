@@ -375,8 +375,17 @@ class IndexController extends Controller
         $prev_episode_url = $prev_episode_control ? "anime/" . $anime->short_name . "/" . $prev_episode_control->season_short . "/" . $prev_episode_control->episode_short : "none";
         //dd($next_episode_url);
         $watched = [];
-        if (Auth::user())
+        $is_watched = false;
+        if (Auth::user()) {
             $watched = WatchedAnime::Where('anime_code', $anime->code)->Where('user_code', Auth::user()->code)->Where('content_type', 1)->get();
+
+            $is_watched = WatchedAnime::Where('anime_code', $anime->code)
+                ->Where('anime_episode_code', $episode->code)
+                ->Where('user_code', Auth::user()->code)
+                ->Where('content_type', 1)
+                ->exists();
+        }
+
 
         $title = $request->title ? $request->title : null;
 
@@ -397,6 +406,7 @@ class IndexController extends Controller
             'next_episode_url',
             'prev_episode_url',
             'watched',
+            'is_watched',
             'title',
             'like_comments'
         ));

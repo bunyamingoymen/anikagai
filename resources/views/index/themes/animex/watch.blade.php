@@ -38,55 +38,55 @@
         }
 
         /*
-                                                                                                                        .custom-play-button-rewind {
-                                                                                                                            position: absolute;
-                                                                                                                            top: 47%;
-                                                                                                                            left: 40%;
-                                                                                                                            transform: translate(-50%, -50%);
-                                                                                                                            z-index: 10;
-                                                                                                                            background-color: transparent;
-                                                                                                                            color: white;
-                                                                                                                            border: none;
-                                                                                                                            border-radius: 50%;
-                                                                                                                            width: 45px;
-                                                                                                                            height: 45px;
-                                                                                                                            display: flex;
-                                                                                                                            justify-content: center;
-                                                                                                                            align-items: center;
-                                                                                                                            cursor: pointer;
-                                                                                                                            font-size: 24px;
-                                                                                                                        }
+                                                                                                                                                                                                                                            .custom-play-button-rewind {
+                                                                                                                                                                                                                                                position: absolute;
+                                                                                                                                                                                                                                                top: 47%;
+                                                                                                                                                                                                                                                left: 40%;
+                                                                                                                                                                                                                                                transform: translate(-50%, -50%);
+                                                                                                                                                                                                                                                z-index: 10;
+                                                                                                                                                                                                                                                background-color: transparent;
+                                                                                                                                                                                                                                                color: white;
+                                                                                                                                                                                                                                                border: none;
+                                                                                                                                                                                                                                                border-radius: 50%;
+                                                                                                                                                                                                                                                width: 45px;
+                                                                                                                                                                                                                                                height: 45px;
+                                                                                                                                                                                                                                                display: flex;
+                                                                                                                                                                                                                                                justify-content: center;
+                                                                                                                                                                                                                                                align-items: center;
+                                                                                                                                                                                                                                                cursor: pointer;
+                                                                                                                                                                                                                                                font-size: 24px;
+                                                                                                                                                                                                                                            }
 
-                                                                                                                        .custom-play-button-fast {
-                                                                                                                            position: absolute;
-                                                                                                                            top: 47%;
-                                                                                                                            left: 60%;
-                                                                                                                            transform: translate(-50%, -50%);
-                                                                                                                            z-index: 10;
-                                                                                                                            background-color: transparent;
-                                                                                                                            color: white;
-                                                                                                                            border: none;
-                                                                                                                            border-radius: 50%;
-                                                                                                                            width: 45px;
-                                                                                                                            height: 45px;
-                                                                                                                            display: flex;
-                                                                                                                            justify-content: center;
-                                                                                                                            align-items: center;
-                                                                                                                            cursor: pointer;
-                                                                                                                            font-size: 24px;
-                                                                                                                        }
+                                                                                                                                                                                                                                            .custom-play-button-fast {
+                                                                                                                                                                                                                                                position: absolute;
+                                                                                                                                                                                                                                                top: 47%;
+                                                                                                                                                                                                                                                left: 60%;
+                                                                                                                                                                                                                                                transform: translate(-50%, -50%);
+                                                                                                                                                                                                                                                z-index: 10;
+                                                                                                                                                                                                                                                background-color: transparent;
+                                                                                                                                                                                                                                                color: white;
+                                                                                                                                                                                                                                                border: none;
+                                                                                                                                                                                                                                                border-radius: 50%;
+                                                                                                                                                                                                                                                width: 45px;
+                                                                                                                                                                                                                                                height: 45px;
+                                                                                                                                                                                                                                                display: flex;
+                                                                                                                                                                                                                                                justify-content: center;
+                                                                                                                                                                                                                                                align-items: center;
+                                                                                                                                                                                                                                                cursor: pointer;
+                                                                                                                                                                                                                                                font-size: 24px;
+                                                                                                                                                                                                                                            }
 
-                                                                                                                        .control-button {
-                                                                                                                            transition: opacity 0.5s ease-in-out;
-                                                                                                                            opacity: 0;
-                                                                                                                            visibility: hidden;
-                                                                                                                        }
+                                                                                                                                                                                                                                            .control-button {
+                                                                                                                                                                                                                                                transition: opacity 0.5s ease-in-out;
+                                                                                                                                                                                                                                                opacity: 0;
+                                                                                                                                                                                                                                                visibility: hidden;
+                                                                                                                                                                                                                                            }
 
-                                                                                                                        .control-button.show {
-                                                                                                                            opacity: 1;
-                                                                                                                            visibility: visible;
-                                                                                                                        }
-                                                                                                                            */
+                                                                                                                                                                                                                                            .control-button.show {
+                                                                                                                                                                                                                                                opacity: 1;
+                                                                                                                                                                                                                                                visibility: visible;
+                                                                                                                                                                                                                                            }
+                                                                                                                                                                                                                                                */
     </style>
 
     <!-- Breadcrumb Begin -->
@@ -126,10 +126,10 @@
                         </video>
 
 
-                        <button id="rewind-button" class="custom-play-button-rewind control-button show"><img
-                                src="{{ url('index/img/icon/rewind.svg') }}" alt="" hidden></button>
-                        <button id="fast-button" class="custom-play-button-fast control-button show"><img
-                                src="{{ url('index/img/icon/fast.svg') }}" alt="" hidden></button>
+                        <button id="rewind-button" class="custom-play-button-rewind control-button show" hidden><img
+                                src="{{ url('index/img/icon/rewind.svg') }}" alt=""></button>
+                        <button id="fast-button" class="custom-play-button-fast control-button show" hidden><img
+                                src="{{ url('index/img/icon/fast.svg') }}" alt=""></button>
 
 
                         @if ($prev_episode_url != 'none' || $next_episode_url != 'none')
@@ -500,15 +500,23 @@
 
     <!-- Video Ayarları -->
     <script>
-        var showIntroButtonTime = 60 * {{ $episode->intro_start_time_min ?? 0 }} +
-            {{ $episode->intro_start_time_sec ?? 0 }}; // İntro Başlangıç zamanı
+        @if ($episode->show_intro_button == 1)
+            var showIntroButtonTime = 60 * {{ $episode->intro_start_time_min ?? 0 }} +
+                {{ $episode->intro_start_time_sec ?? 0 }}; // İntro Başlangıç zamanı
 
-        var endIntroButtonTime = 60 * {{ $episode->intro_end_time_min ?? 0 }} +
-            {{ $episode->intro_end_time_sec ?? 1 }}; // intro bitiş zamanı
+            var endIntroButtonTime = 60 * {{ $episode->intro_end_time_min ?? 0 }} +
+                {{ $episode->intro_end_time_sec ?? 1 }}; // intro bitiş zamanı
+        @endif
 
-        var showNextEpisodeButtonTime = 150;
+        @if ($next_episode_url != 'none' && $episode->show_next_episode_button == 1)
+            var showNextEpisodeButtonTime = 60 * {{ $episode->next_episode_time_min ?? 0 }} +
+                {{ $episode->next_episode_time_sec ?? 0 }};
+        @endif
 
-        var is_watch = false;
+        var video_time = 60 * {{ $episode->video_minute ?? 0 }} + {{ $episode->video_second ?? 0 }};
+        var watch_time = video_time * 0.90;
+
+        var is_watch = {{ $is_watched ? 'true' : 'false' }};
 
         //plyr de gösterilecek kontroller
         var controls = [
@@ -602,20 +610,23 @@
                     '<i class="fas fa-undo-alt" style="-webkit-transform: scaleX(-1); transform: scaleX(-1);"></i>';
             }
 
-            //İntro zamanlarında sorun yoksa introButton oluşturuluyor
-            if (endIntroButtonTime > showIntroButtonTime) {
-                var introButton = document.createElement('button');
-                introButton.type = 'button';
-                introButton.id = 'introButton';
-                introButton.className = 'plyr__controls__item overlay-button'; // Plyr kontrol sınıfını ekleyin
-                introButton.innerHTML = 'İntroyu Atla';
-                introButton.hidden = true;
-                introButton.style.display = "none";
-                document.getElementsByClassName('plyr__controls')[0].appendChild(introButton);
-            }
+            @if ($episode->show_intro_button == 1)
+                //İntro zamanlarında sorun yoksa introButton oluşturuluyor
+                if (endIntroButtonTime > showIntroButtonTime) {
+                    var introButton = document.createElement('button');
+                    introButton.type = 'button';
+                    introButton.id = 'introButton';
+                    introButton.className = 'plyr__controls__item overlay-button'; // Plyr kontrol sınıfını ekleyin
+                    introButton.innerHTML = 'İntroyu Atla';
+                    introButton.hidden = true;
+                    introButton.style.display = "none";
+                    document.getElementsByClassName('plyr__controls')[0].appendChild(introButton);
+                }
+            @endif
+
 
             //bir sonraki bölüm varsa. Sonraki bölüme atla butonu oluşturuluyor.
-            @if ($next_episode_url != 'none')
+            @if ($next_episode_url != 'none' && $episode->show_next_episode_button == 1)
                 var nextButton = document.createElement('button');
                 nextButton.type = 'button';
                 nextButton.id = 'nextEpisodeButton';
@@ -628,9 +639,7 @@
             @endif
 
             // Video başlatıldığında
-            player.on('play', function() {
-                showNextEpisodeButtonTime = player.duration - showNextEpisodeButtonTime;
-            });
+            player.on('play', function() {});
 
             //Video Durdurulduğunda
             player.on('pause', function() {
@@ -672,44 +681,48 @@
             player.on('timeupdate', function(event) {
                 var currentTime = event.detail.plyr.currentTime; // Geçerli video zamanını al
                 if (player.duration != currentTime) {
-                    // İntro başlangıç zamanı ile bitiş zamanı arassında ise ve daha önce intro butonu gözükmediyse
-                    if ((currentTime >= showIntroButtonTime && currentTime <= endIntroButtonTime && document
-                            .getElementById('introButton').style.display == "none")) {
+                    @if ($episode->show_intro_button == 1)
+                        // İntro başlangıç zamanı ile bitiş zamanı arassında ise ve daha önce intro butonu gözükmediyse
+                        if ((currentTime >= showIntroButtonTime && currentTime <= endIntroButtonTime &&
+                                document
+                                .getElementById('introButton').style.display == "none")) {
 
-                        showButton('introButton');
+                            showButton('introButton');
 
-                        showControl();
+                            showControl();
 
-                    } else if (currentTime > endIntroButtonTime && document.getElementById('introButton')
-                        .style.display != "none") {
-                        hideButton('introButton');
-                    }
-
-                    //bir sonraki bölüm varsa son saniyeler buton gözükür.
-                    @if ($next_episode_url != 'none')
-                        if (showNextEpisodeButtonTime != 0) {
-                            if (showNextEpisodeButtonTime <= currentTime && document.getElementById(
-                                    'nextEpisodeButton').style.display == "none") {
-                                //Eğer Kullanıcı girşi yapmışsa otomatik olarak izlendi olarak işaretleniyor
-                                if (!is_watch) {
-                                    @if (Auth::user() && count($watched->Where('anime_episode_code', $episode->code)) == 0)
-                                        watchAnime("{{ $episode->code }}");
-                                    @endif
-                                    is_watch = true;
-                                }
-
-
-                                showButton('nextEpisodeButton');
-
-                                showControl();
-
-                            } else if (showNextEpisodeButtonTime > currentTime && document.getElementById(
-                                    'nextEpisodeButton').style.display != "none") {
-                                hideButton('nextEpisodeButton');
-                            }
-
+                        } else if (currentTime > endIntroButtonTime && document.getElementById(
+                                'introButton')
+                            .style.display != "none") {
+                            hideButton('introButton');
                         }
                     @endif
+
+                    //bir sonraki bölüm varsa son saniyeler buton gözükür.
+                    @if ($next_episode_url != 'none' && $episode->show_next_episode_button == 1)
+                        if (showNextEpisodeButtonTime != 0 && showNextEpisodeButtonTime <=
+                            currentTime && document.getElementById('nextEpisodeButton').style.display ==
+                            "none") {
+                            //Eğer Kullanıcı girşi yapmışsa otomatik olarak izlendi olarak işaretleniyor
+
+                            showButton('nextEpisodeButton');
+
+                            showControl();
+
+                        } else if (showNextEpisodeButtonTime > currentTime && document.getElementById(
+                                'nextEpisodeButton').style.display != "none") {
+                            hideButton('nextEpisodeButton');
+                        }
+                    @endif
+
+
+
+                    if (!is_watch && currentTime <= watch_time) {
+                        @if (Auth::user() && count($watched->Where('anime_episode_code', $episode->code)) == 0)
+                            watchAnime("{{ $episode->code }}");
+                        @endif
+                        is_watch = true;
+                    }
                 }
             });
 
@@ -718,24 +731,29 @@
 
             //video yeniden başlatıldğında
             player.on('restart', function() {
-                hideButton('introButton');
-                @if ($next_episode_url != 'none')
+                @if ($episode->show_intro_button == 1)
+                    hideButton('introButton');
+                @endif
+
+                @if ($next_episode_url != 'none' && $episode->show_next_episode_button == 1)
                     hideButton('nextEpisodeButton');
                 @endif
             });
 
-            // Butonlara tıklandığında
-            var introButton = document.getElementById('introButton');
+            @if ($episode->show_intro_button == 1)
+                // Butonlara tıklandığında
+                var introButton = document.getElementById('introButton');
 
-            //introButton tuşu varsa ve ona basılırsa
-            if (introButton) {
-                introButton.addEventListener('click', function() {
-                    player.currentTime = endIntroButtonTime;
-                });
-            }
+                //introButton tuşu varsa ve ona basılırsa
+                if (introButton) {
+                    introButton.addEventListener('click', function() {
+                        player.currentTime = endIntroButtonTime;
+                    });
+                }
+            @endif
 
             //bir sonraki bölüm varsa ve ona basılırsa
-            @if ($next_episode_url != 'none')
+            @if ($next_episode_url != 'none' && $episode->show_next_episode_button == 1)
                 var nextEpisodeButton = document.getElementById('nextEpisodeButton');
                 if (nextEpisodeButton) {
                     nextEpisodeButton.addEventListener('click', function() {
