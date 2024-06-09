@@ -16,100 +16,158 @@
                         <form class="needs-validation" id="animeEpisodeCreateForm" action="" method="POST"
                             enctype="multipart/form-data">
                             @csrf
-                            <div class="row">
-                                <div class="col-md-12 mb-3 mt-4">
+                            <div>
+                                <!--Progress-bar-->
+                                <div class="row">
+                                    <div class="col-md-12 mb-3 mt-4">
+                                        <div>
+                                            <p>Kaydet butonuna basıldığında video kaydedilmeye başlanacaktır. Lütfen
+                                                tamamlanmadan
+                                                sayfayı kapatmayınız.</p>
+                                        </div>
+                                        <div class="progress" style="height: 30px;">
+                                            <div class="progress-bar progress-bar-striped bg-info progress-bar-animated"
+                                                role="progressbar" id="progress-bar-video" aria-valuemax="100"> <span
+                                                    id="percentValue">Yüklenme
+                                                    Başlamadı</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!--Bölüm(Video), Anime, Bölüm Adı-->
+                                <div class="row mb-3">
+                                    <div class="col-md-4">
+                                        <label for="">Bölüm(Video):</label>
+                                        <small>Sadece video dosyası kabul edilmektedir.</small>
+                                        <input type="file" class="form-control" id="video"
+                                            placeholder="Dosya Seçiniz" accept="video/*" required>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="anime_code">Anime:</label>
+                                        <select name="anime_code" id="anime_code" class="form-control"
+                                            onchange="getSeason();" required>
+                                            @foreach ($animes as $anime)
+                                                <option value="{{ $anime->code }}">{{ $anime->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="name">Bölüm Adı:</label>
+                                        <input type="text" id="name" name="name" class="form-control">
+                                    </div>
+                                </div>
+
+                                <!--Bulunduğu sezon, Bölüm Sayısı, Yayınlanma Tarihi-->
+                                <div class="row mb-3">
+                                    <div class="col-md-2">
+                                        <label for="season_short">Bulunduğu Sezon:</label>
+                                        <select name="season_short" id="season_short" class="form-control">
+                                            @for ($i = 1; $i <= $animes->first()->season_count + 1; $i++)
+                                                <option value="{{ $i }}">{{ $i }}.sezon</option>
+                                            @endfor
+                                        </select>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label for="episode_short">Bölüm Sırası:</label>
+                                        <input type="number" id="episode_short" name="episode_short" class="form-control">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <label for="publish_date">Yayınlanma Tarihi:</label>
+                                        <input type="date" id="publish_date" name="publish_date" class="form-control"
+                                            value="{{ Carbon\Carbon::now()->format('Y-m-d') }}">
+                                    </div>
+                                </div>
+
+                                <!--Video Zamanları-->
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="video_minute">Video Dakikası: </label>
+                                        <input type="text" id="video_minute" name="video_minute" class="form-control"
+                                            placeholder="Video Kaç Dakika?" value="0">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="video_second">Video Saniyesi: </label>
+                                        <input type="text" id="video_second" name="video_second" class="form-control"
+                                            placeholder="Video Kaç Saniye?" value="0">
+                                    </div>
+                                </div>
+
+                                <!--İntro zamanları-->
+                                <div class="row mb-3">
+                                    <div class="col-md-3">
+                                        <label for="intro_start_time_min">İntro başlangıç zamanı dakikası:</label>
+                                        <input type="number" id="intro_start_time_min" name="intro_start_time_min"
+                                            class="form-control" placeholder="İntro Başlangıç Zamanı Dakikası (örn:0)"
+                                            value="0" required>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="intro_start_time_sec">İntro başlangıç zamanı saniyesi:</label>
+                                        <input type="number" id="intro_start_time_sec" name="intro_start_time_sec"
+                                            class="form-control" placeholder="İntro Başlangıç Zamanı Saniyesi (örn:35)"
+                                            value="0" required>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="intro_end_time_min">İntro bitiş zamanı dakikası:</label>
+                                        <input type="number" id="intro_end_time_min" name="intro_end_time_min"
+                                            class="form-control" placeholder="İntro Bitiş Zamanı Saniyesi (örn:1)"
+                                            value="0" required>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="intro_end_time_sec">İntro bitiş zamanı saniyesi:</label>
+                                        <input type="number" id="intro_end_time_sec" name="intro_end_time_sec"
+                                            class="form-control" placeholder="İntro Bitiş Zamanı Saniyesi (örn:45)"
+                                            value="0" required>
+                                    </div>
+                                </div>
+
+                                <!-- Sonraki Bölüm Butonu Zamanları -->
+                                <div class="row mb-3">
+                                    <div class="col-md-6">
+                                        <label for="next_episode_time_min">Sonraki Bölüm Butonu Başlangıç Dakikası:</label>
+                                        <input type="text" id="next_episode_time_min" name="next_episode_time_min"
+                                            placeholder="Sonraki Bölüm Butonu İçin Başlangıç Dakikası Giriniz"
+                                            class="form-control" value="0">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="next_episode_time_sec">Sonraki Bölüm Butonu Başlangıç Saniyesi:</label>
+                                        <input type="text" id="next_episode_time_sec" name="next_episode_time_sec"
+                                            placeholder="Sonraki Bölüm Butonu İçin Başlangıç Saniyesini Giriniz"
+                                            class="form-control" value="0">
+                                    </div>
+                                </div>
+
+                                <!--Açıklama-->
+                                <div class="row mb-3">
+                                    <div class="col-md-12">
+                                        <label for="description">Açıklama:</label>
+                                        <textarea class="form-control" name="description" id="description" cols="30" rows="10"
+                                            placeholder="Açıklama"></textarea>
+                                    </div>
+                                </div>
+
+                                <!--İntroyu atla ve sonrkai bölüm checkbox'ları-->
+                                <div class="mb-3">
                                     <div>
-                                        <p>Kaydet butonuna basıldığında video kaydedilmeye başlanacaktır. Lütfen
-                                            tamamlanmadan
-                                            sayfayı kapatmayınız.</p>
+                                        <input type="checkbox" id="show_intro_button" name="show_intro_button" checked>
+                                        <label for="show_intro_button">İntroyu Atla Butonunu Göster</label>
                                     </div>
-                                    <div class="progress" style="height: 30px;">
-                                        <div class="progress-bar progress-bar-striped bg-info progress-bar-animated"
-                                            role="progressbar" id="progress-bar-video" aria-valuemax="100"> <span
-                                                id="percentValue">Yüklenme
-                                                Başlamadı</span></div>
+                                    <div>
+                                        <input type="checkbox" id="show_next_episode_button"
+                                            name="show_next_episode_button" checked>
+                                        <label for="show_next_episode_button">Sonraki Bölüme Geç Butonunu Göster</label>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4 mb-3">
-                                    <label for="">Bölüm(Video):</label>
-                                    <small>Sadece video dosyası kabul edilmektedir.</small>
-                                    <input type="file" class="form-control" id="video" placeholder="Dosya Seçiniz"
-                                        accept="video/*" required>
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <label for="anime_code">Anime:</label>
-                                    <select name="anime_code" id="anime_code" class="form-control" onchange="getSeason();"
-                                        required>
-                                        @foreach ($animes as $anime)
-                                            <option value="{{ $anime->code }}">{{ $anime->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="col-md-4 mb-3">
-                                    <label for="name">Bölüm Adı:</label>
-                                    <input type="text" id="name" name="name" class="form-control">
+
+                                <!--Buton-->
+                                <div style="float: right;">
+                                    <button class="btn btn-primary" type="button" onclick=""
+                                        id="animeEpisodeCreateSubmitButton">Kaydet</button>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-2 mb-3">
-                                    <label for="season_short">Bulunduğu Sezon:</label>
-                                    <select name="season_short" id="season_short" class="form-control">
-                                        @for ($i = 1; $i <= $animes->first()->season_count + 1; $i++)
-                                            <option value="{{ $i }}">{{ $i }}.sezon</option>
-                                        @endfor
-                                    </select>
-                                </div>
-                                <div class="col-md-2 mb-3">
-                                    <label for="episode_short">Bölüm Sırası:</label>
-                                    <input type="number" id="episode_short" name="episode_short" class="form-control">
-                                </div>
-                                <div class="col-md-8 mb-3">
-                                    <label for="publish_date">Yayınlanma Tarihi:</label>
-                                    <input type="date" id="publish_date" name="publish_date" class="form-control">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-3 mb-3">
-                                    <label for="intro_start_time_min">İntro başlangıç zamanı dakikası:</label>
-                                    <input type="number" id="intro_start_time_min" name="intro_start_time_min"
-                                        class="form-control" placeholder="İntro Başlangıç Zamanı Dakikası (örn:0)" required>
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                    <label for="intro_start_time_sec">İntro başlangıç zamanı saniyesi:</label>
-                                    <input type="number" id="intro_start_time_sec" name="intro_start_time_sec"
-                                        class="form-control" placeholder="İntro Başlangıç Zamanı Saniyesi (örn:35)"
-                                        required>
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                    <label for="intro_end_time_min">İntro bitiş zamanı dakikası:</label>
-                                    <input type="number" id="intro_end_time_min" name="intro_end_time_min"
-                                        class="form-control" placeholder="İntro Bitiş Zamanı Saniyesi (örn:1)" required>
-                                </div>
-                                <div class="col-md-3 mb-3">
-                                    <label for="intro_end_time_sec">İntro bitiş zamanı saniyesi:</label>
-                                    <input type="number" id="intro_end_time_sec" name="intro_end_time_sec"
-                                        class="form-control" placeholder="İntro Bitiş Zamanı Saniyesi (örn:45)" required>
-                                </div>
-                            </div>
+                        </form>
                     </div>
-                    <div>
-                        <div class="row">
-                            <div class="col-md-12 mb-3">
-                                <label for="description">Açıklama:</label>
-                                <textarea class="form-control" name="description" id="description" cols="30" rows="10" placeholder="Açıklama"></textarea>
-                            </div>
-                        </div>
-                        <div style="float: right;">
-                            <button class="btn btn-primary" type="button" onclick=""
-                                id="animeEpisodeCreateSubmitButton">Kaydet</button>
-                        </div>
-                    </div>
-                    </form>
                 </div>
             </div>
-        </div>
         </div>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/resumable.js/1.0.3/resumable.min.js"

@@ -36,7 +36,6 @@ class AnimeEpisodecontroller extends Controller
         return view("admin.anime.episode.create", ['animes' => $animes]);
     }
 
-
     //Sadece anime bölümünü oluşturur. Video dosyasını yüklemez
     public function epsiodeCreateJustEpiosde(Request $request)
     {
@@ -53,11 +52,23 @@ class AnimeEpisodecontroller extends Controller
         $anime_episode->episode_short = $request->episode_short;
         $anime_episode->publish_date = $request->publish_date;
         $anime_episode->click_count = 0;
+        $anime_episode->is_url = 0;
+
         $anime_episode->video = "";
+
+        $anime_episode->video_minute = $request->video_minute;
+        $anime_episode->video_second = $request->video_second;
+
         $anime_episode->intro_start_time_min = $request->intro_start_time_min;
         $anime_episode->intro_start_time_sec = $request->intro_start_time_sec;
         $anime_episode->intro_end_time_min = $request->intro_end_time_min;
         $anime_episode->intro_end_time_sec = $request->intro_end_time_sec;
+
+        $anime_episode->next_episode_time_min = $request->next_episode_time_min;
+        $anime_episode->next_episode_time_sec = $request->next_episode_time_sec;
+
+        $anime_episode->show_intro_button = $request->show_intro_button ? 1 : 0;
+        $anime_episode->show_next_episode_button = $request->show_next_episode_button ? 1 : 0;
 
         $anime_episode->create_user_code = Auth::guard('admin')->user()->code;
 
@@ -203,8 +214,9 @@ class AnimeEpisodecontroller extends Controller
     public function epsiodeUpdate(Request $request)
     {
         $anime_episode = AnimeEpisode::Where('code', $request->code)->Where('deleted', 0)->first();
+        $anime = Anime::Where('code', $request->anime_code)->first();
 
-        if (!$anime_episode)
+        if (!$anime_episode || !$anime)
             return redirect()->back()->with("error", Config::get('error.error_codes.0080012'));
 
         $anime_episode->name = $request->name;
@@ -214,16 +226,29 @@ class AnimeEpisodecontroller extends Controller
         $anime_episode->episode_short = $request->episode_short;
         $anime_episode->publish_date = $request->publish_date;
 
+        $anime_episode->video_minute = $request->video_minute;
+        $anime_episode->video_second = $request->video_second;
+
         $anime_episode->intro_start_time_min = $request->intro_start_time_min;
         $anime_episode->intro_start_time_sec = $request->intro_start_time_sec;
         $anime_episode->intro_end_time_min = $request->intro_end_time_min;
         $anime_episode->intro_end_time_sec = $request->intro_end_time_sec;
 
+        $anime_episode->next_episode_time_min = $request->next_episode_time_min;
+        $anime_episode->next_episode_time_sec = $request->next_episode_time_sec;
+
+        $anime_episode->show_intro_button = $request->show_intro_button ? 1 : 0;
+        $anime_episode->show_next_episode_button = $request->show_next_episode_button ? 1 : 0;
+
+        if ($anime_episode->is_url != 0) {
+            $anime_episode->video = $request->video ? $request->video : $anime_episode->video;
+            $anime_episode->is_url = $request->is_url;
+        }
+
         $anime_episode->update_user_code = Auth::guard('admin')->user()->code;
 
         $anime_episode->save();
 
-        $anime = Anime::Where('code', $request->anime_code)->first();
         $anime->episode_count = AnimeEpisode::Where('deleted', 0)->where('anime_code', $anime->code)->count();
         $anime->season_count = AnimeEpisode::Where('deleted', 0)->where('anime_code', $anime->code)->max('season_short');
         $anime->save();

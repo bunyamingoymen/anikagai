@@ -102,7 +102,8 @@
                                 anime_name: sendData(anime_episode[i].anime_name),
                                 name: sendData(anime_episode[i].name),
                                 season_short: sendData(anime_episode[i].season_short),
-                                episode_short: sendData(anime_episode[i].episode_short)
+                                episode_short: sendData(anime_episode[i].episode_short),
+                                is_url: sendData(anime_episode[i].is_url)
                             }
                             rowData.push(rowItem);
 
@@ -267,7 +268,9 @@
             var columnDefs = [{
                     headerName: "#",
                     field: "id",
-                    maxWidth: 75,
+                    maxWidth: 50,
+                    minWidth: 50,
+
                 },
                 {
                     headerName: "Resim",
@@ -287,12 +290,33 @@
                     field: "name",
                 },
                 {
-                    headerName: "Sezon",
+                    headerName: "Sezon / Bölüm",
                     field: "season_short",
+                    cellRenderer: function(params) {
+                        return params.value + ' .Sezon ' + params.data.episode_short + ' .Bölüm';
+                    },
                 },
                 {
-                    headerName: "Bölüm",
-                    field: "episode_short",
+                    headerName: "Bölüm Tipi",
+                    field: "is_url",
+                    cellRenderer: function(params) {
+                        var html = ``;
+
+                        if (params.data.is_url == 0) {
+                            html += `<span class = "badge badge-pill badge-success"> Video </span>`;
+                        } else if (params.data.is_url == 1) {
+                            html += `<span class = "badge badge-pill badge-warning"> Embed </span>`
+                        } else if (params.data.is_url == 2) {
+                            html += `<span class = "badge badge-pill badge-primary"> URL </span>`
+                        } else {
+                            html = `<span class = "badge badge-pill badge-light"> <span
+                                style = "color:red;" > HATA </span></span>`;
+                        }
+
+                        return html;
+                    },
+                    maxWidth: 125,
+                    minWidth: 125,
                 },
                 {
                     headerName: "İşlemler",
