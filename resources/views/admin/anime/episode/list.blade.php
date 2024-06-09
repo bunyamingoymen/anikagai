@@ -305,9 +305,9 @@
                         if (params.data.is_url == 0) {
                             html += `<span class = "badge badge-pill badge-success"> Video </span>`;
                         } else if (params.data.is_url == 1) {
-                            html += `<span class = "badge badge-pill badge-warning"> Embed </span>`
-                        } else if (params.data.is_url == 2) {
                             html += `<span class = "badge badge-pill badge-primary"> URL </span>`
+                        } else if (params.data.is_url == 2) {
+                            html += `<span class = "badge badge-pill badge-warning"> Embed </span>`
                         } else {
                             html = `<span class = "badge badge-pill badge-light"> <span
                                 style = "color:red;" > HATA </span></span>`;
