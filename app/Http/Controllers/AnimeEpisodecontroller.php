@@ -56,16 +56,16 @@ class AnimeEpisodecontroller extends Controller
 
         $anime_episode->video = "";
 
-        $anime_episode->video_minute = $request->video_minute;
-        $anime_episode->video_second = $request->video_second;
+        $anime_episode->video_minute = $request->video_minute ? $request->video_minute : 0;
+        $anime_episode->video_second = $request->video_second ? $request->video_second : 0;
 
-        $anime_episode->intro_start_time_min = $request->intro_start_time_min;
-        $anime_episode->intro_start_time_sec = $request->intro_start_time_sec;
-        $anime_episode->intro_end_time_min = $request->intro_end_time_min;
-        $anime_episode->intro_end_time_sec = $request->intro_end_time_sec;
+        $anime_episode->intro_start_time_min = $request->intro_start_time_min ? $request->intro_start_time_min : 0;
+        $anime_episode->intro_start_time_sec = $request->intro_start_time_sec ? $request->intro_start_time_sec : 0;
+        $anime_episode->intro_end_time_min = $request->intro_end_time_min ? $request->intro_end_time_min : 0;
+        $anime_episode->intro_end_time_sec = $request->intro_end_time_sec ? $request->intro_end_time_sec : 0;
 
-        $anime_episode->next_episode_time_min = $request->next_episode_time_min;
-        $anime_episode->next_episode_time_sec = $request->next_episode_time_sec;
+        $anime_episode->next_episode_time_min = $request->next_episode_time_min ? $request->next_episode_time_min : 0;
+        $anime_episode->next_episode_time_sec = $request->next_episode_time_sec ? $request->next_episode_time_sec : 0;
 
         $anime_episode->show_intro_button = $request->show_intro_button ? 1 : 0;
         $anime_episode->show_next_episode_button = $request->show_next_episode_button ? 1 : 0;
@@ -176,16 +176,16 @@ class AnimeEpisodecontroller extends Controller
         $episode->description = $request->description;
         $episode->season_short = $request->season_short;
         $episode->episode_short = $request->episode_short;
-        $episode->video_minute = $request->video_minute;
-        $episode->video_second = $request->video_second;
+        $episode->video_minute = $request->video_minute ? $request->video_minute : 0;
+        $episode->video_second = $request->video_second ? $request->video_second : 0;
         $episode->publish_date = $request->publish_date;
-        $episode->intro_start_time_min = $request->intro_start_time_min;
-        $episode->intro_start_time_sec = $request->intro_start_time_sec;
-        $episode->intro_end_time_min = $request->intro_end_time_min;
-        $episode->intro_end_time_sec = $request->intro_end_time_sec;
-        $episode->next_episode_time_min = $request->next_episode_time_min;
-        $episode->next_episode_time_sec = $request->next_episode_time_sec;
-        $episode->is_url = $request->is_url;
+        $episode->intro_start_time_min = $request->intro_start_time_min ? $request->intro_start_time_min : 0;
+        $episode->intro_start_time_sec = $request->intro_start_time_sec ? $request->intro_start_time_sec : 0;
+        $episode->intro_end_time_min = $request->intro_end_time_min ? $request->intro_end_time_min : 0;
+        $episode->intro_end_time_sec = $request->intro_end_time_sec ? $request->intro_end_time_sec : 0;
+        $episode->next_episode_time_min = $request->next_episode_time_min ? $request->next_episode_time_min : 0;
+        $episode->next_episode_time_sec = $request->next_episode_time_sec ? $request->next_episode_time_sec : 0;
+        $episode->is_url = $request->is_url ? $request->is_url : 1;
 
 
         $episode->show_intro_button = $request->show_intro_button ? 1 : 0;
@@ -226,23 +226,23 @@ class AnimeEpisodecontroller extends Controller
         $anime_episode->episode_short = $request->episode_short;
         $anime_episode->publish_date = $request->publish_date;
 
-        $anime_episode->video_minute = $request->video_minute;
-        $anime_episode->video_second = $request->video_second;
+        $anime_episode->video_minute = $request->video_minute ? $request->video_minute : 0;
+        $anime_episode->video_second = $request->video_second ? $request->video_second : 0;
 
-        $anime_episode->intro_start_time_min = $request->intro_start_time_min;
-        $anime_episode->intro_start_time_sec = $request->intro_start_time_sec;
-        $anime_episode->intro_end_time_min = $request->intro_end_time_min;
-        $anime_episode->intro_end_time_sec = $request->intro_end_time_sec;
+        $anime_episode->intro_start_time_min = $request->intro_start_time_min ? $request->intro_start_time_min : 0;
+        $anime_episode->intro_start_time_sec = $request->intro_start_time_sec ? $request->intro_start_time_sec : 0;
+        $anime_episode->intro_end_time_min = $request->intro_end_time_min ? $request->intro_end_time_min : 0;
+        $anime_episode->intro_end_time_sec = $request->intro_end_time_sec ? $request->intro_end_time_sec : 0;
 
-        $anime_episode->next_episode_time_min = $request->next_episode_time_min;
-        $anime_episode->next_episode_time_sec = $request->next_episode_time_sec;
+        $anime_episode->next_episode_time_min = $request->next_episode_time_min ? $request->next_episode_time_min : 0;
+        $anime_episode->next_episode_time_sec = $request->next_episode_time_sec ? $request->next_episode_time_sec : 0;
 
         $anime_episode->show_intro_button = $request->show_intro_button ? 1 : 0;
         $anime_episode->show_next_episode_button = $request->show_next_episode_button ? 1 : 0;
 
         if ($anime_episode->is_url != 0) {
             $anime_episode->video = $request->video ? $request->video : $anime_episode->video;
-            $anime_episode->is_url = $request->is_url;
+            $anime_episode->is_url = $request->is_url ? $request->is_url : 1;
         }
 
         $anime_episode->update_user_code = Auth::guard('admin')->user()->code;

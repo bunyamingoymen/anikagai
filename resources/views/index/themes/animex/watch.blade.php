@@ -38,55 +38,55 @@
         }
 
         /*
-                                                                                                                                                                                                                                                                            .custom-play-button-rewind {
-                                                                                                                                                                                                                                                                                position: absolute;
-                                                                                                                                                                                                                                                                                top: 47%;
-                                                                                                                                                                                                                                                                                left: 40%;
-                                                                                                                                                                                                                                                                                transform: translate(-50%, -50%);
-                                                                                                                                                                                                                                                                                z-index: 10;
-                                                                                                                                                                                                                                                                                background-color: transparent;
-                                                                                                                                                                                                                                                                                color: white;
-                                                                                                                                                                                                                                                                                border: none;
-                                                                                                                                                                                                                                                                                border-radius: 50%;
-                                                                                                                                                                                                                                                                                width: 45px;
-                                                                                                                                                                                                                                                                                height: 45px;
-                                                                                                                                                                                                                                                                                display: flex;
-                                                                                                                                                                                                                                                                                justify-content: center;
-                                                                                                                                                                                                                                                                                align-items: center;
-                                                                                                                                                                                                                                                                                cursor: pointer;
-                                                                                                                                                                                                                                                                                font-size: 24px;
-                                                                                                                                                                                                                                                                            }
+                                                                                                                    .custom-play-button-rewind {
+                                                                                                                        position: absolute;
+                                                                                                                        top: 47%;
+                                                                                                                        left: 40%;
+                                                                                                                        transform: translate(-50%, -50%);
+                                                                                                                        z-index: 10;
+                                                                                                                        background-color: transparent;
+                                                                                                                        color: white;
+                                                                                                                        border: none;
+                                                                                                                        border-radius: 50%;
+                                                                                                                        width: 45px;
+                                                                                                                        height: 45px;
+                                                                                                                        display: flex;
+                                                                                                                        justify-content: center;
+                                                                                                                        align-items: center;
+                                                                                                                        cursor: pointer;
+                                                                                                                        font-size: 24px;
+                                                                                                                    }
 
-                                                                                                                                                                                                                                                                            .custom-play-button-fast {
-                                                                                                                                                                                                                                                                                position: absolute;
-                                                                                                                                                                                                                                                                                top: 47%;
-                                                                                                                                                                                                                                                                                left: 60%;
-                                                                                                                                                                                                                                                                                transform: translate(-50%, -50%);
-                                                                                                                                                                                                                                                                                z-index: 10;
-                                                                                                                                                                                                                                                                                background-color: transparent;
-                                                                                                                                                                                                                                                                                color: white;
-                                                                                                                                                                                                                                                                                border: none;
-                                                                                                                                                                                                                                                                                border-radius: 50%;
-                                                                                                                                                                                                                                                                                width: 45px;
-                                                                                                                                                                                                                                                                                height: 45px;
-                                                                                                                                                                                                                                                                                display: flex;
-                                                                                                                                                                                                                                                                                justify-content: center;
-                                                                                                                                                                                                                                                                                align-items: center;
-                                                                                                                                                                                                                                                                                cursor: pointer;
-                                                                                                                                                                                                                                                                                font-size: 24px;
-                                                                                                                                                                                                                                                                            }
+                                                                                                                    .custom-play-button-fast {
+                                                                                                                        position: absolute;
+                                                                                                                        top: 47%;
+                                                                                                                        left: 60%;
+                                                                                                                        transform: translate(-50%, -50%);
+                                                                                                                        z-index: 10;
+                                                                                                                        background-color: transparent;
+                                                                                                                        color: white;
+                                                                                                                        border: none;
+                                                                                                                        border-radius: 50%;
+                                                                                                                        width: 45px;
+                                                                                                                        height: 45px;
+                                                                                                                        display: flex;
+                                                                                                                        justify-content: center;
+                                                                                                                        align-items: center;
+                                                                                                                        cursor: pointer;
+                                                                                                                        font-size: 24px;
+                                                                                                                    }
 
-                                                                                                                                                                                                                                                                            .control-button {
-                                                                                                                                                                                                                                                                                transition: opacity 0.5s ease-in-out;
-                                                                                                                                                                                                                                                                                opacity: 0;
-                                                                                                                                                                                                                                                                                visibility: hidden;
-                                                                                                                                                                                                                                                                            }
+                                                                                                                    .control-button {
+                                                                                                                        transition: opacity 0.5s ease-in-out;
+                                                                                                                        opacity: 0;
+                                                                                                                        visibility: hidden;
+                                                                                                                    }
 
-                                                                                                                                                                                                                                                                            .control-button.show {
-                                                                                                                                                                                                                                                                                opacity: 1;
-                                                                                                                                                                                                                                                                                visibility: visible;
-                                                                                                                                                                                                                                                                            }
-                                                                                                                                                                                                                                                                                */
+                                                                                                                    .control-button.show {
+                                                                                                                        opacity: 1;
+                                                                                                                        visibility: visible;
+                                                                                                                    }
+                                                                                                                        */
     </style>
 
     <!-- Breadcrumb Begin -->
