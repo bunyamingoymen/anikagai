@@ -19,7 +19,6 @@ use App\Http\Controllers\WebtoonEpisodeController;
 use Illuminate\Support\Facades\Route;
 
 
-
 Route::controller(AdminController::class)->group(function () {
     Route::get("/admin/contact", "contactScreen")->name('admin_contact_screen');
     Route::post("/admin/contact/ajax", "contactGetData")->name('admin_contact_get_data');

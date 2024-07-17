@@ -1,30 +1,11 @@
 <?php
 
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AnimeCalendarController;
-use App\Http\Controllers\AnimeController;
-use App\Http\Controllers\AnimeEpisodecontroller;
-use App\Http\Controllers\AuthClauseController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\AuthGroupController;
-use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\Controller;
-use App\Http\Controllers\DataController;
-use App\Http\Controllers\FollowUserController;
 use App\Http\Controllers\IndexController;
 use App\Http\Controllers\IndexDataController;
-use App\Http\Controllers\IndexUserController;
-use App\Http\Controllers\KeyValueController;
-use App\Http\Controllers\NotificationAdminController;
 use App\Http\Controllers\NotificationController;
-use App\Http\Controllers\PageController;
 use App\Http\Controllers\RssController;
-use App\Http\Controllers\TagController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\WebtoonCalendarController;
-use App\Http\Controllers\WebtoonController;
-use App\Http\Controllers\WebtoonEpisodeController;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'is_active_index_user'], function () {
