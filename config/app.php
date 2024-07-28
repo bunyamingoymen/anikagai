@@ -170,6 +170,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Spatie\Glide\GlideServiceProvider::class,
+        App\Providers\CustomMigrationServiceProvider::class,
     ])->toArray(),
 
     /*

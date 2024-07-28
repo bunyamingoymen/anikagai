@@ -10,11 +10,12 @@ class Kernel extends ConsoleKernel
 
     protected $commands = [
         \App\Console\Commands\GenerateSitemap::class,
+        Commands\FreshMigrate::class,
     ];
     /**
      * Define the application's command schedule.
      */
-    
+
     protected function schedule(Schedule $schedule): void
     {
         // $schedule->command('inspire')->hourly();
