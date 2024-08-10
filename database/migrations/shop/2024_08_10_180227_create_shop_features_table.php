@@ -11,17 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::connection('shop_mysql')->create('products', function (Blueprint $table) {
+        Schema::connection('shop_mysql')->create('shop_features', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('code');
-            $table->string('url');
             $table->string('name');
-            $table->string('price');
             $table->longText('description')->nullable();
+            $table->tinyInteger('feature_type')->default(0);
             $table->unsignedBigInteger('create_user_code')->default(1);
             $table->unsignedBigInteger('update_user_code')->nullable();
-            $table->tinyInteger('is_approved')->default(0);
-            $table->tinyInteger('is_active')->default(0);
             $table->tinyInteger('deleted')->default(0);
             $table->timestamps();
         });
@@ -32,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('shop_features');
     }
 };

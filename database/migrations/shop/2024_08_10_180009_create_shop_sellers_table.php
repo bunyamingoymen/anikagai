@@ -11,17 +11,24 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::connection('shop_mysql')->create('products', function (Blueprint $table) {
+        Schema::connection('shop_mysql')->create('shop_sellers', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('code');
-            $table->string('url');
-            $table->string('name');
-            $table->string('price');
+            $table->string('show_name');
+            $table->string('username');
+            $table->string('email')->unique();
+            $table->string('password');
+            $table->string('image');
+            $table->Integer('product_count');
             $table->longText('description')->nullable();
+            $table->string('facebook')->nullable();
+            $table->string('instagram')->nullable();
+            $table->string('twitter')->nullable();
+            $table->string('discord')->nullable();
+            $table->string('website')->nullable();
+            $table->tinyInteger('is_active')->default(2);
             $table->unsignedBigInteger('create_user_code')->default(1);
             $table->unsignedBigInteger('update_user_code')->nullable();
-            $table->tinyInteger('is_approved')->default(0);
-            $table->tinyInteger('is_active')->default(0);
             $table->tinyInteger('deleted')->default(0);
             $table->timestamps();
         });
@@ -32,6 +39,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('shop_sellers');
     }
 };

@@ -11,9 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::connection('shop_mysql')->create('products', function (Blueprint $table) {
+        Schema::connection('shop_mysql')->create('shop_products', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('code');
+            $table->unsignedBigInteger('seller_code'); //satıcı kodu 1 ise ana satıcı satmaktadır. Anikagai 1 dir.
             $table->string('url');
             $table->string('name');
             $table->string('price');
@@ -32,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('products');
+        Schema::dropIfExists('shop_products');
     }
 };
