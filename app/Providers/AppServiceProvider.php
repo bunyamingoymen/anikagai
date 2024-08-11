@@ -72,6 +72,19 @@ class AppServiceProvider extends ServiceProvider
                 $commentPages = ['admin.comment.comment'];
                 $contactPages = ['admin.contact.contact'];
 
+                //shop:
+                $shopDataCategoryPages = ['admin.shop.data.category.list', 'admin.shop.data.category.edit'];
+                $shopDataFeaturePages = ['admin.shop.data.feature.list', 'admin.shop.data.feature.edit'];
+
+                $shopOrderPages = ['admin.shop.order.list', 'admin.shop.order.edit'];
+
+                $shopSettingsPages = ['admin.shop.other.setting'];
+
+                $shopProductPages = ['admin.shop.product.list', 'admin.shop.product.edit'];
+
+                $shopUserSellerPages = ['admin.shop.user.seller.list', 'admin.shop.user.seller.edit'];
+                $shopUserUserPages = ['admin.shop.user.user.list', 'admin.shop.user.user.edit'];
+
                 if ($this->hasTable('users')) {
 
                     //----------------------------------------------------------------
@@ -145,6 +158,17 @@ class AppServiceProvider extends ServiceProvider
 
                         $addNotifications = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/notification/create') ? 1 : 0;
 
+                        //shop:
+
+                        $shopDataCategoryRead = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/category') ? 1 : 0;
+                        $shopDataFeatureRead = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/feature') ? 1 : 0;
+                        $shopOrderRead = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/order') ? 1 : 0;
+                        $shopSettingsRead = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/settings') ? 1 : 0;
+                        $shopProductRead = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/product') ? 1 : 0;
+                        $shopSellerRead = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/seller') ? 1 : 0;
+                        $shopUsersRead = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/user') ? 1 : 0;
+
+
                         $authArray = [
                             'userRead' => $userRead, 'userGroupRead' => $userGroupRead, 'groupAuthRead' => $groupAuthRead,
                             'changeHome' => $changeHome, 'changeLogo' => $changeLogo, 'changeMeta' => $changeMeta,
@@ -155,7 +179,11 @@ class AppServiceProvider extends ServiceProvider
                             'pageRead' => $pageRead, 'categoryRead' => $categoryRead, 'tagRead' => $tagRead,
                             'commentRead' => $commentRead, 'contactRead' => $contactRead, 'indexUserRead' => $indexUserRead,
                             'changeSliderVideo' => $changeSliderVideo, 'changeThemeSettings' => $changeThemeSettings,
-                            'showNotifications' => $showNotifications, 'addNotifications' => $addNotifications
+                            'showNotifications' => $showNotifications, 'addNotifications' => $addNotifications,
+
+                            'shopDataCategoryRead' => $shopDataCategoryRead, 'shopDataFeatureRead' => $shopDataFeatureRead, 'shopOrderRead' => $shopOrderRead,
+                            'shopSettingsRead' => $shopSettingsRead, 'shopProductRead' => $shopProductRead, 'shopSellerRead' => $shopSellerRead,
+                            'shopUsersRead' => $shopUsersRead,
                         ];
                         //----------------------------------------------------------------
 
@@ -328,6 +356,68 @@ class AppServiceProvider extends ServiceProvider
                         $delete = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/notification/delete') ? 1 : 0;
 
                         $view->with(["create" => $create, "list" => $list, "delete" => $delete]);
+                    });
+
+                    //Shop:
+
+                    View::composer($shopDataCategoryPages, function ($view) {
+                        $create = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/category/create') ? 1 : 0;
+                        $list = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/category') ? 1 : 0;
+                        $update = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/category/update') ? 1 : 0;
+                        $delete = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/category/delete') ? 1 : 0;
+
+                        $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
+                    });
+
+                    View::composer($shopDataFeaturePages, function ($view) {
+                        $create = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/feature/create') ? 1 : 0;
+                        $list = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/feature') ? 1 : 0;
+                        $update = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/feature/update') ? 1 : 0;
+                        $delete = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/feature/delete') ? 1 : 0;
+
+                        $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
+                    });
+
+                    View::composer($shopOrderPages, function ($view) {
+                        $create = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/order/create') ? 1 : 0;
+                        $list = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/order') ? 1 : 0;
+                        $update = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/order/update') ? 1 : 0;
+                        $delete = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/order/delete') ? 1 : 0;
+
+                        $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
+                    });
+
+                    View::composer($shopSettingsPages, function ($view) {
+                        $list = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/settings') ? 1 : 0;
+
+                        $view->with(["list" => $list]);
+                    });
+
+                    View::composer($shopProductPages, function ($view) {
+                        $create = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/product/create') ? 1 : 0;
+                        $list = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/product') ? 1 : 0;
+                        $update = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/product/update') ? 1 : 0;
+                        $delete = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/product/delete') ? 1 : 0;
+
+                        $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
+                    });
+
+                    View::composer($shopUserSellerPages, function ($view) {
+                        $create = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/seller/create') ? 1 : 0;
+                        $list = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/seller') ? 1 : 0;
+                        $update = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/seller/update') ? 1 : 0;
+                        $delete = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/seller/delete') ? 1 : 0;
+
+                        $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
+                    });
+
+                    View::composer($shopUserUserPages, function ($view) {
+                        $create = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/user/create') ? 1 : 0;
+                        $list = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/user') ? 1 : 0;
+                        $update = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/user/update') ? 1 : 0;
+                        $delete = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/user/delete') ? 1 : 0;
+
+                        $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
                     });
                 }
                 //----------------------------------------------------
@@ -507,7 +597,8 @@ class AppServiceProvider extends ServiceProvider
             return Auth::user() ? ["0", "1", "2"] : ["0"];
     }
 
-    protected function findTitleValue($path = null) {
+    protected function findTitleValue($path = null)
+    {
         $path = $path ?? Request::path();
         $keyPrefix = 'title.titles.';
 

@@ -33,8 +33,8 @@ Route::controller(FeaturesController::class)->group(function () {
 
 
 Route::controller(OrderController::class)->group(function () {
-    Route::get("/admin/shop/order", "list")->name('admin_shop_order_list');
-    Route::get("/admin/shop/order/ajax", "getData")->name('admin_shop_order_get_data');
+    Route::get("/admin/shop/order/{type?}", "list")->name('admin_shop_order_list');
+    Route::get("/admin/shop/order/ajax/{type?}", "getData")->name('admin_shop_order_get_data');
 
     Route::get("/admin/shop/order/create", "edit")->name('admin_shop_order_create');
     Route::get("/admin/shop/order/update", "edit")->name('admin_shop_order_update');
@@ -44,7 +44,7 @@ Route::controller(OrderController::class)->group(function () {
 
 Route::controller(ProductController::class)->group(function () {
     Route::get("/admin/shop/product/{type?}", "list")->name('admin_shop_product_list');
-    Route::get("/admin/shop/product/ajax", "getData")->name('admin_shop_product_get_data');
+    Route::get("/admin/shop/product/ajax/{type?}", "getData")->name('admin_shop_product_get_data');
 
     Route::get("/admin/shop/product/create", "edit")->name('admin_shop_product_create');
     Route::get("/admin/shop/product/update", "edit")->name('admin_shop_product_update');

@@ -82,9 +82,10 @@
                         <span>Siparişler</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li id=""><a href="{{route('admin_shop_order_list')}}">Onaylanmış</a></li>
-                        <li id=""><a href="{{route('admin_shop_order_list')}}">Onaylanmamış</a></li>
-                        <li id=""><a href="{{route('admin_shop_order_list')}}">İptal Edilen</a></li>
+                        <li id=""><a href="{{route('admin_shop_order_list')}}">Tümü</a></li>
+                        <li id=""><a href="{{route('admin_shop_order_list',['type'=>'approved'])}}">Onaylanmış</a></li>
+                        <li id=""><a href="{{route('admin_shop_order_list',['type'=>'unapproved'])}}">Onaylanmamış</a></li>
+                        <li id=""><a href="{{route('admin_shop_order_list',['type'=>'cancelled'])}}">İptal Edilen</a></li>
                     </ul>
                 </li>
 
