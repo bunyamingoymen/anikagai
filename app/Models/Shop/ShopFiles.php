@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class ShopFiles extends Model
 {
     use HasFactory;
+
+    // İkinci veritabanı bağlantısını belirtiyoruz
+    protected $connection = 'shop_mysql';
 }
