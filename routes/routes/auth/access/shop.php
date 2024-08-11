@@ -22,12 +22,14 @@ Route::controller(CategoryController::class)->group(function () {
 
 Route::controller(FeaturesController::class)->group(function () {
     Route::get("/admin/shop/feature", "list")->name('admin_shop_feature_list');
-    Route::get("/admin/shop/feature/ajax", "getData")->name('admin_shop_feature_get_data');
+    Route::post("/admin/shop/feature/ajax", "getData")->name('admin_shop_feature_get_data');
 
     Route::get("/admin/shop/feature/create", "edit")->name('admin_shop_feature_create');
     Route::get("/admin/shop/feature/update", "edit")->name('admin_shop_feature_update');
 
-    Route::get("/admin/shop/feature/delete", "delete")->name('admin_shop_feature_delete');
+    Route::post("/admin/shop/feature/save", "save")->name('admin_shop_feature_save');
+
+    Route::post("/admin/shop/feature/delete", "delete")->name('admin_shop_feature_delete');
 });
 
 

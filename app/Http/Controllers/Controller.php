@@ -14,8 +14,9 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Config;
 use Spatie\Sitemap\Sitemap;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 class Controller extends BaseController
 {
@@ -140,5 +141,49 @@ class Controller extends BaseController
         $notification->save();
 
         return true;
+    }
+
+    public function generateUniqueCode($database, $table, $column = 'code', $length = 10)
+    {
+        // Belirli bir veritabanı bağlantısını kullanarak kontrol et
+        $connection = DB::connection($database);
+
+        do {
+            // Rastgele bir kod oluştur
+            $code = Str::lower(Str::random($length));
+
+            // Oluşturulan kodun mevcut tabloda olup olmadığını kontrol et
+            $exists = $connection->table($table)->where($column, $code)->exists();
+        } while ($exists);
+
+        return $code;
+    }
+
+    public function getDataFromDatabase($database, $model, $filters = [], $pagination = ['take' => 15, 'page' => 1])
+    {
+        // Veritabanı bağlantısını seç
+        $connection = DB::connection($database);
+
+        // Modelin tablo adını al
+        $table = (new $model)->getTable();
+
+        // Pagination ve filtre ayarları
+        $take = $pagination['take'];
+        $skip = (($pagination['page'] - 1) * $take);
+
+        // Başlangıç query
+        $query = $connection->table($table)->where('deleted', 0);
+
+        // Filtreleri uygula
+        foreach ($filters as $column => $value) {
+            $query->where($column, $value);
+        }
+
+        // Verileri al
+        $items = $query->skip($skip)->take($take)->get();
+        $totalCount = $connection->table($table)->where('deleted', 0)->count();
+        $page_count = ceil($totalCount / $take);
+
+        return ['items' => $items, 'page_count' => $page_count];
     }
 }
