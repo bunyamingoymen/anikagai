@@ -30,9 +30,9 @@ Route::controller(UserController::class)->group(function () {
 });
 
 Route::middleware(['superuser'])->group(function () {
-    require __DIR__.'/superUser.php';
+    require __DIR__.'/auth/superUser.php';
 });
 
 Route::middleware(['access'])->group(function () {
-    require __DIR__.'/access.php';
+    require __DIR__.'/auth/access.php';
 });

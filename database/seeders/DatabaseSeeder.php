@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
     private function callKeyValueSeeder(): void
     {
         $this->call(KeyValueSeeder::class);
+        $this->call(KeyValueInsult::class);
     }
 
     private function callThemeSeeder(): void

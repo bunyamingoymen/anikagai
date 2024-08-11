@@ -61,6 +61,55 @@
                         <li id="sidebarTag"></li>
                     </ul>
                 </li>
+                <li id="" class="menu-title">Mağaza <span class="badge badge-danger float-right">Kapalı</span></li>
+
+                <li id="">
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span>Ürünler</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li id=""><a href="#">Satışda</a></li>
+                        <li id=""><a href="#">Onaylanmamış</a></li>
+                        <li id=""><a href="#">Arşivde</a></li>
+                    </ul>
+                </li>
+
+                <li id="">
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="fas fa-shopping-basket"></i>
+                        <span>Siparişler</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li id=""><a href="#">Onaylanmış</a></li>
+                        <li id=""><a href="#">Onaylanmamış</a></li>
+                        <li id=""><a href="#">İptal Edilen</a></li>
+                    </ul>
+                </li>
+
+                <li id="">
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="far fa-file-alt"></i>
+                        <span>Veriler</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li id=""><a href="#">Kategoriler</a></li>
+                        <li id=""><a href="#">Özellikler</a></li>
+                    </ul>
+                </li>
+
+                <li id="">
+                    <a href="javascript: void(0);" class="has-arrow waves-effect">
+                        <i class="fas fa-users"></i>
+                        <span>Kullanıcılar</span>
+                    </a>
+                    <ul class="sub-menu" aria-expanded="false">
+                        <li id=""><a href="#">Üyeler</a></li>
+                        <li id=""><a href="#">Satıcılar</a></li>
+                    </ul>
+                </li>
+
+                <li id=""><a href="#"><i class="fas fa-cog"></i> <span>Mağaza Ayarları</span></a></li>
 
                 <li id="userDataSection" class="menu-title" hidden>Kullanıcı Verileri</li>
 
