@@ -5,14 +5,14 @@ namespace App\Http\Controllers\Shop\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class SellerController extends Controller
+class FeaturesController extends Controller
 {
     public function list(){
-        return view('admin.shop.user.seller.list');
+        return view('admin.shop.data.feature.list');
     }
 
     public function edit(Request $request){
-        return view('admin.shop.user.seller.edit');
+        return view('admin.shop.data.feature.edit');
     }
 
     public function create(){
