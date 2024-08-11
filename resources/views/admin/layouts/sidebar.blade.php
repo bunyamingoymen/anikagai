@@ -69,9 +69,10 @@
                         <span>Ürünler</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li id=""><a href="#">Satışda</a></li>
-                        <li id=""><a href="#">Onaylanmamış</a></li>
-                        <li id=""><a href="#">Arşivde</a></li>
+                        <li id=""><a href="{{route('admin_shop_product_list')}}">Tümü</a></li>
+                        <li id=""><a href="{{route('admin_shop_product_list',['type'=>'sale'])}}">Satışda</a></li>
+                        <li id=""><a href="{{route('admin_shop_product_list',['type'=>'unapproved'])}}">Onaylanmamış</a></li>
+                        <li id=""><a href="{{route('admin_shop_product_list',['type'=>'archive'])}}">Arşivde</a></li>
                     </ul>
                 </li>
 
@@ -81,9 +82,9 @@
                         <span>Siparişler</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li id=""><a href="#">Onaylanmış</a></li>
-                        <li id=""><a href="#">Onaylanmamış</a></li>
-                        <li id=""><a href="#">İptal Edilen</a></li>
+                        <li id=""><a href="{{route('admin_shop_order_list')}}">Onaylanmış</a></li>
+                        <li id=""><a href="{{route('admin_shop_order_list')}}">Onaylanmamış</a></li>
+                        <li id=""><a href="{{route('admin_shop_order_list')}}">İptal Edilen</a></li>
                     </ul>
                 </li>
 
@@ -93,8 +94,8 @@
                         <span>Veriler</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li id=""><a href="#">Kategoriler</a></li>
-                        <li id=""><a href="#">Özellikler</a></li>
+                        <li id=""><a href="{{route('admin_shop_category_list')}}">Kategoriler</a></li>
+                        <li id=""><a href="{{route('admin_shop_feature_list')}}">Özellikler</a></li>
                     </ul>
                 </li>
 
@@ -104,8 +105,8 @@
                         <span>Kullanıcılar</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li id=""><a href="#">Üyeler</a></li>
-                        <li id=""><a href="#">Satıcılar</a></li>
+                        <li id=""><a href="{{route('admin_shop_user_list')}}">Üyeler</a></li>
+                        <li id=""><a href="{{route('admin_shop_seller_list')}}">Satıcılar</a></li>
                     </ul>
                 </li>
 

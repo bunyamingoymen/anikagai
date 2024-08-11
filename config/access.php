@@ -132,5 +132,48 @@ return [
         'admin/notification/list/ajax' => 67,
         'admin/notification/create' => 68,
         'admin/notification/delete' => 69,
+
+
+        //----------------------------------------------------------------
+
+
+        'admin/shop/category' => 1001,
+        'admin/shop/category/ajax' => 1001,
+        'admin/shop/category/create' => 1002,
+        'admin/shop/category/update' => 1003,
+        'admin/shop/category/delete' => 1004,
+
+        'admin/shop/feature' => 1005,
+        'admin/shop/feature/ajax' => 1005,
+        'admin/shop/feature/create' => 1006,
+        'admin/shop/feature/update' => 1007,
+        'admin/shop/feature/delete' => 1008,
+
+        'admin/shop/order' => 1009,
+        'admin/shop/order/ajax' => 1009,
+        'admin/shop/order/create' => 1010,
+        'admin/shop/order/update' => 1011,
+        'admin/shop/order/delete' => 1012,
+
+        'admin/shop/product' => 1013,
+        'admin/shop/product/ajax' => 1013,
+        'admin/shop/product/create' => 1014,
+        'admin/shop/product/update' => 1015,
+        'admin/shop/product/delete' => 1016,
+
+        'admin/shop/seller' => 1017,
+        'admin/shop/seller/ajax' => 1017,
+        'admin/shop/seller/create' => 1018,
+        'admin/shop/seller/update' => 1019,
+        'admin/shop/seller/delete' => 1020,
+
+        'admin/shop/settings' => 1021,
+
+        'admin/shop/user' => 1022,
+        'admin/shop/user/ajax' => 1022,
+        'admin/shop/user/create' => 1023,
+        'admin/shop/user/update' => 1024,
+        'admin/shop/user/delete' => 1025,
+
     ],
 ];

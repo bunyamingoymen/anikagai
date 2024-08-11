@@ -314,5 +314,106 @@ return [
         'admin/notification/create' => "Yeni Bildirim Gönder",
         '/admin/notification/create' => ["Admin", "Bildirimler", "Yeni Bildirim Gönder"],
         '//admin/notification/create' => ["admin_index", "admin_show_notifications", "#"],
+
+
+        //----------------------------------------------------------------
+
+        'admin/shop/category' => "Kategoriler",
+        '/admin/shop/category' => ["Admin", "Kategoriler"],
+        '//admin/shop/category' => ["admin_index", "#"],
+
+        'admin/shop/category/create' => "Yeni Kategori Ekle",
+        '/admin/shop/category/create' => ["Admin", "Kategoriler", "Yeni Kategori Ekle"],
+        '//admin/shop/category/create' => ["admin_index", "admin_shop_category_list", "#"],
+
+        'admin/shop/category/update' => "Kategori Güncelle",
+        '/admin/shop/category/update' => ["Admin", "Kategoriler", "Kategori Güncelle"],
+        '//admin/shop/category/update' => ["admin_index", "admin_shop_category_list", "#"],
+
+
+
+
+        'admin/shop/feature' => "Özellikler",
+        '/admin/shop/feature' => ["Admin", "Özellikler"],
+        '//admin/shop/feature' => ["admin_index", "#"],
+
+        'admin/shop/feature/create' => "Yeni Özellik Ekle",
+        '/admin/shop/feature/create' => ["Admin", "Özellikler", "Yeni Özellik Ekle"],
+        '//admin/shop/feature/create' => ["admin_index", "admin_shop_feature_list", "#"],
+
+        'admin/shop/feature/update' => "Özellik Güncelle",
+        '/admin/shop/feature/update' => ["Admin", "Özellikler", "Özellik Güncelle"],
+        '//admin/shop/feature/update' => ["admin_index", "admin_shop_feature_list", "#"],
+
+
+
+
+        'admin/shop/order' => "Siparişler",
+        '/admin/shop/order' => ["Admin", "Siparişler"],
+        '//admin/shop/order' => ["admin_index", "#"],
+
+        'admin/shop/order/create' => "Yeni Sipariş Ekle",
+        '/admin/shop/order/create' => ["Admin", "Siparişler", "Yeni Sipariş Ekle"],
+        '//admin/shop/order/create' => ["admin_index", "admin_shop_order_list", "#"],
+
+        'admin/shop/order/update' => "Sipariş Güncelle",
+        '/admin/shop/order/update' => ["Admin", "Siparişler", "Sipariş Güncelle"],
+        '//admin/shop/order/update' => ["admin_index", "admin_shop_order_list", "#"],
+
+
+
+
+
+        'admin/shop/product' => "Ürünler",
+        '/admin/shop/product' => ["Admin", "Ürünler"],
+        '//admin/shop/product' => ["admin_index", "#"],
+
+        'admin/shop/product/create' => "Yeni Ürün Ekle",
+        '/admin/shop/product/create' => ["Admin", "Ürünler", "Yeni Ürün Ekle"],
+        '//admin/shop/product/create' => ["admin_index", "admin_shop_product_list", "#"],
+
+        'admin/shop/product/update' => "Ürün Güncelle",
+        '/admin/shop/product/update' => ["Admin", "Ürünler", "Ürün Güncelle"],
+        '//admin/shop/product/update' => ["admin_index", "admin_shop_product_list", "#"],
+
+
+
+
+
+        'admin/shop/seller' => "Satıcılar",
+        '/admin/shop/seller' => ["Admin", "Satıcılar"],
+        '//admin/shop/seller' => ["admin_index", "#"],
+
+        'admin/shop/seller/create' => "Yeni Satıcı Ekle",
+        '/admin/shop/seller/create' => ["Admin", "Satıcılar", "Yeni Satıcı Ekle"],
+        '//admin/shop/seller/create' => ["admin_index", "admin_shop_seller_list", "#"],
+
+        'admin/shop/seller/update' => "Satıcı Güncelle",
+        '/admin/shop/seller/update' => ["Admin", "Satıcılar", "Satıcı Güncelle"],
+        '//admin/shop/seller/update' => ["admin_index", "admin_shop_seller_list", "#"],
+
+
+
+
+
+        'admin/shop/settings' => "Mağaza Ayarları",
+        '/admin/shop/settings' => ["Admin", "Mağaza Ayarları"],
+        '//admin/shop/settings' => ["admin_index", "#"],
+
+
+
+
+        'admin/shop/user' => "Üyeler",
+        '/admin/shop/user' => ["Admin", "Üyeler"],
+        '//admin/shop/user' => ["admin_index", "#"],
+
+        'admin/shop/user/create' => "Yeni Üye Ekle",
+        '/admin/shop/user/create' => ["Admin", "Üyeler", "Yeni Üye Ekle"],
+        '//admin/shop/user/create' => ["admin_index", "admin_shop_category_list", "#"],
+
+        'admin/shop/user/update' => "Üye Güncelle",
+        '/admin/shop/user/update' => ["Admin", "Üyeler", "Üye Güncelle"],
+        '//admin/shop/user/update' => ["admin_index", "admin_shop_category_list", "#"],
+
     ],
 ];
