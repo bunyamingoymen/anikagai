@@ -95,9 +95,11 @@ class AppServiceProvider extends ServiceProvider
                         }
                         //----------------------------------------------------------------
                         // Başlıklar
-                        $title = Config::get('title.titles.' . Request::path());
-                        $pathName = Config::get('title.titles./' . Request::path());
-                        $pathRoute = Config::get('title.titles.//' . Request::path());
+                            $titleValues = $this->findTitleValue();
+
+                            $title = $titleValues['title'];
+                            $pathName = $titleValues['pathName'];
+                            $pathRoute = $titleValues['pathRoute'];
                         //----------------------------------------------------------------
                         //--Yetkiler
 
@@ -503,5 +505,45 @@ class AppServiceProvider extends ServiceProvider
             return Auth::user() ? ["0", "1", "2"] : ["0", "2"];
         if ($type == 1)
             return Auth::user() ? ["0", "1", "2"] : ["0"];
+    }
+
+    protected function findTitleValue($path = null) {
+        $path = $path ?? Request::path();
+        $keyPrefix = 'title.titles.';
+
+        $defaultValue = [
+            'title' => 'Başlık Bulunamadı',
+            'pathName' => ['Admin'],
+            'pathRoute' => ["admin_index"],
+        ];
+
+        while ($path !== '') {
+            $title = Config::get($keyPrefix . $path);
+            $pathName = Config::get($keyPrefix . '/' . $path);
+            $pathRoute = Config::get($keyPrefix . '//' . $path);
+
+            if ($title || $pathName || $pathRoute) {
+                return [
+                    'title' => $title ?: $defaultValue['title'],
+                    'pathName' => $pathName ?: $defaultValue['pathName'],
+                    'pathRoute' => $pathRoute ?: $defaultValue['pathRoute'],
+                ];
+            }
+
+            // Son / işaretinden sonrasını sil
+            $lastSlashPosition = strrpos($path, '/');
+            if ($lastSlashPosition === false) {
+                break; // Artık / işareti yok, döngüden çık
+            }
+
+            $path = substr($path, 0, $lastSlashPosition);
+        }
+
+        // Hiçbir değer bulunamadığında özel bir değer döndür
+        return [
+            'title' => $defaultValue['title'],
+            'pathName' => $defaultValue['pathName'],
+            'pathRoute' => $defaultValue['pathRoute'],
+        ];
     }
 }
