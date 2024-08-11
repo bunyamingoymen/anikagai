@@ -75,3 +75,7 @@ Route::controller(UserController::class)->group(function () {
 
     Route::get("/admin/shop/user/delete", "delete")->name('admin_shop_user_delete');
 });
+
+Route::controller(KeyValueController::class)->group(function () {
+    Route::get("/admin/shop/cargoCompanies", "cargoList")->name('admin_shop_cargo_companies_list');
+});

@@ -175,5 +175,8 @@ return [
         'admin/shop/user/update' => 1024,
         'admin/shop/user/delete' => 1025,
 
+
+        'admin/shop/cargoCompanies' => 1026,
+
     ],
 ];

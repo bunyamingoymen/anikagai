@@ -415,5 +415,13 @@ return [
         '/admin/shop/user/update' => ["Admin", "Üyeler", "Üye Güncelle"],
         '//admin/shop/user/update' => ["admin_index", "admin_shop_category_list", "#"],
 
+
+
+
+
+        'admin/shop/cargoCompanies' => "Kargo Firmaları",
+        '/admin/shop/cargoCompanies' => ["Admin", "Kargo Firmaları"],
+        '//admin/shop/cargoCompanies' => ["admin_index", "#"],
+
     ],
 ];

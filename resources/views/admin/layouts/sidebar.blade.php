@@ -75,6 +75,7 @@
                     <ul class="sub-menu" aria-expanded="false">
                         <li id="sidebarShopDataCateogorySection"></li>
                         <li id="sidebarShopDataFeatureSection"></li>
+                        <li id="sidebarShopDataCargoCompaniesSection"></li>
                     </ul>
                 </li>
 
@@ -85,6 +86,7 @@
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
                         <li id="sidebarShopUserUsersSection"></li>
+                        <li id="sidebarShopUserSellerSection"></li>
                         <li id="sidebarShopUserSellerSection"></li>
                     </ul>
                 </li>
@@ -383,7 +385,8 @@
             $authArray['shopSettingsRead'] ||
             $authArray['shopProductRead'] ||
             $authArray['shopSellerRead'] ||
-            $authArray['shopUsersRead'] )
+            $authArray['shopUsersRead'] ||
+            $authArray['shopDataCargoCompaniesRead'])
 
         document.getElementById('sidebarShopAllSection').hidden = false;
 
@@ -421,7 +424,7 @@
             document.getElementById('sidebarShopSettingsSection').innerHTML = html;
         @endif
 
-        @if ($authArray['shopDataCategoryRead'] || $authArray['shopDataFeatureRead'])
+        @if ($authArray['shopDataCategoryRead'] || $authArray['shopDataFeatureRead'] || $authArray['shopDataCargoCompaniesRead'])
 
             document.getElementById('sidebarShopDataSection').hidden = false;
 
@@ -436,6 +439,12 @@
                 html = `<a href="{{route('admin_shop_feature_list')}}">Özellikler</a>`;
                 document.getElementById('sidebarShopDataFeatureSection').innerHTML = html;
             @endif
+
+            @if ($authArray['shopDataCargoCompaniesRead'] )
+                html = `<a href="{{route('admin_shop_cargo_companies_list')}}">Kargo Firmaları</a>`;
+                document.getElementById('sidebarShopDataCargoCompaniesSection').innerHTML = html;
+            @endif
+
         @endif
 
         @if ($authArray['shopSellerRead'] || $authArray['shopUsersRead'])

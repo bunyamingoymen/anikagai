@@ -75,6 +75,7 @@ class AppServiceProvider extends ServiceProvider
                 //shop:
                 $shopDataCategoryPages = ['admin.shop.data.category.list', 'admin.shop.data.category.edit'];
                 $shopDataFeaturePages = ['admin.shop.data.feature.list', 'admin.shop.data.feature.edit'];
+                $shopDataCargoCompaniesPages = ['admin.shop.data.other.cargo_companies'];
 
                 $shopOrderPages = ['admin.shop.order.list', 'admin.shop.order.edit'];
 
@@ -167,6 +168,7 @@ class AppServiceProvider extends ServiceProvider
                         $shopProductRead = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/product') ? 1 : 0;
                         $shopSellerRead = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/seller') ? 1 : 0;
                         $shopUsersRead = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/user') ? 1 : 0;
+                        $shopDataCargoCompaniesRead = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/cargoCompanies') ? 1 : 0;
 
 
                         $authArray = [
@@ -183,7 +185,7 @@ class AppServiceProvider extends ServiceProvider
 
                             'shopDataCategoryRead' => $shopDataCategoryRead, 'shopDataFeatureRead' => $shopDataFeatureRead, 'shopOrderRead' => $shopOrderRead,
                             'shopSettingsRead' => $shopSettingsRead, 'shopProductRead' => $shopProductRead, 'shopSellerRead' => $shopSellerRead,
-                            'shopUsersRead' => $shopUsersRead,
+                            'shopUsersRead' => $shopUsersRead, 'shopDataCargoCompaniesRead' =>$shopDataCargoCompaniesRead,
                         ];
                         //----------------------------------------------------------------
 
@@ -418,6 +420,12 @@ class AppServiceProvider extends ServiceProvider
                         $delete = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/user/delete') ? 1 : 0;
 
                         $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
+                    });
+
+                    View::composer($shopDataCargoCompaniesPages, function ($view) {
+                        $list = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/cargoCompanies') ? 1 : 0;
+
+                        $view->with(["list" => $list]);
                     });
                 }
                 //----------------------------------------------------
