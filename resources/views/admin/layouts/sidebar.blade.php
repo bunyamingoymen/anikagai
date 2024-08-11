@@ -61,57 +61,35 @@
                         <li id="sidebarTag"></li>
                     </ul>
                 </li>
-                <li id="" class="menu-title">Mağaza <span class="badge badge-danger float-right">Kapalı</span></li>
+                <li id="sidebarShopAllSection" class="menu-title" hidden>Mağaza <span class="badge badge-danger float-right">Kapalı</span></li>
 
-                <li id="">
-                    <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="fas fa-shopping-bag"></i>
-                        <span>Ürünler</span>
-                    </a>
-                    <ul class="sub-menu" aria-expanded="false">
-                        <li id=""><a href="{{route('admin_shop_product_list')}}">Tümü</a></li>
-                        <li id=""><a href="{{route('admin_shop_product_list',['type'=>'sale'])}}">Satışda</a></li>
-                        <li id=""><a href="{{route('admin_shop_product_list',['type'=>'unapproved'])}}">Onaylanmamış</a></li>
-                        <li id=""><a href="{{route('admin_shop_product_list',['type'=>'archive'])}}">Arşivde</a></li>
-                    </ul>
-                </li>
+                <li id="sidebarShopProductsSection"></li>
 
-                <li id="">
-                    <a href="javascript: void(0);" class="has-arrow waves-effect">
-                        <i class="fas fa-shopping-basket"></i>
-                        <span>Siparişler</span>
-                    </a>
-                    <ul class="sub-menu" aria-expanded="false">
-                        <li id=""><a href="{{route('admin_shop_order_list')}}">Tümü</a></li>
-                        <li id=""><a href="{{route('admin_shop_order_list',['type'=>'approved'])}}">Onaylanmış</a></li>
-                        <li id=""><a href="{{route('admin_shop_order_list',['type'=>'unapproved'])}}">Onaylanmamış</a></li>
-                        <li id=""><a href="{{route('admin_shop_order_list',['type'=>'cancelled'])}}">İptal Edilen</a></li>
-                    </ul>
-                </li>
+                <li id="sidebarShopOrderSection"></li>
 
-                <li id="">
+                <li id="sidebarShopDataSection" hidden>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="far fa-file-alt"></i>
                         <span>Veriler</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li id=""><a href="{{route('admin_shop_category_list')}}">Kategoriler</a></li>
-                        <li id=""><a href="{{route('admin_shop_feature_list')}}">Özellikler</a></li>
+                        <li id="sidebarShopDataCateogorySection"></li>
+                        <li id="sidebarShopDataFeatureSection"></li>
                     </ul>
                 </li>
 
-                <li id="">
+                <li id="sidebarShopUserAllSection" hidden>
                     <a href="javascript: void(0);" class="has-arrow waves-effect">
                         <i class="fas fa-users"></i>
                         <span>Kullanıcılar</span>
                     </a>
                     <ul class="sub-menu" aria-expanded="false">
-                        <li id=""><a href="{{route('admin_shop_user_list')}}">Üyeler</a></li>
-                        <li id=""><a href="{{route('admin_shop_seller_list')}}">Satıcılar</a></li>
+                        <li id="sidebarShopUserUsersSection"></li>
+                        <li id="sidebarShopUserSellerSection"></li>
                     </ul>
                 </li>
 
-                <li id=""><a href="#"><i class="fas fa-cog"></i> <span>Mağaza Ayarları</span></a></li>
+                <li id="sidebarShopSettingsSection"></li>
 
                 <li id="userDataSection" class="menu-title" hidden>Kullanıcı Verileri</li>
 
@@ -171,11 +149,13 @@
 </div>
 
 <script>
+    var html = ``;
+
     @if ($authArray['animeRead'] == 1 || $authArray['animeEpisodeRead'] == 1 || $authArray['animeCalendarRead'] == 1)
 
         document.getElementById('sidebarAnimeSection').hidden = false;
 
-        var html = ``;
+        html = ``;
 
         @if ($authArray['animeRead'] == 1)
             html = `<a href="{{ route('admin_anime_list') }}">Animeler</a>`;
@@ -197,7 +177,7 @@
 
         document.getElementById('userDataSection').hidden = false;
 
-        var html = ``;
+        html = ``;
 
         @if ($authArray['contactRead'] == 1)
             html =
@@ -222,7 +202,7 @@
 
         document.getElementById('sidebarWebtoonSection').hidden = false;
 
-        var html = ``;
+        html = ``;
 
         @if ($authArray['webtoonRead'] == 1)
             html = `<a href="{{ route('admin_webtoon_list') }}">Webtoon'lar</a>`;
@@ -243,7 +223,7 @@
     @if ($authArray['showNotifications'] == 1 || $authArray['showNotifications'] == 1)
         document.getElementById('sidebarNotificationSection').hidden = false;
 
-        var html = ``;
+        html = ``;
 
         @if ($authArray['showNotifications'] == 1)
             html = `<a href="{{ route('admin_add_notifications_screen') }}">Yeni Bildirim Gönder</a>`;
@@ -260,7 +240,7 @@
 
         document.getElementById('sidebarOtherSection').hidden = false;
 
-        var html = ``;
+        html = ``;
 
         @if ($authArray['pageRead'] == 1)
             html = `<a href="{{ route('admin_page_list') }}">Sayfalar</a>`;
@@ -300,7 +280,7 @@
 
             document.getElementById('sidebarUserSection').hidden = false;
 
-            var html = ``;
+            html = ``;
 
             @if ($authArray['userRead'] == 1)
                 html = `<a href="{{ route('admin_user_list') }}">Kullanıcılar</a>`;
@@ -330,7 +310,7 @@
 
             document.getElementById('sidebarDataSection').hidden = false;
 
-            var html = ``;
+            html = ``;
 
             @if ($authArray['changeHome'] == 1)
                 html = `<a href="{{ route('admin_data_home_list') }}">Anasayfa Ayarları</a>`;
@@ -377,7 +357,7 @@
 
             document.getElementById('sidebarSuperUserSection').hidden = false;
 
-            var html = ``;
+            html = ``;
 
             @if ($authArray['adminMetaTag'] == 1)
                 html = `<a href="{{ route('admin_data_admin_meta_list') }}">Admin Meta Etiketleri</a>`;
@@ -392,6 +372,86 @@
             @if ($authArray['clauseAuthUpdate'] == 1)
                 html = `<a href="{{ route('admin_authclause_list') }}">Yetki Maddeleri</a>`;
                 document.getElementById('sidebarAuthClause').innerHTML = html;
+            @endif
+        @endif
+    @endif
+
+    @if (
+        $authArray['shopDataCategoryRead'] ||
+            $authArray['shopDataFeatureRead'] ||
+            $authArray['shopOrderRead'] ||
+            $authArray['shopSettingsRead'] ||
+            $authArray['shopProductRead'] ||
+            $authArray['shopSellerRead'] ||
+            $authArray['shopUsersRead'] )
+
+        document.getElementById('sidebarShopAllSection').hidden = false;
+
+        @if ($authArray['shopProductRead'])
+            html = `<a href="javascript: void(0);" class="has-arrow waves-effect">
+                            <i class="fas fa-shopping-bag"></i>
+                            <span>Ürünler</span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="false">
+                            <li id=""><a href="{{route('admin_shop_product_list')}}">Tümü</a></li>
+                            <li id=""><a href="{{route('admin_shop_product_list',['type'=>'sale'])}}">Satışda</a></li>
+                            <li id=""><a href="{{route('admin_shop_product_list',['type'=>'unapproved'])}}">Onaylanmamış</a></li>
+                            <li id=""><a href="{{route('admin_shop_product_list',['type'=>'archive'])}}">Arşivde</a></li>
+                        </ul>`;
+            document.getElementById('sidebarShopProductsSection').innerHTML = html;
+        @endif
+
+        @if($authArray['shopOrderRead'])
+            html = `<a href="javascript: void(0);" class="has-arrow waves-effect">
+                            <i class="fas fa-shopping-basket"></i>
+                            <span>Siparişler</span>
+                        </a>
+                        <ul class="sub-menu" aria-expanded="false">
+                            <li id=""><a href="{{route('admin_shop_order_list')}}">Tümü</a></li>
+                            <li id=""><a href="{{route('admin_shop_order_list',['type'=>'approved'])}}">Onaylanmış</a></li>
+                            <li id=""><a href="{{route('admin_shop_order_list',['type'=>'unapproved'])}}">Onaylanmamış</a></li>
+                            <li id=""><a href="{{route('admin_shop_order_list',['type'=>'cancelled'])}}">İptal Edilen</a></li>
+                        </ul>`;
+            document.getElementById('sidebarShopProductsSection').innerHTML = html;
+        @endif
+
+        @if($authArray['shopSettingsRead'])
+            html = `<a href="{{route('admin_shop_settings_list')}}"><i class="fas fa-cog"></i> <span>Mağaza Ayarları</span></a>`;
+
+            document.getElementById('sidebarShopSettingsSection').innerHTML = html;
+        @endif
+
+        @if ($authArray['shopDataCategoryRead'] || $authArray['shopDataFeatureRead'])
+
+            document.getElementById('sidebarShopDataSection').hidden = false;
+
+            html = ``;
+
+            @if ($authArray['shopDataCategoryRead'])
+                html = `<a href="{{route('admin_shop_category_list')}}">Kategoriler</a>`;
+                document.getElementById('sidebarShopDataCateogorySection').innerHTML = html;
+            @endif
+
+            @if ($authArray['shopDataFeatureRead'])
+                html = `<a href="{{route('admin_shop_feature_list')}}">Özellikler</a>`;
+                document.getElementById('sidebarShopDataFeatureSection').innerHTML = html;
+            @endif
+        @endif
+
+        @if ($authArray['shopSellerRead'] || $authArray['shopUsersRead'])
+
+            document.getElementById('sidebarShopUserAllSection').hidden = false;
+
+            html = ``;
+
+            @if ($authArray['shopSellerRead'] == 1)
+                html = `<a href="{{route('admin_shop_seller_list')}}">Satıcılar</a>`;
+                document.getElementById('sidebarShopUserSellerSection').innerHTML = html;
+            @endif
+
+            @if ($authArray['shopUsersRead'] == 1)
+                html = `<a href="{{route('admin_shop_user_list')}}">Üyeler</a>`;
+                document.getElementById('sidebarShopUserUsersSection').innerHTML = html;
             @endif
         @endif
     @endif
