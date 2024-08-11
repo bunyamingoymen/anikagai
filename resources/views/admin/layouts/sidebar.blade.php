@@ -412,7 +412,7 @@
                             <li id=""><a href="{{route('admin_shop_order_list',['type'=>'unapproved'])}}">Onaylanmamış</a></li>
                             <li id=""><a href="{{route('admin_shop_order_list',['type'=>'cancelled'])}}">İptal Edilen</a></li>
                         </ul>`;
-            document.getElementById('sidebarShopProductsSection').innerHTML = html;
+            document.getElementById('sidebarShopOrderSection').innerHTML = html;
         @endif
 
         @if($authArray['shopSettingsRead'])
