@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Shop\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Shop\ShopFeatures;
+use App\Models\Shop\ShopKeyValue;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -27,7 +28,7 @@ class FeaturesController extends Controller
     }
 
     public function save(Request $request){
-
+        //dd($request->toArray());
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
         ], [
@@ -38,13 +39,27 @@ class FeaturesController extends Controller
         $is_new = false;
         if(!$item){
             $item = new ShopFeatures();
-            $item->code = $this->generateUniqueCode('shop_mysql','shop_features');
+            $code = $this->generateUniqueCode('shop_mysql','shop_features');
+            $item->code = $code;
             $is_new = true;
-        }
+        }else $code = $item->code;
 
         $item->name = $request->name;
         $item->description = $request->description;
         $item->feature_type = $request->feature_type ?? 0;
+        ShopKeyValue::Where('key','feature_type_multiple_selection')->where('optional',$code)->delete();
+        if($item->feature_type == 1 && $request->has('multiple_choose')){
+            $key = 'feature_type_multiple_selection';
+            $optional = $code;
+            foreach($request->multiple_choose as $value){
+                $keyValue = new ShopKeyValue();
+                $keyValue->code = $this->generateUniqueCode('shop_mysql','shop_key_values');;
+                $keyValue->key = $key;
+                $keyValue->value = $value;
+                $keyValue->optional = $optional;
+                $keyValue->save();
+            }
+        }
 
         if($is_new){
             $item->create_user_code = Auth::guard('admin')->user()->code;

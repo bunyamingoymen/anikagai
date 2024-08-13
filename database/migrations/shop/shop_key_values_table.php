@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::connection('shop_mysql')->create('shop_key_values', function (Blueprint $table) {
             $table->id();
+            $table->string('code');
             $table->string('key');
             $table->longText('value')->nullable();
             $table->longText('optional')->nullable();
