@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::connection('shop_mysql')->create('shop_products', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('code');
-            $table->unsignedBigInteger('seller_code'); //satıcı kodu 1 ise ana satıcı satmaktadır. Anikagai 1 dir.
+            $table->string('code');
+            $table->string('seller_code'); //satıcı kodu 1 ise ana satıcı satmaktadır. Anikagai 1 dir.
             $table->string('url');
             $table->string('name');
             $table->string('price');

@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::connection('shop_mysql')->create('shop_category_products', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('category_code');
-            $table->unsignedBigInteger('product_code');
+            $table->string('category_code');
+            $table->string('product_code');
             $table->timestamps();
         });
     }

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::connection('shop_mysql')->create('shop_category_features', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('cateogry_code');
+            $table->string('category_code');
             $table->string('feature_code');
         });
     }

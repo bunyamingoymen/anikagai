@@ -12,12 +12,14 @@ use Illuminate\Support\Facades\Route;
 
 Route::controller(CategoryController::class)->group(function () {
     Route::get("/admin/shop/category", "list")->name('admin_shop_category_list');
-    Route::get("/admin/shop/category/ajax", "getData")->name('admin_shop_category_get_data');
+    Route::post("/admin/shop/category/ajax", "getData")->name('admin_shop_category_get_data');
 
     Route::get("/admin/shop/category/create", "edit")->name('admin_shop_category_create');
     Route::get("/admin/shop/category/update", "edit")->name('admin_shop_category_update');
 
-    Route::get("/admin/shop/category/delete", "delete")->name('admin_shop_category_delete');
+    Route::post("/admin/shop/category/save", "save")->name('admin_shop_category_save');
+
+    Route::post("/admin/shop/category/delete", "delete")->name('admin_shop_category_delete');
 });
 
 Route::controller(FeaturesController::class)->group(function () {

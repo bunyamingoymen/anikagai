@@ -11,4 +11,5 @@ class ShopCategoryFeatures extends Model
 
     // İkinci veritabanı bağlantısını belirtiyoruz
     protected $connection = 'shop_mysql';
+    public $timestamps = false;
 }

@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::connection('shop_mysql')->create('shop_orders', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('code');
-            $table->unsignedBigInteger('order_code');
-            $table->unsignedBigInteger('user_code');
+            $table->string('code');
+            $table->string('order_code');
+            $table->string('user_code');
             $table->Integer('product_count')->default(0);
             $table->tinyInteger('is_approved')->default(0);
             $table->tinyInteger('status')->default(0);

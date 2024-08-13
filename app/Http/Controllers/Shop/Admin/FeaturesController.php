@@ -48,6 +48,8 @@ class FeaturesController extends Controller
         $item->description = $request->description;
         $item->feature_type = $request->feature_type ?? 0;
         ShopKeyValue::Where('key','feature_type_multiple_selection')->where('optional',$code)->delete();
+
+
         if($item->feature_type == 1 && $request->has('multiple_choose')){
             $key = 'feature_type_multiple_selection';
             $optional = $code;

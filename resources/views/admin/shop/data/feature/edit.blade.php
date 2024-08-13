@@ -5,9 +5,9 @@
 
     $currentRouteName = Route::currentRouteName();
 
-    $auth = $currentRouteName == 'admin_shop_category_create' ? $create : $update;
+    $authType = $currentRouteName == 'admin_shop_category_create' ? $create : $update;
 @endphp
-    @if ($auth == 1)
+    @if ($authType)
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
@@ -192,7 +192,7 @@
         // Sayfa yüklenmeden önce bu JavaScript kodu çalışacak
         window.addEventListener('DOMContentLoaded', (event) => {
             // Değişkenin değerini kontrol et
-            @if ($auth == 0)
+            @if (!$authType)
                 // Değişken doğru ise yönlendirme yap
                 window.location.href = '{{ route('admin_index') }}';
             @endif
