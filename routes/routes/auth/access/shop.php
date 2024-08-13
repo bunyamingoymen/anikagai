@@ -68,6 +68,8 @@ Route::controller(SellerController::class)->group(function () {
 
 Route::controller(SettingsController::class)->group(function () {
     Route::get("/admin/shop/settings", "list")->name('admin_shop_settings_list');
+
+    Route::post("/admin/shop/generalSettings", "general_settings")->name('admin_shop_general_settings');
 });
 
 Route::controller(UserController::class)->group(function () {
