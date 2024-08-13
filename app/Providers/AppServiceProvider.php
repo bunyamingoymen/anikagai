@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Schema;
 use App\Models\Anime;
 use App\Models\NotificationUser;
+use App\Models\Shop\ShopKeyValue;
 use App\Models\Webtoon;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Route;
@@ -189,6 +190,14 @@ class AppServiceProvider extends ServiceProvider
                         ];
                         //----------------------------------------------------------------
 
+                        //Mağaza Ayarları:
+                        if($this->hasTable('ShopKeyValue')){
+                            $storeActiveDB = ShopKeyValue::Where('key','store_active')->first();
+                            if($storeActiveDB) $storeActive = $storeActiveDB->value == "1" ? true : false;
+                        }
+
+                        if(!isset($storeActive)) $storeActive = false;
+                        //----------------------------------------------------------------
                         // Görünüme veriyi gönder
                         $view->with([
                             'notificationAdmin' => $notificationAdmin,
@@ -197,6 +206,7 @@ class AppServiceProvider extends ServiceProvider
                             'pathName' => $pathName,
                             'pathRoute' => $pathRoute,
                             'authArray' => $authArray,
+                            'storeActive'=>$storeActive,
                         ]);
                     });
 

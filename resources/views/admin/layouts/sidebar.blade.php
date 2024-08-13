@@ -61,7 +61,7 @@
                         <li id="sidebarTag"></li>
                     </ul>
                 </li>
-                <li id="sidebarShopAllSection" class="menu-title" hidden>Mağaza <span class="badge badge-danger float-right">Kapalı</span></li>
+                <li id="sidebarShopAllSection" class="menu-title" hidden>Mağaza {!!$storeActive ? '<span class="badge badge-success float-right">Açık</span>' : '<span class="badge badge-danger float-right">Kapalı</span>'!!}</li>
 
                 <li id="sidebarShopProductsSection"></li>
 

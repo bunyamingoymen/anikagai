@@ -9,9 +9,12 @@ use Illuminate\Http\Request;
 class SettingsController extends Controller
 {
     public function list(){
+
+        //** General Settings */
         $storeActive = ShopKeyValue::Where('key','store_active')->first();
         $newSellerAccept = ShopKeyValue::Where('key','new_seller_accept')->first();
         $approwNotRequired = ShopKeyValue::Where('key','approw_not_required')->first();
+        //** General Settings */
 
         return view('admin.shop.other.setting',['storeActive'=>$storeActive, 'newSellerAccept'=>$newSellerAccept, 'approwNotRequired'=>$approwNotRequired]);
     }
