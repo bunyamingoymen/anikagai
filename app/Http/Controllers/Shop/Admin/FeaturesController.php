@@ -22,13 +22,13 @@ class FeaturesController extends Controller
         if(Route::currentRouteName() == "admin_shop_feature_update"){
             $item = ShopFeatures::Where('deleted',0)->Where('code',$request->code)->first();
             if(!$item) return redirect()->back()->with('error','Özellik güncellenirken bir hata meydana geldi');
-            return view('admin.shop.data.feature.edit',['item'=>$item]);
+            $values = ShopKeyValue::Where('key','feature_type_multiple_selection')->Where('optional',$request->code)->get();
+            return view('admin.shop.data.feature.edit',['item'=>$item, 'values'=>$values]);
         }
         return view('admin.shop.data.feature.edit');
     }
 
     public function save(Request $request){
-        //dd($request->toArray());
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
         ], [

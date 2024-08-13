@@ -41,12 +41,35 @@
                                 <div class="col-md-12 mb-3">
                                     <label for="feature_type">Özellik Tipi: </label>
                                     <select class="form-control" name="feature_type" id="feature_type" onchange="changeFeatureType()">
-                                        <option value="0">Yazı</option>
-                                        <option value="1">Çoktan Seçmeli</option>
+                                        <option value="0" {{isset($item) && $item->feature_type == 0 ? 'selected' : ''}}>Yazı</option>
+                                        <option value="1" {{isset($item) && $item->feature_type == 1 ? 'selected' : ''}}>Çoktan Seçmeli</option>
                                     </select>
                                 </div>
 
-                                <div class="col-md-12 mb-3" id="feature_type_multiple_id" hidden>
+                                <div class="col-md-12 mb-3" id="feature_type_multiple_id" {{ !(isset($item) && isset($values) && $item->feature_type == 1) ? 'hidden':'' }}>
+                                    @if (isset($item) && isset($values) && $item->feature_type == 1)
+                                    <div class="row mb-3">
+                                        <label>Çoktan Seçmeli Seçenekler:</label>
+                                    </div>
+                                        <div id="feature_type_multiple_choose">
+                                            @foreach ($values as $key=>$value)
+                                            <div class="row mb-3 feature_type_multiple_chooses_div" id="feature_type_multiple_choose_{{ ($key+1) }}">
+                                                <button type="button" class="btn btn-danger" id="feature_type_multiple_choose_count_{{ ($key+1) }}">{{ ($key+1) }}</button>
+                                                <div class="m-1 mr-3 ml-3">
+                                                    <input type="text" class="form-control feature_type_multiple_chooses" name="multiple_choose[]" id="multiple_choose_{{ ($key+1) }}" value="{{$value->value}}" placeholder="{{ ($key+1) }}. seçenek" required>
+                                                </div>
+                                                @if ($key != 0)
+                                                    <div class="m-1 mr-3 ml-1">
+                                                        <button type="button" class="btn btn-warning" id="delete_button_${id}" onclick="deleteChoose({{$key+1}})"><i class="fas fa-trash-alt"></i> Sil</button>
+                                                    </div>
+                                                @endif
+                                            </div>
+                                            @endforeach
+                                        </div>
+                                        <div class="row mb-3" id="feature_type_multiple_choose_button">
+                                            <button type="button" class="btn btn-info" onclick="addNewChoose({{count($values) + 1}})"> + Yeni Seçenek Ekle</button>
+                                        </div>
+                                    @endif
                                 </div>
                             </div>
                             <div style="float: right;">
