@@ -15,7 +15,8 @@ return [
     | any other location as required by the application or its packages.
     |
     */
-
+    'archive_time' => 60,
+    'delete_time' => 120,
     'showCount' => 10,
     'name' => env('APP_NAME', 'Laravel'),
 

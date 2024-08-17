@@ -70,6 +70,8 @@ Route::controller(SettingsController::class)->group(function () {
     Route::get("/admin/shop/settings", "list")->name('admin_shop_settings_list');
 
     Route::post("/admin/shop/generalSettings", "general_settings")->name('admin_shop_general_settings');
+
+    Route::post("/admin/shop/archiveDeleteSettings", "archive_and_delete_settings")->name('admin_shop_archive_and_delete_settings');
 });
 
 Route::controller(UserController::class)->group(function () {

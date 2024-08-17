@@ -34,21 +34,22 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="header-title mb-4">Arşiv Ve Silinme Ayarları</h4>
-                        <form action="">
+                        <form action="{{route('admin_shop_archive_and_delete_settings')}}" method="POST">
+                            @csrf
                             <div class="custom-control custom-checkbox mb-2">
-                                <input type="checkbox" class="custom-control-input" id="archive_date_approval" checked="">
-                                <label class="custom-control-label" for="archive_date_approval">Ürün satılmaz ise belli bir süre sonra arşiv'e eklensin</label>
+                                <input type="checkbox" class="custom-control-input" id="add_archive" name="add_archive" checked="">
+                                <label class="custom-control-label" for="add_archive">Ürün satılmaz ise belli bir süre sonra arşiv'e eklensin</label>
                             </div>
                             <div class="col-md-2 mb-3">
                                 <label for="archive_date">Arşiv Süresi <a class="mo-mb-2" data-toggle="tooltip" data-placement="right" title="" data-original-title="Bir ürün eklendikten sonra hiç satılmaz ise arşive alınma süresi" aria-describedby="archive_date">
                                     <i class="far fa-question-circle"></i>
                                 </a>:</label>
-                                <input type="number" class="form-control" name="archive_date" id="archive_date" placeholder="Gün sayısı giriniz">
+                                <input type="number" class="form-control" name="archive_time" id="archive_time" placeholder="Gün sayısı giriniz">
                             </div>
 
                             <div class="custom-control custom-checkbox mb-2">
-                                <input type="checkbox" class="custom-control-input" id="delete_date_approval" checked="">
-                                <label class="custom-control-label" for="delete_date_approval">Ürün satılmaz ise belli bir süre sonra silinsin</label>
+                                <input type="checkbox" class="custom-control-input" id="delete_automatic" name="delete_automatic" checked="">
+                                <label class="custom-control-label" for="delete_automatic">Ürün satılmaz ise belli bir süre sonra silinsin</label>
                             </div>
                             <div class="col-md-2 mb-3">
                                 <label for="archive_date">Silinme Süresi <a class="mo-mb-2" data-toggle="tooltip" data-placement="right" title="" data-original-title="Bir ürün eklendikten sonra hiç satılmaz ise silinme süresi" aria-describedby="delete_date">
