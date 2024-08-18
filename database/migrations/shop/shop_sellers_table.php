@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('image');
             $table->Integer('product_count');
             $table->longText('description')->nullable();
+            $table->string('phone')->nullable();
             $table->string('facebook')->nullable();
             $table->string('instagram')->nullable();
             $table->string('twitter')->nullable();

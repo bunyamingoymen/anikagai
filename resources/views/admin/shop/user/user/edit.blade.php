@@ -101,7 +101,7 @@
                 var name = document.getElementById("name").value;
                 var username = document.getElementById("username").value;
                 var email = document.getElementById("email").value;
-                @if ($item)
+                @if (isset($item))
                     var password = "1";
                     var password2 = "1";
                 @else

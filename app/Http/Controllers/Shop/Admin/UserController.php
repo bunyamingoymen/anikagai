@@ -42,6 +42,18 @@ class UserController extends Controller
     }
 
     public function save(Request $request){
+        $validatedData = $request->validate([
+            'name'      => 'required|string|max:255',
+            'surname'   => 'required|string|max:255',
+            'username'  => 'required|string|max:255',
+            'email'     => 'required|string|max:255',
+        ], [
+            'name.required' => 'İsim alanı giriniz. Max: 255 karakter.',
+            'surname.required' => 'Soyisim alanı giriniz. Max: 255 karakter.',
+            'username.required' => 'Kullanıcı alanı giriniz. Max: 255 karakter.',
+            'email.required' => 'E-mail alanı giriniz. Max: 255 karakter.',
+        ]);
+
         $getOne = $this->getOneItem($request->code, $this->defaultModel);
 
         $item = $getOne['item'];
