@@ -135,7 +135,7 @@
                     headerName: "Aktiflik Durumu",
                     field: "is_active",
                     cellRenderer: function(params) {
-                        if(params.is_active == 1) return `<span class = "badge badge-pill badge-success"> Aktif </span>`;
+                        if(params.data.is_active == 1) return `<span class = "badge badge-pill badge-success"> Aktif </span>`;
                         else return `<span class = "badge badge-pill badge-danger"> Pasif </span>`;
                     }
                 },

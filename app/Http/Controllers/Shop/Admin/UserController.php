@@ -53,7 +53,7 @@ class UserController extends Controller
         $item->username = $request->username;
         $item->email = $request->email;
         $item->password = Hash::make($request->password);
-        $item->phone = Hash::make($request->password);
+        $item->phone = $request->phone;
 
         if($request->hasFile('image')){
             $file = $request->file('image');
@@ -61,7 +61,7 @@ class UserController extends Controller
             $path = public_path('files/shop/users');
             $name = $code . "." . $file->getClientOriginalExtension();
             $file->move($path, $name);
-            $item->image = "files/shop/users" . $name;
+            $item->image = "files/shop/users/" . $name;
         }else $item->image = '';
 
         $item->save();

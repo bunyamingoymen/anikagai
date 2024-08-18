@@ -31,7 +31,7 @@ class FeaturesController extends Controller
     }
 
     public function list(){
-        return view($this->defaultListRoute);
+        return view($this->defaultListPath);
     }
 
     public function edit(Request $request){

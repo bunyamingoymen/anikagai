@@ -71,7 +71,7 @@ Route::controller(ProductController::class)->group(function () {
 
 Route::controller(SellerController::class)->group(function () {
     Route::get("/admin/shop/seller", "list")->name('admin_shop_seller_list');
-    Route::get("/admin/shop/seller/ajax", "getData")->name('admin_shop_user_get_data');
+    Route::get("/admin/shop/seller/ajax", "getData")->name('admin_shop_seller_get_data');
 
     Route::get("/admin/shop/seller/create", "edit")->name('admin_shop_seller_create');
     Route::get("/admin/shop/seller/update", "edit")->name('admin_shop_seller_update');
