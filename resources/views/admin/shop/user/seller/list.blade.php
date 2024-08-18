@@ -110,7 +110,7 @@
                     headerName: "",
                     field: "image",
                     cellRenderer: function(params) {
-                        return `<img src="../../../${params.value}" alt="user" class="avatar-xs rounded-circle" />`;
+                        return `<img src="../../../${params.value}" alt="seller" class="avatar-xs rounded-circle" />`;
                     },
                     filter: false,
                     maxWidth: 75,
@@ -151,7 +151,7 @@
                             @if ($update)
 
                                 html += `<div class="mr-2 ml-2">
-                                        <a class="btn btn-warning btn-sm" href="{{ route('admin_shop_user_update') }}?code=${params.data.code}" data-toggle="tooltip" data-placement="right" title="Güncelle"><i class="fas fa-edit"></i></a>
+                                        <a class="btn btn-warning btn-sm" href="{{ route('admin_shop_seller_update') }}?code=${params.data.code}" data-toggle="tooltip" data-placement="right" title="Güncelle"><i class="fas fa-edit"></i></a>
                                     </div>`
                             @endif
                             @if ($delete)

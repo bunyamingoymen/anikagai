@@ -5,23 +5,103 @@ namespace App\Http\Controllers\Shop\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Route;
 
 class SellerController extends Controller
 {
+    private $defaultModel, $defaultPath, $defaultRoute, $defaultListRoute, $defaultUpdateRoute, $defaultListPath, $defaultEditPath;
+
+    public function __construct(){
+        $this->defaultModel = 'App\Models\Shop\ShopSellers';
+
+        $this->defaultPath = 'admin.shop.user.seller';
+        $this->defaultListPath = $this->defaultPath . '.list';
+        $this->defaultEditPath = $this->defaultPath . '.edit';
+
+        $this->defaultRoute = 'admin_shop_seller';
+        $this->defaultListRoute = $this->defaultRoute.'_list';
+        $this->defaultUpdateRoute = $this->defaultRoute.'_update';
+    }
+
     public function list(){
-        return view('admin.shop.user.seller.list');
+        return view($this->defaultListPath);
     }
 
     public function edit(Request $request){
-        return view('admin.shop.user.seller.edit');
+        if(Route::currentRouteName() == $this->defaultUpdateRoute){
+            $item = $this->getOneItem($request->code, $this->defaultModel,0)['item'];
+
+            if(!$item) return redirect()->route($this->defaultListRoute)->with('error','Satıcı güncellenirken bir hata meydana geldi');
+
+            return view($this->defaultEditPath,['item'=>$item]);
+        }
+        return view($this->defaultEditPath);
     }
 
     public function save(Request $request){
+        $validatedData = $request->validate([
+            'show_name'      => 'required|string|max:255',
+            'username'  => 'required|string|max:255',
+            'email'     => 'required|string|max:255',
+        ], [
+            'name.required' => 'Görünür alanı giriniz. Max: 255 karakter.',
+            'username.required' => 'Kullanıcı alanı giriniz. Max: 255 karakter.',
+            'email.required' => 'E-mail alanı giriniz. Max: 255 karakter.',
+        ]);
 
+        $getOne = $this->getOneItem($request->code, $this->defaultModel);
+
+        $item = $getOne['item'];
+        $is_new = $getOne['is_new'];
+        $code = $getOne['code'];
+
+        $item->show_name = $request->show_name;
+        $item->username = $request->username;
+        $item->email = $request->email;
+        $item->password = Hash::make($request->password);
+        $item->description = $request->description;
+        $item->phone = $request->phone;
+        $item->facebook = $request->facebook;
+        $item->instagram = $request->instagram;
+        $item->twitter = $request->twitter;
+        $item->discord = $request->discord;
+        $item->website = $request->website;
+
+        if($request->hasFile('image')){
+            $file = $request->file('image');
+
+            $path = public_path('files/shop/sellers');
+            $name = $code . "." . $file->getClientOriginalExtension();
+            $file->move($path, $name);
+            $item->image = "files/shop/sellers/" . $name;
+        }else $item->image = '';
+
+        $item->save();
+
+        return redirect()->route($this->defaultListRoute)->with('success', $is_new ? 'Yeni satıcı eklendi' : 'Satıcı güncellendi');
     }
 
     public function delete(Request $request){
+        $item =  $this->getOneItem($request->code, $this->defaultModel,0)['item'];
+        if(!$item) return redirect()->route($this->defaultListRoute)->with('error','Satıcı silinirken bir hata meydana geldi');
 
+        $item->deleted = 1;
+        $item->save();
+
+        return redirect()->route($this->defaultListRoute)->with('success','Satıcı Silindi');
+    }
+
+    public function changeActive(Request $request){
+        $item =  $this->getOneItem($request->code, $this->defaultModel,0)['item'];
+        if(!$item) return redirect()->route($this->defaultListRoute)->with('error','Satıcının aktifliği güncellenirken hata meydana geldi');
+
+        if($item->is_active == 1) $item->is_active = 0;
+        else $item->is_active = 1;
+
+        $item->save();
+
+        return redirect()-> route($this->defaultListRoute)->with('success','Satıcının aktiflik durumu güncellendi');
     }
 
     public function getData(Request $request){
@@ -30,7 +110,7 @@ class SellerController extends Controller
             'page' => $request->page
         ];
 
-        $result = $this->getDataFromDatabase('shop_mysql', 'App\Models\Shop\ShopSellers', [], $pagination);
+        $result = $this->getDataFromDatabase('shop_mysql', $this->defaultModel, [], $pagination);
 
         return $result;
     }

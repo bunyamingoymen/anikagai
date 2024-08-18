@@ -13,7 +13,7 @@
                 <div class="card">
                     <div class="card-body">
 
-                        <form class="needs-validation" id="EditForm" action="{{ route('admin_shop_user_save') }}"
+                        <form class="needs-validation" id="EditForm" action="{{ route('admin_shop_seller_save') }}"
                             method="POST" enctype="multipart/form-data">
                             @csrf
                             @if (isset($item))
@@ -23,7 +23,7 @@
                             @endif
                             <div class="row">
                                 <div class="col-md-4 mb-3">
-                                    <label for="show_name">İsim:</label>
+                                    <label for="show_name">Görünür İsim:</label>
                                     <input type="text" class="form-control" id="show_name" name="show_name"
                                         placeholder="Görünür İsim" value="{{$item->show_name??''}}" required>
                                 </div>
@@ -125,7 +125,7 @@
         </div>
         <script>
             function createSubmitForm() {
-                var name = document.getElementById("name").value;
+                var show_name = document.getElementById("show_name").value;
                 var username = document.getElementById("username").value;
                 var email = document.getElementById("email").value;
                 @if (isset($item))
@@ -137,7 +137,7 @@
                 @endif
 
                 var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (name == "" || username == "" || email == "" || password == "" || password2 == "") {
+                if (show_name == "" || username == "" || email == "" || password == "" || password2 == "") {
                     Swal.fire({
                         icon: "error",
                         title: "Hata!",

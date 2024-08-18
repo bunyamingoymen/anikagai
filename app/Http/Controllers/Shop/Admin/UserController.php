@@ -32,7 +32,7 @@ class UserController extends Controller
 
     public function edit(Request $request){
         if(Route::currentRouteName() == $this->defaultUpdateRoute){
-            $item = ShopUsers::Where('deleted',0)->Where('code',$request->code)->first();
+            $item =  $this->getOneItem($request->code, $this->defaultModel,0)['item'];
 
             if(!$item) return redirect()->route($this->defaultListRoute)->with('error','Üye güncellenirken bir hata meydana geldi');
 
@@ -93,7 +93,7 @@ class UserController extends Controller
 
     public function changeActive(Request $request){
         $item =  $this->getOneItem($request->code, $this->defaultModel,0)['item'];
-        if(!$item) return redirect()->route($this->defaultListRoute)->with('error','Üye silinirken bir hata meydana geldi');
+        if(!$item) return redirect()->route($this->defaultListRoute)->with('error','Üyenin aktifliği güncellenirken hata meydana geldi');
 
         if($item->is_active == 1) $item->is_active = 0;
         else $item->is_active = 1;

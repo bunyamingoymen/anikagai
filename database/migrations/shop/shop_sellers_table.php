@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->string('image');
-            $table->Integer('product_count');
+            $table->Integer('product_count')->default(0);
             $table->longText('description')->nullable();
             $table->string('phone')->nullable();
             $table->string('facebook')->nullable();
@@ -27,7 +27,7 @@ return new class extends Migration
             $table->string('twitter')->nullable();
             $table->string('discord')->nullable();
             $table->string('website')->nullable();
-            $table->tinyInteger('is_active')->default(2);
+            $table->tinyInteger('is_active')->default(1);
             $table->unsignedBigInteger('create_user_code')->default(1);
             $table->unsignedBigInteger('update_user_code')->nullable();
             $table->tinyInteger('deleted')->default(0);
