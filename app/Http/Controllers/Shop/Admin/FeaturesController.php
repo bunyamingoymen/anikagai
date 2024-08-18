@@ -13,19 +13,36 @@ use Illuminate\Support\Facades\Config;
 
 class FeaturesController extends Controller
 {
+
+    private $defaultModel, $defaultPath, $defaultRoute, $defaultListRoute, $defaultUpdateRoute, $defaultListPath, $defaultEditPath;
+
+    public function __construct(){
+        $this->defaultModel = 'App\Models\Shop\ShopFeatures';
+
+        $this->defaultPath = 'admin.shop.data.feature';
+        $this->defaultListPath = $this->defaultPath . '.list';
+        $this->defaultEditPath = $this->defaultPath . '.edit';
+
+        $this->defaultRoute = 'admin_shop_feature';
+        $this->defaultListRoute = $this->defaultRoute.'_list';
+        $this->defaultUpdateRoute = $this->defaultRoute.'_update';
+
+
+    }
+
     public function list(){
-        return view('admin.shop.data.feature.list');
+        return view($this->defaultListRoute);
     }
 
     public function edit(Request $request){
 
-        if(Route::currentRouteName() == "admin_shop_feature_update"){
-            $item = ShopFeatures::Where('deleted',0)->Where('code',$request->code)->first();
-            if(!$item) return redirect()->back()->with('error','Özellik güncellenirken bir hata meydana geldi');
+        if(Route::currentRouteName() == $this->defaultUpdateRoute){
+            $item = $this->getOneItem($request->code, $this->defaultModel, 0)['item'];
+            if(!$item) return redirect()->route($this->defaultListRoute)->with('error','Özellik güncellenirken bir hata meydana geldi');
             $values = ShopKeyValue::Where('key','feature_type_multiple_selection')->Where('optional',$request->code)->get();
-            return view('admin.shop.data.feature.edit',['item'=>$item, 'values'=>$values]);
+            return view($this->defaultEditPath,['item'=>$item, 'values'=>$values]);
         }
-        return view('admin.shop.data.feature.edit');
+        return view($this->defaultEditPath);
     }
 
     public function save(Request $request){
@@ -35,14 +52,12 @@ class FeaturesController extends Controller
             'name.required' => 'İsim alanı giriniz. Max: 255 karakter.',
         ]);
 
-        $item = ShopFeatures::Where('deleted',0)->Where('code',$request->code)->first();
-        $is_new = false;
-        if(!$item){
-            $item = new ShopFeatures();
-            $code = $this->generateUniqueCode('shop_mysql','shop_features');
-            $item->code = $code;
-            $is_new = true;
-        }else $code = $item->code;
+
+        $getOne = $this->getOneItem($request->code, $this->defaultModel);
+
+        $item = $getOne['item'];
+        $is_new = $getOne['is_new'];
+        $code = $getOne['code'];
 
         $item->name = $request->name;
         $item->description = $request->description;
@@ -63,26 +78,17 @@ class FeaturesController extends Controller
             }
         }
 
-        if($is_new){
-            $item->create_user_code = Auth::guard('admin')->user()->code;
-            $item->save();
-            return redirect()->route('admin_shop_feature_list')->with('success','Yeni Özellik Eklendi');
-        }else{
-            $item->update_user_code = Auth::guard('admin')->user()->code;
-            $item->save();
-            return redirect()->route('admin_shop_feature_list')->with('success','Özellik Güncellendi');
-        }
+        return redirect()->route($this->defaultListRoute)->with('success', $is_new ? 'Yeni Özellik eklendi' : 'Özellik güncellendi');
 
     }
 
     public function delete(Request $request){
-        $item = ShopFeatures::Where('deleted',0)->Where('code',$request->code)->first();
-        if(!$item) return redirect()->back()->with('error','Özellik silinirken bir hata meydana geldi');
+        $item = $this->getOneItem($request->code, $this->defaultModel,0)['item'];
+        if(!$item) return redirect()->route($this->defaultListRoute)->with('error','Özellik silinirken bir hata meydana geldi');
 
         $item->deleted = 1;
-        $item->update_user_code = Auth::guard('admin')->user()->code;
         $item->save();
-        return redirect()->back()->with('success','Özellik Silindi');
+        return redirect()->route($this->defaultListRoute)->with('success','Özellik Silindi');
 
     }
 
@@ -93,7 +99,7 @@ class FeaturesController extends Controller
             'page' => $request->page
         ];
 
-        $result = $this->getDataFromDatabase('shop_mysql', 'App\Models\Shop\ShopFeatures', [], $pagination);
+        $result = $this->getDataFromDatabase('shop_mysql', $this->defaultModel, [], $pagination);
 
         return $result;
     }

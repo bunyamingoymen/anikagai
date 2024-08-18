@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Shop\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Config;
 
 class SellerController extends Controller
 {
@@ -15,19 +16,22 @@ class SellerController extends Controller
         return view('admin.shop.user.seller.edit');
     }
 
-    public function create(){
+    public function save(Request $request){
 
     }
 
-    public function update(){
+    public function delete(Request $request){
 
     }
 
-    public function delete(){
+    public function getData(Request $request){
+        $pagination = [
+            'take' => $request->showingCount ? $request->showingCount : Config::get('app.showCount'),
+            'page' => $request->page
+        ];
 
-    }
+        $result = $this->getDataFromDatabase('shop_mysql', 'App\Models\Shop\ShopSellers', [], $pagination);
 
-    public function getData(){
-
+        return $result;
     }
 }

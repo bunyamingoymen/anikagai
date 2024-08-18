@@ -19,13 +19,23 @@ class SettingsController extends Controller
         //** General Settings */
 
          //** Archive And Delete Settings */
-         $addArchive = ShopKeyValue::Where('key','add_archive')->first();
-         $archiveTime = ShopKeyValue::Where('key','archive_time')->first();
-         $DeleteAutomatic = ShopKeyValue::Where('key','delete_automatic')->first();
-         $deleteTime = ShopKeyValue::Where('key','delete_time')->first();
+        $addArchive = ShopKeyValue::Where('key','add_archive')->first();
+        $archiveTime = ShopKeyValue::Where('key','archive_time')->first();
+        $deleteAutomatic = ShopKeyValue::Where('key','delete_automatic')->first();
+        $deleteTime = ShopKeyValue::Where('key','delete_time')->first();
          //** Archive And Delete Settings */
 
-        return view('admin.shop.other.setting',['storeActive'=>$storeActive, 'newSellerAccept'=>$newSellerAccept, 'approwNotRequired'=>$approwNotRequired]);
+        return view('admin.shop.other.setting',
+        compact(
+            'storeActive',
+            'newSellerAccept',
+            'approwNotRequired',
+
+            'addArchive',
+            'archiveTime',
+            'deleteAutomatic',
+            'deleteTime',
+        ));
     }
 
     public function general_settings(Request $request){

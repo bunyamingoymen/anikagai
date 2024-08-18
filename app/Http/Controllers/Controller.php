@@ -186,4 +186,21 @@ class Controller extends BaseController
 
         return ['items' => $items, 'page_count' => $page_count];
     }
+
+    public function getOneItem($code, $model, $is_create_new = 1){
+        $item = $model::Where('deleted', 0)->where('code',$code)->first();
+        $is_new = false;
+        if(!$item && $is_create_new){
+            $code = $this->generateUniqueCode('shop_mysql','shop_categories');
+            $item = new $model;
+            $item->code = $code;
+            $item->create_user_code =  Auth::guard('admin')->user()->code;
+            $is_new=true;
+        }else if($item){
+            $code = $item->code;
+            $item->update_user_code =  Auth::guard('admin')->user()->code;
+        }
+
+        return ['item'=>$item, 'code'=>$code, 'is_new'=>$is_new];
+    }
 }

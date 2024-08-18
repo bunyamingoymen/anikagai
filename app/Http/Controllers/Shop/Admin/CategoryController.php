@@ -13,22 +13,37 @@ use Illuminate\Support\Facades\Config;
 
 class CategoryController extends Controller
 {
+
+    private $defaultModel, $defaultPath, $defaultRoute, $defaultListRoute, $defaultUpdateRoute, $defaultListPath, $defaultEditPath;
+
+    public function __construct(){
+        $this->defaultModel = 'App\Models\Shop\ShopCategories';
+
+        $this->defaultPath = 'admin.shop.data.category';
+        $this->defaultListPath = $this->defaultPath . '.list';
+        $this->defaultEditPath = $this->defaultPath . '.edit';
+
+        $this->defaultRoute = 'admin_shop_category';
+        $this->defaultListRoute = $this->defaultRoute.'_list';
+        $this->defaultUpdateRoute = $this->defaultRoute.'_update';
+    }
+
+
     public function list(){
-        return view('admin.shop.data.category.list');
+        return view($this->defaultListPath);
     }
 
     public function edit(Request $request){
         $features = ShopFeatures::Where('deleted',0)->get();
-        if(Route::currentRouteName() == "admin_shop_category_update"){
-            $item = ShopCategories::Where('deleted',0)->Where('code',$request->code)->first();
-
-            if(!$item) return redirect()->back()->with('error','Kategori güncellenirken bir hata meydana geldi');
+        if(Route::currentRouteName() == $this->defaultUpdateRoute){
+            $item = $this->getOneItem($request->code, $this->defaultModel, 0)['item'];
+            if(!$item) return redirect()->route($this->defaultListRoute)->with('error','Kategori güncellenirken bir hata meydana geldi');
 
             $values = ShopCategoryFeatures::Where('category_code',$request->code)->get();
 
-            return view('admin.shop.data.category.edit',['item'=>$item, 'values'=>$values, 'features'=>$features]);
+            return view($this->defaultEditPath,['item'=>$item, 'values'=>$values, 'features'=>$features]);
         }
-        return view('admin.shop.data.category.edit',['features'=>$features]);
+        return view($this->defaultEditPath,['features'=>$features]);
     }
 
     public function save(Request $request){
@@ -38,15 +53,11 @@ class CategoryController extends Controller
             'name.required' => 'İsim alanı giriniz. Max: 255 karakter.',
         ]);
 
-        $is_new = false;
-        $item = ShopCategories::Where('deleted',0)->Where('code', $request->code)->first();
+        $getOne = $this->getOneItem($request->code, $this->defaultModel);
 
-        if(!$item){
-            $code = $this->generateUniqueCode('shop_mysql','shop_categories');
-            $item = new ShopCategories();
-            $item->code = $code;
-            $is_new = true;
-        }else $code = $item->code;
+        $item = $getOne['item'];
+        $is_new = $getOne['is_new'];
+        $code = $getOne['code'];
 
         $item->name = $request->name;
         $item->description = $request->description;
@@ -60,29 +71,19 @@ class CategoryController extends Controller
                 $cat_fea->save();
             }
         }
-
-        if($is_new){
-            $item->create_user_code = Auth::guard('admin')->user()->code;
-            $item->save();
-            return redirect()->route('admin_shop_category_list')->with('success','Yeni Kategori Eklendi');
-        }else{
-            $item->update_user_code = Auth::guard('admin')->user()->code;
-            $item->save();
-            return redirect()->route('admin_shop_category_list')->with('success','Kategori Güncellendi');
-        }
-
+        $item->save();
+        return redirect()->route($this->defaultListRoute)->with('success', $is_new ? 'Yeni kategori eklendi' : 'Kategori güncellendi');
 
     }
 
     public function delete(Request $request){
-        $item = ShopCategories::Where('deleted',0)->Where('code',$request->code)->first();
-        if(!$item) return redirect()->back()->with('error','Kategori silinirken bir hata meydana geldi');
+        $item = $this->getOneItem($request->code, $this->defaultModel,0)['item'];
+        if(!$item) return redirect()->route($this->defaultListRoute)->with('error','Kategori silinirken bir hata meydana geldi');
 
         $item->deleted = 1;
-        $item->update_user_code = Auth::guard('admin')->user()->code;
         $item->save();
 
-        return redirect()->back()->with('success','Kategori Silindi');
+        return redirect()->route($this->defaultListRoute)->with('success','Kategori Silindi');
     }
 
     public function getData(Request $request){
@@ -92,7 +93,7 @@ class CategoryController extends Controller
             'page' => $request->page
         ];
 
-        $result = $this->getDataFromDatabase('shop_mysql', 'App\Models\Shop\ShopCategories', [], $pagination);
+        $result = $this->getDataFromDatabase('shop_mysql', $this->defaultModel, [], $pagination);
 
         return $result;
     }

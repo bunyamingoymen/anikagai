@@ -34,6 +34,19 @@ Route::controller(FeaturesController::class)->group(function () {
     Route::post("/admin/shop/feature/delete", "delete")->name('admin_shop_feature_delete');
 });
 
+Route::controller(UserController::class)->group(function () {
+    Route::get("/admin/shop/user", "list")->name('admin_shop_user_list');
+    Route::post("/admin/shop/user/ajax", "getData")->name('admin_shop_user_get_data');
+
+    Route::get("/admin/shop/user/create", "edit")->name('admin_shop_user_create');
+    Route::get("/admin/shop/user/update", "edit")->name('admin_shop_user_update');
+    Route::get("/admin/shop/user/changeActive", "changeActive")->name('admin_shop_user_change_active');
+
+    Route::post("/admin/shop/user/save", "save")->name('admin_shop_user_save');
+
+    Route::post("/admin/shop/user/delete", "delete")->name('admin_shop_user_delete');
+});
+
 
 
 Route::controller(OrderController::class)->group(function () {
@@ -72,16 +85,6 @@ Route::controller(SettingsController::class)->group(function () {
     Route::post("/admin/shop/generalSettings", "general_settings")->name('admin_shop_general_settings');
 
     Route::post("/admin/shop/archiveDeleteSettings", "archive_and_delete_settings")->name('admin_shop_archive_and_delete_settings');
-});
-
-Route::controller(UserController::class)->group(function () {
-    Route::get("/admin/shop/user", "list")->name('admin_shop_user_list');
-    Route::get("/admin/shop/user/ajax", "getData")->name('admin_shop_user_get_data');
-
-    Route::get("/admin/shop/user/create", "edit")->name('admin_shop_user_create');
-    Route::get("/admin/shop/user/update", "edit")->name('admin_shop_user_update');
-
-    Route::get("/admin/shop/user/delete", "delete")->name('admin_shop_user_delete');
 });
 
 Route::controller(KeyValueController::class)->group(function () {
