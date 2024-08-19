@@ -203,4 +203,27 @@ class Controller extends BaseController
 
         return ['item'=>$item, 'code'=>$code, 'is_new'=>$is_new];
     }
+
+    public function getUrl($name, $prefix=""){
+        // Küçük harfe çevir
+        $url = strtolower($name);
+
+        // Türkçe karakterleri değiştir
+        $url = str_replace(['ı', 'ğ', 'ü', 'ş', 'ö', 'ç'], ['i', 'g', 'u', 's', 'o', 'c'], $url);
+
+        // Boşlukları ve izin verilmeyen karakterleri tire ile değiştir
+        $url = preg_replace('/[^a-z0-9]+/', '-', $url);
+
+        // Baştaki ve sondaki tireleri temizle
+        $url = trim($url, '-');
+
+        //prefix değerini ekle
+        if(!empty($prefix)){
+            if(substr($prefix, -1) !== '/'){
+                $prefix .= '/';
+            }
+        }
+
+        return $prefix.$url;
+    }
 }

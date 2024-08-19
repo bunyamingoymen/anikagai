@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('url');
             $table->string('name');
             $table->string('price');
+            $table->string('priceType')->default('TRY');
             $table->longText('description')->nullable();
             $table->unsignedBigInteger('create_user_code')->default(1);
             $table->unsignedBigInteger('update_user_code')->nullable();

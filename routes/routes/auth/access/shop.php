@@ -60,6 +60,18 @@ Route::controller(SellerController::class)->group(function () {
     Route::post("/admin/shop/seller/delete", "delete")->name('admin_shop_seller_delete');
 });
 
+Route::controller(ProductController::class)->group(function () {
+    Route::get("/admin/shop/product/{type?}", "list")->name('admin_shop_product_list');
+    Route::post("/admin/shop/product/ajax/{type?}", "getData")->name('admin_shop_product_get_data');
+
+    Route::get("/admin/shop/product/create", "edit")->name('admin_shop_product_create');
+    Route::get("/admin/shop/product/update", "edit")->name('admin_shop_product_update');
+
+    Route::post("/admin/shop/product/save", "save")->name('admin_shop_product_save');
+
+    Route::post("/admin/shop/product/delete", "delete")->name('admin_shop_product_delete');
+});
+
 
 
 
@@ -75,15 +87,7 @@ Route::controller(OrderController::class)->group(function () {
     Route::get("/admin/shop/order/delete", "delete")->name('admin_shop_order_delete');
 });
 
-Route::controller(ProductController::class)->group(function () {
-    Route::get("/admin/shop/product/{type?}", "list")->name('admin_shop_product_list');
-    Route::get("/admin/shop/product/ajax/{type?}", "getData")->name('admin_shop_product_get_data');
 
-    Route::get("/admin/shop/product/create", "edit")->name('admin_shop_product_create');
-    Route::get("/admin/shop/product/update", "edit")->name('admin_shop_product_update');
-
-    Route::get("/admin/shop/product/delete", "delete")->name('admin_shop_product_delete');
-});
 
 Route::controller(SettingsController::class)->group(function () {
     Route::get("/admin/shop/settings", "list")->name('admin_shop_settings_list');
