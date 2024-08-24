@@ -15,7 +15,7 @@ class ProductController extends Controller
     public function __construct(){
         $this->defaultModel = 'App\Models\Shop\ShopProduct';
 
-        $this->defaultPath = 'admin.shop.user.product';
+        $this->defaultPath = 'admin.shop.product';
         $this->defaultListPath = $this->defaultPath . '.list';
         $this->defaultEditPath = $this->defaultPath . '.edit';
 
@@ -67,6 +67,24 @@ class ProductController extends Controller
         $item->save();
 
         return redirect()->route($this->defaultListRoute)->with('success','Ürün Silindi');
+    }
+
+    public function changeApproval(Request $request){
+        $item = $this->getOneItem($request->code, $this->defaultModel,0)['item'];
+        if(!$item) return redirect()->route($this->defaultListRoute)->with('error','Ürünün onaylanma durumu değiştirilirken');
+
+        $item->is_approved = $item->is_approved == 1 ? 0 : 1;
+        $item->save();
+        return redirect()->route($this->defaultListRoute)->with('success','Ürünün onaylanma durumu güncellendi');
+    }
+
+    public function changeActive(Request $request){
+        $item = $this->getOneItem($request->code, $this->defaultModel,0)['item'];
+        if(!$item) return redirect()->route($this->defaultListRoute)->with('error','Ürünün onaylanma durumu değiştirilirken');
+
+        $item->is_active = $item->is_active == 1 ? 0 : 1;
+        $item->save();
+        return redirect()->route($this->defaultListRoute)->with('success','Ürünün onaylanma durumu güncellendi');
     }
 
     public function getData(Request $request){

@@ -61,15 +61,19 @@ Route::controller(SellerController::class)->group(function () {
 });
 
 Route::controller(ProductController::class)->group(function () {
-    Route::get("/admin/shop/product/{type?}", "list")->name('admin_shop_product_list');
+
     Route::post("/admin/shop/product/ajax/{type?}", "getData")->name('admin_shop_product_get_data');
 
     Route::get("/admin/shop/product/create", "edit")->name('admin_shop_product_create');
     Route::get("/admin/shop/product/update", "edit")->name('admin_shop_product_update');
+    Route::get("/admin/shop/product/changeApproval", "changeApproval")->name('admin_shop_product_change_approval');
+    Route::get("/admin/shop/product/changeActive", "changeActive")->name('admin_shop_product_change_active');
 
     Route::post("/admin/shop/product/save", "save")->name('admin_shop_product_save');
 
     Route::post("/admin/shop/product/delete", "delete")->name('admin_shop_product_delete');
+
+    Route::get("/admin/shop/product/{type?}", "list")->name('admin_shop_product_list');
 });
 
 
