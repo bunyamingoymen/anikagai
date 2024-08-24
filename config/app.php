@@ -172,6 +172,7 @@ return [
         App\Providers\RouteServiceProvider::class,
         Spatie\Glide\GlideServiceProvider::class,
         App\Providers\CustomMigrationServiceProvider::class,
+        App\Providers\UrlConfigServiceProvider::class,
     ])->toArray(),
 
     /*
