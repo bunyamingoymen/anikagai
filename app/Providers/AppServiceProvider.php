@@ -419,8 +419,9 @@ class AppServiceProvider extends ServiceProvider
                         $list = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/seller') ? 1 : 0;
                         $update = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/seller/update') ? 1 : 0;
                         $delete = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/seller/delete') ? 1 : 0;
+                        $changeActive = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/seller/changeActive') ? 1 : 0;
 
-                        $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
+                        $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete, "changeActive" => $changeActive]);
                     });
 
                     View::composer($shopUserUserPages, function ($view) {
@@ -428,8 +429,9 @@ class AppServiceProvider extends ServiceProvider
                         $list = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/user') ? 1 : 0;
                         $update = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/user/update') ? 1 : 0;
                         $delete = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/user/delete') ? 1 : 0;
+                        $changeActive = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/user/changeActive') ? 1 : 0;
 
-                        $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
+                        $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete, "changeActive"=>$changeActive]);
                     });
 
                     View::composer($shopDataCargoCompaniesPages, function ($view) {

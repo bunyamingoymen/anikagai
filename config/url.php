@@ -186,6 +186,7 @@ return [
         'admin/shop/seller/create' => ['group' => '2', 'text' => 'Satıcıları Oluşturabilme'],
         'admin/shop/seller/update' => ['group' => '2', 'text' => 'Satıcıları Güncelleyebilme'],
         'admin/shop/seller/delete' => ['group' => '2', 'text' => 'Satıcıları Silebilme'],
+        'admin/shop/seller/changeActive' => ['group' => '2', 'text' => 'Satıcıların Aktiflik Durumunu Değiştirebilme'],
 
         'admin/shop/settings' => ['group' => '2', 'text' => 'Mağaza Ayarlarını Değiştirebilme'],
 

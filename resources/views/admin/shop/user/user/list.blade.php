@@ -139,7 +139,7 @@
                         else return `<span class = "badge badge-pill badge-danger"> Pasif </span>`;
                     }
                 },
-                @if ($update || $delete)
+                @if ($update || $delete || $changeActive)
                     {
                         headerName: "İşlemler",
                         field: "action",
@@ -155,8 +155,9 @@
                                 html += `<div class="mr-2 ml-2">
                                         <a class="btn btn-danger btn-sm" href="javascript:void(0);" onclick="deleteValue('${params.data.code}', '${params.data.name + ' ' + params.data.surname}')" data-toggle="tooltip" data-placement="right" title="Sil"><i class="fas fa-trash-alt"></i></a>
                                     </div>`
-
-                                if (params.data.is_active == 1) {
+                            @endif
+                            @if ($changeActive)
+                            if (params.data.is_active == 1) {
                                     html += `<div class="mr-2 ml-2">
                                             <a class="btn btn-danger btn-sm" href="{{ route('admin_shop_user_change_active') }}?code=${params.data.code}" data-toggle="tooltip" data-placement="right" title="Banla"><i class="fas fa-times-circle" ></i></a>
                                             </div>`;

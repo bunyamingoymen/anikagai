@@ -142,14 +142,13 @@
                         else return `<span class = "badge badge-pill badge-danger"> Pasif </span>`;
                     }
                 },
-                @if ($update || $delete)
+                @if ($update || $delete || $changeActive)
                     {
                         headerName: "İşlemler",
                         field: "action",
                         cellRenderer: function(params) {
                             var html = `<div class="row" style="justify-content: center;">`
                             @if ($update)
-
                                 html += `<div class="mr-2 ml-2">
                                         <a class="btn btn-warning btn-sm" href="{{ route('admin_shop_seller_update') }}?code=${params.data.code}" data-toggle="tooltip" data-placement="right" title="Güncelle"><i class="fas fa-edit"></i></a>
                                     </div>`
@@ -158,7 +157,8 @@
                                 html += `<div class="mr-2 ml-2">
                                         <a class="btn btn-danger btn-sm" href="javascript:void(0);" onclick="deleteValue('${params.data.code}', '${params.data.show_name}')" data-toggle="tooltip" data-placement="right" title="Sil"><i class="fas fa-trash-alt"></i></a>
                                     </div>`
-
+                            @endif
+                            @if ($changeActive)
                                 if (params.data.is_active == 1) {
                                     html += `<div class="mr-2 ml-2">
                                             <a class="btn btn-danger btn-sm" href="{{ route('admin_shop_seller_change_active') }}?code=${params.data.code}" data-toggle="tooltip" data-placement="right" title="Banla"><i class="fas fa-times-circle" ></i></a>
