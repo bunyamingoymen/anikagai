@@ -337,7 +337,7 @@ ol {
 -----------------------*/
 
 .header {
-    background: var(--menu-footer-color);
+    background: var(--menu-footer-color) ! important;
 }
 
 .header__logo {

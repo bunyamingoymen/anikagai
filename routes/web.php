@@ -6,6 +6,7 @@ use App\Http\Controllers\IndexController;
 use App\Http\Controllers\IndexDataController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\RssController;
+use App\Http\Controllers\Shop\Index\ShopIndexController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'is_active_index_user'], function () {
@@ -115,6 +116,6 @@ Route::group(['middleware' => 'guest'], function () {
 Route::middleware(['auth'])->group(function () {
     require __DIR__.'/routes/auth.php';
 });
-
+Route::get('/shop', [ShopIndexController::class, "index"])->name('index');
 Route::get('/feed', [RssController::class, "getRSS"])->name('getRSS');
 Route::get('/adultOn', [Controller::class, "adultOn"])->name('adultOn');
