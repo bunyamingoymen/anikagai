@@ -44,6 +44,14 @@ return [
             'driver' => 'session',
             'provider' => 'index_users',
         ],
+        'shop_users' => [
+            'driver' => 'session',
+            'provider' => 'shop_users',
+        ],
+        'shop_sellers' => [
+            'driver' => 'session',
+            'provider' => 'shop_sellers',
+        ],
     ],
 
     /*
@@ -72,11 +80,14 @@ return [
             'driver' => 'eloquent',
             'model' => App\Models\IndexUser::class,
         ],
-
-        // 'users' => [
-        //     'driver' => 'database',
-        //     'table' => 'users',
-        // ],
+        'shop_users' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Shop\ShopUsers::class,
+        ],
+        'shop_sellers' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Shop\ShopSellers::class,
+        ],
     ],
 
     /*
