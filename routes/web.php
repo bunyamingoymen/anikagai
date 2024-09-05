@@ -116,6 +116,9 @@ Route::group(['middleware' => 'guest'], function () {
 Route::middleware(['auth'])->group(function () {
     require __DIR__.'/routes/auth.php';
 });
-Route::get('/shop', [ShopIndexController::class, "index"])->name('index');
+Route::get('/shop', [ShopIndexController::class, "index"])->name('shop_index');
+
+Route::get('/shop/login', [ShopIndexController::class, "login"])->name('shop_login');
+
 Route::get('/feed', [RssController::class, "getRSS"])->name('getRSS');
 Route::get('/adultOn', [Controller::class, "adultOn"])->name('adultOn');

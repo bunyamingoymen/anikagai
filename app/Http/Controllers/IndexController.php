@@ -1049,7 +1049,8 @@ class IndexController extends Controller
     {
         if (Auth::user()) {
             $title = 'Şifre Güncelle' . ' - ' . env('APP_NAME');
-            return $this->loadThemeView('changePassword', 'title');
+            $additionalData = ['title' => $title];
+            return $this->loadThemeView('changePassword', $additionalData);
         }
         return redirect()->back()->with('error', "İlk Önce giriş yapmanız gerekmektedir.");
     }
