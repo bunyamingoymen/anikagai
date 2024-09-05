@@ -26,19 +26,19 @@
                             <form action="{{ route('contact') }}" method="POST">
                                 @csrf
                                 <div class="input__item inputcu">
-                                    <input type="text" name="name" id="name" placeholder="İsim *">
+                                    <input type="text" name="name" id="name" placeholder="İsim *" required>
                                     <span class="icon_profile"></span>
                                 </div>
                                 <div class="input__item inputcu">
-                                    <input type="email" name="email" id="email" placeholder="E-mail *">
+                                    <input type="email" name="email" id="email" placeholder="E-mail *" required>
                                     <span class="icon_mail"></span>
                                 </div>
                                 <div class="input__item inputcu">
-                                    <input type="text" name="subject" id="subject" placeholder="Konu *">
+                                    <input type="text" name="subject" id="subject" placeholder="Konu *" required>
                                     <span class="icon_key"></span>
                                 </div>
                                 <div class="input__item">
-                                    <textarea name="message" placeholder="Mesaj Giriniz..." cols="50" rows="10"></textarea>
+                                    <textarea name="message" placeholder="Mesaj Giriniz..." cols="50" rows="10" required></textarea>
                                 </div>
                                 <div>
                                     <span id="contactSuccessMessage" style="color: green;"></span>

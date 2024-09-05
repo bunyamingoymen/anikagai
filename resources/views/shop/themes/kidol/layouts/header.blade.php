@@ -4,7 +4,7 @@
         <div class="row row-gutter-0 align-items-center">
           <div class="col-4 col-sm-6 col-lg-2">
             <div class="header-logo-area">
-              <a href="index.html">
+              <a href="{{route('shop_index')}}">
                 <img class="logo-main" src="{{ url('shop_files/assets/img/logo.png')}}" alt="Logo" />
                 <img class="logo-light" src="{{ url('shop_files/assets/img/logo.png')}}" alt="Logo" />
               </a>
@@ -68,9 +68,9 @@
                 </button>
               </div>
               <div class="header-action-login">
-                <button class="btn-login" onclick="window.location.href='login-register.html'">
+                <a class="btn-login" href="{{ route('shop_login') }}">
                   <i class="pe-7s-users"></i>
-                </button>
+                </a>
               </div>
               <div class="header-action-wishlist">
                 <button class="btn-wishlist" onclick="window.location.href='shop-wishlist.html'">

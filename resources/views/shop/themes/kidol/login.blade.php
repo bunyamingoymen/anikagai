@@ -14,7 +14,7 @@
               <div class="product-tab-content">
                 <ul class="nav nav-tabs" id="myTab" role="tablist" data-aos="fade-up" data-aos-duration="1000">
                   <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="our-features-tab" data-bs-toggle="tab" data-bs-target="#shop-user-login" type="button" role="tab" aria-controls="shop-user-login" aria-selected="true">Üye Girişi</button>
+                    <button class="nav-link active" id="our-features-tab" data-bs-toggle="tab" data-bs-target="#shop-user-login" type="button" role="tab" aria-controls="shop-user-login" aria-selected="true">Üye Girisi</button>
                   </li>
                   <li class="nav-item" role="presentation">
                     <button class="nav-link" id="shop-seller-login-tab" data-bs-toggle="tab" data-bs-target="#shop-seller-login" type="button" role="tab" aria-controls="shop-seller-login" aria-selected="false">Satıcı Girisi</button>
@@ -30,12 +30,13 @@
                               <h2>Giris Yap</h2>
                             </div>
                             <div class="login-register-style login-register-pr">
-                              <form action="#" method="post">
+                              <form action="{{route('shop_user_login')}}" method="post">
+                                @csrf
                                 <div class="login-register-input">
-                                  <input type="text" name="user-name" placeholder="Kullanıcı adı veya e-mail adresi">
+                                  <input type="text" name="email" placeholder="Kullanıcı adı veya e-mail adresi" required>
                                 </div>
                                 <div class="login-register-input">
-                                  <input type="password" name="user-password" placeholder="Şifre">
+                                  <input type="password" name="password" placeholder="Şifre" required>
                                   <div class="forgot">
                                     <a href="#">Şifremi Unuttum?</a>
                                   </div>
@@ -45,12 +46,14 @@
                                   <label>Beni Hatırla</label>
                                 </div>
                                 <div class="btn-style-3">
-                                  <button class="btn" onclick="window.location.href='my-account.html'" type="button">Giriş Yap</button>
+                                  <button class="btn" type="submit">Giriş Yap</button>
                                 </div>
                               </form>
                             </div>
                           </div>
                         </div>
+
+
                         <div class="col-md-6">
                           <div class="login-register-content login-register-pl">
                             <div class="login-register-title mb-30">
@@ -79,6 +82,8 @@
                         </div>
                       </div>
                   </div>
+
+
                   <div class="tab-pane fade" id="shop-seller-login" role="tabpanel" aria-labelledby="shop-seller-login-tab">
                     <div class="row">
                         <div class="col-md-6 login-register-border">

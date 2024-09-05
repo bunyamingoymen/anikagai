@@ -7,6 +7,7 @@ use App\Http\Controllers\IndexDataController;
 use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\RssController;
 use App\Http\Controllers\Shop\Index\ShopIndexController;
+use App\Http\Controllers\Shop\Index\ShopUserController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'is_active_index_user'], function () {
@@ -119,6 +120,8 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/shop', [ShopIndexController::class, "index"])->name('shop_index');
 
 Route::get('/shop/login', [ShopIndexController::class, "login"])->name('shop_login');
+
+Route::post('/shop/user/login', [ShopUserController::class, "login"])->name('shop_user_login');
 
 Route::get('/feed', [RssController::class, "getRSS"])->name('getRSS');
 Route::get('/adultOn', [Controller::class, "adultOn"])->name('adultOn');
