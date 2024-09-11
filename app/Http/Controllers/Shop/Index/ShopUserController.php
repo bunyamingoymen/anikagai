@@ -13,6 +13,17 @@ class ShopUserController extends Controller
         if (Auth::guard('shop_users')->attempt(['email' => $request->email, 'password' => $request->password]) || Auth::guard('shop_users')->attempt(['username' => $request->email, 'password' => $request->password])){
             return redirect()->route('shop_index');
         }
-        dd('başarısız');
+        return redirect()->back()->with('error','Giriş Başarısız');
+    }
+
+    public function register(Request $request){
+
+    }
+
+    public function logout(){
+
+        if(Auth::guard('shop_users')->user()) Auth::guard('shop_users')->logout();
+
+        return redirect()->route('shop_index');
     }
 }

@@ -122,6 +122,7 @@ Route::get('/shop', [ShopIndexController::class, "index"])->name('shop_index');
 Route::get('/shop/login', [ShopIndexController::class, "login"])->name('shop_login');
 
 Route::post('/shop/user/login', [ShopUserController::class, "login"])->name('shop_user_login');
+Route::get('/shop/user/logout', [ShopUserController::class, "logout"])->name('shop_user_logout');
 
 Route::get('/feed', [RssController::class, "getRSS"])->name('getRSS');
 Route::get('/adultOn', [Controller::class, "adultOn"])->name('adultOn');

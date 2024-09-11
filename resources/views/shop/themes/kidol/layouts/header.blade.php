@@ -67,23 +67,34 @@
                   <i class="pe-7s-search"></i>
                 </button>
               </div>
-              <div class="header-action-search">
-                <button class="btn-search" onclick="window.location.href='shop-wishlist.html'">
-                  <i class="pe-7s-like"></i>
-                </button>
-              </div>
+              @if (Auth::guard('shop_users')->user())
 
-              <div class="header-action-search">
-                <a class="btn-search" href="{{ route('shop_login') }}">
-                  <i class="pe-7s-users"></i>
-                </a>
-              </div>
+                <div class="header-action-search">
+                    <button class="btn-search" onclick="window.location.href='shop-wishlist.html'">
+                    <i class="pe-7s-like"></i>
+                    </button>
+                </div>
 
-              <div class="header-action-search">
-                <button class="btn-search">
-                  <i class="pe-7s-power"></i>
-                </button>
-              </div>
+
+                <div class="header-action-search">
+                    <a class="btn-search" href="{{ route('shop_login') }}">
+                    <i class="pe-7s-users"></i>
+                    </a>
+                </div>
+
+                <div class="header-action-search">
+                    <a class="btn-search" href="{{  route('shop_user_logout') }}">
+                    <i class="pe-7s-power"></i>
+                    </a>
+                </div>
+
+              @else
+                <div class="header-action-search">
+                    <a class="btn-search" href="{{ route('shop_login') }}">
+                    <i class="pe-7s-users"></i>
+                    </a>
+                </div>
+              @endif
               <div class="header-action-cart">
                 <button class="btn-cart cart-icon">
                   <span class="cart-count">01</span>
