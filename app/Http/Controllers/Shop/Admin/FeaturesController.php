@@ -70,7 +70,7 @@ class FeaturesController extends Controller
             $optional = $code;
             foreach($request->multiple_choose as $value){
                 $keyValue = new ShopKeyValue();
-                $keyValue->code = $this->generateUniqueCode('shop_mysql','shop_key_values');;
+                $keyValue->code = $this->generateUniqueCode('shop_mysql','shop_key_values');
                 $keyValue->key = $key;
                 $keyValue->value = $value;
                 $keyValue->optional = $optional;

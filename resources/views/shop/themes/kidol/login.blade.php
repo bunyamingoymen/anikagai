@@ -60,21 +60,22 @@
                                 <h2>Üye Ol</h2>
                             </div>
                             <div class="login-register-style">
-                              <form action="#" method="post">
+                              <form action="{{route('shop_user_register')}}" method="post">
+                                @csrf
                                 <div class="login-register-input">
-                                  <input type="text" name="user-name" placeholder="Kullanıcı Adı">
+                                  <input type="text" name="username" placeholder="Kullanıcı Adı" required>
                                 </div>
                                 <div class="login-register-input">
-                                  <input type="text" name="user-name" placeholder="E-mail adresi">
+                                  <input type="email" name="email" placeholder="E-mail adresi" required>
                                 </div>
                                 <div class="login-register-input">
-                                  <input type="password" name="user-password" placeholder="Şifre">
+                                  <input type="password" name="password" placeholder="Şifre" required>
                                 </div>
                                 <div class="login-register-paragraph">
                                   <p>Üye olmanız durumunda Kişisel Verilerin Korunması Kanununu onaylamış olursunuz. Daha fazlası için <a href="#">gizlilik sözleşmesi</a>'ne bakabilirsiniz.</p>
                                 </div>
                                 <div class="btn-style-3">
-                                  <button class="btn" onclick="window.location.href='my-account.html'" type="button">Üye Ol</button>
+                                  <button class="btn"  type="submit">Üye Ol</button>
                                 </div>
                               </form>
                             </div>

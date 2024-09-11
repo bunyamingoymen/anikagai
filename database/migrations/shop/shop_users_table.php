@@ -14,12 +14,12 @@ return new class extends Migration
         Schema::connection('shop_mysql')->create('shop_users', function (Blueprint $table) {
             $table->id();
             $table->string('code');
-            $table->string('name');
-            $table->string('surname');
-            $table->string('username');
+            $table->string('name')->nullable();
+            $table->string('surname')->nullable();
+            $table->string('username')->unique();
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->string('phone')->nullable();
             $table->unsignedBigInteger('create_user_code')->default(1);
             $table->unsignedBigInteger('update_user_code')->nullable();
