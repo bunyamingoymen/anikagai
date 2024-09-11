@@ -24,8 +24,9 @@ class ProductController extends Controller
         $this->defaultUpdateRoute = $this->defaultRoute.'_update';
     }
 
-    public function list(){
-        return view($this->defaultListPath);
+    public function list($type = null){
+        if(!$type) $type = -1;
+        return view($this->defaultListPath, ['type'=> $type]);
     }
 
     public function edit(Request $request){
@@ -93,8 +94,18 @@ class ProductController extends Controller
             'take' => $request->showingCount ? $request->showingCount : Config::get('app.showCount'),
             'page' => $request->page
         ];
+        $filters = [];
+        if($request->type != "-1"){
+            if($request->type=="sale"){
 
-        $result = $this->getDataFromDatabase('shop_mysql', $this->defaultModel, [], $pagination);
+                $filters['is_approved'] = "1";
+                $filters['is_active'] = "1";
+
+            }else if($request->type=="unapproved") $filters['is_approved'] = "0";
+            else if($request->type=="passive") $filters['is_active'] = "0";
+        }
+
+        $result = $this->getDataFromDatabase('shop_mysql', $this->defaultModel, $filters, $pagination);
 
         return $result;
     }

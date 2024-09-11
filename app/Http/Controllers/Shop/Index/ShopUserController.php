@@ -42,7 +42,6 @@ class ShopUserController extends Controller
     public function logout(){
 
         if(Auth::guard('shop_users')->user()) Auth::guard('shop_users')->logout();
-
         return redirect()->route('shop_index');
     }
 }

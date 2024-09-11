@@ -400,7 +400,7 @@
                             <li id=""><a href="{{route('admin_shop_product_list')}}">Tümü</a></li>
                             <li id=""><a href="{{route('admin_shop_product_list',['type'=>'sale'])}}">Satışda</a></li>
                             <li id=""><a href="{{route('admin_shop_product_list',['type'=>'unapproved'])}}">Onaylanmamış</a></li>
-                            <li id=""><a href="{{route('admin_shop_product_list',['type'=>'archive'])}}">Arşivde</a></li>
+                            <li id=""><a href="{{route('admin_shop_product_list',['type'=>'passive'])}}">Pasif</a></li>
                         </ul>`;
             document.getElementById('sidebarShopProductsSection').innerHTML = html;
         @endif

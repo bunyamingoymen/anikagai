@@ -28,6 +28,7 @@
             function changePage(page) {
                 var pageData = {
                     page: page,
+                    type: '{{$type}}'
                 }
                 if (showingCount && showingCount != 10) {
                     pageData.showingCount = showingCount;
@@ -105,7 +106,7 @@
                     maxWidth: 75,
                 },
                 {
-                    headerName: "Ürünİsmi",
+                    headerName: "Ürün İsmi",
                     field: "name",
                 },
                 {
@@ -115,28 +116,58 @@
                         return params.data.price + ' ' + params.data.priceType;
                     }
                 },
-                @if ($update == 1 || $delete == 1)
+                {
+                    headerName: "Onay Durumu",
+                    field: "is_approved",
+                    cellRenderer: function(params) {
+                        if(params.data.is_approved == 1) return `<span class = "badge badge-pill badge-success"> Onaylı </span>`;
+                        else return `<span class = "badge badge-pill badge-danger"> Onaylı Değil </span>`;
+                    }
+                },
+                {
+                    headerName: "Aktiflik Durumu",
+                    field: "is_active",
+                    cellRenderer: function(params) {
+                        if(params.data.is_active == 1) return `<span class = "badge badge-pill badge-success"> Aktif </span>`;
+                        else return `<span class = "badge badge-pill badge-danger"> Pasif </span>`;
+                    }
+                },
+                @if ($update || $delete || $changeApproval || $changeActive)
                     {
                         headerName: "İşlemler",
                         field: "action",
                         cellRenderer: function(params) {
                             var html = `<div class="row" style="justify-content: center;">`
-                            @if ($update == 1)
+                            @if ($changeApproval)
+                                if(params.data.is_approved == 1){
+                                    html += `<div class="mr-2 ml-2">
+                                                <a class="btn btn-danger btn-sm" href="{{ route('admin_shop_product_change_approval') }}?code=${params.data.code}" data-toggle="tooltip" data-placement="right" title="Ürünün Onayını Kaldır"><i class="fab fa-centos"></i></a>
+                                            </div>`
+                                }else{
+                                    html += `<div class="mr-2 ml-2">
+                                                <a class="btn btn-success btn-sm" href="{{ route('admin_shop_product_change_approval') }}?code=${params.data.code}" data-toggle="tooltip" data-placement="right" title="Ürünü Onayla"><i class="fas fa-certificate"></i></a>
+                                            </div>`
+                                }
+                            @endif
+                            @if ($changeActive)
+                                if(params.data.is_active == 1){
+                                    html += `<div class="mr-2 ml-2">
+                                            <a class="btn btn-danger btn-sm" href="{{ route('admin_shop_product_change_active') }}?code=${params.data.code}" data-toggle="tooltip" data-placement="right" title="Ürünü Pasif Yap"><i class="fas fa-times-circle"></i></a>
+                                        </div>`
+                                }else{
+                                    html += `<div class="mr-2 ml-2">
+                                            <a class="btn btn-success btn-sm" href="{{ route('admin_shop_product_change_active') }}?code=${params.data.code}" data-toggle="tooltip" data-placement="right" title="Ürünü Aktif Yap"><i class="fas fa-check-circle"></i></a>
+                                        </div>`
+                                }
+                            @endif
+                            @if ($update)
                                 html += `<div class="mr-2 ml-2">
                                         <a class="btn btn-warning btn-sm" href="{{ route('admin_shop_product_update') }}?code=${params.data.code}" data-toggle="tooltip" data-placement="right" title="Güncelle"><i class="fas fa-edit"></i></a>
                                     </div>`
                             @endif
-                            @if ($delete == 1)
+                            @if ($delete)
                                 html += `<div class="mr-2 ml-2">
                                         <a class="btn btn-danger btn-sm" href="javascript:void(0);" onclick="deleteValue('${params.data.code}', '${params.data.name}')" data-toggle="tooltip" data-placement="right" title="Sil"><i class="fas fa-trash-alt"></i></a>
-                                    </div>`
-
-                                html += `<div class="mr-2 ml-2">
-                                        <a class="btn btn-warning btn-sm" href="{{ route('admin_shop_product_change_approval') }}?code=${params.data.code}" data-toggle="tooltip" data-placement="right" title="Onaylanma Durumunu Değiştir"><i class="fas fa-edit"></i></a>
-                                    </div>`
-
-                                html += `<div class="mr-2 ml-2">
-                                        <a class="btn btn-warning btn-sm" href="{{ route('admin_shop_product_change_active') }}?code=${params.data.code}" data-toggle="tooltip" data-placement="right" title="Aktiflik Durumunu Değiştir"><i class="fas fa-edit"></i></a>
                                     </div>`
                             @endif
 
@@ -147,8 +178,8 @@
                         filter: false,
                         cellEditorPopup: true,
                         cellEditor: 'agSelectCellEditor',
-                        maxWidth: 125,
-                        minWidth: 125,
+                        maxWidth: 250,
+                        minWidth: 250,
                     },
                 @endif
             ]

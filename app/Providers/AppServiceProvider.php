@@ -410,8 +410,10 @@ class AppServiceProvider extends ServiceProvider
                         $list = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/product') ? 1 : 0;
                         $update = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/product/update') ? 1 : 0;
                         $delete = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/product/delete') ? 1 : 0;
+                        $changeApproval = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/product/changeApproval') ? 1 : 0;
+                        $changeActive = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/product/changeActive') ? 1 : 0;
 
-                        $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
+                        $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete,"changeApproval"=>$changeApproval, "changeActive"=>$changeActive]);
                     });
 
                     View::composer($shopUserSellerPages, function ($view) {

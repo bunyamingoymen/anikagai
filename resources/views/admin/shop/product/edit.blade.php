@@ -21,7 +21,7 @@
                 <div class="card">
                     <div class="card-body">
 
-                        <form class="needs-validation" id="EditForm" action="{{ route('admin_shop_category_save') }}"
+                        <form class="needs-validation" id="EditForm" action="{{ route('admin_shop_product_save') }}"
                             method="POST">
                             @csrf
 
@@ -33,7 +33,7 @@
 
                             <div class="row">
                                 <div class="col-md-12 mb-3">
-                                    <label for="name">Kategori İsmi:</label>
+                                    <label for="name">Ürün İsmi:</label>
                                     <input type="text" class="form-control" id="name" name="name"
                                         placeholder="İsim" value="{{$item->name ?? ''}}" required>
                                 </div>
