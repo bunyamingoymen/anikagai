@@ -105,7 +105,7 @@ class ProductController extends Controller
             else if($request->type=="passive") $filters['is_active'] = "0";
         }
 
-        $result = $this->getDataFromDatabase('shop_mysql', $this->defaultModel, $filters, $pagination);
+        $result = $this->getDataFromDatabase(['database'=>'shop_mysql', 'model'=>$this->defaultModel, 'filters'=>$filters, 'pagination'=>$pagination]);
 
         return $result;
     }

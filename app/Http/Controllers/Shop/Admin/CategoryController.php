@@ -100,7 +100,7 @@ class CategoryController extends Controller
             ];
         }else $search = [];
 
-        $result = $this->getDataFromDatabase('shop_mysql', $this->defaultModel, [], $pagination, $search);
+        $result = $this->getDataFromDatabase(['database'=>'shop_mysql', 'model'=>$this->defaultModel, 'pagination'=>$pagination, 'search'=>$search]);
 
         return $result;
     }

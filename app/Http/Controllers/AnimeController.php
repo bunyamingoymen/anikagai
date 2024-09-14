@@ -300,7 +300,7 @@ class AnimeController extends Controller
             ];
         }else $search = [];
 
-        $result = $this->getDataFromDatabase('mysql', 'App\Models\Anime', [], $pagination, $search);
+        $result = $this->getDataFromDatabase(['database'=>'mysql', 'model'=>'App\Models\Anime', 'pagination'=>$pagination, 'search'=>$search]);
 
 
         return $result;

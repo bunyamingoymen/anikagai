@@ -109,7 +109,7 @@ class UserController extends Controller
             'page' => $request->page
         ];
 
-        $result = $this->getDataFromDatabase('shop_mysql',  $this->defaultModel, [], $pagination);
+        $result = $this->getDataFromDatabase(['database'=>'shop_mysql',  'model'=>$this->defaultModel, 'pagination'=>$pagination]);
 
         return $result;
     }
