@@ -62,8 +62,10 @@ class FeaturesController extends Controller
         $item->name = $request->name;
         $item->description = $request->description;
         $item->feature_type = $request->feature_type ?? 0;
-        ShopKeyValue::Where('key','feature_type_multiple_selection')->where('optional',$code)->delete();
+        $item->save();
 
+
+        ShopKeyValue::Where('key','feature_type_multiple_selection')->where('optional',$code)->delete();
 
         if($item->feature_type == 1 && $request->has('multiple_choose')){
             $key = 'feature_type_multiple_selection';
@@ -99,7 +101,21 @@ class FeaturesController extends Controller
             'page' => $request->page
         ];
 
-        $result = $this->getDataFromDatabase(['database'=>'shop_mysql', 'model'=>$this->defaultModel, 'pagination'=>$pagination]);
+        if($request->category_codes){
+            $joins = [
+                ['table' => 'shop_category_features','first' => 'shop_category_features.feature_code', 'operator' => '=', 'second' => 'code', 'columns'=>[]],
+                ['table' => 'shop_categories', 'first' => 'shop_category_features.category_code', 'operator' => '=', 'second' => 'shop_categories.code', 'columns'=>['name'=>'category_name', 'code'=>'category_code']]
+            ];
+            $whereIn = [ 'shop_category_features.category_code'=>$request->category_codes ];
+            $groupBy = true;
+        }
+        else{
+            $whereIn=[];
+            $joins = [];
+            $groupBy = false;
+        }
+
+        $result = $this->getDataFromDatabase(['database'=>'shop_mysql', 'model'=>$this->defaultModel, 'pagination'=>$pagination, 'wherein'=>$whereIn, 'joins'=>$joins, 'groupby'=>$groupBy]);
 
         return $result;
     }

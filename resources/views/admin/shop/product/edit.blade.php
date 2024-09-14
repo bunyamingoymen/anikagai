@@ -94,7 +94,7 @@
                                 <div class="tab-pane" id="category-features" role="tabpanel">
                                     <div class="col-md-3">
                                         <label for="selectCategory">Kategoriler:</label>
-                                        <select name="selectCategory" id="selectCategory" style="width: 250px;" multiple>
+                                        <select name="selectCategory" id="selectCategory" style="width: 250px;" onchange="changeSelectCategory()" multiple>
                                         </select>
                                     </div>
                                     <div>
@@ -102,12 +102,16 @@
                                         <button class="btn btn-primary float-right" type="button" onclick="document.getElementById('images-videos-button-id').click()"> <i class="dripicons-chevron-right"></i> İleri </button>
                                     </div>
                                 </div>
+
+
                                 <div class="tab-pane" id="images-videos" role="tabpanel">
                                     <div>
                                         <button class="btn btn-primary" type="button" onclick="document.getElementById('category-features-button-id').click()"> <i class="dripicons-chevron-left"></i> Geri </button>
                                         <button class="btn btn-primary float-right" type="button" onclick="document.getElementById('other-settings-button-id').click()"> <i class="dripicons-chevron-right"></i> İleri </button>
                                     </div>
                                 </div>
+
+
                                 <div class="tab-pane" id="other-settings" role="tabpanel">
                                     <div>
                                         <button class="btn btn-primary" type="button" onclick="document.getElementById('images-videos-button-id').click()"> <i class="dripicons-chevron-left"></i> Geri </button>
@@ -154,7 +158,53 @@
             }
         </script>
 
+        <!-- Select2 ve kategori ayarları -->
         <script>
+            function changeSelectCategory(){
+                // Select elementini al
+                const selectElement = document.getElementById('selectCategory');
+
+                // Seçilen tüm değerleri almak için boş bir dizi oluştur
+                const selectedValues = [];
+
+                // Seçilen option öğelerini bul ve değerlerini diziye ekle
+                for (const option of selectElement.options) {
+                    if (option.selected) {
+                        selectedValues.push(option.value);
+                    }
+                }
+
+                var pageData = {
+                    page: 1,
+                    showingCount: 100,
+                    category_codes: selectedValues,
+                }
+                if(selectedValues.length>0){
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                            }
+                        });
+                        $.ajax({
+                            type: 'POST',
+                            url: '{{ route('admin_shop_feature_get_data') }}',
+                            data: pageData,
+                            success: function(response) {
+                                var items = response.items;
+                                var page_count = response.page_count;
+                                for (let i = 0; i < items.length; i++) {
+
+                                    console.log(i + ". code: " + items[i].code)
+                                    console.log(i + ". name: " + items[i].name)
+
+                                }
+
+                            }
+                        });
+                }
+            }
+
+
             $(document).ready(function() {
                 $('#selectCategory').select2({
                     ajax: {
@@ -197,6 +247,7 @@
                 })
 
                 function formatResult(item) {
+                    console.log('çalıştı');
                     return item.name;
                 }
             });

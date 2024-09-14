@@ -165,11 +165,11 @@ class Controller extends BaseController
 
 
         //Örnek wherein: whereIn = [ 'category_code'=>['1','2','3'], 'feature_code'=>['4','5','6'] ]
-        //Örnek joins: $joins = [ ['table' => 'categories','table_as' => 'categories', 'first' => 'products.category_id', 'operator' => '=', 'second' => 'categories.id', 'columns'=>['name'=>'category_name', 'code'=>'category_code']] ];
+        //Örnek joins: $joins = [ 'distinct'=>'true', ['table' => 'categories','table_as' => 'categories', 'first' => 'category_id', 'operator' => '=', 'second' => 'categories.id', 'columns'=>['name'=>'category_name', 'code'=>'category_code']] ];
         //Örnek search: $search=['search' => $request->searchData, 'dbSearch' => ['name','description','main_category_name'], 'short_name'=> true, 'short_name_db' => 'short_name' ];
         //örnek filter(where): $filters['is_approved'] = "1";   $filters['is_active'] = "1";
         //örnek pagination: $pagination = [ 'take' => $request->showingCount ? $request->showingCount : Config::get('app.showCount'), 'page' => $request->page];
-
+        //Eğer burada ana tablo olarak gönderilen tablodan bir değer alacaksanız (wherein ya da join..vs.) Tablonun adını yukarıdaki dizilerden herhangi birini oluştururken girmemelisiniz. Aksi taktirde hata verecektir.
 
         //data ile gelen değerleri eşleştirme
         // Anahtarları küçük harfe çevir
@@ -197,6 +197,8 @@ class Controller extends BaseController
         // Join ayarları (Varsayılan boş dizi)
         $joins = $data['joins'] ?? [];
 
+        $groupBy = $data['groupby'] ?? false;
+
         $mainTableAlias = $data['maintablealias'] ?? 'main';
 
 
@@ -214,17 +216,26 @@ class Controller extends BaseController
         $query = $connection->table($table);
 
         // Seçilecek sütunları ekle
+        $mainTableColumns = $connection->getSchemaBuilder()->getColumnListing((new $model)->getTable());
+        $selectColumns = [];
+
+        foreach ($mainTableColumns as $column) {
+            $selectColumns[] = $mainTableAlias . '.' . $column; // Ana tablodaki tüm sütunlar
+        }
         $query->select("$mainTableAlias.*");
 
         // Join işlemi
         if (!empty($joins)) {
-            foreach ($joins as $join) {
+            foreach ($joins as $index => $join) {
                 if (isset($join['table'], $join['first'], $join['operator'], $join['second'], $join['columns'])) {
                     // Join işlemi
-                    $query->join($join['table'], $mainTableAlias . '.' . $join['first'], $join['operator'], $join['table'].'.'.$join['second']);
+                    $query->join($join['table'], $join['first'], $join['operator'], $join['second']);
 
                     // Join edilen tablonun belirli sütunlarını alias ile ekle
-                    foreach ($join['columns'] as $column => $alias) $query->addSelect("$column as $alias");
+                    foreach ($join['columns'] as $column => $alias) {
+                        if(strpos($column,'.'))  $selectColumns[] = $column . ' as ' . $alias;
+                        else $join['table'] . '.' . $column . ' as ' . $alias;
+                    }
                 }
             }
         }
@@ -271,6 +282,13 @@ class Controller extends BaseController
                     else $query->whereIn($mainTableAlias.'.'.$column, $values);
                 }
             }
+        }
+
+        $query->select($selectColumns);
+
+
+        if($groupBy){
+            $query->groupBy($selectColumns);
         }
 
         // Verileri al
