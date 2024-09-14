@@ -67,7 +67,7 @@
                     data: pageData,
                     success: function(response) {
                         var id = page <= 1 ? 1 : (page - 1) * showingCount + 1;
-                        var animes = response.animes;
+                        var animes = response.items;
                         var page_count = response.page_count;
                         rowData = [];
                         for (let i = 0; i < animes.length; i++) {

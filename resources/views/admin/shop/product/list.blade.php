@@ -186,6 +186,8 @@
             gridOptionsData(columnDefs);
             changePage(1);
         </script>
+
+
     @endif
     <script>
         // Sayfa yüklenmeden önce bu JavaScript kodu çalışacak

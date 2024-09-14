@@ -159,7 +159,7 @@ class Controller extends BaseController
         return $code;
     }
 
-    public function getDataFromDatabase($database, $model, $filters = [], $pagination = ['take' => 15, 'page' => 1])
+    public function getDataFromDatabase($database, $model, $filters = [], $pagination = ['take' => 15, 'page' => 1], $search = [], $whereIn = [])
     {
         // Veritabanı bağlantısını seç
         $connection = DB::connection($database);
@@ -171,17 +171,48 @@ class Controller extends BaseController
         $take = $pagination['take'];
         $skip = (($pagination['page'] - 1) * $take);
 
+        $filters['deleted'] = 0;
+
         // Başlangıç query
-        $query = $connection->table($table)->where('deleted', 0);
+        $query = $connection->table($table);
 
         // Filtreleri uygula
         foreach ($filters as $column => $value) {
             $query->where($column, $value);
         }
 
+        //Arama varsa aramayı uygula
+        if (isset($search['search']) && is_string($search['search']) && isset($search['dbSearch']) && is_array($search['dbSearch'])) {
+            $query->where(function($q) use ($search) {
+                // İlk kolon için where kullanıyoruz
+                $firstColumn = true;
+                foreach ($search['dbSearch'] as $column) {
+                    if ($firstColumn) {
+                        $q->where($column, 'LIKE', '%' . $search['search'] . '%');
+                        $firstColumn = false;
+                    } else {
+                        $q->orWhere($column, 'LIKE', '%' . $search['search'] . '%');
+                    }
+                }
+
+                //Eğer kısa isim ya da url de aranmak istenirse
+                if(isset($search['short_name']) && isset($search['short_name_db']) && $search['short_name']){
+                    $shortName = $this->makeShortName($search['search']);
+                    $q->orWhere($search['short_name_db'], 'LIKE', '%' . $shortName  . '%');
+                }
+            });
+        }
+
+         // WhereIn işlemi
+        if (!empty($whereIn) && count($whereIn) > 0) {
+            foreach ($whereIn as $column => $values) {
+                if (is_array($values) && count($values) > 1) $query->whereIn($column, $values);
+            }
+        }
+        $queryCount = $query;
         // Verileri al
         $items = $query->skip($skip)->take($take)->get();
-        $totalCount = $connection->table($table)->where('deleted', 0)->count();
+        $totalCount = $queryCount->count();
         $page_count = ceil($totalCount / $take);
 
         return ['items' => $items, 'page_count' => $page_count];
@@ -226,4 +257,5 @@ class Controller extends BaseController
 
         return $prefix.$url;
     }
+
 }

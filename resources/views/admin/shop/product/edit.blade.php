@@ -16,66 +16,113 @@
         <!-- JAVASCRIPT -->
         <script src="{{ 'admin/assets/libs/jquery/jquery.min.js' }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-xl-12">
                 <div class="card">
                     <div class="card-body">
-
+                        <!-- Nav tabs -->
+                        <ul class="nav nav-pills nav-justified" role="tablist">
+                            <li class="nav-item waves-effect waves-light">
+                                <a class="nav-link active" data-toggle="tab" href="#general-information" id="general-information-button-id" role="tab">
+                                    <i class="dripicons-align-center mr-1 align-middle"></i> <span class="d-none d-md-inline-block">Genel Bilgiler</span>
+                                </a>
+                            </li>
+                            <li class="nav-item waves-effect waves-light">
+                                <a class="nav-link" data-toggle="tab" href="#category-features" id="category-features-button-id" role="tab">
+                                    <i class="dripicons-gear mr-1 align-middle"></i> <span class="d-none d-md-inline-block">Özellikler</span>
+                                </a>
+                            </li>
+                            <li class="nav-item waves-effect waves-light">
+                                <a class="nav-link" data-toggle="tab" href="#images-videos" id="images-videos-button-id" role="tab">
+                                    <i class="dripicons-photo mr-1 align-middle"></i> <span class="d-none d-md-inline-block">Resimler</span>
+                                </a>
+                            </li>
+                            <li class="nav-item waves-effect waves-light">
+                                <a class="nav-link" data-toggle="tab" href="#other-settings" id="other-settings-button-id" role="tab">
+                                    <i class="dripicons-chevron-right mr-1 align-middle"></i> <span class="d-none d-md-inline-block">Diğer Bilgiler</span>
+                                </a>
+                            </li>
+                        </ul>
                         <form class="needs-validation" id="EditForm" action="{{ route('admin_shop_product_save') }}"
-                            method="POST">
+                        method="POST">
                             @csrf
-
                             @isset($item)
                                 <div hidden>
                                     <input type="text" class="form-control" id="code" name="code" value="{{$item->code ?? '' }}" required>
                                 </div>
                             @endisset
-
-                            <div class="row">
-                                <div class="col-md-12 mb-3">
-                                    <label for="name">Ürün İsmi:</label>
-                                    <input type="text" class="form-control" id="name" name="name"
-                                        placeholder="İsim" value="{{$item->name ?? ''}}" required>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-12 mb-3">
-                                    <label for="description">Açıklama:</label>
-                                    <div id="summernote"></div>
-                                    <textarea class="form-control" name="description" id="description" cols="30" rows="10" placeholder="Açıklama"
-                                        hidden required></textarea>
-
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="row col-md-6">
-                                    <div class="col-md-6">
-                                        <label for="price">Ücret:</label>
-                                        <div class="row">
-                                            <input type="text" class="form-control col-md-3" id="price" name="price"  value="" required>
-                                            <select name="priceType" id="priceType" class="form-control col-md-3">
-                                                <option value="TRY">TRY</option>
-                                                <option value="EUR">EUR</option>
-                                                <option value="TRY">TRY</option>
-
-                                            </select>
+                            <!-- Tab panes -->
+                            <div class="tab-content p-3">
+                                <div class="tab-pane active" id="general-information" role="tabpanel">
+                                    <div class="row">
+                                        <div class="col-md-12 mb-3">
+                                            <label for="name">Ürün İsmi:</label>
+                                            <input type="text" class="form-control" id="name" name="name"
+                                                placeholder="İsim" value="{{$item->name ?? ''}}" required>
                                         </div>
                                     </div>
+                                    <div class="row">
+                                        <div class="col-md-12 mb-3">
+                                            <label for="description">Açıklama:</label>
+                                            <div id="summernote"></div>
+                                            <textarea class="form-control" name="description" id="description" cols="30" rows="10" placeholder="Açıklama"
+                                                hidden required></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="row col-md-12">
+                                            <div class="col-md-6">
+                                                <label for="price">Ücret:</label>
+                                                <div class="row">
+                                                    <input type="number" class="form-control col-md-3" id="price" name="price"  value="" required>
+                                                    <select name="priceType" id="priceType" class="form-control col-md-3 ml-1">
+                                                        <option value="TRY">TRY</option>
+                                                        <option value="EUR">EUR</option>
+                                                        <option value="USD">USD</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+
+                                    <div>
+                                        <button class="btn btn-primary float-right" type="button" onclick="document.getElementById('category-features-button-id').click()"> <i class="dripicons-chevron-right"></i> İleri </button>
+                                    </div>
                                 </div>
-                            </div>
-                            <div style="float: right;">
-                                <button class="btn btn-primary" type="button"
-                                    onclick="editSubmitForm()">Kaydet</button>
+                                <div class="tab-pane" id="category-features" role="tabpanel">
+                                    <div class="col-md-3">
+                                        <label for="selectCategory">Kategoriler:</label>
+                                        <select name="selectCategory" id="selectCategory" style="width: 250px;" multiple>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <button class="btn btn-primary" type="button" onclick="document.getElementById('general-information-button-id').click()"> <i class="dripicons-chevron-left"></i> Geri </button>
+                                        <button class="btn btn-primary float-right" type="button" onclick="document.getElementById('images-videos-button-id').click()"> <i class="dripicons-chevron-right"></i> İleri </button>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="images-videos" role="tabpanel">
+                                    <div>
+                                        <button class="btn btn-primary" type="button" onclick="document.getElementById('category-features-button-id').click()"> <i class="dripicons-chevron-left"></i> Geri </button>
+                                        <button class="btn btn-primary float-right" type="button" onclick="document.getElementById('other-settings-button-id').click()"> <i class="dripicons-chevron-right"></i> İleri </button>
+                                    </div>
+                                </div>
+                                <div class="tab-pane" id="other-settings" role="tabpanel">
+                                    <div>
+                                        <button class="btn btn-primary" type="button" onclick="document.getElementById('images-videos-button-id').click()"> <i class="dripicons-chevron-left"></i> Geri </button>
+                                        <button class="btn btn-primary float-right" type="button" onclick="editSubmitForm()"> <i class="fas fa-save"></i> Kaydet</button>
+                                    </div>
+                                </div>
+
                             </div>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
+
         <script>
-
-            $(".js-seelct-multiple").select2({});
-
             $.getScript("{{ url('admin/assets/libs/summernote/summernote-bs4.min.js') }}", function() {
                 $(document).ready(function() {
                     $("#summernote").summernote({
@@ -105,6 +152,54 @@
                 }
 
             }
+        </script>
+
+        <script>
+            $(document).ready(function() {
+                $('#selectCategory').select2({
+                    ajax: {
+                        url: '{{ route('admin_shop_category_get_data') }}', // Laravel controller endpoint'iniz
+                        dataType: 'json',
+                        type: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': "{{ csrf_token() }}" // CSRF token'ı ekle
+                        },
+                        data: function(params) {
+                            return {
+                                search: params.term,
+                                page: 1,
+                                // Diğer parametreleri burada ekleyebilirsiniz
+                            };
+                        },
+                        processResults: function(response) {
+                            return {
+                                results: $.map(response.items, function(item) {
+                                    return {
+                                        id: item.code,
+                                        name: item.name,
+                                        // Diğer alanları burada ekleyebilirsiniz
+                                    };
+                                }),
+                                pagination: {
+                                    more: response.page_count > 1 // Eğer daha fazla sayfa varsa true döndürün
+                                }
+                            };
+                        },
+                        cache: true
+                    },
+                    placeholder: 'Kategori Ara...',
+                    minimumInputLength: 3, // Minimum giriş uzunluğu
+                    escapeMarkup: function(markup) {
+                        return markup;
+                    }, // Markdown işlemlerini önlemek için
+                    templateResult: formatResult, // Sonuçları özelleştirmek için
+                    templateSelection: formatResult, // Seçili öğeyi özelleştirmek için
+                })
+
+                function formatResult(item) {
+                    return item.name;
+                }
+            });
         </script>
     @endif
     <script>

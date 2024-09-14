@@ -93,7 +93,14 @@ class CategoryController extends Controller
             'page' => $request->page
         ];
 
-        $result = $this->getDataFromDatabase('shop_mysql', $this->defaultModel, [], $pagination);
+        if($request->search){
+            $search=[
+                'search' => $request->search,
+                'dbSearch' => ['name','description']
+            ];
+        }else $search = [];
+
+        $result = $this->getDataFromDatabase('shop_mysql', $this->defaultModel, [], $pagination, $search);
 
         return $result;
     }

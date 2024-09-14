@@ -286,34 +286,24 @@ class AnimeController extends Controller
 
     public function animeGetData(Request $request)
     {
-        $take  = $request->showingCount ? $request->showingCount : Config::get('app.showCount');
-        $skip = (($request->page - 1) * $take);
-
-        $animesQuery = Anime::where('deleted', 0)
-            ->when($request->searchData, function ($query, $searchData) {
-                // Arama terimi için özel karakter dönüşümü
-                $shortName = $this->makeShortName($searchData);
-
-                $searchQueryData = '%' . $searchData . '%';
-                $shortNameData = '%' . $shortName . '%';
-
-                return $query->where(function ($query) use ($searchQueryData, $shortNameData) {
-                    $query->where('name', 'LIKE', $searchQueryData)
-                        ->orWhere('description', 'LIKE', $searchQueryData)
-                        ->orWhere('main_category_name', 'LIKE', $searchQueryData)
-                        ->orWhere('short_name', 'LIKE', $shortNameData);
-                });
-            });
-        $page_count = ceil($animesQuery->count() / $take);
-        $animes = $animesQuery->skip($skip)->take($take)->get();
-
-
-
-
-        return [
-            'animes' => $animes,
-            'page_count' => $page_count
+        $pagination = [
+            'take' => $request->showingCount ? $request->showingCount : Config::get('app.showCount'),
+            'page' => $request->page
         ];
+
+        if($request->searchData){
+            $search=[
+                'search' => $request->searchData,
+                'dbSearch' => ['name','description','main_category_name'],
+                'short_name'=> true,
+                'short_name_db' => 'short_name'
+            ];
+        }else $search = [];
+
+        $result = $this->getDataFromDatabase('mysql', 'App\Models\Anime', [], $pagination, $search);
+
+
+        return $result;
     }
 
     public function animeGetSeason(Request $request)
