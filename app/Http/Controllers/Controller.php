@@ -161,7 +161,15 @@ class Controller extends BaseController
 
     public function getDataFromDatabase($data=[])
     {
-        //$database, $model, $filters = [], $pagination = ['take' => 15, 'page' => 1], $search = [], $whereIn = [], $joins=[]
+        //$data içinde bulunan veriler: 'database'=>'shop_mysql', 'model'=>'App\Models\Shop\ShopProduct', $filters = [], $pagination = ['take' => 15, 'page' => 1], $search = [], $whereIn = [], $joins=[]
+
+
+        //Örnek wherein: whereIn = [ 'category_code'=>['1','2','3'], 'feature_code'=>['4','5','6'] ]
+        //Örnek joins: $joins = [ ['table' => 'categories','table_as' => 'categories', 'first' => 'products.category_id', 'operator' => '=', 'second' => 'categories.id', 'columns'=>['name'=>'category_name', 'code'=>'category_code']] ];
+        //Örnek search: $search=['search' => $request->searchData, 'dbSearch' => ['name','description','main_category_name'], 'short_name'=> true, 'short_name_db' => 'short_name' ];
+        //örnek filter(where): $filters['is_approved'] = "1";   $filters['is_active'] = "1";
+        //örnek pagination: $pagination = [ 'take' => $request->showingCount ? $request->showingCount : Config::get('app.showCount'), 'page' => $request->page];
+
 
         //data ile gelen değerleri eşleştirme
         // Anahtarları küçük harfe çevir
@@ -198,44 +206,36 @@ class Controller extends BaseController
         // Modelin tablo adını al
         $table = (new $model)->getTable() . ' as ' . $mainTableAlias;
 
-        // Pagination ve filtre ayarları
+        // Pagination ayarları
         $take = $pagination['take'];
         $skip = (($pagination['page'] - 1) * $take);
 
         // Başlangıç query
         $query = $connection->table($table);
 
-        // Ana tablonun tüm sütunlarını seç
-        $mainTableColumns = $connection->getSchemaBuilder()->getColumnListing((new $model)->getTable());
-        $selectColumns = [];
-
-        foreach ($mainTableColumns as $column) {
-            $selectColumns[] = $mainTableAlias . '.' . $column; // Ana tablodaki tüm sütunlar
-        }
+        // Seçilecek sütunları ekle
+        $query->select("$mainTableAlias.*");
 
         // Join işlemi
         if (!empty($joins)) {
             foreach ($joins as $join) {
                 if (isset($join['table'], $join['first'], $join['operator'], $join['second'], $join['columns'])) {
                     // Join işlemi
-                    $query->join($join['table'], $join['first'], $join['operator'], $join['second']);
+                    $query->join($join['table'], $mainTableAlias . '.' . $join['first'], $join['operator'], $join['table'].'.'.$join['second']);
 
                     // Join edilen tablonun belirli sütunlarını alias ile ekle
-                    foreach ($join['columns'] as $column => $alias) {
-                        $selectColumns[] = $join['table'] . '.' . $column . ' as ' . $alias;
-                    }
+                    foreach ($join['columns'] as $column => $alias) $query->addSelect("$column as $alias");
                 }
             }
         }
 
-        // Seçilecek sütunları ekle
-        $query->select($selectColumns);
-
+        //filtre ayarları
         $filters['deleted'] = 0;
 
         // Filtreleri uygula
         foreach ($filters as $column => $value) {
-            $query->where($mainTableAlias.'.'.$column, $value);
+            if(strpos($column,'.')) $query->where($column, $value);
+            else $query->where($mainTableAlias.'.'.$column, $value);
         }
 
         // Arama işlemi
@@ -245,17 +245,20 @@ class Controller extends BaseController
                 $firstColumn = true;
                 foreach ($search['dbSearch'] as $column) {
                     if ($firstColumn) {
-                        $q->where($mainTableAlias.'.'.$column, 'LIKE', '%' . $search['search'] . '%');
+                        if(strpos($column,'.')) $q->where($column, 'LIKE', '%' . $search['search'] . '%');
+                        else $q->where($mainTableAlias.'.'.$column, 'LIKE', '%' . $search['search'] . '%');
                         $firstColumn = false;
                     } else {
-                        $q->orWhere($mainTableAlias.'.'.$column, 'LIKE', '%' . $search['search'] . '%');
+                        if(strpos($column,'.'))  $q->orWhere($column, 'LIKE', '%' . $search['search'] . '%');
+                        else $q->orWhere($mainTableAlias.'.'.$column, 'LIKE', '%' . $search['search'] . '%');
                     }
                 }
 
                 // Eğer kısa isim ya da URL de aranmak istenirse
                 if (isset($search['short_name']) && isset($search['short_name_db']) && $search['short_name']) {
                     $shortName = $this->makeShortName($search['search']);
-                    $q->orWhere($mainTableAlias.'.'.$search['short_name_db'], 'LIKE', '%' . $shortName  . '%');
+                    if(strpos($column,'.'))  $q->orWhere($search['short_name_db'], 'LIKE', '%' . $shortName  . '%');
+                    else $q->orWhere($mainTableAlias.'.'.$search['short_name_db'], 'LIKE', '%' . $shortName  . '%');
                 }
             });
         }
@@ -264,7 +267,8 @@ class Controller extends BaseController
         if (!empty($whereIn) && count($whereIn) > 0) {
             foreach ($whereIn as $column => $values) {
                 if (is_array($values) && count($values) > 0) {
-                    $query->whereIn($mainTableAlias.'.'.$column, $values);
+                    if(strpos($column,'.')) $query->whereIn($column, $values);
+                    else $query->whereIn($mainTableAlias.'.'.$column, $values);
                 }
             }
         }
@@ -318,95 +322,3 @@ class Controller extends BaseController
     }
 
 }
-/**7
-public function getDataFromDatabase($database, $model, $filters = [], $pagination = ['take' => 15, 'page' => 1], $search = [], $whereIn = [], $joins=[])
-{
-    $mainTableAlias = 'main';
-    // Veritabanı bağlantısını seç
-    $connection = DB::connection($database);
-
-    // Modelin tablo adını al
-    $table = (new $model)->getTable() . ' as ' . $mainTableAlias;
-
-    // Pagination ve filtre ayarları
-    $take = $pagination['take'];
-    $skip = (($pagination['page'] - 1) * $take);
-
-    $filters['deleted'] = 0;
-
-    // Başlangıç query
-    $query = $connection->table($table);
-
-    // Ana tablonun tüm sütunlarını seç
-    $mainTableColumns = $connection->getSchemaBuilder()->getColumnListing((new $model)->getTable());
-    $selectColumns = [];
-
-    foreach ($mainTableColumns as $column) {
-        $selectColumns[] = $mainTableAlias . '.' . $column; // Ana tablodaki tüm sütunlar
-    }
-
-    // Join işlemi ve join sütunlarını alias ile ekle
-    if (!empty($joins)) {
-        foreach ($joins as $join) {
-            if (isset($join['table'], $join['first'], $join['operator'], $join['second'], $join['columns'])) {
-                // Join işlemi
-                $query->join($join['table'], $join['first'], $join['operator'], $join['second']);
-
-                // Join edilen tablonun belirli sütunlarını alias ile ekle
-                foreach ($join['columns'] as $column => $alias) {
-                    $selectColumns[] = $join['table'] . '.' . $column . ' as ' . $alias;
-                }
-            }
-        }
-    }
-
-    // Seçilecek sütunları ekle
-    $query->select($selectColumns);
-
-    // Filtreleri uygula
-    foreach ($filters as $column => $value) {
-        $query->where($mainTableAlias.'.'.$column, $value);
-    }
-
-    // Arama işlemi
-    if (isset($search['search']) && is_string($search['search']) && isset($search['dbSearch']) && is_array($search['dbSearch'])) {
-        $query->where(function($q) use ($search, $mainTableAlias) {
-            $firstColumn = true;
-            foreach ($search['dbSearch'] as $column) {
-                if ($firstColumn) {
-                    $q->where($mainTableAlias.'.'.$column, 'LIKE', '%' . $search['search'] . '%');
-                    $firstColumn = false;
-                } else {
-                    $q->orWhere($mainTableAlias.'.'.$column, 'LIKE', '%' . $search['search'] . '%');
-                }
-            }
-
-            // Eğer kısa isim ya da URL de aranmak istenirse
-            if (isset($search['short_name']) && isset($search['short_name_db']) && $search['short_name']) {
-                $shortName = $this->makeShortName($search['search']);
-                $q->orWhere($mainTableAlias.'.'.$search['short_name_db'], 'LIKE', '%' . $shortName  . '%');
-            }
-        });
-    }
-
-    // WhereIn işlemi
-    if (!empty($whereIn) && count($whereIn) > 0) {
-        foreach ($whereIn as $column => $values) {
-            if (is_array($values) && count($values) > 0) {
-                $query->whereIn($mainTableAlias.'.'.$column, $values);
-            }
-        }
-    }
-
-    // Toplam veri sayısını al
-    $totalCount = $query->count();
-
-    // Verileri al
-    $items = $query->skip($skip)->take($take)->get();
-    $page_count = ceil($totalCount / $take);
-
-    return ['items' => $items, 'page_count' => $page_count];
-}
-
-
- */
