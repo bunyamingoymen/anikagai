@@ -199,6 +199,8 @@ class Controller extends BaseController
 
         $groupBy = $data['groupby'] ?? false;
 
+        $getQuery = $data['getquery'] ?? false;
+
         $mainTableAlias = $data['maintablealias'] ?? 'main';
 
 
@@ -229,7 +231,10 @@ class Controller extends BaseController
             foreach ($joins as $index => $join) {
                 if (isset($join['table'], $join['first'], $join['operator'], $join['second'], $join['columns'])) {
                     // Join işlemi
-                    $query->join($join['table'], $join['first'], $join['operator'], $join['second']);
+                    $first = strpos($join['first'],'.') ? $join['first'] : $mainTableAlias . '.'.$join['first'];
+                    $second = strpos($join['second'],'.') ? $join['second'] : $mainTableAlias . '.'.$join['second'];
+
+                    $query->join($join['table'], $first, $join['operator'], $second);
 
                     // Join edilen tablonun belirli sütunlarını alias ile ekle
                     foreach ($join['columns'] as $column => $alias) {
@@ -294,7 +299,7 @@ class Controller extends BaseController
         // Verileri al
         $items = $query->skip($skip)->take($take)->get();
         $page_count = ceil( $query->count() / $take);
-
+        if($getQuery) return ['items' => $items, 'page_count' => $page_count, 'query'=>$query];
         return ['items' => $items, 'page_count' => $page_count];
     }
 

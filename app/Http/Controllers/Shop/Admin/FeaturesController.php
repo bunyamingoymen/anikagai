@@ -104,18 +104,31 @@ class FeaturesController extends Controller
         if($request->category_codes){
             $joins = [
                 ['table' => 'shop_category_features','first' => 'shop_category_features.feature_code', 'operator' => '=', 'second' => 'code', 'columns'=>[]],
-                ['table' => 'shop_categories', 'first' => 'shop_category_features.category_code', 'operator' => '=', 'second' => 'shop_categories.code', 'columns'=>['name'=>'category_name', 'code'=>'category_code']]
+                ['table' => 'shop_categories', 'first' => 'shop_category_features.category_code', 'operator' => '=', 'second' => 'shop_categories.code', 'columns'=>['name'=>'category_name', 'code'=>'category_code']],
             ];
             $whereIn = [ 'shop_category_features.category_code'=>$request->category_codes ];
             $groupBy = true;
+            $getQuery = true;
         }
         else{
             $whereIn=[];
             $joins = [];
             $groupBy = false;
+            $getQuery = false;
         }
 
-        $result = $this->getDataFromDatabase(['database'=>'shop_mysql', 'model'=>$this->defaultModel, 'pagination'=>$pagination, 'wherein'=>$whereIn, 'joins'=>$joins, 'groupby'=>$groupBy]);
+        $result = $this->getDataFromDatabase(['database'=>'shop_mysql', 'model'=>$this->defaultModel, 'pagination'=>$pagination,'wherein'=>$whereIn, 'joins'=>$joins, 'groupby'=>$groupBy, 'getQuery'=>$getQuery]);
+
+        if($request->category_codes){
+            $take = $request->showingCount ? $request->showingCount : Config::get('app.showCount');
+            $skip = (($request->page - 1) * $take);
+
+            $codes = $result['query']->skip($skip)->take($take)->pluck('code')->toArray();
+            $whereIn = [ 'optional'=>$codes ];
+            $filters['key']= 'feature_type_multiple_selection';
+            $keyValues = $this->getDataFromDatabase(['database'=>'shop_mysql', 'model'=>'App\Models\Shop\ShopKeyValue', 'pagination'=>['take'=>100, 'page'=>1], 'filters'=>$filters]);
+            $result['key_values'] = $keyValues;
+        }
 
         return $result;
     }

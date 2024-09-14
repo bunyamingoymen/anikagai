@@ -91,13 +91,32 @@
                                         <button class="btn btn-primary float-right" type="button" onclick="document.getElementById('category-features-button-id').click()"> <i class="dripicons-chevron-right"></i> İleri </button>
                                     </div>
                                 </div>
+
+
                                 <div class="tab-pane" id="category-features" role="tabpanel">
-                                    <div class="col-md-3">
+                                    <div class="mt-3 mb-5">
                                         <label for="selectCategory">Kategoriler:</label>
-                                        <select name="selectCategory" id="selectCategory" style="width: 250px;" onchange="changeSelectCategory()" multiple>
+                                        <select name="selectCategory" id="selectCategory" style="width: 100%;" onchange="changeSelectCategory()" multiple >
                                         </select>
                                     </div>
-                                    <div>
+                                    <div class="mt-5" id="allFeaturesDiv">
+                                        <div class="mt-4 mt-lg-0">
+                                            <h5 class="font-size-14 mb-3">Inline Radios</h5>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="inlineRadios" id="inlineRadios1" value="option1" checked="">
+                                                <label class="form-check-label" for="inlineRadios1">
+                                                    Inline Radio 1
+                                                </label>
+                                            </div>
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="inlineRadios" id="inlineRadios2" value="option2">
+                                                <label class="form-check-label" for="inlineRadios2">
+                                                    Inline Radio 2
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-3">
                                         <button class="btn btn-primary" type="button" onclick="document.getElementById('general-information-button-id').click()"> <i class="dripicons-chevron-left"></i> Geri </button>
                                         <button class="btn btn-primary float-right" type="button" onclick="document.getElementById('images-videos-button-id').click()"> <i class="dripicons-chevron-right"></i> İleri </button>
                                     </div>
@@ -192,12 +211,42 @@
                             success: function(response) {
                                 var items = response.items;
                                 var page_count = response.page_count;
+                                var key_values = Object.values(response.key_values.items);
+                                var html = ``;
                                 for (let i = 0; i < items.length; i++) {
+                                    var keyValues = key_values.filter(value=> value.optional === items[i].code);
+                                    if(keyValues.length>0){
+                                        html += `
+                                            <div class="mt-3">
+                                                <label for="">${items[i].name}</label>
+                                                <div class="mt-4 mt-lg-0">
+                                                    `
 
-                                    console.log(i + ". code: " + items[i].code)
-                                    console.log(i + ". name: " + items[i].name)
+                                        keyValues.forEach(element => {
+                                            html += `<div class="form-check form-check-inline">
+                                                        <input class="form-check-input features_inputs" type="radio" name="features['${items[i].code}']" id="${element.code}" value="${element.code}" checked="">
+                                                        <label class="form-check-label" for="${element.code}">
+                                                            ${element.value}
+                                                        </label>
+                                                    </div>
+                                            `
+                                        });
+
+                                        html += `
+                                                </div>
+                                            </div>
+                                        `
+                                    }else{
+                                        html += `<div class="mt-3">
+                                                        <label for="${items[i].code}">${items[i].name}</label>
+                                                        <input type="text" id="${items[i].code}" name="features['${items[i].code}']" class="form-control features_inputs" placeholder="Bir değer giriniz">
+                                                </div>
+                                                `
+                                    }
 
                                 }
+
+                                document.getElementById('allFeaturesDiv').innerHTML = html;
 
                             }
                         });
@@ -247,7 +296,6 @@
                 })
 
                 function formatResult(item) {
-                    console.log('çalıştı');
                     return item.name;
                 }
             });
