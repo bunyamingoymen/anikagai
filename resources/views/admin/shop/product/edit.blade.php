@@ -100,21 +100,6 @@
                                         </select>
                                     </div>
                                     <div class="mt-5" id="allFeaturesDiv">
-                                        <div class="mt-4 mt-lg-0">
-                                            <h5 class="font-size-14 mb-3">Inline Radios</h5>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="inlineRadios" id="inlineRadios1" value="option1" checked="">
-                                                <label class="form-check-label" for="inlineRadios1">
-                                                    Inline Radio 1
-                                                </label>
-                                            </div>
-                                            <div class="form-check form-check-inline">
-                                                <input class="form-check-input" type="radio" name="inlineRadios" id="inlineRadios2" value="option2">
-                                                <label class="form-check-label" for="inlineRadios2">
-                                                    Inline Radio 2
-                                                </label>
-                                            </div>
-                                        </div>
                                     </div>
                                     <div class="mt-3">
                                         <button class="btn btn-primary" type="button" onclick="document.getElementById('general-information-button-id').click()"> <i class="dripicons-chevron-left"></i> Geri </button>
@@ -213,6 +198,27 @@
                                 var page_count = response.page_count;
                                 var key_values = Object.values(response.key_values.items);
                                 var html = ``;
+
+                                var features_inputs = document.getElementsByClassName('features_inputs');
+                                var features_values = [];
+
+                                features_inputs.forEach(element => {
+                                    if(element.id === element.value){
+                                        var features_value = {
+                                            id: element.id,
+                                            value: element.checked,
+                                        };
+                                    }
+                                    else{
+                                        var features_value = {
+                                            id: element.id,
+                                            value: element.value,
+                                        };
+                                    }
+
+                                    features_values.push(features_value);
+                                });
+
                                 for (let i = 0; i < items.length; i++) {
                                     var keyValues = key_values.filter(value=> value.optional === items[i].code);
                                     if(keyValues.length>0){
@@ -247,6 +253,11 @@
                                 }
 
                                 document.getElementById('allFeaturesDiv').innerHTML = html;
+
+                                features_values.forEach(element => {
+                                        if(element.value === true) document.getElementById(element.id).checked = element.value;
+                                        else document.getElementById(element.id).value = element.value;
+                                    });
 
                             }
                         });
