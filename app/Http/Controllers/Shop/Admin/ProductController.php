@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Shop\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Shop\ShopCategoryProducts;
+use App\Models\Shop\ShopFiles;
+use App\Models\Shop\ShopProductFeatures;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Config;
 
@@ -33,8 +37,9 @@ class ProductController extends Controller
         if(Route::currentRouteName() == $this->defaultUpdateRoute){
             $item = $this->getOneItem($request->code, $this->defaultModel, 0)['item'];
             if(!$item) return redirect()->route($this->defaultListRoute)->with('error','ürün güncellenirken bir hata meydana geldi');
-
-            return view($this->defaultEditPath,['item'=>$item]);
+            $categories = $this->getDataFromDatabase(['database'=>'shop_mysql', 'model'=>'App\Models\Shop\ShopCategories', 'filters'=>['shop_category_products.product_code'=>$request->code], 'pagination'=>['take' => 100, 'page' => 1], 'joins'=>[['table' => 'shop_category_products', 'first' => 'code', 'operator' => '=', 'second' => 'shop_category_products.category_code', 'columns'=>[]]]   ]);
+            $featuresAnswers = $this->getDataFromDatabase(['database'=>'shop_mysql', 'model'=>'App\Models\Shop\ShopProductFeatures', 'filters'=>['product_code'=>$request->code], 'pagination'=>['take' => 100, 'page' => 1] ]);
+            return view($this->defaultEditPath,['item'=>$item, 'categories'=>$categories, 'featuresAnswers'=>$featuresAnswers]);
         }
         return view($this->defaultEditPath);
     }
@@ -52,10 +57,71 @@ class ProductController extends Controller
         $item->price = $request->price;
         $item->priceType = $request->priceType;
         $item->description = $request->description;
+        $item->is_trend = $request->is_trend ? 1 : 0;
         $item->is_approved = $request->has('is_approved') ? 1 : 0;
         $item->is_active = $request->has('is_active') ? 1 : 0;
-
         $item->save();
+
+        ShopCategoryProducts::Where('product_code',$code)->delete();
+        if($request->has('selectCategory')){
+            foreach($request->selectCategory as $value){
+                $pro_cat = new ShopCategoryProducts();
+                $pro_cat->product_code = $code;
+                $pro_cat->category_code = $value;
+                $pro_cat->save();
+            }
+        }
+
+
+        ShopProductFeatures::Where('product_code',$code)->delete();
+        if($request->has('selectCategory')){
+            foreach($request->features as $index => $value){
+                $pro_fea = new ShopProductFeatures();
+                $pro_fea->product_code = $code;
+                $pro_fea->feature_code = $index;
+                $pro_fea->answer = $value;
+                $pro_fea->save();
+            }
+        }
+
+        if($request->hasFile('main_image')){
+            $file = $request->file('main_image');
+            $main_path = 'shop_files/products/images';
+            $path = public_path($main_path);
+            $name = $code . "_main." . $file->getClientOriginalExtension();
+            $file->move($path, $name);
+
+            $pro_fal = new ShopFiles();
+            $pro_fal->code = $this->generateUniqueCode('shop_mysql','shop_files');
+            $pro_fal->name = $name;
+            $pro_fal->path = $main_path."/" . $name;
+            $pro_fal->type = 'img';
+            $pro_fal->description = 'main image';
+            $pro_fal->create_user_code = Auth::guard('admin')->user()->code;
+            $pro_fal->update_user_code = Auth::guard('admin')->user()->code;
+            $pro_fal->save();
+        }
+
+        if($request->hasFile('images')){
+            foreach($request->file('images') as $index => $file){
+                $main_path = 'shop_files/products/images';
+                $path = public_path($main_path);
+                $name = $code . "_image_" . $index . '.' . $file->getClientOriginalExtension();
+                $file->move($path, $name);
+
+                $pro_fal_multi = new ShopFiles();
+                $pro_fal_multi->code = $this->generateUniqueCode('shop_mysql','shop_files');
+                $pro_fal_multi->name = $name;
+                $pro_fal_multi->path = $main_path."/" . $name;
+                $pro_fal_multi->type = 'img';
+                $pro_fal_multi->description = 'image';
+                $pro_fal_multi->create_user_code = Auth::guard('admin')->user()->code;
+                $pro_fal_multi->update_user_code = Auth::guard('admin')->user()->code;
+                $pro_fal_multi->save();
+            }
+        }
+
+
         return redirect()->route($this->defaultListRoute)->with('success', $is_new ? 'Yeni ürün eklendi' : 'Ürün güncellendi');
 
     }

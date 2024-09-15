@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('price');
             $table->string('priceType')->default('TRY');
             $table->longText('description')->nullable();
+            $table->tinyInteger('is_trend')->default(0);
             $table->unsignedBigInteger('create_user_code')->default(1);
             $table->unsignedBigInteger('update_user_code')->nullable();
             $table->tinyInteger('is_approved')->default(0);

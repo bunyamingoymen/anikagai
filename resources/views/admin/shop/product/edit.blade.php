@@ -45,7 +45,7 @@
                             </li>
                         </ul>
                         <form class="needs-validation" id="EditForm" action="{{ route('admin_shop_product_save') }}"
-                        method="POST">
+                        method="POST" enctype="multipart/form-data">
                             @csrf
                             @isset($item)
                                 <div hidden>
@@ -96,7 +96,7 @@
                                 <div class="tab-pane" id="category-features" role="tabpanel">
                                     <div class="mt-3 mb-5">
                                         <label for="selectCategory">Kategoriler:</label>
-                                        <select name="selectCategory" id="selectCategory" style="width: 100%;" onchange="changeSelectCategory()" multiple >
+                                        <select name="selectCategory[]" id="selectCategory" style="width: 100%;" onchange="changeSelectCategory()" multiple >
                                         </select>
                                     </div>
                                     <div class="mt-5" id="allFeaturesDiv">
@@ -109,7 +109,15 @@
 
 
                                 <div class="tab-pane" id="images-videos" role="tabpanel">
-                                    <div>
+                                    <div class="mb-3">
+                                        <label for="formFile" class="form-label">Varsayılan Ana resim:</label>
+                                        <input type="file" class="form-control" id="main_image" name="main_image">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="formFile" class="form-label">Diğer Resimler:</label>
+                                        <input type="file" class="form-control" id="images" name="images[]" multiple>
+                                    </div>
+                                    <div class="mt-3">
                                         <button class="btn btn-primary" type="button" onclick="document.getElementById('category-features-button-id').click()"> <i class="dripicons-chevron-left"></i> Geri </button>
                                         <button class="btn btn-primary float-right" type="button" onclick="document.getElementById('other-settings-button-id').click()"> <i class="dripicons-chevron-right"></i> İleri </button>
                                     </div>
@@ -117,7 +125,12 @@
 
 
                                 <div class="tab-pane" id="other-settings" role="tabpanel">
-                                    <div>
+                                    <div class="m-3">
+                                        <input type="checkbox" name="is_trend" id="is_trend">
+                                        <label for="trend">Trendlere Ekle</label>
+                                    </div>
+
+                                    <div class="mt-3">
                                         <button class="btn btn-primary" type="button" onclick="document.getElementById('images-videos-button-id').click()"> <i class="dripicons-chevron-left"></i> Geri </button>
                                         <button class="btn btn-primary float-right" type="button" onclick="editSubmitForm()"> <i class="fas fa-save"></i> Kaydet</button>
                                     </div>

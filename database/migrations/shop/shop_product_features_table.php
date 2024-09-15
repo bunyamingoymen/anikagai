@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('shop_product_features', function (Blueprint $table) {
+        Schema::connection('shop_mysql')->create('shop_product_features', function (Blueprint $table) {
             $table->id();
             $table->string('product_code');
             $table->string('feature_code');

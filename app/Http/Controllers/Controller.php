@@ -165,7 +165,7 @@ class Controller extends BaseController
 
 
         //Örnek wherein: whereIn = [ 'category_code'=>['1','2','3'], 'feature_code'=>['4','5','6'] ]
-        //Örnek joins: $joins = [ 'distinct'=>'true', ['table' => 'categories','table_as' => 'categories', 'first' => 'category_id', 'operator' => '=', 'second' => 'categories.id', 'columns'=>['name'=>'category_name', 'code'=>'category_code']] ];
+        //Örnek joins: $joins = [ ['table' => 'categories','table_as' => 'categories', 'first' => 'category_id', 'operator' => '=', 'second' => 'categories.id', 'columns'=>['name'=>'category_name', 'code'=>'category_code']] ];
         //Örnek search: $search=['search' => $request->searchData, 'dbSearch' => ['name','description','main_category_name'], 'short_name'=> true, 'short_name_db' => 'short_name' ];
         //örnek filter(where): $filters['is_approved'] = "1";   $filters['is_active'] = "1";
         //örnek pagination: $pagination = [ 'take' => $request->showingCount ? $request->showingCount : Config::get('app.showCount'), 'page' => $request->page];
