@@ -246,7 +246,7 @@ class Controller extends BaseController
         }
 
         //filtre ayarları
-        $filters['deleted'] = 0;
+        if(in_array($mainTableAlias.'.deleted',$selectColumns)) $filters['deleted'] = 0;
 
         // Filtreleri uygula
         foreach ($filters as $column => $value) {

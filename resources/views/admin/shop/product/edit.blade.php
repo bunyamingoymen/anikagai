@@ -177,6 +177,16 @@
 
         <!-- Select2 ve kategori ayarları -->
         <script>
+            @if (isset($categories))
+                var selectedCategories = @json($categories);
+            @endif
+
+            @if (isset($featuresAnswers))
+                var featuresAnswers = @json($featuresAnswers);
+                featuresAnswers = Object.values(featuresAnswers);
+                //console.log(featuresAnswers);
+            @endif
+
             function changeSelectCategory(){
                 // Select elementini al
                 const selectElement = document.getElementById('selectCategory');
@@ -234,6 +244,12 @@
 
                                 for (let i = 0; i < items.length; i++) {
                                     var keyValues = key_values.filter(value=> value.optional === items[i].code);
+                                    var answer="";
+                                    for(let j=0; j<featuresAnswers.length; j++){
+                                        if(items[i].code === featuresAnswers[j].feature_code){
+                                            answer = featuresAnswers[j].answer;
+                                        }
+                                    }
                                     if(keyValues.length>0){
                                         html += `
                                             <div class="mt-3">
@@ -242,13 +258,24 @@
                                                     `
 
                                         keyValues.forEach(element => {
-                                            html += `<div class="form-check form-check-inline">
-                                                        <input class="form-check-input features_inputs" type="radio" name="features['${items[i].code}']" id="${element.code}" value="${element.code}" checked="">
-                                                        <label class="form-check-label" for="${element.code}">
-                                                            ${element.value}
-                                                        </label>
-                                                    </div>
-                                            `
+                                            if(element.code === answer){
+                                                html += `<div class="form-check form-check-inline">
+                                                            <input class="form-check-input features_inputs" type="radio" name="features['${items[i].code}']" id="${element.code}" value="${element.code}" checked>
+                                                            <label class="form-check-label" for="${element.code}">
+                                                                ${element.value}
+                                                            </label>
+                                                        </div>
+                                                `
+                                            }else{
+                                                html += `<div class="form-check form-check-inline">
+                                                            <input class="form-check-input features_inputs" type="radio" name="features['${items[i].code}']" id="${element.code}" value="${element.code}">
+                                                            <label class="form-check-label" for="${element.code}">
+                                                                ${element.value}
+                                                            </label>
+                                                        </div>
+                                                `
+                                            }
+
                                         });
 
                                         html += `
@@ -258,7 +285,7 @@
                                     }else{
                                         html += `<div class="mt-3">
                                                         <label for="${items[i].code}">${items[i].name}</label>
-                                                        <input type="text" id="${items[i].code}" name="features['${items[i].code}']" class="form-control features_inputs" placeholder="Bir değer giriniz">
+                                                        <input type="text" id="${items[i].code}" name="features['${items[i].code}']" class="form-control features_inputs" placeholder="Bir değer giriniz" value="${answer}">
                                                 </div>
                                                 `
                                     }
@@ -319,13 +346,27 @@
                     escapeMarkup: function(markup) {
                         return markup;
                     }, // Markdown işlemlerini önlemek için
+                    //theme: "bootstrap",
                     templateResult: formatResult, // Sonuçları özelleştirmek için
                     templateSelection: formatResult, // Seçili öğeyi özelleştirmek için
+                    //matcher: function(term, text) { return text.name.toUpperCase().indexOf(term.toUpperCase()) != -1; },
                 })
 
                 function formatResult(item) {
-                    return item.name;
+                    if (item.text === "") {
+                        item.text = item.name;
+                    }
+                    return item.text;
                 }
+
+                @if (isset($categories))
+                    //console.log(selectedCategories);
+                    selectedCategories.forEach(function(category, index, array) {
+                        var option = new Option(category.name, category.code, true, true);
+                        $('#selectCategory').append(option).trigger('change');
+                    });
+
+                @endif
             });
         </script>
     @endif
@@ -340,3 +381,39 @@
         });
     </script>
 @endsection
+
+<!--
+const selectedCategories = ['category1', 'category2', 'category3'];
+
+selectedCategories.forEach(function(category, index, array) {
+    console.log("Kategori: " + category);
+
+    // Son iterasyon olup olmadığını kontrol et
+    if (index === array.length - 1) {
+        console.log("Bu son kategori.");
+    }
+});
+
+
+setTimeout(() => {
+                            if (index === array.length - 1) {
+                            @if (isset($featuresAnswers))
+                                @foreach ($featuresAnswers as $featuresAnswer)
+                                    var inputElement = document.getElementById({!!$featuresAnswer->feature_code!!})
+                                    if(inputElement){
+                                        var inputType = inputElement.type;
+
+                                        if(inputType === 'text'){
+                                            inputElement.value = '{{$featuresAnswer->answer}}'
+                                        }else if(inputType === 'radio'){
+                                            if(inputElement.value === '{{$featuresAnswer->answer}}'){
+                                                inputElement.checked = true;
+                                            }
+                                        }
+                                    }
+                                @endforeach
+                            @endif
+                        }
+                        }, 5000);
+
+-->

@@ -37,14 +37,18 @@ class ProductController extends Controller
         if(Route::currentRouteName() == $this->defaultUpdateRoute){
             $item = $this->getOneItem($request->code, $this->defaultModel, 0)['item'];
             if(!$item) return redirect()->route($this->defaultListRoute)->with('error','ürün güncellenirken bir hata meydana geldi');
-            $categories = $this->getDataFromDatabase(['database'=>'shop_mysql', 'model'=>'App\Models\Shop\ShopCategories', 'filters'=>['shop_category_products.product_code'=>$request->code], 'pagination'=>['take' => 100, 'page' => 1], 'joins'=>[['table' => 'shop_category_products', 'first' => 'code', 'operator' => '=', 'second' => 'shop_category_products.category_code', 'columns'=>[]]]   ]);
-            $featuresAnswers = $this->getDataFromDatabase(['database'=>'shop_mysql', 'model'=>'App\Models\Shop\ShopProductFeatures', 'filters'=>['product_code'=>$request->code], 'pagination'=>['take' => 100, 'page' => 1] ]);
+
+            $categories = $this->getDataFromDatabase(['database'=>'shop_mysql', 'model'=>'App\Models\Shop\ShopCategories', 'filters'=>['shop_category_products.product_code'=>$request->code], 'pagination'=>['take' => 100, 'page' => 1], 'joins'=>[['table' => 'shop_category_products', 'first' => 'code', 'operator' => '=', 'second' => 'shop_category_products.category_code', 'columns'=>[]]]   ])['items'];
+
+            $featuresAnswers = $this->getDataFromDatabase(['database'=>'shop_mysql', 'model'=>'App\Models\Shop\ShopProductFeatures', 'filters'=>['product_code'=>$request->code], 'pagination'=>['take' => 100, 'page' => 1] ])['items'];
+            //dd($featuresAnswers);
             return view($this->defaultEditPath,['item'=>$item, 'categories'=>$categories, 'featuresAnswers'=>$featuresAnswers]);
         }
         return view($this->defaultEditPath);
     }
 
     public function save(Request $request){
+        //dd($request->toArray());
         $getOne = $this->getOneItem($request->code, $this->defaultModel);
 
         $item = $getOne['item'];
@@ -74,7 +78,7 @@ class ProductController extends Controller
 
 
         ShopProductFeatures::Where('product_code',$code)->delete();
-        if($request->has('selectCategory')){
+        if($request->has('features')){
             foreach($request->features as $index => $value){
                 $pro_fea = new ShopProductFeatures();
                 $pro_fea->product_code = $code;
