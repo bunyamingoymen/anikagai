@@ -255,12 +255,16 @@
                                 document.getElementById('allFeaturesDiv').innerHTML = html;
 
                                 features_values.forEach(element => {
+                                    if(document.getElementById(element.id)){
                                         if(element.value === true) document.getElementById(element.id).checked = element.value;
                                         else document.getElementById(element.id).value = element.value;
-                                    });
+                                    }
+                                });
 
                             }
                         });
+                }else{
+                    document.getElementById('allFeaturesDiv').innerHTML = ``;
                 }
             }
 
