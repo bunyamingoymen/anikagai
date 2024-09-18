@@ -42,7 +42,16 @@ class ProductController extends Controller
 
             $featuresAnswers = $this->getDataFromDatabase(['database'=>'shop_mysql', 'model'=>'App\Models\Shop\ShopProductFeatures', 'filters'=>['product_code'=>$request->code], 'pagination'=>['take' => 100, 'page' => 1] ])['items'];
             //dd($featuresAnswers);
-            return view($this->defaultEditPath,['item'=>$item, 'categories'=>$categories, 'featuresAnswers'=>$featuresAnswers]);
+            $main_image = ShopFiles::Where('parent_code',$item->code)->Where('description','main image')->first();
+
+            $images = ShopFiles::Where('parent_code',$item->code)->Where('description','!=','main image')->get();
+            return view($this->defaultEditPath,
+                            compact('item',
+                                    'categories',
+                                    'featuresAnswers',
+                                    'main_image',
+                                    'images')
+                        );
         }
         return view($this->defaultEditPath);
     }
@@ -95,8 +104,13 @@ class ProductController extends Controller
             $name = $code . "_main." . $file->getClientOriginalExtension();
             $file->move($path, $name);
 
-            $pro_fal = new ShopFiles();
-            $pro_fal->code = $this->generateUniqueCode('shop_mysql','shop_files');
+            $pro_fal = ShopFiles::Where('parent_code',$code)->Where('description','main image')->first();
+            if(!$pro_fal){
+                $pro_fal = new ShopFiles();
+                $pro_fal->code = $this->generateUniqueCode('shop_mysql','shop_files');
+                $pro_fal->parent_code = $code;
+            }
+
             $pro_fal->name = $name;
             $pro_fal->path = $main_path."/" . $name;
             $pro_fal->type = 'img';
@@ -115,6 +129,7 @@ class ProductController extends Controller
 
                 $pro_fal_multi = new ShopFiles();
                 $pro_fal_multi->code = $this->generateUniqueCode('shop_mysql','shop_files');
+                $pro_fal_multi->parent_code = $code;
                 $pro_fal_multi->name = $name;
                 $pro_fal_multi->path = $main_path."/" . $name;
                 $pro_fal_multi->type = 'img';
