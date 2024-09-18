@@ -120,7 +120,8 @@
             }
 
             $(document).ready(function() {
-                configSelect2();
+                configCargoCompany();
+                configCategory();
 
                 @if (session('select_tab'))
                 document.getElementById("{{ session('select_tab') }}").click();

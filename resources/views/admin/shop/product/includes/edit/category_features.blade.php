@@ -141,7 +141,7 @@
         }
     }
 
-    function configSelect2(){
+    function configCategory(){
         $('#selectCategory').select2({
             ajax: {
                 url: '{{ route('admin_shop_category_get_data') }}', // Laravel controller endpoint'iniz

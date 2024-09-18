@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Shop\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Shop\ShopCategoryProducts;
 use App\Models\Shop\ShopFiles;
+use App\Models\Shop\ShopKeyValue;
 use App\Models\Shop\ShopProductFeatures;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -46,12 +47,16 @@ class ProductController extends Controller
 
             $images = ShopFiles::Where('parent_code',$item->code)->Where('description','!=','main image')->Where('deleted',0)->get();
 
+            $cargo_company = ShopKeyValue::Where('code',$item->cargo_company)->Where('key','cargo_company')->first();
+
+
             return view($this->defaultEditPath,
                             compact('item',
                                     'categories',
                                     'featuresAnswers',
                                     'main_image',
-                                    'images')
+                                    'images',
+                                    'cargo_company')
                         );
         }
         return view($this->defaultEditPath);
@@ -74,6 +79,7 @@ class ProductController extends Controller
         $item->is_approved = $is_new ? ($request->has('is_approved') ? 1 : 0) : $item->is_approved;
         $item->is_active = $is_new ? ($request->has('is_active') ? 1 : 0) : $item->is_active;
         $item->cargo_day = $request->cargo_day;
+        $item->cargo_company = $request->cargo_company;
         $item->save();
 
         ShopCategoryProducts::Where('product_code',$code)->delete();
