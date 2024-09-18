@@ -198,6 +198,10 @@ return [
         'admin/shop/user/changeActive' => ['group' => '2', 'text' => 'Mağaza Üyelerinin Aktiflik Durumunu Değiştirebilme'],
 
 
-        'admin/shop/cargoCompanies' => ['group' => '2', 'text' => 'Kargo Firmalarını Görüntüleyebilme'],
+        'admin/shop/cargoCompany' =>  ['group' => '2', 'text' => 'Kargo Firmalarını Görüntüleyebilme'],
+        'admin/shop/cargoCompany/ajax' => ['group' => '2', 'text' => 'Kargo Firmalarını Görüntüleyebilme','same_as_previous' => true],
+        'admin/shop/cargoCompany/create' => ['group' => '2', 'text' => 'Kargo Firmalası Oluşturabilme'],
+        'admin/shop/cargoCompany/update' => ['group' => '2', 'text' => 'Kargo Firmasını Güncelleyebilme'],
+        'admin/shop/cargoCompany/delete' => ['group' => '2', 'text' => 'Kargo Firmasını Silebilme'],
     ],
 ];

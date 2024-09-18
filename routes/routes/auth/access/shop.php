@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Shop\Admin\CargoCompaniesController;
 use App\Http\Controllers\Shop\Admin\CategoryController;
 use App\Http\Controllers\Shop\Admin\FeaturesController;
 use App\Http\Controllers\Shop\Admin\KeyValueController;
@@ -9,6 +10,18 @@ use App\Http\Controllers\Shop\Admin\SellerController;
 use App\Http\Controllers\Shop\Admin\SettingsController;
 use App\Http\Controllers\Shop\Admin\UserController;
 use Illuminate\Support\Facades\Route;
+
+Route::controller(CargoCompaniesController::class)->group(function () {
+    Route::get("/admin/shop/cargoCompany", "list")->name('admin_shop_cargo_company_list');
+    Route::post("/admin/shop/cargoCompany/ajax", "getData")->name('admin_shop_cargo_company_get_data');
+
+    Route::get("/admin/shop/cargoCompany/create", "edit")->name('admin_shop_cargo_company_create');
+    Route::get("/admin/shop/cargoCompany/update", "edit")->name('admin_shop_cargo_company_update');
+
+    Route::post("/admin/shop/cargoCompany/save", "save")->name('admin_shop_cargo_company_save');
+
+    Route::post("/admin/shop/cargoCompany/delete", "delete")->name('admin_shop_cargo_company_delete');
+});
 
 Route::controller(CategoryController::class)->group(function () {
     Route::get("/admin/shop/category", "list")->name('admin_shop_category_list');
@@ -104,5 +117,5 @@ Route::controller(SettingsController::class)->group(function () {
 });
 
 Route::controller(KeyValueController::class)->group(function () {
-    Route::get("/admin/shop/cargoCompanies", "cargoList")->name('admin_shop_cargo_companies_list');
+
 });

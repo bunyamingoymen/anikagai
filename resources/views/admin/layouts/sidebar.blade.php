@@ -442,7 +442,7 @@
             @endif
 
             @if ($authArray['shopDataCargoCompaniesRead'] )
-                html = `<a href="{{route('admin_shop_cargo_companies_list')}}">Kargo Firmaları</a>`;
+                html = `<a href="{{route('admin_shop_cargo_company_list')}}">Kargo Firmaları</a>`;
                 document.getElementById('sidebarShopDataCargoCompaniesSection').innerHTML = html;
             @endif
 

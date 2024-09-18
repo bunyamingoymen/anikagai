@@ -417,11 +417,17 @@ return [
 
 
 
+        'admin/shop/cargoCompany' => "Kargo Firmaları",
+        '/admin/shop/cargoCompany' => ["Admin", "Kargo Firmaları"],
+        '//admin/shop/cargoCompany' => ["admin_index", "#"],
 
+        'admin/shop/cargoCompany/create' => "Yeni Kargo Firması Ekle",
+        '/admin/shop/cargoCompany/create' => ["Admin", "Kargo Firmaları", "Yeni Kargo Firması Ekle"],
+        '//admin/shop/cargoCompany/create' => ["admin_index", "admin_shop_cargo_company_list", "#"],
 
-        'admin/shop/cargoCompanies' => "Kargo Firmaları",
-        '/admin/shop/cargoCompanies' => ["Admin", "Kargo Firmaları"],
-        '//admin/shop/cargoCompanies' => ["admin_index", "#"],
+        'admin/shop/cargoCompany/update' => "Kargo Firması Güncelle",
+        '/admin/shop/cargoCompany/update' => ["Admin", "Kargo Firmaları", "Kargo Firması Güncelle"],
+        '//admin/shop/cargoCompany/update' => ["admin_index", "admin_shop_cargo_company_list", "#"],
 
     ],
 ];

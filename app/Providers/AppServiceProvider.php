@@ -76,7 +76,7 @@ class AppServiceProvider extends ServiceProvider
                 //shop:
                 $shopDataCategoryPages = ['admin.shop.data.category.list', 'admin.shop.data.category.edit'];
                 $shopDataFeaturePages = ['admin.shop.data.feature.list', 'admin.shop.data.feature.edit'];
-                $shopDataCargoCompaniesPages = ['admin.shop.data.other.cargo_companies'];
+                $shopDataCargoCompaniesPages = ['admin.shop.data.cargoCompany.list','admin.shop.data.cargoCompany.edit'];
 
                 $shopOrderPages = ['admin.shop.order.list', 'admin.shop.order.edit'];
 
@@ -169,7 +169,7 @@ class AppServiceProvider extends ServiceProvider
                         $shopProductRead = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/product') ? 1 : 0;
                         $shopSellerRead = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/seller') ? 1 : 0;
                         $shopUsersRead = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/user') ? 1 : 0;
-                        $shopDataCargoCompaniesRead = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/cargoCompanies') ? 1 : 0;
+                        $shopDataCargoCompaniesRead = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/cargoCompany') ? 1 : 0;
 
 
                         $authArray = [
@@ -437,9 +437,12 @@ class AppServiceProvider extends ServiceProvider
                     });
 
                     View::composer($shopDataCargoCompaniesPages, function ($view) {
-                        $list = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/cargoCompanies') ? 1 : 0;
+                        $create = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/cargoCompany/create') ? 1 : 0;
+                        $list = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/cargoCompany') ? 1 : 0;
+                        $update = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/cargoCompany/update') ? 1 : 0;
+                        $delete = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/cargoCompany/delete') ? 1 : 0;
 
-                        $view->with(["list" => $list]);
+                        $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete]);
                     });
                 }
                 //----------------------------------------------------

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('key');
             $table->longText('value')->nullable();
             $table->longText('optional')->nullable();
+            $table->longText('optional_2')->nullable();
             $table->unsignedBigInteger('create_user_code')->default(1);
             $table->unsignedBigInteger('update_user_code')->nullable();
             $table->tinyInteger('deleted')->default(0);
