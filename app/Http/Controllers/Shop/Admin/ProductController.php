@@ -73,6 +73,7 @@ class ProductController extends Controller
         $item->is_trend = $request->is_trend ? 1 : 0;
         $item->is_approved = $is_new ? ($request->has('is_approved') ? 1 : 0) : $item->is_approved;
         $item->is_active = $is_new ? ($request->has('is_active') ? 1 : 0) : $item->is_active;
+        $item->cargo_day = $request->cargo_day;
         $item->save();
 
         ShopCategoryProducts::Where('product_code',$code)->delete();
