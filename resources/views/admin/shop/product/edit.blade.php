@@ -121,6 +121,10 @@
 
             $(document).ready(function() {
                 configSelect2();
+
+                @if (session('select_tab'))
+                document.getElementById("{{ session('select_tab') }}").click();
+                @endif
             });
         </script>
     @endif

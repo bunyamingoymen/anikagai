@@ -69,6 +69,8 @@ Route::controller(ProductController::class)->group(function () {
     Route::get("/admin/shop/product/changeApproval", "changeApproval")->name('admin_shop_product_change_approval');
     Route::get("/admin/shop/product/changeActive", "changeActive")->name('admin_shop_product_change_active');
 
+    Route::get("/admin/shop/product/deleteImage", "deleteImage")->name('admin_shop_product_delete_image');
+
     Route::post("/admin/shop/product/save", "save")->name('admin_shop_product_save');
 
     Route::post("/admin/shop/product/delete", "delete")->name('admin_shop_product_delete');

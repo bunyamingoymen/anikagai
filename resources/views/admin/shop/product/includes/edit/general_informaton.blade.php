@@ -8,9 +8,9 @@
 <div class="row">
     <div class="col-md-12 mb-3">
         <label for="description">Açıklama:</label>
-        <div id="summernote"></div>
+        <div id="summernote">{!!$item->description ?? ''!!}</div>
         <textarea class="form-control" name="description" id="description" cols="30" rows="10" placeholder="Açıklama"
-            hidden required>{{$item->description ?? ''}}</textarea>
+            hidden required>{!!$item->description ?? ''!!}</textarea>
     </div>
 </div>
 <div class="row">
@@ -20,9 +20,9 @@
             <div class="row">
                 <input type="number" class="form-control col-md-3" id="price" name="price"  value="{{$item->price ?? ''}}" required>
                 <select name="priceType" id="priceType" class="form-control col-md-3 ml-1">
-                    <option value="TRY" {{$item->priceType == 'TRY' ?'selected': ''}}>TRY</option>
-                    <option value="EUR" {{$item->priceType == 'EUR' ?'selected': ''}}>EUR</option>
-                    <option value="USD" {{$item->priceType == 'USD' ?'selected': ''}}>USD</option>
+                    <option value="TRY" {{isset($item) && $item->priceType == 'TRY' ?'selected': ''}}>TRY</option>
+                    <option value="EUR" {{isset($item) && $item->priceType == 'EUR' ?'selected': ''}}>EUR</option>
+                    <option value="USD" {{isset($item) && $item->priceType == 'USD' ?'selected': ''}}>USD</option>
                 </select>
             </div>
         </div>

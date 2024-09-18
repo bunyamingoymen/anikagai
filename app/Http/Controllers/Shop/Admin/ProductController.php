@@ -44,7 +44,8 @@ class ProductController extends Controller
             //dd($featuresAnswers);
             $main_image = ShopFiles::Where('parent_code',$item->code)->Where('description','main image')->first();
 
-            $images = ShopFiles::Where('parent_code',$item->code)->Where('description','!=','main image')->get();
+            $images = ShopFiles::Where('parent_code',$item->code)->Where('description','!=','main image')->Where('deleted',0)->get();
+
             return view($this->defaultEditPath,
                             compact('item',
                                     'categories',
@@ -57,7 +58,6 @@ class ProductController extends Controller
     }
 
     public function save(Request $request){
-        //dd($request->toArray());
         $getOne = $this->getOneItem($request->code, $this->defaultModel);
 
         $item = $getOne['item'];
@@ -71,8 +71,8 @@ class ProductController extends Controller
         $item->priceType = $request->priceType;
         $item->description = $request->description;
         $item->is_trend = $request->is_trend ? 1 : 0;
-        $item->is_approved = $request->has('is_approved') ? 1 : 0;
-        $item->is_active = $request->has('is_active') ? 1 : 0;
+        $item->is_approved = $is_new ? ($request->has('is_approved') ? 1 : 0) : $item->is_approved;
+        $item->is_active = $is_new ? ($request->has('is_active') ? 1 : 0) : $item->is_active;
         $item->save();
 
         ShopCategoryProducts::Where('product_code',$code)->delete();
@@ -142,6 +142,19 @@ class ProductController extends Controller
 
 
         return redirect()->route($this->defaultListRoute)->with('success', $is_new ? 'Yeni ürün eklendi' : 'Ürün güncellendi');
+
+    }
+
+    public function deleteImage(Request $request){
+        //$item = ShopFiles::Where('code',$request->code)->Where('parent_code', $request->parent_code)->Where('deleted', 0)->first();
+        $item = $this->getOneItem($request->code, 'App\Models\Shop\ShopFiles', 0, ['parent_code'=>$request->parent_code])['item'];
+        if(!$item){
+            return redirect()->back()->with('error','resim silinirken bir hata meydana geldi');
+        }
+
+        $item->deleted = 1;
+        $item->save();
+        return redirect()->back()->with('success','Başarılı bir şekilde resim silindi')->with('select_tab','images-videos-button-id');
 
     }
 
