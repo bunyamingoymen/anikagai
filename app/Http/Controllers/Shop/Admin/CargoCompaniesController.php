@@ -29,7 +29,7 @@ class CargoCompaniesController extends Controller
 
     public function edit(Request $request){
         if(Route::currentRouteName() == $this->defaultUpdateRoute){
-            $item = $this->getOneItem($request->code, $this->defaultModel, 0)['item'];
+            $item = $this->getOneItem($request->code, $this->defaultModel, 0, ['key'=>'cargo_company'])['item'];
             if(!$item) return redirect()->route($this->defaultListRoute)->with('error','Kategori güncellenirken bir hata meydana geldi');
 
             return view($this->defaultEditPath,['item'=>$item]);
@@ -44,16 +44,18 @@ class CargoCompaniesController extends Controller
             'name.required' => 'İsim alanı giriniz. Max: 255 karakter.',
         ]);
 
-        $getOne = $this->getOneItem($request->code, $this->defaultModel);
+        $getOne = $this->getOneItem($request->code, $this->defaultModel, 1, ['key'=>'cargo_company']);
 
         $item = $getOne['item'];
         $is_new = $getOne['is_new'];
         $code = $getOne['code'];
 
+        if($is_new) $item->key = 'cargo_company';
+
         $item->value = $request->name;
 
         if($request->hasFile('image')){
-            $file = $request->file('main_image');
+            $file = $request->file('image');
             $main_path = 'shop_files/cargoCompanies/images';
             $path = public_path($main_path);
             $name = $code . "_main." . $file->getClientOriginalExtension();
@@ -70,7 +72,7 @@ class CargoCompaniesController extends Controller
     }
 
     public function delete(Request $request){
-        $item = $this->getOneItem($request->code, $this->defaultModel,0)['item'];
+        $item = $this->getOneItem($request->code, $this->defaultModel,0,['key'=>'cargo_company'])['item'];
         if(!$item) return redirect()->route($this->defaultListRoute)->with('error','Kargo Firması silinirken bir hata meydana geldi');
 
         $item->deleted = 1;
@@ -93,7 +95,9 @@ class CargoCompaniesController extends Controller
             ];
         }else $search = [];
 
-        $result = $this->getDataFromDatabase(['database'=>'shop_mysql', 'model'=>$this->defaultModel, 'pagination'=>$pagination, 'search'=>$search]);
+        $filters['key'] = 'cargo_company';
+
+        $result = $this->getDataFromDatabase(['database'=>'shop_mysql', 'model'=>$this->defaultModel, 'pagination'=>$pagination, 'search'=>$search, 'filters'=>$filters]);
 
         return $result;
     }

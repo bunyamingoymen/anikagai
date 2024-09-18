@@ -108,6 +108,7 @@
                         return `<img src="../../../${params.value}" alt="user" class="avatar-xs rounded-circle" />`;
                     },
                     filter: false,
+                    maxWidth: 75,
                 },
                 {
                     headerName: "Kargo Firması İsmi",
