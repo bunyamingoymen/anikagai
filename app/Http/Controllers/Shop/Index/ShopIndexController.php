@@ -8,7 +8,25 @@ use Illuminate\Http\Request;
 class ShopIndexController extends Controller
 {
     public function index(){
-        return view('shop.themes.kidol.index');
+        $database = 'shop_mysql';
+        $model = 'App\Models\Shop\ShopProduct';
+
+        $filters = [];
+        $data['filters'] = $filters;
+
+        $leftJoins = [
+            ['table' => 'shop_files', 'first' => 'code', 'operator' => '=', 'second' => 'shop_files.parent_code', 'columns'=>['path'=>'image_path']]
+        ];
+
+        $orderBy = ['column'=>'created_at', 'type'=>'DESC'];
+
+        $pagination = ['take' => 16, 'page' => 1];
+
+        $trends = $this->getDataFromDatabase(['database'=>$database, 'model'=>$model, 'filters'=> ['is_trend'=>'1'], 'leftjoins'=>$leftJoins, 'orderby' => $orderBy, 'pagination'=>$pagination ]);
+
+        $products = $this->getDataFromDatabase(['database'=>$database, 'model'=>$model, 'leftjoins'=>$leftJoins, 'orderby' => $orderBy, 'pagination'=>$pagination ]);
+
+        return view('shop.themes.kidol.index', compact('trends', 'products'));
     }
 
     public function login(){

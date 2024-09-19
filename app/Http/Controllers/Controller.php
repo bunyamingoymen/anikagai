@@ -164,8 +164,9 @@ class Controller extends BaseController
         //$data içinde bulunan veriler: 'database'=>'shop_mysql', 'model'=>'App\Models\Shop\ShopProduct', $filters = [], $pagination = ['take' => 15, 'page' => 1], $search = [], $whereIn = [], $joins=[]
 
 
+        //örnek orderby: $orderBy = ['column'=>'created_at', 'type'=>'DESC']
         //Örnek wherein: whereIn = [ 'category_code'=>['1','2','3'], 'feature_code'=>['4','5','6'] ]
-        //Örnek joins: $joins = [ ['table' => 'categories','table_as' => 'categories', 'first' => 'category_id', 'operator' => '=', 'second' => 'categories.id', 'columns'=>['name'=>'category_name', 'code'=>'category_code']] ];
+        //Örnek joins: $joins = [ ['table' => 'categories', 'first' => 'category_id', 'operator' => '=', 'second' => 'categories.id', 'columns'=>['name'=>'category_name', 'code'=>'category_code']] ];
         //Örnek search: $search=['search' => $request->searchData, 'dbSearch' => ['name','description','main_category_name'], 'short_name'=> true, 'short_name_db' => 'short_name' ];
         //örnek filter(where): $filters['is_approved'] = "1";   $filters['is_active'] = "1";
         //örnek pagination: $pagination = [ 'take' => $request->showingCount ? $request->showingCount : Config::get('app.showCount'), 'page' => $request->page];
@@ -197,7 +198,13 @@ class Controller extends BaseController
         // Join ayarları (Varsayılan boş dizi)
         $joins = $data['joins'] ?? [];
 
+        $leftJoins = $data['leftjoins'] ?? [];
+
+        $rightJoins = $data['rightjoins'] ?? [];
+
         $groupBy = $data['groupby'] ?? false;
+
+        $orderBy = $data['orderby'] ?? false;
 
         $getQuery = $data['getquery'] ?? false;
 
@@ -240,6 +247,25 @@ class Controller extends BaseController
                     foreach ($join['columns'] as $column => $alias) {
                         if(strpos($column,'.'))  $selectColumns[] = $column . ' as ' . $alias;
                         else $join['table'] . '.' . $column . ' as ' . $alias;
+                    }
+                }
+            }
+        }
+
+        // Join işlemi
+        if (!empty($leftJoins)) {
+            foreach ($leftJoins as $index => $left) {
+                if (isset($left['table'], $left['first'], $left['operator'], $left['second'], $left['columns'])) {
+                    // Join işlemi
+                    $first = strpos($left['first'],'.') ? $left['first'] : $mainTableAlias . '.'.$left['first'];
+                    $second = strpos($left['second'],'.') ? $left['second'] : $mainTableAlias . '.'.$left['second'];
+
+                    $query->leftJoin($left['table'], $first, $left['operator'], $second);
+
+                    // Join edilen tablonun belirli sütunlarını alias ile ekle
+                    foreach ($left['columns'] as $column => $alias) {
+                        if(strpos($column,'.'))  $selectColumns[] = $column . ' as ' . $alias;
+                        else $left['table'] . '.' . $column . ' as ' . $alias;
                     }
                 }
             }
@@ -296,10 +322,14 @@ class Controller extends BaseController
             $query->groupBy($selectColumns);
         }
 
+
+
         // Verileri al
         $items = $query->skip($skip)->take($take)->get();
         $page_count = ceil( $query->count() / $take);
+
         if($getQuery) return ['items' => $items, 'page_count' => $page_count, 'query'=>$query];
+
         return ['items' => $items, 'page_count' => $page_count];
     }
 
