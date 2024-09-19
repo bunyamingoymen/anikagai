@@ -113,7 +113,7 @@
                   <div class="pro-qty">
                     <input type="text" id="quantity" title="Quantity" value="01" />
                   </div>
-                  <button class="btn btn-theme">Add to Cart</button>
+                  <button class="btn btn-theme">Sepete Ekle</button>
                   <a class="btn-wishlist" href="shop-wishlist.html">Ayrıntıyı Gör</a>
                 </div>
               </div>

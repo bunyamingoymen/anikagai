@@ -28,12 +28,20 @@
                 @foreach ($products['items']  as $product)
                 <div class="col-lg-3 col-md-4 col-sm-6">
                     <!-- Start Product Item -->
+                    @php
+                        if($product->priceType == 'USD') $priceType = '$';
+                        else if($product->priceType == 'EUR') $priceType = '€';
+                        else $priceType = '₺';
+
+                        $image_path = $product->image_path ?? '';
+                        $image_path = url($image_path);
+                    @endphp
                     <div class="product-item">
                     <div class="product-thumb">
-                        <img src="{{ url($product->image_path ?? '')}}" alt="Image">
+                        <img src="{{ $image_path }}" alt="Image">
                         <div class="product-action">
                         <a class="action-quick-view" href="shop-cart.html"><i class="ion-ios-cart"></i></a>
-                        <a class="action-quick-view" href="javascript:void(0)"><i class="ion-arrow-expand"></i></a>
+                        <a class="action-quick-view" href="javascript:showDetail('{{$product->code}}', '{{$product->name}}', '{{$image_path}}', '{{$product->description}}', '{{$product->price}}', '{{$priceType}}', '0', '{{$product->score}}');"><i class="ion-arrow-expand"></i></a>
                         <a class="action-quick-view" href="shop-wishlist.html"><i class="ion-heart"></i></a>
                         </div>
                     </div>
@@ -47,11 +55,7 @@
                         </div>
                         <h4 class="title"><a href="shop-single-product.html">{{$product->name}}</a></h4>
                         <div class="prices">
-                            @php
-                                if($product->priceType == 'USD') $priceType = '$';
-                                else if($product->priceType == 'EUR') $priceType = '€';
-                                else $priceType = '₺';
-                            @endphp
+
                         <span class="price">{{$product->price}}  {{$priceType}}</span>
                         </div>
                     </div>
