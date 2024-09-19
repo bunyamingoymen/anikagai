@@ -64,12 +64,14 @@
                     </a>
                 </div>
               @endif
+              @if (Auth::guard('shop_users')->user())
               <div class="header-action-cart">
                 <button class="btn-cart cart-icon">
                   <span class="cart-count">01</span>
                   <i class="pe-7s-shopbag"></i>
                 </button>
               </div>
+              @endif
 
               <button class="btn-menu d-lg-none">
                 <i class="ion-navicon"></i>

@@ -122,7 +122,7 @@
                             <img src="{{ url($product->image_path ?? '')}}" alt="Image">
                             <div class="product-action">
                             <a class="action-quick-view" href="shop-cart.html"><i class="ion-ios-cart"></i></a>
-                            <a class="action-quick-view" href="javascript:void(0)"><i class="ion-arrow-expand"></i></a>
+                            <a class="action-quick-view" href="javascript:showDetail('{{$product->code}}');"><i class="ion-arrow-expand"></i></a>
                             <a class="action-quick-view" href="shop-wishlist.html"><i class="ion-heart"></i></a>
                             </div>
                         </div>

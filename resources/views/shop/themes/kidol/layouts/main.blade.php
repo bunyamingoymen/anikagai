@@ -81,12 +81,22 @@
           <span class="pe-7s-close"><i class="lastudioicon-e-remove"></i></span>
         </button>
         <div class="row row-gutter-0">
-          <div class="col-lg-6 col-md-6 col-12">
+
+
+          <!--<div class="col-lg-6 col-md-6 col-12">
             <div class="thumb">
               <img src="{{url('shop_files/assets/img/shop/quick-view1.jpg')}}" alt="Image">
             </div>
+          </div>-->
+
+          <div style="align-items: center; display: grid; justify-content: center; height: 650px;">
+            <div class="spinner-border text-danger" role="status">
+            </div>
           </div>
-          <div class="col-lg-6 col-md-6 col-12">
+
+          <!--<div class="col-lg-6 col-md-6 col-12">
+
+
             <div class="single-product-info">
               <h4 class="title">Jigsaw Puzzles For Kids</h4>
               <div class="prices">
@@ -152,7 +162,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div>-->
         </div>
       </div>
     </div>
@@ -300,6 +310,14 @@
 
 <!--=== Custom Js ===-->
 <script src="{{url('shop_files/assets/js/custom.js')}}"></script>
+
+<script>
+    var quickViewModal = $(".product-quick-view-modal");
+    function showDetail(id){
+        quickViewModal.addClass('active');
+        $("body").addClass('fix');
+    }
+</script>
 
 </body>
 
