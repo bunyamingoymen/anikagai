@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Shop\Index;
 
 use App\Http\Controllers\Controller;
+use App\Models\Shop\ShopWhishlist;
+use App\Models\ShopCart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ShopIndexController extends Controller
 {
@@ -72,11 +75,24 @@ class ShopIndexController extends Controller
     }
 
     public function addWhislist(Request $request){
-        $item =
+        $item = new ShopWhishlist();
+        $item->code = $this->generateUniqueCode('shop_mysql', 'shop_whishlists');
+        $item->user_code = Auth::guard('shop_users')->user()->code;
+        $item->product_code = $request->product_code;
+        $item->wishlist_price = $request->price;
+        $item->save();
+
+        return redirect()->back()->with('success_whislist','Başarılı bir şekilde eklendi');
     }
 
-    public function addCart(){
+    public function addCart(Request $request){
+        $item = new ShopCart();
+        $item->code = $this->generateUniqueCode('shop_mysql', 'shop_carts');
+        $item->user_code = Auth::guard('shop_users')->user()->code;
+        $item->product_code = $request->product_code;
+        $item->save();
 
+        return redirect()->back()->with('success_cart','Başarılı bir şekilde eklendi');
     }
 
     public function login(){

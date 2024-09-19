@@ -331,8 +331,7 @@ class Controller extends BaseController
         return ['items' => $items, 'page_count' => $page_count];
     }
 
-
-    public function getOneItem( $database, $table, $code, $model ,$is_create_new = 1, $filters=[]){
+    public function getOneItem($database, $table, $code, $model ,$is_create_new = 1, $filters=[]){
         $filters['deleted'] = 0;
         $filters['code'] = $code;
         $item = $model::Where($filters)->first();
