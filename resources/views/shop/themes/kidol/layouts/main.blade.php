@@ -83,72 +83,38 @@
         <div class="row row-gutter-0">
 
 
-          <!--<div class="col-lg-6 col-md-6 col-12">
-            <div class="thumb">
-              <img src="{{url('shop_files/assets/img/shop/quick-view1.jpg')}}" alt="Image">
+            <div class="col-lg-6 col-md-6 col-12">
+                <div class="thumb">
+                <img id="product_modal_img" src="" alt="Image">
+                </div>
             </div>
-          </div>-->
 
-          <div style="align-items: center; display: grid; justify-content: center; height: 650px;">
-            <div class="spinner-border text-danger" role="status">
-            </div>
-          </div>
-
-          <!--<div class="col-lg-6 col-md-6 col-12">
-
-
+          <div class="col-lg-6 col-md-6 col-12">
             <div class="single-product-info">
-              <h4 class="title">Jigsaw Puzzles For Kids</h4>
+              <h4 class="title" id="product_modal_name"></h4>
               <div class="prices">
-                <span class="price">$120.59</span>
+                <span class="price" id="product_modal_price"></span>
               </div>
               <div class="product-rating">
                 <div class="rating">
-                  <span class="fa fa-star"></span>
-                  <span class="fa fa-star"></span>
-                  <span class="fa fa-star"></span>
-                  <span class="fa fa-star"></span>
-                  <span class="fa fa-star"></span>
+                  <span class="fa fa-star" id="product_modal_star_one"></span>
+                  <span class="fa fa-star" id="product_modal_star_two"></span>
+                  <span class="fa fa-star" id="product_modal_star_three"></span>
+                  <span class="fa fa-star" id="product_modal_star_four"></span>
+                  <span class="fa fa-star" id="product_modal_star_five"></span>
                 </div>
                 <div class="review">
-                  <a href="#/">( 5 Customer Review )</a>
+                  <a href="#/" id='product_modal_review_count'></a>
                 </div>
               </div>
-              <div class="single-product-featured">
-                <ul>
-                  <li><i class="fa fa-check"></i> Free Shipping</li>
-                  <li><i class="fa fa-check"></i> Support 24/7</li>
-                  <li><i class="fa fa-check"></i> Money Return</li>
-                </ul>
-              </div>
-              <p class="product-desc">Lorem ipsum dolor sit amet, consect adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quisll exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duisol aute irure dolor in reprehenderit.</p>
+              <p class="product-desc" id='product_modal_description'></p>
               <div class="quick-product-action">
                 <div class="action-top">
                   <div class="pro-qty">
                     <input type="text" id="quantity" title="Quantity" value="01" />
                   </div>
                   <button class="btn btn-theme">Add to Cart</button>
-                  <a class="btn-wishlist" href="shop-wishlist.html">Add to Wishlist</a>
-                </div>
-              </div>
-              <div class="widget">
-                <h3 class="title">SKU:</h3>
-                <div class="widget-tags">
-                  <span>Ch-256xl</span>
-                </div>
-              </div>
-              <div class="widget">
-                <h3 class="title">Categories:</h3>
-                <div class="widget-tags">
-                  <a href="blog.html">Toys.</a>
-                  <a href="blog.html">Dresss</a>
-                </div>
-              </div>
-              <div class="widget">
-                <h3 class="title">Tag:</h3>
-                <div class="widget-tags">
-                  <a href="blog.html">Toys,</a>
-                  <a href="blog.html">Dress</a>
+                  <a class="btn-wishlist" href="shop-wishlist.html">Ayrıntıyı Gör</a>
                 </div>
               </div>
               <div class="widget">
@@ -162,7 +128,7 @@
                 </div>
               </div>
             </div>
-          </div>-->
+          </div>
         </div>
       </div>
     </div>
@@ -313,10 +279,31 @@
 
 <script>
     var quickViewModal = $(".product-quick-view-modal");
-    function showDetail(id){
+
+    function showDetail(code, name, image_path, description, price, priceType, reviewCount, score){
+        document.getElementById('product_modal_img').src = image_path;
+        document.getElementById('product_modal_name').innerText = name;
+        document.getElementById('product_modal_price').innerText = price + ' ' + priceType;
+
+        if(score < 1) document.getElementById('product_modal_star_one').style.color ='gray';
+        if(score < 2) document.getElementById('product_modal_star_two').style.color ='gray';
+        if(score < 3) document.getElementById('product_modal_star_three').style.color ='gray';
+        if(score < 4) document.getElementById('product_modal_star_four').style.color ='gray';
+        if(score < 5) document.getElementById('product_modal_star_five').style.color ='gray';
+
+
+        document.getElementById('product_modal_review_count').innerText = '('+ reviewCount +' adet inceleme)';
+        document.getElementById('product_modal_description').innerHTML = description;
+
+
         quickViewModal.addClass('active');
         $("body").addClass('fix');
     }
+
+    $(".btn-close, .canvas-overlay").on('click', function() {
+        quickViewModal.removeClass('active');
+        $("body").removeClass('fix');
+    });
 </script>
 
 </body>
