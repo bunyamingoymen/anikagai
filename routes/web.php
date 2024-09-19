@@ -117,14 +117,23 @@ Route::group(['middleware' => 'guest'], function () {
 Route::middleware(['auth'])->group(function () {
     require __DIR__.'/routes/auth.php';
 });
-Route::get('/shop', [ShopIndexController::class, "index"])->name('shop_index');
 
-Route::get('/shop/login', [ShopIndexController::class, "login"])->name('shop_login');
-
-Route::post('/shop/user/login', [ShopUserController::class, "login"])->name('shop_user_login');
-Route::get('/shop/user/logout', [ShopUserController::class, "logout"])->name('shop_user_logout');
-
-Route::post('/shop/user/register', [ShopUserController::class, "register"])->name('shop_user_register');
 
 Route::get('/feed', [RssController::class, "getRSS"])->name('getRSS');
 Route::get('/adultOn', [Controller::class, "adultOn"])->name('adultOn');
+
+
+
+Route::get('/shop', [ShopIndexController::class, "index"])->name('shop_index');
+
+Route::group(['middleware' => 'guest_shop'], function () {
+    Route::get('/shop/login', [ShopIndexController::class, "login"])->name('shop_login');
+
+    Route::post('/shop/user/login', [ShopUserController::class, "login"])->name('shop_user_login');
+
+    Route::post('/shop/user/register', [ShopUserController::class, "register"])->name('shop_user_register');
+});
+
+Route::group(['middleware' => 'access_shop'], function () {
+    Route::get('/shop/user/logout', [ShopUserController::class, "logout"])->name('shop_user_logout');
+});

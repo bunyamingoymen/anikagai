@@ -21,6 +21,8 @@ class RouteServiceProvider extends ServiceProvider
 
     public const ADMINHOME = '/admin/index';
 
+    public const SHOPHOME = '/shop';
+
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
      */

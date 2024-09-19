@@ -56,9 +56,11 @@ class Kernel extends HttpKernel
         'click' => \App\Http\Middleware\ClickCountMiddleware::class, ////
         'superuser' => \App\Http\Middleware\SuperUserMiddleware::class, ////
         'access' => \App\Http\Middleware\AccessMiddleware::class, ////
+        'access_shop' => \App\Http\Middleware\AccessShopMiddleware::class, ////
         'guest_index' => \App\Http\Middleware\RedirectlfIndexAuthenticated::class, ////
         'index_user' => \App\Http\Middleware\IndexUserMiddleware::class, ////
         'is_active_index_user' => \App\Http\Middleware\isActiveIndexUserMiddleware::class, ////
+        'guest_shop' => \App\Http\Middleware\RedirectIfShopUser::class, ////
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'auth.session' => \Illuminate\Session\Middleware\AuthenticateSession::class,
