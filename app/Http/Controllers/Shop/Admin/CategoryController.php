@@ -36,7 +36,7 @@ class CategoryController extends Controller
     public function edit(Request $request){
         $features = ShopFeatures::Where('deleted',0)->get();
         if(Route::currentRouteName() == $this->defaultUpdateRoute){
-            $item = $this->getOneItem($request->code, $this->defaultModel, 0)['item'];
+            $item = $this->getOneItem('shop_mysql', 'shop_categories' ,$request->code, $this->defaultModel, 0)['item'];
             if(!$item) return redirect()->route($this->defaultListRoute)->with('error','Kategori güncellenirken bir hata meydana geldi');
 
             $values = ShopCategoryFeatures::Where('category_code',$request->code)->get();
@@ -53,7 +53,7 @@ class CategoryController extends Controller
             'name.required' => 'İsim alanı giriniz. Max: 255 karakter.',
         ]);
 
-        $getOne = $this->getOneItem($request->code, $this->defaultModel);
+        $getOne = $this->getOneItem('shop_mysql', 'shop_categories' ,$request->code, $this->defaultModel);
 
         $item = $getOne['item'];
         $is_new = $getOne['is_new'];
@@ -78,7 +78,7 @@ class CategoryController extends Controller
     }
 
     public function delete(Request $request){
-        $item = $this->getOneItem($request->code, $this->defaultModel,0)['item'];
+        $item = $this->getOneItem('shop_mysql', 'shop_categories' ,$request->code, $this->defaultModel,0)['item'];
         if(!$item) return redirect()->route($this->defaultListRoute)->with('error','Kategori silinirken bir hata meydana geldi');
 
         $item->deleted = 1;

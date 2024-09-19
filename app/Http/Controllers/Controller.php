@@ -332,13 +332,13 @@ class Controller extends BaseController
     }
 
 
-    public function getOneItem($code, $model, $is_create_new = 1, $filters=[]){
+    public function getOneItem( $database, $table, $code, $model ,$is_create_new = 1, $filters=[]){
         $filters['deleted'] = 0;
         $filters['code'] = $code;
         $item = $model::Where($filters)->first();
         $is_new = false;
         if(!$item && $is_create_new){
-            $code = $this->generateUniqueCode('shop_mysql','shop_categories');
+            $code = $this->generateUniqueCode($database, $table);
             $item = new $model;
             $item->code = $code;
             $item->create_user_code =  Auth::guard('admin')->user()->code;

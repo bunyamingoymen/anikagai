@@ -37,7 +37,7 @@ class FeaturesController extends Controller
     public function edit(Request $request){
 
         if(Route::currentRouteName() == $this->defaultUpdateRoute){
-            $item = $this->getOneItem($request->code, $this->defaultModel, 0)['item'];
+            $item = $this->getOneItem('shop_mysql', 'shop_features' ,$request->code, $this->defaultModel, 0)['item'];
             if(!$item) return redirect()->route($this->defaultListRoute)->with('error','Özellik güncellenirken bir hata meydana geldi');
             $values = ShopKeyValue::Where('key','feature_type_multiple_selection')->Where('optional',$request->code)->get();
             return view($this->defaultEditPath,['item'=>$item, 'values'=>$values]);
@@ -53,7 +53,7 @@ class FeaturesController extends Controller
         ]);
 
 
-        $getOne = $this->getOneItem($request->code, $this->defaultModel);
+        $getOne = $this->getOneItem('shop_mysql', 'shop_features' ,$request->code, $this->defaultModel);
 
         $item = $getOne['item'];
         $is_new = $getOne['is_new'];
@@ -85,7 +85,7 @@ class FeaturesController extends Controller
     }
 
     public function delete(Request $request){
-        $item = $this->getOneItem($request->code, $this->defaultModel,0)['item'];
+        $item = $this->getOneItem('shop_mysql', 'shop_features' ,$request->code, $this->defaultModel,0)['item'];
         if(!$item) return redirect()->route($this->defaultListRoute)->with('error','Özellik silinirken bir hata meydana geldi');
 
         $item->deleted = 1;

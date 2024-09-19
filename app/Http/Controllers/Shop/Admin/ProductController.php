@@ -36,7 +36,7 @@ class ProductController extends Controller
 
     public function edit(Request $request){
         if(Route::currentRouteName() == $this->defaultUpdateRoute){
-            $item = $this->getOneItem($request->code, $this->defaultModel, 0)['item'];
+            $item = $this->getOneItem('shop_mysql', 'shop_products' ,$request->code, $this->defaultModel, 0)['item'];
             if(!$item) return redirect()->route($this->defaultListRoute)->with('error','ürün güncellenirken bir hata meydana geldi');
 
             $categories = $this->getDataFromDatabase(['database'=>'shop_mysql', 'model'=>'App\Models\Shop\ShopCategories', 'filters'=>['shop_category_products.product_code'=>$request->code], 'pagination'=>['take' => 100, 'page' => 1], 'joins'=>[['table' => 'shop_category_products', 'first' => 'code', 'operator' => '=', 'second' => 'shop_category_products.category_code', 'columns'=>[]]]   ])['items'];
@@ -63,7 +63,7 @@ class ProductController extends Controller
     }
 
     public function save(Request $request){
-        $getOne = $this->getOneItem($request->code, $this->defaultModel);
+        $getOne = $this->getOneItem('shop_mysql', 'shop_products' ,$request->code, $this->defaultModel);
 
         $item = $getOne['item'];
         $is_new = $getOne['is_new'];
@@ -154,7 +154,7 @@ class ProductController extends Controller
 
     public function deleteImage(Request $request){
         //$item = ShopFiles::Where('code',$request->code)->Where('parent_code', $request->parent_code)->Where('deleted', 0)->first();
-        $item = $this->getOneItem($request->code, 'App\Models\Shop\ShopFiles', 0, ['parent_code'=>$request->parent_code])['item'];
+        $item = $this->getOneItem('shop_mysql', 'shop_products' ,$request->code, 'App\Models\Shop\ShopFiles', 0, ['parent_code'=>$request->parent_code])['item'];
         if(!$item){
             return redirect()->back()->with('error','resim silinirken bir hata meydana geldi');
         }
@@ -166,7 +166,7 @@ class ProductController extends Controller
     }
 
     public function delete(Request $request){
-        $item = $this->getOneItem($request->code, $this->defaultModel,0)['item'];
+        $item = $this->getOneItem('shop_mysql', 'shop_products' ,$request->code, $this->defaultModel,0)['item'];
         if(!$item) return redirect()->route($this->defaultListRoute)->with('error','Ürün silinirken bir hata meydana geldi');
 
         $item->deleted = 1;
@@ -176,7 +176,7 @@ class ProductController extends Controller
     }
 
     public function changeApproval(Request $request){
-        $item = $this->getOneItem($request->code, $this->defaultModel,0)['item'];
+        $item = $this->getOneItem('shop_mysql', 'shop_products' ,$request->code, $this->defaultModel,0)['item'];
         if(!$item) return redirect()->route($this->defaultListRoute)->with('error','Ürünün onaylanma durumu değiştirilirken');
 
         $item->is_approved = $item->is_approved == 1 ? 0 : 1;
@@ -185,7 +185,7 @@ class ProductController extends Controller
     }
 
     public function changeActive(Request $request){
-        $item = $this->getOneItem($request->code, $this->defaultModel,0)['item'];
+        $item = $this->getOneItem('shop_mysql', 'shop_products' ,$request->code, $this->defaultModel,0)['item'];
         if(!$item) return redirect()->route($this->defaultListRoute)->with('error','Ürünün onaylanma durumu değiştirilirken');
 
         $item->is_active = $item->is_active == 1 ? 0 : 1;

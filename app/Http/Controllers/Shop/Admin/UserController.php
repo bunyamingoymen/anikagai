@@ -32,7 +32,7 @@ class UserController extends Controller
 
     public function edit(Request $request){
         if(Route::currentRouteName() == $this->defaultUpdateRoute){
-            $item =  $this->getOneItem($request->code, $this->defaultModel,0)['item'];
+            $item =  $this->getOneItem('shop_mysql', 'shop_users' ,$request->code, $this->defaultModel,0)['item'];
 
             if(!$item) return redirect()->route($this->defaultListRoute)->with('error','Üye güncellenirken bir hata meydana geldi');
 
@@ -54,7 +54,7 @@ class UserController extends Controller
             'email.required' => 'E-mail alanı giriniz. Max: 255 karakter.',
         ]);
 
-        $getOne = $this->getOneItem($request->code, $this->defaultModel);
+        $getOne = $this->getOneItem('shop_mysql', 'shop_users' ,$request->code, $this->defaultModel);
 
         $item = $getOne['item'];
         $is_new = $getOne['is_new'];
@@ -82,7 +82,7 @@ class UserController extends Controller
     }
 
     public function delete(Request $request){
-        $item =  $this->getOneItem($request->code, $this->defaultModel,0)['item'];
+        $item =  $this->getOneItem('shop_mysql', 'shop_users' ,$request->code, $this->defaultModel,0)['item'];
         if(!$item) return redirect()->route($this->defaultListRoute)->with('error','Üye silinirken bir hata meydana geldi');
 
         $item->deleted = 1;
@@ -92,7 +92,7 @@ class UserController extends Controller
     }
 
     public function changeActive(Request $request){
-        $item =  $this->getOneItem($request->code, $this->defaultModel,0)['item'];
+        $item =  $this->getOneItem('shop_mysql', 'shop_users' ,$request->code, $this->defaultModel,0)['item'];
         if(!$item) return redirect()->route($this->defaultListRoute)->with('error','Üyenin aktifliği güncellenirken hata meydana geldi');
 
         if($item->is_active == 1) $item->is_active = 0;

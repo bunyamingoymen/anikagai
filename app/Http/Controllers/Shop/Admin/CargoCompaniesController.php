@@ -29,7 +29,7 @@ class CargoCompaniesController extends Controller
 
     public function edit(Request $request){
         if(Route::currentRouteName() == $this->defaultUpdateRoute){
-            $item = $this->getOneItem($request->code, $this->defaultModel, 0, ['key'=>'cargo_company'])['item'];
+            $item = $this->getOneItem('shop_mysql', 'shop_key_values' ,$request->code, $this->defaultModel, 0, ['key'=>'cargo_company'])['item'];
             if(!$item) return redirect()->route($this->defaultListRoute)->with('error','Kategori güncellenirken bir hata meydana geldi');
 
             return view($this->defaultEditPath,['item'=>$item]);
@@ -44,7 +44,7 @@ class CargoCompaniesController extends Controller
             'name.required' => 'İsim alanı giriniz. Max: 255 karakter.',
         ]);
 
-        $getOne = $this->getOneItem($request->code, $this->defaultModel, 1, ['key'=>'cargo_company']);
+        $getOne = $this->getOneItem('shop_mysql', 'shop_key_values' ,$request->code, $this->defaultModel, 1, ['key'=>'cargo_company']);
 
         $item = $getOne['item'];
         $is_new = $getOne['is_new'];
@@ -72,7 +72,7 @@ class CargoCompaniesController extends Controller
     }
 
     public function delete(Request $request){
-        $item = $this->getOneItem($request->code, $this->defaultModel,0,['key'=>'cargo_company'])['item'];
+        $item = $this->getOneItem('shop_mysql', 'shop_key_values' ,$request->code, $this->defaultModel,0,['key'=>'cargo_company'])['item'];
         if(!$item) return redirect()->route($this->defaultListRoute)->with('error','Kargo Firması silinirken bir hata meydana geldi');
 
         $item->deleted = 1;

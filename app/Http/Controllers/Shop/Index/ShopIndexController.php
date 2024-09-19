@@ -59,6 +59,26 @@ class ShopIndexController extends Controller
         return view('shop.themes.kidol.list', compact('products'));
     }
 
+    public function detail(Request $request){
+        return view('shop.themes.kidol.detail');
+    }
+
+    public function whislist(){
+        return view('shop.themes.kidol.whislist');
+    }
+
+    public function cart(){
+        return view('shop.themes.kidol.cart');
+    }
+
+    public function addWhislist(Request $request){
+        $item =
+    }
+
+    public function addCart(){
+
+    }
+
     public function login(){
         return view('shop.themes.kidol.login');
     }
