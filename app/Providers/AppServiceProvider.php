@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Schema;
 use App\Models\Anime;
 use App\Models\NotificationUser;
+use App\Models\Shop\ShopCategories;
 use App\Models\Shop\ShopKeyValue;
 use App\Models\Webtoon;
 use Carbon\Carbon;
@@ -51,6 +52,8 @@ class AppServiceProvider extends ServiceProvider
                 $indexPages = ['index.' . $themePath->themePath . '.layouts.main', 'index.' . $themePath->themePath . '.index', 'index.' . $themePath->themePath . '.profile', 'index.' . $themePath->themePath . '.calendar', 'index.'];
                 $watchPages = ['index.' . $themePath->themePath . '.watch', 'index.' . $themePath->themePath . '.read'];
                 $themeThree = ['index.themes.moviefx.layouts.main', 'index.themes.moviefx.layouts.sidebar', 'index.themes.moviefx.layouts.topbar', 'index.themes.moviefx.layouts.footer', 'index.themes.moviefx.profile'];
+
+                $shopPages = ['shop.themes.kidol.layouts.main', 'shop.themes.kidol.layouts.footer', 'shop.themes.kidol.layouts.header', ];
 
                 $adminPages = ['admin.layouts.main'];
                 //
@@ -521,6 +524,12 @@ class AppServiceProvider extends ServiceProvider
                     $view->with('categories', $categories)
                         ->with('trend_animes', $trend_animes)
                         ->with('trend_webtoons', $trend_webtoons);
+                });
+
+                View::composer($shopPages, function ($view) {
+                    $categories = ShopCategories::Where('deleted', 0)->orderBy('created_at','DESC')->get();
+
+                    $view->with('categories', $categories);
                 });
 
                 View::composer($watchPages, function ($view) {

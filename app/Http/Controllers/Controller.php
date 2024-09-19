@@ -231,7 +231,6 @@ class Controller extends BaseController
         foreach ($mainTableColumns as $column) {
             $selectColumns[] = $mainTableAlias . '.' . $column; // Ana tablodaki tüm sütunlar
         }
-        $query->select("$mainTableAlias.*");
 
         // Join işlemi
         if (!empty($joins)) {
@@ -246,7 +245,7 @@ class Controller extends BaseController
                     // Join edilen tablonun belirli sütunlarını alias ile ekle
                     foreach ($join['columns'] as $column => $alias) {
                         if(strpos($column,'.'))  $selectColumns[] = $column . ' as ' . $alias;
-                        else $join['table'] . '.' . $column . ' as ' . $alias;
+                        else $selectColumns[] = $join['table'] . '.' . $column . ' as ' . $alias;
                     }
                 }
             }
@@ -265,7 +264,7 @@ class Controller extends BaseController
                     // Join edilen tablonun belirli sütunlarını alias ile ekle
                     foreach ($left['columns'] as $column => $alias) {
                         if(strpos($column,'.'))  $selectColumns[] = $column . ' as ' . $alias;
-                        else $left['table'] . '.' . $column . ' as ' . $alias;
+                        else $selectColumns[] = $left['table'] . '.' . $column . ' as ' . $alias;
                     }
                 }
             }

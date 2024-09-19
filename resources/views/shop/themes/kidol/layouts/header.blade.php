@@ -13,50 +13,19 @@
           <div class="col-lg-8 sticky-md-none">
             <div class="header-navigation-area d-none d-md-block">
               <ul class="main-menu nav position-relative">
-                <li class="has-submenu active"><a class="ml--2" href="index.html">Home</a>
-                  <ul class="submenu-nav">
-                    <li><a href="index.html">Home One</a></li>
-                    <li><a href="index-2.html">Home Two</a></li>
-                  </ul>
+                <li class="active" ><a href="{{route('shop_index')}}">Anasayfa</a></li>
+                @if (isset($categories) && count($categories)>0)
+                <li class="has-submenu"><a href="index.html">Tüm Ürünler</a>
+                    <ul class="submenu-nav">
+                    @foreach ($categories as $category)
+                        <li><a href="shop-cart.html">{{$category->name}}</a></li>
+                    @endforeach
+                    </ul>
                 </li>
-                <li><a href="about.html">About</a></li>
-                <li class="has-submenu"><a href="index.html">Pages</a>
-                  <ul class="submenu-nav">
-                    <li><a href="shop-cart.html">Cart page</a></li>
-                    <li><a href="shop-checkout.html">Checkout</a></li>
-                    <li><a href="my-account.html">My Account</a></li>
-                    <li><a href="shop-wishlist.html">Wishlist</a></li>
-                    <li><a href="shop-compare.html">Compare</a></li>
-                    <li><a href="login-register.html">Login / Register</a></li>
-                    <li><a href="coming-soon.html">Coming soon</a></li>
-                    <li><a href="page-not-found.html">404</a></li>
-                  </ul>
-                </li>
-                <li class="has-submenu"><a href="shop.html">Shop</a>
-                  <ul class="submenu-nav">
-                    <li><a href="shop-3-column.html">Shop 3 Column</a></li>
-                    <li><a href="shop.html">Shop 4 Column</a></li>
-                    <li><a href="shop-left-sidebar.html">Shop Left Sidebar</a></li>
-                    <li><a href="shop-right-sidebar.html">Shop Right Sidebar</a></li>
-                    <li><a href="shop.html">Shop No Sidebar</a></li>
-                    <li><a href="shop-single-product.html">Product Details</a></li>
-                    <li><a href="shop-single-product-variable.html">Product Variable</a></li>
-                    <li><a href="shop-single-product-grouped.html">Product Grouped</a></li>
-                  </ul>
-                </li>
-                <li class="has-submenu"><a href="blog.html">Blog</a>
-                  <ul class="submenu-nav">
-                    <li><a href="blog.html">Blog 3 Column</a></li>
-                    <li><a href="blog-4-column.html">Blog 4 Column</a></li>
-                    <li><a href="blog-left-sidebar.html">Blog Left Sidebar</a></li>
-                    <li><a href="blog-right-sidebar.html">Blog Right Sidebar</a></li>
-                    <li><a href="blog.html">Blog No Sidebar</a></li>
-                    <li><a href="blog-details.html">Blog Details Left Sidebar</a></li>
-                    <li><a href="blog-details-right-sidebar.html">Blog Details Right Sidebar</a></li>
-                    <li><a href="blog-details-no-sidebar.html">Blog Details No Sidebar</a></li>
-                  </ul>
-                </li>
-                <li><a href="contact.html">Contact</a></li>
+                @endif
+
+                <li><a href="about.html">Hakkımızda</a></li>
+                <li><a href="about.html">İletişim</a></li>
               </ul>
             </div>
           </div>

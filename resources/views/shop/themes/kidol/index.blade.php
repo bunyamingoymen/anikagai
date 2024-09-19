@@ -66,11 +66,11 @@
                         </div>
                         <div class="product-info">
                         <div class="rating">
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star" style="{{$trend->score<1 ? 'color: gray;' : ''}}" ></span>
+                            <span class="fa fa-star" style="{{$trend->score<2 ? 'color: gray;' : ''}}"></span>
+                            <span class="fa fa-star" style="{{$trend->score<3 ? 'color: gray;' : ''}}"></span>
+                            <span class="fa fa-star" style="{{$trend->score<4 ? 'color: gray;' : ''}}"></span>
+                            <span class="fa fa-star" style="{{$trend->score<5 ? 'color: gray;' : ''}}"></span>
                         </div>
                         <h4 class="title"><a href="shop-single-product.html">{{$trend->name}}</a></h4>
                         @php
@@ -124,16 +124,15 @@
                             <a class="action-quick-view" href="shop-cart.html"><i class="ion-ios-cart"></i></a>
                             <a class="action-quick-view" href="javascript:void(0)"><i class="ion-arrow-expand"></i></a>
                             <a class="action-quick-view" href="shop-wishlist.html"><i class="ion-heart"></i></a>
-                            <a class="action-quick-view" href="shop-compare.html"><i class="ion-shuffle"></i></a>
                             </div>
                         </div>
                         <div class="product-info">
                             <div class="rating">
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
-                            <span class="fa fa-star"></span>
+                            <span class="fa fa-star" style="{{$product->score<1 ? 'color: gray;' : ''}}"></span>
+                            <span class="fa fa-star" style="{{$product->score<2 ? 'color: gray;' : ''}}"></span>
+                            <span class="fa fa-star" style="{{$product->score<3 ? 'color: gray;' : ''}}"></span>
+                            <span class="fa fa-star" style="{{$product->score<4 ? 'color: gray;' : ''}}"></span>
+                            <span class="fa fa-star" style="{{$product->score<5 ? 'color: gray;' : ''}}"></span>
                             </div>
                             <h4 class="title"><a href="shop-single-product.html">{{$product->name}}</a></h4>
                             <div class="prices">

@@ -12,7 +12,6 @@ class ShopIndexController extends Controller
         $model = 'App\Models\Shop\ShopProduct';
 
         $filters = [];
-        $data['filters'] = $filters;
 
         $leftJoins = [
             ['table' => 'shop_files', 'first' => 'code', 'operator' => '=', 'second' => 'shop_files.parent_code', 'columns'=>['path'=>'image_path']]
@@ -22,9 +21,9 @@ class ShopIndexController extends Controller
 
         $pagination = ['take' => 16, 'page' => 1];
 
-        $trends = $this->getDataFromDatabase(['database'=>$database, 'model'=>$model, 'filters'=> ['is_trend'=>'1'], 'leftjoins'=>$leftJoins, 'orderby' => $orderBy, 'pagination'=>$pagination ]);
+        $trends = $this->getDataFromDatabase(['database'=>$database, 'model'=>$model, 'filters'=> ['is_trend'=>'1', 'is_approved'=>'1', 'is_active'=>'1', 'shop_files.description'=>'main image'], 'leftjoins'=>$leftJoins, 'orderby' => $orderBy, 'pagination'=>$pagination ]);
 
-        $products = $this->getDataFromDatabase(['database'=>$database, 'model'=>$model, 'leftjoins'=>$leftJoins, 'orderby' => $orderBy, 'pagination'=>$pagination ]);
+        $products = $this->getDataFromDatabase(['database'=>$database, 'model'=>$model,  'filters'=> ['is_approved'=>'1', 'is_active'=>'1', 'shop_files.description'=>'main image'], 'leftjoins'=>$leftJoins, 'orderby' => $orderBy, 'pagination'=>$pagination ]);
 
         return view('shop.themes.kidol.index', compact('trends', 'products'));
     }
