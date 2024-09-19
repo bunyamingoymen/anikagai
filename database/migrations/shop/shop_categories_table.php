@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('code');
             $table->string('name');
+            $table->string('url');
             $table->longText('description')->nullable();
             $table->unsignedBigInteger('create_user_code')->default(1);
             $table->unsignedBigInteger('update_user_code')->nullable();

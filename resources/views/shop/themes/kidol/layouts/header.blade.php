@@ -15,10 +15,10 @@
               <ul class="main-menu nav position-relative">
                 <li class="active" ><a href="{{route('shop_index')}}">Anasayfa</a></li>
                 @if (isset($categories) && count($categories)>0)
-                <li class="has-submenu"><a href="index.html">Tüm Ürünler</a>
+                <li class="has-submenu"><a href="{{route('shop_list')}}">Tüm Ürünler</a>
                     <ul class="submenu-nav">
                     @foreach ($categories as $category)
-                        <li><a href="shop-cart.html">{{$category->name}}</a></li>
+                        <li><a href="{{route('shop_list', [$category->url])}}">{{$category->name}}</a></li>
                     @endforeach
                     </ul>
                 </li>

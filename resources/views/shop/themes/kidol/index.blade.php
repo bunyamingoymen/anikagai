@@ -137,8 +137,8 @@
                             <h4 class="title"><a href="shop-single-product.html">{{$product->name}}</a></h4>
                             <div class="prices">
                                 @php
-                                    if($trend->priceType == 'USD') $priceType = '$';
-                                    else if($trend->priceType == 'EUR') $priceType = '€';
+                                    if($product->priceType == 'USD') $priceType = '$';
+                                    else if($product->priceType == 'EUR') $priceType = '€';
                                     else $priceType = '₺';
                                 @endphp
                             <span class="price">{{$product->price}}  {{$priceType}}</span>

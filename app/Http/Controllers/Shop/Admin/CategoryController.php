@@ -60,6 +60,7 @@ class CategoryController extends Controller
         $code = $getOne['code'];
 
         $item->name = $request->name;
+        $item->url = $this->getUrl($request->name);
         $item->description = $request->description;
 
         ShopCategoryFeatures::Where('category_code',$code)->delete();
