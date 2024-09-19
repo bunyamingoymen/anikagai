@@ -164,13 +164,10 @@
   <div class="search-box-wrapper">
     <div class="search-box-content-inner">
       <div class="search-box-form-wrap">
-        <div class="search-note">
-          <p>Start typing and press Enter to search</p>
-        </div>
-        <form action="#" method="post">
+        <form action="{{route('shop_list')}}">
           <div class="search-form position-relative">
-            <label for="search-input" class="sr-only">Search</label>
-            <input type="search" class="form-control" placeholder="Search" id="search-input">
+            <label for="search-input" class="sr-only"> Ara</label>
+            <input type="search" class="form-control" placeholder="Ara..." name='search' id="search-input">
             <button class="search-button"><i class="pe-7s-search"></i></button>
           </div>
         </form>

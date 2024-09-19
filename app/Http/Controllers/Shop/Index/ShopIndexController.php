@@ -42,6 +42,9 @@ class ShopIndexController extends Controller
 
         $pagination = ['take' => 16, 'page' => $request->page ?? 1];
 
+        if($request->search) $search=['search' => $request->search, 'dbSearch' => ['name','description'] ];
+        else $search = [];
+
         $products = $this->getDataFromDatabase(['database'=>$database, 'model'=>$model,  'filters'=> ['is_approved'=>'1', 'is_active'=>'1', 'shop_files.description'=>'main image'], 'leftjoins'=>$leftJoins, 'orderby' => $orderBy, 'pagination'=>$pagination ]);
 
         return view('shop.themes.kidol.list', compact('products'));
