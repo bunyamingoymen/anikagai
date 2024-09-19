@@ -32,11 +32,20 @@ class ShopIndexController extends Controller
         $database = 'shop_mysql';
         $model = 'App\Models\Shop\ShopProduct';
 
-        $filters = [];
+        $filters = ['is_approved'=>'1', 'is_active'=>'1', 'shop_files.description'=>'main image'];
 
         $leftJoins = [
             ['table' => 'shop_files', 'first' => 'code', 'operator' => '=', 'second' => 'shop_files.parent_code', 'columns'=>['path'=>'image_path']]
         ];
+
+        if($request->category_url){
+            $joins = [
+                ['table' => 'shop_category_products', 'first' => 'code', 'operator' => '=', 'second' => 'shop_category_products.product_code', 'columns'=>[]],
+                ['table' => 'shop_categories', 'first' => 'shop_category_products.category_code', 'operator' => '=', 'second' => 'shop_categories.code', 'columns'=>['name'=>'category_name', 'code'=>'category_code', 'url'=>'category_url']],
+            ];
+            $filters['shop_categories.deleted'] = '0';
+            $filters['shop_categories.url'] = $request->category_url;
+        }else $joins = [];
 
         $orderBy = ['column'=>'created_at', 'type'=>'DESC'];
 
@@ -45,7 +54,7 @@ class ShopIndexController extends Controller
         if($request->search) $search=['search' => $request->search, 'dbSearch' => ['name','description'] ];
         else $search = [];
 
-        $products = $this->getDataFromDatabase(['database'=>$database, 'model'=>$model,  'filters'=> ['is_approved'=>'1', 'is_active'=>'1', 'shop_files.description'=>'main image'], 'leftjoins'=>$leftJoins, 'orderby' => $orderBy, 'pagination'=>$pagination ]);
+        $products = $this->getDataFromDatabase(['database'=>$database, 'model'=>$model,  'search'=>$search, 'joins'=>$joins, 'filters'=> $filters, 'leftjoins'=>$leftJoins, 'orderby' => $orderBy, 'pagination'=>$pagination ]);
 
         return view('shop.themes.kidol.list', compact('products'));
     }

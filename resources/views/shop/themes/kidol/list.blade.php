@@ -1,5 +1,24 @@
 @extends('shop.themes.kidol.layouts.main')
 @section('shop_body')
+
+@if (!isset($products['items']) || count($products['items'])<=0)
+<section class="product-area product-style2-area mt-5">
+    <div class="container">
+    <div class="row">
+        <div class="col-md-6 m-auto">
+        <div class="section-title text-center" data-aos="fade-up" data-aos-duration="1000">
+            <h2 class="title mt-5">Herhangi bir ürün mevcut degil</h2>
+            <div class="desc">
+            <p></p>
+            </div>
+        </div>
+        </div>
+    </div>
+    </div>
+</section>
+@endif
+
+
 <section class="product-area product-style1-area mt-5">
     <div class="container">
     <div class="row">

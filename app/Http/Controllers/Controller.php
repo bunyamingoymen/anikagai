@@ -322,7 +322,6 @@ class Controller extends BaseController
         }
 
 
-
         // Verileri al
         $items = $query->skip($skip)->take($take)->get();
         $page_count = ceil( $query->count() / $take);
