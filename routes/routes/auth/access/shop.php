@@ -116,6 +116,4 @@ Route::controller(SettingsController::class)->group(function () {
     Route::post("/admin/shop/archiveDeleteSettings", "archive_and_delete_settings")->name('admin_shop_archive_and_delete_settings');
 });
 
-Route::controller(KeyValueController::class)->group(function () {
-
-});
+Route::controller(KeyValueController::class)->group(function () {});

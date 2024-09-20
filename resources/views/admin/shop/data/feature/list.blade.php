@@ -109,9 +109,9 @@
                     headerName: "Özellik Tipi",
                     field: "feature_type",
                     cellRenderer: function(params) {
-                        if(params.data.feature_type == 0){
+                        if (params.data.feature_type == 0) {
                             return 'Yazı';
-                        }else if(params.data.feature_type == 1){
+                        } else if (params.data.feature_type == 1) {
                             return 'Çoktan Seçmeli'
                         }
                     },

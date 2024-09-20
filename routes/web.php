@@ -115,7 +115,7 @@ Route::group(['middleware' => 'guest'], function () {
 });
 
 Route::middleware(['auth'])->group(function () {
-    require __DIR__.'/routes/auth.php';
+    require __DIR__ . '/routes/auth.php';
 });
 
 

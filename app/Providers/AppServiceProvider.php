@@ -47,13 +47,13 @@ class AppServiceProvider extends ServiceProvider
         */
         if ($this->hasTable('key_values') && $this->hasTable('themes')) {
             $selected_theme = KeyValue::Where('key', 'selected_theme')->first();
-            $themePath = $selected_theme ? Theme::Where('code', $selected_theme->value)->first(): Theme::first();
-            if($themePath){
+            $themePath = $selected_theme ? Theme::Where('code', $selected_theme->value)->first() : Theme::first();
+            if ($themePath) {
                 $indexPages = ['index.' . $themePath->themePath . '.layouts.main', 'index.' . $themePath->themePath . '.index', 'index.' . $themePath->themePath . '.profile', 'index.' . $themePath->themePath . '.calendar', 'index.'];
                 $watchPages = ['index.' . $themePath->themePath . '.watch', 'index.' . $themePath->themePath . '.read'];
                 $themeThree = ['index.themes.moviefx.layouts.main', 'index.themes.moviefx.layouts.sidebar', 'index.themes.moviefx.layouts.topbar', 'index.themes.moviefx.layouts.footer', 'index.themes.moviefx.profile'];
 
-                $shopPages = ['shop.themes.kidol.layouts.main', 'shop.themes.kidol.layouts.footer', 'shop.themes.kidol.layouts.header', ];
+                $shopPages = ['shop.themes.kidol.layouts.main', 'shop.themes.kidol.layouts.footer', 'shop.themes.kidol.layouts.header',];
 
                 $adminPages = ['admin.layouts.main'];
                 //
@@ -79,7 +79,7 @@ class AppServiceProvider extends ServiceProvider
                 //shop:
                 $shopDataCategoryPages = ['admin.shop.data.category.list', 'admin.shop.data.category.edit'];
                 $shopDataFeaturePages = ['admin.shop.data.feature.list', 'admin.shop.data.feature.edit'];
-                $shopDataCargoCompaniesPages = ['admin.shop.data.cargoCompany.list','admin.shop.data.cargoCompany.edit'];
+                $shopDataCargoCompaniesPages = ['admin.shop.data.cargoCompany.list', 'admin.shop.data.cargoCompany.edit'];
 
                 $shopOrderPages = ['admin.shop.order.list', 'admin.shop.order.edit'];
 
@@ -113,11 +113,11 @@ class AppServiceProvider extends ServiceProvider
                         }
                         //----------------------------------------------------------------
                         // Başlıklar
-                            $titleValues = $this->findTitleValue();
+                        $titleValues = $this->findTitleValue();
 
-                            $title = $titleValues['title'];
-                            $pathName = $titleValues['pathName'];
-                            $pathRoute = $titleValues['pathRoute'];
+                        $title = $titleValues['title'];
+                        $pathName = $titleValues['pathName'];
+                        $pathRoute = $titleValues['pathRoute'];
                         //----------------------------------------------------------------
                         //--Yetkiler
 
@@ -176,30 +176,53 @@ class AppServiceProvider extends ServiceProvider
 
 
                         $authArray = [
-                            'userRead' => $userRead, 'userGroupRead' => $userGroupRead, 'groupAuthRead' => $groupAuthRead,
-                            'changeHome' => $changeHome, 'changeLogo' => $changeLogo, 'changeMeta' => $changeMeta,
-                            'changeTitle' => $changeTitle, 'changeMenu' => $changeMenu, 'changeSocialMedia' => $changeSocialMedia,
-                            'adminMetaTag' => $adminMetaTag, 'KeyValue' => $KeyValue, 'clauseAuthUpdate' => $clauseAuthUpdate,
-                            'animeRead' => $animeRead, 'animeEpisodeRead' => $animeEpisodeRead, 'animeCalendarRead' => $animeCalendarRead,
-                            'webtoonRead' => $webtoonRead, 'webtoonEpisodeRead' => $webtoonEpisodeRead, 'webtoonCalendarRead' => $webtoonCalendarRead,
-                            'pageRead' => $pageRead, 'categoryRead' => $categoryRead, 'tagRead' => $tagRead,
-                            'commentRead' => $commentRead, 'contactRead' => $contactRead, 'indexUserRead' => $indexUserRead,
-                            'changeSliderVideo' => $changeSliderVideo, 'changeThemeSettings' => $changeThemeSettings,
-                            'showNotifications' => $showNotifications, 'addNotifications' => $addNotifications,
+                            'userRead' => $userRead,
+                            'userGroupRead' => $userGroupRead,
+                            'groupAuthRead' => $groupAuthRead,
+                            'changeHome' => $changeHome,
+                            'changeLogo' => $changeLogo,
+                            'changeMeta' => $changeMeta,
+                            'changeTitle' => $changeTitle,
+                            'changeMenu' => $changeMenu,
+                            'changeSocialMedia' => $changeSocialMedia,
+                            'adminMetaTag' => $adminMetaTag,
+                            'KeyValue' => $KeyValue,
+                            'clauseAuthUpdate' => $clauseAuthUpdate,
+                            'animeRead' => $animeRead,
+                            'animeEpisodeRead' => $animeEpisodeRead,
+                            'animeCalendarRead' => $animeCalendarRead,
+                            'webtoonRead' => $webtoonRead,
+                            'webtoonEpisodeRead' => $webtoonEpisodeRead,
+                            'webtoonCalendarRead' => $webtoonCalendarRead,
+                            'pageRead' => $pageRead,
+                            'categoryRead' => $categoryRead,
+                            'tagRead' => $tagRead,
+                            'commentRead' => $commentRead,
+                            'contactRead' => $contactRead,
+                            'indexUserRead' => $indexUserRead,
+                            'changeSliderVideo' => $changeSliderVideo,
+                            'changeThemeSettings' => $changeThemeSettings,
+                            'showNotifications' => $showNotifications,
+                            'addNotifications' => $addNotifications,
 
-                            'shopDataCategoryRead' => $shopDataCategoryRead, 'shopDataFeatureRead' => $shopDataFeatureRead, 'shopOrderRead' => $shopOrderRead,
-                            'shopSettingsRead' => $shopSettingsRead, 'shopProductRead' => $shopProductRead, 'shopSellerRead' => $shopSellerRead,
-                            'shopUsersRead' => $shopUsersRead, 'shopDataCargoCompaniesRead' =>$shopDataCargoCompaniesRead,
+                            'shopDataCategoryRead' => $shopDataCategoryRead,
+                            'shopDataFeatureRead' => $shopDataFeatureRead,
+                            'shopOrderRead' => $shopOrderRead,
+                            'shopSettingsRead' => $shopSettingsRead,
+                            'shopProductRead' => $shopProductRead,
+                            'shopSellerRead' => $shopSellerRead,
+                            'shopUsersRead' => $shopUsersRead,
+                            'shopDataCargoCompaniesRead' => $shopDataCargoCompaniesRead,
                         ];
                         //----------------------------------------------------------------
 
                         //Mağaza Ayarları:
-                        if($this->hasTable('ShopKeyValue')){
-                            $storeActiveDB = ShopKeyValue::Where('key','store_active')->first();
-                            if($storeActiveDB) $storeActive = $storeActiveDB->value == "1" ? true : false;
+                        if ($this->hasTable('ShopKeyValue')) {
+                            $storeActiveDB = ShopKeyValue::Where('key', 'store_active')->first();
+                            if ($storeActiveDB) $storeActive = $storeActiveDB->value == "1" ? true : false;
                         }
 
-                        if(!isset($storeActive)) $storeActive = false;
+                        if (!isset($storeActive)) $storeActive = false;
                         //----------------------------------------------------------------
                         // Görünüme veriyi gönder
                         $view->with([
@@ -209,7 +232,7 @@ class AppServiceProvider extends ServiceProvider
                             'pathName' => $pathName,
                             'pathRoute' => $pathRoute,
                             'authArray' => $authArray,
-                            'storeActive'=>$storeActive,
+                            'storeActive' => $storeActive,
                         ]);
                     });
 
@@ -416,7 +439,7 @@ class AppServiceProvider extends ServiceProvider
                         $changeApproval = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/product/changeApproval') ? 1 : 0;
                         $changeActive = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/product/changeActive') ? 1 : 0;
 
-                        $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete,"changeApproval"=>$changeApproval, "changeActive"=>$changeActive]);
+                        $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete, "changeApproval" => $changeApproval, "changeActive" => $changeActive]);
                     });
 
                     View::composer($shopUserSellerPages, function ($view) {
@@ -436,7 +459,7 @@ class AppServiceProvider extends ServiceProvider
                         $delete = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/user/delete') ? 1 : 0;
                         $changeActive = $this->checkAuthorization(Auth::guard('admin')->user()->user_type, 'access.path_access_codes.admin/shop/user/changeActive') ? 1 : 0;
 
-                        $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete, "changeActive"=>$changeActive]);
+                        $view->with(["create" => $create, "list" => $list, "update" => $update, "delete" => $delete, "changeActive" => $changeActive]);
                     });
 
                     View::composer($shopDataCargoCompaniesPages, function ($view) {
@@ -453,13 +476,20 @@ class AppServiceProvider extends ServiceProvider
                 View::composer($indexPages, function ($view) {
 
                     $keys = [
-                        'index_logo', 'index_logo_footer', 'index_icon', 'index_title', 'index_text',
+                        'index_logo',
+                        'index_logo_footer',
+                        'index_icon',
+                        'index_title',
+                        'index_text',
                         'footer_copyright',
-                        'anime_active', 'webtoon_active'
+                        'anime_active',
+                        'webtoon_active'
                     ];
 
                     $keysGet = [
-                        'meta', 'admin_meta', 'social_media'
+                        'meta',
+                        'admin_meta',
+                        'social_media'
                     ];
 
                     $data = collect();
@@ -527,7 +557,7 @@ class AppServiceProvider extends ServiceProvider
                 });
 
                 View::composer($shopPages, function ($view) {
-                    $categories = ShopCategories::Where('deleted', 0)->orderBy('created_at','DESC')->get();
+                    $categories = ShopCategories::Where('deleted', 0)->orderBy('created_at', 'DESC')->get();
 
                     $view->with('categories', $categories);
                 });

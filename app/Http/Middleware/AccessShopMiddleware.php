@@ -16,7 +16,7 @@ class AccessShopMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::guard('shop_users')->user() || Auth::guard('shop_sellers')->user()){
+        if (Auth::guard('shop_users')->user() || Auth::guard('shop_sellers')->user()) {
             return $next($request);
         }
         return redirect()->route('shop_login');

@@ -1,12 +1,12 @@
 @extends('admin.layouts.main')
 @section('admin_content')
-@php
-    use Illuminate\Support\Facades\Route;
+    @php
+        use Illuminate\Support\Facades\Route;
 
-    $currentRouteName = Route::currentRouteName();
+        $currentRouteName = Route::currentRouteName();
 
-    $auth = $currentRouteName == 'admin_shop_category_create' ? $create : $update;
-@endphp
+        $auth = $currentRouteName == 'admin_shop_category_create' ? $create : $update;
+    @endphp
     @if ($auth == 1)
         <div class="row">
             <div class="col-lg-12">
@@ -18,24 +18,24 @@
                             @csrf
                             @if (isset($item))
                                 <div hidden>
-                                    <input type="text" id="code" name="code" value="{{$item->code}}" required>
+                                    <input type="text" id="code" name="code" value="{{ $item->code }}" required>
                                 </div>
                             @endif
                             <div class="row">
                                 <div class="col-md-4 mb-3">
                                     <label for="show_name">Görünür İsim:</label>
                                     <input type="text" class="form-control" id="show_name" name="show_name"
-                                        placeholder="Görünür İsim" value="{{$item->show_name??''}}" required>
+                                        placeholder="Görünür İsim" value="{{ $item->show_name ?? '' }}" required>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="username">Kullanıcı Adı:</label>
                                     <input type="text" class="form-control" id="username" name="username"
-                                        placeholder="Kullanıcı Adı" value="{{$item->username??''}}">
+                                        placeholder="Kullanıcı Adı" value="{{ $item->username ?? '' }}">
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="email">E-mail:</label>
                                     <input type="email" class="form-control" id="email" name="email"
-                                        placeholder="E-Mail" value="{{$item->email??''}}" required>
+                                        placeholder="E-Mail" value="{{ $item->email ?? '' }}" required>
                                 </div>
                             </div>
                             @if (!isset($item))
@@ -55,41 +55,41 @@
                             <div>
                                 <div class="col-md-12 mb-3">
                                     <label for="description">Açıklama:</label>
-                                    <textarea class="form-control" id="description" name="description" cols="30" rows="10">{{$item->description??''}}</textarea>
-                                    </div>
+                                    <textarea class="form-control" id="description" name="description" cols="30" rows="10">{{ $item->description ?? '' }}</textarea>
+                                </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-4 mb-3">
                                     <label for="phone">Telefon Numarası:</label>
                                     <input type="text" class="form-control" id="phone" name="phone"
-                                        placeholder="Telefon Numarası" value="{{$item->phone??''}}">
+                                        placeholder="Telefon Numarası" value="{{ $item->phone ?? '' }}">
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="facebook">Facebook:</label>
                                     <input type="text" class="form-control" id="facebook" name="facebook"
-                                        placeholder="Facebook" value="{{$item->facebook??''}}">
+                                        placeholder="Facebook" value="{{ $item->facebook ?? '' }}">
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="instagram">Instagram:</label>
                                     <input type="text" class="form-control" id="instagram" name="instagram"
-                                        placeholder="Telefon Numarası" value="{{$item->instagram??''}}">
+                                        placeholder="Telefon Numarası" value="{{ $item->instagram ?? '' }}">
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-4 mb-3">
                                     <label for="twitter">X (Twitter)</label>
                                     <input type="text" class="form-control" id="twitter" name="twitter"
-                                        placeholder="X (Twitter)" value="{{$item->twitter??''}}">
+                                        placeholder="X (Twitter)" value="{{ $item->twitter ?? '' }}">
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="discord">Discord:</label>
                                     <input type="text" class="form-control" id="discord" name="discord"
-                                        placeholder="Discord" value="{{$item->discord??''}}">
+                                        placeholder="Discord" value="{{ $item->discord ?? '' }}">
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="website">Website:</label>
                                     <input type="text" class="form-control" id="website" name="website"
-                                        placeholder="Website" value="{{$item->website??''}}">
+                                        placeholder="Website" value="{{ $item->website ?? '' }}">
                                 </div>
                             </div>
 
@@ -101,21 +101,23 @@
                                 </div>
                             </div>
 
-                            @if (isset($item)&& isset($item->image) && $item->image != "")
+                            @if (isset($item) && isset($item->image) && $item->image != '')
                                 <div class="row mb-5">
                                     <div class="col-md-4 mb-3">
                                         <div>
                                             <label for="">Aktif Resim:</label>
                                         </div>
                                         <div>
-                                            <img src="{{url($item->image??'')}}" alt="$item->code" style="max-height: 200px;">
+                                            <img src="{{ url($item->image ?? '') }}" alt="$item->code"
+                                                style="max-height: 200px;">
                                         </div>
                                     </div>
                                 </div>
                             @endif
                             <div style="float: right;">
 
-                                <button class="btn btn-primary" type="button" onclick="createSubmitForm()">Kaydet</button>
+                                <button class="btn btn-primary" type="button"
+                                    onclick="createSubmitForm()">Kaydet</button>
 
                             </div>
                         </form>

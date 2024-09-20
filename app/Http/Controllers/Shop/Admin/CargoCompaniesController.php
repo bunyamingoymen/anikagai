@@ -11,7 +11,8 @@ class CargoCompaniesController extends Controller
 {
     private $defaultModel, $defaultPath, $defaultRoute, $defaultListRoute, $defaultUpdateRoute, $defaultListPath, $defaultEditPath;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->defaultModel = 'App\Models\Shop\ShopKeyValue';
 
         $this->defaultPath = 'admin.shop.data.cargoCompany';
@@ -19,85 +20,89 @@ class CargoCompaniesController extends Controller
         $this->defaultEditPath = $this->defaultPath . '.edit';
 
         $this->defaultRoute = 'admin_shop_cargo_company';
-        $this->defaultListRoute = $this->defaultRoute.'_list';
-        $this->defaultUpdateRoute = $this->defaultRoute.'_update';
+        $this->defaultListRoute = $this->defaultRoute . '_list';
+        $this->defaultUpdateRoute = $this->defaultRoute . '_update';
     }
 
-    public function list(){
+    public function list()
+    {
         return view($this->defaultListPath);
     }
 
-    public function edit(Request $request){
-        if(Route::currentRouteName() == $this->defaultUpdateRoute){
-            $item = $this->getOneItem('shop_mysql', 'shop_key_values' ,$request->code, $this->defaultModel, 0, ['key'=>'cargo_company'])['item'];
-            if(!$item) return redirect()->route($this->defaultListRoute)->with('error','Kategori güncellenirken bir hata meydana geldi');
+    public function edit(Request $request)
+    {
+        if (Route::currentRouteName() == $this->defaultUpdateRoute) {
+            $item = $this->getOneItem('shop_mysql', 'shop_key_values', $request->code, $this->defaultModel, 0, ['key' => 'cargo_company'])['item'];
+            if (!$item) return redirect()->route($this->defaultListRoute)->with('error', 'Kategori güncellenirken bir hata meydana geldi');
 
-            return view($this->defaultEditPath,['item'=>$item]);
+            return view($this->defaultEditPath, ['item' => $item]);
         }
         return view($this->defaultEditPath);
     }
 
-    public function save(Request $request){
+    public function save(Request $request)
+    {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
         ], [
             'name.required' => 'İsim alanı giriniz. Max: 255 karakter.',
         ]);
 
-        $getOne = $this->getOneItem('shop_mysql', 'shop_key_values' ,$request->code, $this->defaultModel, 1, ['key'=>'cargo_company']);
+        $getOne = $this->getOneItem('shop_mysql', 'shop_key_values', $request->code, $this->defaultModel, 1, ['key' => 'cargo_company']);
 
         $item = $getOne['item'];
         $is_new = $getOne['is_new'];
         $code = $getOne['code'];
 
-        if($is_new) $item->key = 'cargo_company';
+        if ($is_new) $item->key = 'cargo_company';
 
         $item->value = $request->name;
 
-        if($request->hasFile('image')){
+        if ($request->hasFile('image')) {
             $file = $request->file('image');
             $main_path = 'shop_files/cargoCompanies/images';
             $path = public_path($main_path);
             $name = $code . "_main." . $file->getClientOriginalExtension();
             $file->move($path, $name);
 
-            $item->optional = $main_path. "/" . $name;
+            $item->optional = $main_path . "/" . $name;
         }
 
         $item->optional_2 = $request->description;
 
         $item->save();
         return redirect()->route($this->defaultListRoute)->with('success', $is_new ? 'Yeni Kargo Firması eklendi' : 'Kargo Firması güncellendi');
-
     }
 
-    public function delete(Request $request){
-        $item = $this->getOneItem('shop_mysql', 'shop_key_values' ,$request->code, $this->defaultModel,0,['key'=>'cargo_company'])['item'];
-        if(!$item) return redirect()->route($this->defaultListRoute)->with('error','Kargo Firması silinirken bir hata meydana geldi');
+    public function delete(Request $request)
+    {
+        $item = $this->getOneItem('shop_mysql', 'shop_key_values', $request->code, $this->defaultModel, 0, ['key' => 'cargo_company'])['item'];
+        if (!$item) return redirect()->route($this->defaultListRoute)->with('error', 'Kargo Firması silinirken bir hata meydana geldi');
 
         $item->deleted = 1;
         $item->save();
 
-        return redirect()->route($this->defaultListRoute)->with('success','Kargo Firması Silindi');
+        return redirect()->route($this->defaultListRoute)->with('success', 'Kargo Firması Silindi');
     }
 
-    public function getData(Request $request){
+    public function getData(Request $request)
+    {
 
         $pagination = [
             'take' => $request->showingCount ? $request->showingCount : Config::get('app.showCount'),
             'page' => $request->page
         ];
 
-        if($request->search){
-            $search=[
+        if ($request->search) {
+            $search = [
                 'search' => $request->search,
-                'dbSearch' => ['value','optional_2']
+                'dbSearch' => ['value', 'optional_2']
             ];
-        }else $search = [];
+        } else $search = [];
 
         $filters['key'] = 'cargo_company';
 
-        $result = $this->getDataFromDatabase(['database'=>'shop_mysql', 'model'=>$this->defaultModel, 'pagination'=>$pagination, 'search'=>$search, 'filters'=>$filters]);
+        $result = $this->getDataFromDatabase(['database' => 'shop_mysql', 'model' => $this->defaultModel, 'pagination' => $pagination, 'search' => $search, 'filters' => $filters]);
 
         return $result;
     }

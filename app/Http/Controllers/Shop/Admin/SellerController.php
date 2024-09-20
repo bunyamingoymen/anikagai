@@ -12,7 +12,8 @@ class SellerController extends Controller
 {
     private $defaultModel, $defaultPath, $defaultRoute, $defaultListRoute, $defaultUpdateRoute, $defaultListPath, $defaultEditPath;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->defaultModel = 'App\Models\Shop\ShopSellers';
 
         $this->defaultPath = 'admin.shop.user.seller';
@@ -20,26 +21,29 @@ class SellerController extends Controller
         $this->defaultEditPath = $this->defaultPath . '.edit';
 
         $this->defaultRoute = 'admin_shop_seller';
-        $this->defaultListRoute = $this->defaultRoute.'_list';
-        $this->defaultUpdateRoute = $this->defaultRoute.'_update';
+        $this->defaultListRoute = $this->defaultRoute . '_list';
+        $this->defaultUpdateRoute = $this->defaultRoute . '_update';
     }
 
-    public function list(){
+    public function list()
+    {
         return view($this->defaultListPath);
     }
 
-    public function edit(Request $request){
-        if(Route::currentRouteName() == $this->defaultUpdateRoute){
-            $item = $this->getOneItem('shop_mysql', 'shop_sellers' ,$request->code, $this->defaultModel,0)['item'];
+    public function edit(Request $request)
+    {
+        if (Route::currentRouteName() == $this->defaultUpdateRoute) {
+            $item = $this->getOneItem('shop_mysql', 'shop_sellers', $request->code, $this->defaultModel, 0)['item'];
 
-            if(!$item) return redirect()->route($this->defaultListRoute)->with('error','Satıcı güncellenirken bir hata meydana geldi');
+            if (!$item) return redirect()->route($this->defaultListRoute)->with('error', 'Satıcı güncellenirken bir hata meydana geldi');
 
-            return view($this->defaultEditPath,['item'=>$item]);
+            return view($this->defaultEditPath, ['item' => $item]);
         }
         return view($this->defaultEditPath);
     }
 
-    public function save(Request $request){
+    public function save(Request $request)
+    {
         $validatedData = $request->validate([
             'show_name'      => 'required|string|max:255',
             'username'  => 'required|string|max:255',
@@ -50,7 +54,7 @@ class SellerController extends Controller
             'email.required' => 'E-mail alanı giriniz. Max: 255 karakter.',
         ]);
 
-        $getOne = $this->getOneItem('shop_mysql', 'shop_sellers' ,$request->code, $this->defaultModel);
+        $getOne = $this->getOneItem('shop_mysql', 'shop_sellers', $request->code, $this->defaultModel);
 
         $item = $getOne['item'];
         $is_new = $getOne['is_new'];
@@ -68,49 +72,52 @@ class SellerController extends Controller
         $item->discord = $request->discord;
         $item->website = $request->website;
 
-        if($request->hasFile('image')){
+        if ($request->hasFile('image')) {
             $file = $request->file('image');
 
             $path = public_path('files/shop/sellers');
             $name = $code . "." . $file->getClientOriginalExtension();
             $file->move($path, $name);
             $item->image = "files/shop/sellers/" . $name;
-        }else $item->image = '';
+        } else $item->image = '';
 
         $item->save();
 
         return redirect()->route($this->defaultListRoute)->with('success', $is_new ? 'Yeni satıcı eklendi' : 'Satıcı güncellendi');
     }
 
-    public function delete(Request $request){
-        $item =  $this->getOneItem('shop_mysql', 'shop_sellers' ,$request->code, $this->defaultModel,0)['item'];
-        if(!$item) return redirect()->route($this->defaultListRoute)->with('error','Satıcı silinirken bir hata meydana geldi');
+    public function delete(Request $request)
+    {
+        $item =  $this->getOneItem('shop_mysql', 'shop_sellers', $request->code, $this->defaultModel, 0)['item'];
+        if (!$item) return redirect()->route($this->defaultListRoute)->with('error', 'Satıcı silinirken bir hata meydana geldi');
 
         $item->deleted = 1;
         $item->save();
 
-        return redirect()->route($this->defaultListRoute)->with('success','Satıcı Silindi');
+        return redirect()->route($this->defaultListRoute)->with('success', 'Satıcı Silindi');
     }
 
-    public function changeActive(Request $request){
-        $item =  $this->getOneItem('shop_mysql', 'shop_sellers' ,$request->code, $this->defaultModel,0)['item'];
-        if(!$item) return redirect()->route($this->defaultListRoute)->with('error','Satıcının aktifliği güncellenirken hata meydana geldi');
+    public function changeActive(Request $request)
+    {
+        $item =  $this->getOneItem('shop_mysql', 'shop_sellers', $request->code, $this->defaultModel, 0)['item'];
+        if (!$item) return redirect()->route($this->defaultListRoute)->with('error', 'Satıcının aktifliği güncellenirken hata meydana geldi');
 
-        if($item->is_active == 1) $item->is_active = 0;
+        if ($item->is_active == 1) $item->is_active = 0;
         else $item->is_active = 1;
 
         $item->save();
 
-        return redirect()-> route($this->defaultListRoute)->with('success','Satıcının aktiflik durumu güncellendi');
+        return redirect()->route($this->defaultListRoute)->with('success', 'Satıcının aktiflik durumu güncellendi');
     }
 
-    public function getData(Request $request){
+    public function getData(Request $request)
+    {
         $pagination = [
             'take' => $request->showingCount ? $request->showingCount : Config::get('app.showCount'),
             'page' => $request->page
         ];
 
-        $result = $this->getDataFromDatabase(['database'=>'shop_mysql', 'model'=>$this->defaultModel,'pagination'=>$pagination]);
+        $result = $this->getDataFromDatabase(['database' => 'shop_mysql', 'model' => $this->defaultModel, 'pagination' => $pagination]);
 
 
         return $result;

@@ -10,42 +10,46 @@ use Illuminate\Support\Facades\Config;
 
 class SettingsController extends Controller
 {
-    public function list(){
+    public function list()
+    {
 
         //** General Settings */
-        $storeActive = ShopKeyValue::Where('key','store_active')->first();
-        $newSellerAccept = ShopKeyValue::Where('key','new_seller_accept')->first();
-        $approwNotRequired = ShopKeyValue::Where('key','approw_not_required')->first();
+        $storeActive = ShopKeyValue::Where('key', 'store_active')->first();
+        $newSellerAccept = ShopKeyValue::Where('key', 'new_seller_accept')->first();
+        $approwNotRequired = ShopKeyValue::Where('key', 'approw_not_required')->first();
         //** General Settings */
 
-         //** Archive And Delete Settings */
-        $addArchive = ShopKeyValue::Where('key','add_archive')->first();
-        $archiveTime = ShopKeyValue::Where('key','archive_time')->first();
-        $deleteAutomatic = ShopKeyValue::Where('key','delete_automatic')->first();
-        $deleteTime = ShopKeyValue::Where('key','delete_time')->first();
-         //** Archive And Delete Settings */
+        //** Archive And Delete Settings */
+        $addArchive = ShopKeyValue::Where('key', 'add_archive')->first();
+        $archiveTime = ShopKeyValue::Where('key', 'archive_time')->first();
+        $deleteAutomatic = ShopKeyValue::Where('key', 'delete_automatic')->first();
+        $deleteTime = ShopKeyValue::Where('key', 'delete_time')->first();
+        //** Archive And Delete Settings */
 
-        return view('admin.shop.other.setting',
-        compact(
-            'storeActive',
-            'newSellerAccept',
-            'approwNotRequired',
+        return view(
+            'admin.shop.other.setting',
+            compact(
+                'storeActive',
+                'newSellerAccept',
+                'approwNotRequired',
 
-            'addArchive',
-            'archiveTime',
-            'deleteAutomatic',
-            'deleteTime',
-        ));
+                'addArchive',
+                'archiveTime',
+                'deleteAutomatic',
+                'deleteTime',
+            )
+        );
     }
 
-    public function general_settings(Request $request){
+    public function general_settings(Request $request)
+    {
 
         //**** Mağaza Aktif Kısmı
-        $storeActive = ShopKeyValue::Where('key','store_active')->first();
+        $storeActive = ShopKeyValue::Where('key', 'store_active')->first();
 
-        if(!$storeActive){
+        if (!$storeActive) {
             $storeActive = new ShopKeyValue();
-            $storeActive->code = $this->generateUniqueCode('shop_mysql','shop_key_values');
+            $storeActive->code = $this->generateUniqueCode('shop_mysql', 'shop_key_values');
             $storeActive->key = 'store_active';
             $storeActive->create_user_code = Auth::guard('admin')->user()->code;
         }
@@ -58,11 +62,11 @@ class SettingsController extends Controller
 
 
         //**** Yeni satıcı Kabul Edilebilir
-        $newSellerAccept = ShopKeyValue::Where('key','new_seller_accept')->first();
+        $newSellerAccept = ShopKeyValue::Where('key', 'new_seller_accept')->first();
 
-        if(!$newSellerAccept){
+        if (!$newSellerAccept) {
             $newSellerAccept = new ShopKeyValue();
-            $newSellerAccept->code = $this->generateUniqueCode('shop_mysql','shop_key_values');
+            $newSellerAccept->code = $this->generateUniqueCode('shop_mysql', 'shop_key_values');
             $newSellerAccept->key = 'new_seller_accept';
             $newSellerAccept->create_user_code = Auth::guard('admin')->user()->code;
         }
@@ -73,11 +77,11 @@ class SettingsController extends Controller
 
 
         //**** Onaya gerek yok
-        $approwNotRequired = ShopKeyValue::Where('key','approw_not_required')->first();
+        $approwNotRequired = ShopKeyValue::Where('key', 'approw_not_required')->first();
 
-        if(!$approwNotRequired){
+        if (!$approwNotRequired) {
             $approwNotRequired = new ShopKeyValue();
-            $approwNotRequired->code = $this->generateUniqueCode('shop_mysql','shop_key_values');
+            $approwNotRequired->code = $this->generateUniqueCode('shop_mysql', 'shop_key_values');
             $approwNotRequired->key = 'approw_not_required';
             $approwNotRequired->create_user_code = Auth::guard('admin')->user()->code;
         }
@@ -86,16 +90,17 @@ class SettingsController extends Controller
         $approwNotRequired->save();
         //---**** Onaya gerek yok
 
-        return redirect()->back()->with('success','Ayarlar başarılı bir şekilde kaydedildi');
+        return redirect()->back()->with('success', 'Ayarlar başarılı bir şekilde kaydedildi');
     }
 
-    public function archive_and_delete_settings(Request $request){
+    public function archive_and_delete_settings(Request $request)
+    {
 
-        $addArchive = ShopKeyValue::Where('key','add_archive')->first();
+        $addArchive = ShopKeyValue::Where('key', 'add_archive')->first();
 
-        if(!$addArchive){
+        if (!$addArchive) {
             $addArchive = new ShopKeyValue();
-            $addArchive->code = $this->generateUniqueCode('shop_mysql','shop_key_values');
+            $addArchive->code = $this->generateUniqueCode('shop_mysql', 'shop_key_values');
             $addArchive->key = 'add_archive';
             $addArchive->create_user_code = Auth::guard('admin')->user()->code;
         }
@@ -106,11 +111,11 @@ class SettingsController extends Controller
 
 
 
-        $archiveTime = ShopKeyValue::Where('key','archive_time')->first();
+        $archiveTime = ShopKeyValue::Where('key', 'archive_time')->first();
 
-        if(!$archiveTime){
+        if (!$archiveTime) {
             $archiveTime = new ShopKeyValue();
-            $archiveTime->code = $this->generateUniqueCode('shop_mysql','shop_key_values');
+            $archiveTime->code = $this->generateUniqueCode('shop_mysql', 'shop_key_values');
             $archiveTime->key = 'archive_time';
             $archiveTime->create_user_code = Auth::guard('admin')->user()->code;
         }
@@ -121,11 +126,11 @@ class SettingsController extends Controller
 
 
 
-        $DeleteAutomatic = ShopKeyValue::Where('key','delete_automatic')->first();
+        $DeleteAutomatic = ShopKeyValue::Where('key', 'delete_automatic')->first();
 
-        if(!$DeleteAutomatic){
+        if (!$DeleteAutomatic) {
             $DeleteAutomatic = new ShopKeyValue();
-            $DeleteAutomatic->code = $this->generateUniqueCode('shop_mysql','shop_key_values');
+            $DeleteAutomatic->code = $this->generateUniqueCode('shop_mysql', 'shop_key_values');
             $DeleteAutomatic->key = 'delete_automatic';
             $DeleteAutomatic->create_user_code = Auth::guard('admin')->user()->code;
         }
@@ -136,11 +141,11 @@ class SettingsController extends Controller
 
 
 
-        $deleteTime = ShopKeyValue::Where('key','delete_time')->first();
+        $deleteTime = ShopKeyValue::Where('key', 'delete_time')->first();
 
-        if(!$deleteTime){
+        if (!$deleteTime) {
             $deleteTime = new ShopKeyValue();
-            $deleteTime->code = $this->generateUniqueCode('shop_mysql','shop_key_values');
+            $deleteTime->code = $this->generateUniqueCode('shop_mysql', 'shop_key_values');
             $deleteTime->key = 'delete_time';
             $deleteTime->create_user_code = Auth::guard('admin')->user()->code;
         }
@@ -149,6 +154,6 @@ class SettingsController extends Controller
         $deleteTime->update_user_code = Auth::guard('admin')->user()->code;
         $deleteTime->save();
 
-        return redirect()->back()->with('success','Ayarlar başarılı bir şekilde kaydedildi');
+        return redirect()->back()->with('success', 'Ayarlar başarılı bir şekilde kaydedildi');
     }
 }

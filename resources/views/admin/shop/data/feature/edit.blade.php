@@ -1,12 +1,12 @@
 @extends('admin.layouts.main')
 @section('admin_content')
-@php
-    use Illuminate\Support\Facades\Route;
+    @php
+        use Illuminate\Support\Facades\Route;
 
-    $currentRouteName = Route::currentRouteName();
+        $currentRouteName = Route::currentRouteName();
 
-    $authType = $currentRouteName == 'admin_shop_category_create' ? $create : $update;
-@endphp
+        $authType = $currentRouteName == 'admin_shop_category_create' ? $create : $update;
+    @endphp
     @if ($authType)
         <div class="row">
             <div class="col-lg-12">
@@ -19,7 +19,8 @@
 
                             @isset($item)
                                 <div hidden>
-                                    <input type="text" class="form-control" id="code" name="code" value="{{$item->code ?? '' }}" required>
+                                    <input type="text" class="form-control" id="code" name="code"
+                                        value="{{ $item->code ?? '' }}" required>
                                 </div>
                             @endisset
 
@@ -27,54 +28,70 @@
                                 <div class="col-md-12 mb-3">
                                     <label for="name">Özellik İsmi:</label>
                                     <input type="text" class="form-control" id="name" name="name"
-                                        placeholder="İsim" value="{{$item->name ?? ''}}" required>
+                                        placeholder="İsim" value="{{ $item->name ?? '' }}" required>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12 mb-3">
                                     <label for="description">Açıklama:</label>
-                                    <textarea class="form-control" name="description" id="description" cols="30" rows="10" placeholder="Açıklama">{{$item->description ?? ''}}</textarea>
+                                    <textarea class="form-control" name="description" id="description" cols="30" rows="10" placeholder="Açıklama">{{ $item->description ?? '' }}</textarea>
 
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-12 mb-3">
                                     <label for="feature_type">Özellik Tipi: </label>
-                                    <select class="form-control" name="feature_type" id="feature_type" onchange="changeFeatureType()">
-                                        <option value="0" {{isset($item) && $item->feature_type == 0 ? 'selected' : ''}}>Yazı</option>
-                                        <option value="1" {{isset($item) && $item->feature_type == 1 ? 'selected' : ''}}>Çoktan Seçmeli</option>
+                                    <select class="form-control" name="feature_type" id="feature_type"
+                                        onchange="changeFeatureType()">
+                                        <option value="0"
+                                            {{ isset($item) && $item->feature_type == 0 ? 'selected' : '' }}>Yazı</option>
+                                        <option value="1"
+                                            {{ isset($item) && $item->feature_type == 1 ? 'selected' : '' }}>Çoktan Seçmeli
+                                        </option>
                                     </select>
                                 </div>
 
-                                <div class="col-md-12 mb-3" id="feature_type_multiple_id" {{ !(isset($item) && isset($values) && $item->feature_type == 1) ? 'hidden':'' }}>
+                                <div class="col-md-12 mb-3" id="feature_type_multiple_id"
+                                    {{ !(isset($item) && isset($values) && $item->feature_type == 1) ? 'hidden' : '' }}>
                                     @if (isset($item) && isset($values) && $item->feature_type == 1)
-                                    <div class="row mb-3">
-                                        <label>Çoktan Seçmeli Seçenekler:</label>
-                                    </div>
+                                        <div class="row mb-3">
+                                            <label>Çoktan Seçmeli Seçenekler:</label>
+                                        </div>
                                         <div id="feature_type_multiple_choose">
-                                            @foreach ($values as $key=>$value)
-                                            <div class="row mb-3 feature_type_multiple_chooses_div" id="feature_type_multiple_choose_{{ ($key+1) }}">
-                                                <button type="button" class="btn btn-danger" id="feature_type_multiple_choose_count_{{ ($key+1) }}">{{ ($key+1) }}</button>
-                                                <div class="m-1 mr-3 ml-3">
-                                                    <input type="text" class="form-control feature_type_multiple_chooses" name="multiple_choose[]" id="multiple_choose_{{ ($key+1) }}" value="{{$value->value}}" placeholder="{{ ($key+1) }}. seçenek" required>
-                                                </div>
-                                                @if ($key != 0)
-                                                    <div class="m-1 mr-3 ml-1">
-                                                        <button type="button" class="btn btn-warning" id="delete_button_${id}" onclick="deleteChoose({{$key+1}})"><i class="fas fa-trash-alt"></i> Sil</button>
+                                            @foreach ($values as $key => $value)
+                                                <div class="row mb-3 feature_type_multiple_chooses_div"
+                                                    id="feature_type_multiple_choose_{{ $key + 1 }}">
+                                                    <button type="button" class="btn btn-danger"
+                                                        id="feature_type_multiple_choose_count_{{ $key + 1 }}">{{ $key + 1 }}</button>
+                                                    <div class="m-1 mr-3 ml-3">
+                                                        <input type="text"
+                                                            class="form-control feature_type_multiple_chooses"
+                                                            name="multiple_choose[]"
+                                                            id="multiple_choose_{{ $key + 1 }}"
+                                                            value="{{ $value->value }}"
+                                                            placeholder="{{ $key + 1 }}. seçenek" required>
                                                     </div>
-                                                @endif
-                                            </div>
+                                                    @if ($key != 0)
+                                                        <div class="m-1 mr-3 ml-1">
+                                                            <button type="button" class="btn btn-warning"
+                                                                id="delete_button_${id}"
+                                                                onclick="deleteChoose({{ $key + 1 }})"><i
+                                                                    class="fas fa-trash-alt"></i> Sil</button>
+                                                        </div>
+                                                    @endif
+                                                </div>
                                             @endforeach
                                         </div>
                                         <div class="row mb-3" id="feature_type_multiple_choose_button">
-                                            <button type="button" class="btn btn-info" onclick="addNewChoose({{count($values) + 1}})"> + Yeni Seçenek Ekle</button>
+                                            <button type="button" class="btn btn-info"
+                                                onclick="addNewChoose({{ count($values) + 1 }})"> + Yeni Seçenek
+                                                Ekle</button>
                                         </div>
                                     @endif
                                 </div>
                             </div>
                             <div style="float: right;">
-                                <button class="btn btn-primary" type="button"
-                                    onclick="editSubmitForm()">Kaydet</button>
+                                <button class="btn btn-primary" type="button" onclick="editSubmitForm()">Kaydet</button>
                             </div>
                         </form>
                     </div>
@@ -90,13 +107,14 @@
                         text: "Lütfen Gerekli Yerleri Doldurunuz.",
                         icon: "error"
                     });
-                } else if(document.getElementById('feature_type').value == 1 && document.getElementById('multiple_choose_1') &&! document.getElementById('multiple_choose_1').value){
+                } else if (document.getElementById('feature_type').value == 1 && document.getElementById('multiple_choose_1') &&
+                    !document.getElementById('multiple_choose_1').value) {
                     Swal.fire({
                         title: "Hata",
                         text: "Lütfen En az bir seçenek giriniz.",
                         icon: "error"
                     });
-                }else{
+                } else {
                     document.getElementById('EditForm').submit();
                 }
 
@@ -131,7 +149,7 @@
             function addNewChoose(id) {
                 var feature_type_multiple_chooses = document.getElementsByClassName('feature_type_multiple_chooses');
                 var chooses = [];
-                for(var i = 0; i < feature_type_multiple_chooses.length; i++){
+                for (var i = 0; i < feature_type_multiple_chooses.length; i++) {
                     chooses[i] = feature_type_multiple_chooses[i].value;
                 }
                 var html = `
@@ -147,11 +165,12 @@
                 document.getElementById('feature_type_multiple_choose').innerHTML += html;
 
                 // Add new button for adding more options
-                var button_html = `<button type="button" class="btn btn-info" onclick="addNewChoose(${id + 1})"> + Yeni Seçenek Ekle</button>`;
+                var button_html =
+                    `<button type="button" class="btn btn-info" onclick="addNewChoose(${id + 1})"> + Yeni Seçenek Ekle</button>`;
                 document.getElementById('feature_type_multiple_choose_button').innerHTML = button_html;
 
                 var feature_type_multiple_chooses_after = document.getElementsByClassName('feature_type_multiple_chooses');
-                for(var i = 0; i < chooses.length; i++){
+                for (var i = 0; i < chooses.length; i++) {
                     feature_type_multiple_chooses_after[i].value = chooses[i];
                 }
             }
@@ -183,7 +202,8 @@
                 }
 
                 // Yeni seçenek ekleme butonunu güncelle
-                var button_html = `<button type="button" class="btn btn-info" onclick="addNewChoose(${count})"> + Yeni Seçenek Ekle</button>`;
+                var button_html =
+                    `<button type="button" class="btn btn-info" onclick="addNewChoose(${count})"> + Yeni Seçenek Ekle</button>`;
                 document.getElementById('feature_type_multiple_choose_button').innerHTML = button_html;
             }
         </script>

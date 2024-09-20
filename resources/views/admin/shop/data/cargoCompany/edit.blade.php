@@ -1,12 +1,12 @@
 @extends('admin.layouts.main')
 @section('admin_content')
-@php
-    use Illuminate\Support\Facades\Route;
+    @php
+        use Illuminate\Support\Facades\Route;
 
-    $currentRouteName = Route::currentRouteName();
+        $currentRouteName = Route::currentRouteName();
 
-    $authType = $currentRouteName == 'admin_shop_cargo_company_create' ? $create : $update;
-@endphp
+        $authType = $currentRouteName == 'admin_shop_cargo_company_create' ? $create : $update;
+    @endphp
     @if ($authType)
         <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
@@ -24,7 +24,8 @@
 
                             @isset($item)
                                 <div hidden>
-                                    <input type="text" class="form-control" id="code" name="code" value="{{$item->code ?? '' }}" required>
+                                    <input type="text" class="form-control" id="code" name="code"
+                                        value="{{ $item->code ?? '' }}" required>
                                 </div>
                             @endisset
 
@@ -32,7 +33,7 @@
                                 <div class="col-md-12 mb-3">
                                     <label for="name">Kargo Firması İsmi:</label>
                                     <input type="text" class="form-control" id="name" name="name"
-                                        placeholder="İsim" value="{{$item->value ?? ''}}" required>
+                                        placeholder="İsim" value="{{ $item->value ?? '' }}" required>
                                 </div>
                             </div>
                             <div class="row">
@@ -45,13 +46,12 @@
                             <div class="row">
                                 <div class="col-md-12 mb-3">
                                     <label for="description">Açıklama:</label>
-                                    <textarea class="form-control" name="description" id="description" cols="30" rows="10" placeholder="Açıklama">{{$item->optional_2 ?? ''}}</textarea>
+                                    <textarea class="form-control" name="description" id="description" cols="30" rows="10" placeholder="Açıklama">{{ $item->optional_2 ?? '' }}</textarea>
 
                                 </div>
                             </div>
                             <div style="float: right;">
-                                <button class="btn btn-primary" type="button"
-                                    onclick="editSubmitForm()">Kaydet</button>
+                                <button class="btn btn-primary" type="button" onclick="editSubmitForm()">Kaydet</button>
                             </div>
                         </form>
                     </div>
@@ -59,7 +59,6 @@
             </div>
         </div>
         <script>
-
             function editSubmitForm() {
                 var name = document.getElementById('name').value;
                 if (name == "") {
@@ -68,7 +67,7 @@
                         text: "Lütfen Gerekli Yerleri Doldurunuz.",
                         icon: "error"
                     });
-                }else{
+                } else {
                     document.getElementById('EditForm').submit();
                 }
 

@@ -100,8 +100,7 @@
 
         <!--Ag-gird Komutları-->
         <script>
-            var columnDefs = [
-                {
+            var columnDefs = [{
                     headerName: "#",
                     field: "id",
                     maxWidth: 75,
@@ -123,7 +122,7 @@
                     headerName: "Kullanıcı Adı",
                     field: "username",
                     cellRenderer: function(params) {
-                        return params.data.username.length>=1 ? params.data.username : '---';
+                        return params.data.username.length >= 1 ? params.data.username : '---';
                     }
                 },
                 {
@@ -138,7 +137,8 @@
                     headerName: "Aktiflik Durumu",
                     field: "is_active",
                     cellRenderer: function(params) {
-                        if(params.data.is_active == 1) return `<span class = "badge badge-pill badge-success"> Aktif </span>`;
+                        if (params.data.is_active == 1)
+                        return `<span class = "badge badge-pill badge-success"> Aktif </span>`;
                         else return `<span class = "badge badge-pill badge-danger"> Pasif </span>`;
                     }
                 },

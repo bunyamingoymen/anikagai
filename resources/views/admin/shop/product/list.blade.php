@@ -28,7 +28,7 @@
             function changePage(page) {
                 var pageData = {
                     page: page,
-                    type: '{{$type}}'
+                    type: '{{ $type }}'
                 }
                 if (showingCount && showingCount != 10) {
                     pageData.showingCount = showingCount;
@@ -112,7 +112,7 @@
                 {
                     headerName: "Ücret",
                     field: "price",
-                    cellRenderer: function(params){
+                    cellRenderer: function(params) {
                         return params.data.price + ' ' + params.data.priceType;
                     }
                 },
@@ -120,7 +120,8 @@
                     headerName: "Onay Durumu",
                     field: "is_approved",
                     cellRenderer: function(params) {
-                        if(params.data.is_approved == 1) return `<span class = "badge badge-pill badge-success"> Onaylı </span>`;
+                        if (params.data.is_approved == 1)
+                        return `<span class = "badge badge-pill badge-success"> Onaylı </span>`;
                         else return `<span class = "badge badge-pill badge-danger"> Onaylı Değil </span>`;
                     }
                 },
@@ -128,7 +129,8 @@
                     headerName: "Aktiflik Durumu",
                     field: "is_active",
                     cellRenderer: function(params) {
-                        if(params.data.is_active == 1) return `<span class = "badge badge-pill badge-success"> Aktif </span>`;
+                        if (params.data.is_active == 1)
+                        return `<span class = "badge badge-pill badge-success"> Aktif </span>`;
                         else return `<span class = "badge badge-pill badge-danger"> Pasif </span>`;
                     }
                 },
@@ -139,22 +141,22 @@
                         cellRenderer: function(params) {
                             var html = `<div class="row" style="justify-content: center;">`
                             @if ($changeApproval)
-                                if(params.data.is_approved == 1){
+                                if (params.data.is_approved == 1) {
                                     html += `<div class="mr-2 ml-2">
                                                 <a class="btn btn-danger btn-sm" href="{{ route('admin_shop_product_change_approval') }}?code=${params.data.code}" data-toggle="tooltip" data-placement="right" title="Ürünün Onayını Kaldır"><i class="fab fa-centos"></i></a>
                                             </div>`
-                                }else{
+                                } else {
                                     html += `<div class="mr-2 ml-2">
                                                 <a class="btn btn-success btn-sm" href="{{ route('admin_shop_product_change_approval') }}?code=${params.data.code}" data-toggle="tooltip" data-placement="right" title="Ürünü Onayla"><i class="fas fa-certificate"></i></a>
                                             </div>`
                                 }
                             @endif
                             @if ($changeActive)
-                                if(params.data.is_active == 1){
+                                if (params.data.is_active == 1) {
                                     html += `<div class="mr-2 ml-2">
                                             <a class="btn btn-danger btn-sm" href="{{ route('admin_shop_product_change_active') }}?code=${params.data.code}" data-toggle="tooltip" data-placement="right" title="Ürünü Pasif Yap"><i class="fas fa-times-circle"></i></a>
                                         </div>`
-                                }else{
+                                } else {
                                     html += `<div class="mr-2 ml-2">
                                             <a class="btn btn-success btn-sm" href="{{ route('admin_shop_product_change_active') }}?code=${params.data.code}" data-toggle="tooltip" data-placement="right" title="Ürünü Aktif Yap"><i class="fas fa-check-circle"></i></a>
                                         </div>`
@@ -186,8 +188,6 @@
             gridOptionsData(columnDefs);
             changePage(1);
         </script>
-
-
     @endif
     <script>
         // Sayfa yüklenmeden önce bu JavaScript kodu çalışacak

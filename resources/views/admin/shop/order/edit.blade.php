@@ -1,12 +1,12 @@
 @extends('admin.layouts.main')
 @section('admin_content')
-@php
-    use Illuminate\Support\Facades\Route;
+    @php
+        use Illuminate\Support\Facades\Route;
 
-    $currentRouteName = Route::currentRouteName();
+        $currentRouteName = Route::currentRouteName();
 
-    $auth = $currentRouteName == 'admin_shop_category_create' ? $create : $update;
-@endphp
+        $auth = $currentRouteName == 'admin_shop_category_create' ? $create : $update;
+    @endphp
     @if ($auth == 1)
     @endif
     <script>

@@ -99,8 +99,7 @@
 
         <!--Ag-gird Komutları-->
         <script>
-            var columnDefs = [
-                {
+            var columnDefs = [{
                     headerName: "#",
                     field: "id",
                     maxWidth: 75,
@@ -124,7 +123,7 @@
                     headerName: "Kullanıcı Adı",
                     field: "username",
                     cellRenderer: function(params) {
-                        return params.data.username.length>=1 ? params.data.username : '---';
+                        return params.data.username.length >= 1 ? params.data.username : '---';
                     }
                 },
                 {
@@ -135,7 +134,8 @@
                     headerName: "Aktiflik Durumu",
                     field: "is_active",
                     cellRenderer: function(params) {
-                        if(params.data.is_active == 1) return `<span class = "badge badge-pill badge-success"> Aktif </span>`;
+                        if (params.data.is_active == 1)
+                        return `<span class = "badge badge-pill badge-success"> Aktif </span>`;
                         else return `<span class = "badge badge-pill badge-danger"> Pasif </span>`;
                     }
                 },
@@ -157,7 +157,7 @@
                                     </div>`
                             @endif
                             @if ($changeActive)
-                            if (params.data.is_active == 1) {
+                                if (params.data.is_active == 1) {
                                     html += `<div class="mr-2 ml-2">
                                             <a class="btn btn-danger btn-sm" href="{{ route('admin_shop_user_change_active') }}?code=${params.data.code}" data-toggle="tooltip" data-placement="right" title="Banla"><i class="fas fa-times-circle" ></i></a>
                                             </div>`;

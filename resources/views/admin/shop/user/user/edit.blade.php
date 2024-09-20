@@ -1,12 +1,12 @@
 @extends('admin.layouts.main')
 @section('admin_content')
-@php
-    use Illuminate\Support\Facades\Route;
+    @php
+        use Illuminate\Support\Facades\Route;
 
-    $currentRouteName = Route::currentRouteName();
+        $currentRouteName = Route::currentRouteName();
 
-    $authType = $currentRouteName == 'admin_shop_category_create' ? $create : $update;
-@endphp
+        $authType = $currentRouteName == 'admin_shop_category_create' ? $create : $update;
+    @endphp
     @if ($authType)
         <div class="row">
             <div class="col-lg-12">
@@ -18,24 +18,24 @@
                             @csrf
                             @if (isset($item))
                                 <div hidden>
-                                    <input type="text" id="code" name="code" value="{{$item->code}}" required>
+                                    <input type="text" id="code" name="code" value="{{ $item->code }}" required>
                                 </div>
                             @endif
                             <div class="row">
                                 <div class="col-md-4 mb-3">
                                     <label for="name">İsim:</label>
                                     <input type="text" class="form-control" id="name" name="name"
-                                        placeholder="İsim" value="{{$item->name??''}}" required>
+                                        placeholder="İsim" value="{{ $item->name ?? '' }}" required>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="name">Soyisim:</label>
                                     <input type="text" class="form-control" id="surname" name="surname"
-                                        placeholder="Soyisim" value="{{$item->surname??''}}" required>
+                                        placeholder="Soyisim" value="{{ $item->surname ?? '' }}" required>
                                 </div>
                                 <div class="col-md-4 mb-3">
                                     <label for="username">Kullanıcı Adı:</label>
                                     <input type="text" class="form-control" id="username" name="username"
-                                        placeholder="Kullanıcı Adı" value="{{$item->username??''}}">
+                                        placeholder="Kullanıcı Adı" value="{{ $item->username ?? '' }}">
                                 </div>
 
                             </div>
@@ -43,12 +43,12 @@
                                 <div class="col-md-6 mb-3">
                                     <label for="email">E-mail:</label>
                                     <input type="email" class="form-control" id="email" name="email"
-                                        placeholder="E-Mail" value="{{$item->email??''}}" required>
+                                        placeholder="E-Mail" value="{{ $item->email ?? '' }}" required>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <label for="phone">Telefon Numarası:</label>
                                     <input type="phone" class="form-control" id="phone" name="phone"
-                                        placeholder="Telefon Numarası" value="{{$item->phone??''}}">
+                                        placeholder="Telefon Numarası" value="{{ $item->phone ?? '' }}">
                                 </div>
                             </div>
                             @if (!isset($item))
@@ -74,14 +74,15 @@
                                 </div>
                             </div>
 
-                            @if (isset($item)&& isset($item->image) && $item->image != "")
+                            @if (isset($item) && isset($item->image) && $item->image != '')
                                 <div class="row mb-5">
                                     <div class="col-md-4 mb-3">
                                         <div>
                                             <label for="">Aktif Resim:</label>
                                         </div>
                                         <div>
-                                            <img src="{{url($item->image??'')}}" alt="$item->code" style="max-height: 200px;">
+                                            <img src="{{ url($item->image ?? '') }}" alt="$item->code"
+                                                style="max-height: 200px;">
                                         </div>
                                     </div>
                                 </div>

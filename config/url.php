@@ -147,7 +147,7 @@ return [
         'admin/data/changeThemeColor' => ['group' => '1', 'text' => 'Tema Ayalarını Güncelleyebilme', 'same_as_previous' => true],
 
         'admin/notification/list' => ['group' => '1', 'text' => 'Bildirimleri Listeleyebilme'],
-        'admin/notification/list/ajax' => ['group' => '1', 'text' => 'Bildirimleri Listeleyebilme','same_as_previous' => true],
+        'admin/notification/list/ajax' => ['group' => '1', 'text' => 'Bildirimleri Listeleyebilme', 'same_as_previous' => true],
         'admin/notification/create' => ['group' => '1', 'text' => 'Bildirim Ekleyebilme'],
         'admin/notification/delete' => ['group' => '1', 'text' => 'Bildirim Güncelleyebilme'],
 
@@ -156,25 +156,25 @@ return [
 
 
         'admin/shop/category' => ['group' => '2', 'text' => 'Mağaza Kategorisi Görüntüleyebilme'],
-        'admin/shop/category/ajax' => ['group' => '2', 'text' => 'Mağaza Kategorisi Görüntüleyebilme','same_as_previous' => true],
+        'admin/shop/category/ajax' => ['group' => '2', 'text' => 'Mağaza Kategorisi Görüntüleyebilme', 'same_as_previous' => true],
         'admin/shop/category/create' => ['group' => '2', 'text' => 'Mağaza Kategorisi Oluşturabilme'],
         'admin/shop/category/update' => ['group' => '2', 'text' => 'Mağaza Kategorisi Güncelleyebilme'],
         'admin/shop/category/delete' => ['group' => '2', 'text' => 'Mağaza Kategorisi Silebilme'],
 
         'admin/shop/feature' => ['group' => '2', 'text' => 'Mağaza Özelliklerini Görüntüleyebilme'],
-        'admin/shop/feature/ajax' => ['group' => '2', 'text' => 'Mağaza Özelliklerini Görüntüleyebilme','same_as_previous' => true],
+        'admin/shop/feature/ajax' => ['group' => '2', 'text' => 'Mağaza Özelliklerini Görüntüleyebilme', 'same_as_previous' => true],
         'admin/shop/feature/create' => ['group' => '2', 'text' => 'Mağaza Özelliklerini Oluşturabilme'],
         'admin/shop/feature/update' => ['group' => '2', 'text' => 'Mağaza Özelliklerini Güncelleyebilme'],
         'admin/shop/feature/delete' => ['group' => '2', 'text' => 'Mağaza Özelliklerini Silebilme'],
 
         'admin/shop/order' => ['group' => '2', 'text' => 'Siparişleri Görüntüleyebilme'],
-        'admin/shop/order/ajax' => ['group' => '2', 'text' => 'Siparişleri Görüntüleyebilme','same_as_previous' => true],
+        'admin/shop/order/ajax' => ['group' => '2', 'text' => 'Siparişleri Görüntüleyebilme', 'same_as_previous' => true],
         'admin/shop/order/create' => ['group' => '2', 'text' => 'Siparişleri Oluşturabilme'],
         'admin/shop/order/update' => ['group' => '2', 'text' => 'Siparişleri Güncelleyebilme'],
         'admin/shop/order/delete' => ['group' => '2', 'text' => 'Siparişleri Silebilme'],
 
         'admin/shop/product' => ['group' => '2', 'text' => 'Ürünleri Görüntüleyebilme'],
-        'admin/shop/product/ajax' => ['group' => '2', 'text' => 'Ürünleri Görüntüleyebilme','same_as_previous' => true],
+        'admin/shop/product/ajax' => ['group' => '2', 'text' => 'Ürünleri Görüntüleyebilme', 'same_as_previous' => true],
         'admin/shop/product/create' => ['group' => '2', 'text' => 'Ürünleri Oluşturabilme'],
         'admin/shop/product/update' => ['group' => '2', 'text' => 'Ürünleri Güncelleyebilme'],
         'admin/shop/product/delete' => ['group' => '2', 'text' => 'Ürünleri Silebilme'],
@@ -199,7 +199,7 @@ return [
 
 
         'admin/shop/cargoCompany' =>  ['group' => '2', 'text' => 'Kargo Firmalarını Görüntüleyebilme'],
-        'admin/shop/cargoCompany/ajax' => ['group' => '2', 'text' => 'Kargo Firmalarını Görüntüleyebilme','same_as_previous' => true],
+        'admin/shop/cargoCompany/ajax' => ['group' => '2', 'text' => 'Kargo Firmalarını Görüntüleyebilme', 'same_as_previous' => true],
         'admin/shop/cargoCompany/create' => ['group' => '2', 'text' => 'Kargo Firmalası Oluşturabilme'],
         'admin/shop/cargoCompany/update' => ['group' => '2', 'text' => 'Kargo Firmasını Güncelleyebilme'],
         'admin/shop/cargoCompany/delete' => ['group' => '2', 'text' => 'Kargo Firmasını Silebilme'],
