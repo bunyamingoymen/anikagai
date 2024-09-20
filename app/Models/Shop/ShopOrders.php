@@ -11,4 +11,17 @@ class ShopOrders extends Model
 
     // İkinci veritabanı bağlantısını belirtiyoruz
     protected $connection = 'shop_mysql';
+
+    protected $fillable = [
+        'code',
+        'order_code',
+        'user_code',
+        'product_count',
+        'is_approved',
+        'status',
+        'order_date',
+        'estimated_date',
+        'is_archive',
+        'deleted',
+    ];
 }

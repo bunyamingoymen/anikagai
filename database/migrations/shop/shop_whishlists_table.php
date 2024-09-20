@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('shop_carts', function (Blueprint $table) {
+        Schema::connection('shop_mysql')->create('shop_whishlists', function (Blueprint $table) {
             $table->id();
             $table->string('code');
             $table->string('user_code');
             $table->string('product_code');
+            $table->string('wishlist_price');
+            $table->tinyInteger('deleted');
             $table->timestamps();
         });
     }
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('shop_carts');
+        Schema::dropIfExists('shop_whishlists');
     }
 };

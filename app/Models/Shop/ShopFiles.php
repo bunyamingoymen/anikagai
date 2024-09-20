@@ -11,4 +11,16 @@ class ShopFiles extends Model
 
     // İkinci veritabanı bağlantısını belirtiyoruz
     protected $connection = 'shop_mysql';
+
+    protected $fillable = [
+        'code',
+        'parent_code',
+        'name',
+        'path',
+        'type',
+        'description',
+        'create_user_code',
+        'update_user_code',
+        'deleted',
+    ];
 }

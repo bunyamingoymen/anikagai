@@ -11,4 +11,15 @@ class ShopKeyValue extends Model
 
     // İkinci veritabanı bağlantısını belirtiyoruz
     protected $connection = 'shop_mysql';
+
+    protected $fillable = [
+        'code',
+        'key',
+        'value',
+        'optional',
+        'optional_2',
+        'create_user_code',
+        'update_user_code',
+        'deleted',
+    ];
 }

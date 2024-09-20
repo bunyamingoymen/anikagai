@@ -19,4 +19,12 @@ class IndexUser extends Authenticatable
         'image',
         'description',
     ];
+
+    protected $hidden = [
+        'password',
+    ];
+
+    protected $casts = [
+        'password' => 'hashed',
+    ];
 }

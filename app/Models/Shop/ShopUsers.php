@@ -27,4 +27,12 @@ class ShopUsers extends Authenticatable
         'deleted',
     ];
 
+    protected $hidden = [
+        'password',
+    ];
+    
+    protected $casts = [
+        'password' => 'hashed',
+    ];
+
 }

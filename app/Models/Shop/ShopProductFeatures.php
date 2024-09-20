@@ -11,4 +11,10 @@ class ShopProductFeatures extends Model
 
     // İkinci veritabanı bağlantısını belirtiyoruz
     protected $connection = 'shop_mysql';
+
+    protected $fillable = [
+        'product_code',
+        'feature_code',
+        'answer',
+    ];
 }

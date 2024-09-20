@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Shop\Index;
 
 use App\Http\Controllers\Controller;
 use App\Models\Shop\ShopWhishlist;
-use App\Models\ShopCart;
+use App\Models\Shop\ShopCart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 

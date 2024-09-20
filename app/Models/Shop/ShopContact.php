@@ -11,4 +11,14 @@ class ShopContact extends Model
 
     // İkinci veritabanı bağlantısını belirtiyoruz
     protected $connection = 'shop_mysql';
+
+    protected $fillable = [
+        'name',
+        'email',
+        'phone',
+        'subject',
+        'description',
+        'is_answered',
+        'deleted',
+    ];
 }
