@@ -200,7 +200,12 @@ class Controller extends BaseController
         //örnek filter(where): $filters['is_approved'] = "1";   $filters['is_active'] = "1";
         //örnek pagination: $pagination = [ 'take' => $request->showingCount ? $request->showingCount : Config::get('app.showCount'), 'page' => $request->page];
         //Eğer burada ana tablo olarak gönderilen tablodan bir değer alacaksanız (wherein ya da join..vs.) Tablonun adını yukarıdaki dizilerden herhangi birini oluştururken girmemelisiniz. Aksi taktirde hata verecektir.
-
+        /*Örnek leftjoin
+        $leftJoins = [
+            ['table' => 'shop_files', 'first' => 'code', 'operator' => '=', 'second' => 'shop_files.parent_code', 'columns' => ['path' => 'image_path', 'parent_code' => 'parent_code']],
+            ['table' => 'shop_whishlists', 'first' => 'code', 'operator' => '=', 'second' => 'shop_whishlists.product_code', 'columns' => ['product_code' => 'whislist_product_code', 'deleted' => 'whislist_deleted', 'user_code' => 'whislist_user_code'], 'where' => ['deleted' => ['can_be_null' => false, 'value' => 0], 'user_code' => Auth::guard('shop_users')->user()->code,]],
+            ['table' => 'shop_carts', 'first' => 'code', 'operator' => '=', 'second' => 'shop_carts.product_code', 'columns' => ['product_code' => 'cart_product_code', 'user_code' => 'whislist_user_code'], 'where' => ['user_code' => Auth::guard('shop_users')->user()->code]]
+        ];*/
         //data ile gelen değerleri eşleştirme
         // Anahtarları küçük harfe çevir
         $data = array_change_key_case($data, CASE_LOWER);
@@ -240,6 +245,7 @@ class Controller extends BaseController
         $isFirst = $data['isfirst'] ?? false;
 
         $mainTableAlias = $data['maintablealias'] ?? 'main';
+
 
 
         // Veritabanı bağlantısını seç
@@ -290,6 +296,7 @@ class Controller extends BaseController
         }
 
         // Join işlemi
+        /*
         if (!empty($leftJoins)) {
             foreach ($leftJoins as $index => $left) {
                 if (isset($left['table'], $left['first'], $left['operator'], $left['second'], $left['columns'])) {
@@ -309,9 +316,66 @@ class Controller extends BaseController
                             else  $groupByColumns[] = $left['table'] . '.' . $column;
                         }
                     }
+
+                    if (isset($left['where'])) {
+                        foreach ($left['where'] as $left_where_index => $left_where) {
+                            $left_column = (strpos($left_where_index, '.')) ? $left_where_index : $left['table'] . '.' . $left_where_index;
+                            $query->where($left_column, $left_where)->orWhere($left_column, null);
+
+                            if ($groupBy) {
+                                $groupByColumns[] =  $left_column;
+                            }
+                        }
+                    }
+                }
+            }
+        }*/
+        if (!empty($leftJoins)) {
+            foreach ($leftJoins as $index => $left) {
+                if (isset($left['table'], $left['first'], $left['operator'], $left['second'], $left['columns'])) {
+                    $first = strpos($left['first'], '.') ? $left['first'] : $mainTableAlias . '.' . $left['first'];
+                    $second = strpos($left['second'], '.') ? $left['second'] : $mainTableAlias . '.' . $left['second'];
+                    // Alt sorgu ile LIMIT 1 eklenmiş join
+                    $subQuery = $connection->table($left['table']);
+                    $subQuerySelect = [];
+                    foreach ($left['columns'] as $column => $alias) {
+                        $col = (strpos($column, '.')) ? $column : $left['table'] . '.' . $column;
+                        $subQuerySelect[] = $col;
+                        $selectColumns[] = $col . ' as ' . $alias;
+
+                        if ($groupBy) {
+                            $groupByColumns[] = $col;
+                        }
+                    }
+
+
+                    if (isset($left['where'])) {
+                        foreach ($left['where'] as $left_where_index => $left_where) {
+                            $left_column = (strpos($left_where_index, '.')) ? $left_where_index : $left['table'] . '.' . $left_where_index;
+                            if (isset($left_where['can_be_null'])) {
+                                if ($left_where['can_be_null']) $subQuery->where($left_column, $left_where['value'])->orWhere($left_column, null);
+                                else $subQuery->where($left_column, $left_where['value']);
+                            } else {
+                                $subQuery->where($left_column, $left_where)->orWhere($left_column, null);
+                            }
+
+
+                            if ($groupBy) {
+                                $groupByColumns[] =  $left_column;
+                            }
+                        }
+                    }
+
+                    $subQuery->select($subQuerySelect)->limit(1);
+                    $query->leftJoinSub($subQuery, $left['table'], $first, $left['operator'], $second);
+
+                    // Select edilen sütunlar
+
                 }
             }
         }
+
+        //dd($query->toSql());
 
         //filtre ayarları
         if (in_array($mainTableAlias . '.deleted', $selectColumns)) $filters['deleted'] = 0;
@@ -362,7 +426,12 @@ class Controller extends BaseController
 
         if ($groupBy) $query->groupBy($groupByColumns);
 
-        if ($orderBy) $query->orderBy($orderBy['column'], $orderBy['type']);
+        if ($orderBy) {
+            $orderByColumn = (strpos($orderBy['column'], '.')) ? $orderBy['column'] : $mainTableAlias . '.' . $orderBy['column'];
+            $query->orderBy($orderByColumn, $orderBy['type']);
+        }
+
+        //dd($query->toSql());
 
 
         if ($isFirst) {

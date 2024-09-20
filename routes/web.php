@@ -127,7 +127,7 @@ Route::get('/adultOn', [Controller::class, "adultOn"])->name('adultOn');
 Route::get('/shop', [ShopIndexController::class, "index"])->name('shop_index');
 Route::get('/shop/list/{category_url?}', [ShopIndexController::class, "list"])->name('shop_list');
 
-Route::get('/shop/detail/{code}', [ShopIndexController::class, "detail"])->name('shop_product_detail');
+Route::get('/shop/detail/{code?}', [ShopIndexController::class, "detail"])->name('shop_product_detail');
 
 Route::group(['middleware' => 'guest_shop'], function () {
     Route::get('/shop/login', [ShopIndexController::class, "login"])->name('shop_login');
@@ -139,4 +139,7 @@ Route::group(['middleware' => 'guest_shop'], function () {
 
 Route::group(['middleware' => 'access_shop'], function () {
     Route::get('/shop/user/logout', [ShopUserController::class, "logout"])->name('shop_user_logout');
+
+    Route::get('/shop/addWhislist', [ShopIndexController::class, "addWhislist"])->name('shop_add_whislist');
+    Route::get('/shop/addCart', [ShopIndexController::class, "addCart"])->name('shop_add_cart');
 });

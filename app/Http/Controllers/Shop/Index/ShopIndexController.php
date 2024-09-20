@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Shop\Index;
 use App\Http\Controllers\Controller;
 use App\Models\Shop\ShopWhishlist;
 use App\Models\Shop\ShopCart;
+use App\Models\Shop\ShopProduct;
 use App\Models\Shop\ShopSellers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,19 +17,22 @@ class ShopIndexController extends Controller
         $database = 'shop_mysql';
         $model = 'App\Models\Shop\ShopProduct';
 
-        $filters = [];
+        $filters = ['is_approved' => '1', 'is_active' => '1'];
 
         $leftJoins = [
-            ['table' => 'shop_files', 'first' => 'code', 'operator' => '=', 'second' => 'shop_files.parent_code', 'columns' => ['path' => 'image_path']]
+            ['table' => 'shop_files', 'first' => 'code', 'operator' => '=', 'second' => 'shop_files.parent_code', 'columns' => ['path' => 'image_path', 'parent_code' => 'parent_code']],
+            ['table' => 'shop_whishlists', 'first' => 'code', 'operator' => '=', 'second' => 'shop_whishlists.product_code', 'columns' => ['product_code' => 'whislist_product_code', 'deleted' => 'whislist_deleted', 'user_code' => 'whislist_user_code'], 'where' => ['deleted' => ['can_be_null' => false, 'value' => 0], 'user_code' => Auth::guard('shop_users')->user()->code,]],
+            ['table' => 'shop_carts', 'first' => 'code', 'operator' => '=', 'second' => 'shop_carts.product_code', 'columns' => ['product_code' => 'cart_product_code', 'user_code' => 'whislist_user_code'], 'where' => ['user_code' => Auth::guard('shop_users')->user()->code]]
         ];
 
         $orderBy = ['column' => 'created_at', 'type' => 'DESC'];
 
         $pagination = ['take' => 16, 'page' => 1];
 
-        $trends = $this->getDataFromDatabase(['database' => $database, 'model' => $model, 'filters' => ['is_trend' => '1', 'is_approved' => '1', 'is_active' => '1', 'shop_files.description' => 'main image'], 'leftjoins' => $leftJoins, 'orderby' => $orderBy, 'pagination' => $pagination]);
+        $products = $this->getDataFromDatabase(['database' => $database, 'model' => $model,  'filters' => $filters, 'leftjoins' => $leftJoins, 'orderby' => $orderBy, 'pagination' => $pagination, 'groupby' => true]);
 
-        $products = $this->getDataFromDatabase(['database' => $database, 'model' => $model,  'filters' => ['is_approved' => '1', 'is_active' => '1', 'shop_files.description' => 'main image'], 'leftjoins' => $leftJoins, 'orderby' => $orderBy, 'pagination' => $pagination]);
+        $filters['is_trend'] = '1';
+        $trends = $this->getDataFromDatabase(['database' => $database, 'model' => $model, 'filters' => $filters, 'leftjoins' => $leftJoins, 'orderby' => $orderBy, 'pagination' => $pagination, 'groupby' => true]);
 
         return view('shop.themes.kidol.index', compact('trends', 'products'));
     }
@@ -115,25 +119,58 @@ class ShopIndexController extends Controller
 
     public function addWhislist(Request $request)
     {
-        $item = new ShopWhishlist();
-        $item->code = $this->generateUniqueCode('shop_mysql', 'shop_whishlists');
-        $item->user_code = Auth::guard('shop_users')->user()->code;
-        $item->product_code = $request->product_code;
-        $item->wishlist_price = $request->price;
+        $product = ShopProduct::Where('code', $request->product_code)->where('deleted', 0)->where('is_approved', 1)->where('is_active', 1)->first();
+
+
+        if (!$product) abort(404);
+
+        $item = ShopWhishlist::where('user_code', Auth::guard('shop_users')->user()->code)->where('product_code', $request->product_code)->first();
+
+        $message = 'Başarılı bir şekilde istek listesine eklendi';
+        if ($item) {
+
+            if ($item->deleted == 0) {
+                $item->deleted = 1;
+                $message = 'Başarılı bir şekilde istek listesinden kaldırıldı';
+            } else {
+                $item->deleted = 0;
+            }
+        } else {
+            $item = new ShopWhishlist();
+            $item->code = $this->generateUniqueCode('shop_mysql', 'shop_whishlists');
+            $item->user_code = Auth::guard('shop_users')->user()->code;
+            $item->product_code = $request->product_code;
+
+            $item->wishlist_price = $product->price;
+            $item->deleted = 0;
+        }
+
         $item->save();
 
-        return redirect()->back()->with('success_whislist', 'Başarılı bir şekilde eklendi');
+        return redirect()->back()->with('success', $message);
     }
 
     public function addCart(Request $request)
     {
-        $item = new ShopCart();
-        $item->code = $this->generateUniqueCode('shop_mysql', 'shop_carts');
-        $item->user_code = Auth::guard('shop_users')->user()->code;
-        $item->product_code = $request->product_code;
-        $item->save();
+        $product = ShopProduct::Where('code', $request->product_code)->where('deleted', 0)->where('is_approved', 1)->where('is_active', 1)->first();
 
-        return redirect()->back()->with('success_cart', 'Başarılı bir şekilde eklendi');
+        if (!$product) abort(404);
+
+        $item = ShopCart::where('user_code', Auth::guard('shop_users')->user()->code)->where('product_code', $request->product_code)->first();
+        $message = 'Başarılı bir şekilde sepete eklendi';
+
+        if ($item) {
+            $item->deleted();
+            $message = 'Başarılı bir şekilde sepetten kaldırıldı';
+        } else {
+            $item = new ShopCart();
+            $item->code = $this->generateUniqueCode('shop_mysql', 'shop_carts');
+            $item->user_code = Auth::guard('shop_users')->user()->code;
+            $item->product_code = $request->product_code;
+            $item->save();
+        }
+
+        return redirect()->back()->with('success', $message);
     }
 
     public function login()

@@ -19,6 +19,6 @@ class AccessShopMiddleware
         if (Auth::guard('shop_users')->user() || Auth::guard('shop_sellers')->user()) {
             return $next($request);
         }
-        return redirect()->route('shop_login')->with('error', 'İlk önce giriş yapmanız gerekmektedir');
+        return redirect()->back()->with('error', 'İlk önce giriş yapmanız gerekmektedir');
     }
 }

@@ -38,6 +38,14 @@
     <!--== Main Style CSS ==-->
     <link href="{{ url('shop_files/assets/css/style.css') }}" rel="stylesheet" />
 
+    <!-- alertifyjs Css -->
+    <link href="{{ url('admin/assets/libs/alertifyjs/build/css/alertify.min.css') }}" rel="stylesheet"
+        type="text/css" />
+
+    <!-- alertifyjs default themes  Css -->
+    <link href="{{ url('admin/assets/libs/alertifyjs/build/css/themes/default.min.css') }}" rel="stylesheet"
+        type="text/css" />
+
 </head>
 
 <body>
@@ -113,8 +121,8 @@
                                         <div class="pro-qty">
                                             <input type="text" id="quantity" title="Quantity" value="01" />
                                         </div>
-                                        <button class="btn btn-theme">Sepete Ekle</button>
-                                        <a class="btn-wishlist" href="shop-wishlist.html">Ayrıntıyı Gör</a>
+                                        <a class="btn btn-theme" id="product_modal_add_cart">Sepete Ekle</a>
+                                        <a class="btn-wishlist" id="product_modal_show_detail">Ayrıntıyı Gör</a>
                                     </div>
                                 </div>
                                 <div class="widget">
@@ -282,6 +290,25 @@
     <!--=== Custom Js ===-->
     <script src="{{ url('shop_files/assets/js/custom.js') }}"></script>
 
+    <!-- alertifyjs js -->
+    <script src="{{ url('admin/assets/libs/alertifyjs/build/alertify.min.js') }}"></script>
+
+    <!--Uyarı Mesajları-->
+    <script>
+        @if (session('success'))
+            alertify.success("{{ session('success') }}");
+        @endif
+
+        @if (session('error'))
+            alertify.error("{{ session('error') }}");
+        @endif
+
+        @if (session('warning'))
+            alertify.warning("{{ session('warning') }}");
+        @endif
+    </script>
+
+    <!--Kısa özet gösteren sayfa ayarlanıyor.-->
     <script>
         var quickViewModal = $(".product-quick-view-modal");
 
@@ -299,6 +326,9 @@
 
             document.getElementById('product_modal_review_count').innerText = '(' + reviewCount + ' adet inceleme)';
             document.getElementById('product_modal_description').innerHTML = description;
+            document.getElementById('product_modal_add_cart').href = "{{ route('shop_add_cart') }}?product_code=" + code;
+            document.getElementById('product_modal_show_detail').href = "{{ route('shop_product_detail') }}/" + code;
+            code;
 
 
             quickViewModal.addClass('active');
