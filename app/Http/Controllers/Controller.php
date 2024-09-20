@@ -233,7 +233,7 @@ class Controller extends BaseController
 
         $groupBy = $data['groupby'] ?? false;
 
-        $orderBy = $data['orderby'] ?? false;
+        $orderBy = $data['orderby'] ?? null;
 
         $getQuery = $data['getquery'] ?? false;
 
@@ -258,9 +258,11 @@ class Controller extends BaseController
         // Seçilecek sütunları ekle
         $mainTableColumns = $connection->getSchemaBuilder()->getColumnListing((new $model)->getTable());
         $selectColumns = [];
+        if ($groupBy) $groupByColumns = [];
 
         foreach ($mainTableColumns as $column) {
             $selectColumns[] = $mainTableAlias . '.' . $column; // Ana tablodaki tüm sütunlar
+            if ($groupBy) $groupByColumns[] = $mainTableAlias . '.' . $column;
         }
 
         // Join işlemi
@@ -277,6 +279,11 @@ class Controller extends BaseController
                     foreach ($join['columns'] as $column => $alias) {
                         if (strpos($column, '.'))  $selectColumns[] = $column . ' as ' . $alias;
                         else $selectColumns[] = $join['table'] . '.' . $column . ' as ' . $alias;
+
+                        if ($groupBy) {
+                            if (strpos($column, '.'))  $groupByColumns[] = $column;
+                            else  $groupByColumns[] = $join['table'] . '.' . $column;
+                        }
                     }
                 }
             }
@@ -296,6 +303,11 @@ class Controller extends BaseController
                     foreach ($left['columns'] as $column => $alias) {
                         if (strpos($column, '.'))  $selectColumns[] = $column . ' as ' . $alias;
                         else $selectColumns[] = $left['table'] . '.' . $column . ' as ' . $alias;
+
+                        if ($groupBy) {
+                            if (strpos($column, '.'))  $groupByColumns[] = $column;
+                            else  $groupByColumns[] = $left['table'] . '.' . $column;
+                        }
                     }
                 }
             }
@@ -348,9 +360,10 @@ class Controller extends BaseController
         $query->select($selectColumns);
 
 
-        if ($groupBy) {
-            $query->groupBy($selectColumns);
-        }
+        if ($groupBy) $query->groupBy($groupByColumns);
+
+        if ($orderBy) $query->orderBy($orderBy['column'], $orderBy['type']);
+
 
         if ($isFirst) {
             return $query->first();

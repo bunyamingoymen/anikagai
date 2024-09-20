@@ -95,7 +95,8 @@
                                                 <span class="fa fa-star"
                                                     style="{{ $trend->score < 5 ? 'color: gray;' : '' }}"></span>
                                             </div>
-                                            <h4 class="title"><a href="shop-single-product.html">{{ $trend->name }}</a>
+                                            <h4 class="title"><a
+                                                    href="{{ route('shop_product_detail', ['code' => $trend->code]) }}">{{ $trend->name }}</a>
                                             </h4>
 
                                             <div class="prices">
@@ -176,7 +177,8 @@
                                                         style="{{ $product->score < 5 ? 'color: gray;' : '' }}"></span>
                                                 </div>
                                                 <h4 class="title"><a
-                                                        href="shop-single-product.html">{{ $product->name }}</a></h4>
+                                                        href="{{ route('shop_product_detail', ['code' => $product->code]) }}">{{ $product->name }}</a>
+                                                </h4>
                                                 <div class="prices">
                                                     <span class="price">{{ $product->price }} {{ $priceType }}</span>
                                                 </div>

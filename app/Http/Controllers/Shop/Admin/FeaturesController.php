@@ -127,7 +127,7 @@ class FeaturesController extends Controller
             $codes = $result['query']->skip($skip)->take($take)->pluck('code')->toArray();
             $whereIn = ['optional' => $codes];
             $filters['key'] = 'feature_type_multiple_selection';
-            $keyValues = $this->getDataFromDatabase(['database' => 'shop_mysql', 'model' => 'App\Models\Shop\ShopKeyValue', 'pagination' => ['take' => 100, 'page' => 1], 'filters' => $filters]);
+            $keyValues = $this->getDataFromDatabase(['database' => 'shop_mysql', 'model' => 'App\Models\Shop\ShopKeyValue', 'pagination' => ['take' => 100, 'page' => 1], 'filters' => $filters, 'wherein' => $whereIn]);
             $result['key_values'] = $keyValues;
         }
 

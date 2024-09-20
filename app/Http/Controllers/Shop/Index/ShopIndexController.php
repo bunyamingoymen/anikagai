@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Shop\Index;
 use App\Http\Controllers\Controller;
 use App\Models\Shop\ShopWhishlist;
 use App\Models\Shop\ShopCart;
+use App\Models\Shop\ShopSellers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -64,10 +65,42 @@ class ShopIndexController extends Controller
         return view('shop.themes.kidol.list', compact('products'));
     }
 
-    public function detail(Request $request)
+    public function detail(Request $request, $code)
     {
-        $item = $this->getOneItem('shop_mysql', 'shop_categories', $request->code, $this->defaultModel, 0)['item'];
-        return view('shop.themes.kidol.detail');
+        $item = $this->getOneItem('shop_mysql', 'shop_categories', $code, 'App\Models\Shop\ShopProduct', 0)['item'];
+
+        if (!$item) abort(404);
+
+        if ($item->seller_code != 1) {
+            $seller = ShopSellers::Where('code', $request->seller_code)->where('deleted', 0)->where('is_active', 1)->first();
+            if (!$seller) abort(404);
+            $sellerName = $seller->show_name;
+        } else $sellerName = 'Anikagai';
+
+        $images = $this->getDataFromDatabase(['database' => 'shop_mysql', 'model' => 'App\Models\Shop\ShopFiles', 'filters' => ['parent_code' => $code], 'orderby' => ['column' => 'description', 'type' => 'ASC']])['items'];
+
+        $feature_joins = [['table' => 'shop_features', 'first' => 'feature_code', 'operator' => '=', 'second' => 'shop_features.code', 'columns' => ['code' => 'feature_code', 'name' => 'feature_name', 'feature_type' => 'feature_type']]];
+        $features = $this->getDataFromDatabase(['database' => 'shop_mysql', 'model' => 'App\Models\Shop\ShopProductFeatures', 'joins' => $feature_joins, 'filters' => ['product_code' => $code], 'orderby' => ['column' => 'feature_name', 'type' => 'ASC'], 'getQuery' => true]);
+
+        $features_codes = $features['query']->skip(0)->take(100)->pluck('feature_code')->toArray();
+        $whereIn = ['optional' => $features_codes];
+        $filters['key'] = 'feature_type_multiple_selection';
+
+        $features_alt = $this->getDataFromDatabase(['database' => 'shop_mysql', 'model' => 'App\Models\Shop\ShopKeyValue', 'pagination' => ['take' => 100, 'page' => 1], 'filters' => $filters, 'wherein' => $whereIn])['items'];
+        $features = $features['items'];
+        $category_joins = [['table' => 'shop_categories', 'first' => 'category_code', 'operator' => '=', 'second' => 'shop_categories.code', 'columns' => ['code' => 'category_code', 'name' => 'category_name', 'url' => 'category_url']]];
+        $categories = $this->getDataFromDatabase(['database' => 'shop_mysql', 'model' => 'App\Models\Shop\ShopCategoryProducts', 'joins' => $category_joins, 'filters' => ['product_code' => $code], 'orderby' => ['column' => 'category_name', 'type' => 'ASC']])['items'];
+        return view(
+            'shop.themes.kidol.detail',
+            compact(
+                'item',
+                'images',
+                'features',
+                'features_alt',
+                'sellerName',
+                'categories',
+            )
+        );
     }
 
     public function whislist()
