@@ -100,9 +100,38 @@ class Controller extends BaseController
     public function makeShortName($name)
     {
         $alphabet = [
-            'q', 'w', 'e', 'r', 't', 'y', 'u', 'ı', 'o', 'p', 'ğ', 'ü',
-            'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'ş', 'i',
-            'z', 'x', 'c', 'v', 'b', 'n', 'm', 'ö', 'ç'
+            'q',
+            'w',
+            'e',
+            'r',
+            't',
+            'y',
+            'u',
+            'ı',
+            'o',
+            'p',
+            'ğ',
+            'ü',
+            'a',
+            's',
+            'd',
+            'f',
+            'g',
+            'h',
+            'j',
+            'k',
+            'l',
+            'ş',
+            'i',
+            'z',
+            'x',
+            'c',
+            'v',
+            'b',
+            'n',
+            'm',
+            'ö',
+            'ç'
         ];
 
         $name = $name;
@@ -159,7 +188,7 @@ class Controller extends BaseController
         return $code;
     }
 
-    public function getDataFromDatabase($data=[])
+    public function getDataFromDatabase($data = [])
     {
         //$data içinde bulunan veriler: 'database'=>'shop_mysql', 'model'=>'App\Models\Shop\ShopProduct', $filters = [], $pagination = ['take' => 15, 'page' => 1], $search = [], $whereIn = [], $joins=[]
 
@@ -208,6 +237,8 @@ class Controller extends BaseController
 
         $getQuery = $data['getquery'] ?? false;
 
+        $isFirst = $data['isfirst'] ?? false;
+
         $mainTableAlias = $data['maintablealias'] ?? 'main';
 
 
@@ -237,14 +268,14 @@ class Controller extends BaseController
             foreach ($joins as $index => $join) {
                 if (isset($join['table'], $join['first'], $join['operator'], $join['second'], $join['columns'])) {
                     // Join işlemi
-                    $first = strpos($join['first'],'.') ? $join['first'] : $mainTableAlias . '.'.$join['first'];
-                    $second = strpos($join['second'],'.') ? $join['second'] : $mainTableAlias . '.'.$join['second'];
+                    $first = strpos($join['first'], '.') ? $join['first'] : $mainTableAlias . '.' . $join['first'];
+                    $second = strpos($join['second'], '.') ? $join['second'] : $mainTableAlias . '.' . $join['second'];
 
                     $query->join($join['table'], $first, $join['operator'], $second);
 
                     // Join edilen tablonun belirli sütunlarını alias ile ekle
                     foreach ($join['columns'] as $column => $alias) {
-                        if(strpos($column,'.'))  $selectColumns[] = $column . ' as ' . $alias;
+                        if (strpos($column, '.'))  $selectColumns[] = $column . ' as ' . $alias;
                         else $selectColumns[] = $join['table'] . '.' . $column . ' as ' . $alias;
                     }
                 }
@@ -256,14 +287,14 @@ class Controller extends BaseController
             foreach ($leftJoins as $index => $left) {
                 if (isset($left['table'], $left['first'], $left['operator'], $left['second'], $left['columns'])) {
                     // Join işlemi
-                    $first = strpos($left['first'],'.') ? $left['first'] : $mainTableAlias . '.'.$left['first'];
-                    $second = strpos($left['second'],'.') ? $left['second'] : $mainTableAlias . '.'.$left['second'];
+                    $first = strpos($left['first'], '.') ? $left['first'] : $mainTableAlias . '.' . $left['first'];
+                    $second = strpos($left['second'], '.') ? $left['second'] : $mainTableAlias . '.' . $left['second'];
 
                     $query->leftJoin($left['table'], $first, $left['operator'], $second);
 
                     // Join edilen tablonun belirli sütunlarını alias ile ekle
                     foreach ($left['columns'] as $column => $alias) {
-                        if(strpos($column,'.'))  $selectColumns[] = $column . ' as ' . $alias;
+                        if (strpos($column, '.'))  $selectColumns[] = $column . ' as ' . $alias;
                         else $selectColumns[] = $left['table'] . '.' . $column . ' as ' . $alias;
                     }
                 }
@@ -271,35 +302,35 @@ class Controller extends BaseController
         }
 
         //filtre ayarları
-        if(in_array($mainTableAlias.'.deleted',$selectColumns)) $filters['deleted'] = 0;
+        if (in_array($mainTableAlias . '.deleted', $selectColumns)) $filters['deleted'] = 0;
 
         // Filtreleri uygula
         foreach ($filters as $column => $value) {
-            if(strpos($column,'.')) $query->where($column, $value);
-            else $query->where($mainTableAlias.'.'.$column, $value);
+            if (strpos($column, '.')) $query->where($column, $value);
+            else $query->where($mainTableAlias . '.' . $column, $value);
         }
 
         // Arama işlemi
         if (isset($search['search']) && is_string($search['search']) && isset($search['dbSearch']) && is_array($search['dbSearch'])) {
-            $query->where(function($q) use ($search, $mainTableAlias) {
+            $query->where(function ($q) use ($search, $mainTableAlias) {
                 // İlk kolon için where kullanıyoruz
                 $firstColumn = true;
                 foreach ($search['dbSearch'] as $column) {
                     if ($firstColumn) {
-                        if(strpos($column,'.')) $q->where($column, 'LIKE', '%' . $search['search'] . '%');
-                        else $q->where($mainTableAlias.'.'.$column, 'LIKE', '%' . $search['search'] . '%');
+                        if (strpos($column, '.')) $q->where($column, 'LIKE', '%' . $search['search'] . '%');
+                        else $q->where($mainTableAlias . '.' . $column, 'LIKE', '%' . $search['search'] . '%');
                         $firstColumn = false;
                     } else {
-                        if(strpos($column,'.'))  $q->orWhere($column, 'LIKE', '%' . $search['search'] . '%');
-                        else $q->orWhere($mainTableAlias.'.'.$column, 'LIKE', '%' . $search['search'] . '%');
+                        if (strpos($column, '.'))  $q->orWhere($column, 'LIKE', '%' . $search['search'] . '%');
+                        else $q->orWhere($mainTableAlias . '.' . $column, 'LIKE', '%' . $search['search'] . '%');
                     }
                 }
 
                 // Eğer kısa isim ya da URL de aranmak istenirse
                 if (isset($search['short_name']) && isset($search['short_name_db']) && $search['short_name']) {
                     $shortName = $this->makeShortName($search['search']);
-                    if(strpos($column,'.'))  $q->orWhere($search['short_name_db'], 'LIKE', '%' . $shortName  . '%');
-                    else $q->orWhere($mainTableAlias.'.'.$search['short_name_db'], 'LIKE', '%' . $shortName  . '%');
+                    if (strpos($column, '.'))  $q->orWhere($search['short_name_db'], 'LIKE', '%' . $shortName  . '%');
+                    else $q->orWhere($mainTableAlias . '.' . $search['short_name_db'], 'LIKE', '%' . $shortName  . '%');
                 }
             });
         }
@@ -308,8 +339,8 @@ class Controller extends BaseController
         if (!empty($whereIn) && count($whereIn) > 0) {
             foreach ($whereIn as $column => $values) {
                 if (is_array($values) && count($values) > 0) {
-                    if(strpos($column,'.')) $query->whereIn($column, $values);
-                    else $query->whereIn($mainTableAlias.'.'.$column, $values);
+                    if (strpos($column, '.')) $query->whereIn($column, $values);
+                    else $query->whereIn($mainTableAlias . '.' . $column, $values);
                 }
             }
         }
@@ -317,42 +348,47 @@ class Controller extends BaseController
         $query->select($selectColumns);
 
 
-        if($groupBy){
+        if ($groupBy) {
             $query->groupBy($selectColumns);
         }
 
+        if ($isFirst) {
+            return $query->first();
+        }
 
         // Verileri al
         $items = $query->skip($skip)->take($take)->get();
-        $page_count = ceil( $query->count() / $take);
+        $page_count = ceil($query->count() / $take);
 
-        if($getQuery) return ['items' => $items, 'page_count' => $page_count, 'query'=>$query];
+        if ($getQuery) return ['items' => $items, 'page_count' => $page_count, 'query' => $query];
 
         return ['items' => $items, 'page_count' => $page_count];
     }
 
-    public function getOneItem($database, $table, $code, $model ,$is_create_new = 1, $filters=[]){
+    public function getOneItem($database, $table, $code, $model, $is_create_new = 1, $filters = [])
+    {
         $filters['deleted'] = 0;
         $filters['code'] = $code;
         $item = $model::Where($filters)->first();
         $is_new = false;
-        if(!$item && $is_create_new){
+        if (!$item && $is_create_new) {
             $code = $this->generateUniqueCode($database, $table);
             $item = new $model;
             $item->code = $code;
             $item->create_user_code =  Auth::guard('admin')->user()->code;
-            $is_new=true;
-        }else if($item){
+            $is_new = true;
+        } else if ($item) {
             $code = $item->code;
             $item->update_user_code =  Auth::guard('admin')->user()->code;
         }
 
 
 
-        return ['item'=>$item, 'code'=>$code, 'is_new'=>$is_new];
+        return ['item' => $item, 'code' => $code, 'is_new' => $is_new];
     }
 
-    public function getUrl($name, $prefix=""){
+    public function getUrl($name, $prefix = "")
+    {
         // Küçük harfe çevir
         $url = strtolower($name);
 
@@ -366,13 +402,12 @@ class Controller extends BaseController
         $url = trim($url, '-');
 
         //prefix değerini ekle
-        if(!empty($prefix)){
-            if(substr($prefix, -1) !== '/'){
+        if (!empty($prefix)) {
+            if (substr($prefix, -1) !== '/') {
                 $prefix .= '/';
             }
         }
 
-        return $prefix.$url;
+        return $prefix . $url;
     }
-
 }

@@ -66,6 +66,7 @@ class ShopIndexController extends Controller
 
     public function detail(Request $request)
     {
+        $item = $this->getOneItem('shop_mysql', 'shop_categories', $request->code, $this->defaultModel, 0)['item'];
         return view('shop.themes.kidol.detail');
     }
 

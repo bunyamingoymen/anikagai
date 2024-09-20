@@ -127,6 +127,8 @@ Route::get('/adultOn', [Controller::class, "adultOn"])->name('adultOn');
 Route::get('/shop', [ShopIndexController::class, "index"])->name('shop_index');
 Route::get('/shop/list/{category_url?}', [ShopIndexController::class, "list"])->name('shop_list');
 
+Route::get('/shop/detail', [ShopIndexController::class, "detail"])->name('shop_product_detail');
+
 Route::group(['middleware' => 'guest_shop'], function () {
     Route::get('/shop/login', [ShopIndexController::class, "login"])->name('shop_login');
 
