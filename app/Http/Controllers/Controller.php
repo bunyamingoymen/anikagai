@@ -366,7 +366,7 @@ class Controller extends BaseController
                         }
                     }
 
-                    $subQuery->select($subQuerySelect)->limit(1);
+                    $subQuery->select($subQuerySelect)->orderBy('created_at', 'desc')->limit(1);
                     $query->leftJoinSub($subQuery, $left['table'], $first, $left['operator'], $second);
 
                     // Select edilen sütunlar
