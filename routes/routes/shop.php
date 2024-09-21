@@ -27,6 +27,12 @@ Route::group(['middleware' => 'access_shop'], function () {
     Route::get('/shop/user/logout', [ShopUserController::class, "logout"])->name('shop_user_logout');
     Route::get('/shop/user/profile', [ShopUserController::class, "profile"])->name('shop_user_profile');
 
+    Route::post('/shop/user/changeUserInformation', [ShopUserController::class, "changeUserInformation"])->name('shop_user_change_user_information');
+
+    Route::post('/shop/user/changePassword', [ShopUserController::class, "changePassword"])->name('shop_user_change_password');
+
+    Route::post('/shop/user/editAddress', [ShopUserController::class, "editAddress"])->name('shop_user_edit_address');
+
     Route::get('/shop/whislist', [ShopIndexController::class, "whislist"])->name('shop_whislist');
 
     Route::get('/shop/sepet', [ShopIndexController::class, "cart"])->name('shop_cart');

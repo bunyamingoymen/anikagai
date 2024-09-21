@@ -452,9 +452,9 @@ class Controller extends BaseController
         return $result;
     }
 
-    public function getOneItem($database, $table, $code, $model, $is_create_new = 1, $filters = [])
+    public function getOneItem($database, $table, $code, $model, $is_create_new = 1, $filters = [], $use_deleted = true, $use_user_codes = true)
     {
-        $filters['deleted'] = 0;
+        if ($use_deleted) $filters['deleted'] = 0;
         $filters['code'] = $code;
         $item = $model::Where($filters)->first();
         $is_new = false;
@@ -462,11 +462,11 @@ class Controller extends BaseController
             $code = $this->generateUniqueCode($database, $table);
             $item = new $model;
             $item->code = $code;
-            $item->create_user_code =  Auth::guard('admin')->user()->code;
+            if ($use_user_codes) $item->create_user_code =  Auth::guard('admin')->user()->code;
             $is_new = true;
         } else if ($item) {
             $code = $item->code;
-            $item->update_user_code =  Auth::guard('admin')->user()->code;
+            if ($use_user_codes) $item->update_user_code =  Auth::guard('admin')->user()->code;
         }
 
 

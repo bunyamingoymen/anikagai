@@ -41,8 +41,7 @@
                                             data-bs-target="#change-password" type="button" role="tab"
                                             aria-controls="change-password" aria-selected="false">Şifremi Değiştir</button>
 
-                                        <button class="nav-link" onclick="window.location.href='login-register.html'"
-                                            type="button">Çıkış Yap</button>
+                                        <a class="nav-link" href="{{ route('shop_user_logout') }}">Çıkış Yap</a>
                                     </div>
                                 </nav>
                             </div>
@@ -149,23 +148,23 @@
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        <tr>
-                                                            <td>Kidol - Kids Toys Store eCommerce Template</td>
-                                                            <td>Aug 22, 2022</td>
-                                                            <td><a href="#/" class="check-btn sqr-btn"><i
-                                                                        class="fa fa-edit"></i> Adresi Güncelle</a>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>HasTech - Profolio Business Template</td>
-                                                            <td>Sep 12, 2022</td>
-                                                            <td><a href="#/" class="check-btn sqr-btn"><i
-                                                                        class="fa fa-edit"></i> Adresi Güncelle</a>
-                                                            </td>
-                                                        </tr>
+                                                        @foreach ($addresses as $address)
+                                                            <tr>
+                                                                <td>{{ $address->address_name }}</td>
+                                                                <td>{{ $address->address }}</td>
+                                                                <td>
+                                                                    <a href="#/"
+                                                                        onclick="edit_address('{{ $address->code }}','{{ $address->address_name }}','{{ $address->address }}','{{ $address->is_main_address }}')"
+                                                                        class="check-btn sqr-btn">
+                                                                        <i class="fa fa-edit"></i> Adresi Güncelle
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
                                                     </tbody>
                                                 </table>
-                                                <a href="#/" class="check-btn sqr-btn"><i class="fa fa-edit"></i>
+                                                <a href="#/" onclick="edit_address('','','','')"
+                                                    class="check-btn sqr-btn"><i class="fa fa-edit"></i>
                                                     Adres Ekle</a>
                                             </div>
                                         </div>
@@ -176,35 +175,43 @@
                                         <div class="myaccount-content">
                                             <h3>Hesap Detayı</h3>
                                             <div class="account-details-form">
-                                                <form action="#">
+                                                <form action="{{ route('shop_user_change_user_information') }}"
+                                                    method="POST">
+                                                    @csrf
                                                     <div class="row">
                                                         <div class="col-lg-6">
                                                             <div class="single-input-item">
                                                                 <label for="name" class="required">İsim</label>
-                                                                <input type="text" id="name" />
+                                                                <input type="text" id="name" name="name"
+                                                                    value="{{ $user->name }}" />
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6">
                                                             <div class="single-input-item">
                                                                 <label for="surname" class="required">Soyisim</label>
-                                                                <input type="text" id="surname" />
+                                                                <input type="text" id="surname" name="surname"
+                                                                    value="{{ $user->surname }}" />
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="single-input-item">
                                                         <label for="username" class="required">Kullanıcı Adı</label>
-                                                        <input type="text" id="username" />
+                                                        <input type="text" id="username" name="username"
+                                                            value="{{ $user->username }}" />
                                                     </div>
                                                     <div class="single-input-item">
                                                         <label for="email" class="required">E-mail Adresi</label>
-                                                        <input type="email" id="email" />
+                                                        <input type="email" id="email" name="email"
+                                                            value="{{ $user->email }}" />
                                                     </div>
                                                     <div class="single-input-item">
                                                         <label for="phone" class="required">Telefon Numarası</label>
-                                                        <input type="phone" id="phone" />
+                                                        <input type="phone" id="phone" name="phone"
+                                                            value="{{ $user->phone }}" />
                                                     </div>
                                                     <div class="single-input-item">
-                                                        <button class="check-btn sqr-btn">Bilgileri Değiştir</button>
+                                                        <button class="check-btn sqr-btn" type='submit'>Bilgileri
+                                                            Değiştir</button>
                                                     </div>
                                                 </form>
                                             </div>
@@ -216,32 +223,37 @@
                                         <div class="myaccount-content">
                                             <h3>Şifremi Değiştir</h3>
                                             <div class="account-details-form">
-                                                <form action="#">
+                                                <form action="{{ route('shop_user_change_password') }}" method="POST">
+                                                    @csrf
                                                     <fieldset>
                                                         <div class="single-input-item">
                                                             <label for="current-pwd" class="required">Current
                                                                 Password</label>
-                                                            <input type="password" id="current-pwd" />
+                                                            <input type="password" id="current-pwd"
+                                                                name="current_password" />
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-lg-6">
                                                                 <div class="single-input-item">
                                                                     <label for="new-pwd" class="required">New
                                                                         Password</label>
-                                                                    <input type="password" id="new-pwd" />
+                                                                    <input type="password" id="new-pwd"
+                                                                        name="new_password" />
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-6">
                                                                 <div class="single-input-item">
                                                                     <label for="confirm-pwd" class="required">Confirm
                                                                         Password</label>
-                                                                    <input type="password" id="confirm-pwd" />
+                                                                    <input type="password" id="confirm-pwd"
+                                                                        name="new_password_repeat" />
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </fieldset>
                                                     <div class="single-input-item">
-                                                        <button class="check-btn sqr-btn">Şifremi Değiştir</button>
+                                                        <button class="check-btn sqr-btn" type="submit">Şifremi
+                                                            Değiştir</button>
                                                     </div>
                                                 </form>
                                             </div>
@@ -257,4 +269,90 @@
         </div>
     </section>
     <!--== End My Account Wrapper ==-->
+    <script src="{{ url('shop_files/assets/js/jquery-main.js') }}"></script>
+    <script>
+        function edit_address(code, address_name, address, main_address) {
+            var title = '';
+            var codeHtml = '';
+            var main_address_check = "checked";
+            if (code != '') {
+                title = 'Adres Güncelle'
+                main_address_check = main_address == 1 ? "checked" : "";
+                codeHtml = `<input type="text" id="code" name="code" value="${code}" hidden/>`
+            } else {
+                title = 'Adres Ekle'
+
+            }
+
+            var html = `
+                        <div class="myaccount-content">
+                            <h3>${title}</h3>
+                            <div class="account-details-form">
+                                <form action="{{ route('shop_user_edit_address') }}"
+                                    method="POST">
+                                    @csrf
+                                    ${codeHtml}
+                                    <div class="single-input-item">
+                                        <label for="address_name" class="required">Adres İsmi</label>
+                                        <input type="text" id="address_name" name="address_name"
+                                            value="${address_name}" />
+                                    </div>
+                                    <div class="single-input-item">
+                                        <label for="address" class="required">Adres</label>
+                                        <input type="address" id="address" name="address"
+                                            value="${address}" />
+                                    </div>
+                                    <div style="color:#fff">
+                                        <input type="checkbox" id="is_main_address" class="col-lg-3" name="is_main_address" style="width:20px;" ${main_address_check}/>
+                                        <label for="is_main_address">Ana Adres Olarak Kullanılsın</label>
+                                    </div>
+                                    <div class="single-input-item mt-5">
+                                        <button class="check-btn sqr-btn" type='submit'>Bilgileri
+                                            Değiştir</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>`
+
+            document.getElementById('addresses').innerHTML = html;;
+
+        }
+
+        $("#addresses-tab").on('click', function() {
+            var html = `<div class="myaccount-content">
+                                            <h3>Adreslerim</h3>
+                                            <div class="myaccount-table table-responsive text-center">
+                                                <table class="table table-bordered">
+                                                    <thead class="thead-light">
+                                                        <tr>
+                                                            <th>Adress Adı</th>
+                                                            <th>Adress</th>
+                                                            <th>Güncelle</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($addresses as $address)
+                                                            <tr>
+                                                                <td>{{ $address->address_name }}</td>
+                                                                <td>{{ $address->address }}</td>
+                                                                <td>
+                                                                    <a href="#/"
+                                                                        onclick="edit_address('{{ $address->code }}','{{ $address->address_name }}','{{ $address->address }}','{{ $address->is_main_address }}')"
+                                                                        class="check-btn sqr-btn">
+                                                                        <i class="fa fa-edit"></i> Adresi Güncelle
+                                                                    </a>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                                <a href="#/" onclick="edit_address('','','','')"
+                                                    class="check-btn sqr-btn"><i class="fa fa-edit"></i>
+                                                    Adres Ekle</a>
+                                            </div>
+                                        </div>`;
+
+            document.getElementById('addresses').innerHTML = html;;
+        });
+    </script>
 @endsection
