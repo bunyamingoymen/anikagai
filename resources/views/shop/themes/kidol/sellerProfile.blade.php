@@ -70,134 +70,251 @@
                                     <div class="tab-pane fade" id="products" role="tabpanel"
                                         aria-labelledby="products-tab">
                                         <div class="myaccount-content">
-                                            <h3>Siparişlerim</h3>
-                                            <div class="myaccount-table table-responsive text-center">
-                                                <table class="table table-bordered">
-                                                    <thead class="thead-light">
-                                                        <tr>
-                                                            <th>Sipariş</th>
-                                                            <th>Tarih</th>
-                                                            <th>Durum</th>
-                                                            <th>Ücret</th>
-                                                            <th>Görüntüle</th>
-                                                            <th>Arşivle</th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                        <tr>
-                                                            <td>1</td>
-                                                            <td>Aug 22, 2018</td>
-                                                            <td>Pending</td>
-                                                            <td>$3000</td>
-                                                            <td>
-                                                                <a href="shop-cart.html"
-                                                                    class="check-btn sqr-btn mr-5">Görüntüle</a>
-                                                            </td>
-                                                            <td>
+                                            <h3>Ürünlerim</h3>
+                                            <div class="product-tab-content">
+                                                <ul class="nav nav-tabs" id="myTab" role="tablist" data-aos="fade-up"
+                                                    data-aos-duration="1000">
+                                                    <li class="nav-item" role="presentation">
+                                                        <button class="nav-link active" id="all-products-tab"
+                                                            data-bs-toggle="tab" data-bs-target="#all-products"
+                                                            type="button" role="tab" aria-controls="all-products"
+                                                            aria-selected="true">Tüm Ürünler</button>
+                                                    </li>
+                                                    <li class="nav-item" role="presentation">
+                                                        <button class="nav-link" id="on-sales-tab" data-bs-toggle="tab"
+                                                            data-bs-target="#on-sales" type="button" role="tab"
+                                                            aria-controls="on-sales" aria-selected="false">Satışda</button>
+                                                    </li>
+                                                    <li class="nav-item" role="presentation">
+                                                        <button class="nav-link" id="archive-products-tab"
+                                                            data-bs-toggle="tab" data-bs-target="#archive-products"
+                                                            type="button" role="tab"
+                                                            aria-controls="archive-products"
+                                                            aria-selected="false">Arşivlenmiş</button>
+                                                    </li>
+                                                    <li class="nav-item" role="presentation">
+                                                        <button class="nav-link" id="not-approved-tab"
+                                                            data-bs-toggle="tab" data-bs-target="#not-approved"
+                                                            type="button" role="tab" aria-controls="not-approved"
+                                                            aria-selected="false">Onaylanmamış</button>
+                                                    </li>
+                                                </ul>
+                                                <div class="tab-content" id="myTabContent" data-aos="fade-up"
+                                                    data-aos-duration="1300">
+                                                    <div class="tab-pane fade show active" id="all-products"
+                                                        role="tabpanel" aria-labelledby="all-products-tab">
 
-                                                                <a href="shop-cart.html"
-                                                                    class="check-btn sqr-btn ">Arşivle</a>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>2</td>
-                                                            <td>July 22, 2018</td>
-                                                            <td>Approved</td>
-                                                            <td>$200</td>
-                                                            <td>
-                                                                <a href="shop-cart.html"
-                                                                    class="check-btn sqr-btn mr-5">Görüntüle</a>
-                                                            </td>
-                                                            <td>
+                                                        <div class="row">
+                                                            <div class="col-sm-6 col-md-4">
+                                                                <!-- Start Product Item -->
+                                                                <div class="product-item">
+                                                                    <div class="product-thumb">
+                                                                        <img src="assets/img/shop/1.png" alt="Image">
+                                                                        <div class="product-action">
+                                                                            <a class="action-quick-view"
+                                                                                href="shop-cart.html"><i
+                                                                                    class="ion-ios-cart"></i></a>
+                                                                            <a class="action-quick-view"
+                                                                                href="javascript:void(0)"><i
+                                                                                    class="ion-arrow-expand"></i></a>
+                                                                            <a class="action-quick-view"
+                                                                                href="shop-wishlist.html"><i
+                                                                                    class="ion-heart"></i></a>
+                                                                            <a class="action-quick-view"
+                                                                                href="shop-compare.html"><i
+                                                                                    class="ion-shuffle"></i></a>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="product-info">
+                                                                        <div class="rating">
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                        </div>
+                                                                        <h4 class="title"><a
+                                                                                href="shop-single-product.html">Funskool
+                                                                                Teddy</a></h4>
+                                                                        <div class="prices">
+                                                                            <span class="price">$190.12</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- End Product Item -->
+                                                            </div>
+                                                            <div class="col-sm-6 col-md-4">
+                                                                <!-- Start Product Item -->
+                                                                <div class="product-item">
+                                                                    <div class="product-thumb">
+                                                                        <img src="assets/img/shop/1.png" alt="Image">
+                                                                        <div class="product-action">
+                                                                            <a class="action-quick-view"
+                                                                                href="shop-cart.html"><i
+                                                                                    class="ion-ios-cart"></i></a>
+                                                                            <a class="action-quick-view"
+                                                                                href="javascript:void(0)"><i
+                                                                                    class="ion-arrow-expand"></i></a>
+                                                                            <a class="action-quick-view"
+                                                                                href="shop-wishlist.html"><i
+                                                                                    class="ion-heart"></i></a>
+                                                                            <a class="action-quick-view"
+                                                                                href="shop-compare.html"><i
+                                                                                    class="ion-shuffle"></i></a>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="product-info">
+                                                                        <div class="rating">
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                        </div>
+                                                                        <h4 class="title"><a
+                                                                                href="shop-single-product.html">Funskool
+                                                                                Teddy</a></h4>
+                                                                        <div class="prices">
+                                                                            <span class="price">$190.12</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- End Product Item -->
+                                                            </div>
+                                                            <div class="col-sm-6 col-md-4">
+                                                                <!-- Start Product Item -->
+                                                                <div class="product-item">
+                                                                    <div class="product-thumb">
+                                                                        <img src="assets/img/shop/1.png" alt="Image">
+                                                                        <div class="product-action">
+                                                                            <a class="action-quick-view"
+                                                                                href="shop-cart.html"><i
+                                                                                    class="ion-ios-cart"></i></a>
+                                                                            <a class="action-quick-view"
+                                                                                href="javascript:void(0)"><i
+                                                                                    class="ion-arrow-expand"></i></a>
+                                                                            <a class="action-quick-view"
+                                                                                href="shop-wishlist.html"><i
+                                                                                    class="ion-heart"></i></a>
+                                                                            <a class="action-quick-view"
+                                                                                href="shop-compare.html"><i
+                                                                                    class="ion-shuffle"></i></a>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="product-info">
+                                                                        <div class="rating">
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                            <span class="fa fa-star"></span>
+                                                                        </div>
+                                                                        <h4 class="title"><a
+                                                                                href="shop-single-product.html">Funskool
+                                                                                Teddy</a></h4>
+                                                                        <div class="prices">
+                                                                            <span class="price">$190.12</span>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <!-- End Product Item -->
+                                                            </div>
+                                                        </div>
 
-                                                                <a href="shop-cart.html"
-                                                                    class="check-btn sqr-btn ">Arşivle</a>
-                                                            </td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td>3</td>
-                                                            <td>June 12, 2017</td>
-                                                            <td>On Hold</td>
-                                                            <td>$990</td>
-                                                            <td>
-                                                                <a href="shop-cart.html"
-                                                                    class="check-btn sqr-btn mr-5">Görüntüle</a>
-                                                            </td>
-                                                            <td>
-
-                                                                <a href="shop-cart.html"
-                                                                    class="check-btn sqr-btn ">Arşivle</a>
-                                                            </td>
-                                                        </tr>
-                                                    </tbody>
-                                                </table>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="on-sales" role="tabpanel"
+                                                        aria-labelledby="on-sales-tab">
+                                                        <p>tab 2</p>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="archive-products" role="tabpanel"
+                                                        aria-labelledby="archive-products-tab">
+                                                        <p>tab 3</p>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="not-approved" role="tabpanel"
+                                                        aria-labelledby="not-approved-tab">
+                                                        <p>tab 4</p>
+                                                    </div>
+                                                </div>
                                             </div>
+
                                         </div>
                                     </div>
 
                                     <div class="tab-pane fade" id="add-new" role="tabpanel"
                                         aria-labelledby="download-tab">
                                         <div class="myaccount-content">
-                                            <h3>Hesap Detayı</h3>
+                                            <h3>Yeni Ürün Ekle</h3>
                                             <div class="account-details-form">
                                                 <form action="{{ route('shop_user_change_user_information') }}"
                                                     method="POST">
                                                     @csrf
                                                     <fieldset>
-                                                        <div class="row">
-                                                            <div class="col-lg-6">
-                                                                <div class="single-input-item">
-                                                                    <label for="name" class="required">İsim</label>
-                                                                    <input type="text" id="name" name="name"
-                                                                        value="{{ $user->name }}" />
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-6">
-                                                                <div class="single-input-item">
-                                                                    <label for="surname" class="required">Soyisim</label>
-                                                                    <input type="text" id="surname" name="surname"
-                                                                        value="{{ $user->surname }}" />
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="row">
-                                                            <div class="col-lg-6">
-                                                                <div class="single-input-item">
-                                                                    <label for="username" class="required">Kullanıcı
-                                                                        Adı</label>
-                                                                    <input type="text" id="username" name="username"
-                                                                        value="{{ $user->username }}" />
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-lg-6">
-                                                                <div class="single-input-item">
-                                                                    <label for="show_name" class="required">Görünür
-                                                                        İsim</label>
-                                                                    <input type="text" id="show_name" name="show_name"
-                                                                        value="{{ $user->show_name }}" />
-                                                                </div>
-                                                            </div>
+                                                        <legend>Temel Bilgiler</legend>
+                                                        <div class="single-input-item">
+                                                            <label for="product_name" class="required">Ürün İsmi</label>
+                                                            <input type="email" id="product_name" name="name"
+                                                                value="" />
                                                         </div>
                                                         <div class="single-input-item">
-                                                            <label for="email" class="required">E-mail Adresi</label>
-                                                            <input type="email" id="email" name="email"
-                                                                value="{{ $user->email }}" />
+                                                            <label for="product_description"
+                                                                class="required">Açıklama</label>
+                                                            <textarea name="description" id="product_description" cols="75" rows="10"></textarea>
                                                         </div>
-                                                        <div class="single-input-item">
-                                                            <label for="phone" class="required">Telefon
-                                                                Numarası</label>
-                                                            <input type="phone" id="phone" name="phone"
-                                                                value="{{ $user->phone }}" />
+                                                        <div class="single-input-item row">
+                                                            <label for="product_price" class="required">Ücret</label>
+                                                            <input type="number" id="product_price"
+                                                                class="product_price" name="price" value="" />
+                                                            <select name="priceType" id="product_price_type"
+                                                                class="product_price">
+                                                                <option value="TRY">TRY</option>
+                                                                <option value="USD">USD</option>
+                                                                <option value="EUR">EUR</option>
+                                                            </select>
                                                         </div>
                                                     </fieldset>
+
                                                     <fieldset>
-                                                        <legend>Password change</legend>
+                                                        <legend>Resimler</legend>
                                                         <div class="single-input-item">
-                                                            <label for="description" class="required">Açıklama</label>
-                                                            <input type="email" id="description" name="description"
-                                                                value="{{ $user->description }}" />
+                                                            <label for="product_main_image" class="required">Ana
+                                                                Resim:</label>
+                                                            <input type="file" id="product_main_image"
+                                                                name="main_image" value="" />
+                                                        </div>
+                                                        <div class="single-input-item">
+                                                            <label for="product_images" class="required">Diğer
+                                                                Resimler:</label>
+                                                            <input type="file" id="product_images" name="images[]"
+                                                                value="" multiple />
                                                         </div>
                                                     </fieldset>
+
+                                                    <fieldset>
+                                                        <legend>Kargo Bilgileri</legend>
+                                                        <div class="single-input-item">
+                                                            <label for="product_name" class="required">Kargo
+                                                                Firması</label>
+                                                            <select name="priceType" id="product_price_type"
+                                                                class="product_price">
+                                                                <option value="TRY">TRY</option>
+                                                                <option value="USD">USD</option>
+                                                                <option value="EUR">EUR</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="single-input-item">
+                                                            <label for="product_description" class="required">Kargo
+                                                                Süresi(Kaç iş Günü?)</label>
+                                                            <input type="number" id="product_images" name="images[]"
+                                                                value="" multiple />
+                                                        </div>
+                                                        <div class="single-input-item row">
+                                                            <label for="product_price" class="required">Kargo
+                                                                Ücreti:</label>
+                                                            <input type="number" id="product_price"
+                                                                class="product_price" name="price" value="" />
+                                                        </div>
+                                                    </fieldset>
+
                                                     <div class="single-input-item">
                                                         <button class="check-btn sqr-btn" type='submit'>Bilgileri
                                                             Değiştir</button>
@@ -212,7 +329,7 @@
                                         <div class="myaccount-content">
                                             <h3>Hesap Detayı</h3>
                                             <div class="account-details-form">
-                                                <form action="{{ route('shop_user_change_user_information') }}"
+                                                <form action="{{ route('shop_seller_change_seller_information') }}"
                                                     method="POST">
                                                     @csrf
 
@@ -237,14 +354,15 @@
                                                             </div>
                                                         </div>
                                                         <div class="single-input-item">
-                                                            <label for="email" class="required">E-mail Adresi</label>
-                                                            <input type="email" id="email" name="email"
+                                                            <label for="email" class="required">E-mail
+                                                                Adresi</label>
+                                                            <input type="text" id="email" name="email"
                                                                 value="{{ $user->email ?? '' }}" />
                                                         </div>
                                                         <div class="single-input-item">
                                                             <label for="phone" class="required">Telefon
                                                                 Numarası</label>
-                                                            <input type="phone" id="phone" name="phone"
+                                                            <input type="text" id="phone" name="phone"
                                                                 value="{{ $user->phone ?? '' }}" />
                                                         </div>
                                                     </fieldset>
@@ -254,7 +372,7 @@
                                                         <legend>Açıklama</legend>
                                                         <div class="single-input-item">
                                                             <label for="description" class="required">Açıklama</label>
-                                                            <input type="email" id="description" name="description"
+                                                            <input type="text" id="description" name="description"
                                                                 value="{{ $user->description ?? '' }}" />
                                                         </div>
                                                     </fieldset>
@@ -264,12 +382,12 @@
                                                         <legend>IBAN Bilgileri</legend>
                                                         <div class="single-input-item">
                                                             <label for="IBAN" class="required">IBAN</label>
-                                                            <input type="email" id="IBAN" name="IBAN"
+                                                            <input type="text" id="IBAN" name="IBAN"
                                                                 value="{{ $user->IBAN ?? '' }}" />
                                                         </div>
                                                         <div class="single-input-item">
                                                             <label for="IBAN_Name" class="required">IBAN İsmi</label>
-                                                            <input type="email" id="IBAN_Name" name="IBAN_Name"
+                                                            <input type="text" id="IBAN_Name" name="IBAN_Name"
                                                                 value="{{ $user->IBAN_Name ?? '' }}" />
                                                         </div>
                                                     </fieldset>
@@ -278,29 +396,29 @@
                                                         <legend>Sosyal Hesap Linklleri</legend>
                                                         <div class="single-input-item">
                                                             <label for="facebook" class="required">Facebook</label>
-                                                            <input type="email" id="facebook" name="facebook"
+                                                            <input type="text" id="facebook" name="facebook"
                                                                 value="{{ $user->facebook ?? '' }}" />
                                                         </div>
                                                         <div class="single-input-item">
                                                             <label for="instagram" class="required">Instagram</label>
-                                                            <input type="email" id="instagram" name="instagram"
+                                                            <input type="text" id="instagram" name="instagram"
                                                                 value="{{ $user->instagram ?? '' }}" />
                                                         </div>
                                                         <div class="single-input-item">
                                                             <label for="twitter" class="required">X (Twitter)</label>
-                                                            <input type="email" id="twitter" name="twitter"
+                                                            <input type="text" id="twitter" name="twitter"
                                                                 value="{{ $user->twitter ?? '' }}" />
                                                         </div>
                                                         <var>
                                                             <div class="single-input-item">
                                                                 <label for="discord" class="required">Discord</label>
-                                                                <input type="email" id="discord" name="discord"
+                                                                <input type="text" id="discord" name="discord"
                                                                     value="{{ $user->discord ?? '' }}" />
                                                             </div>
                                                             <div class="single-input-item">
                                                                 <label for="website" class="required">Website</label>
-                                                                <input type="email" id="website" name="website"
-                                                                    value="{{ $user->description ?? '' }}" />
+                                                                <input type="text" id="website" name="website"
+                                                                    value="{{ $user->website ?? '' }}" />
                                                             </div>
                                                         </var>
                                                     </fieldset>
@@ -308,11 +426,14 @@
                                                     <fieldset>
                                                         <legend>Ayarlar</legend>
                                                         <div class="single-input-item">
-                                                            <label for="description" class="required">Kaç TL üstü kargo
-                                                                ücretsiz?: (Eğer 0 tl yazarsanız bu özellik otomatik olarak
+                                                            <label for="max_cargo_price" class="required">Kaç TL üstü
+                                                                kargo
+                                                                ücretsiz?: (Eğer 0 tl yazarsanız bu özellik otomatik
+                                                                olarak
                                                                 devredışı olacaktır.)</label>
-                                                            <input type="email" id="description" name="description"
-                                                                value="{{ $user->description }}" />
+                                                            <input type="number" id="max_cargo_price"
+                                                                name="max_cargo_price"
+                                                                value="{{ $user->max_cargo_price }}" />
                                                         </div>
                                                     </fieldset>
 
@@ -330,11 +451,12 @@
                                         <div class="myaccount-content">
                                             <h3>Şifremi Değiştir</h3>
                                             <div class="account-details-form">
-                                                <form action="{{ route('shop_user_change_password') }}" method="POST">
+                                                <form action="{{ route('shop_seller_change_password') }}" method="POST">
                                                     @csrf
                                                     <fieldset>
                                                         <div class="single-input-item">
-                                                            <label for="current-pwd" class="required">Mevcut Şifre</label>
+                                                            <label for="current-pwd" class="required">Mevcut
+                                                                Şifre</label>
                                                             <input type="password" id="current-pwd"
                                                                 name="current_password" />
                                                         </div>
@@ -349,7 +471,8 @@
                                                             </div>
                                                             <div class="col-lg-6">
                                                                 <div class="single-input-item">
-                                                                    <label for="confirm-pwd" class="required">Yeni Şifre
+                                                                    <label for="confirm-pwd" class="required">Yeni
+                                                                        Şifre
                                                                         Tekrarı</label>
                                                                     <input type="password" id="confirm-pwd"
                                                                         name="new_password_repeat" />

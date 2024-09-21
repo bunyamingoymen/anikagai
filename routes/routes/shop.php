@@ -54,4 +54,7 @@ Route::group(['middleware' => 'access_shop_seller'], function () {
     Route::get('/shop/seller/logout', [ShopSellerController::class, "logout"])->name('shop_seller_logout');
 
     Route::get('/shop/seller/profile', [ShopSellerController::class, "profile"])->name('shop_seller_profile');
+
+    Route::post('/shop/user/changePassword', [ShopSellerController::class, "changePassword"])->name('shop_seller_change_password');
+    Route::post('/shop/user/changeSellerInformation', [ShopSellerController::class, "changeSellerInformation"])->name('shop_seller_change_seller_information');
 });
