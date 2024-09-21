@@ -3,11 +3,12 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
-class AccessShopMiddleware
+class RedirectIfShopSeller
 {
     /**
      * Handle an incoming request.
@@ -16,9 +17,10 @@ class AccessShopMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::guard('shop_users')->user()) {
-            return $next($request);
+        if (Auth::guard('shop_sellers')->user()) {
+            return redirect(RouteServiceProvider::SHOPHOME);
         }
-        return redirect()->back()->with('error', 'İlk önce giriş yapmanız gerekmektedir');
+
+        return $next($request);
     }
 }

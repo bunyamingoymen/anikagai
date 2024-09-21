@@ -57,10 +57,12 @@ class Kernel extends HttpKernel
         'superuser' => \App\Http\Middleware\SuperUserMiddleware::class, ////
         'access' => \App\Http\Middleware\AccessMiddleware::class, ////
         'access_shop' => \App\Http\Middleware\AccessShopMiddleware::class, ////
+        'access_shop_seller' => \App\Http\Middleware\AccessShopSeller::class, ////
         'guest_index' => \App\Http\Middleware\RedirectlfIndexAuthenticated::class, ////
         'index_user' => \App\Http\Middleware\IndexUserMiddleware::class, ////
         'is_active_index_user' => \App\Http\Middleware\isActiveIndexUserMiddleware::class, ////
         'guest_shop' => \App\Http\Middleware\RedirectIfShopUser::class, ////
+        'guest_shop_seller' => \App\Http\Middleware\RedirectIfShopSeller::class, ////
         'auth' => \App\Http\Middleware\Authenticate::class,
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'auth.session' => \Illuminate\Session\Middleware\AuthenticateSession::class,
