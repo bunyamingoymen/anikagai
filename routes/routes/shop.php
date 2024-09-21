@@ -25,7 +25,7 @@ Route::group(['middleware' => 'guest_shop'], function () {
 
 Route::group(['middleware' => 'access_shop'], function () {
     Route::get('/shop/user/logout', [ShopUserController::class, "logout"])->name('shop_user_logout');
-    Route::get('/shop/user/profile', [ShopUserController::class, "whislist"])->name('shop_user_profile');
+    Route::get('/shop/user/profile', [ShopUserController::class, "profile"])->name('shop_user_profile');
 
     Route::get('/shop/whislist', [ShopIndexController::class, "whislist"])->name('shop_whislist');
 
@@ -47,5 +47,5 @@ Route::group(['middleware' => 'guest_shop_seller'], function () {
 Route::group(['middleware' => 'access_shop_seller'], function () {
     Route::get('/shop/seller/logout', [ShopSellerController::class, "logout"])->name('shop_seller_logout');
 
-    Route::get('/shop/seller/profile', [ShopSellerController::class, "whislist"])->name('shop_seller_profile');
+    Route::get('/shop/seller/profile', [ShopSellerController::class, "profile"])->name('shop_seller_profile');
 });

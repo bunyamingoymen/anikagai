@@ -48,7 +48,7 @@
 
 
                             <div class="header-action-search">
-                                <a class="btn-search" href="{{ route('shop_login') }}">
+                                <a class="btn-search" href="{{ route('shop_user_profile') }}">
                                     <i class="pe-7s-users"></i>
                                 </a>
                             </div>
@@ -65,7 +65,7 @@
                                 </a>
                             </div>
                             <div class="header-action-search">
-                                <a class="btn-search" href="{{ route('shop_seller_logout') }}">
+                                <a class="btn-search" href="{{ route('shop_seller_profile') }}">
                                     <i class="pe-7s-power"></i>
                                 </a>
                             </div>

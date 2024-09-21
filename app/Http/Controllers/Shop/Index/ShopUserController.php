@@ -41,6 +41,11 @@ class ShopUserController extends Controller
         return redirect()->route('shop_index');
     }
 
+    public function profile()
+    {
+        return view('shop.themes.kidol.userProfile');
+    }
+
     public function logout()
     {
 

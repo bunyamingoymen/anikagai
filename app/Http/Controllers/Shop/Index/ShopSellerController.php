@@ -40,6 +40,11 @@ class ShopSellerController extends Controller
         return redirect()->route('shop_index');
     }
 
+    public function profile()
+    {
+        return view('shop.themes.kidol.sellerProfile');
+    }
+
     public function logout()
     {
         if (Auth::guard('shop_sellers')->user()) Auth::guard('shop_sellers')->logout();
