@@ -45,13 +45,13 @@
                                         <div class="product-thumb">
                                             <img src="{{ $image_path }}" alt="Image">
                                             <div class="product-action">
-                                                <a class="action-quick-view"
+                                                <a class="action-quick-view {{ isset($product->cart_product_code) && ($product->cart_product_code = $product->code) ? 'active' : '' }}"
                                                     href="{{ route('shop_add_cart') }}?product_code={{ $product->code }}"><i
                                                         class="ion-ios-cart"></i></a>
                                                 <a class="action-quick-view"
-                                                    href="javascript:showDetail('{{ $product->code }}', '{{ $product->name }}', '{{ $image_path }}', '{{ $product->description }}', '{{ $product->price }}', '{{ $priceType }}', '0', '{{ $product->score }}');"><i
+                                                    href="javascript:showDetail('{{ $product->code }}', '{{ $product->name }}', '{{ $image_path }}', '{{ $product->description }}', '{{ $product->price }}', '{{ $priceType }}', '0', '{{ $product->score }}', {{ isset($product->cart_product_code) && ($product->cart_product_code = $product->code) }});"><i
                                                         class="ion-arrow-expand"></i></a>
-                                                <a class="action-quick-view"
+                                                <a class="action-quick-view {{ isset($product->whislist_product_code) && ($product->whislist_product_code = $product->code) ? 'active' : '' }}"
                                                     href="{{ route('shop_add_whislist') }}?product_code={{ $product->code }}"><i
                                                         class="ion-heart"></i></a>
                                             </div>
@@ -90,14 +90,22 @@
                                 <nav>
                                     <ul class="page-numbers">
                                         <li>
-                                            <a class="page-number active" href="shop.html">1</a>
+                                            <a class="page-number next" href="shop.html">
+                                                <i class="fa fa-angle-left"></i>
+                                            </a>
                                         </li>
-                                        <li>
-                                            <a class="page-number" href="shop.html">2</a>
-                                        </li>
-                                        <li>
-                                            <a class="page-number" href="shop.html">3</a>
-                                        </li>
+                                        @for ($i = 1; $i <= $products['page_count']; $i++)
+                                            @php
+                                                if (($i == 1 && !isset($p)) || (isset($p) && $p == $i)) {
+                                                    $active = 'active';
+                                                } else {
+                                                    $active = '';
+                                                }
+                                            @endphp
+                                            <li>
+                                                <a class="page-number {{ $active }}" href="shop.html">1</a>
+                                            </li>
+                                        @endfor
                                         <li>
                                             <a class="page-number next" href="shop.html">
                                                 <i class="fa fa-angle-right"></i>

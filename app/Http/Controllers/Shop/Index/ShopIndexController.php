@@ -20,10 +20,13 @@ class ShopIndexController extends Controller
         $filters = ['is_approved' => '1', 'is_active' => '1'];
 
         $leftJoins = [
-            ['table' => 'shop_files', 'first' => 'code', 'operator' => '=', 'second' => 'shop_files.parent_code', 'columns' => ['path' => 'image_path', 'parent_code' => 'parent_code']],
-            ['table' => 'shop_whishlists', 'first' => 'code', 'operator' => '=', 'second' => 'shop_whishlists.product_code', 'columns' => ['product_code' => 'whislist_product_code', 'deleted' => 'whislist_deleted', 'user_code' => 'whislist_user_code'], 'where' => ['deleted' => ['can_be_null' => false, 'value' => 0], 'user_code' => Auth::guard('shop_users')->user()->code,]],
-            ['table' => 'shop_carts', 'first' => 'code', 'operator' => '=', 'second' => 'shop_carts.product_code', 'columns' => ['product_code' => 'cart_product_code', 'user_code' => 'whislist_user_code'], 'where' => ['user_code' => Auth::guard('shop_users')->user()->code]]
+            ['table' => 'shop_files', 'first' => 'code', 'operator' => '=', 'second' => 'shop_files.parent_code', 'columns' => ['path' => 'image_path', 'parent_code' => 'parent_code'], 'where' => ['description' => ['can_be_null' => false, 'value' => 'main image']]],
         ];
+
+        if (Auth::guard('shop_users')->user()) {
+            $leftJoins[] = ['table' => 'shop_whishlists', 'first' => 'code', 'operator' => '=', 'second' => 'shop_whishlists.product_code', 'columns' => ['product_code' => 'whislist_product_code', 'deleted' => 'whislist_deleted', 'user_code' => 'whislist_user_code'], 'where' => ['deleted' => ['can_be_null' => false, 'value' => 0], 'user_code' => Auth::guard('shop_users')->user()->code,]];
+            $leftJoins[] = ['table' => 'shop_carts', 'first' => 'code', 'operator' => '=', 'second' => 'shop_carts.product_code', 'columns' => ['product_code' => 'cart_product_code', 'user_code' => 'cart_user_code'], 'where' => ['user_code' => Auth::guard('shop_users')->user()->code]];
+        }
 
         $orderBy = ['column' => 'created_at', 'type' => 'DESC'];
 
@@ -42,11 +45,16 @@ class ShopIndexController extends Controller
         $database = 'shop_mysql';
         $model = 'App\Models\Shop\ShopProduct';
 
-        $filters = ['is_approved' => '1', 'is_active' => '1', 'shop_files.description' => 'main image'];
+        $filters = ['is_approved' => '1', 'is_active' => '1'];
 
         $leftJoins = [
-            ['table' => 'shop_files', 'first' => 'code', 'operator' => '=', 'second' => 'shop_files.parent_code', 'columns' => ['path' => 'image_path']]
+            ['table' => 'shop_files', 'first' => 'code', 'operator' => '=', 'second' => 'shop_files.parent_code', 'columns' => ['path' => 'image_path', 'parent_code' => 'parent_code'], 'where' => ['description' => ['can_be_null' => false, 'value' => 'main image']]],
         ];
+
+        if (Auth::guard('shop_users')->user()) {
+            $leftJoins[] = ['table' => 'shop_whishlists', 'first' => 'code', 'operator' => '=', 'second' => 'shop_whishlists.product_code', 'columns' => ['product_code' => 'whislist_product_code', 'deleted' => 'whislist_deleted', 'user_code' => 'whislist_user_code'], 'where' => ['deleted' => ['can_be_null' => false, 'value' => 0], 'user_code' => Auth::guard('shop_users')->user()->code,]];
+            $leftJoins[] = ['table' => 'shop_carts', 'first' => 'code', 'operator' => '=', 'second' => 'shop_carts.product_code', 'columns' => ['product_code' => 'cart_product_code', 'user_code' => 'cart_user_code'], 'where' => ['user_code' => Auth::guard('shop_users')->user()->code]];
+        }
 
         if ($request->category_url) {
             $joins = [
@@ -71,7 +79,7 @@ class ShopIndexController extends Controller
 
     public function detail(Request $request, $code)
     {
-        $item = $this->getOneItem('shop_mysql', 'shop_categories', $code, 'App\Models\Shop\ShopProduct', 0)['item'];
+        $item = $this->getDataFromDatabase(['database' => 'shop_mysql', 'model' => 'App\Models\Shop\ShopProduct', 'filters' => ['code' => $code], 'isfirst' => true])['item'];
 
         if (!$item) abort(404);
 
@@ -84,7 +92,7 @@ class ShopIndexController extends Controller
         $images = $this->getDataFromDatabase(['database' => 'shop_mysql', 'model' => 'App\Models\Shop\ShopFiles', 'filters' => ['parent_code' => $code], 'orderby' => ['column' => 'description', 'type' => 'ASC']])['items'];
 
         $feature_joins = [['table' => 'shop_features', 'first' => 'feature_code', 'operator' => '=', 'second' => 'shop_features.code', 'columns' => ['code' => 'feature_code', 'name' => 'feature_name', 'feature_type' => 'feature_type']]];
-        $features = $this->getDataFromDatabase(['database' => 'shop_mysql', 'model' => 'App\Models\Shop\ShopProductFeatures', 'joins' => $feature_joins, 'filters' => ['product_code' => $code], 'orderby' => ['column' => 'feature_name', 'type' => 'ASC'], 'getQuery' => true]);
+        $features = $this->getDataFromDatabase(['database' => 'shop_mysql', 'model' => 'App\Models\Shop\ShopProductFeatures', 'joins' => $feature_joins, 'filters' => ['product_code' => $code], 'orderby' => ['column' => 'feature_name', 'type' => 'ASC', 'put_table' => false], 'getQuery' => true]);
 
         $features_codes = $features['query']->skip(0)->take(100)->pluck('feature_code')->toArray();
         $whereIn = ['optional' => $features_codes];
@@ -93,7 +101,7 @@ class ShopIndexController extends Controller
         $features_alt = $this->getDataFromDatabase(['database' => 'shop_mysql', 'model' => 'App\Models\Shop\ShopKeyValue', 'pagination' => ['take' => 100, 'page' => 1], 'filters' => $filters, 'wherein' => $whereIn])['items'];
         $features = $features['items'];
         $category_joins = [['table' => 'shop_categories', 'first' => 'category_code', 'operator' => '=', 'second' => 'shop_categories.code', 'columns' => ['code' => 'category_code', 'name' => 'category_name', 'url' => 'category_url']]];
-        $categories = $this->getDataFromDatabase(['database' => 'shop_mysql', 'model' => 'App\Models\Shop\ShopCategoryProducts', 'joins' => $category_joins, 'filters' => ['product_code' => $code], 'orderby' => ['column' => 'category_name', 'type' => 'ASC']])['items'];
+        $categories = $this->getDataFromDatabase(['database' => 'shop_mysql', 'model' => 'App\Models\Shop\ShopCategoryProducts', 'joins' => $category_joins, 'filters' => ['product_code' => $code], 'orderby' => ['column' => 'category_name', 'type' => 'ASC', 'put_table' => false]])['items'];
         return view(
             'shop.themes.kidol.detail',
             compact(
@@ -160,7 +168,7 @@ class ShopIndexController extends Controller
         $message = 'Başarılı bir şekilde sepete eklendi';
 
         if ($item) {
-            $item->deleted();
+            $item->delete();
             $message = 'Başarılı bir şekilde sepetten kaldırıldı';
         } else {
             $item = new ShopCart();

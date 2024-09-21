@@ -118,7 +118,7 @@
                                 <p class="product-desc" id='product_modal_description'></p>
                                 <div class="quick-product-action">
                                     <div class="action-top">
-                                        <div class="pro-qty">
+                                        <div class="pro-qty" id="product_modal_add_cart_count">
                                             <input type="text" id="quantity" title="Quantity" value="01" />
                                         </div>
                                         <a class="btn btn-theme" id="product_modal_add_cart">Sepete Ekle</a>
@@ -312,7 +312,7 @@
     <script>
         var quickViewModal = $(".product-quick-view-modal");
 
-        function showDetail(code, name, image_path, description, price, priceType, reviewCount, score) {
+        function showDetail(code, name, image_path, description, price, priceType, reviewCount, score, is_in_cart) {
             document.getElementById('product_modal_img').src = image_path;
             document.getElementById('product_modal_name').innerText = name;
             document.getElementById('product_modal_price').innerText = price + ' ' + priceType;
@@ -322,6 +322,14 @@
             if (score < 3) document.getElementById('product_modal_star_three').style.color = 'gray';
             if (score < 4) document.getElementById('product_modal_star_four').style.color = 'gray';
             if (score < 5) document.getElementById('product_modal_star_five').style.color = 'gray';
+
+            if (is_in_cart) {
+                document.getElementById('product_modal_add_cart_count').hidden = true;
+                document.getElementById('product_modal_add_cart').innerText = 'Sepetten Çıkar';
+            } else {
+                document.getElementById('product_modal_add_cart_count').hidden = false;
+                document.getElementById('product_modal_add_cart').innerText = 'Sepete Ekle';
+            }
 
 
             document.getElementById('product_modal_review_count').innerText = '(' + reviewCount + ' adet inceleme)';

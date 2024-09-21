@@ -73,11 +73,11 @@
                                         <div class="product-thumb">
                                             <img src="{{ $image_path }}" alt="Image">
                                             <div class="product-action">
-                                                <a class="action-quick-view"
+                                                <a class="action-quick-view {{ isset($trend->cart_product_code) && ($trend->cart_product_code = $trend->code) ? 'active' : '' }}"
                                                     href="{{ route('shop_add_cart') }}?product_code={{ $trend->code }}"><i
                                                         class="ion-ios-cart"></i></a>
                                                 <a class="action-quick-view"
-                                                    href="javascript:showDetail('{{ $trend->code }}', '{{ $trend->name }}', '{{ $image_path }}', '{{ $trend->description }}', '{{ $trend->price }}', '{{ $priceType }}', '0', '{{ $trend->score }}');"><i
+                                                    href="javascript:showDetail('{{ $trend->code }}', '{{ $trend->name }}', '{{ $image_path }}', '{{ $trend->description }}', '{{ $trend->price }}', '{{ $priceType }}', '0', '{{ $trend->score }}', {{ isset($trend->cart_product_code) && ($trend->cart_product_code = $trend->code) }});"><i
                                                         class="ion-arrow-expand"></i></a>
                                                 <a class="action-quick-view {{ isset($trend->whislist_product_code) && ($trend->whislist_product_code = $trend->code) ? 'active' : '' }}"
                                                     href="{{ route('shop_add_whislist') }}?product_code={{ $trend->code }}"><i
@@ -156,14 +156,14 @@
                                                 @endphp
                                                 <img src="{{ url($image_path) }}" alt="Image">
                                                 <div class="product-action">
-                                                    <a class="action-quick-view"
+                                                    <a class="action-quick-view {{ isset($product->cart_product_code) && ($product->cart_product_code = $product->code) ? 'active' : '' }}"
                                                         href="{{ route('shop_add_cart') }}?product_code={{ $product->code }}"><i
                                                             class="ion-ios-cart"></i></a>
                                                     <a class="action-quick-view"
-                                                        href="javascript:showDetail('{{ $product->code }}', '{{ $product->name }}', '{{ $image_path }}', '{{ $product->description }}', '{{ $product->price }}', '{{ $priceType }}', '0', '{{ $product->score }}');"><i
+                                                        href="javascript:showDetail('{{ $product->code }}', '{{ $product->name }}', '{{ $image_path }}', '{{ $product->description }}', '{{ $product->price }}', '{{ $priceType }}', '0', '{{ $product->score }}', {{ isset($product->cart_product_code) && ($product->cart_product_code = $product->code) }});"><i
                                                             class="ion-arrow-expand"></i></a>
-                                                    <a class="action-quick-view"
-                                                        href="{{ route('shop_add_whislist') }}?product_code={{ $trend->code }}"><i
+                                                    <a class="action-quick-view {{ isset($product->whislist_product_code) && ($product->whislist_product_code = $product->code) ? 'active' : '' }}"
+                                                        href="{{ route('shop_add_whislist') }}?product_code={{ $product->code }}"><i
                                                             class="ion-heart"></i></a>
                                                 </div>
                                             </div>

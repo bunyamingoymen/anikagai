@@ -247,7 +247,7 @@ class Controller extends BaseController
         $mainTableAlias = $data['maintablealias'] ?? 'main';
 
 
-
+        $result = [];
         // Veritabanı bağlantısını seç
         $connection = DB::connection($database);
 
@@ -358,11 +358,6 @@ class Controller extends BaseController
                             } else {
                                 $subQuery->where($left_column, $left_where)->orWhere($left_column, null);
                             }
-
-
-                            if ($groupBy) {
-                                $groupByColumns[] =  $left_column;
-                            }
                         }
                     }
 
@@ -427,24 +422,28 @@ class Controller extends BaseController
         if ($groupBy) $query->groupBy($groupByColumns);
 
         if ($orderBy) {
-            $orderByColumn = (strpos($orderBy['column'], '.')) ? $orderBy['column'] : $mainTableAlias . '.' . $orderBy['column'];
+            if (strpos($orderBy['column'], '.'))  $orderByColumn = $orderBy['column'];
+            else {
+                if (!isset($orderBy['put_table'])) $orderByColumn = $mainTableAlias . '.' . $orderBy['column'];
+                else if (isset($orderBy['put_table']) && $orderBy['put_table']) $orderByColumn = $mainTableAlias . '.' . $orderBy['column'];
+                else $orderByColumn = $orderBy['column'];
+            }
             $query->orderBy($orderByColumn, $orderBy['type']);
         }
 
         //dd($query->toSql());
 
-
+        // Verileri al
         if ($isFirst) {
-            return $query->first();
+            $result['item'] = $query->first();
+        } else {
+            $result['items'] = $query->skip($skip)->take($take)->get();
+            $result['page_count'] = ceil($query->count() / $take);
         }
 
-        // Verileri al
-        $items = $query->skip($skip)->take($take)->get();
-        $page_count = ceil($query->count() / $take);
+        if ($getQuery) $result['query'] = $query;
 
-        if ($getQuery) return ['items' => $items, 'page_count' => $page_count, 'query' => $query];
-
-        return ['items' => $items, 'page_count' => $page_count];
+        return $result;
     }
 
     public function getOneItem($database, $table, $code, $model, $is_create_new = 1, $filters = [])
