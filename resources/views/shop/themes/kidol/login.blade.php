@@ -103,13 +103,14 @@
                                                 <h2>Satıcı Girisi</h2>
                                             </div>
                                             <div class="login-register-style login-register-pr">
-                                                <form action="#" method="post">
+                                                <form action="{{ route('shop_seller_login') }}" method="post">
+                                                    @csrf
                                                     <div class="login-register-input">
-                                                        <input type="text" name="user-name"
+                                                        <input type="text" name="email"
                                                             placeholder="Kullanıcı adı veya e-mail adresi">
                                                     </div>
                                                     <div class="login-register-input">
-                                                        <input type="password" name="user-password" placeholder="Şifre">
+                                                        <input type="password" name="password" placeholder="Şifre">
                                                         <div class="forgot">
                                                             <a href="#">Şifremi Unuttum?</a>
                                                         </div>
@@ -119,9 +120,7 @@
                                                         <label>Beni Hatırla</label>
                                                     </div>
                                                     <div class="btn-style-3">
-                                                        <button class="btn"
-                                                            onclick="window.location.href='my-account.html'"
-                                                            type="button">Giriş Yap</button>
+                                                        <button class="btn" type="submit">Giriş Yap</button>
                                                     </div>
                                                 </form>
                                             </div>
@@ -133,17 +132,17 @@
                                                 <h2>Üye Ol</h2>
                                             </div>
                                             <div class="login-register-style">
-                                                <form action="#" method="post">
+                                                <form action="{{ route('shop_seller_register') }}" method="post">
+                                                    @csrf
                                                     <div class="login-register-input">
-                                                        <input type="text" name="user-name"
+                                                        <input type="text" name="username"
                                                             placeholder="Kullanıcı Adı">
                                                     </div>
                                                     <div class="login-register-input">
-                                                        <input type="text" name="user-name"
-                                                            placeholder="E-mail adresi">
+                                                        <input type="text" name="email" placeholder="E-mail adresi">
                                                     </div>
                                                     <div class="login-register-input">
-                                                        <input type="password" name="user-password" placeholder="Şifre">
+                                                        <input type="password" name="password" placeholder="Şifre">
                                                     </div>
                                                     <div class="login-register-paragraph">
                                                         <p>Üye olmanız durumunda Kişisel Verilerin Korunması Kanununu
@@ -152,9 +151,7 @@
                                                         </p>
                                                     </div>
                                                     <div class="btn-style-3">
-                                                        <button class="btn"
-                                                            onclick="window.location.href='my-account.html'"
-                                                            type="button">Üye Ol</button>
+                                                        <button class="btn" type="submit">Üye Ol</button>
                                                     </div>
                                                 </form>
                                             </div>

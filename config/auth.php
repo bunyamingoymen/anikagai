@@ -116,7 +116,18 @@ return [
             'expire' => 60,
             'throttle' => 60,
         ],
-
+        'shop_users' => [
+            'provider' => 'shop_users',
+            'table' => 'password_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'shop_sellers' => [
+            'provider' => 'shop_sellers',
+            'table' => 'password_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
     ],
 
     /*

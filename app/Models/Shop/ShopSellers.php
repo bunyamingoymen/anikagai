@@ -4,8 +4,9 @@ namespace App\Models\Shop;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class ShopSellers extends Model
+class ShopSellers extends Authenticatable
 {
     use HasFactory;
 

@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::connection('shop_mysql')->create('shop_sellers', function (Blueprint $table) {
             $table->id();
             $table->string('code');
-            $table->string('show_name');
+            $table->string('show_name')->nullable();
             $table->string('username');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('image');
+            $table->string('image')->nullable();
             $table->Integer('product_count')->default(0);
             $table->longText('description')->nullable();
             $table->string('IBAN')->nullable();
