@@ -22,7 +22,8 @@ return new class extends Migration
             $table->Integer('product_count')->default(0);
             $table->longText('description')->nullable();
             $table->string('IBAN')->nullable();
-            $table->string('IBAN Name')->nullable();
+            $table->string('IBAN_Name')->nullable();
+            $table->unsignedBigInteger('max_cargo_price')->default(500);
             $table->string('phone')->nullable();
             $table->string('facebook')->nullable();
             $table->string('instagram')->nullable();

@@ -60,12 +60,12 @@
                             </div>
                         @elseif (Auth::guard('shop_sellers')->user())
                             <div class="header-action-search">
-                                <a class="btn-search" href="{{ route('shop_login') }}">
+                                <a class="btn-search" href="{{ route('shop_seller_profile') }}">
                                     <i class="pe-7s-users"></i>
                                 </a>
                             </div>
                             <div class="header-action-search">
-                                <a class="btn-search" href="{{ route('shop_seller_profile') }}">
+                                <a class="btn-search" href="{{ route('shop_seller_logout') }}">
                                     <i class="pe-7s-power"></i>
                                 </a>
                             </div>

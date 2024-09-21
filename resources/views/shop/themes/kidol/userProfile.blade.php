@@ -227,24 +227,23 @@
                                                     @csrf
                                                     <fieldset>
                                                         <div class="single-input-item">
-                                                            <label for="current-pwd" class="required">Current
-                                                                Password</label>
+                                                            <label for="current-pwd" class="required">Mevcut Şifre</label>
                                                             <input type="password" id="current-pwd"
                                                                 name="current_password" />
                                                         </div>
                                                         <div class="row">
                                                             <div class="col-lg-6">
                                                                 <div class="single-input-item">
-                                                                    <label for="new-pwd" class="required">New
-                                                                        Password</label>
+                                                                    <label for="new-pwd" class="required">Yeni
+                                                                        Şifre</label>
                                                                     <input type="password" id="new-pwd"
                                                                         name="new_password" />
                                                                 </div>
                                                             </div>
                                                             <div class="col-lg-6">
                                                                 <div class="single-input-item">
-                                                                    <label for="confirm-pwd" class="required">Confirm
-                                                                        Password</label>
+                                                                    <label for="confirm-pwd" class="required">Yeni Şifre
+                                                                        Tekrarı</label>
                                                                     <input type="password" id="confirm-pwd"
                                                                         name="new_password_repeat" />
                                                                 </div>
