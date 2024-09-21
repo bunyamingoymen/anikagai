@@ -23,6 +23,7 @@ return new class extends Migration
             $table->tinyInteger('is_trend')->default(0);
             $table->tinyInteger('score')->default(0);
             $table->unsignedBigInteger('reviewCount')->default(0);
+            $table->unsignedBigInteger('stock')->default(0);
             $table->integer('cargo_day')->default(3);
             $table->string('cargo_company')->default('');
             $table->unsignedBigInteger('create_user_code')->default(1);

@@ -89,8 +89,7 @@ class ShopIndexController extends Controller
             $sellerName = $seller->show_name;
         } else $sellerName = 'Anikagai';
 
-        $images = $this->getDataFromDatabase(['database' => 'shop_mysql', 'model' => 'App\Models\Shop\ShopFiles', 'filters' => ['parent_code' => $code], 'orderby' => ['column' => 'description', 'type' => 'ASC']])['items'];
-
+        $images = $this->getDataFromDatabase(['database' => 'shop_mysql', 'model' => 'App\Models\Shop\ShopFiles', 'filters' => ['parent_code' => $code], 'orderby' => ['column' => 'description', 'type' => 'DESC']])['items'];
         $feature_joins = [['table' => 'shop_features', 'first' => 'feature_code', 'operator' => '=', 'second' => 'shop_features.code', 'columns' => ['code' => 'feature_code', 'name' => 'feature_name', 'feature_type' => 'feature_type']]];
         $features = $this->getDataFromDatabase(['database' => 'shop_mysql', 'model' => 'App\Models\Shop\ShopProductFeatures', 'joins' => $feature_joins, 'filters' => ['product_code' => $code], 'orderby' => ['column' => 'feature_name', 'type' => 'ASC', 'put_table' => false], 'getQuery' => true]);
 
@@ -117,7 +116,26 @@ class ShopIndexController extends Controller
 
     public function whislist()
     {
-        return view('shop.themes.kidol.whislist');
+        if (!Auth::guard('shop_users')->user()) return redirect()->route('shop_index');
+
+        $database = 'shop_mysql';
+        $model = 'App\Models\Shop\ShopProduct';
+
+        $filters = ['is_approved' => '1', 'is_active' => '1', 'shop_whishlists.deleted' => 0, 'shop_whishlists.user_code' => Auth::guard('shop_users')->user()->code];
+        $orderBy = ['column' => 'name', 'type' => 'ASC'];
+
+        $joins = [
+            ['table' => 'shop_whishlists', 'first' => 'code', 'operator' => '=', 'second' => 'shop_whishlists.product_code', 'columns' => ['wishlist_price' => 'wishlist_price']]
+        ];
+
+        $leftJoins = [
+            ['table' => 'shop_files', 'first' => 'code', 'operator' => '=', 'second' => 'shop_files.parent_code', 'columns' => ['path' => 'image_path', 'parent_code' => 'parent_code'], 'where' => ['description' => ['can_be_null' => false, 'value' => 'main image']]],
+            ['table' => 'shop_carts', 'first' => 'code', 'operator' => '=', 'second' => 'shop_carts.product_code', 'columns' => ['product_code' => 'cart_product_code', 'user_code' => 'cart_user_code'], 'where' => ['user_code' => Auth::guard('shop_users')->user()->code]],
+        ];
+
+        $products = $this->getDataFromDatabase(['database' => $database, 'model' => $model, 'joins' => $joins, 'leftjoins' => $leftJoins, 'filters' => $filters, 'orderby' => $orderBy, 'pagination' => ['take' => 100, 'page' => 1]]);
+        //dd($products);
+        return view('shop.themes.kidol.whislist', compact('products'));
     }
 
     public function cart()

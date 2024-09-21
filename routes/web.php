@@ -140,6 +140,10 @@ Route::group(['middleware' => 'guest_shop'], function () {
 Route::group(['middleware' => 'access_shop'], function () {
     Route::get('/shop/user/logout', [ShopUserController::class, "logout"])->name('shop_user_logout');
 
+    Route::get('/shop/whislist', [ShopIndexController::class, "whislist"])->name('shop_whislist');
+
+    Route::get('/shop/sepet', [ShopIndexController::class, "cart"])->name('shop_cart');
+
     Route::get('/shop/addWhislist', [ShopIndexController::class, "addWhislist"])->name('shop_add_whislist');
     Route::get('/shop/addCart', [ShopIndexController::class, "addCart"])->name('shop_add_cart');
 });

@@ -210,8 +210,7 @@
                                 <h4>Subtotal: <span>$278.90</span></h4>
                             </div>
                             <div class="cart-checkout-btn">
-                                <a class="cart-btn" href="shop-cart.html">view cart</a>
-                                <a class="checkout-btn" href="shop-checkout.html">checkout</a>
+                                <a class="checkout-btn" href="{{ route('shop_cart') }}">Sepete Git</a>
                             </div>
                         </div>
                     </div>
