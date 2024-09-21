@@ -26,6 +26,7 @@ return new class extends Migration
             $table->unsignedBigInteger('stock')->default(0);
             $table->integer('cargo_day')->default(3);
             $table->string('cargo_company')->default('');
+            $table->unsignedBigInteger('cargo_price')->default(0);
             $table->unsignedBigInteger('create_user_code')->default(1);
             $table->unsignedBigInteger('update_user_code')->nullable();
             $table->tinyInteger('is_approved')->default(0);

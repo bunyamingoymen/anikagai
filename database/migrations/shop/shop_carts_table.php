@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('code');
             $table->string('user_code');
             $table->string('product_code');
+            $table->unsignedBigInteger('product_count');
             $table->timestamps();
         });
     }

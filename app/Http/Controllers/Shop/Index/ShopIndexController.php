@@ -140,7 +140,25 @@ class ShopIndexController extends Controller
 
     public function cart()
     {
-        return view('shop.themes.kidol.cart');
+        if (!Auth::guard('shop_users')->user()) return redirect()->route('shop_index');
+
+        $database = 'shop_mysql';
+        $model = 'App\Models\Shop\ShopProduct';
+
+        $filters = ['is_approved' => '1', 'is_active' => '1', 'shop_carts.user_code' => Auth::guard('shop_users')->user()->code];
+        $orderBy = ['column' => 'name', 'type' => 'ASC'];
+
+        $joins = [
+            ['table' => 'shop_carts', 'first' => 'code', 'operator' => '=', 'second' => 'shop_carts.product_code', 'columns' => ['product_code' => 'cart_product_code']],
+        ];
+
+        $leftJoins = [
+            ['table' => 'shop_files', 'first' => 'code', 'operator' => '=', 'second' => 'shop_files.parent_code', 'columns' => ['path' => 'image_path', 'parent_code' => 'parent_code'], 'where' => ['description' => ['can_be_null' => false, 'value' => 'main image']]],
+
+        ];
+
+        $products = $this->getDataFromDatabase(['database' => $database, 'model' => $model, 'joins' => $joins, 'leftjoins' => $leftJoins, 'filters' => $filters, 'orderby' => $orderBy, 'pagination' => ['take' => 100, 'page' => 1]]);
+        return view('shop.themes.kidol.cart', compact('products'));
     }
 
     public function addWhislist(Request $request)
