@@ -90,6 +90,9 @@ class AppServiceProvider extends ServiceProvider
                 $shopUserSellerPages = ['admin.shop.user.seller.list', 'admin.shop.user.seller.edit'];
                 $shopUserUserPages = ['admin.shop.user.user.list', 'admin.shop.user.user.edit'];
 
+
+                //shop index:
+
                 if ($this->hasTable('users')) {
 
                     //----------------------------------------------------------------
@@ -559,7 +562,29 @@ class AppServiceProvider extends ServiceProvider
                 View::composer($shopPages, function ($view) {
                     $categories = ShopCategories::Where('deleted', 0)->orderBy('created_at', 'DESC')->get();
 
-                    $view->with('categories', $categories);
+
+                    if (Auth::guard('shop_users')->user()) {
+                        $database = 'shop_mysql';
+                        $model = 'App\Models\Shop\ShopProduct';
+
+                        $filters = ['is_approved' => '1', 'is_active' => '1', 'shop_carts.user_code' => Auth::guard('shop_users')->user()->code];
+                        $orderBy = ['column' => 'name', 'type' => 'ASC'];
+
+                        $joins = [
+                            ['table' => 'shop_carts', 'first' => 'code', 'operator' => '=', 'second' => 'shop_carts.product_code', 'columns' => ['product_code' => 'cart_product_code']],
+                        ];
+
+                        $leftJoins = [
+                            ['table' => 'shop_files', 'first' => 'code', 'operator' => '=', 'second' => 'shop_files.parent_code', 'columns' => ['path' => 'image_path', 'parent_code' => 'parent_code'], 'where' => ['description' => ['can_be_null' => false, 'value' => 'main image']]],
+
+                        ];
+
+                        $cartTotalCount = $this->getDataFromDatabase(['database' => $database, 'model' => $model, 'joins' => $joins, 'leftjoins' => $leftJoins, 'filters' => $filters, 'orderby' => $orderBy, 'pagination' => ['take' => 100, 'page' => 1], 'totalcount' => true])['totalCount'];
+                    } else {
+                        $cartTotalCount = 0;
+                    }
+
+                    $view->with(['categories' => $categories, "cartTotalCount" => $cartTotalCount]);
                 });
 
                 View::composer($watchPages, function ($view) {
@@ -700,5 +725,269 @@ class AppServiceProvider extends ServiceProvider
             'pathName' => $defaultValue['pathName'],
             'pathRoute' => $defaultValue['pathRoute'],
         ];
+    }
+
+    protected function getDataFromDatabase($data = [])
+    {
+        //$data içinde bulunan veriler: 'database'=>'shop_mysql', 'model'=>'App\Models\Shop\ShopProduct', $filters = [], $pagination = ['take' => 15, 'page' => 1], $search = [], $whereIn = [], $joins=[]
+
+
+        //örnek orderby: $orderBy = ['column'=>'created_at', 'type'=>'DESC']
+        //Örnek wherein: whereIn = [ 'category_code'=>['1','2','3'], 'feature_code'=>['4','5','6'] ]
+        //Örnek joins: $joins = [ ['table' => 'categories', 'first' => 'category_id', 'operator' => '=', 'second' => 'categories.id', 'columns'=>['name'=>'category_name', 'code'=>'category_code']] ];
+        //Örnek search: $search=['search' => $request->searchData, 'dbSearch' => ['name','description','main_category_name'], 'short_name'=> true, 'short_name_db' => 'short_name' ];
+        //örnek filter(where): $filters['is_approved'] = "1";   $filters['is_active'] = "1";
+        //örnek pagination: $pagination = [ 'take' => $request->showingCount ? $request->showingCount : Config::get('app.showCount'), 'page' => $request->page];
+        //Eğer burada ana tablo olarak gönderilen tablodan bir değer alacaksanız (wherein ya da join..vs.) Tablonun adını yukarıdaki dizilerden herhangi birini oluştururken girmemelisiniz. Aksi taktirde hata verecektir.
+        /*Örnek leftjoin
+        $leftJoins = [
+            ['table' => 'shop_files', 'first' => 'code', 'operator' => '=', 'second' => 'shop_files.parent_code', 'columns' => ['path' => 'image_path', 'parent_code' => 'parent_code']],
+            ['table' => 'shop_whishlists', 'first' => 'code', 'operator' => '=', 'second' => 'shop_whishlists.product_code', 'columns' => ['product_code' => 'whislist_product_code', 'deleted' => 'whislist_deleted', 'user_code' => 'whislist_user_code'], 'where' => ['deleted' => ['can_be_null' => false, 'value' => 0], 'user_code' => Auth::guard('shop_users')->user()->code,]],
+            ['table' => 'shop_carts', 'first' => 'code', 'operator' => '=', 'second' => 'shop_carts.product_code', 'columns' => ['product_code' => 'cart_product_code', 'user_code' => 'whislist_user_code'], 'where' => ['user_code' => Auth::guard('shop_users')->user()->code]]
+        ];*/
+        //data ile gelen değerleri eşleştirme
+        // Anahtarları küçük harfe çevir
+        $data = array_change_key_case($data, CASE_LOWER);
+
+        // Veritabanı bağlantısı ayarla (Varsayılan 'mysql')
+        $database = $data['database'] ?? 'mysql';
+
+        // Modeli ayarla (Eğer model yoksa null döner)
+        $model = $data['model'] ?? null;
+        if (!$model) return null;
+
+        // Filtreleri ayarla (Varsayılan boş dizi)
+        $filters = $data['filters'] ?? [];
+
+        // Sayfalama ayarları (Varsayılan 15 kayıt ve 1. sayfa)
+        $pagination = $data['pagination'] ?? ['take' => 15, 'page' => 1];
+
+        // Arama ayarları (Varsayılan boş dizi)
+        $search = $data['search'] ?? [];
+
+        // WhereIn koşulları (Varsayılan boş dizi)
+        $whereIn = $data['wherein'] ?? [];
+
+        // Join ayarları (Varsayılan boş dizi)
+        $joins = $data['joins'] ?? [];
+
+        $leftJoins = $data['leftjoins'] ?? [];
+
+        $rightJoins = $data['rightjoins'] ?? [];
+
+        $groupBy = $data['groupby'] ?? false;
+
+        $orderBy = $data['orderby'] ?? null;
+
+        $getQuery = $data['getquery'] ?? false;
+
+        $isFirst = $data['isfirst'] ?? false;
+
+        $totaCount = $data['totalcount'] ?? false;
+
+        $mainTableAlias = $data['maintablealias'] ?? 'main';
+
+
+        $result = [];
+        // Veritabanı bağlantısını seç
+        $connection = DB::connection($database);
+
+        // Modelin tablo adını al
+        $table = (new $model)->getTable() . ' as ' . $mainTableAlias;
+
+        // Pagination ayarları
+        $take = $pagination['take'];
+        $skip = (($pagination['page'] - 1) * $take);
+
+        // Başlangıç query
+        $query = $connection->table($table);
+
+        // Seçilecek sütunları ekle
+        $mainTableColumns = $connection->getSchemaBuilder()->getColumnListing((new $model)->getTable());
+        $selectColumns = [];
+        if ($groupBy) $groupByColumns = [];
+
+        foreach ($mainTableColumns as $column) {
+            $selectColumns[] = $mainTableAlias . '.' . $column; // Ana tablodaki tüm sütunlar
+            if ($groupBy) $groupByColumns[] = $mainTableAlias . '.' . $column;
+        }
+
+        // Join işlemi
+        if (!empty($joins)) {
+            foreach ($joins as $index => $join) {
+                if (isset($join['table'], $join['first'], $join['operator'], $join['second'], $join['columns'])) {
+                    // Join işlemi
+                    $first = strpos($join['first'], '.') ? $join['first'] : $mainTableAlias . '.' . $join['first'];
+                    $second = strpos($join['second'], '.') ? $join['second'] : $mainTableAlias . '.' . $join['second'];
+
+                    $query->join($join['table'], $first, $join['operator'], $second);
+
+                    // Join edilen tablonun belirli sütunlarını alias ile ekle
+                    foreach ($join['columns'] as $column => $alias) {
+                        if (strpos($column, '.'))  $selectColumns[] = $column . ' as ' . $alias;
+                        else $selectColumns[] = $join['table'] . '.' . $column . ' as ' . $alias;
+
+                        if ($groupBy) {
+                            if (strpos($column, '.'))  $groupByColumns[] = $column;
+                            else  $groupByColumns[] = $join['table'] . '.' . $column;
+                        }
+                    }
+                }
+            }
+        }
+
+        // Join işlemi
+        /*
+        if (!empty($leftJoins)) {
+            foreach ($leftJoins as $index => $left) {
+                if (isset($left['table'], $left['first'], $left['operator'], $left['second'], $left['columns'])) {
+                    // Join işlemi
+                    $first = strpos($left['first'], '.') ? $left['first'] : $mainTableAlias . '.' . $left['first'];
+                    $second = strpos($left['second'], '.') ? $left['second'] : $mainTableAlias . '.' . $left['second'];
+
+                    $query->leftJoin($left['table'], $first, $left['operator'], $second);
+
+                    // Join edilen tablonun belirli sütunlarını alias ile ekle
+                    foreach ($left['columns'] as $column => $alias) {
+                        if (strpos($column, '.'))  $selectColumns[] = $column . ' as ' . $alias;
+                        else $selectColumns[] = $left['table'] . '.' . $column . ' as ' . $alias;
+
+                        if ($groupBy) {
+                            if (strpos($column, '.'))  $groupByColumns[] = $column;
+                            else  $groupByColumns[] = $left['table'] . '.' . $column;
+                        }
+                    }
+
+                    if (isset($left['where'])) {
+                        foreach ($left['where'] as $left_where_index => $left_where) {
+                            $left_column = (strpos($left_where_index, '.')) ? $left_where_index : $left['table'] . '.' . $left_where_index;
+                            $query->where($left_column, $left_where)->orWhere($left_column, null);
+
+                            if ($groupBy) {
+                                $groupByColumns[] =  $left_column;
+                            }
+                        }
+                    }
+                }
+            }
+        }*/
+        if (!empty($leftJoins)) {
+            foreach ($leftJoins as $index => $left) {
+                if (isset($left['table'], $left['first'], $left['operator'], $left['second'], $left['columns'])) {
+                    $first = strpos($left['first'], '.') ? $left['first'] : $mainTableAlias . '.' . $left['first'];
+                    $second = strpos($left['second'], '.') ? $left['second'] : $mainTableAlias . '.' . $left['second'];
+                    // Alt sorgu ile LIMIT 1 eklenmiş join
+                    $subQuery = $connection->table($left['table']);
+                    $subQuerySelect = [];
+                    foreach ($left['columns'] as $column => $alias) {
+                        $col = (strpos($column, '.')) ? $column : $left['table'] . '.' . $column;
+                        $subQuerySelect[] = $col;
+                        $selectColumns[] = $col . ' as ' . $alias;
+
+                        if ($groupBy) {
+                            $groupByColumns[] = $col;
+                        }
+                    }
+
+
+                    if (isset($left['where'])) {
+                        foreach ($left['where'] as $left_where_index => $left_where) {
+                            $left_column = (strpos($left_where_index, '.')) ? $left_where_index : $left['table'] . '.' . $left_where_index;
+                            if (isset($left_where['can_be_null'])) {
+                                if ($left_where['can_be_null']) $subQuery->where($left_column, $left_where['value'])->orWhere($left_column, null);
+                                else $subQuery->where($left_column, $left_where['value']);
+                            } else {
+                                $subQuery->where($left_column, $left_where)->orWhere($left_column, null);
+                            }
+                        }
+                    }
+
+                    $subQuery->select($subQuerySelect)->orderBy('created_at', 'desc')->limit(1);
+                    $query->leftJoinSub($subQuery, $left['table'], $first, $left['operator'], $second);
+
+                    // Select edilen sütunlar
+
+                }
+            }
+        }
+
+        //dd($query->toSql());
+
+        //filtre ayarları
+        if (in_array($mainTableAlias . '.deleted', $selectColumns)) $filters['deleted'] = 0;
+
+        // Filtreleri uygula
+        foreach ($filters as $column => $value) {
+            if (strpos($column, '.')) $query->where($column, $value);
+            else $query->where($mainTableAlias . '.' . $column, $value);
+        }
+
+        // Arama işlemi
+        if (isset($search['search']) && is_string($search['search']) && isset($search['dbSearch']) && is_array($search['dbSearch'])) {
+            $query->where(function ($q) use ($search, $mainTableAlias) {
+                // İlk kolon için where kullanıyoruz
+                $firstColumn = true;
+                foreach ($search['dbSearch'] as $column) {
+                    if ($firstColumn) {
+                        if (strpos($column, '.')) $q->where($column, 'LIKE', '%' . $search['search'] . '%');
+                        else $q->where($mainTableAlias . '.' . $column, 'LIKE', '%' . $search['search'] . '%');
+                        $firstColumn = false;
+                    } else {
+                        if (strpos($column, '.'))  $q->orWhere($column, 'LIKE', '%' . $search['search'] . '%');
+                        else $q->orWhere($mainTableAlias . '.' . $column, 'LIKE', '%' . $search['search'] . '%');
+                    }
+                }
+
+                // Eğer kısa isim ya da URL de aranmak istenirse
+                if (isset($search['short_name']) && isset($search['short_name_db']) && $search['short_name']) {
+                    $shortName = $this->makeShortName($search['search']);
+                    if (strpos($column, '.'))  $q->orWhere($search['short_name_db'], 'LIKE', '%' . $shortName  . '%');
+                    else $q->orWhere($mainTableAlias . '.' . $search['short_name_db'], 'LIKE', '%' . $shortName  . '%');
+                }
+            });
+        }
+
+        // WhereIn işlemi
+        if (!empty($whereIn) && count($whereIn) > 0) {
+            foreach ($whereIn as $column => $values) {
+                if (is_array($values) && count($values) > 0) {
+                    if (strpos($column, '.')) $query->whereIn($column, $values);
+                    else $query->whereIn($mainTableAlias . '.' . $column, $values);
+                }
+            }
+        }
+
+        $query->select($selectColumns);
+
+
+        if ($groupBy) $query->groupBy($groupByColumns);
+
+        if ($orderBy) {
+            if (strpos($orderBy['column'], '.'))  $orderByColumn = $orderBy['column'];
+            else {
+                if (!isset($orderBy['put_table'])) $orderByColumn = $mainTableAlias . '.' . $orderBy['column'];
+                else if (isset($orderBy['put_table']) && $orderBy['put_table']) $orderByColumn = $mainTableAlias . '.' . $orderBy['column'];
+                else $orderByColumn = $orderBy['column'];
+            }
+            $query->orderBy($orderByColumn, $orderBy['type']);
+        }
+
+        //dd($query->toSql());
+
+        if ($totaCount) {
+            $result['totalCount'] = $query->count();
+        }
+
+        // Verileri al
+        if ($isFirst) {
+            $result['item'] = $query->first();
+        } else {
+            $result['items'] = $query->skip($skip)->take($take)->get();
+            $result['page_count'] = ceil($query->count() / $take);
+        }
+
+        if ($getQuery) $result['query'] = $query;
+
+        return $result;
     }
 }

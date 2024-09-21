@@ -58,6 +58,12 @@
                                     <i class="pe-7s-power"></i>
                                 </a>
                             </div>
+                        @elseif (Auth::guard('shop_sellers')->user())
+                            <div class="header-action-search">
+                                <a class="btn-search" href="{{ route('shop_login') }}">
+                                    <i class="pe-7s-users"></i>
+                                </a>
+                            </div>
                         @else
                             <div class="header-action-search">
                                 <a class="btn-search" href="{{ route('shop_login') }}">
@@ -67,10 +73,10 @@
                         @endif
                         @if (Auth::guard('shop_users')->user())
                             <div class="header-action-cart">
-                                <button class="btn-cart cart-icon">
-                                    <span class="cart-count">01</span>
+                                <a class="btn-cart cart-icon" href="{{ route('shop_cart') }}">
+                                    <span class="cart-count">{{ $cartTotalCount }}</span>
                                     <i class="pe-7s-shopbag"></i>
-                                </button>
+                                </a>
                             </div>
                         @endif
 

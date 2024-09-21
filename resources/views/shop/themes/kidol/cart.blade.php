@@ -6,7 +6,7 @@
             <div class="row">
                 <div class="col-lg-6 m-auto">
                     <div class="section-title text-center">
-                        <h2 class="title">Cart</h2>
+                        <h2 class="title">Sepet</h2>
                     </div>
                 </div>
             </div>

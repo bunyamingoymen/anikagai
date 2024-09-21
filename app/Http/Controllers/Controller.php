@@ -244,6 +244,8 @@ class Controller extends BaseController
 
         $isFirst = $data['isfirst'] ?? false;
 
+        $totaCount = $data['totalcount'] ?? false;
+
         $mainTableAlias = $data['maintablealias'] ?? 'main';
 
 
@@ -432,6 +434,10 @@ class Controller extends BaseController
         }
 
         //dd($query->toSql());
+
+        if ($totaCount) {
+            $result['totalCount'] = $query->count();
+        }
 
         // Verileri al
         if ($isFirst) {
