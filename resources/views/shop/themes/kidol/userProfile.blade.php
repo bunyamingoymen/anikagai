@@ -223,7 +223,7 @@
                                         <div class="myaccount-content">
                                             <h3>Şifremi Değiştir</h3>
                                             <div class="account-details-form">
-                                                <form action="{{ route('shop_user_change_password') }}" method="POST">
+                                                <form action="" method="POST">
                                                     @csrf
                                                     <fieldset>
                                                         <div class="single-input-item">

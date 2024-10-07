@@ -211,6 +211,7 @@ class ShopIndexController extends Controller
             $item->code = $this->generateUniqueCode('shop_mysql', 'shop_carts');
             $item->user_code = Auth::guard('shop_users')->user()->code;
             $item->product_code = $request->product_code;
+            $item->product_count = 1;
             $item->save();
         }
 
