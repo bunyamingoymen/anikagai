@@ -87,6 +87,7 @@ class ProductController extends Controller
         $item->is_active = $is_new ? ($request->has('is_active') ? 1 : 0) : $item->is_active;
         $item->cargo_day = $request->cargo_day;
         $item->cargo_company = $request->cargo_company ?? '';
+        $item->cargo_price = $request->cargo_price ?? 0;
         $item->save();
 
         ShopCategoryProducts::Where('product_code', $code)->delete();
