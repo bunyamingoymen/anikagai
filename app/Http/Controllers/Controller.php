@@ -332,6 +332,8 @@ class Controller extends BaseController
                 }
             }
         }*/
+
+        
         if (!empty($leftJoins)) {
             foreach ($leftJoins as $index => $left) {
                 if (isset($left['table'], $left['first'], $left['operator'], $left['second'], $left['columns'])) {

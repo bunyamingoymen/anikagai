@@ -1,6 +1,7 @@
 @extends('admin.layouts.main')
 @section('admin_content')
     @if ($list)
+        <!--Genel Ayarlar-->
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
@@ -35,6 +36,7 @@
             </div>
         </div>
 
+        <!--Satıcı Ayarları-->
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
@@ -47,43 +49,31 @@
                                 <label class="custom-control-label" for="free_cargo"> Belli bir ücretin üstü kargo ücretsiz
                                     olsun. </label>
                             </div>
-                            <div id="FreeCargoDiv" class="col-md-2 mb-3 mr-3 ml-3" style="display:none">
-                                <div>
-                                    <label for="archive_date">Ücret: <a class="mo-mb-2" data-toggle="tooltip"
-                                            data-placement="right" title=""
-                                            data-original-title="Müşteri bu ücretin üstüne çıkarsa kargo ücretsiz olsun"
-                                            aria-describedby="free_cargo_price">
-                                            <i class="far fa-question-circle"></i>
-                                        </a>:</label>
-                                    <input type="number" class="form-control" name="free_cargo_price" id="free_cargo_price"
-                                        placeholder="Ücret giriniz" value="">
-                                </div>
+                            <div id="FreeCargoDiv" class="col-md-6 mb-3 mr-3 ml-3" style="display:none">
+                                <div id="FreeCargoToDiv">
+                                    <div>
+                                        <label for="archive_date">Ücret: <a class="mo-mb-2" data-toggle="tooltip"
+                                                data-placement="right" title=""
+                                                data-original-title="Müşteri bu ücretin üstüne çıkarsa kargo ücretsiz olsun"
+                                                aria-describedby="free_cargo_price">
+                                                <i class="far fa-question-circle"></i>
+                                            </a>:</label>
+                                        <input type="number" class="form-control" name="free_cargo_price"
+                                            id="free_cargo_price" placeholder="Ücret giriniz" value="">
+                                    </div>
 
-                                <div class="custom-control custom-checkbox mb-2 mt-2">
-                                    <input type="checkbox" class="custom-control-input" id="different_seller_free_cargo"
-                                        onchange="changeDifferentSellerFreeCargo()">
-                                    <label class="custom-control-label" for="different_seller_free_cargo"> Farklı satıcılar
-                                        bile olsa bu
-                                        ücreti geçtiğinde ücretsiz olsun.
-                                        <a class="mo-mb-2" data-toggle="tooltip" data-placement="right" title=""
-                                            data-original-title="Bunu seçerseniz satıcılar kendi istedikleri ücretleri belirleyemezler. Bu seçilmez ise sipariş esnasında en yüksek kargo ücretine bakılır. Ona göre kargo ücretsiz olur."
-                                            aria-describedby="different_seller_free_cargo">
-                                            <i class="far fa-question-circle"></i>
-                                        </a>
-                                    </label>
-                                </div>
-
-                                <div class="custom-control custom-checkbox mb-2 mt-2" id="DifferentSellerFreeCargoDiv">
-                                    <input type="checkbox" class="custom-control-input"
-                                        id="other_sellers_change_free_cargo">
-                                    <label class="custom-control-label" for="other_sellers_change_free_cargo">Diğer
-                                        satıcılar de kendi ücretsiz
-                                        kargo ücretini belirleyebilsin. <a class="mo-mb-2" data-toggle="tooltip"
-                                            data-placement="right" title=""
-                                            data-original-title="Bunu seçerseniz diğer satıcılar da kendi belirledikleri ücretsiz kargo ücreti sınırını belirleyebilir."
-                                            aria-describedby="other_sellers_change_free_cargo">
-                                            <i class="far fa-question-circle"></i>
-                                        </a> </label>
+                                    <div class="custom-control custom-checkbox mb-2 mt-2" id="DifferentSellerFreeCargoDiv">
+                                        <input type="checkbox" class="custom-control-input"
+                                            id="other_sellers_change_free_cargo">
+                                        <label class="custom-control-label" for="other_sellers_change_free_cargo">Diğer
+                                            satıcılar de kendi ücretsiz
+                                            kargo ücretini belirleyebilsin. <a class="mo-mb-2" data-toggle="tooltip"
+                                                data-placement="right" title=""
+                                                data-original-title="Bunu seçerseniz diğer satıcılar da kendi belirledikleri ücretsiz kargo ücreti sınırını belirleyebilir."
+                                                aria-describedby="other_sellers_change_free_cargo">
+                                                <i class="far fa-question-circle"></i>
+                                            </a> </label>
+                                    </div>
                                 </div>
 
                             </div>
@@ -96,6 +86,7 @@
             </div>
         </div>
 
+        <!--Arşiv Ve Silme Ayarları-->
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
@@ -152,6 +143,7 @@
             </div>
         </div>
 
+        <!--Tema Ayarları-->
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
@@ -172,6 +164,7 @@
             </div>
         </div>
 
+        <!--Logo Ayarları-->
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
@@ -193,6 +186,7 @@
         </div>
 
         <script src="{{ url('admin/assets/libs/jquery/jquery.min.js') }}"></script>
+
         <script>
             function changeAddArchive() {
                 var check = document.getElementById('add_archive').checked;
@@ -211,14 +205,9 @@
                 if (check) $('#FreeCargoDiv').slideDown();
                 else $('#FreeCargoDiv').slideUp();
             }
-
-            function changeDifferentSellerFreeCargo() {
-                var check = document.getElementById('different_seller_free_cargo').checked;
-                if (!check) $('#DifferentSellerFreeCargoDiv').slideDown();
-                else $('#DifferentSellerFreeCargoDiv').slideUp();
-            }
         </script>
     @endif
+
     <script>
         // Sayfa yüklenmeden önce bu JavaScript kodu çalışacak
         window.addEventListener('DOMContentLoaded', (event) => {

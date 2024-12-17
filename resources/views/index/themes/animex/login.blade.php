@@ -24,6 +24,7 @@
                         <h3>Giriş Yap</h3>
                         <form action="{{ route('login') }}" method="POST" id="loginFormID">
                             @csrf
+                            <input type="text" name="check" id="check" placeholder="Check *" style="display:none;">
                             <div class="input__item login_input">
                                 <input type="text" name="email" id="email"
                                     placeholder="E-mail Adresi VEYA Kullanıcı adı *">
@@ -49,6 +50,8 @@
                         <h3>Kayıt Ol</h3>
                         <form action="{{ route('register') }}" method="POST" id="registerSubmitForm">
                             @csrf
+                            <input type="text" name="check" id="registerCheck" placeholder="Check *"
+                                style="display:none;">
                             <div class="input__item login_input">
                                 <input type="text" name="name" id="registerName" placeholder="İsim *">
                                 <span class="icon_profile"></i></span>

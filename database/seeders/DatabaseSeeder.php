@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 //use Carbon\Carbon;
+
 use Illuminate\Database\Seeder;
 //use Illuminate\Support\Facades\Auth;
 //use Illuminate\Support\Facades\DB;
@@ -19,6 +20,8 @@ class DatabaseSeeder extends Seeder
         $this->callKeyValueSeeder();
         $this->callThemeSeeder();
         $this->callOtherSeeders();
+
+        $this->callShops();
     }
 
     private function callUserSeeders(): void
@@ -41,5 +44,10 @@ class DatabaseSeeder extends Seeder
     private function callOtherSeeders(): void
     {
         $this->call(OtherSeeder::class);
+    }
+
+    private function callShops(): void
+    {
+        $this->call(Shop\KeyValueSeeder::class);
     }
 }
