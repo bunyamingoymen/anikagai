@@ -155,53 +155,67 @@
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">
+
                     <div class="card-body">
                         <h4 class="header-title mb-4">Arşiv Ve Silinme Ayarları</h4>
+
                         <form action="{{ route('admin_shop_archive_and_delete_settings') }}" method="POST">
                             @csrf
-                            <div class="custom-control custom-checkbox mb-2">
-                                <input type="checkbox" class="custom-control-input" id="add_archive" name="add_archive"
-                                    {{ isset($addArchive) && $addArchive->value == 1 ? 'checked' : '' }}
-                                    onchange="changeAddArchive()">
-                                <label class="custom-control-label" for="add_archive">Ürün satılmaz ise belli bir süre
-                                    sonra
-                                    arşiv'e eklensin</label>
-                            </div>
-                            <div id="archiveTimeDiv" class="col-md-2 mb-3">
-                                <label for="archive_date">Arşiv Süresi <a class="mo-mb-2" data-toggle="tooltip"
-                                        data-placement="right" title=""
-                                        data-original-title="Bir ürün eklendikten sonra hiç satılmaz ise arşive alınma süresi"
-                                        aria-describedby="archive_date">
-                                        <i class="far fa-question-circle"></i>
-                                    </a>:</label>
-                                <input type="number" class="form-control" name="archive_time" id="archive_time"
-                                    placeholder="Gün sayısı giriniz" value="{{ $archiveTime ?? '' }}">
+
+                            <!--Arşiv Süresi-->
+                            <div id="archiveTimeTopDiv">
+                                <div class="custom-control custom-checkbox mb-2">
+                                    <input type="checkbox" class="custom-control-input" id="add_archive"
+                                        name="add_archive"
+                                        {{ isset($addArchive) && $addArchive->value == 1 ? 'checked' : '' }}
+                                        onchange="changeAddArchive()">
+                                    <label class="custom-control-label" for="add_archive">
+                                        Ürün satılmaz ise belli bir süre sonra arşiv'e eklensin
+                                    </label>
+                                </div>
+                                <div id="archiveTimeDiv" class="col-md-2 mb-3">
+                                    <label for="archive_date">Arşiv Süresi <a class="mo-mb-2" data-toggle="tooltip"
+                                            data-placement="right" title=""
+                                            data-original-title="Bir ürün eklendikten sonra hiç satılmaz ise arşive alınma süresi"
+                                            aria-describedby="archive_date">
+                                            <i class="far fa-question-circle"></i>
+                                        </a>:</label>
+                                    <input type="number" class="form-control" name="archive_time" id="archive_time"
+                                        placeholder="Gün sayısı giriniz" value="{{ $archiveTime->value ?? '' }}">
+                                </div>
                             </div>
 
-                            <div class="custom-control custom-checkbox mb-2">
-                                <input type="checkbox" class="custom-control-input" id="delete_automatic"
-                                    name="delete_automatic"
-                                    {{ isset($deleteAutomatic) && $deleteAutomatic->value == 1 ? 'checked' : '' }}
-                                    onchange="changeDeleteAutomatic()">
-                                <label class="custom-control-label" for="delete_automatic">Ürün satılmaz ise belli bir
-                                    süre
-                                    sonra silinsin</label>
+                            <!--Silme Süresi-->
+                            <div id="deleteAutomaticTopDiv">
+                                <div class="custom-control custom-checkbox mb-2">
+                                    <input type="checkbox" class="custom-control-input" id="delete_automatic"
+                                        name="delete_automatic"
+                                        {{ isset($deleteAutomatic) && $deleteAutomatic->value == 1 ? 'checked' : '' }}
+                                        onchange="changeDeleteAutomatic()">
+                                    <label class="custom-control-label" for="delete_automatic">
+                                        Ürün satılmaz ise belli bir süre sonra silinsin
+                                    </label>
+                                </div>
+                                <div id="deleteAutomaticDiv" class="col-md-2 mb-3">
+                                    <label for="archive_date">Silinme Süresi <a class="mo-mb-2" data-toggle="tooltip"
+                                            data-placement="right" title=""
+                                            data-original-title="Bir ürün eklendikten sonra hiç satılmaz ise silinme süresi"
+                                            aria-describedby="delete_date">
+                                            <i class="far fa-question-circle"></i>
+                                        </a>:</label>
+                                    <input type="number" class="form-control" name="delete_date" id="delete_date"
+                                        placeholder="Gün sayısı giriniz" value="{{ $deleteTime->value ?? '' }}">
+                                </div>
                             </div>
-                            <div id="deleteAutomaticDiv" class="col-md-2 mb-3">
-                                <label for="archive_date">Silinme Süresi <a class="mo-mb-2" data-toggle="tooltip"
-                                        data-placement="right" title=""
-                                        data-original-title="Bir ürün eklendikten sonra hiç satılmaz ise silinme süresi"
-                                        aria-describedby="delete_date">
-                                        <i class="far fa-question-circle"></i>
-                                    </a>:</label>
-                                <input type="number" class="form-control" name="delete_date" id="delete_date"
-                                    placeholder="Gün sayısı giriniz" value="{{ $deleteTime ?? '' }}">
-                            </div>
+
+                            <!--Buton-->
                             <div class="mt-3">
                                 <button type="submit" class="btn btn-info"><i class="fas fa-save"></i> Kaydet</button>
                             </div>
                         </form>
+
                     </div>
+                    
                 </div>
             </div>
         </div>
