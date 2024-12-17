@@ -195,5 +195,36 @@ class KeyValueSeeder extends Seeder
                 'deleted' => 0,
             ]
         ]);
+
+        //Tema Ayarları ----------------------------------------------------------------
+        DB::connection('shop_mysql')->table('shop_key_values')->insert([
+            [
+                'code' => ShopKeyValue::max('code') + 1,
+                'key'  => 'use_same_color',
+                'value'  => '0',
+                'create_user_code' => 1,
+                'deleted' => 0,
+            ]
+        ]);
+
+        DB::connection('shop_mysql')->table('shop_key_values')->insert([
+            [
+                'code' => ShopKeyValue::max('code') + 1,
+                'key'  => 'use_same_logo',
+                'value'  => '0',
+                'create_user_code' => 1,
+                'deleted' => 0,
+            ]
+        ]);
+
+        DB::connection('shop_mysql')->table('shop_key_values')->insert([
+            [
+                'code' => ShopKeyValue::max('code') + 1,
+                'key'  => 'shop_logo',
+                'value'  => '0',
+                'create_user_code' => 1,
+                'deleted' => 0,
+            ]
+        ]);
     }
 }

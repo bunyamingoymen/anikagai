@@ -116,6 +116,8 @@ Route::controller(SettingsController::class)->group(function () {
     Route::post("/admin/shop/sellerSettings", "seller_settings")->name('admin_shop_seller_settings');
 
     Route::post("/admin/shop/archiveDeleteSettings", "archive_and_delete_settings")->name('admin_shop_archive_and_delete_settings');
+
+    Route::post("/admin/shop/themeSettings", "theme_settings")->name('admin_shop_theme_settings');
 });
 
 Route::controller(KeyValueController::class)->group(function () {});

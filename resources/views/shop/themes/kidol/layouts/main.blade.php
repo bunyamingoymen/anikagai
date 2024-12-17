@@ -15,6 +15,14 @@
     <link href="https://fonts.googleapis.com/css?family=Fredoka+One:400" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
 
+    <style>
+        :root {
+            --background-color: #14161D;
+            --menu-footer-color: #111216;
+            --second-color: #e53637;
+        }
+    </style>
+
     <!--== Bootstrap CSS ==-->
     <link href="{{ url('shop_files/assets/css/bootstrap.min.css') }}" rel="stylesheet" />
     <!--== Font-awesome Icons CSS ==-->

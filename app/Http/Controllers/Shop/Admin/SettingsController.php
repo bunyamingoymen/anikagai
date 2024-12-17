@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Shop\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\KeyValue;
 use App\Models\Shop\ShopKeyValue;
+use App\Models\ThemeSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
@@ -40,6 +42,17 @@ class SettingsController extends Controller
         $deleteTime = ShopKeyValue::Where('key', 'delete_time')->first();
         //** Archive And Delete Settings */
 
+        $colors_code = ThemeSetting::where('theme_code', KeyValue::where('key', 'selected_theme')->first()->value)
+            ->where('setting_name', 'colors_code')
+            ->get();
+
+        $colors_code_defaults = ThemeSetting::where('theme_code', KeyValue::where('key', 'selected_theme')->first()->value)
+            ->where('setting_name', 'colors_code_default')
+            ->get();
+
+        $use_same_color = ShopKeyValue::Where('key', 'use_same_color')->first();
+        $colors_different = ShopKeyValue::Where('key', 'colors_code')->get();
+
         return view(
             'admin.shop.other.setting',
             compact(
@@ -61,6 +74,12 @@ class SettingsController extends Controller
                 'archiveTime',
                 'deleteAutomatic',
                 'deleteTime',
+
+                'colors_code',
+                'colors_code_defaults',
+
+                'use_same_color',
+                'colors_different',
             )
         );
     }
@@ -280,6 +299,48 @@ class SettingsController extends Controller
         $deleteTime->value = $request->has('delete_time') ? $request->delete_time  : Config::get('app.delete_time');
         $deleteTime->update_user_code = Auth::guard('admin')->user()->code;
         $deleteTime->save();
+
+        return redirect()->back()->with('success', 'Ayarlar başarılı bir şekilde kaydedildi');
+    }
+
+    public function theme_settings(Request $request)
+    {
+        //dd($request->toArray());
+        $use_same_color = ShopKeyValue::Where('key', 'use_same_color')->first();
+
+        if (!$use_same_color) {
+            $use_same_color = new ShopKeyValue();
+            $use_same_color->code = $this->generateUniqueCode('shop_mysql', 'shop_key_values');
+            $use_same_color->key = 'use_same_color';
+            $use_same_color->create_user_code = Auth::guard('admin')->user()->code;
+        }
+
+        $use_same_color->value = $request->has('use_same_color') ? '1' : '0';
+        $use_same_color->update_user_code = Auth::guard('admin')->user()->code;
+        $use_same_color->save();
+
+        $colors_code = ThemeSetting::where('theme_code', KeyValue::where('key', 'selected_theme')->first()->value)
+            ->where('setting_name', 'colors_code')
+            ->get();
+
+        //İlk önce varsayılan olarak bütün değerleri siliyoruz
+        ShopKeyValue::Where('key', 'colors_code')->delete();
+
+        //Eğer farklı renk kullanılacaksa bütün değerleri teker teker ekliyoruz.
+        if ($request->has('use_same_color')) {
+            foreach ($colors_code as $key => $value) {
+                if (isset($request->hexcolors[$value->code])) {
+                    $color = new ShopKeyValue();
+                    $color->code = $this->generateUniqueCode('shop_mysql', 'shop_key_values');
+                    $color->key = 'colors_code';
+                    $color->value = $request->hexcolors[$value->code];
+                    $color->optional = $value->code;
+                    $color->create_user_code = Auth::guard('admin')->user()->code;
+                    $color->save();
+                }
+            }
+        }
+
 
         return redirect()->back()->with('success', 'Ayarlar başarılı bir şekilde kaydedildi');
     }

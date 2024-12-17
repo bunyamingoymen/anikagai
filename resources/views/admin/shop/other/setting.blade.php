@@ -49,7 +49,7 @@
                             <div class="CommissionTopDiv mb-5">
                                 <div class="custom-control custom-checkbox mb-2">
                                     <input type="checkbox" class="custom-control-input" id="active_commission"
-                                        name="active_commission" onchange="changeCommission()"
+                                        name="active_commission" onchange="changeDiv('active_commission', 'CommissionDiv');"
                                         {{ (isset($active_commission) && $active_commission->value == '1') || !isset($active_commission) ? 'checked' : '' }}>
                                     <label class="custom-control-label" for="active_commission">
                                         Satıcılardan Komisyon ücreti alınsın
@@ -76,7 +76,7 @@
                             <div class="FreeCargoTopDiv mb-5">
                                 <div class="custom-control custom-checkbox mb-2">
                                     <input type="checkbox" class="custom-control-input" id="active_free_cargo"
-                                        name="active_free_cargo" onchange="changeFreeCargo()"
+                                        name="active_free_cargo" onchange="changeDiv('active_free_cargo', 'FreeCargoDiv');"
                                         {{ (isset($active_free_cargo) && $active_free_cargo->value == '1') || !isset($active_free_cargo) ? 'checked' : '' }}>
                                     <label class="custom-control-label" for="active_free_cargo">
                                         Belli bir ücretin üstü kargo ücretsiz olsun.
@@ -168,7 +168,7 @@
                                     <input type="checkbox" class="custom-control-input" id="add_archive"
                                         name="add_archive"
                                         {{ isset($addArchive) && $addArchive->value == 1 ? 'checked' : '' }}
-                                        onchange="changeAddArchive()">
+                                        onchange="changeDiv('add_archive', 'archiveTimeDiv')">
                                     <label class="custom-control-label" for="add_archive">
                                         Ürün satılmaz ise belli bir süre sonra arşiv'e eklensin
                                     </label>
@@ -191,7 +191,7 @@
                                     <input type="checkbox" class="custom-control-input" id="delete_automatic"
                                         name="delete_automatic"
                                         {{ isset($deleteAutomatic) && $deleteAutomatic->value == 1 ? 'checked' : '' }}
-                                        onchange="changeDeleteAutomatic()">
+                                        onchange="changeDiv('delete_automatic', 'deleteAutomaticDiv');">
                                     <label class="custom-control-label" for="delete_automatic">
                                         Ürün satılmaz ise belli bir süre sonra silinsin
                                     </label>
@@ -215,7 +215,7 @@
                         </form>
 
                     </div>
-                    
+
                 </div>
             </div>
         </div>
@@ -226,11 +226,72 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="header-title mb-4">Tema Ayarları</h4>
-                        <form action="">
-                            <div class="custom-control custom-checkbox mb-2">
-                                <input type="checkbox" class="custom-control-input" id="same_theme" checked="">
-                                <label class="custom-control-label" for="same_theme">Ana site ile aynı temaya sahip
-                                    olsun</label>
+                        <form action="{{ route('admin_shop_theme_settings') }}" method="POST">
+                            @csrf
+                            <div id="themeColorTopDiv">
+                                <div class="custom-control custom-checkbox mb-2">
+                                    <input type="checkbox" class="custom-control-input" id="use_same_color"
+                                        name="use_same_color" onchange="changeDiv('use_same_color', 'themeColorDiv');"
+                                        {{ isset($use_same_color) && $use_same_color->value == '1' ? 'checked' : '' }}>
+                                    <label class="custom-control-label" for="use_same_color">
+                                        Ana site ile farklı renge sahip olsun
+                                    </label>
+                                </div>
+                                <div id="themeColorDiv">
+                                    @if ($colors_code)
+                                        <div class="col-lg-8">
+                                            @foreach ($colors_code as $item)
+                                                @php
+                                                    $different_color = null;
+                                                    if (count($colors_different->where('optional', $item->code)) > 0) {
+                                                        $different_color = $colors_different
+                                                            ->where('optional', $item->code)
+                                                            ->first();
+                                                    }
+
+                                                    if (isset($different_color) && isset($different_color->value)) {
+                                                        $hexColor =
+                                                            strpos($different_color->value, '#') === 0
+                                                                ? $different_color->value
+                                                                : '#' . $different_color->value;
+                                                    } else {
+                                                        $hexColor =
+                                                            strpos($item->setting_value, '#') === 0
+                                                                ? $item->setting_value
+                                                                : '#' . $item->setting_value;
+                                                        $hexColor = '#' . $item->setting_value;
+                                                    }
+                                                @endphp
+                                                <div class="row mt-3">
+                                                    <div class="col-lg-2">
+                                                        <label for="">{{ $loop->index + 1 }}.Renk:</label>
+                                                    </div>
+                                                    <div class="col-lg-3">
+                                                        <input type="color" id="colorpicker{{ $loop->index }}"
+                                                            name="color" class="form-control"
+                                                            pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$"
+                                                            value="{{ $hexColor }}">
+                                                    </div>
+
+                                                    <div class="col-lg-3">
+                                                        <input type="text" class="form-control hexcolors"
+                                                            pattern="^#+([a-fA-F0-9]{6}|[a-fA-F0-9]{3})$"
+                                                            name="hexcolors[{{ $item->code }}]"
+                                                            value="{{ $hexColor }}"
+                                                            id="hexcolor{{ $loop->index }}"></input>
+                                                    </div>
+
+                                                    <div class="col-lg-4">
+                                                        <button type="button" class="btn btn-info"
+                                                            onclick="defaultColor({{ $loop->index }})">
+                                                            Varsayılan Olarak Renk Ayarla
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                </div>
                             </div>
                             <div class="mt-3">
                                 <button type="submit" class="btn btn-info"><i class="fas fa-save"></i> Kaydet</button>
@@ -264,36 +325,42 @@
 
         <script src="{{ url('admin/assets/libs/jquery/jquery.min.js') }}"></script>
 
+        <!--Renk Ayarları-->
         <script>
-            function changeAddArchive() {
-                var check = document.getElementById('add_archive').checked;
-                if (check) $('#archiveTimeDiv').slideDown();
-                else $('#archiveTimeDiv').slideUp();
-            }
+            @foreach ($colors_code as $item)
+                $('#colorpicker{{ $loop->index }}').on('input', function() {
+                    $('#hexcolor{{ $loop->index }}').val(this.value);
+                });
+            @endforeach
 
-            function changeDeleteAutomatic() {
-                var check = document.getElementById('delete_automatic').checked;
-                if (check) $('#deleteAutomaticDiv').slideDown();
-                else $('#deleteAutomaticDiv').slideUp();
-            }
+            function defaultColor(color_number) {
 
-            function changeFreeCargo() {
-                var check = document.getElementById('active_free_cargo').checked;
-                if (check) $('#FreeCargoDiv').slideDown();
-                else $('#FreeCargoDiv').slideUp();
-            }
+                var defaultValue = @json($colors_code_defaults->nth(1));
 
-            function changeCommission() {
-                var check = document.getElementById('active_commission').checked;
-                if (check) $('#CommissionDiv').slideDown();
-                else $('#CommissionDiv').slideUp();
+                $('#hexcolor' + color_number).val(
+                    '#' + (defaultValue[color_number] ? defaultValue[color_number].setting_value : 'fff')
+                );
+
+                $('#colorpicker' + color_number).val(
+                    '#' + (defaultValue[color_number] ? defaultValue[color_number].setting_value : 'fff')
+                );
+            }
+        </script>
+
+        <!--Görünüş Ayarları-->
+        <script>
+            function changeDiv(checkboxID, DivID) {
+                var check = document.getElementById(checkboxID).checked;
+                if (check) $('#' + DivID).slideDown();
+                else $('#' + DivID).slideUp();
             }
 
             $(document).ready(function() {
-                changeAddArchive();
-                changeDeleteAutomatic();
-                changeFreeCargo();
-                changeCommission();
+                changeDiv('add_archive', 'archiveTimeDiv');
+                changeDiv('delete_automatic', 'deleteAutomaticDiv');
+                changeDiv('active_free_cargo', 'FreeCargoDiv');
+                changeDiv('active_commission', 'CommissionDiv');
+                changeDiv('use_same_color', 'themeColorDiv');
             });
         </script>
     @endif

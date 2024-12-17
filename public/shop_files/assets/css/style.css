@@ -23,12 +23,6 @@
   Typography CSS
 -----------------------------------------------------------------------
 */
-
-:root {
-  --background-color: #14161D;
-  --menu-footer-color: #111216;
-  --second-color: #e53637;
-}
 body {
   background-color: var(--background-color);
   color: #2d2d2d;
