@@ -42,36 +42,69 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="header-title mb-4">Satıcı Ayarları</h4>
-                        <form action="">
-                            <div class="FreeCargoTopDiv mb-5">
+                        <form action="{{ route('admin_shop_seller_settings') }}" method="POST">
+                            @csrf
+
+                            <!--Komisyon oranları-->
+                            <div class="CommissionTopDiv mb-5">
                                 <div class="custom-control custom-checkbox mb-2">
-                                    <input type="checkbox" class="custom-control-input" id="free_cargo"
-                                        onchange="changeFreeCargo()">
-                                    <label class="custom-control-label" for="free_cargo"> Belli bir ücretin üstü kargo
-                                        ücretsiz
-                                        olsun. </label>
+                                    <input type="checkbox" class="custom-control-input" id="active_commission"
+                                        name="active_commission" onchange="changeCommission()"
+                                        {{ (isset($active_commission) && $active_commission->value == '1') || !isset($active_commission) ? 'checked' : '' }}>
+                                    <label class="custom-control-label" for="active_commission">
+                                        Satıcılardan Komisyon ücreti alınsın
+                                    </label>
                                 </div>
 
-                                <div id="FreeCargoDiv" class="col-md-6 mb-3 mr-3 ml-3" style="display:none">
+                                <div id="CommissionDiv" class="col-md-6 mb-3 mr-3 ml-3">
                                     <div>
-                                        <label for="archive_date">Ücret: <a class="mo-mb-2" data-toggle="tooltip"
+                                        <label for="commission_rate">Komisyon Oranı: <a class="mo-mb-2"
+                                                data-toggle="tooltip" data-placement="right" title=""
+                                                data-original-title="Yüzde şeklinde hesaplanacaktır."
+                                                aria-describedby="commission_rate">
+                                                <i class="far fa-question-circle"></i>
+                                            </a>:</label>
+                                        <input type="number" class="form-control" name="commission_rate"
+                                            id="commission_rate" placeholder="Oran giriniz"
+                                            value="{{ isset($commission_rate) && isset($commission_rate->value) ? $commission_rate->value : '' }}">
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <!--Kargo Ücretleri-->
+                            <div class="FreeCargoTopDiv mb-5">
+                                <div class="custom-control custom-checkbox mb-2">
+                                    <input type="checkbox" class="custom-control-input" id="active_free_cargo"
+                                        name="active_free_cargo" onchange="changeFreeCargo()"
+                                        {{ (isset($active_free_cargo) && $active_free_cargo->value == '1') || !isset($active_free_cargo) ? 'checked' : '' }}>
+                                    <label class="custom-control-label" for="active_free_cargo">
+                                        Belli bir ücretin üstü kargo ücretsiz olsun.
+                                    </label>
+                                </div>
+
+                                <div id="FreeCargoDiv" class="col-md-6 mb-3 mr-3 ml-3">
+                                    <div>
+                                        <label for="free_cargo_price">Ücret: <a class="mo-mb-2" data-toggle="tooltip"
                                                 data-placement="right" title=""
-                                                data-original-title="Müşteri bu ücretin üstüne çıkarsa kargo ücretsiz olsun"
+                                                data-original-title="Müşteri bu ücretin üstüne çıkarsa kargo ücretsiz olur. Mod 1 aktifse tüm satıcılarda, diğer modlar aktifse sadece Anikagai satıcısına uygulanır."
                                                 aria-describedby="free_cargo_price">
                                                 <i class="far fa-question-circle"></i>
                                             </a>:</label>
                                         <input type="number" class="form-control" name="free_cargo_price"
-                                            id="free_cargo_price" placeholder="Ücret giriniz" value="">
+                                            id="free_cargo_price" placeholder="Ücret giriniz"
+                                            value="{{ isset($free_cargo_price) && isset($free_cargo_price->value) ? $free_cargo_price->value : '' }}">
                                     </div>
 
                                     <div class="custom-control custom-checkbox mb-2 mt-2" id="DifferentSellerFreeCargoDiv">
                                         <input type="checkbox" class="custom-control-input"
-                                            id="other_sellers_change_free_cargo">
+                                            name="other_sellers_change_free_cargo" id="other_sellers_change_free_cargo"
+                                            {{ (isset($other_sellers_change_free_cargo) && $other_sellers_change_free_cargo->value == '1') || !isset($other_sellers_change_free_cargo) ? 'checked' : '' }}>
                                         <label class="custom-control-label" for="other_sellers_change_free_cargo">Diğer
                                             satıcılar de kendi ücretsiz
                                             kargo ücretini belirleyebilsin. <a class="mo-mb-2" data-toggle="tooltip"
                                                 data-placement="right" title=""
-                                                data-original-title="Bunu seçerseniz diğer satıcılar da kendi belirledikleri ücretsiz kargo ücreti sınırını belirleyebilir."
+                                                data-original-title="Bunu seçerseniz diğer satıcılar da kendi belirledikleri ücretsiz kargo ücreti sınırını belirleyebilir. Sadece Mod 2 ve Mod 3 de aktif olur"
                                                 aria-describedby="other_sellers_change_free_cargo">
                                                 <i class="far fa-question-circle"></i>
                                             </a> </label>
@@ -79,6 +112,7 @@
                                 </div>
                             </div>
 
+                            <!--Modlar-->
                             <div class="ModesDiv container mt-5">
                                 <div class="">
                                     <label for="">Mağaza Tipi: </label>
@@ -86,8 +120,9 @@
                                 <div>
                                     @foreach ($shopModes as $mode)
                                         <div class="custom-control custom-radio custom-control-inline">
-                                            <input type="radio" id="ShopMode_{{ $mode->code }}" name="active_shop_mode"
-                                                class="custom-control-input" value="{{ $mode->value }}"
+                                            <input type="radio" id="ShopMode_{{ $mode->code }}"
+                                                name="active_shop_mode" class="custom-control-input"
+                                                value="{{ $mode->value }}"
                                                 {{ isset($active_shop_mode) && $active_shop_mode->value == $mode->value ? 'checked' : '' }}>
                                             <label class="custom-control-label"
                                                 for="ShopMode_{{ $mode->code }}">{{ $mode->optional }}</label>
@@ -105,10 +140,11 @@
 
                             </div>
 
-
+                            <!--Buton-->
                             <div class="mt-3">
                                 <button type="submit" class="btn btn-info"><i class="fas fa-save"></i> Kaydet</button>
                             </div>
+
                         </form>
                     </div>
                 </div>
@@ -131,8 +167,7 @@
                                     sonra
                                     arşiv'e eklensin</label>
                             </div>
-                            <div id="archiveTimeDiv" class="col-md-2 mb-3"
-                                style="{{ isset($addArchive) && $addArchive->value == 1 ? '' : 'display:none' }}">
+                            <div id="archiveTimeDiv" class="col-md-2 mb-3">
                                 <label for="archive_date">Arşiv Süresi <a class="mo-mb-2" data-toggle="tooltip"
                                         data-placement="right" title=""
                                         data-original-title="Bir ürün eklendikten sonra hiç satılmaz ise arşive alınma süresi"
@@ -152,8 +187,7 @@
                                     süre
                                     sonra silinsin</label>
                             </div>
-                            <div id="deleteAutomaticDiv" class="col-md-2 mb-3"
-                                style="{{ isset($deleteAutomatic) && $deleteAutomatic->value == 1 ? '' : 'display:none' }}">
+                            <div id="deleteAutomaticDiv" class="col-md-2 mb-3">
                                 <label for="archive_date">Silinme Süresi <a class="mo-mb-2" data-toggle="tooltip"
                                         data-placement="right" title=""
                                         data-original-title="Bir ürün eklendikten sonra hiç satılmaz ise silinme süresi"
@@ -230,10 +264,23 @@
             }
 
             function changeFreeCargo() {
-                var check = document.getElementById('free_cargo').checked;
+                var check = document.getElementById('active_free_cargo').checked;
                 if (check) $('#FreeCargoDiv').slideDown();
                 else $('#FreeCargoDiv').slideUp();
             }
+
+            function changeCommission() {
+                var check = document.getElementById('active_commission').checked;
+                if (check) $('#CommissionDiv').slideDown();
+                else $('#CommissionDiv').slideUp();
+            }
+
+            $(document).ready(function() {
+                changeAddArchive();
+                changeDeleteAutomatic();
+                changeFreeCargo();
+                changeCommission();
+            });
         </script>
     @endif
 

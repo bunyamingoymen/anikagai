@@ -15,6 +15,56 @@ class KeyValueSeeder extends Seeder
     {
         DB::connection('shop_mysql')->table('shop_key_values')->truncate();
 
+        //Ücretler ----------------------------------------------------------------
+        DB::connection('shop_mysql')->table('shop_key_values')->insert([
+            [
+                'code' => ShopKeyValue::max('code') + 1,
+                'key'  => 'active_commission',
+                'value'  => '1',
+                'create_user_code' => 1,
+                'deleted' => 0,
+            ]
+        ]);
+
+        DB::connection('shop_mysql')->table('shop_key_values')->insert([
+            [
+                'code' => ShopKeyValue::max('code') + 1,
+                'key'  => 'commission_rate',
+                'value'  => '5',
+                'create_user_code' => 1,
+                'deleted' => 0,
+            ]
+        ]);
+
+        DB::connection('shop_mysql')->table('shop_key_values')->insert([
+            [
+                'code' => ShopKeyValue::max('code') + 1,
+                'key'  => 'active_free_cargo',
+                'value'  => '1',
+                'create_user_code' => 1,
+                'deleted' => 0,
+            ]
+        ]);
+
+        DB::connection('shop_mysql')->table('shop_key_values')->insert([
+            [
+                'code' => ShopKeyValue::max('code') + 1,
+                'key'  => 'free_cargo_price',
+                'value'  => '0',
+                'create_user_code' => 1,
+                'deleted' => 0,
+            ]
+        ]);
+
+        DB::connection('shop_mysql')->table('shop_key_values')->insert([
+            [
+                'code' => ShopKeyValue::max('code') + 1,
+                'key'  => 'other_sellers_change_free_cargo',
+                'value'  => '1',
+                'create_user_code' => 1,
+                'deleted' => 0,
+            ]
+        ]);
 
         //Modlar ----------------------------------------------------------------
         DB::connection('shop_mysql')->table('shop_key_values')->insert([
