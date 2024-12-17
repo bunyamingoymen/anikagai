@@ -19,6 +19,7 @@ class SettingsController extends Controller
         $approwNotRequired = ShopKeyValue::Where('key', 'approw_not_required')->first();
         //** General Settings */
 
+        $active_shop_mode = ShopKeyValue::Where('key', 'active_shop_mode')->first();
         $shopModes = ShopKeyValue::Where('key', 'shop_modes')->get();
 
         //** Archive And Delete Settings */
@@ -35,6 +36,7 @@ class SettingsController extends Controller
                 'newSellerAccept',
                 'approwNotRequired',
 
+                'active_shop_mode',
                 'shopModes',
 
                 'addArchive',

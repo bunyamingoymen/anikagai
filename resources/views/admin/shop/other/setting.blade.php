@@ -43,14 +43,16 @@
                     <div class="card-body">
                         <h4 class="header-title mb-4">Satıcı Ayarları</h4>
                         <form action="">
-                            <div class="custom-control custom-checkbox mb-2">
-                                <input type="checkbox" class="custom-control-input" id="free_cargo"
-                                    onchange="changeFreeCargo()">
-                                <label class="custom-control-label" for="free_cargo"> Belli bir ücretin üstü kargo ücretsiz
-                                    olsun. </label>
-                            </div>
-                            <div id="FreeCargoDiv" class="col-md-6 mb-3 mr-3 ml-3" style="display:none">
-                                <div id="FreeCargoToDiv">
+                            <div class="FreeCargoTopDiv mb-5">
+                                <div class="custom-control custom-checkbox mb-2">
+                                    <input type="checkbox" class="custom-control-input" id="free_cargo"
+                                        onchange="changeFreeCargo()">
+                                    <label class="custom-control-label" for="free_cargo"> Belli bir ücretin üstü kargo
+                                        ücretsiz
+                                        olsun. </label>
+                                </div>
+
+                                <div id="FreeCargoDiv" class="col-md-6 mb-3 mr-3 ml-3" style="display:none">
                                     <div>
                                         <label for="archive_date">Ücret: <a class="mo-mb-2" data-toggle="tooltip"
                                                 data-placement="right" title=""
@@ -75,8 +77,35 @@
                                             </a> </label>
                                     </div>
                                 </div>
+                            </div>
+
+                            <div class="ModesDiv container mt-5">
+                                <div class="">
+                                    <label for="">Mağaza Tipi: </label>
+                                </div>
+                                <div>
+                                    @foreach ($shopModes as $mode)
+                                        <div class="custom-control custom-radio custom-control-inline">
+                                            <input type="radio" id="ShopMode_{{ $mode->code }}" name="active_shop_mode"
+                                                class="custom-control-input" value="{{ $mode->value }}"
+                                                {{ isset($active_shop_mode) && $active_shop_mode->value == $mode->value ? 'checked' : '' }}>
+                                            <label class="custom-control-label"
+                                                for="ShopMode_{{ $mode->code }}">{{ $mode->optional }}</label>
+                                        </div>
+                                    @endforeach
+                                </div>
+
+                                <div class="ModesDescriptions mt-5">
+                                    @foreach ($shopModes as $mode)
+                                        <div class="alert alert-warning" role="alert">
+                                            <strong>{{ $mode->optional }}: </strong>{{ $mode->optional_2 }}
+                                        </div>
+                                    @endforeach
+                                </div>
 
                             </div>
+
+
                             <div class="mt-3">
                                 <button type="submit" class="btn btn-info"><i class="fas fa-save"></i> Kaydet</button>
                             </div>
