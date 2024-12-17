@@ -312,8 +312,8 @@
                                 <div id="themeLogoDiv">
                                     <div class="row">
                                         <div style="background-color: black;">
-                                            <img src="{{ url($logo->value) }}" alt="logo"
-                                                style="max-height: 155px;">
+                                            <img src="{{ isset($shop_logo) ? url($shop_logo->value) : '' }}"
+                                                alt="logo" style="max-height: 155px;">
                                         </div>
                                         <div class="ml-5">
                                             <button type="button" class="btn btn-primary"
