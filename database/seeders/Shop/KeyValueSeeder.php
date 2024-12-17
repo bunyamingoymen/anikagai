@@ -201,7 +201,7 @@ class KeyValueSeeder extends Seeder
             [
                 'code' => ShopKeyValue::max('code') + 1,
                 'key'  => 'use_same_color',
-                'value'  => '0',
+                'value'  => '0', //0 ise ana tema ile aynı renkler kullanılır, 1 ise girilen renkler
                 'create_user_code' => 1,
                 'deleted' => 0,
             ]
@@ -211,7 +211,7 @@ class KeyValueSeeder extends Seeder
             [
                 'code' => ShopKeyValue::max('code') + 1,
                 'key'  => 'use_same_logo',
-                'value'  => '0',
+                'value'  => '0', // 0 ise aynı logo kullanılır, 1 ise aşağıdaki logo
                 'create_user_code' => 1,
                 'deleted' => 0,
             ]

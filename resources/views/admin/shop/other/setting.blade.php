@@ -226,9 +226,13 @@
                 <div class="card">
                     <div class="card-body">
                         <h4 class="header-title mb-4">Tema Ayarları</h4>
-                        <form action="{{ route('admin_shop_theme_settings') }}" method="POST">
+                        <form action="{{ route('admin_shop_theme_settings') }}" method="POST"
+                            enctype="multipart/form-data" id="themeChangeSubmitForm">
                             @csrf
+
+                            <!--Renk Ayarları-->
                             <div id="themeColorTopDiv">
+
                                 <div class="custom-control custom-checkbox mb-2">
                                     <input type="checkbox" class="custom-control-input" id="use_same_color"
                                         name="use_same_color" onchange="changeDiv('use_same_color', 'themeColorDiv');"
@@ -237,6 +241,7 @@
                                         Ana site ile farklı renge sahip olsun
                                     </label>
                                 </div>
+
                                 <div id="themeColorDiv">
                                     @if ($colors_code)
                                         <div class="col-lg-8">
@@ -293,27 +298,36 @@
                                     @endif
                                 </div>
                             </div>
-                            <div class="mt-3">
-                                <button type="submit" class="btn btn-info"><i class="fas fa-save"></i> Kaydet</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <!--Logo Ayarları-->
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="header-title mb-4">Logo Ayarları</h4>
-                        <form action="">
-                            <div class="custom-control custom-checkbox mb-2">
-                                <input type="checkbox" class="custom-control-input" id="same_theme" checked="">
-                                <label class="custom-control-label" for="same_theme">Ana site ile aynı logoya sahip
-                                    olsun</label>
+                            <div id="themeLogoTopDiv">
+                                <div class="custom-control custom-checkbox mb-2">
+                                    <input type="checkbox" class="custom-control-input" id="use_same_logo"
+                                        name="use_same_logo" onchange="changeDiv('use_same_logo', 'themeLogoDiv');"
+                                        {{ isset($use_same_logo) && $use_same_logo->value == '1' ? 'checked' : '' }}>
+                                    <label class="custom-control-label" for="use_same_logo">
+                                        Ana site ile farklı logoya sahip olsun
+                                    </label>
+                                </div>
+
+                                <div id="themeLogoDiv">
+                                    <div class="row">
+                                        <div style="background-color: black;">
+                                            <img src="{{ url($logo->value) }}" alt="logo"
+                                                style="max-height: 155px;">
+                                        </div>
+                                        <div class="ml-5">
+                                            <button type="button" class="btn btn-primary"
+                                                onclick="logoChangeButton()">Değiştir</button>
+                                            <div hidden>
+                                                <input type="file" name="logo" id="logoChangeInput"
+                                                    accept="image/*">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
+
+
                             <div class="mt-3">
                                 <button type="submit" class="btn btn-info"><i class="fas fa-save"></i> Kaydet</button>
                             </div>
@@ -347,6 +361,17 @@
             }
         </script>
 
+        <!--Logo ayarları-->
+        <script>
+            function logoChangeButton() {
+                document.getElementById('logoChangeInput').click();
+            }
+
+            document.getElementById('logoChangeInput').addEventListener('change', function() {
+                document.getElementById('themeChangeSubmitForm').submit();
+            });
+        </script>
+
         <!--Görünüş Ayarları-->
         <script>
             function changeDiv(checkboxID, DivID) {
@@ -361,6 +386,7 @@
                 changeDiv('active_free_cargo', 'FreeCargoDiv');
                 changeDiv('active_commission', 'CommissionDiv');
                 changeDiv('use_same_color', 'themeColorDiv');
+                changeDiv('use_same_logo', 'themeLogoDiv');
             });
         </script>
     @endif

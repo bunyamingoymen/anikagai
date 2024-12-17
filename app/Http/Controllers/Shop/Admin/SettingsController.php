@@ -53,6 +53,10 @@ class SettingsController extends Controller
         $use_same_color = ShopKeyValue::Where('key', 'use_same_color')->first();
         $colors_different = ShopKeyValue::Where('key', 'colors_code')->get();
 
+
+        $use_same_logo = ShopKeyValue::Where('key', 'use_same_logo')->first();
+        $shop_logo = ShopKeyValue::Where('key', 'shop_logo')->first();
+
         return view(
             'admin.shop.other.setting',
             compact(
@@ -80,6 +84,9 @@ class SettingsController extends Controller
 
                 'use_same_color',
                 'colors_different',
+
+                'use_same_logo',
+                'shop_logo',
             )
         );
     }
@@ -305,7 +312,6 @@ class SettingsController extends Controller
 
     public function theme_settings(Request $request)
     {
-        //dd($request->toArray());
         $use_same_color = ShopKeyValue::Where('key', 'use_same_color')->first();
 
         if (!$use_same_color) {
@@ -339,6 +345,37 @@ class SettingsController extends Controller
                     $color->save();
                 }
             }
+        }
+
+
+        //Logo Ayarları:
+
+        $use_same_logo = ShopKeyValue::Where('key', 'use_same_logo')->first();
+
+        if (!$use_same_logo) {
+            $use_same_logo = new ShopKeyValue();
+            $use_same_logo->code = $this->generateUniqueCode('shop_mysql', 'shop_key_values');
+            $use_same_logo->key = 'use_same_logo';
+            $use_same_logo->create_user_code = Auth::guard('admin')->user()->code;
+        }
+
+        $use_same_logo->value = $request->has('use_same_logo') ? '1' : '0';
+        $use_same_logo->update_user_code = Auth::guard('admin')->user()->code;
+        $use_same_logo->save();
+
+        ShopKeyValue::Where('key', 'shop_logo')->delete();
+        if ($request->has('use_same_logo') && $request->hasFile('logo')) {
+            $logo = $request->file('logo');
+            $path = 'shop_files/img/logo/';
+            $name = "logo." . $logo->getClientOriginalExtension();
+            $logo->move(public_path($path), $name);
+
+            $logoVal = new ShopKeyValue();
+            $logoVal->code = $this->generateUniqueCode('shop_mysql', 'shop_key_values');
+            $logoVal->key = 'shop_logo';
+            $logoVal->value = $path . $name;
+            $logoVal->create_user_code = Auth::guard('admin')->user()->code;
+            $logoVal->save();
         }
 
 
