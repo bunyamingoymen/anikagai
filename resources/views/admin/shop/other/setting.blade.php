@@ -46,10 +46,11 @@
                             @csrf
 
                             <!--Komisyon oranları-->
-                            <div class="CommissionTopDiv mb-5">
+                            <div class="CommissionTopDiv">
                                 <div class="custom-control custom-checkbox mb-2">
                                     <input type="checkbox" class="custom-control-input" id="active_commission"
-                                        name="active_commission" onchange="changeDiv('active_commission', 'CommissionDiv');"
+                                        name="active_commission"
+                                        onchange="toggleDivVisibility('active_commission', 'CommissionDiv');"
                                         {{ (isset($active_commission) && $active_commission->value == '1') || !isset($active_commission) ? 'checked' : '' }}>
                                     <label class="custom-control-label" for="active_commission">
                                         Satıcılardan Komisyon ücreti alınsın
@@ -76,7 +77,8 @@
                             <div class="FreeCargoTopDiv mb-5">
                                 <div class="custom-control custom-checkbox mb-2">
                                     <input type="checkbox" class="custom-control-input" id="active_free_cargo"
-                                        name="active_free_cargo" onchange="changeDiv('active_free_cargo', 'FreeCargoDiv');"
+                                        name="active_free_cargo"
+                                        onchange="toggleDivVisibility('active_free_cargo', 'FreeCargoDiv');"
                                         {{ (isset($active_free_cargo) && $active_free_cargo->value == '1') || !isset($active_free_cargo) ? 'checked' : '' }}>
                                     <label class="custom-control-label" for="active_free_cargo">
                                         Belli bir ücretin üstü kargo ücretsiz olsun.
@@ -113,7 +115,7 @@
                             </div>
 
                             <!--Modlar-->
-                            <div class="ModesDiv container mt-5">
+                            <div class="ModesDiv mt-5">
                                 <div class="">
                                     <label for="">Mağaza Tipi: </label>
                                 </div>
@@ -130,7 +132,7 @@
                                     @endforeach
                                 </div>
 
-                                <div class="ModesDescriptions mt-5">
+                                <div class="ModesDescriptions mt-5 col-lg-8">
                                     @foreach ($shopModes as $mode)
                                         <div class="alert alert-warning" role="alert">
                                             <strong>{{ $mode->optional }}: </strong>{{ $mode->optional_2 }}
@@ -168,7 +170,7 @@
                                     <input type="checkbox" class="custom-control-input" id="add_archive"
                                         name="add_archive"
                                         {{ isset($addArchive) && $addArchive->value == 1 ? 'checked' : '' }}
-                                        onchange="changeDiv('add_archive', 'archiveTimeDiv')">
+                                        onchange="toggleDivVisibility('add_archive', 'archiveTimeDiv')">
                                     <label class="custom-control-label" for="add_archive">
                                         Ürün satılmaz ise belli bir süre sonra arşiv'e eklensin
                                     </label>
@@ -191,7 +193,7 @@
                                     <input type="checkbox" class="custom-control-input" id="delete_automatic"
                                         name="delete_automatic"
                                         {{ isset($deleteAutomatic) && $deleteAutomatic->value == 1 ? 'checked' : '' }}
-                                        onchange="changeDiv('delete_automatic', 'deleteAutomaticDiv');">
+                                        onchange="toggleDivVisibility('delete_automatic', 'deleteAutomaticDiv');">
                                     <label class="custom-control-label" for="delete_automatic">
                                         Ürün satılmaz ise belli bir süre sonra silinsin
                                     </label>
@@ -235,7 +237,8 @@
 
                                 <div class="custom-control custom-checkbox mb-2">
                                     <input type="checkbox" class="custom-control-input" id="use_same_color"
-                                        name="use_same_color" onchange="changeDiv('use_same_color', 'themeColorDiv');"
+                                        name="use_same_color"
+                                        onchange="toggleDivVisibility('use_same_color', 'themeColorDiv');"
                                         {{ isset($use_same_color) && $use_same_color->value == '1' ? 'checked' : '' }}>
                                     <label class="custom-control-label" for="use_same_color">
                                         Ana site ile farklı renge sahip olsun
@@ -302,7 +305,8 @@
                             <div id="themeLogoTopDiv">
                                 <div class="custom-control custom-checkbox mb-2">
                                     <input type="checkbox" class="custom-control-input" id="use_same_logo"
-                                        name="use_same_logo" onchange="changeDiv('use_same_logo', 'themeLogoDiv');"
+                                        name="use_same_logo"
+                                        onchange="toggleDivVisibility('use_same_logo', 'themeLogoDiv');"
                                         {{ isset($use_same_logo) && $use_same_logo->value == '1' ? 'checked' : '' }}>
                                     <label class="custom-control-label" for="use_same_logo">
                                         Ana site ile farklı logoya sahip olsun
@@ -374,19 +378,48 @@
 
         <!--Görünüş Ayarları-->
         <script>
-            function changeDiv(checkboxID, DivID) {
-                var check = document.getElementById(checkboxID).checked;
-                if (check) $('#' + DivID).slideDown();
-                else $('#' + DivID).slideUp();
+            function toggleDivVisibility(checkboxID, divID) {
+                const checkbox = document.getElementById(checkboxID);
+                const div = $('#' + divID);
+                if (checkbox && div.length) {
+                    const isChecked = checkbox.checked;
+                    div.slideToggle(!!isChecked); // slideUp, slideDown yerine slideToggle yaparak ikisi de kullanıldı
+                }
             }
 
             $(document).ready(function() {
-                changeDiv('add_archive', 'archiveTimeDiv');
-                changeDiv('delete_automatic', 'deleteAutomaticDiv');
-                changeDiv('active_free_cargo', 'FreeCargoDiv');
-                changeDiv('active_commission', 'CommissionDiv');
-                changeDiv('use_same_color', 'themeColorDiv');
-                changeDiv('use_same_logo', 'themeLogoDiv');
+                const toggleMappings = [{
+                        checkboxID: 'add_archive',
+                        divID: 'archiveTimeDiv'
+                    },
+                    {
+                        checkboxID: 'delete_automatic',
+                        divID: 'deleteAutomaticDiv'
+                    },
+                    {
+                        checkboxID: 'active_free_cargo',
+                        divID: 'FreeCargoDiv'
+                    },
+                    {
+                        checkboxID: 'active_commission',
+                        divID: 'CommissionDiv'
+                    },
+                    {
+                        checkboxID: 'use_same_color',
+                        divID: 'themeColorDiv'
+                    },
+                    {
+                        checkboxID: 'use_same_logo',
+                        divID: 'themeLogoDiv'
+                    },
+                ];
+
+                toggleMappings.forEach(({
+                    checkboxID,
+                    divID
+                }) => {
+                    toggleDivVisibility(checkboxID, divID);
+                });
             });
         </script>
     @endif
