@@ -600,7 +600,7 @@ class AppServiceProvider extends ServiceProvider
         }
     }
 
-    function hasTable($tableName)
+    private function hasTable($tableName)
     {
         try {
             Schema::hasTable($tableName);
@@ -610,7 +610,7 @@ class AppServiceProvider extends ServiceProvider
         }
     }
 
-    function checkAuthorization($adminUserType, $configKey)
+    private function checkAuthorization($adminUserType, $configKey)
     {
 
         $hasTable = $this->hasTable('authorization_clause_groups');
@@ -632,7 +632,7 @@ class AppServiceProvider extends ServiceProvider
             ->exists();
     }
 
-    function checkIndexPage($adminUserType, $action)
+    private function checkIndexPage($adminUserType, $action)
     {
         $hasTable = $this->hasTable('authorization_clause_groups');
         if (!$hasTable || !$adminUserType) {
@@ -646,7 +646,7 @@ class AppServiceProvider extends ServiceProvider
                 ->get()) > 0);
     }
 
-    protected function loadThemeView($viewName, $additionalData = [])
+    private function loadThemeView($viewName, $additionalData = [])
     {
         if ($this->hasTable('key_values')) {
             $selected_theme = KeyValue::Where('key', 'selected_theme')->first();
@@ -656,7 +656,7 @@ class AppServiceProvider extends ServiceProvider
         }
     }
 
-    protected function getTrendContent($modelClass, $main_category = 0, $showStatus, $take, $orderBy)
+    private function getTrendContent($modelClass, $main_category = 0, $showStatus, $take, $orderBy)
     {
         if ($main_category == 0) {
             return $modelClass::where('deleted', 0)
@@ -676,7 +676,7 @@ class AppServiceProvider extends ServiceProvider
         }
     }
 
-    public function sendShowStatus($type = 0)
+    private function sendShowStatus($type = 0)
     {
         //type 0 ise normal listelemedir. 1 ise trend yada benzer içerikleri listelemedir.
 
@@ -686,7 +686,7 @@ class AppServiceProvider extends ServiceProvider
             return Auth::user() ? ["0", "1", "2"] : ["0"];
     }
 
-    protected function findTitleValue($path = null)
+    private function findTitleValue($path = null)
     {
         $path = $path ?? Request::path();
         $keyPrefix = 'title.titles.';
@@ -727,7 +727,58 @@ class AppServiceProvider extends ServiceProvider
         ];
     }
 
-    protected function getDataFromDatabase($data = [])
+    private function makeShortName($name)
+    {
+        $alphabet = [
+            'q',
+            'w',
+            'e',
+            'r',
+            't',
+            'y',
+            'u',
+            'ı',
+            'o',
+            'p',
+            'ğ',
+            'ü',
+            'a',
+            's',
+            'd',
+            'f',
+            'g',
+            'h',
+            'j',
+            'k',
+            'l',
+            'ş',
+            'i',
+            'z',
+            'x',
+            'c',
+            'v',
+            'b',
+            'n',
+            'm',
+            'ö',
+            'ç'
+        ];
+
+        $name = $name;
+        $shortName = '';
+
+        // Gelen ismi karakter karakter parçalayarak kontrol ediyoruz
+        for ($i = 0; $i < mb_strlen($name); $i++) {
+            $character = mb_strtolower(mb_substr($name, $i, 1)); // Harfi küçük harfe dönüştürüyoruz
+            if (in_array($character, $alphabet)) {
+                $shortName .= $character;
+            } else $shortName .= "-";
+        }
+
+        return $shortName;
+    }
+
+    private function getDataFromDatabase($data = [])
     {
         //$data içinde bulunan veriler: 'database'=>'shop_mysql', 'model'=>'App\Models\Shop\ShopProduct', $filters = [], $pagination = ['take' => 15, 'page' => 1], $search = [], $whereIn = [], $joins=[]
 
@@ -836,41 +887,6 @@ class AppServiceProvider extends ServiceProvider
             }
         }
 
-        // Join işlemi
-        /*
-        if (!empty($leftJoins)) {
-            foreach ($leftJoins as $index => $left) {
-                if (isset($left['table'], $left['first'], $left['operator'], $left['second'], $left['columns'])) {
-                    // Join işlemi
-                    $first = strpos($left['first'], '.') ? $left['first'] : $mainTableAlias . '.' . $left['first'];
-                    $second = strpos($left['second'], '.') ? $left['second'] : $mainTableAlias . '.' . $left['second'];
-
-                    $query->leftJoin($left['table'], $first, $left['operator'], $second);
-
-                    // Join edilen tablonun belirli sütunlarını alias ile ekle
-                    foreach ($left['columns'] as $column => $alias) {
-                        if (strpos($column, '.'))  $selectColumns[] = $column . ' as ' . $alias;
-                        else $selectColumns[] = $left['table'] . '.' . $column . ' as ' . $alias;
-
-                        if ($groupBy) {
-                            if (strpos($column, '.'))  $groupByColumns[] = $column;
-                            else  $groupByColumns[] = $left['table'] . '.' . $column;
-                        }
-                    }
-
-                    if (isset($left['where'])) {
-                        foreach ($left['where'] as $left_where_index => $left_where) {
-                            $left_column = (strpos($left_where_index, '.')) ? $left_where_index : $left['table'] . '.' . $left_where_index;
-                            $query->where($left_column, $left_where)->orWhere($left_column, null);
-
-                            if ($groupBy) {
-                                $groupByColumns[] =  $left_column;
-                            }
-                        }
-                    }
-                }
-            }
-        }*/
         if (!empty($leftJoins)) {
             foreach ($leftJoins as $index => $left) {
                 if (isset($left['table'], $left['first'], $left['operator'], $left['second'], $left['columns'])) {

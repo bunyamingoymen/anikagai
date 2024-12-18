@@ -40,14 +40,62 @@ class IndexController extends Controller
     public function index()
     {
         $indexShowContent = ThemeSetting::Where('theme_code', KeyValue::Where('key', 'selected_theme')->first()->value)->Where('setting_name', 'indexShowContent')->first()->setting_value;
+
+        $latest_episode_type_db = KeyValue::where('key', 'latest_episode_type')->first();
+
+        if (!$latest_episode_type_db) $latestEpisodeType = 'none'; //son bölümleri gösterme
+        else $latestEpisodeType = $latest_episode_type_db->value; //Ayarlara göre sırala
+
+        $latestEpisodes = null;
+
+        if ($latestEpisodeType != 'none') {
+            $anime_active = KeyValue::where('key', 'anime_active')->exists(); // Anime bölümleri açık mı?
+            $webtoon_active = KeyValue::where('key', 'webtoon_active')->exists(); // Webtoon bölümleri açık mı?
+
+            $latestEpisodesQuery = null;
+
+            if ($anime_active) {
+                // Anime bölümleri sorgusu
+                $animeQuery = DB::table('anime_episodes')
+                    ->join('animes', 'animes.code', '=', 'anime_episodes.anime_code')
+                    ->select('anime_episodes.*', DB::raw("'anime' as type"));
+                $latestEpisodesQuery = $animeQuery;
+            }
+
+            if ($webtoon_active) {
+                // Webtoon bölümleri sorgusu
+                $webtoonQuery = DB::table('webtoon_episodes')
+                    ->join('webtoons', 'webtoons.code', '=', 'webtoon_episodes.anime_code')
+                    ->select('webtoon_episodes.*', DB::raw("'webtoon' as type"));
+
+                if ($latestEpisodesQuery) {
+                    // Eğer anime sorgusu varsa union yap
+                    $latestEpisodesQuery = $latestEpisodesQuery->unionAll($webtoonQuery);
+                } else {
+                    // Sadece webtoon varsa
+                    $latestEpisodesQuery = $webtoonQuery;
+                }
+            }
+
+            if ($latestEpisodesQuery) {
+                // Eğer bir sorgu varsa, sıralayıp limitle
+                $latestEpisodes = $latestEpisodesQuery
+                    ->orderBy('created_at', 'desc') // Timestamps'e göre sıralama
+                    ->limit(10) // Son 10 bölümü al
+                    ->get();
+            }
+        }
+
         $additionalData = [
-            'trend_animes' => $this->getTrendContent(Anime::class, 0, $this->sendShowStatus(1), 6, 'click_count', 0),
-            'trend_webtoons' => $this->getTrendContent(Webtoon::class, 0, $this->sendShowStatus(1), 6, 'click_count', 0),
-            'animes' => $this->getContent(Anime::class, $this->sendShowStatus(0), $indexShowContent, 'created_at', 'DESC'),
-            'webtoons' => $this->getContent(Webtoon::class, $this->sendShowStatus(0), $indexShowContent, 'created_at', 'DESC'),
-            'slider_image' => KeyValue::where('key', 'slider_image')->where('deleted', 0)->get(),
-            'slider_image_alt' => KeyValue::where('key', 'slider_image_alt')->where('deleted', 0)->get(),
-            'slider_show' => ThemeSetting::where('theme_code', KeyValue::Where('key', 'selected_theme')->first()->value)->where('setting_name', 'showSlider')->first()->setting_value,
+            'trend_animes'      => $this->getTrendContent(Anime::class, 0, $this->sendShowStatus(1), 6, 'click_count', 0),
+            'trend_webtoons'    => $this->getTrendContent(Webtoon::class, 0, $this->sendShowStatus(1), 6, 'click_count', 0),
+            'animes'            => $this->getContent(Anime::class, $this->sendShowStatus(0), $indexShowContent, 'created_at', 'DESC'),
+            'webtoons'          => $this->getContent(Webtoon::class, $this->sendShowStatus(0), $indexShowContent, 'created_at', 'DESC'),
+            'slider_image'      => KeyValue::where('key', 'slider_image')->where('deleted', 0)->get(),
+            'slider_image_alt'  => KeyValue::where('key', 'slider_image_alt')->where('deleted', 0)->get(),
+            'slider_show'       => ThemeSetting::where('theme_code', KeyValue::Where('key', 'selected_theme')->first()->value)->where('setting_name', 'showSlider')->first()->setting_value,
+            'latestEpisodes'    => $latestEpisodes,
+            'latestEpisodeType' => $latestEpisodeType,
         ];
 
         return $this->loadThemeView('index', $additionalData);
