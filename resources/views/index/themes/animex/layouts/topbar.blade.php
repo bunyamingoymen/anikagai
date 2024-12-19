@@ -69,7 +69,7 @@
 <header class="header">
     <div class="container">
         <div class="row">
-            @if (env('SHOP_ACTIVE') || Auth::guard('admin')->check())
+            @if ($storeActive && (env('SHOP_ACTIVE') || Auth::guard('admin')->check()))
                 <div class="col-lg-1 mt-3">
                     <a href="{{ route('shop_index') }}" class="btn btn-outline-danger"
                         style="margin-right: 10px;">Mağaza</a>
@@ -85,7 +85,7 @@
                     </a>
                 </div>
             </div>
-            <div class="col-lg-8">
+            <div class="col-lg-7">
                 <div class="header__nav">
                     <nav class="header__menu mobile-menu">
                         <ul>
@@ -97,7 +97,7 @@
                     </nav>
                 </div>
             </div>
-            <div class="col-lg-2">
+            <div class="col-lg-3">
                 <div class="header__right">
                     <a href="javascript:;" class="search-switch"><span class="icon_search"></span></a>
 

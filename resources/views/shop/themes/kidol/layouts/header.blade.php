@@ -2,6 +2,9 @@
     <div class="header-area header-default sticky-header sticky">
         <div class="container">
             <div class="row row-gutter-0 align-items-center">
+                <div class="col-2 col-sm-2 col-lg-2 row">
+                    <a href="{{ route('index') }}" class="btn btn-outline-danger">Anikagai</a>
+                </div>
                 <div class="col-4 col-sm-6 col-lg-2">
                     <div class="header-logo-area">
                         <a href="{{ route('shop_index') }}">
@@ -10,7 +13,8 @@
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-8 sticky-md-none">
+
+                <div class="col-lg-6 sticky-md-none">
                     <div class="header-navigation-area d-none d-md-block">
                         <ul class="main-menu nav position-relative">
                             <li class="active"><a href="{{ route('shop_index') }}">Anasayfa</a></li>

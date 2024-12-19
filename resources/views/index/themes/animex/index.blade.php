@@ -96,7 +96,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-8">
-                    @if ($data['anime_active']->value == 1)
+                    @if ($data['anime_active']->value == 1 && $animes->isNotEmpty())
                         <div class="trending__product">
                             <div class="row">
                                 <div class="col-lg-8 col-md-8 col-sm-8">
@@ -168,7 +168,7 @@
                             </div>
                         </div>
                     @endif
-                    @if ($data['webtoon_active']->value == 1)
+                    @if ($data['webtoon_active']->value == 1 && $webtoons->isNotEmpty())
                         <div class="trending__product">
                             <div class="row">
                                 <div class="col-lg-8 col-md-8 col-sm-8">

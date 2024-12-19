@@ -53,7 +53,7 @@ class AppServiceProvider extends ServiceProvider
                 $watchPages = ['index.' . $themePath->themePath . '.watch', 'index.' . $themePath->themePath . '.read'];
                 $themeThree = ['index.themes.moviefx.layouts.main', 'index.themes.moviefx.layouts.sidebar', 'index.themes.moviefx.layouts.topbar', 'index.themes.moviefx.layouts.footer', 'index.themes.moviefx.profile'];
 
-                $shopPages = ['shop.themes.kidol.layouts.main', 'shop.themes.kidol.layouts.footer', 'shop.themes.kidol.layouts.header',];
+                $shopPages = ['shop.themes.kidol.layouts.main', 'shop.themes.kidol.layouts.footer', 'shop.themes.kidol.layouts.header', 'shop.themes.kidol.login'];
 
                 $adminPages = ['admin.layouts.main'];
                 //
@@ -539,6 +539,13 @@ class AppServiceProvider extends ServiceProvider
                         ->where('setting_name', 'colors_code')
                         ->get();
 
+                    if ($this->hasTable('ShopKeyValue')) {
+                        $storeActiveDB = ShopKeyValue::Where('key', 'store_active')->first();
+                        if ($storeActiveDB) $storeActive = $storeActiveDB->value == "1" ? true : false;
+                    }
+
+                    if (!isset($storeActive)) $storeActive = false;
+
                     $view->with('data', $data)
                         ->with('menus', $menus)
                         ->with('menu_alts', $menu_alts)
@@ -547,7 +554,8 @@ class AppServiceProvider extends ServiceProvider
                         ->with('sliderShow', $sliderShow)
                         ->with('colors_code', $colors_code)
                         ->with('notificatons', $notificatons)
-                        ->with('notificaton_count', $notificaton_count);
+                        ->with('notificaton_count', $notificaton_count)
+                        ->with('storeActive', $storeActive);
                 });
 
                 View::composer($themeThree, function ($view) {
@@ -584,7 +592,17 @@ class AppServiceProvider extends ServiceProvider
                         $cartTotalCount = 0;
                     }
 
-                    $view->with(['categories' => $categories, "cartTotalCount" => $cartTotalCount]);
+                    if ($this->hasTable('ShopKeyValue')) {
+                        $newSellerAcceptDB = ShopKeyValue::Where('key', 'new_seller_accept')->first();
+                        if ($newSellerAcceptDB) $newSellerAccept = $newSellerAcceptDB->value == "1" ? true : false;
+                    }
+                    if (!isset($newSellerAccept)) $newSellerAccept = false;
+
+                    $view->with([
+                        'categories' => $categories,
+                        "cartTotalCount" => $cartTotalCount,
+                        'newSellerAccept' => $newSellerAccept
+                    ]);
                 });
 
                 View::composer($watchPages, function ($view) {
