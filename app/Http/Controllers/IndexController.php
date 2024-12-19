@@ -58,15 +58,41 @@ class IndexController extends Controller
                 // Anime bölümleri sorgusu
                 $animeQuery = DB::table('anime_episodes')
                     ->join('animes', 'animes.code', '=', 'anime_episodes.anime_code')
-                    ->select('anime_episodes.*', DB::raw("'anime' as type"));
+                    ->select(
+                        'anime_episodes.code as epsiode_code',
+                        'anime_episodes.name as epsiode_name',
+                        'anime_episodes.season_short as epsiode_season_short',
+                        'anime_episodes.episode_short as epsiode_episode_short',
+                        'anime_episodes.click_count as epsiode_click_count',
+                        'animes.poster as series_poster',
+                        'animes.thumb_poster as series_thumb_poster',
+                        'animes.image as series_image',
+                        'animes.thumb_image as series_thumb_image',
+                        DB::raw("'anime' as type")
+                    )
+                    ->where('animes.deleted', 0)
+                    ->where('anime_episodes.deleted', 0); // Anime'ye özgü koşullar
                 $latestEpisodesQuery = $animeQuery;
             }
 
             if ($webtoon_active) {
                 // Webtoon bölümleri sorgusu
                 $webtoonQuery = DB::table('webtoon_episodes')
-                    ->join('webtoons', 'webtoons.code', '=', 'webtoon_episodes.anime_code')
-                    ->select('webtoon_episodes.*', DB::raw("'webtoon' as type"));
+                    ->join('webtoons', 'webtoons.code', '=', 'webtoon_episodes.webtoon_code')
+                    ->select(
+                        'webtoon_episodes.code as epsiode_code',
+                        'webtoon_episodes.name as epsiode_name',
+                        'webtoon_episodes.season_short as epsiode_season_short',
+                        'webtoon_episodes.episode_short as epsiode_episode_short',
+                        'webtoon_episodes.click_count as epsiode_click_count',
+                        'webtoons.poster as series_poster',
+                        'webtoons.thumb_poster as series_thumb_poster',
+                        'webtoons.image as series_image',
+                        'webtoons.thumb_image as series_thumb_image',
+                        DB::raw("'webtoon' as type")
+                    )
+                    ->where('webtoons.deleted', 0)
+                    ->where('webtoon_episodes.deleted', 0); // Webtoon'a özgü koşullar
 
                 if ($latestEpisodesQuery) {
                     // Eğer anime sorgusu varsa union yap
@@ -78,8 +104,12 @@ class IndexController extends Controller
             }
 
             if ($latestEpisodesQuery) {
+
                 // Eğer bir sorgu varsa, sıralayıp limitle
+
                 $latestEpisodes = $latestEpisodesQuery
+                    ->whereIn('showStatus', $this->sendShowStatus(0))
+                    ->where('plusEighteen', 0)
                     ->orderBy('created_at', 'desc') // Timestamps'e göre sıralama
                     ->limit(10) // Son 10 bölümü al
                     ->get();

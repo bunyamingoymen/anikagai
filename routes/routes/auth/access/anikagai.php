@@ -82,6 +82,7 @@ Route::controller(AuthController::class)->group(function () {
 
 Route::controller(DataController::class)->group(function () {
     Route::get("/admin/data/home", "homeList")->name('admin_data_home_list');
+
     Route::post("/admin/data/home", "homeChange")->name('admin_data_home');
     Route::post("/admin/data/home/showContent", "showContent")->name('admin_data_show_content');
     Route::post("/admin/data/home/changeThemeSettings", "changeThemeSettings")->name('admin_data_change_theme_settings');

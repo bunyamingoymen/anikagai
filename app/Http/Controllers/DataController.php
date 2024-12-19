@@ -20,13 +20,30 @@ class DataController extends Controller
         $animeActive = KeyValue::Where('key', 'anime_active')->first();
         $webtoonActive = KeyValue::Where('key', 'webtoon_active')->first();
 
+        $home_list_type = KeyValue::where('key', 'home_list_type')->first();
+        $latest_episode_type = KeyValue::where('key', 'latest_episode_type')->first();
+
         $slider_images = KeyValue::Where('deleted', 0)->Where('key', 'slider_image')->get();
         $slider_images_alt = KeyValue::Where('deleted', 0)->Where('key', 'slider_image_alt')->get();
 
         $listCount = ThemeSetting::Where('theme_code', $selected_theme->value)->Where('setting_name', 'listCount')->first();
         $sliderShow = ThemeSetting::Where('theme_code', $selected_theme->value)->Where('setting_name', 'showSlider')->first();
 
-        return view('admin.data.home', ['selected_theme' => $selected_theme, 'themes' => $themes, 'animeActive' => $animeActive, 'webtoonActive' => $webtoonActive, 'listCount' => $listCount, 'sliderShow' => $sliderShow, 'slider_images' => $slider_images, 'slider_images_alt' => $slider_images_alt]);
+        return view(
+            'admin.data.home',
+            compact(
+                'selected_theme',
+                'themes',
+                'animeActive',
+                'webtoonActive',
+                'home_list_type',
+                'latest_episode_type',
+                'slider_images',
+                'slider_images_alt',
+                'listCount',
+                'sliderShow',
+            )
+        );
     }
 
     public function homeChange(Request $request)
@@ -97,6 +114,34 @@ class DataController extends Controller
         $sliderShow->save();
 
 
+        $home_list_type = KeyValue::where('key', 'home_list_type')->first();
+
+        if (!$home_list_type) {
+            $home_list_type = new KeyValue();
+            $home_list_type->code = KeyValue::max('code') + 1;
+            $home_list_type->key = 'home_list_type';
+            $home_list_type->create_user_code = Auth::guard('admin')->user()->code;
+        }
+
+        $home_list_type->value = $request->home_list_type ?? 'default';
+        $home_list_type->update_user_code = Auth::guard('admin')->user()->code;
+        $home_list_type->save();
+
+
+        $latest_episode_type = KeyValue::where('key', 'latest_episode_type')->first();
+
+        if (!$latest_episode_type) {
+            $latest_episode_type = new KeyValue();
+            $latest_episode_type->code = KeyValue::max('code') + 1;
+            $latest_episode_type->key = 'latest_episode_type';
+            $latest_episode_type->create_user_code = Auth::guard('admin')->user()->code;
+        }
+
+        $latest_episode_type->value = $request->latest_episode_type ?? 'none';
+        $latest_episode_type->update_user_code = Auth::guard('admin')->user()->code;
+        $latest_episode_type->save();
+
+
         return redirect()->route('admin_data_home_list')->with("success", Config::get('success.success_codes.10120512'));
     }
 
@@ -106,6 +151,7 @@ class DataController extends Controller
 
         $slider->value = $request->value;
         $slider->optional_2 = $request->optional_2;
+        $slider->optional_3 = $request->optional_show_type ?? 'both';
         $slider->update_user_code = Auth::guard('admin')->user()->code;
         $slider->save();
 
@@ -168,6 +214,7 @@ class DataController extends Controller
 
         $slider->value = $request->value;
         $slider->optional_2 = $request->optional_2;
+        $slider->optional_3 = $request->optional_show_type ?? 'both';
         $slider->create_user_code = Auth::guard('admin')->user()->code;
         $slider->save();
 
@@ -181,6 +228,11 @@ class DataController extends Controller
         $slider_alt->save();
 
         return redirect()->route('admin_data_home_list')->with("success", Config::get('success.success_codes.10120512'));
+    }
+
+    public function changeLatestEpisodeType(Request $request)
+    {
+        return redirect()->route('admin_data_home_list')->with("success", "Başarılı bir şekilde son bölüm ayarları değiştirildi");
     }
 
     public function logoList()

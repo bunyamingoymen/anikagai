@@ -66,6 +66,23 @@ class WebtoonController extends Controller
             $webtoon->thumb_image = "";
         }
 
+        if ($request->hasFile('poster')) {
+            $filePoster = $request->file('poster');
+            $pathPoster = public_path('files/webtoons/webtoonsImages/poster');
+            $namePoster = $webtoon->code . '_poster' . "." . $filePoster->getClientOriginalExtension();
+            $filePoster->move($pathPoster, $namePoster);
+
+            $thumbPathPoster = public_path('files/webtoons/webtoonsImages/poster/thumbnails');
+            $thumbNamePoster = $webtoon->code . '_poster' . "_thumbnail." . $filePoster->getClientOriginalExtension();
+
+            GlideImage::create($pathPoster . '/' . $namePoster)
+                ->modify(['w' => 1920, 'h' => 1080, 'fit' => 'crop'])
+                ->save($thumbPathPoster . '/' . $thumbNamePoster);
+
+            $webtoon->thumb_poster = "files/webtoons/webtoonsImages/poster/thumbnails/" . $thumbNamePoster;
+            $webtoon->poster = "files/webtoons/webtoonsImages/poster/" . $namePoster;
+        }
+
         $webtoon->description = $request->description;
         $webtoon->average_min = $request->average_min;
         $webtoon->date = $request->date;

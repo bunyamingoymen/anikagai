@@ -141,6 +141,24 @@
                                     </label>
                                 </div>
                             </div>
+                            <div class="row mt-4">
+                                <div class="col-lg-8">
+                                    <label for="">Poster Seçiniz:</label>
+                                    <input type="file" class="form-control" name="poster" id="poster">
+                                    <small>Bu poster bu webtoon'a ait her bölümde gözükecektir.</small>
+                                </div>
+                                <div class="col-lg-8 mt-4">
+                                    <label for="">Şu an aktif poster: </label>
+                                    <div class="mt-2">
+                                        @if (isset($webtoon->poster))
+                                            <img src="{{ url($webtoon->thumb_poster) }}" alt="Poster"
+                                                style="height: 300px;">
+                                        @else
+                                            <p>Poster Eklenmemiş</p>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
                             <div style="float: right;">
                                 <button class="btn btn-primary" type="button"
                                     onclick="updateWebtoonSubmitForm()">Kaydet</button>

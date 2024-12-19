@@ -100,6 +100,64 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="mt-5">
+                                    <div class="col-lg-12">
+                                        <label for="">Listelemede Tipi: </label>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="custom-control custom-radio mt-2">
+                                            <input type="radio" id="homeListTypeDefault" name="home_list_type"
+                                                class="custom-control-input" value="default"
+                                                {{ (isset($home_list_type) && $home_list_type->value == 'default') || !isset($home_list_type) || is_null($home_list_type) ? 'checked' : '' }}>
+                                            <label class="custom-control-label" for="homeListTypeDefault">
+                                                Varsayılan (Son eklenen seriler varsayılan olarak gözükür.)
+                                            </label>
+                                        </div>
+                                        <div class="custom-control custom-radio mt-2">
+                                            <input type="radio" id="homeListTypeAdvanced" name="home_list_type"
+                                                class="custom-control-input" value="advanced"
+                                                {{ isset($home_list_type) && $home_list_type->value == 'advanced' ? 'checked' : '' }}>
+                                            <label class="custom-control-label" for="homeListTypeAdvanced">
+                                                Gelişmiş (Listelemde gözükecek serileri siz belirleyebilirsiniz. )
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="mt-5">
+                                    <div class="col-lg-12">
+                                        <label>Son bölümler Tipi: </label>
+                                        <br>
+                                        <small>Anasayfada, son bölümlerin nasıl gösterileceğini buradan
+                                            belirleyebilirsiniz.</small>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="custom-control custom-radio mt-2">
+                                            <input type="radio" id="latestEpisodeTypeNone" name="latest_episode_type"
+                                                class="custom-control-input" value="none"
+                                                {{ (isset($latest_episode_type) && $latest_episode_type->value == 'none') || !isset($latest_episode_type) || is_null($latest_episode_type) ? 'checked' : '' }}>
+                                            <label class="custom-control-label" for="latestEpisodeTypeNone">
+                                                Hiçbiri (Gösterme)
+                                            </label>
+                                        </div>
+                                        <div class="custom-control custom-radio mt-2">
+                                            <input type="radio" id="latestEpisodeTypeSlider" name="latest_episode_type"
+                                                class="custom-control-input" value="slider"
+                                                {{ isset($latest_episode_type) && $latest_episode_type->value == 'slider' ? 'checked' : '' }}>
+                                            <label class="custom-control-label" for="latestEpisodeTypeSlider">
+                                                Slider
+                                            </label>
+                                        </div>
+                                        <div class="custom-control custom-radio mt-2">
+                                            <input type="radio" id="latestEpisodeTypeList" name="latest_episode_type"
+                                                class="custom-control-input" value="list"
+                                                {{ isset($latest_episode_type) && $latest_episode_type->value == 'list' ? 'checked' : '' }}>
+                                            <label class="custom-control-label" for="latestEpisodeTypeList">
+                                                Liste
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="mt-3">
                                     <button class="btn btn-primary" style="" type="submit">Kaydet</button>
                                 </div>
@@ -158,7 +216,43 @@
                                                                 <textarea name="optional_4" id="optional_4" class="form-control" cols="10" rows="3">{{ $slider_images_alt->Where('value', $item->code)->first()->optional_2 ?? '' }}</textarea>
                                                             </div>
                                                         </div>
+                                                        <div class="col-lg-12">
+                                                            <div class="custom-control custom-radio custom-control-inline">
+                                                                <input type="radio"
+                                                                    id="sliderTypeBoth{{ $item->code }}"
+                                                                    name="optional_show_type" class="custom-control-input"
+                                                                    value="both"
+                                                                    {{ (isset($item) && $item->optional_3 == 'both') || !isset($item) || is_null($item) || is_null($item->optional_3) ? 'checked' : '' }}>
+                                                                <label class="custom-control-label"
+                                                                    for="sliderTypeBoth{{ $item->code }}">
+                                                                    İkiside
+                                                                </label>
+                                                            </div>
+                                                            <div class="custom-control custom-radio custom-control-inline">
+                                                                <input type="radio"
+                                                                    id="sliderTypeComputer{{ $item->code }}"
+                                                                    name="optional_show_type" class="custom-control-input"
+                                                                    value="computer"
+                                                                    {{ isset($item) && $item->optional_3 == 'computer' ? 'checked' : '' }}>
+                                                                <label class="custom-control-label"
+                                                                    for="sliderTypeComputer{{ $item->code }}">
+                                                                    Bilgisayar
+                                                                </label>
+                                                            </div>
+                                                            <div class="custom-control custom-radio custom-control-inline">
+                                                                <input type="radio"
+                                                                    id="sliderTypeMobile{{ $item->code }}"
+                                                                    name="optional_show_type" class="custom-control-input"
+                                                                    value="mobile"
+                                                                    {{ isset($item) && $item->optional_3 == 'mobile' ? 'checked' : '' }}>
+                                                                <label class="custom-control-label"
+                                                                    for="sliderTypeMobile{{ $item->code }}">
+                                                                    Mobil
+                                                                </label>
+                                                            </div>
+                                                        </div>
                                                     </div>
+
                                                     <div class="col-lg-12 mt-3">
                                                         <button class="btn btn-danger float-right ml-2 mr-2"
                                                             type="button"
@@ -241,6 +335,41 @@
                             <div class="col-lg-6">
                                 <label for="">Açıklama:</label>
                                 <textarea name="optional_4" id="add_slider_optional_4${count}" class="form-control" cols="10" rows="3"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-lg-12">
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio"
+                                    id="sliderTypeBoth${count}"
+                                    name="optional_show_type" class="custom-control-input"
+                                    value="both"
+                                    {{ (isset($item) && $item->optional_3 == 'both') || !isset($item) || is_null($item) || is_null($item->optional_3) ? 'checked' : '' }}>
+                                <label class="custom-control-label"
+                                    for="sliderTypeBoth${count}">
+                                    İkiside
+                                </label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio"
+                                    id="sliderTypeComputer${count}"
+                                    name="optional_show_type" class="custom-control-input"
+                                    value="computer"
+                                    {{ isset($item) && $item->optional_3 == 'computer' ? 'checked' : '' }}>
+                                <label class="custom-control-label"
+                                    for="sliderTypeComputer${count}">
+                                    Bilgisayar
+                                </label>
+                            </div>
+                            <div class="custom-control custom-radio custom-control-inline">
+                                <input type="radio"
+                                    id="sliderTypeMobile${count}"
+                                    name="optional_show_type" class="custom-control-input"
+                                    value="mobile"
+                                    {{ isset($item) && $item->optional_3 == 'mobile' ? 'checked' : '' }}>
+                                <label class="custom-control-label"
+                                    for="sliderTypeMobile${count}">
+                                    Mobil
+                                </label>
                             </div>
                         </div>
                     </div>

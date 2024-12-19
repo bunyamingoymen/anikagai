@@ -101,6 +101,13 @@
                                     </label>
                                 </div>
                             </div>
+                            <div class="row mt-4">
+                                <div class="col-lg-8">
+                                    <label for="">Poster Seçiniz:</label>
+                                    <input type="file" class="form-control" name="poster" id="poster">
+                                    <small>Bu poster bu webtoon'a ait her bölümde gözükecektir.</small>
+                                </div>
+                            </div>
                             <div style="float: right;">
                                 <button class="btn btn-primary" type="button"
                                     onclick="createWebtoonSubmitForm()">Kaydet</button>
