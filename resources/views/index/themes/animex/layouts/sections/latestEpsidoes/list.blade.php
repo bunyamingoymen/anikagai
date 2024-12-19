@@ -12,6 +12,16 @@
                 $image_url = $episode->series_image;
             }
             $image_url = url($image_url);
+
+            $series_url = url(
+                $episode->type .
+                    '/' .
+                    $episode->series_short_name .
+                    '/' .
+                    $episode->epsiode_season_short .
+                    '/' .
+                    $episode->epsiode_episode_short,
+            );
         @endphp
         <div class="latest-episode__item">
             <div class="latest-episode__item__pic set-bg" data-setbg="{{ $image_url ?? '' }}">
@@ -19,7 +29,7 @@
                 <div class="view"><i class="fa fa-eye"></i> {{ $episode->epsiode_click_count }}</div>
             </div>
             <div class="latest-episode__item__text">
-                <h5><a href="#">{{ $episode->series_name }}: {{ $episode->epsiode_name }}</a></h5>
+                <h5><a href="{{ $series_url }}">{{ $episode->series_name }}: {{ $episode->epsiode_name }}</a></h5>
                 <div class="rating">{{ $episode->epsiode_season_short }}. Sezon</div>
             </div>
         </div>
