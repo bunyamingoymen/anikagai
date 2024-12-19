@@ -150,48 +150,19 @@
                         </div>
                     @endif
                 </div>
-                <div class="anime__details__episodes">
-                    @if ($webtoon->season_count > 0)
-                        @for ($i = $webtoon->season_count; $i >= 1; $i--)
-                            <div class="">
 
-                                <div class=" anime__details__episodes">
-                                    <div class="section-title">
-                                        <h5>{{ $i }}.sezon</h5>
-                                    </div>
-                                    <div class="">
-                                        @foreach ($webtoon_episodes->where('season_short', $i) as $item)
-                                            @if ($item->season_short == $episode->season_short && $item->episode_short == $episode->episode_short)
-                                                <a class="a_selected"
-                                                    href="{{ url('webtoon/' . $webtoon->short_name . '/' . $i . '/' . $item->episode_short) }}">
-                                                    {{ $i }} - {{ $item->episode_short }}.Bölüm
-                                                    {{ $item->name ? '-' . $item->name : '' }}
-                                                </a>
-                                            @else
-                                                @if (count($watched) > 0 && $watched->Where('anime_episode_code', $item->code)->first())
-                                                    <a style="background-color: green;" class="a_selected"
-                                                        href="{{ url('webtoon/' . $webtoon->short_name . '/' . $i . '/' . $item->episode_short) }}">
-                                                        {{ $i }} - {{ $item->episode_short }}.Bölüm
-                                                        {{ $item->name ? '-' . $item->name : '' }}
-                                                    </a>
-                                                @else
-                                                    <a class=""
-                                                        href="{{ url('webtoon/' . $webtoon->short_name . '/' . $i . '/' . $item->episode_short) }}">
-                                                        {{ $i }} - {{ $item->episode_short }}.Bölüm
-                                                        {{ $item->name ? '-' . $item->name : '' }}
-                                                    </a>
-                                                @endif
-                                            @endif
-                                        @endforeach
-                                    </div>
-                                </div>
-                            </div>
-                        @endfor
-                    @else
-                        <div class="col-lg-12 col-md-12 section-title">
-                            <h5>Herhangi bir bölüm mevcut değil.</h5>
-                        </div>
-                    @endif
+                <!--Bölümler-->
+                <div class="col-lg-8">
+
+                    @php
+                        $season_count = $webtoon_episodes->max('season_short');
+                        $series_episodes = $webtoon_episodes;
+                        $show_checkbox = false;
+                        $episode_type = 'webtoon';
+                        $short_name = $webtoon->short_name;
+                    @endphp
+
+                    @include('index.themes.animex.layouts.sections.episodes')
                 </div>
             </div>
             <div class="row">

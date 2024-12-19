@@ -69,8 +69,15 @@
 <header class="header">
     <div class="container">
         <div class="row">
+            @if (env('SHOP_ACTIVE') || Auth::guard('admin')->check())
+                <div class="col-lg-1 mt-3">
+                    <a href="#" class="btn btn-outline-danger" style="margin-right: 10px;">Mağaza</a>
+                </div>
+            @endif
+
             <div class="col-lg-1">
                 <div class="header__logo">
+
                     <a href="{{ route('index') }}">
                         <img src="{{ url($data['index_logo']->value) }}" alt=""
                             style="max-width: 93px; max-height: 23px;">
@@ -89,7 +96,7 @@
                     </nav>
                 </div>
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-2">
                 <div class="header__right">
                     <a href="javascript:;" class="search-switch"><span class="icon_search"></span></a>
 

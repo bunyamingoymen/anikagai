@@ -38,55 +38,55 @@
         }
 
         /*
-                                                                                                                    .custom-play-button-rewind {
-                                                                                                                        position: absolute;
-                                                                                                                        top: 47%;
-                                                                                                                        left: 40%;
-                                                                                                                        transform: translate(-50%, -50%);
-                                                                                                                        z-index: 10;
-                                                                                                                        background-color: transparent;
-                                                                                                                        color: white;
-                                                                                                                        border: none;
-                                                                                                                        border-radius: 50%;
-                                                                                                                        width: 45px;
-                                                                                                                        height: 45px;
-                                                                                                                        display: flex;
-                                                                                                                        justify-content: center;
-                                                                                                                        align-items: center;
-                                                                                                                        cursor: pointer;
-                                                                                                                        font-size: 24px;
-                                                                                                                    }
+                                                                                                                                            .custom-play-button-rewind {
+                                                                                                                                                position: absolute;
+                                                                                                                                                top: 47%;
+                                                                                                                                                left: 40%;
+                                                                                                                                                transform: translate(-50%, -50%);
+                                                                                                                                                z-index: 10;
+                                                                                                                                                background-color: transparent;
+                                                                                                                                                color: white;
+                                                                                                                                                border: none;
+                                                                                                                                                border-radius: 50%;
+                                                                                                                                                width: 45px;
+                                                                                                                                                height: 45px;
+                                                                                                                                                display: flex;
+                                                                                                                                                justify-content: center;
+                                                                                                                                                align-items: center;
+                                                                                                                                                cursor: pointer;
+                                                                                                                                                font-size: 24px;
+                                                                                                                                            }
 
-                                                                                                                    .custom-play-button-fast {
-                                                                                                                        position: absolute;
-                                                                                                                        top: 47%;
-                                                                                                                        left: 60%;
-                                                                                                                        transform: translate(-50%, -50%);
-                                                                                                                        z-index: 10;
-                                                                                                                        background-color: transparent;
-                                                                                                                        color: white;
-                                                                                                                        border: none;
-                                                                                                                        border-radius: 50%;
-                                                                                                                        width: 45px;
-                                                                                                                        height: 45px;
-                                                                                                                        display: flex;
-                                                                                                                        justify-content: center;
-                                                                                                                        align-items: center;
-                                                                                                                        cursor: pointer;
-                                                                                                                        font-size: 24px;
-                                                                                                                    }
+                                                                                                                                            .custom-play-button-fast {
+                                                                                                                                                position: absolute;
+                                                                                                                                                top: 47%;
+                                                                                                                                                left: 60%;
+                                                                                                                                                transform: translate(-50%, -50%);
+                                                                                                                                                z-index: 10;
+                                                                                                                                                background-color: transparent;
+                                                                                                                                                color: white;
+                                                                                                                                                border: none;
+                                                                                                                                                border-radius: 50%;
+                                                                                                                                                width: 45px;
+                                                                                                                                                height: 45px;
+                                                                                                                                                display: flex;
+                                                                                                                                                justify-content: center;
+                                                                                                                                                align-items: center;
+                                                                                                                                                cursor: pointer;
+                                                                                                                                                font-size: 24px;
+                                                                                                                                            }
 
-                                                                                                                    .control-button {
-                                                                                                                        transition: opacity 0.5s ease-in-out;
-                                                                                                                        opacity: 0;
-                                                                                                                        visibility: hidden;
-                                                                                                                    }
+                                                                                                                                            .control-button {
+                                                                                                                                                transition: opacity 0.5s ease-in-out;
+                                                                                                                                                opacity: 0;
+                                                                                                                                                visibility: hidden;
+                                                                                                                                            }
 
-                                                                                                                    .control-button.show {
-                                                                                                                        opacity: 1;
-                                                                                                                        visibility: visible;
-                                                                                                                    }
-                                                                                                                        */
+                                                                                                                                            .control-button.show {
+                                                                                                                                                opacity: 1;
+                                                                                                                                                visibility: visible;
+                                                                                                                                            }
+                                                                                                                                                */
     </style>
 
     <!-- Breadcrumb Begin -->
@@ -165,48 +165,17 @@
                     </div>
                 </div>
                 <!--Bölümler-->
-                <div class="anime__details__episodes">
-                    @if ($anime->season_count > 0)
-                        @for ($i = $anime->season_count; $i >= 1; $i--)
-                            <div class="">
+                <div class="col-lg-8">
 
-                                <div class=" anime__details__episodes">
-                                    <div class="section-title">
-                                        <h5>{{ $i }}.sezon</h5>
-                                    </div>
-                                    <div class="">
-                                        @foreach ($anime_episodes->where('season_short', $i) as $item)
-                                            @if ($item->season_short == $episode->season_short && $item->episode_short == $episode->episode_short)
-                                                <a class="a_selected"
-                                                    href="{{ url('anime/' . $anime->short_name . '/' . $i . '/' . $item->episode_short) }}">
-                                                    {{ $i }} - {{ $item->episode_short }}.Bölüm
-                                                    {{ $item->name ? '-' . $item->name : '' }}
-                                                </a>
-                                            @else
-                                                @if (count($watched) > 0 && $watched->Where('anime_episode_code', $item->code)->first())
-                                                    <a style="background-color: green;" class="a_selected"
-                                                        href="{{ url('anime/' . $anime->short_name . '/' . $i . '/' . $item->episode_short) }}">
-                                                        {{ $i }} - {{ $item->episode_short }}.Bölüm
-                                                        {{ $item->name ? '-' . $item->name : '' }}
-                                                    </a>
-                                                @else
-                                                    <a class=""
-                                                        href="{{ url('anime/' . $anime->short_name . '/' . $i . '/' . $item->episode_short) }}">
-                                                        {{ $i }} - {{ $item->episode_short }}.Bölüm
-                                                        {{ $item->name ? '-' . $item->name : '' }}
-                                                    </a>
-                                                @endif
-                                            @endif
-                                        @endforeach
-                                    </div>
-                                </div>
-                            </div>
-                        @endfor
-                    @else
-                        <div class="col-lg-12 col-md-12 section-title">
-                            <h5>Herhangi bir bölüm mevcut değil.</h5>
-                        </div>
-                    @endif
+                    @php
+                        $season_count = $anime_episodes->max('season_short');
+                        $series_episodes = $anime_episodes;
+                        $show_checkbox = false;
+                        $episode_type = 'anime';
+                        $short_name = $anime->short_name;
+                    @endphp
+
+                    @include('index.themes.animex.layouts.sections.episodes')
                 </div>
             </div>
 
@@ -296,8 +265,7 @@
                                                     <i class="fa fa-thumb-tack " aria-hidden="true"></i> Pini Kaldır
                                                 </a>
                                             @else
-                                                <a href="javascript:;"
-                                                    onclick="commentPinned('{{ $main_comment->code }}')"
+                                                <a href="javascript:;" onclick="commentPinned('{{ $main_comment->code }}')"
                                                     style="color:white; float:right;">
                                                     <i class="fa fa-thumb-tack " aria-hidden="true"></i> Pinle
                                                 </a>

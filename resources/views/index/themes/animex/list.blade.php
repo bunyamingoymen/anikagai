@@ -17,7 +17,7 @@
     <!-- Breadcrumb End -->
 
     <!-- Product Section Begin -->
-    <section class="product-page spad">
+    <section class="product spad">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">

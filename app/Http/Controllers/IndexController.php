@@ -1301,7 +1301,7 @@ class IndexController extends Controller
             ->get();
     }
 
-    public function sendShowStatus($type = 0)
+    protected function sendShowStatus($type = 0)
     {
         //type 0 ise normal listelemedir. 1 ise trend yada benzer içerikleri listelemedir.
 

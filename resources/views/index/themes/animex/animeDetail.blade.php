@@ -1,6 +1,5 @@
 @extends('index.themes.animex.layouts.main')
 @section('index_content')
-
     <style>
         /* The container */
         .container {
@@ -187,88 +186,21 @@
 
                 </div>
             </div>
-            <div class="row">
-                @if ($anime->season_count > 0)
-                    @for ($i = $anime->season_count; $i >= 1; $i--)
-                        <div class="col-lg-8 col-md-8">
+            <div class="">
+                @php
+                    $season_count = $anime_episodes->max('season_short');
+                    $series_episodes = $anime_episodes;
+                    $show_checkbox = true;
+                    $episode_type = 'anime';
+                    $short_name = $anime->short_name;
 
-                            <div class="col-lg-12 col-md-12 anime__details__episodes">
-                                <div class="section-title">
-                                    <h5>{{ $i }}.sezon</h5>
-                                </div>
-                                @foreach ($anime_episodes->where('season_short', $i) as $item)
-                                    @if (count($watched) > 0 && $watched->Where('anime_episode_code', $item->code)->first())
-                                        <a style="background-color: green;"
-                                            href="{{ url('anime/' . $anime->short_name . '/' . $i . '/' . $item->episode_short) }}"
-                                            id="watchedATag{{ $item->code }}">
-                                            <div>
-                                                <label class="container">
-                                                    <input type="checkbox" id="watched{{ $item->code }}"
-                                                        onchange="watchAnime('{{ $item->code }}')"
-                                                        value="{{ $item->code }}" checked>
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </div>
-                                            <div class="ml-4">
-                                                {{ $i }}.S - {{ $item->episode_short }}.B
-                                                {{ $item->name ? '-' . $item->name : '' }}
-                                            </div>
-                                        </a>
-                                    @else
-                                        <a href="{{ url('anime/' . $anime->short_name . '/' . $i . '/' . $item->episode_short) }}"
-                                            id="watchedATag{{ $item->code }}">
-                                            <div>
-                                                <label class="container">
-                                                    <input type="checkbox" id="watched{{ $item->code }}"
-                                                        onchange="watchAnime('{{ $item->code }}')"
-                                                        value="{{ $item->code }}">
-                                                    <span class="checkmark"></span>
-                                                </label>
-                                            </div>
-                                            <div class="ml-4">
-                                                {{ $i }}.S - {{ $item->episode_short }}.B
-                                                {{ $item->name ? '-' . $item->name : '' }}
-                                            </div>
-                                        </a>
-                                    @endif
-                                @endforeach
+                    $trend_type = 'anime';
+                    $trend_series = $trend_animes;
+                @endphp
 
-                            </div>
-                        </div>
-                    @endfor
-                @else
-                    <div class="col-lg-12 col-md-12 section-title">
-                        <h5>Herhangi Bir Bölüm Mevcut Değil.</h5>
-                    </div>
-                @endif
-                <div class="col-lg-4 col-md-4 justify-content-end">
-                    <div class="anime__details__sidebar">
-                        <div class="section-title">
-                            <h5>Benzer İçerikler</h5>
-                        </div>
-                        @foreach ($trend_animes as $item)
-                            <div class="col-lg-8 col-md-12 col-sm-12">
-                                <div class="product__item">
-                                    <a href="{{ url('anime/' . $item->short_name) }}">
-                                        <div class="product__item__pic set-bg" data-setbg="{{ url($item->thumb_image) }}">
-                                            <div class="ep">{{ $item->score }} / 5</div>
-                                            <div class="comment"><i class="fa fa-comments"></i>
-                                                {{ $item->comment_count }}</div>
-                                            <div class="view"><i class="fa fa-eye"></i> {{ $item->click_count }} </div>
-                                        </div>
-                                    </a>
-                                    <div class="product__item__text">
-                                        <ul>
-                                            <li>{{ $item->main_category_name ?? 'Genel' }}</li>
-                                        </ul>
-                                        <h5><a href="{{ url('anime/' . $item->short_name) }}">{{ $item->name }}</a>
-                                        </h5>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
+                @include('index.themes.animex.layouts.sections.episodes')
+
+                @include('index.themes.animex.layouts.sections.trends')
             </div>
         </div>
     </section>
@@ -436,5 +368,4 @@
             @endif
         }
     </script>
-
 @endsection
