@@ -64,6 +64,8 @@ class IndexController extends Controller
                         'anime_episodes.season_short as epsiode_season_short',
                         'anime_episodes.episode_short as epsiode_episode_short',
                         'anime_episodes.click_count as epsiode_click_count',
+                        'anime_episodes.publish_date as episode_publish_date',
+                        'animes.name as series_name',
                         'animes.poster as series_poster',
                         'animes.thumb_poster as series_thumb_poster',
                         'animes.image as series_image',
@@ -85,6 +87,8 @@ class IndexController extends Controller
                         'webtoon_episodes.season_short as epsiode_season_short',
                         'webtoon_episodes.episode_short as epsiode_episode_short',
                         'webtoon_episodes.click_count as epsiode_click_count',
+                        'webtoon_episodes.publish_date as episode_publish_date',
+                        'webtoons.name as series_name',
                         'webtoons.poster as series_poster',
                         'webtoons.thumb_poster as series_thumb_poster',
                         'webtoons.image as series_image',
@@ -110,7 +114,7 @@ class IndexController extends Controller
                 $latestEpisodes = $latestEpisodesQuery
                     ->whereIn('showStatus', $this->sendShowStatus(0))
                     ->where('plusEighteen', 0)
-                    ->orderBy('created_at', 'desc') // Timestamps'e göre sıralama
+                    ->orderBy('episode_publish_date', 'desc') // Timestamps'e göre sıralama
                     ->limit(10) // Son 10 bölümü al
                     ->get();
             }

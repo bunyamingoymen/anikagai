@@ -71,6 +71,26 @@
             </div>
         </section>
     @endif
+
+    @if (isset($latestEpisodes) &&
+            !is_null($latestEpisodes) &&
+            isset($latestEpisodeType) &&
+            !is_null($latestEpisodeType) &&
+            $latestEpisodeType != 'none' &&
+            $latestEpisodes->isNotEmpty())
+        <section class="latest-episodes spad">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="section-title">
+                            <h4>Son Bölümler</h4>
+                        </div>
+                    </div>
+                </div>
+                @include('index.themes.animex.layouts.sections.latestEpsidoes.' . $latestEpisodeType)
+            </div>
+        </section>
+    @endif
     <!-- Hero Section End -->
     <section class="product spad">
         <div class="container">
