@@ -26,41 +26,46 @@
             <div class="container">
                 <div class="hero__slider owl-carousel">
                     @foreach ($slider_image as $index => $item)
-                        <div id="heroSlider{{ $index + 1 }}" class="hero__items set-bg"
-                            data-setbg="{{ url($item->optional ?? '') }}"
-                            onmouseover="showVideo({{ $index }},{{ $item->code }})"
-                            onmouseout="hideVideo({{ $index }})">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="hero__text">
-                                        @if (
-                                            $slider_image_alt->Where('value', $item->code)->first() &&
-                                                $slider_image_alt->Where('value', $item->code)->first()->optional != '')
-                                            <div class="label">
-                                                {{ $slider_image_alt->Where('value', $item->code)->first()->optional }}
-                                            </div>
-                                        @endif
-                                        <h2>{{ $item->value }}</h2>
-                                        @if (
-                                            $slider_image_alt->Where('value', $item->code)->first() &&
-                                                $slider_image_alt->Where('value', $item->code)->first()->optional_2 != '')
-                                            <p>
-                                                {{ $slider_image_alt->Where('value', $item->code)->first()->optional_2 }}
-                                            </p>
-                                        @endif
-                                        <a href="{{ $item->optional_2 ?? '' }}"><span>Seriye Git</span> <i
-                                                class="fa fa-angle-right"></i></a>
-                                    </div>
+                        @if (is_null($item->optional_3) ||
+                                $item->optional_3 === 'both' ||
+                                ($item->optional_3 === 'computer' && isDesktop()) ||
+                                ($item->optional_3 === 'mobile' && isMobile()))
+                            <div id="heroSlider{{ $index + 1 }}" class="hero__items set-bg"
+                                data-setbg="{{ url($item->optional ?? '') }}"
+                                onmouseover="showVideo({{ $index }},{{ $item->code }})"
+                                onmouseout="hideVideo({{ $index }})">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        <div class="hero__text">
+                                            @if (
+                                                $slider_image_alt->Where('value', $item->code)->first() &&
+                                                    $slider_image_alt->Where('value', $item->code)->first()->optional != '')
+                                                <div class="label">
+                                                    {{ $slider_image_alt->Where('value', $item->code)->first()->optional }}
+                                                </div>
+                                            @endif
+                                            <h2>{{ $item->value }}</h2>
+                                            @if (
+                                                $slider_image_alt->Where('value', $item->code)->first() &&
+                                                    $slider_image_alt->Where('value', $item->code)->first()->optional_2 != '')
+                                                <p>
+                                                    {{ $slider_image_alt->Where('value', $item->code)->first()->optional_2 }}
+                                                </p>
+                                            @endif
+                                            <a href="{{ $item->optional_2 ?? '' }}"><span>Seriye Git</span> <i
+                                                    class="fa fa-angle-right"></i></a>
+                                        </div>
 
-                                </div>
-                                <div class="video-container">
-                                    <video class="video" preload="auto" loop>
-                                        <source src="" type="video/mp4">
-                                        Your browser does not support the video tag.
-                                    </video>
+                                    </div>
+                                    <div class="video-container">
+                                        <video class="video" preload="auto" loop>
+                                            <source src="" type="video/mp4">
+                                            Your browser does not support the video tag.
+                                        </video>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        @endif
                     @endforeach
                 </div>
             </div>

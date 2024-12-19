@@ -71,7 +71,8 @@
         <div class="row">
             @if (env('SHOP_ACTIVE') || Auth::guard('admin')->check())
                 <div class="col-lg-1 mt-3">
-                    <a href="#" class="btn btn-outline-danger" style="margin-right: 10px;">Mağaza</a>
+                    <a href="{{ route('shop_index') }}" class="btn btn-outline-danger"
+                        style="margin-right: 10px;">Mağaza</a>
                 </div>
             @endif
 
